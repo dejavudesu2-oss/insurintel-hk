@@ -41,7 +41,7 @@ jobs:
       - name: 4. Install Dependencies
         run: |
           npm ci || npm install
-          pip install pillow numpy
+          pip install -r requirements.txt
 
       - name: 5. Execute Daily Market Search & Generate Web Pages
         env:
