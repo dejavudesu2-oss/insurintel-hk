@@ -1,6 +1,9 @@
 name: InsurIntel HK Daily Morning Intelligence
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     # Runs at 22:30 UTC every day -> 06:30 AM HKT (Hong Kong Time, UTC+8)
     - cron: '30 22 * * *'
