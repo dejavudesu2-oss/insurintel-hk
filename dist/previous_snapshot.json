@@ -1,0 +1,152 @@
+[
+  {
+    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793050096758-689",
+    "insurer": "Prudential",
+    "product_name": "Prudential 市場限時推廣",
+    "product_aliases": [
+      "保誠 Prudential「雋"
+    ],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-30",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 28
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.8,
+      "lock_period_years": 1,
+      "withdrawal_penalty": "提取將扣減預繳利息"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": false,
+      "created_at": "2026-10-26T21:28:16.758Z"
+    }
+  },
+  {
+    "promo_id": "AUTO-CRAWL-AIA-1793050096758-23",
+    "insurer": "AIA",
+    "product_name": "AIA 市場限時推廣",
+    "product_aliases": [
+      "友邦 AIA「盈御多元貨幣3」"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-30",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 22
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5,
+      "lock_period_years": 1,
+      "withdrawal_penalty": "提取將扣減預繳利息"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": false,
+      "created_at": "2026-10-26T21:28:16.758Z"
+    }
+  },
+  {
+    "promo_id": "AUTO-CRAWL-MANULIFE-1793050096758-707",
+    "insurer": "Manulife",
+    "product_name": "Manulife 市場限時推廣",
+    "product_aliases": [
+      "宏利 Manulife「宏摯多"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-30",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 5.5
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.5,
+      "lock_period_years": 1,
+      "withdrawal_penalty": "提取將扣減預繳利息"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": false,
+      "created_at": "2026-10-26T21:28:16.758Z"
+    }
+  },
+  {
+    "promo_id": "AUTO-CRAWL-FWD-1793050096758-926",
+    "insurer": "FWD",
+    "product_name": "FWD 市場限時推廣",
+    "product_aliases": [
+      "富衛 FWD「危疾加諾保」限時"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-26",
+      "end_date": "2026-11-30",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 20
+      }
+    ],
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": false,
+      "created_at": "2026-10-26T21:28:16.758Z"
+    }
+  }
+]

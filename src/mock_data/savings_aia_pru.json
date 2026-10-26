@@ -1,0 +1,133 @@
+[
+  {
+    "promo_id": "PROMO-AIA-SAV-2026-Q4",
+    "insurer": "AIA",
+    "product_name": "盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)",
+    "product_aliases": ["盈御", "GP3", "盈御3"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "EUR", "AUD", "CAD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-11-30",
+      "submission_deadline": "2026-11-30",
+      "payment_deadline": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 15000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 15000,
+        "max_annual_premium_usd": 35000,
+        "discount_rate_pct": 18.0,
+        "extra_family_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 35000,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 4.0,
+        "extra_bundling_bonus_pct": 2.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.0,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "提早提取預繳保費者，該年度利息將以 0% 計算並扣除手續費"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 18,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.85,
+      "expected_irr_year_30": 6.62,
+      "gn16_fulfillment_ratio_pct": 96.5,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 4000000,
+      "special_waiver_notes": "免體檢限額提升至400萬美元，全期無需提供常規財務核保證明"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-23T10:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-PRU-SAV-2026-Q4",
+    "insurer": "Prudential",
+    "product_name": "雋富多元貨幣計劃 (Evergreen Grandeur)",
+    "product_aliases": ["雋富", "EG", "保誠雋富"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "CAD", "AUD"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-11-20",
+      "submission_deadline": "2026-11-20",
+      "payment_deadline": "2026-12-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 15000,
+        "discount_rate_pct": 14.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 15000,
+        "max_annual_premium_usd": 30000,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 30000,
+        "discount_rate_pct": 28.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.8,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "僅限5年期首期預繳4年保費，提前提領扣減全部預繳利息"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 19,
+      "breakeven_expected_year": 7,
+      "expected_irr_year_20": 5.92,
+      "expected_irr_year_30": 6.71,
+      "gn16_fulfillment_ratio_pct": 91.2,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3500000,
+      "special_waiver_notes": "香港及內地客戶特選免體檢綠色通道"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-23T14:30:00Z"
+    }
+  }
+]

@@ -1,0 +1,70 @@
+name: InsurIntel HK Daily Morning Intelligence
+
+on:
+  schedule:
+    # Runs at 22:30 UTC every day -> 06:30 AM HKT (Hong Kong Time, UTC+8)
+    - cron: '30 22 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI anytime
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
+jobs:
+  daily-intelligence:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: 2. Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'npm'
+
+      - name: 3. Set up Python (for Privacy Sanitizer)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: 4. Install Dependencies
+        run: |
+          npm ci || npm install
+          pip install pillow numpy
+
+      - name: 5. Execute Daily Market Search & Generate Web Pages
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          npm run start:search
+
+      - name: 6. Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: 7. Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: 'dist'
+
+      - name: 8. Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: 9. Commit Intelligence Snapshots Back to Repo
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add dist/previous_snapshot.json dist/morning_briefing.txt || true
+          git diff --staged --quiet || git commit -m "chore(auto): daily intelligence snapshot update [skip ci]"
+          git push || true

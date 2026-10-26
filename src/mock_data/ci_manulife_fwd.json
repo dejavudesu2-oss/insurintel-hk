@@ -1,0 +1,89 @@
+[
+  {
+    "promo_id": "PROMO-MANU-CI-2026-Q4",
+    "insurer": "Manulife",
+    "product_name": "守護無間危疾保 (ManuFirst Care)",
+    "product_aliases": ["守護無間", "宏利危疾"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 20, 25],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 5000,
+        "discount_rate_pct": 10.0
+      },
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 16.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 122,
+      "multiple_claim_limit_pct": 950,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1500000,
+      "special_waiver_notes": "特選次標準體（血壓高/膽固醇高）提供豁免加費計劃"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-20T08:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-FWD-CI-2026-Q4",
+    "insurer": "FWD",
+    "product_name": "危疾加諾保 (Crisis Xcelerator Pro)",
+    "product_aliases": ["危疾加諾", "富衛危疾"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 20],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-11-30",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 5.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 130,
+      "multiple_claim_limit_pct": 1000,
+      "cancer_waiting_period_years": 2,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": false,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 2000000,
+      "special_waiver_notes": "限時免體檢快線，首期保費直接回贈高達20%"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-21T09:30:00Z"
+    }
+  }
+]

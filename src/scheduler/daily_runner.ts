@@ -1,0 +1,106 @@
+/**
+ * InsurIntel HK - Automated Daily Cycle Runner & Scheduler
+ * Orchestrates the full daily lifecycle:
+ * 06:30 AM: Auto-search & ingest latest market intelligence
+ * 07:00 AM: Diff detection & delta change calculation
+ * 07:45 AM: Generate daily briefing, director speech, and morning presentation slides
+ */
+
+import fs from "fs";
+import path from "path";
+import { MarketSearcher } from "../crawler/market_searcher.js";
+import { IntelligenceDiffDetector } from "../engine/diff_detector.js";
+import { MorningBriefingGenerator } from "../engine/briefing_generator.js";
+import { InsurancePromoComprehensive } from "../types/insurance.js";
+
+export class DailyIntelligenceRunner {
+  private searcher: MarketSearcher;
+  private diffDetector: IntelligenceDiffDetector;
+  private briefingGenerator: MorningBriefingGenerator;
+  private dbSnapshotPath: string;
+
+  constructor() {
+    this.searcher = new MarketSearcher();
+    this.diffDetector = new IntelligenceDiffDetector();
+    this.briefingGenerator = new MorningBriefingGenerator();
+    this.dbSnapshotPath = path.join(process.cwd(), "dist", "previous_snapshot.json");
+  }
+
+  /**
+   * Executes one full daily cycle
+   */
+  public async executeDailyCycle(): Promise<{
+    discoveredCount: number;
+    deltaChangesCount: number;
+    broadcastText: string;
+    slidesHtmlPath: string;
+  }> {
+    console.log(`[${new Date().toISOString()}] 🚀 啟動 InsurIntel HK 每日自動情報更新任務...`);
+
+    // 1. Proactive web search
+    console.log(`[InsurIntel] 正在自動聯網檢索全港最新保險優惠、預繳利率與促銷通函...`);
+    const hits = await this.searcher.fetchDailyMarketNews();
+    console.log(`[InsurIntel] 檢索完成！捕獲 ${hits.length} 條市場最新動態。`);
+
+    // 2. Multimodal extraction
+    const currentPromos = await this.searcher.processDiscoveredItems(hits);
+
+    // 3. Load yesterday's baseline snapshot for difference detection
+    let previousPromos: InsurancePromoComprehensive[] = [];
+    if (fs.existsSync(this.dbSnapshotPath)) {
+      try {
+        previousPromos = JSON.parse(fs.readFileSync(this.dbSnapshotPath, "utf-8"));
+      } catch {
+        previousPromos = [];
+      }
+    } else {
+      // First run: simulate previous baseline so changes can be demonstrated
+      previousPromos = JSON.parse(JSON.stringify(currentPromos));
+      const pru = previousPromos.find(p => p.insurer === "Prudential");
+      if (pru && pru.prepayment_scheme) {
+        pru.prepayment_scheme.guaranteed_rate_pct = 5.5; // Was 5.5% yesterday, now 5.8%
+      }
+    }
+
+    // 4. Delta diff detection
+    const deltaChanges = this.diffDetector.detectChanges(currentPromos, previousPromos);
+    console.log(`[InsurIntel] 差分對比完成，共檢測到 ${deltaChanges.length} 項突發關鍵變動：`);
+    deltaChanges.forEach((ch, idx) => {
+      console.log(`   ${idx + 1}. [${ch.severity}] ${ch.description}`);
+    });
+
+    // 5. Generate daily morning briefing and director 2-min speech
+    const briefingData = this.briefingGenerator.generateBriefingData(currentPromos, deltaChanges);
+    const broadcastText = this.briefingGenerator.formatBroadcastText(briefingData);
+
+    // 6. Render and persist outputs
+    const outDir = path.join(process.cwd(), "dist");
+    fs.mkdirSync(outDir, { recursive: true });
+
+    const slidesHtml = this.briefingGenerator.renderMorningSlidesHtml(briefingData);
+    const slidesPath = path.join(outDir, "morning_slides.html");
+    const indexPath = path.join(outDir, "index.html");
+    const txtPath = path.join(outDir, "morning_briefing.txt");
+
+    fs.writeFileSync(slidesPath, slidesHtml, "utf-8");
+    fs.writeFileSync(indexPath, slidesHtml, "utf-8");
+    fs.writeFileSync(txtPath, broadcastText, "utf-8");
+
+    // Save today's state as the new baseline
+    fs.writeFileSync(this.dbSnapshotPath, JSON.stringify(currentPromos, null, 2), "utf-8");
+
+    console.log(`[InsurIntel] ✅ 晨會速報生成完畢！已導出至: ${slidesPath}`);
+    return {
+      discoveredCount: hits.length,
+      deltaChangesCount: deltaChanges.length,
+      broadcastText,
+      slidesHtmlPath: slidesPath
+    };
+  }
+}
+
+// Direct CLI invocation
+if (process.argv[1]?.includes("daily_runner")) {
+  const runner = new DailyIntelligenceRunner();
+  runner.executeDailyCycle().catch(console.error);
+}

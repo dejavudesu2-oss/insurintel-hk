@@ -1,0 +1,13 @@
+services:
+  insurintel:
+    build: .
+    container_name: insurintel_hk
+    restart: unless-stopped
+    environment:
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_CHAT_ID=${TELEGRAM_CHAT_ID}
+      - NODE_ENV=production
+    volumes:
+      - ./dist:/app/dist
+      - ./tmp:/app/tmp

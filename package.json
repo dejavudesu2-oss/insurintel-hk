@@ -1,0 +1,33 @@
+{
+  "name": "insurintel-hk",
+  "version": "1.0.0",
+  "description": "Hong Kong Insurance Market Intelligence & Counter-Pitch AI Agent (InsurIntel HK)",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "tsx tests/engine.test.ts",
+    "start:briefing": "tsx src/cli.ts briefing",
+    "start:pitch": "tsx src/cli.ts pitch",
+    "start:search": "tsx src/scheduler/daily_runner.ts",
+    "clean:image": "py src/sanitizer/privacy_cleaner.py --test"
+  },
+  "keywords": [
+    "insurance",
+    "hong-kong",
+    "ai-agent",
+    "counter-pitch",
+    "market-intelligence",
+    "gemini"
+  ],
+  "author": "InsurIntel HK Team",
+  "license": "MIT",
+  "dependencies": {
+    "@google/generative-ai": "^0.24.1",
+    "dotenv": "^16.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.3"
+  }
+}
