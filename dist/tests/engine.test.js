@@ -14,6 +14,8 @@ const diff_detector_js_1 = require("../src/engine/diff_detector.js");
 const counter_pitch_js_1 = require("../src/engine/counter_pitch.js");
 const briefing_generator_js_1 = require("../src/engine/briefing_generator.js");
 const gemini_pipeline_js_1 = require("../src/extractor/gemini_pipeline.js");
+const viral_card_synthesizer_js_1 = require("../src/engine/viral_card_synthesizer.js");
+const reliability_engine_js_1 = require("../src/backend/reliability_engine.js");
 function loadPromos() {
     const mockDir = path_1.default.join(process.cwd(), "src", "mock_data");
     const files = ["savings_aia_pru.json", "ci_manulife_fwd.json", "vhis_qdap_sample.json"];
@@ -117,4 +119,78 @@ function loadPromos() {
     node_assert_1.default.strictEqual(parsed.category, "Savings_MultiCurrency");
     node_assert_1.default.strictEqual(parsed.prepayment_scheme?.guaranteed_rate_pct, 5.2);
     node_assert_1.default.strictEqual(parsed.premium_discounts?.[0].discount_rate_pct, 22.0);
+});
+(0, node_test_1.default)("6. Agent 1: Circuit Breaker Anomaly Interceptor & Fallback", () => {
+    const promos = loadPromos();
+    const diffDetector = new diff_detector_js_1.IntelligenceDiffDetector();
+    const breaker = diffDetector.getCircuitBreaker();
+    // Create an abnormal promo (e.g. 200% discount, 25% prepayment rate)
+    const corruptedPromo = JSON.parse(JSON.stringify(promos[0]));
+    corruptedPromo.premium_discounts[0].discount_rate_pct = 200; // Anomaly!
+    if (corruptedPromo.prepayment_scheme) {
+        corruptedPromo.prepayment_scheme.guaranteed_rate_pct = 25.0; // Anomaly!
+    }
+    const { isValid, anomalies } = breaker.validatePromo(corruptedPromo);
+    node_assert_1.default.strictEqual(isValid, false, "Corrupted promo should be rejected");
+    node_assert_1.default.ok(anomalies.length >= 1, "Should record anomalies");
+    // Sanitize with fallback
+    const { sanitized, rejected } = breaker.sanitizeWithFallback([corruptedPromo], promos);
+    node_assert_1.default.strictEqual(rejected.length, 1, "Should reject corrupted promo");
+    node_assert_1.default.strictEqual(sanitized[0].premium_discounts[0].discount_rate_pct, promos[0].premium_discounts[0].discount_rate_pct, "Should fallback to clean baseline");
+});
+(0, node_test_1.default)("7. Agent 2 & 3: Three-Stage Framework, Tones & HKIA GL20 Guardrail", () => {
+    const promos = loadPromos();
+    const engine = new counter_pitch_js_1.CounterPitchEngine(promos);
+    // Tone: HK Business English
+    const resEng = engine.generateCounterPitch({
+        category: "Savings_MultiCurrency",
+        our_product: "友邦 盈御多元貨幣計劃 3",
+        competitor_product: "保誠 雋富多元貨幣計劃",
+        client_scenario: "Client asks about Prudential 5.8% rate",
+        tone: "hk_business_english"
+    });
+    node_assert_1.default.strictEqual(resEng.tone, "hk_business_english");
+    node_assert_1.default.ok(resEng.three_stage_framework.stage_1_empathy.includes("catch your eyes"), "Should match English stage 1");
+    node_assert_1.default.ok(resEng.three_stage_framework.stage_2_blindspot.includes("fine print"), "Should match English stage 2");
+    node_assert_1.default.ok(resEng.three_stage_framework.stage_3_actuarial_checkmate.includes("GN16 official fulfillment ratio"), "Should match English stage 3");
+    // Prohibited words filter verification
+    const auditResult = counter_pitch_js_1.HKIAComplianceGuardrail.auditAndSanitize("呢份單保證穩賺零風險，對手一定蝕到跳水，我地全港第一！");
+    node_assert_1.default.strictEqual(auditResult.passed, false, "Prohibited terms should be flagged");
+    node_assert_1.default.ok(auditResult.warnings.length >= 3, "Should catch multiple prohibited statements");
+    node_assert_1.default.ok(!auditResult.sanitizedText.includes("保證穩賺零風險"), "Sanitized text should replace prohibited terms");
+    node_assert_1.default.ok(!auditResult.sanitizedText.includes("全港第一"), "Sanitized text should replace '全港第一'");
+});
+(0, node_test_1.default)("8. Agent 7: WhatsApp Markdown & Personalized Poster Synthesizer", () => {
+    const promos = loadPromos();
+    const generator = new briefing_generator_js_1.MorningBriefingGenerator();
+    const briefing = generator.generateBriefingData(promos);
+    const comms = new viral_card_synthesizer_js_1.ViralTeamCommsEngine();
+    const stamp = {
+        agent_name: "林卓賢 David Lam",
+        title: "資深分區總監",
+        insurer: "友邦保險 AIA",
+        agency_or_team: "宏峰家族",
+        license_no: "IA99201928",
+        phone_whatsapp: "+852 9876 5432"
+    };
+    const waText = comms.formatWhatsAppBroadcast(briefing, stamp);
+    node_assert_1.default.ok(waText.includes("*【InsurIntel HK 早會市場情報速遞】*"), "Should contain bold header");
+    node_assert_1.default.ok(waText.includes("IA99201928"), "Should contain agent license stamp");
+    const svg = comms.generatePersonalizedPosterSvg(briefing, stamp);
+    node_assert_1.default.ok(svg.includes("<svg"), "Should output valid SVG");
+    node_assert_1.default.ok(svg.includes("林卓賢 David Lam"), "Should brand SVG with agent name");
+    node_assert_1.default.ok(svg.includes("IA99201928"), "Should brand SVG with license");
+});
+(0, node_test_1.default)("9. Agent 8: Semantic Cache & Dead-Letter Queue (DLQ)", () => {
+    const cache = new reliability_engine_js_1.SemanticCacheEngine();
+    const query = "友邦 盈御 vs 保誠 雋富 5.8% 利率";
+    const dummyResult = { recommendation: "Attack Year 2 floating rate & GN16 96.5%" };
+    cache.set(query, dummyResult, 3600);
+    const cached = cache.get(query);
+    node_assert_1.default.ok(cached, "Cache should hit");
+    node_assert_1.default.strictEqual(cached?.recommendation, dummyResult.recommendation);
+    const dlq = new reliability_engine_js_1.DeadLetterQueue();
+    const failedTask = dlq.enqueueFailedTask("https://mock-insurer.com/promo", "Connection Timeout (504)");
+    node_assert_1.default.strictEqual(failedTask.status, "PENDING");
+    node_assert_1.default.ok(dlq.getPendingTasks().length >= 1, "DLQ should register pending task");
 });

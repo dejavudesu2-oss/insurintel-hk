@@ -12,17 +12,23 @@ import { MarketSearcher } from "../crawler/market_searcher.js";
 import { IntelligenceDiffDetector } from "../engine/diff_detector.js";
 import { MorningBriefingGenerator } from "../engine/briefing_generator.js";
 import { InsurancePromoComprehensive } from "../types/insurance.js";
+import { EdgePreRenderer } from "../backend/reliability_engine.js";
+import { ViralTeamCommsEngine } from "../engine/viral_card_synthesizer.js";
 
 export class DailyIntelligenceRunner {
   private searcher: MarketSearcher;
   private diffDetector: IntelligenceDiffDetector;
   private briefingGenerator: MorningBriefingGenerator;
+  private preRenderer: EdgePreRenderer;
+  private commsEngine: ViralTeamCommsEngine;
   private dbSnapshotPath: string;
 
   constructor() {
     this.searcher = new MarketSearcher();
     this.diffDetector = new IntelligenceDiffDetector();
     this.briefingGenerator = new MorningBriefingGenerator();
+    this.preRenderer = new EdgePreRenderer();
+    this.commsEngine = new ViralTeamCommsEngine();
     this.dbSnapshotPath = path.join(process.cwd(), "dist", "previous_snapshot.json");
   }
 
@@ -62,15 +68,25 @@ export class DailyIntelligenceRunner {
       }
     }
 
-    // 4. Delta diff detection
+    // 4. Delta diff detection & Circuit Breaker Validation
     const deltaChanges = this.diffDetector.detectChanges(currentPromos, previousPromos);
+    const circuitBreaker = this.diffDetector.getCircuitBreaker();
+    const breakerState = circuitBreaker.getState();
+
+    if (breakerState.status !== "CLOSED") {
+      console.warn(`[InsurIntel Runner] ⚠️ 熔斷器警告狀態: ${breakerState.status} (異常累積: ${breakerState.failure_count} 次)`);
+    }
+
     console.log(`[InsurIntel] 差分對比完成，共檢測到 ${deltaChanges.length} 項突發關鍵變動：`);
     deltaChanges.forEach((ch, idx) => {
       console.log(`   ${idx + 1}. [${ch.severity}] ${ch.description}`);
     });
 
+    // Obtain sanitized promos through circuit breaker
+    const { sanitized } = circuitBreaker.sanitizeWithFallback(currentPromos, previousPromos);
+
     // 5. Generate daily morning briefing and director 2-min speech
-    const briefingData = this.briefingGenerator.generateBriefingData(currentPromos, deltaChanges);
+    const briefingData = this.briefingGenerator.generateBriefingData(sanitized, deltaChanges);
     const broadcastText = this.briefingGenerator.formatBroadcastText(briefingData);
 
     // 6. Render and persist outputs
@@ -86,10 +102,35 @@ export class DailyIntelligenceRunner {
     fs.writeFileSync(indexPath, slidesHtml, "utf-8");
     fs.writeFileSync(txtPath, broadcastText, "utf-8");
 
-    // Save today's state as the new baseline
-    fs.writeFileSync(this.dbSnapshotPath, JSON.stringify(currentPromos, null, 2), "utf-8");
+    // Agent 6: Ensure mobile café app is present in dist
+    const cafeSource = path.join(process.cwd(), "templates", "mobile_cafe_app.html");
+    const cafeDist = path.join(outDir, "cafe.html");
+    if (fs.existsSync(cafeSource)) {
+      fs.copyFileSync(cafeSource, cafeDist);
+    }
+
+    // Agent 7: Generate viral morning poster SVG
+    const demoStamp = {
+      agent_name: "林卓賢 David Lam",
+      title: "資深分區總監 Senior District Director",
+      insurer: "友邦保險 AIA",
+      agency_or_team: "宏峰家族",
+      license_no: "IA99201928",
+      phone_whatsapp: "+852 9876 5432"
+    };
+    const posterSvg = this.commsEngine.generatePersonalizedPosterSvg(briefingData, demoStamp);
+    const posterPath = path.join(outDir, "morning_poster.svg");
+    fs.writeFileSync(posterPath, posterSvg, "utf-8");
+
+    // Agent 8: Edge API Pre-rendering
+    this.preRenderer.preRenderStaticApiAssets(briefingData, sanitized);
+
+    // Save only validated sanitized state as the new baseline
+    fs.writeFileSync(this.dbSnapshotPath, JSON.stringify(sanitized, null, 2), "utf-8");
 
     console.log(`[InsurIntel] ✅ 晨會速報生成完畢！已導出至: ${slidesPath}`);
+    console.log(`[InsurIntel] 📱 見客極速攻防卡已就緒: ${cafeDist}`);
+    console.log(`[InsurIntel] 🎨 個人化宣傳海報已導出: ${posterPath}`);
     return {
       discoveredCount: hits.length,
       deltaChangesCount: deltaChanges.length,

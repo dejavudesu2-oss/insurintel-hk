@@ -144,6 +144,11 @@ export interface InsurancePromoComprehensive {
   };
 }
 
+export type PitchTone =
+  | "cantonese_colloquial"   // 廣東話口語（本地客戶面對面 Roleplay）
+  | "hk_business_english"    // 港式商務風（中英夾雜，適配中環金融/專業人士）
+  | "formal_written_zh";     // 專業書面語（內地訪港客 MCV 方案說明、家族傳承報告）
+
 /**
  * 即時攻防對抗話術請求與響應
  */
@@ -153,27 +158,39 @@ export interface CounterPitchRequest {
   competitor_claims?: string[]; // 客人提及的競品亮點 (e.g. "回贈 28%", "預繳 5.8%")
   our_product: string; // 我方主推產品 (e.g. "友邦·盈御")
   category: InsuranceCategory;
+  tone?: PitchTone;
   client_profile?: {
     age?: number;
     is_smoker?: boolean;
     budget_usd_annual?: number;
     target_goal?: "Capital_Appreciation" | "Children_Education" | "Retirement" | "Critical_Protection";
+    persona?: "Conservative_Income" | "HighNetWorth_Legacy" | "Smart_Shopper";
   };
+}
+
+export interface TacticalThreeStagePitch {
+  stage_1_empathy: string;     // 【共情認同】：肯定客戶眼光
+  stage_2_blindspot: string;   // 【點出條款盲點】：拆解短期假象、鎖定期與隱藏限制
+  stage_3_actuarial_checkmate: string; // 【精算絕殺】：保監局 GN16 官方實現率與總 IRR 數據勝出
 }
 
 export interface CounterPitchResponse {
   matchup_title: string;
+  tone: PitchTone;
   core_pivot_strategy: string; // 核心轉場破局策略
+  three_stage_framework: TacticalThreeStagePitch;
   attack_points: {
     title: string;
     dimension: string; // 例如 "利率可持續性", "貨幣轉換靈活度", "實現率穩定性"
-    counter_pitch_script: string; // Agent 可直接引用的廣東話/普通話雙語話術
+    counter_pitch_script: string; // Agent 可直接引用的話術
     underlying_data_fact: string; // 客觀數據依據
   }[];
   regulatory_guardrail: {
     gl20_compliance_note: string; // 保監局公平比較指引提醒
     acknowledged_competitor_advantage: string; // 必須承認之競品客觀優勢 (合規平衡)
     official_disclaimer: string;
+    compliance_audit_passed: boolean;
+    sanitized_warnings?: string[];
   };
 }
 

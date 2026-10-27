@@ -451,9 +451,72 @@ tail_str = "".join(tail_lines)
 import re
 tail_str = re.sub(r'<script>\s*const SPEAKER_NOTES = \[.*?\];\s*window\.__SPEAKER_NOTES__ = SPEAKER_NOTES;\s*</script>', speaker_notes_script, tail_str, flags=re.DOTALL)
 
-# Replace title in head_lines
+# Replace title in head_lines and inject @media print styles
 head_str = "".join(head_lines)
 head_str = head_str.replace("<title>[必填] 替换为 PPT 标题 · Deck Title</title>", "<title>InsurIntel HK · 香港保險早會市場情報與攻防對策系統</title>")
+
+print_css = """
+<style>
+/* ============ Agent 5: High-Res PDF Handout Print Styles ============ */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  #nav, #hint, #overview, #presenter-modal, canvas.bg, canvas.ascii-bg, .ascii-bg {
+    display: none !important;
+  }
+  #deck {
+    display: block !important;
+    overflow: visible !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  section.slide {
+    display: flex !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    padding: 1.5cm !important;
+    background: #fafaf8 !important;
+  }
+  section.slide.accent {
+    background: #002FA7 !important;
+    color: #ffffff !important;
+  }
+  .canvas-card {
+    border: 1px solid #d4d4d2 !important;
+    box-shadow: none !important;
+  }
+}
+</style>
+"""
+head_str = head_str.replace("</head>", print_css + "\n</head>")
+
+tail_str = tail_str.replace(
+  '<button data-action="toggle-help" title="查看键盘快捷键帮助">',
+  '<button onclick="window.print()" title="匯出高清 PDF 晨會講義" style="background:var(--accent);color:#fff;padding:4px 10px;font-size:12px;font-family:var(--mono);cursor:pointer;border:0;margin-right:8px;">🖨️ PDF 講義</button><button data-action="toggle-help" title="查看键盘快捷键帮助">'
+)
 
 full_content = head_str + "\n" + slides_content + "\n" + tail_str
 

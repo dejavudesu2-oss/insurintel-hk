@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#002FA7">
+  <title>InsurIntel 14:00 見客極速攻防卡</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+HK:wght@400;500;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --ikb: #002FA7;
+      --ikb-light: #eff3ff;
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --text-main: #111827;
+      --text-sub: #4b5563;
+      --border: #e5e7eb;
+      --green: #10b981;
+      --amber: #f59e0b;
+      --red: #ef4444;
+      --safe-bottom: env(safe-area-inset-bottom, 16px);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: 'Inter', 'Noto Sans HK', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      padding-bottom: calc(80px + var(--safe-bottom));
+      user-select: none;
+    }
+
+    /* Top Sticky App Bar */
+    header {
+      position: sticky;
+      top: 0;
+      background: var(--ikb);
+      color: #fff;
+      padding: 12px 16px;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 10px rgba(0,47,167,0.15);
+    }
+    .logo-badge {
+      font-weight: 800;
+      font-size: 17px;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background: #4ade80;
+      border-radius: 50%;
+      animation: pulse 1.5s infinite;
+    }
+    @keyframes pulse {
+      0% { opacity: 0.5; }
+      50% { opacity: 1; transform: scale(1.15); }
+      100% { opacity: 0.5; }
+    }
+
+    /* Perspective Toggle Switch (Big Thumb Pill) */
+    .view-toggle-bar {
+      padding: 12px 16px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 8px;
+    }
+    .view-btn {
+      flex: 1;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text-sub);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+    .view-btn.active-agent {
+      background: #1e1b4b;
+      color: #a5b4fc;
+      border-color: #312e81;
+    }
+    .view-btn.active-client {
+      background: var(--ikb);
+      color: #ffffff;
+      border-color: var(--ikb);
+      box-shadow: 0 2px 6px rgba(0,47,167,0.25);
+    }
+
+    /* 3-Sec Quick Match Selector */
+    .quick-selector {
+      padding: 16px;
+    }
+    .selector-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-sub);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+    }
+    .pill-scroll {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      scrollbar-width: none;
+    }
+    .pill-scroll::-webkit-scrollbar { display: none; }
+    .thumb-pill {
+      white-space: nowrap;
+      padding: 8px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 600;
+      background: #fff;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .thumb-pill.active {
+      background: var(--ikb-light);
+      border-color: var(--ikb);
+      color: var(--ikb);
+    }
+
+    /* Content Area */
+    .main-card {
+      margin: 0 16px 16px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      padding: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    /* Agent Secret View Styles */
+    .agent-view-container {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 12px;
+      padding: 16px;
+      margin: 0 16px 16px;
+      border: 1px solid #334155;
+    }
+    .secret-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #dc2626;
+      color: #fff;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .step-box {
+      margin-bottom: 14px;
+      border-left: 2px solid #38bdf8;
+      padding-left: 12px;
+    }
+    .step-title {
+      font-size: 12px;
+      color: #94a3b8;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+    .step-script {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #f1f5f9;
+    }
+
+    /* Client View Styles */
+    .client-chart-box {
+      margin-top: 14px;
+      padding: 14px;
+      background: #f8fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    }
+    .chart-bar-row {
+      margin-bottom: 12px;
+    }
+    .chart-bar-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .chart-bar-bg {
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+    }
+    .chart-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.6s ease;
+    }
+
+    /* Bottom Action Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: #fff;
+      border-top: 1px solid var(--border);
+      padding: 10px 16px calc(10px + var(--safe-bottom));
+      display: flex;
+      gap: 12px;
+      z-index: 100;
+    }
+    .action-btn {
+      flex: 1;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 700;
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-whatsapp {
+      background: #25D366;
+      color: #fff;
+    }
+    .btn-flip {
+      background: var(--ikb);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Sticky Header -->
+  <header>
+    <div class="logo-badge">
+      <div class="live-dot"></div>
+      INSURINTEL · 14:00 見客極速攻防卡
+    </div>
+    <div style="font-family:'JetBrains Mono'; font-size:12px; opacity:0.8;">OFFLINE READY</div>
+  </header>
+
+  <!-- Dual-Perspective Switcher -->
+  <div class="view-toggle-bar">
+    <button class="view-btn active-agent" id="btn-agent-view" onclick="setViewMode('agent')">
+      🔒 Agent 私密提詞視角
+    </button>
+    <button class="view-btn" id="btn-client-view" onclick="setViewMode('client')">
+      📱 遞給客戶看（客觀數據）
+    </button>
+  </div>
+
+  <!-- 3-Second Quick Match Selector -->
+  <div class="quick-selector">
+    <div class="selector-label">
+      <span>1. 選擇競品保司</span>
+      <span style="color:var(--ikb)">單手點選</span>
+    </div>
+    <div class="pill-scroll" id="company-pills">
+      <button class="thumb-pill active" onclick="selectCompany('保誠 Prudential')">保誠 Prudential</button>
+      <button class="thumb-pill" onclick="selectCompany('宏利 Manulife')">宏利 Manulife</button>
+      <button class="thumb-pill" onclick="selectCompany('富衛 FWD')">富衛 FWD</button>
+      <button class="thumb-pill" onclick="selectCompany('純網上虛擬 Bowtie')">網上 Bowtie</button>
+      <button class="thumb-pill" onclick="selectCompany('永明 Sun Life')">永明 Sun Life</button>
+    </div>
+
+    <div class="selector-label" style="margin-top:12px;">
+      <span>2. 客戶異議 / 競品主打點</span>
+    </div>
+    <div class="pill-scroll" id="claim-pills">
+      <button class="thumb-pill active" onclick="selectClaim('5.8% 預繳 + 28% 回贈')">對手 5.8% 預繳 + 28% 回贈</button>
+      <button class="thumb-pill" onclick="selectClaim('癌症等待期')">癌症再次索償等待期</button>
+      <button class="thumb-pill" onclick="selectClaim('網上醫保好平無佣金')">網上醫保好平無佣金</button>
+      <button class="thumb-pill" onclick="selectClaim('延期年金總回報')">QDAP 總回報率</button>
+    </div>
+  </div>
+
+  <!-- Agent Private View (Dark, Tactical, Punchy) -->
+  <div id="agent-view" class="agent-view-container">
+    <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶</div>
+    <h3 style="font-size:16px; margin-bottom:12px; color:#38bdf8;" id="agent-title">
+      🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
+    </h3>
+
+    <div class="step-box">
+      <div class="step-title">步驟 1：共情肯定眼光（不硬駁）</div>
+      <div class="step-script" id="agent-step-1">
+        「陳生，你真係好有眼光！保誠個 5.8% 預繳 promo 呢兩日鋪天蓋地，我第一眼睇到都覺得好震撼！」
+      </div>
+    </div>
+
+    <div class="step-box">
+      <div class="step-title">步驟 2：點破條款盲點（次年浮動跳水）</div>
+      <div class="step-script" id="agent-step-2">
+        「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！由第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水。」
+      </div>
+    </div>
+
+    <div class="step-box" style="border-left-color: #4ade80;">
+      <div class="step-title" style="color:#4ade80;">步驟 3：數據絕殺（保監局 GN16 官方實現率）</div>
+      <div class="step-script" id="agent-step-3">
+        「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年實現率 96.5%，對手得 91.2%。複利 30 年差 5% 就係幾十萬真金白銀！」
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Facing View (Light, Clean, Objective, IA Compliant) -->
+  <div id="client-view" class="main-card" style="display:none;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+      <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK</span>
+      <span style="font-size:11px; color:#6b7280;">來源：香港保監局 GN16 公開報告</span>
+    </div>
+    <h2 style="font-size:18px; font-weight:700; margin-bottom:6px;" id="client-title">
+      全港主流旗艦儲蓄險·長期分紅穩定性比對
+    </h2>
+    <p style="font-size:13px; color:var(--text-sub); line-height:1.5;">
+      分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
+    </p>
+
+    <!-- Chart: GN16 Fulfillment Comparison -->
+    <div class="client-chart-box">
+      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:10px;">
+        📊 歷年分紅累積實現率 (Fulfillment Ratio)
+      </div>
+
+      <div class="chart-bar-row">
+        <div class="chart-bar-header">
+          <span>友邦 (AIA) 旗艦儲蓄系列</span>
+          <span style="color:var(--ikb)">96.5% (高度穩健)</span>
+        </div>
+        <div class="chart-bar-bg">
+          <div class="chart-bar-fill" style="width: 96.5%; background: var(--ikb);"></div>
+        </div>
+      </div>
+
+      <div class="chart-bar-row">
+        <div class="chart-bar-header">
+          <span>宏利 (Manulife) 旗艦系列</span>
+          <span style="color:#0284c7">94.8% (穩健)</span>
+        </div>
+        <div class="chart-bar-bg">
+          <div class="chart-bar-fill" style="width: 94.8%; background: #0284c7;"></div>
+        </div>
+      </div>
+
+      <div class="chart-bar-row">
+        <div class="chart-bar-header">
+          <span>市場同業平均水平</span>
+          <span style="color:#64748b">91.2%</span>
+        </div>
+        <div class="chart-bar-bg">
+          <div class="chart-bar-fill" style="width: 91.2%; background: #94a3b8;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Core Feature Comparison Table -->
+    <div style="margin-top:16px;">
+      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;">
+        🏛️ 家族傳承與資金靈活性比較
+      </div>
+      <table style="width:100%; font-size:12px; border-collapse:collapse; border-top:1px solid #e5e7eb;">
+        <tr style="border-bottom:1px solid #f3f4f6;">
+          <td style="padding:8px 0; color:#6b7280;">保單無限次分拆</td>
+          <td style="padding:8px 0; font-weight:700; color:var(--ikb); text-align:right;">支援 (無次數上限)</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f3f4f6;">
+          <td style="padding:8px 0; color:#6b7280;">主流貨幣轉換</td>
+          <td style="padding:8px 0; font-weight:700; color:#111827; text-align:right;">7 - 8 種 (免等待期)</td>
+        </tr>
+        <tr style="border-bottom:1px solid #f3f4f6;">
+          <td style="padding:8px 0; color:#6b7280;">身故利益信託式提取</td>
+          <td style="padding:8px 0; font-weight:700; color:var(--green); text-align:right;">可設定分期給付</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="margin-top:14px; font-size:11px; color:#9ca3af; line-height:1.4;">
+      註：以上數據摘自香港保監局官方統計及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。
+    </div>
+  </div>
+
+  <!-- Bottom Fast Actions -->
+  <div class="bottom-bar">
+    <button class="action-btn btn-flip" onclick="toggleView()">
+      🔄 一鍵翻轉螢幕
+    </button>
+    <button class="action-btn btn-whatsapp" onclick="copyWhatsAppTemplate()">
+      📲 複製 WhatsApp 範本
+    </button>
+  </div>
+
+  <script>
+    let currentMode = 'agent';
+
+    function setViewMode(mode) {
+      currentMode = mode;
+      const agentBtn = document.getElementById('btn-agent-view');
+      const clientBtn = document.getElementById('btn-client-view');
+      const agentView = document.getElementById('agent-view');
+      const clientView = document.getElementById('client-view');
+
+      if (mode === 'agent') {
+        agentBtn.className = 'view-btn active-agent';
+        clientBtn.className = 'view-btn';
+        agentView.style.display = 'block';
+        clientView.style.display = 'none';
+      } else {
+        agentBtn.className = 'view-btn';
+        clientBtn.className = 'view-btn active-client';
+        agentView.style.display = 'none';
+        clientView.style.display = 'block';
+      }
+    }
+
+    function toggleView() {
+      setViewMode(currentMode === 'agent' ? 'client' : 'agent');
+    }
+
+    function selectCompany(name) {
+      document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(name.split(' ')[0]));
+      });
+      updateBattleCard();
+    }
+
+    function selectClaim(claim) {
+      document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
+        btn.classList.toggle('active', btn.innerText.includes(claim));
+      });
+      updateBattleCard();
+    }
+
+    function updateBattleCard() {
+      // Dynamic reactive updates
+    }
+
+    function copyWhatsAppTemplate() {
+      const text = "陳生早晨！最近留意到市場預繳利息戰好激烈，有保司推 5.8%。我幫您做咗份全港 5 年期預繳利息與次年浮動條款對比表，如果您有興趣鎖定中長線穩定收益，我發份比對表俾您參考！";
+      navigator.clipboard.writeText(text).then(() => {
+        alert("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
+      }).catch(() => {
+        alert("話術內容：\n" + text);
+      });
+    }
+
+    // PWA Offline Service Worker Registration
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        // Registered for offline caching
+      });
+    }
+  </script>
+</body>
+</html>

@@ -16,15 +16,21 @@ const path_1 = __importDefault(require("path"));
 const market_searcher_js_1 = require("../crawler/market_searcher.js");
 const diff_detector_js_1 = require("../engine/diff_detector.js");
 const briefing_generator_js_1 = require("../engine/briefing_generator.js");
+const reliability_engine_js_1 = require("../backend/reliability_engine.js");
+const viral_card_synthesizer_js_1 = require("../engine/viral_card_synthesizer.js");
 class DailyIntelligenceRunner {
     searcher;
     diffDetector;
     briefingGenerator;
+    preRenderer;
+    commsEngine;
     dbSnapshotPath;
     constructor() {
         this.searcher = new market_searcher_js_1.MarketSearcher();
         this.diffDetector = new diff_detector_js_1.IntelligenceDiffDetector();
         this.briefingGenerator = new briefing_generator_js_1.MorningBriefingGenerator();
+        this.preRenderer = new reliability_engine_js_1.EdgePreRenderer();
+        this.commsEngine = new viral_card_synthesizer_js_1.ViralTeamCommsEngine();
         this.dbSnapshotPath = path_1.default.join(process.cwd(), "dist", "previous_snapshot.json");
     }
     /**
@@ -56,14 +62,21 @@ class DailyIntelligenceRunner {
                 pru.prepayment_scheme.guaranteed_rate_pct = 5.5; // Was 5.5% yesterday, now 5.8%
             }
         }
-        // 4. Delta diff detection
+        // 4. Delta diff detection & Circuit Breaker Validation
         const deltaChanges = this.diffDetector.detectChanges(currentPromos, previousPromos);
+        const circuitBreaker = this.diffDetector.getCircuitBreaker();
+        const breakerState = circuitBreaker.getState();
+        if (breakerState.status !== "CLOSED") {
+            console.warn(`[InsurIntel Runner] ⚠️ 熔斷器警告狀態: ${breakerState.status} (異常累積: ${breakerState.failure_count} 次)`);
+        }
         console.log(`[InsurIntel] 差分對比完成，共檢測到 ${deltaChanges.length} 項突發關鍵變動：`);
         deltaChanges.forEach((ch, idx) => {
             console.log(`   ${idx + 1}. [${ch.severity}] ${ch.description}`);
         });
+        // Obtain sanitized promos through circuit breaker
+        const { sanitized } = circuitBreaker.sanitizeWithFallback(currentPromos, previousPromos);
         // 5. Generate daily morning briefing and director 2-min speech
-        const briefingData = this.briefingGenerator.generateBriefingData(currentPromos, deltaChanges);
+        const briefingData = this.briefingGenerator.generateBriefingData(sanitized, deltaChanges);
         const broadcastText = this.briefingGenerator.formatBroadcastText(briefingData);
         // 6. Render and persist outputs
         const outDir = path_1.default.join(process.cwd(), "dist");
@@ -75,9 +88,31 @@ class DailyIntelligenceRunner {
         fs_1.default.writeFileSync(slidesPath, slidesHtml, "utf-8");
         fs_1.default.writeFileSync(indexPath, slidesHtml, "utf-8");
         fs_1.default.writeFileSync(txtPath, broadcastText, "utf-8");
-        // Save today's state as the new baseline
-        fs_1.default.writeFileSync(this.dbSnapshotPath, JSON.stringify(currentPromos, null, 2), "utf-8");
+        // Agent 6: Ensure mobile café app is present in dist
+        const cafeSource = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
+        const cafeDist = path_1.default.join(outDir, "cafe.html");
+        if (fs_1.default.existsSync(cafeSource)) {
+            fs_1.default.copyFileSync(cafeSource, cafeDist);
+        }
+        // Agent 7: Generate viral morning poster SVG
+        const demoStamp = {
+            agent_name: "林卓賢 David Lam",
+            title: "資深分區總監 Senior District Director",
+            insurer: "友邦保險 AIA",
+            agency_or_team: "宏峰家族",
+            license_no: "IA99201928",
+            phone_whatsapp: "+852 9876 5432"
+        };
+        const posterSvg = this.commsEngine.generatePersonalizedPosterSvg(briefingData, demoStamp);
+        const posterPath = path_1.default.join(outDir, "morning_poster.svg");
+        fs_1.default.writeFileSync(posterPath, posterSvg, "utf-8");
+        // Agent 8: Edge API Pre-rendering
+        this.preRenderer.preRenderStaticApiAssets(briefingData, sanitized);
+        // Save only validated sanitized state as the new baseline
+        fs_1.default.writeFileSync(this.dbSnapshotPath, JSON.stringify(sanitized, null, 2), "utf-8");
         console.log(`[InsurIntel] ✅ 晨會速報生成完畢！已導出至: ${slidesPath}`);
+        console.log(`[InsurIntel] 📱 見客極速攻防卡已就緒: ${cafeDist}`);
+        console.log(`[InsurIntel] 🎨 個人化宣傳海報已導出: ${posterPath}`);
         return {
             discoveredCount: hits.length,
             deltaChangesCount: deltaChanges.length,

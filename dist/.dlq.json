@@ -1,0 +1,12 @@
+[
+  {
+    "task_id": "fbfa67d8-d3c6-4232-a45e-d386d82bf914",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-10-27T00:25:56.225Z",
+    "status": "PENDING"
+  }
+]

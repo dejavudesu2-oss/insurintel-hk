@@ -1182,6 +1182,62 @@
     .grid-12{grid-template-columns:repeat(6,1fr)}
   }
 </style>
+
+<style>
+/* ============ Agent 5: High-Res PDF Handout Print Styles ============ */
+@media print {
+  @page {
+    size: landscape;
+    margin: 0;
+  }
+  html, body {
+    background: #ffffff !important;
+    color: #000000 !important;
+    overflow: visible !important;
+    height: auto !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  #nav, #hint, #overview, #presenter-modal, canvas.bg, canvas.ascii-bg, .ascii-bg {
+    display: none !important;
+  }
+  #deck {
+    display: block !important;
+    overflow: visible !important;
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+  section.slide {
+    display: flex !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    page-break-inside: avoid !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: none !important;
+    box-sizing: border-box !important;
+    padding: 1.5cm !important;
+    background: #fafaf8 !important;
+  }
+  section.slide.accent {
+    background: #002FA7 !important;
+    color: #ffffff !important;
+  }
+  .canvas-card {
+    border: 1px solid #d4d4d2 !important;
+    box-shadow: none !important;
+  }
+}
+</style>
+
 </head>
 <body class="canvas-mode">
 <script>

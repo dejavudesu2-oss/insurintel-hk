@@ -1,66 +1,284 @@
 "use strict";
 /**
- * InsurIntel HK - Delta & Difference Detection Engine
- * Detects intelligence changes: interest rate updates, discount shifts,
- * deadline countdowns, and underwriting policy relaxations.
+ * InsurIntel HK - Precision Delta & Difference Detection Engine + Circuit Breaker
+ * Agent 1: Data Scraper & Diff Engine Agent
+ *
+ * Features:
+ * 1. High-precision numerical JSON Schema Diff (tolerances, rates, tiers, lock periods)
+ * 2. Enterprise Circuit Breaker pattern with anomaly thresholds (prevents corrupted promo data)
+ * 3. Standardized Top 5 insurer product SKUs and automated sanity recovery
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.IntelligenceDiffDetector = void 0;
-class IntelligenceDiffDetector {
+exports.IntelligenceDiffDetector = exports.IntelligenceCircuitBreaker = exports.ANOMALY_THRESHOLDS = void 0;
+/**
+ * Anomaly Validation Guardrails
+ */
+exports.ANOMALY_THRESHOLDS = {
+    MIN_DISCOUNT_PCT: 0,
+    MAX_DISCOUNT_PCT: 80, // Discounts over 80% indicate parsing corruptions (e.g., 200%)
+    MIN_PREPAY_RATE_PCT: 0,
+    MAX_PREPAY_RATE_PCT: 12.0, // Prepayment rates over 12% p.a. are extreme outliers/errors
+    MIN_GN16_RATIO_PCT: 30, // Realization ratios below 30% or above 150% are suspect
+    MAX_GN16_RATIO_PCT: 150,
+    MIN_LOCK_YEARS: 1,
+    MAX_LOCK_YEARS: 10,
+    NUMERICAL_EPSILON: 0.01 // Precision tolerance
+};
+class IntelligenceCircuitBreaker {
+    failureThreshold;
+    failures = [];
+    state = "CLOSED";
+    resetTimeoutMs;
+    lastTrippedTime = 0;
+    constructor(failureThreshold = 3, resetTimeoutMs = 300000) {
+        this.failureThreshold = failureThreshold;
+        this.resetTimeoutMs = resetTimeoutMs;
+    }
+    getState() {
+        this.checkAutoRecovery();
+        return {
+            status: this.state,
+            failure_count: this.failures.length,
+            failure_threshold: this.failureThreshold,
+            last_tripped_at: this.lastTrippedTime ? new Date(this.lastTrippedTime).toISOString() : undefined,
+            trip_reasons: [...this.failures]
+        };
+    }
+    isTripped() {
+        this.checkAutoRecovery();
+        return this.state === "OPEN";
+    }
+    reset() {
+        this.state = "CLOSED";
+        this.failures = [];
+        this.lastTrippedTime = 0;
+    }
+    checkAutoRecovery() {
+        if (this.state === "OPEN") {
+            const now = Date.now();
+            if (now - this.lastTrippedTime > this.resetTimeoutMs) {
+                this.state = "HALF_OPEN";
+            }
+        }
+    }
     /**
-     * Compares current intelligence against previous baseline snapshot
+     * Validates a single promo against strict actuarial bounds
+     */
+    validatePromo(promo) {
+        const anomalies = [];
+        const ts = new Date().toISOString();
+        // 1. Validate discounts
+        if (promo.premium_discounts && Array.isArray(promo.premium_discounts)) {
+            for (const d of promo.premium_discounts) {
+                if (d.discount_rate_pct < exports.ANOMALY_THRESHOLDS.MIN_DISCOUNT_PCT ||
+                    d.discount_rate_pct > exports.ANOMALY_THRESHOLDS.MAX_DISCOUNT_PCT ||
+                    isNaN(d.discount_rate_pct)) {
+                    anomalies.push({
+                        promo_id: promo.promo_id,
+                        insurer: promo.insurer,
+                        product_name: promo.product_name,
+                        field: "premium_discounts.discount_rate_pct",
+                        rejected_value: d.discount_rate_pct,
+                        reason: `折扣率 ${d.discount_rate_pct}% 超出合理範圍 (${exports.ANOMALY_THRESHOLDS.MIN_DISCOUNT_PCT}% - ${exports.ANOMALY_THRESHOLDS.MAX_DISCOUNT_PCT}%)`,
+                        timestamp: ts
+                    });
+                }
+            }
+        }
+        // 2. Validate prepayment scheme
+        if (promo.prepayment_scheme && promo.prepayment_scheme.is_available) {
+            const rate = promo.prepayment_scheme.guaranteed_rate_pct;
+            if (rate < exports.ANOMALY_THRESHOLDS.MIN_PREPAY_RATE_PCT ||
+                rate > exports.ANOMALY_THRESHOLDS.MAX_PREPAY_RATE_PCT ||
+                isNaN(rate)) {
+                anomalies.push({
+                    promo_id: promo.promo_id,
+                    insurer: promo.insurer,
+                    product_name: promo.product_name,
+                    field: "prepayment_scheme.guaranteed_rate_pct",
+                    rejected_value: rate,
+                    reason: `預繳利息 ${rate}% 超出市場極值警戒線 (${exports.ANOMALY_THRESHOLDS.MIN_PREPAY_RATE_PCT}% - ${exports.ANOMALY_THRESHOLDS.MAX_PREPAY_RATE_PCT}%)`,
+                    timestamp: ts
+                });
+            }
+            const lockYears = promo.prepayment_scheme.lock_period_years;
+            if (lockYears < exports.ANOMALY_THRESHOLDS.MIN_LOCK_YEARS || lockYears > exports.ANOMALY_THRESHOLDS.MAX_LOCK_YEARS) {
+                anomalies.push({
+                    promo_id: promo.promo_id,
+                    insurer: promo.insurer,
+                    product_name: promo.product_name,
+                    field: "prepayment_scheme.lock_period_years",
+                    rejected_value: lockYears,
+                    reason: `鎖定年期 ${lockYears} 年異常`,
+                    timestamp: ts
+                });
+            }
+        }
+        // 3. Validate GN16 Fulfillment
+        if (promo.savings_metrics?.gn16_fulfillment_ratio_pct !== undefined) {
+            const ratio = promo.savings_metrics.gn16_fulfillment_ratio_pct;
+            if (ratio < exports.ANOMALY_THRESHOLDS.MIN_GN16_RATIO_PCT ||
+                ratio > exports.ANOMALY_THRESHOLDS.MAX_GN16_RATIO_PCT ||
+                isNaN(ratio)) {
+                anomalies.push({
+                    promo_id: promo.promo_id,
+                    insurer: promo.insurer,
+                    product_name: promo.product_name,
+                    field: "savings_metrics.gn16_fulfillment_ratio_pct",
+                    rejected_value: ratio,
+                    reason: `保監局 GN16 實現率 ${ratio}% 偏離公允邊界 (${exports.ANOMALY_THRESHOLDS.MIN_GN16_RATIO_PCT}% - ${exports.ANOMALY_THRESHOLDS.MAX_GN16_RATIO_PCT}%)`,
+                    timestamp: ts
+                });
+            }
+        }
+        if (anomalies.length > 0) {
+            this.failures.push(...anomalies);
+            if (this.failures.length >= this.failureThreshold) {
+                this.state = "OPEN";
+                this.lastTrippedTime = Date.now();
+                console.warn(`[CIRCUIT BREAKER ⚡] 熔斷器觸發！累積異常達 ${this.failures.length} 次，阻斷污染數據寫入。`);
+            }
+            return { isValid: false, anomalies };
+        }
+        return { isValid: true, anomalies: [] };
+    }
+    /**
+     * Cleans incoming promos against baseline. Corrupted records are rejected and replaced by previous baseline.
+     */
+    sanitizeWithFallback(incomingPromos, baselinePromos) {
+        const sanitized = [];
+        const rejected = [];
+        const baselineMap = new Map(baselinePromos.map(p => [p.promo_id, p]));
+        for (const p of incomingPromos) {
+            const { isValid, anomalies } = this.validatePromo(p);
+            if (isValid) {
+                sanitized.push(p);
+            }
+            else {
+                const reasons = anomalies.map(a => a.reason);
+                rejected.push({ promo: p, reasons });
+                console.error(`[InsurIntel Guard] ⚠️ 攔截異常數據: ${p.insurer} - ${p.product_name} (${reasons.join("; ")})`);
+                // Fallback to baseline if available
+                const fallback = baselineMap.get(p.promo_id);
+                if (fallback) {
+                    console.warn(`[InsurIntel Guard] 🛡️ 啟用安全回滾 (Fallback): 還原 ${p.product_name} 至上一期基準數據。`);
+                    sanitized.push(fallback);
+                }
+            }
+        }
+        return {
+            sanitized,
+            rejected,
+            circuitTripped: this.isTripped()
+        };
+    }
+}
+exports.IntelligenceCircuitBreaker = IntelligenceCircuitBreaker;
+class IntelligenceDiffDetector {
+    circuitBreaker;
+    constructor(circuitBreaker) {
+        this.circuitBreaker = circuitBreaker || new IntelligenceCircuitBreaker();
+    }
+    getCircuitBreaker() {
+        return this.circuitBreaker;
+    }
+    /**
+     * Compares current intelligence against previous baseline snapshot with numerical precision
      */
     detectChanges(currentPromos, previousPromos = []) {
         const changes = [];
+        // Filter through Circuit Breaker first
+        const { sanitized } = this.circuitBreaker.sanitizeWithFallback(currentPromos, previousPromos);
         const prevMap = new Map(previousPromos.map((p) => [p.promo_id, p]));
         const now = new Date();
-        for (const curr of currentPromos) {
+        for (const curr of sanitized) {
             const prev = prevMap.get(curr.promo_id);
             if (!prev) {
                 // Newly launched promo
+                const maxDiscount = curr.premium_discounts?.length
+                    ? Math.max(...curr.premium_discounts.map(d => d.discount_rate_pct))
+                    : 0;
                 changes.push({
                     promo_id: curr.promo_id,
                     insurer: curr.insurer,
                     product_name: curr.product_name,
                     change_type: "NEW_LAUNCH",
                     severity: "HIGH",
-                    description: `全新產品推廣上線：${curr.insurer} 推出「${curr.product_name}」，最高回贈達 ${Math.max(...curr.premium_discounts.map(d => d.discount_rate_pct))}%`
+                    description: `全新產品推廣上線：${curr.insurer} 推出「${curr.product_name}」，最高回贈達 ${maxDiscount}%`
                 });
             }
             else {
-                // 1. Prepayment rate diff
+                // 1. High-precision Prepayment Rate Diff
                 if (curr.prepayment_scheme && prev.prepayment_scheme) {
-                    if (curr.prepayment_scheme.guaranteed_rate_pct !== prev.prepayment_scheme.guaranteed_rate_pct) {
-                        const isHike = curr.prepayment_scheme.guaranteed_rate_pct > prev.prepayment_scheme.guaranteed_rate_pct;
+                    const currRate = curr.prepayment_scheme.guaranteed_rate_pct;
+                    const prevRate = prev.prepayment_scheme.guaranteed_rate_pct;
+                    const deltaRate = Math.round((currRate - prevRate) * 1000) / 1000;
+                    if (Math.abs(deltaRate) >= exports.ANOMALY_THRESHOLDS.NUMERICAL_EPSILON) {
+                        const isHike = deltaRate > 0;
                         changes.push({
                             promo_id: curr.promo_id,
                             insurer: curr.insurer,
                             product_name: curr.product_name,
                             change_type: "PREPAYMENT_RATE_CHANGE",
                             severity: "URGENT",
-                            old_value: `${prev.prepayment_scheme.guaranteed_rate_pct}%`,
-                            new_value: `${curr.prepayment_scheme.guaranteed_rate_pct}%`,
-                            description: `預繳利率突發變動：${curr.insurer}「${curr.product_name}」預繳利率由 ${prev.prepayment_scheme.guaranteed_rate_pct}% ${isHike ? "調升至" : "下調至"} ${curr.prepayment_scheme.guaranteed_rate_pct}% (保證 ${curr.prepayment_scheme.lock_period_years} 年)`
+                            delta_amount: deltaRate,
+                            old_value: `${prevRate}%`,
+                            new_value: `${currRate}%`,
+                            description: `預繳利率突發變動：${curr.insurer}「${curr.product_name}」預繳利率由 ${prevRate}% ${isHike ? "調升至" : "下調至"} ${currRate}% (保證 ${curr.prepayment_scheme.lock_period_years} 年)`
+                        });
+                    }
+                    // Lock period change
+                    if (curr.prepayment_scheme.lock_period_years !== prev.prepayment_scheme.lock_period_years) {
+                        changes.push({
+                            promo_id: curr.promo_id,
+                            insurer: curr.insurer,
+                            product_name: curr.product_name,
+                            change_type: "LOCK_PERIOD_CHANGE",
+                            severity: "HIGH",
+                            old_value: `${prev.prepayment_scheme.lock_period_years}年`,
+                            new_value: `${curr.prepayment_scheme.lock_period_years}年`,
+                            description: `預繳利率保證鎖定期調整：由 ${prev.prepayment_scheme.lock_period_years} 年變更為 ${curr.prepayment_scheme.lock_period_years} 年`
                         });
                     }
                 }
-                // 2. Maximum discount diff
-                const currMaxDiscount = Math.max(...curr.premium_discounts.map(d => d.discount_rate_pct));
-                const prevMaxDiscount = Math.max(...prev.premium_discounts.map(d => d.discount_rate_pct));
-                if (currMaxDiscount !== prevMaxDiscount) {
+                // 2. Maximum Discount Diff
+                const currMaxDiscount = curr.premium_discounts?.length
+                    ? Math.max(...curr.premium_discounts.map(d => d.discount_rate_pct))
+                    : 0;
+                const prevMaxDiscount = prev.premium_discounts?.length
+                    ? Math.max(...prev.premium_discounts.map(d => d.discount_rate_pct))
+                    : 0;
+                const deltaDiscount = Math.round((currMaxDiscount - prevMaxDiscount) * 100) / 100;
+                if (Math.abs(deltaDiscount) >= exports.ANOMALY_THRESHOLDS.NUMERICAL_EPSILON) {
                     changes.push({
                         promo_id: curr.promo_id,
                         insurer: curr.insurer,
                         product_name: curr.product_name,
                         change_type: "DISCOUNT_CHANGE",
                         severity: "HIGH",
+                        delta_amount: deltaDiscount,
                         old_value: `${prevMaxDiscount}%`,
                         new_value: `${currMaxDiscount}%`,
                         description: `首年回贈幅度調整：最高折扣由 ${prevMaxDiscount}% 變更為 ${currMaxDiscount}%`
                     });
                 }
+                // 3. GN16 Realization Ratio Diff
+                const currGN16 = curr.savings_metrics?.gn16_fulfillment_ratio_pct;
+                const prevGN16 = prev.savings_metrics?.gn16_fulfillment_ratio_pct;
+                if (currGN16 !== undefined && prevGN16 !== undefined && currGN16 !== prevGN16) {
+                    changes.push({
+                        promo_id: curr.promo_id,
+                        insurer: curr.insurer,
+                        product_name: curr.product_name,
+                        change_type: "GN16_RATIO_UPDATE",
+                        severity: "HIGH",
+                        old_value: `${prevGN16}%`,
+                        new_value: `${currGN16}%`,
+                        description: `保監局 GN16 官方實現率更新：由 ${prevGN16}% 變更為 ${currGN16}%`
+                    });
+                }
             }
-            // 3. Expiration countdown check
+            // 4. Expiration countdown check
             if (curr.validity?.end_date) {
                 const endDate = new Date(curr.validity.end_date);
                 const diffMs = endDate.getTime() - now.getTime();
@@ -77,8 +295,9 @@ class IntelligenceDiffDetector {
                     });
                 }
             }
-            // 4. Underwriting Concession check
-            if (curr.underwriting_concessions?.simplified_health_declaration && (!prev || !prev.underwriting_concessions?.simplified_health_declaration)) {
+            // 5. Underwriting Concession check
+            if (curr.underwriting_concessions?.simplified_health_declaration &&
+                (!prev || !prev.underwriting_concessions?.simplified_health_declaration)) {
                 changes.push({
                     promo_id: curr.promo_id,
                     insurer: curr.insurer,
