@@ -1,6 +1,6 @@
 [
   {
-    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793061159510-22",
+    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793141909204-771",
     "insurer": "Prudential",
     "product_name": "Prudential 市場限時推廣",
     "product_aliases": [
@@ -35,11 +35,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T00:32:39.510Z"
+      "created_at": "2026-10-27T22:58:29.204Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-AIA-1793061159510-219",
+    "promo_id": "AUTO-CRAWL-AIA-1793141909204-925",
     "insurer": "AIA",
     "product_name": "AIA 市場限時推廣",
     "product_aliases": [
@@ -74,11 +74,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T00:32:39.510Z"
+      "created_at": "2026-10-27T22:58:29.204Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-MANULIFE-1793061159510-557",
+    "promo_id": "AUTO-CRAWL-MANULIFE-1793141909204-684",
     "insurer": "Manulife",
     "product_name": "Manulife 市場限時推廣",
     "product_aliases": [
@@ -113,11 +113,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T00:32:39.510Z"
+      "created_at": "2026-10-27T22:58:29.204Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-FWD-1793061159510-205",
+    "promo_id": "AUTO-CRAWL-FWD-1793141909204-695",
     "insurer": "FWD",
     "product_name": "FWD 市場限時推廣",
     "product_aliases": [
@@ -146,7 +146,7 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T00:32:39.510Z"
+      "created_at": "2026-10-27T22:58:29.204Z"
     }
   }
 ]
