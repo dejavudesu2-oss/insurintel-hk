@@ -1,6 +1,6 @@
 [
   {
-    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793141909204-771",
+    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793228508105-170",
     "insurer": "Prudential",
     "product_name": "Prudential 市場限時推廣",
     "product_aliases": [
@@ -15,7 +15,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-10-27",
+      "start_date": "2026-10-28",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -35,11 +35,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T22:58:29.204Z"
+      "created_at": "2026-10-28T23:01:48.105Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-AIA-1793141909204-925",
+    "promo_id": "AUTO-CRAWL-AIA-1793228508105-871",
     "insurer": "AIA",
     "product_name": "AIA 市場限時推廣",
     "product_aliases": [
@@ -54,7 +54,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-10-27",
+      "start_date": "2026-10-28",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -74,11 +74,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T22:58:29.204Z"
+      "created_at": "2026-10-28T23:01:48.105Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-MANULIFE-1793141909204-684",
+    "promo_id": "AUTO-CRAWL-MANULIFE-1793228508105-774",
     "insurer": "Manulife",
     "product_name": "Manulife 市場限時推廣",
     "product_aliases": [
@@ -93,7 +93,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-10-27",
+      "start_date": "2026-10-28",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -113,11 +113,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T22:58:29.204Z"
+      "created_at": "2026-10-28T23:01:48.105Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-FWD-1793141909204-695",
+    "promo_id": "AUTO-CRAWL-FWD-1793228508105-896",
     "insurer": "FWD",
     "product_name": "FWD 市場限時推廣",
     "product_aliases": [
@@ -132,7 +132,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-10-27",
+      "start_date": "2026-10-28",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -146,7 +146,7 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-10-27T22:58:29.204Z"
+      "created_at": "2026-10-28T23:01:48.105Z"
     }
   }
 ]
