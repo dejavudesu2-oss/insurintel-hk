@@ -1,0 +1,222 @@
+[
+  {
+    "promo_id": "PROMO-AIA-UL-2026",
+    "insurer": "AIA",
+    "product_name": "財富尊享萬用壽險 (Platinum Wealth Universal Life)",
+    "product_aliases": ["財富尊享", "AIA萬用壽險", "友邦UL", "Platinum Wealth UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "max_annual_premium_usd": 1000000,
+        "discount_rate_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 1000000,
+        "discount_rate_pct": 5.0
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.35,
+      "crediting_rate_guaranteed_pct": 2.25,
+      "surrender_charge_years": 4,
+      "financing_eligible": true,
+      "max_ltv_pct": 85.0,
+      "typical_funding_cost_pct": 3.90,
+      "net_carry_spread_pct": 1.45,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 5.00,
+      "margin_call_drop_buffer_pct": 20.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5000000,
+      "special_waiver_notes": "指定合作私人銀行綠色審批通道，48小時極速出具融資批核意向書 (Facility Letter)"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T10:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-MANU-UL-2026",
+    "insurer": "Manulife",
+    "product_name": "宏裕傳承萬用壽險 (ManuGrand Universal Life)",
+    "product_aliases": ["宏裕傳承", "宏利萬用壽險", "ManuGrand UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.0
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.45,
+      "crediting_rate_guaranteed_pct": 2.00,
+      "surrender_charge_years": 5,
+      "financing_eligible": true,
+      "max_ltv_pct": 82.0,
+      "typical_funding_cost_pct": 3.95,
+      "net_carry_spread_pct": 1.50,
+      "min_premium_usd": 1000000,
+      "policy_loan_interest_pct": 5.20,
+      "margin_call_drop_buffer_pct": 18.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 6000000,
+      "special_waiver_notes": "大額家族信託架構直通，支援聯名受保人與跨代受託人"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T14:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-SUN-UL-2026",
+    "insurer": "Sun_Life",
+    "product_name": "萬世傳奇萬用壽險 (SunLegacy Universal Life)",
+    "product_aliases": ["萬世傳奇", "永明萬用壽險", "SunLegacy UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "channel": "Broker"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.5
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.25,
+      "crediting_rate_guaranteed_pct": 2.50,
+      "surrender_charge_years": 3,
+      "financing_eligible": true,
+      "max_ltv_pct": 80.0,
+      "typical_funding_cost_pct": 3.85,
+      "net_carry_spread_pct": 1.40,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 4.90,
+      "margin_call_drop_buffer_pct": 22.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 4500000,
+      "special_waiver_notes": "退保費用鎖定期僅3年，具極高資金變現與退出靈活性，保證底線利率高達2.5%"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T15:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-FWD-UL-2026",
+    "insurer": "FWD",
+    "product_name": "富逸傳家萬用壽險 (Apex Legacy Universal Life)",
+    "product_aliases": ["富逸傳家", "富衛萬用壽險", "Apex Legacy"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 5.0
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.50,
+      "crediting_rate_guaranteed_pct": 2.10,
+      "surrender_charge_years": 4,
+      "financing_eligible": true,
+      "max_ltv_pct": 85.0,
+      "typical_funding_cost_pct": 3.90,
+      "net_carry_spread_pct": 1.60,
+      "min_premium_usd": 750000,
+      "policy_loan_interest_pct": 5.15,
+      "margin_call_drop_buffer_pct": 17.5
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5000000,
+      "special_waiver_notes": "支援特定銀行一站式抵押轉讓 (Deed of Assignment) 手續簡化，結算利率高達5.5%"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T16:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-YF-UL-2026",
+    "insurer": "YF_Life",
+    "product_name": "富貴萬用壽險 (MassFortune Universal Life)",
+    "product_aliases": ["富貴萬用壽險", "萬通萬用壽險", "MassFortune UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 300000,
+        "discount_rate_pct": 3.5
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.15,
+      "crediting_rate_guaranteed_pct": 2.30,
+      "surrender_charge_years": 3,
+      "financing_eligible": true,
+      "max_ltv_pct": 80.0,
+      "typical_funding_cost_pct": 3.80,
+      "net_carry_spread_pct": 1.35,
+      "min_premium_usd": 300000,
+      "policy_loan_interest_pct": 4.80,
+      "margin_call_drop_buffer_pct": 25.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3500000,
+      "special_waiver_notes": "起投門檻降至30萬美元，可簡易健康宣告，高達25%補倉安全緩衝墊"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T17:00:00Z"
+    }
+  }
+]

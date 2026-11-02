@@ -1,6 +1,6 @@
 /**
  * InsurIntel HK - Core Insurance Domain Types
- * Covers: Multi-currency Savings, Critical Illness (CI), VHIS Medical, and QDAP Annuity
+ * Covers: Multi-currency Savings, Critical Illness (CI), VHIS Medical, QDAP Annuity, and Financing Universal Life (UL)
  */
 
 export type InsuranceCategory =
@@ -23,7 +23,7 @@ export type InsurerCode =
   | "Bupa"
   | string;
 
-export type Currency = "USD" | "HKD" | "RMB" | "GBP" | "EUR" | "AUD" | "CAD";
+export type Currency = "USD" | "HKD" | "RMB" | "GBP" | "EUR" | "AUD" | "CAD" | "SGD";
 
 /**
  * 階梯式首年保費折扣/回贈矩陣
@@ -102,6 +102,22 @@ export interface QDAPMetrics {
 }
 
 /**
+ * 萬用壽險 / 保費融資 (Universal Life & Premium Financing) 特有指標
+ */
+export interface UniversalLifeMetrics {
+  crediting_rate_current_pct: number; // 現行派息率 / 結算利率 % (e.g. 5.25%)
+  crediting_rate_guaranteed_pct: number; // 保證最低派息率 % (e.g. 2.0%)
+  surrender_charge_years: number; // 退保費用年期 (年) (e.g. 5 ~ 15 年)
+  financing_eligible: boolean; // 是否支援保費融資 / 私人銀行質押
+  max_ltv_pct: number; // 最高融資成數 LTV % (e.g. 80% ~ 90%)
+  typical_funding_cost_pct: number; // 典型融資借貸成本 (HIBOR/SOFR/Prime) % (e.g. 4.5%)
+  net_carry_spread_pct: number; // 淨息差套利空間 % (派息率 - 融資成本, e.g. 0.75%)
+  min_premium_usd: number; // 最低進場保費門檻 USD (e.g. 100,000 ~ 1,000,000)
+  policy_loan_interest_pct: number; // 保險公司保單直接借貸利率 % (e.g. 6.0%)
+  margin_call_drop_buffer_pct?: number; // 銀行追繳保證金 (Margin Call) 緩衝跌幅空間 % (e.g. 15% ~ 20%)
+}
+
+/**
  * 產品促銷核心條款 (綜合情報對象)
  */
 export interface InsurancePromoComprehensive {
@@ -129,6 +145,7 @@ export interface InsurancePromoComprehensive {
   ci_metrics?: CriticalIllnessMetrics;
   vhis_metrics?: VHISMetrics;
   qdap_metrics?: QDAPMetrics;
+  ul_metrics?: UniversalLifeMetrics;
 
   underwriting_concessions?: {
     simplified_health_declaration: boolean;
@@ -195,6 +212,24 @@ export interface CounterPitchResponse {
 }
 
 /**
+ * 全港儲蓄險與競品對比全維度矩陣行 (Grand Matrix Row)
+ */
+export interface GrandMatrixRow {
+  insurer: string;               // e.g. "友邦 (AIA)"
+  product: string;               // e.g. "盈御多元貨幣計劃 3"
+  prepay: string;                // e.g. "5.00% (保證 1 年)"
+  discount: string;              // e.g. "12% - 22% (+4% 同行)"
+  gn16: string;                  // e.g. "96.5% (極穩健)"
+  breakeven: string;             // e.g. "第 18 年 / 第 6 年"
+  irr30: string;                 // e.g. "6.62%"
+  legacy: string;                // e.g. "保單分拆 / 7種貨幣 / 更換受保人"
+  underwriting: string;          // e.g. "免體檢限額 $400 萬美元"
+  ci_coverage?: string;          // e.g. "友心意: 125種疾病 / 癌症間隔3年"
+  vhis_benefit?: string;         // e.g. "尊裕醫療: 標靶藥全額"
+  ul_carry_spread?: string;      // e.g. "財富尊享: 淨利差 1.45%"
+}
+
+/**
  * 早會情報與主管演講模型
  */
 export interface DailyMorningBriefing {
@@ -218,4 +253,28 @@ export interface DailyMorningBriefing {
     market_battle_drill: string; // 今日實戰打法
     team_motivational_call: string; // 早會收尾號召
   };
+  grand_matrix_rows?: GrandMatrixRow[];
 }
+
+export interface AgentBrandingConfig {
+  agent_name: string;
+  title?: string;
+  insurer?: string;
+  license_number?: string;
+  license_no?: string; // alias for backward compatibility
+  agency_team?: string;
+  agency_or_team?: string; // alias for backward compatibility
+  contact_phone?: string;
+  phone_whatsapp?: string; // alias for backward compatibility
+  team_logo_url?: string;
+  team_logo_text?: string;
+  primary_color?: string; // default #002FA7
+  accent_color?: string;  // default #FF5A00
+  slogan?: string;
+  whatsapp_qr_url?: string;
+  qr_code_url?: string; // alias for backward compatibility
+  avatar_url?: string;
+}
+
+export type AgentProfileStamp = AgentBrandingConfig;
+

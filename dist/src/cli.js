@@ -12,23 +12,11 @@ const path_1 = __importDefault(require("path"));
 const diff_detector_js_1 = require("./engine/diff_detector.js");
 const counter_pitch_js_1 = require("./engine/counter_pitch.js");
 const briefing_generator_js_1 = require("./engine/briefing_generator.js");
-function loadAllMockData() {
-    const mockDir = path_1.default.join(process.cwd(), "src", "mock_data");
-    const files = ["savings_aia_pru.json", "ci_manulife_fwd.json", "vhis_qdap_sample.json"];
-    let all = [];
-    for (const f of files) {
-        const p = path_1.default.join(mockDir, f);
-        if (fs_1.default.existsSync(p)) {
-            const data = JSON.parse(fs_1.default.readFileSync(p, "utf-8"));
-            all = all.concat(data);
-        }
-    }
-    return all;
-}
+const loader_js_1 = require("./mock_data/loader.js");
 async function main() {
     const args = process.argv.slice(2);
     const command = args[0] || "briefing";
-    const promos = loadAllMockData();
+    const promos = (0, loader_js_1.loadAllMockPromos)();
     if (command === "briefing") {
         console.log("\n=======================================================");
         console.log("   InsurIntel HK - 早會情報與主管講稿生成器");

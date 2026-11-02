@@ -257,6 +257,28 @@
       background: var(--ikb);
       color: #fff;
     }
+
+    /* Toast Notification */
+    .toast-feedback {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(15, 23, 42, 0.95);
+      color: #38bdf8;
+      border: 1px solid #334155;
+      padding: 10px 20px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      z-index: 9999;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+      display: none;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+      white-space: nowrap;
+    }
   </style>
 </head>
 <body>
@@ -287,21 +309,27 @@
       <span style="color:var(--ikb)">單手點選</span>
     </div>
     <div class="pill-scroll" id="company-pills">
-      <button class="thumb-pill active" onclick="selectCompany('保誠 Prudential')">保誠 Prudential</button>
-      <button class="thumb-pill" onclick="selectCompany('宏利 Manulife')">宏利 Manulife</button>
-      <button class="thumb-pill" onclick="selectCompany('富衛 FWD')">富衛 FWD</button>
-      <button class="thumb-pill" onclick="selectCompany('純網上虛擬 Bowtie')">網上 Bowtie</button>
-      <button class="thumb-pill" onclick="selectCompany('永明 Sun Life')">永明 Sun Life</button>
+      <button class="thumb-pill active" onclick="selectCompany(this, '保誠 Prudential')">保誠 Prudential</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '友邦 AIA')">友邦 AIA</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '宏利 Manulife')">宏利 Manulife</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '永明 Sun Life')">永明 Sun Life</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '富衛 FWD')">富衛 FWD</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '安盛 AXA')">安盛 AXA</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '純網上虛擬 Bowtie')">網上 Bowtie</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '中銀人壽 BOC Life')">中銀人壽 BOC Life</button>
+      <button class="thumb-pill" onclick="selectCompany(this, '萬通 YF Life')">萬通 YF Life</button>
     </div>
 
     <div class="selector-label" style="margin-top:12px;">
       <span>2. 客戶異議 / 競品主打點</span>
     </div>
     <div class="pill-scroll" id="claim-pills">
-      <button class="thumb-pill active" onclick="selectClaim('5.8% 預繳 + 28% 回贈')">對手 5.8% 預繳 + 28% 回贈</button>
-      <button class="thumb-pill" onclick="selectClaim('癌症等待期')">癌症再次索償等待期</button>
-      <button class="thumb-pill" onclick="selectClaim('網上醫保好平無佣金')">網上醫保好平無佣金</button>
-      <button class="thumb-pill" onclick="selectClaim('延期年金總回報')">QDAP 總回報率</button>
+      <button class="thumb-pill active" onclick="selectClaim(this, '保證回報高達 5.8%')">5.8% 預繳 / 保證高回報</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '癌症再次索償等待期')">癌症再次索償等待期</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '自願醫保全數賠償')">自願醫保全數賠償</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '保費融資 85% LTV')">保費融資 85% LTV</button>
+      <button class="thumb-pill" onclick="selectClaim(this, 'QDAP 總回報率')">QDAP 延期年金總回報</button>
     </div>
   </div>
 
@@ -338,92 +366,380 @@
   <div id="client-view" class="main-card" style="display:none;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
       <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK</span>
-      <span style="font-size:11px; color:#6b7280;">來源：香港保監局 GN16 公開報告</span>
+      <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GN16 公開報告</span>
     </div>
     <h2 style="font-size:18px; font-weight:700; margin-bottom:6px;" id="client-title">
       全港主流旗艦儲蓄險·長期分紅穩定性比對
     </h2>
-    <p style="font-size:13px; color:var(--text-sub); line-height:1.5;">
+    <p style="font-size:13px; color:var(--text-sub); line-height:1.5;" id="client-desc">
       分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
     </p>
 
-    <!-- Chart: GN16 Fulfillment Comparison -->
-    <div class="client-chart-box">
-      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:10px;">
+    <!-- Chart: Dynamic GN16 / Metric Fulfillment Comparison -->
+    <div class="client-chart-box" id="client-chart-box">
+      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:10px;" id="client-chart-title">
         📊 歷年分紅累積實現率 (Fulfillment Ratio)
       </div>
-
-      <div class="chart-bar-row">
-        <div class="chart-bar-header">
-          <span>友邦 (AIA) 旗艦儲蓄系列</span>
-          <span style="color:var(--ikb)">96.5% (高度穩健)</span>
-        </div>
-        <div class="chart-bar-bg">
-          <div class="chart-bar-fill" style="width: 96.5%; background: var(--ikb);"></div>
-        </div>
-      </div>
-
-      <div class="chart-bar-row">
-        <div class="chart-bar-header">
-          <span>宏利 (Manulife) 旗艦系列</span>
-          <span style="color:#0284c7">94.8% (穩健)</span>
-        </div>
-        <div class="chart-bar-bg">
-          <div class="chart-bar-fill" style="width: 94.8%; background: #0284c7;"></div>
-        </div>
-      </div>
-
-      <div class="chart-bar-row">
-        <div class="chart-bar-header">
-          <span>市場同業平均水平</span>
-          <span style="color:#64748b">91.2%</span>
-        </div>
-        <div class="chart-bar-bg">
-          <div class="chart-bar-fill" style="width: 91.2%; background: #94a3b8;"></div>
-        </div>
+      <div id="client-chart-bars">
+        <!-- Rendered dynamically by updateBattleCard() -->
       </div>
     </div>
 
     <!-- Core Feature Comparison Table -->
-    <div style="margin-top:16px;">
-      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;">
+    <div style="margin-top:16px;" id="client-table-container">
+      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;" id="client-table-title">
         🏛️ 家族傳承與資金靈活性比較
       </div>
-      <table style="width:100%; font-size:12px; border-collapse:collapse; border-top:1px solid #e5e7eb;">
-        <tr style="border-bottom:1px solid #f3f4f6;">
-          <td style="padding:8px 0; color:#6b7280;">保單無限次分拆</td>
-          <td style="padding:8px 0; font-weight:700; color:var(--ikb); text-align:right;">支援 (無次數上限)</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f3f4f6;">
-          <td style="padding:8px 0; color:#6b7280;">主流貨幣轉換</td>
-          <td style="padding:8px 0; font-weight:700; color:#111827; text-align:right;">7 - 8 種 (免等待期)</td>
-        </tr>
-        <tr style="border-bottom:1px solid #f3f4f6;">
-          <td style="padding:8px 0; color:#6b7280;">身故利益信託式提取</td>
-          <td style="padding:8px 0; font-weight:700; color:var(--green); text-align:right;">可設定分期給付</td>
-        </tr>
+      <table id="client-table" style="width:100%; font-size:12px; border-collapse:collapse; border-top:1px solid #e5e7eb;">
+        <!-- Rendered dynamically by updateBattleCard() -->
       </table>
     </div>
 
-    <div style="margin-top:14px; font-size:11px; color:#9ca3af; line-height:1.4;">
+    <div id="client-disclaimer" style="margin-top:14px; font-size:11px; color:#9ca3af; line-height:1.4;">
       註：以上數據摘自香港保監局官方統計及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。
     </div>
   </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast" class="toast-feedback">✅ 見客 WhatsApp 話術模板已複製到剪貼簿！</div>
 
   <!-- Bottom Fast Actions -->
   <div class="bottom-bar">
     <button class="action-btn btn-flip" onclick="toggleView()">
       🔄 一鍵翻轉螢幕
     </button>
-    <button class="action-btn btn-whatsapp" onclick="copyWhatsAppTemplate()">
+    <button class="action-btn btn-whatsapp" onclick="copyWhatsAppPitch()">
       📲 複製 WhatsApp 範本
     </button>
   </div>
 
   <script>
+    // State
     let currentMode = 'agent';
+    let selectedCompany = 'Prudential';
+    let selectedClaim = 'prepayment';
+    let currentWhatsAppScript = '';
 
-    function setViewMode(mode) {
+    // Insurer Profile Knowledge Base
+    const COMPANY_PROFILES = {
+      AIA: {
+        fullName: "友邦保險 AIA",
+        flagshipSavings: "盈御多元貨幣計劃 3",
+        gn16Fulfillment: 96.5,
+        flagshipCI: "加裕智倍保 / 尊顯",
+        cancerWaitYears: 2,
+        flagshipVHIS: "尊顯自願醫保靈活計劃",
+        cashlessNetwork: "全球直付及全港私家醫院",
+        flagshipUL: "財富傳承萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "充裕未來年金計劃",
+        qdapGuaranteedPct: 82.5
+      },
+      Prudential: {
+        fullName: "保誠保險 Prudential",
+        flagshipSavings: "雋富多元貨幣計劃",
+        gn16Fulfillment: 91.2,
+        flagshipCI: "守護健康危疾加護保",
+        cancerWaitYears: 3,
+        flagshipVHIS: "摯為您自願醫保計劃",
+        cashlessNetwork: "本地特約醫療網絡",
+        flagshipUL: "富傳萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "雋逸延期年金",
+        qdapGuaranteedPct: 45.0
+      },
+      Manulife: {
+        fullName: "宏利保險 Manulife",
+        flagshipSavings: "宏爵多元貨幣計劃",
+        gn16Fulfillment: 94.8,
+        flagshipCI: "活耀人生危疾保",
+        cancerWaitYears: 3,
+        flagshipVHIS: "晉悅自願醫保計劃",
+        cashlessNetwork: "香港主要私家醫院",
+        flagshipUL: "ManuAmple 萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "悠然延期年金",
+        qdapGuaranteedPct: 48.0
+      },
+      'Sun Life': {
+        fullName: "永明金融 Sun Life",
+        flagshipSavings: "萬年青星河多元貨幣",
+        gn16Fulfillment: 90.5,
+        flagshipCI: "世紀守護危疾保",
+        cancerWaitYears: 3,
+        flagshipVHIS: "永明港悅自願醫保",
+        cashlessNetwork: "香港認可私家網絡",
+        flagshipUL: "Stellar 萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "安逸延期年金計劃",
+        qdapGuaranteedPct: 38.0
+      },
+      FWD: {
+        fullName: "富衛保險 FWD",
+        flagshipSavings: "盈豐寶多元貨幣計劃",
+        gn16Fulfillment: 92.5,
+        flagshipCI: "危機應變保 Crisis One",
+        cancerWaitYears: 3,
+        flagshipVHIS: "至臻自願醫保計劃",
+        cashlessNetwork: "大灣區與香港聯網",
+        flagshipUL: "MaxFocus 融資萬用壽險",
+        ulLtv: 85,
+        flagshipQDAP: "智尊延期年金計劃",
+        qdapGuaranteedPct: 42.0
+      },
+      AXA: {
+        fullName: "安盛保險 AXA",
+        flagshipSavings: "摯匯多元貨幣儲蓄",
+        gn16Fulfillment: 91.8,
+        flagshipCI: "愛護同行危疾計劃",
+        cancerWaitYears: 3,
+        flagshipVHIS: "智尊自願醫保卓越版",
+        cashlessNetwork: "AXA 專屬全球醫療網絡",
+        flagshipUL: "Global Wealth 萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "盛滿延期年金計劃",
+        qdapGuaranteedPct: 44.0
+      },
+      Bowtie: {
+        fullName: "保泰人壽 Bowtie",
+        flagshipSavings: "（純網上未有儲蓄傳承產品）",
+        gn16Fulfillment: 88.0,
+        flagshipCI: "Bowtie 早期危疾保",
+        cancerWaitYears: 3,
+        flagshipVHIS: "Bowtie Pink 自願醫保",
+        cashlessNetwork: "自主線上申報（無直屬中介人網絡）",
+        flagshipUL: "（純網上不提供保費融資產品）",
+        ulLtv: 0,
+        flagshipQDAP: "（無專屬延期年金產品）",
+        qdapGuaranteedPct: 0
+      },
+      'BOC Life': {
+        fullName: "中銀人壽 BOC Life",
+        flagshipSavings: "守護多元貨幣終身壽險",
+        gn16Fulfillment: 93.0,
+        flagshipCI: "守護健康重疾保障",
+        cancerWaitYears: 3,
+        flagshipVHIS: "中銀卓越自願醫保計劃",
+        cashlessNetwork: "中銀聯營醫療網絡",
+        flagshipUL: "盛世萬用壽險",
+        ulLtv: 80,
+        flagshipQDAP: "延期年金計劃 (Catch Up QDAP)",
+        qdapGuaranteedPct: 52.0
+      },
+      'YF Life': {
+        fullName: "萬通保險 YF Life",
+        flagshipSavings: "富饒傳承儲蓄保",
+        gn16Fulfillment: 92.0,
+        flagshipCI: "首選健康保",
+        cancerWaitYears: 3,
+        flagshipVHIS: "萬通萬全自願醫保",
+        cashlessNetwork: "萬通專屬醫療卡網絡",
+        flagshipUL: "Infinity 萬用壽險",
+        ulLtv: 85,
+        flagshipQDAP: "萬通延期年金計劃",
+        qdapGuaranteedPct: 40.0
+      }
+    };
+
+    // Normalizers
+    function normalizeCompany(str) {
+      if (!str) return 'Prudential';
+      const s = String(str).toUpperCase();
+      if (s.includes('AIA') || s.includes('友邦')) return 'AIA';
+      if (s.includes('PRU') || s.includes('保誠')) return 'Prudential';
+      if (s.includes('MANU') || s.includes('宏利')) return 'Manulife';
+      if (s.includes('SUN') || s.includes('永明')) return 'Sun Life';
+      if (s.includes('FWD') || s.includes('富衛')) return 'FWD';
+      if (s.includes('AXA') || s.includes('安盛')) return 'AXA';
+      if (s.includes('BOWTIE') || s.includes('保泰') || s.includes('網上')) return 'Bowtie';
+      if (s.includes('BOC') || s.includes('中銀')) return 'BOC Life';
+      if (s.includes('YF') || s.includes('萬通')) return 'YF Life';
+      return 'Prudential';
+    }
+
+    function normalizeClaim(str) {
+      if (!str) return 'prepayment';
+      const s = String(str).toLowerCase();
+      if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報')) return 'prepayment';
+      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣')) return 'rebate';
+      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾')) return 'critical_illness';
+      if (s.includes('自願醫保') || s.includes('醫保') || s.includes('全數賠償') || s.includes('無佣金')) return 'vhis';
+      if (s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('萬用壽險')) return 'financing_ul';
+      if (s.includes('年金') || s.includes('qdap')) return 'qdap';
+      return 'prepayment';
+    }
+
+    // Battle Card Resolver
+    function getBattleCard(rawCompany, rawClaim) {
+      const compKey = normalizeCompany(rawCompany);
+      const claimKey = normalizeClaim(rawClaim);
+      const profile = COMPANY_PROFILES[compKey] || COMPANY_PROFILES.Prudential;
+      const disclaimer = `註：以上數據摘自香港保監局官方統計 (GN16) 及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。持牌人內部專業培訓用途，嚴禁作為宣傳單張散發。`;
+
+      if (claimKey === 'prepayment') {
+        return {
+          agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】5.8% 預繳噱頭與浮動陷阱`,
+          agent_step_1: `「陳生，你真係好有眼光！${profile.fullName} 個 5.8% 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」`,
+          agent_step_2: `「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」`,
+          agent_step_3: `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】得 ${profile.gn16Fulfillment}%。複利 30 年差 ${(96.5 - profile.gn16Fulfillment).toFixed(1)}% 就係幾十萬真金白銀！」`,
+          client_title: `全港主流旗艦儲蓄險 · 長期分紅穩定性比對`,
+          client_source: `來源：香港保監局 GN16 公開報告及各保司年報`,
+          client_desc: `分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。`,
+          chart_title: `📊 歷年分紅累積實現率 (Fulfillment Ratio)`,
+          chart_bars: [
+            { label: `我方旗艦配置系列`, value: `96.5% (高度穩健)`, widthPct: 96.5, color: `var(--ikb)` },
+            { label: `${profile.fullName}「${profile.flagshipSavings}」`, value: `${profile.gn16Fulfillment}% (市場波動)`, widthPct: profile.gn16Fulfillment, color: `#f59e0b` },
+            { label: `市場同業平均水平`, value: `91.2%`, widthPct: 91.2, color: `#94a3b8` }
+          ],
+          table_title: `🏛️ 家族傳承與資金靈活性比較`,
+          table_rows: [
+            { label: `保單無限次分拆`, value: `支援 (無次數上限)`, highlight: true },
+            { label: `主流貨幣轉換`, value: `7 - 9 種 (免等待期)`, highlight: true },
+            { label: `首年預繳利率保證期`, value: `我方長線鎖定 vs 對手僅保證 1 年`, highlight: false },
+            { label: `身故利益信託式提取`, value: `可設定分期給付`, highlight: true }
+          ],
+          whatsapp_script: `陳生早晨！最近留意到市場預繳利息戰好激烈，${profile.fullName} 宣傳 5.8% 預繳。我幫您做咗份全港主流保司 5 年期預繳利息與次年浮動條款對比表，拆解咗首年過後嘅浮動利率盲點。如果您有興趣鎖定中長線穩定收益，我發份客觀比對表俾您參考！`,
+          disclaimer
+        };
+      }
+
+      if (claimKey === 'rebate') {
+        return {
+          agent_title: `🎯 對抗戰策：破解【${profile.fullName}】28% 高額保費回贈誘餌`,
+          agent_step_1: `「李生，對手開出 28% 首年保費回贈確實好震撼，一眼睇落好似即時慳咗差唔多三成保費，換著邊個都會心動！」`,
+          agent_step_2: `「但精算現金流拆解顯示：羊毛出自羊身上！保司送得出 28% 回贈，往往將退保鎖定期拉長至 7~8 年，頭 3 年保證現金價值近乎為零，而且提早斷供會追討扣回已派回贈。」`,
+          agent_step_3: `「我地方案真正保證回本期（Break-even）足足快 2 年，第 5 年保證現金價值已達 100% 繳付保費！買儲蓄險係睇長線本金安全性與流動性，千祈唔好因一次性回贈鎖死流動資金。」`,
+          client_title: `保費回贈 vs 保證現金價值回本年期比對`,
+          client_source: `來源：香港精算學會產品指引及公開利益說明書`,
+          client_desc: `評估大額保費回贈推廣時，投保人應綜合考量早期保證現金價值積存速度（回本期）及退保費用豁免年期。`,
+          chart_title: `📈 保證回本年期與資金流動性評級`,
+          chart_bars: [
+            { label: `我方旗艦方案保證回本`, value: `第 5 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
+            { label: `${profile.fullName} 回贈方案保證回本`, value: `第 7-8 年 (前期鎖定嚴格)`, widthPct: 60, color: `#f59e0b` },
+            { label: `市場同業平均水平`, value: `第 7 年`, widthPct: 68, color: `#94a3b8` }
+          ],
+          table_title: `⚖️ 保證本金安全性與流動性評比`,
+          table_rows: [
+            { label: `保證回本年期 (Break-even)`, value: `第 5 年 vs 對手第 7-8 年`, highlight: true },
+            { label: `提早退保罰則寬免`, value: `第 5 年起零手續費`, highlight: true },
+            { label: `30年預期複利總回報`, value: `高出回贈方案逾 12%`, highlight: true },
+            { label: `回贈金額追討條款`, value: `無嚴苛追回附加條件`, highlight: false }
+          ],
+          whatsapp_script: `李生您好！見到市場上有保司推高達 28% 保費回贈，看似好抵。但仔細拆解利益說明書，往往伴隨較長嘅退保鎖定期（需 7-8 年才回本）。我整理咗一份「回贈 vs 保證回本速度」客觀比較表，幫您避開流動性陷阱，稍後發給您參考！`,
+          disclaimer
+        };
+      }
+
+      if (claimKey === 'critical_illness') {
+        return {
+          agent_title: `🎯 對抗戰策：直擊【${profile.fullName}】癌症再索償 3 年等待期間隔盲點`,
+          agent_step_1: `「張生，${profile.fullName}【${profile.flagshipCI}】宣傳保過百種疾病、仲有多次賠償，單張睇落真係好豐富，你睇得咁細心好佩服你！」`,
+          agent_step_2: `「但臨床大數據顯示 85% 危疾索償都係癌症。對手條款寫明癌症再次索償要等足『3 年』！醫學上腫瘤復發往往喺第 1-2 年高發期，呢 3 年空窗期若復發係一蚊都 Claim 唔到嘅致命自費盲點！」`,
+          agent_step_3: `「我地將癌症再次索償間隔直接縮短至『2 年』生命安全線！而且首創深切治療部 (ICU) 全額預支：只要連續住 ICU 達 3-5 日，無需指定病名直接賠償 100% 保額，呢個先係真正兜底保命嘅保障！」`,
+          client_title: `全港頂尖危疾險 · 癌症再次索償間隔與 ICU 兜底比對`,
+          client_source: `來源：香港癌症資料統計中心及各保司正式保單批註`,
+          client_desc: `臨床腫瘤學指出，癌症復發及轉移風險於治療後首兩年最為關鍵。縮短癌症再次索償等待期間隔能有效避免自費空窗期。`,
+          chart_title: `⏱️ 癌症再次索償間隔年期 (越短越能保障復發風險)`,
+          chart_bars: [
+            { label: `我方生命防線`, value: `2 年 (行業頂尖)`, widthPct: 95, color: `var(--green)` },
+            { label: `${profile.fullName} 傳統等待期`, value: `3 年 (多 12 個月自費風險)`, widthPct: 65, color: `#f59e0b` },
+            { label: `市場同業普遍標準`, value: `3 年`, widthPct: 65, color: `#94a3b8` }
+          ],
+          table_title: `🛡️ 關鍵重疾保障條款深度比對`,
+          table_rows: [
+            { label: `癌症再次索償等待期`, value: `2 年 (少等 1 年救命錢)`, highlight: true },
+            { label: `非指定疾病 ICU 保障`, value: `連續 3-5 日預支 100% 保額`, highlight: true },
+            { label: `限時免體檢上限`, value: `高達 $400 萬美元`, highlight: true },
+            { label: `保費豁免生效門檻`, value: `首次確診即豁免後續保費`, highlight: false }
+          ],
+          whatsapp_script: `張生早晨！昨日您提到 ${profile.fullName} 嘅危疾單張。我幫您深入查閱咗合約條款，發現其癌症再次索償等待期需足足等 3 年。我地全新方案已將間隔縮短至 2 年黃金期，並加入非指定疾病 ICU 100% 預支賠償。我發份醫療條款比較表俾您詳細對比！`,
+          disclaimer
+        };
+      }
+
+      if (claimKey === 'vhis') {
+        return {
+          agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】自願醫保標靶藥細項上限與理賠支援`,
+          agent_step_1: `「王太，${profile.fullName} 網上宣傳自願醫保平兩三成，表面睇確實好符合現代人追求性價比嘅心態！」`,
+          agent_step_2: `「但醫保最殘酷嘅時刻係入院要理賠！純線上保險只有 Chatbot 同 Email，癌症非手術治療（標靶藥、免疫治療）常設有細項上限，每個月幾萬蚊嘅標靶藥，隨時要自己抬錢墊底兼自己寫 Claim Form。」`,
+          agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；仲有專屬持牌 Agent 提供全球『出院免找數 (Cashless)』！大病時專人為你跑腿墊付幾十萬醫療費嘅安心，遠遠超過一年慳返嗰千幾蚊！」`,
+          client_title: `全港自願醫保 (VHIS) 癌症標靶藥全數賠償與免找數比對`,
+          client_source: `來源：醫務衞生局自願醫保認可產品名單及醫院直付協議`,
+          client_desc: `自願醫保標準計劃與靈活計劃最大差異在於昂貴癌症標靶治療是否設有細項上限，以及是否具備私家醫院直付（出院免找數）網絡。`,
+          chart_title: `🏥 昂貴非手術癌症標靶治療保障額度評級`,
+          chart_bars: [
+            { label: `我方高端自願醫保靈活計劃`, value: `全數賠償 (無細項限額)`, widthPct: 100, color: `var(--ikb)` },
+            { label: `${profile.fullName} 基本配置`, value: `設分項限額 / 需自行墊付`, widthPct: 52, color: `#f59e0b` },
+            { label: `自願醫保標準計劃法定最低`, value: `年限額僅 HK$180,000`, widthPct: 30, color: `#94a3b8` }
+          ],
+          table_title: `🩺 醫療理賠與持牌中介人專屬服務`,
+          table_rows: [
+            { label: `標靶藥 / 免疫治療`, value: `全數賠償 (年度數千萬保額)`, highlight: true },
+            { label: `出院免找數服務`, value: `專屬 Agent 全程跟進辦理`, highlight: true },
+            { label: `全球緊急醫療支援`, value: `支援全球直付免墊支`, highlight: true },
+            { label: `法定個人薪俸稅扣稅`, value: `每年每人最高 HK$8,000`, highlight: false }
+          ],
+          whatsapp_script: `王太您好！了解過您關注 ${profile.fullName} 的醫保方案。醫保的核心價值在於大病理賠時的確定性。我為您整理了一份「全數賠償 vs 分項限額」及「專屬出院免找數」的對比表，讓您清楚了解一旦需要使用標靶藥物時的實際保障差異！`,
+          disclaimer
+        };
+      }
+
+      if (claimKey === 'financing_ul') {
+        return {
+          agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】85% 槓桿保費融資息差倒掛與 Margin Call 致命盲點`,
+          agent_step_1: `「趙總，85% 高槓桿保費融資表面睇可以用 15 萬本金撬動 100 萬保單，息差收益率宣傳到 10% 以上，作為高資產配置確實好吸引！」`,
+          agent_step_2: `「但融資命脈在於息差（Spread）。銀行借貸利息係浮動 Prime Rate / Hibor，而保單結算利率由保司每年釐定；一旦降息週期息差倒掛，每月倒貼利息；若保單退保價值跌破警戒線，銀行隨時出 Margin Call 要求補倉，否則強制斬倉！」`,
+          agent_step_3: `「我地建議資產配置回歸『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與 Margin Call 滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握喺自己手中。」`,
+          client_title: `高槓桿保費融資 (UL) vs 無槓桿多元貨幣儲蓄風險收益比對`,
+          client_source: `來源：香港金管局 (HKMA) 與保監局 (IA) 保費融資聯合通函`,
+          client_desc: `監管機構嚴正警示：保費融資涉及利率風險、槓桿風險與補倉風險，降息週期極易引發息差倒掛及抵押品減值危機。`,
+          chart_title: `⚠️ 利率波動與極端市況安全性評級 (越高越安全)`,
+          chart_bars: [
+            { label: `無槓桿多元貨幣儲蓄 (我方)`, value: `100% 安全 (零槓桿與補倉風險)`, widthPct: 100, color: `var(--green)` },
+            { label: `${profile.fullName} 85% 槓桿融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
+            { label: `市場融資平均安全緩衝區`, value: `約 15-20% 跌幅即觸發補倉`, widthPct: 40, color: `#f59e0b` }
+          ],
+          table_title: `📊 槓桿融資 vs 無槓桿儲蓄全維度對比`,
+          table_rows: [
+            { label: `借貸利率倒掛風險`, value: `零借貸風險 vs 承擔浮動借息`, highlight: true },
+            { label: `銀行補倉 (Margin Call)`, value: `絕對無補倉風險 vs 需隨時注資補倉`, highlight: true },
+            { label: `保單掌控權與分拆傳承`, value: `100% 自由掌控 vs 抵押給銀行無法調配`, highlight: true },
+            { label: `多元貨幣自由切換`, value: `支援 7-9 種主流貨幣`, highlight: false }
+          ],
+          whatsapp_script: `趙總早晨！留意到市場上宣傳 85% LTV 保費融資高息差。金管局與保監局最新通函已多次提醒降息環境下的息差倒掛與銀行 Margin Call 補倉風險。我幫您做咗份「槓桿融資 vs 無槓桿多元貨幣傳承」壓力測試分析，發給您參考！`,
+          disclaimer
+        };
+      }
+
+      // claimKey === 'qdap'
+      return {
+        agent_title: `🎯 對抗戰策：直擊【${profile.fullName}】QDAP 延期年金非保證分紅畫餅`,
+        agent_step_1: `「林生，見到對手宣傳 QDAP 預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
+        agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${profile.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
+        agent_step_3: `「我地 QDAP 方案保證內部回報率 (Guaranteed IRR) 全港頂尖，保證派息比例超過 80%！無論金融海嘯點變，退休現金流一蚊都唔會少；加埋每年法定 HK$60,000 扣稅額，即時實質慳返最高 HK$10,200 稅款！」`,
+        client_title: `合資格延期年金 (QDAP) 保證利益佔比與扣稅效益比對`,
+        client_source: `來源：香港保險業監管局 QDAP 認可名單及利益說明文件`,
+        client_desc: `退休年金最核心價值在於提供確定不變的退休現金流。保證年金比例越高，退休生活越不受金融市場週期動盪影響。`,
+        chart_title: `🛡️ 年金總利益中「保證部分」確定性佔比`,
+        chart_bars: [
+          { label: `我方旗艦年金方案`, value: `82.5% 保證 (極高確定性)`, widthPct: 82.5, color: `var(--green)` },
+          { label: `${profile.fullName} 宣傳方案`, value: `${profile.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: profile.qdapGuaranteedPct, color: `#f59e0b` },
+          { label: `市場同業平均水平`, value: `50.0% 保證`, widthPct: 50.0, color: `#94a3b8` }
+        ],
+        table_title: `💰 退休現金流確定性與稅務扣除`,
+        table_rows: [
+          { label: `保證內部回報率比例`, value: `逾 80% 保證 vs 對手不足 50%`, highlight: true },
+          { label: `每年法定最高扣稅額`, value: `HK$60,000 (最高實質慳稅 $10,200)`, highlight: true },
+          { label: `金融危機抗跌韌性`, value: `保證派息一蚊唔少`, highlight: true },
+          { label: `年金領取期選擇`, value: `10 / 20 年或至 100 歲靈活選擇`, highlight: false }
+        ],
+        whatsapp_script: `林生您好！昨日您關注的 QDAP 年金計劃，我對比了各大保司的利益結構。對手方案中非保證分紅佔比偏高，退休金受市場波動較大；我地方案保證派發比例達 80% 以上，並享足每年 $10,200 薪俸稅實質退稅。我發份年金確定性比對表給您參考！`,
+        disclaimer
+      };
+    }
+
+    // Interactive View Switcher
+    function switchView(mode) {
       currentMode = mode;
       const agentBtn = document.getElementById('btn-agent-view');
       const clientBtn = document.getElementById('btn-client-view');
@@ -431,47 +747,174 @@
       const clientView = document.getElementById('client-view');
 
       if (mode === 'agent') {
-        agentBtn.className = 'view-btn active-agent';
-        clientBtn.className = 'view-btn';
-        agentView.style.display = 'block';
-        clientView.style.display = 'none';
+        if (agentBtn) agentBtn.className = 'view-btn active-agent';
+        if (clientBtn) clientBtn.className = 'view-btn';
+        if (agentView) agentView.style.display = 'block';
+        if (clientView) clientView.style.display = 'none';
       } else {
-        agentBtn.className = 'view-btn';
-        clientBtn.className = 'view-btn active-client';
-        agentView.style.display = 'none';
-        clientView.style.display = 'block';
+        if (agentBtn) agentBtn.className = 'view-btn';
+        if (clientBtn) clientBtn.className = 'view-btn active-client';
+        if (agentView) agentView.style.display = 'none';
+        if (clientView) clientView.style.display = 'block';
+      }
+    }
+    const setViewMode = switchView;
+
+    function toggleView() {
+      switchView(currentMode === 'agent' ? 'client' : 'agent');
+    }
+
+    // Pill Selector Handlers
+    function selectCompany(targetOrName, maybeName) {
+      let rawName = '';
+      if (typeof targetOrName === 'string') {
+        rawName = targetOrName;
+      } else if (typeof maybeName === 'string') {
+        rawName = maybeName;
+      } else if (targetOrName && targetOrName.innerText) {
+        rawName = targetOrName.innerText;
+      }
+
+      selectedCompany = normalizeCompany(rawName);
+
+      document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
+        const btnComp = normalizeCompany(btn.innerText);
+        btn.classList.toggle('active', btnComp === selectedCompany);
+      });
+
+      updateBattleCard();
+    }
+
+    function selectClaim(targetOrClaim, maybeClaim) {
+      let rawClaim = '';
+      if (typeof targetOrClaim === 'string') {
+        rawClaim = targetOrClaim;
+      } else if (typeof maybeClaim === 'string') {
+        rawClaim = maybeClaim;
+      } else if (targetOrClaim && targetOrClaim.innerText) {
+        rawClaim = targetOrClaim.innerText;
+      }
+
+      selectedClaim = normalizeClaim(rawClaim);
+
+      document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
+        const btnClaim = normalizeClaim(btn.innerText);
+        btn.classList.toggle('active', btnClaim === selectedClaim);
+      });
+
+      updateBattleCard();
+    }
+
+    // Dynamic Reactive DOM Updater
+    function updateBattleCard() {
+      const card = getBattleCard(selectedCompany, selectedClaim);
+      if (!card) return;
+
+      // Agent View Updates
+      const agentTitle = document.getElementById('agent-title');
+      const agentStep1 = document.getElementById('agent-step-1');
+      const agentStep2 = document.getElementById('agent-step-2');
+      const agentStep3 = document.getElementById('agent-step-3');
+
+      if (agentTitle) agentTitle.innerHTML = card.agent_title;
+      if (agentStep1) agentStep1.innerHTML = card.agent_step_1;
+      if (agentStep2) agentStep2.innerHTML = card.agent_step_2;
+      if (agentStep3) agentStep3.innerHTML = card.agent_step_3;
+
+      // Client View Updates
+      const clientTitle = document.getElementById('client-title');
+      const clientSource = document.getElementById('client-source');
+      const clientDesc = document.getElementById('client-desc');
+      const clientChartTitle = document.getElementById('client-chart-title');
+      const clientChartBars = document.getElementById('client-chart-bars');
+      const clientTableTitle = document.getElementById('client-table-title');
+      const clientTable = document.getElementById('client-table');
+      const clientDisclaimer = document.getElementById('client-disclaimer');
+
+      if (clientTitle) clientTitle.innerHTML = card.client_title;
+      if (clientSource) clientSource.innerHTML = card.client_source;
+      if (clientDesc) clientDesc.innerHTML = card.client_desc;
+      if (clientChartTitle) clientChartTitle.innerHTML = card.chart_title;
+
+      if (clientChartBars && Array.isArray(card.chart_bars)) {
+        clientChartBars.innerHTML = card.chart_bars.map(bar => `
+          <div class="chart-bar-row">
+            <div class="chart-bar-header">
+              <span>${bar.label}</span>
+              <span style="color:${bar.color}; font-weight:700;">${bar.value}</span>
+            </div>
+            <div class="chart-bar-bg">
+              <div class="chart-bar-fill" style="width: ${bar.widthPct}%; background: ${bar.color};"></div>
+            </div>
+          </div>
+        `).join('');
+      }
+
+      if (clientTableTitle) clientTableTitle.innerHTML = card.table_title;
+
+      if (clientTable && Array.isArray(card.table_rows)) {
+        clientTable.innerHTML = card.table_rows.map(row => `
+          <tr style="border-bottom:1px solid #f3f4f6;">
+            <td style="padding:8px 0; color:#6b7280;">${row.label}</td>
+            <td style="padding:8px 0; font-weight:700; color:${row.highlight ? 'var(--ikb)' : '#111827'}; text-align:right;">${row.value}</td>
+          </tr>
+        `).join('');
+      }
+
+      if (clientDisclaimer) clientDisclaimer.innerHTML = card.disclaimer;
+
+      // Update WhatsApp pitch script
+      currentWhatsAppScript = card.whatsapp_script;
+    }
+
+    // WhatsApp Clipboard Helper with Toast Feedback
+    function copyWhatsAppPitch() {
+      const text = currentWhatsAppScript || "陳生早晨！最近留意到市場預繳利息戰好激烈，我幫您做咗份全港 5 年期預繳利息與次年浮動條款對比表，如果您有興趣鎖定中長線穩定收益，我發份比對表俾您參考！";
+      
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
+        }).catch(() => {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+    const copyWhatsAppTemplate = copyWhatsAppPitch;
+
+    function fallbackCopyText(text) {
+      try {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        document.body.removeChild(ta);
+        showToast("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
+      } catch (e) {
+        alert("話術內容：\n\n" + text);
       }
     }
 
-    function toggleView() {
-      setViewMode(currentMode === 'agent' ? 'client' : 'agent');
-    }
-
-    function selectCompany(name) {
-      document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
-        btn.classList.toggle('active', btn.innerText.includes(name.split(' ')[0]));
-      });
-      updateBattleCard();
-    }
-
-    function selectClaim(claim) {
-      document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
-        btn.classList.toggle('active', btn.innerText.includes(claim));
-      });
-      updateBattleCard();
-    }
-
-    function updateBattleCard() {
-      // Dynamic reactive updates
-    }
-
-    function copyWhatsAppTemplate() {
-      const text = "陳生早晨！最近留意到市場預繳利息戰好激烈，有保司推 5.8%。我幫您做咗份全港 5 年期預繳利息與次年浮動條款對比表，如果您有興趣鎖定中長線穩定收益，我發份比對表俾您參考！";
-      navigator.clipboard.writeText(text).then(() => {
-        alert("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
-      }).catch(() => {
-        alert("話術內容：\n" + text);
-      });
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      if (!toast) {
+        alert(msg);
+        return;
+      }
+      toast.innerText = msg;
+      toast.style.display = "block";
+      toast.style.opacity = "1";
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.style.opacity = "0";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 250);
+      }, 2500);
     }
 
     // PWA Offline Service Worker Registration
@@ -480,6 +923,13 @@
         // Registered for offline caching
       });
     }
+
+    // Initial Trigger on load
+    window.addEventListener('DOMContentLoaded', () => {
+      updateBattleCard();
+    });
+    // Fallback immediate trigger
+    updateBattleCard();
   </script>
 </body>
 </html>

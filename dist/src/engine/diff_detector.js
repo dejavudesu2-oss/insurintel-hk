@@ -26,13 +26,16 @@ exports.ANOMALY_THRESHOLDS = {
 };
 class IntelligenceCircuitBreaker {
     failureThreshold;
+    successThreshold;
     failures = [];
     state = "CLOSED";
     resetTimeoutMs;
     lastTrippedTime = 0;
-    constructor(failureThreshold = 3, resetTimeoutMs = 300000) {
+    consecutiveSuccesses = 0;
+    constructor(failureThreshold = 3, resetTimeoutMs = 300000, successThreshold = 2) {
         this.failureThreshold = failureThreshold;
         this.resetTimeoutMs = resetTimeoutMs;
+        this.successThreshold = successThreshold;
     }
     getState() {
         this.checkAutoRecovery();
@@ -40,6 +43,8 @@ class IntelligenceCircuitBreaker {
             status: this.state,
             failure_count: this.failures.length,
             failure_threshold: this.failureThreshold,
+            success_threshold: this.successThreshold,
+            consecutive_successes: this.consecutiveSuccesses,
             last_tripped_at: this.lastTrippedTime ? new Date(this.lastTrippedTime).toISOString() : undefined,
             trip_reasons: [...this.failures]
         };
@@ -48,16 +53,23 @@ class IntelligenceCircuitBreaker {
         this.checkAutoRecovery();
         return this.state === "OPEN";
     }
+    trip() {
+        this.state = "OPEN";
+        this.lastTrippedTime = Date.now();
+        this.consecutiveSuccesses = 0;
+    }
     reset() {
         this.state = "CLOSED";
         this.failures = [];
         this.lastTrippedTime = 0;
+        this.consecutiveSuccesses = 0;
     }
     checkAutoRecovery() {
         if (this.state === "OPEN") {
             const now = Date.now();
             if (now - this.lastTrippedTime > this.resetTimeoutMs) {
                 this.state = "HALF_OPEN";
+                this.consecutiveSuccesses = 0;
             }
         }
     }
@@ -131,14 +143,26 @@ class IntelligenceCircuitBreaker {
                 });
             }
         }
+        this.checkAutoRecovery();
         if (anomalies.length > 0) {
             this.failures.push(...anomalies);
-            if (this.failures.length >= this.failureThreshold) {
+            this.consecutiveSuccesses = 0;
+            if (this.state === "HALF_OPEN" || this.failures.length >= this.failureThreshold) {
                 this.state = "OPEN";
                 this.lastTrippedTime = Date.now();
                 console.warn(`[CIRCUIT BREAKER ⚡] 熔斷器觸發！累積異常達 ${this.failures.length} 次，阻斷污染數據寫入。`);
             }
             return { isValid: false, anomalies };
+        }
+        if (this.state === "HALF_OPEN") {
+            this.consecutiveSuccesses++;
+            if (this.consecutiveSuccesses >= this.successThreshold) {
+                this.state = "CLOSED";
+                this.failures = [];
+                this.lastTrippedTime = 0;
+                this.consecutiveSuccesses = 0;
+                console.log(`[CIRCUIT BREAKER ⚡] 探測成功，熔斷器自愈恢復至 CLOSED 正常狀態。`);
+            }
         }
         return { isValid: true, anomalies: [] };
     }

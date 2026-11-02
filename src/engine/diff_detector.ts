@@ -24,6 +24,8 @@ export interface CircuitBreakerState {
   status: "CLOSED" | "OPEN" | "HALF_OPEN";
   failure_count: number;
   failure_threshold: number;
+  success_threshold?: number;
+  consecutive_successes?: number;
   last_tripped_at?: string;
   trip_reasons: AnomalyReport[];
 }
@@ -65,14 +67,21 @@ export const ANOMALY_THRESHOLDS = {
 
 export class IntelligenceCircuitBreaker {
   private failureThreshold: number;
+  private successThreshold: number;
   private failures: AnomalyReport[] = [];
   private state: "CLOSED" | "OPEN" | "HALF_OPEN" = "CLOSED";
   private resetTimeoutMs: number;
   private lastTrippedTime: number = 0;
+  private consecutiveSuccesses: number = 0;
 
-  constructor(failureThreshold: number = 3, resetTimeoutMs: number = 300000) {
+  constructor(
+    failureThreshold: number = 3,
+    resetTimeoutMs: number = 300000,
+    successThreshold: number = 2
+  ) {
     this.failureThreshold = failureThreshold;
     this.resetTimeoutMs = resetTimeoutMs;
+    this.successThreshold = successThreshold;
   }
 
   public getState(): CircuitBreakerState {
@@ -81,6 +90,8 @@ export class IntelligenceCircuitBreaker {
       status: this.state,
       failure_count: this.failures.length,
       failure_threshold: this.failureThreshold,
+      success_threshold: this.successThreshold,
+      consecutive_successes: this.consecutiveSuccesses,
       last_tripped_at: this.lastTrippedTime ? new Date(this.lastTrippedTime).toISOString() : undefined,
       trip_reasons: [...this.failures]
     };
@@ -91,10 +102,17 @@ export class IntelligenceCircuitBreaker {
     return this.state === "OPEN";
   }
 
+  public trip(): void {
+    this.state = "OPEN";
+    this.lastTrippedTime = Date.now();
+    this.consecutiveSuccesses = 0;
+  }
+
   public reset(): void {
     this.state = "CLOSED";
     this.failures = [];
     this.lastTrippedTime = 0;
+    this.consecutiveSuccesses = 0;
   }
 
   private checkAutoRecovery(): void {
@@ -102,6 +120,7 @@ export class IntelligenceCircuitBreaker {
       const now = Date.now();
       if (now - this.lastTrippedTime > this.resetTimeoutMs) {
         this.state = "HALF_OPEN";
+        this.consecutiveSuccesses = 0;
       }
     }
   }
@@ -187,14 +206,28 @@ export class IntelligenceCircuitBreaker {
       }
     }
 
+    this.checkAutoRecovery();
+
     if (anomalies.length > 0) {
       this.failures.push(...anomalies);
-      if (this.failures.length >= this.failureThreshold) {
+      this.consecutiveSuccesses = 0;
+      if (this.state === "HALF_OPEN" || this.failures.length >= this.failureThreshold) {
         this.state = "OPEN";
         this.lastTrippedTime = Date.now();
         console.warn(`[CIRCUIT BREAKER ⚡] 熔斷器觸發！累積異常達 ${this.failures.length} 次，阻斷污染數據寫入。`);
       }
       return { isValid: false, anomalies };
+    }
+
+    if (this.state === "HALF_OPEN") {
+      this.consecutiveSuccesses++;
+      if (this.consecutiveSuccesses >= this.successThreshold) {
+        this.state = "CLOSED";
+        this.failures = [];
+        this.lastTrippedTime = 0;
+        this.consecutiveSuccesses = 0;
+        console.log(`[CIRCUIT BREAKER ⚡] 探測成功，熔斷器自愈恢復至 CLOSED 正常狀態。`);
+      }
     }
 
     return { isValid: true, anomalies: [] };

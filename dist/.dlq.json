@@ -8,5 +8,485 @@
     "payload": {},
     "next_retry_at": "2026-10-27T00:25:56.225Z",
     "status": "PENDING"
+  },
+  {
+    "task_id": "ba9a8644-38c9-4ce1-8099-9067e793175f",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:40:49.439Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "c3da33ed-72de-4865-8058-677ed935dfef",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:41:01.888Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "afb43551-b3e7-4737-ab37-08214fc66116",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:42:53.147Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "46160a36-dc22-432d-9533-4fc23a27ec87",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:43:08.614Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "87facbc9-f96c-47fd-a8b4-62b777d69274",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:43:13.152Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "f5166b67-9662-4215-9f14-6a13fa87dc2e",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:49:33.595Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "5f865698-c494-4be5-b7b4-c6d3c06da126",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:49:45.827Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "7d5b9629-3b8b-41b1-962d-a4828164f470",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T07:52:02.902Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "fe6a03e9-0990-40e7-a6d5-7c9a2c11b9ba",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:03:15.008Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "5e1795ca-2aa8-4c30-a6b2-5a25b1c46ded",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:06:11.364Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "c885da74-0d60-4f07-b5a9-dae5cbf45415",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:06:43.984Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "43881735-db30-4ac7-8bd2-e36e87d8683f",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:06:48.953Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "e321ed7f-f89a-4c17-a64b-48dc019d4c0c",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:08:04.806Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "fe782644-74a1-4ead-bfb3-10e606a5086c",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:09:06.171Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "9581ce6c-d8e8-4606-b9f2-ebf076b7206e",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:09:17.914Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "2424ad21-5ac2-4245-a52b-0fa426e9850b",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:13:12.331Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "d014ce00-747d-4dc1-abbe-82892ec3ffc8",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:13:31.586Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "53ec5832-e885-4f2d-be1e-50c7322de69b",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:14:00.478Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "18108314-b437-4ac5-9606-7b5b75fd4ef2",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:25:38.247Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "47abf126-6496-4b68-bd5f-9cfa48a08ef4",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:27:10.110Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "625420f7-9e28-451e-a8db-fed3c301891d",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:28:42.992Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "5fa8a7b2-6653-4f0f-85f3-fe874f4caf8f",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:31:53.637Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "e7e9845a-8bad-4dfe-9278-d08ee1c44bee",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:33:02.845Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "d26a83b9-db1e-41d2-8982-a372a222c050",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:33:50.322Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "548b34cb-fa68-4ad2-8fb0-411bc0d1ecc3",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:38:21.861Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "bf01a05e-e2f1-4922-9bf5-94d6573db347",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:38:34.039Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "92014f42-78b0-48d0-b40b-ad1e870831b6",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:38:34.315Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "fc8ee38b-80f0-4483-9f49-ab470e313d37",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:38:48.940Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "2389a4da-1bcc-4c9d-b75c-e90b852d8392",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:38:50.477Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "d2b119d4-f94a-4ed9-b0dc-74c8e64e0aa4",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:42:36.669Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "c0f857d0-5bbe-4050-b60c-a43a0087e515",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:44:35.714Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "bcbbede6-81f1-4bcf-a73f-3ad084c084a8",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:46:29.118Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "83f280d3-5bb6-4b59-af73-651ce87b8a01",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:52:40.807Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "af9a4417-bf0a-45de-aee3-1a9bed97d4ab",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:53:09.887Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "56592d55-df2b-4967-8c72-bb7e683688a2",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:53:27.093Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "59e2f44d-fd8f-487c-9a14-74031fe21b1f",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T08:53:35.183Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "20b376b8-391d-4f5f-b19a-d1f614945be4",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:01:25.195Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "9a391680-1705-458a-a63b-8bb347aa2359",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:06:43.437Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "353361de-3e9a-4e22-81a0-e7eb1ddd0edb",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:08:52.208Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "f2ac5d57-5645-4b9a-a20c-7ce28cf29d75",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:09:46.224Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "c348a1ba-18e4-4ab4-a1b4-939bf0f35863",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:12:30.952Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "3e21a753-d5dd-4b68-aaed-01ccdee18375",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:12:39.346Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "59550762-cbfb-4877-8e14-32825f9ba842",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T09:13:27.469Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "ddc68b2d-9348-42d0-add2-593cb1e4dc86",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T14:58:02.833Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "3da0ae0b-1818-4477-842d-c3c3064e99a9",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T15:03:03.195Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "26fd236f-7614-46a5-8ad8-655dda1432f4",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T15:03:33.497Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "dd7dc504-5936-449b-b13c-ad6a78ff5ebc",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T15:04:04.709Z",
+    "status": "PENDING"
+  },
+  {
+    "task_id": "2c55df41-0664-447b-b7c1-c4976acacb80",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-02T15:05:10.378Z",
+    "status": "PENDING"
   }
 ]

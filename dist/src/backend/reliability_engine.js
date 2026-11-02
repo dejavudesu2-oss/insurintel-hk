@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeadLetterQueue = exports.EdgePreRenderer = exports.SemanticCacheEngine = void 0;
+exports.DLQRetryWorker = exports.DeadLetterQueue = exports.EdgePreRenderer = exports.SemanticCacheEngine = void 0;
 const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const crypto_1 = __importDefault(require("crypto"));
@@ -152,6 +152,44 @@ class DeadLetterQueue {
     getPendingTasks() {
         return this.queue.filter(t => t.status === "PENDING");
     }
+    getDueTasks(now = new Date()) {
+        const nowTime = now.getTime();
+        return this.queue.filter(t => t.status === "PENDING" && new Date(t.next_retry_at).getTime() <= nowTime);
+    }
+    markResolved(taskId) {
+        const task = this.queue.find(t => t.task_id === taskId);
+        if (!task)
+            return false;
+        task.status = "RESOLVED";
+        this.saveQueue();
+        return true;
+    }
+    markFailedAttempt(taskId, error, baseBackoffMs = 60000) {
+        const task = this.queue.find(t => t.task_id === taskId);
+        if (!task)
+            return undefined;
+        task.attempt_count += 1;
+        task.last_error = error;
+        if (task.attempt_count >= task.max_retries) {
+            task.status = "DEAD";
+            console.warn(`[InsurIntel DLQ] ☠️ 任務已耗盡重試次數 (${task.attempt_count}/${task.max_retries})，標記為 DEAD: ${task.source_url}`);
+        }
+        else {
+            task.status = "PENDING";
+            const backoffMs = baseBackoffMs * Math.pow(2, task.attempt_count - 1);
+            task.next_retry_at = new Date(Date.now() + backoffMs).toISOString();
+            console.warn(`[InsurIntel DLQ] 🔁 任務重試第 ${task.attempt_count} 次失敗，下次重試時間: ${task.next_retry_at}`);
+        }
+        this.saveQueue();
+        return task;
+    }
+    getAllTasks() {
+        return [...this.queue];
+    }
+    clear() {
+        this.queue = [];
+        this.saveQueue();
+    }
     saveQueue() {
         try {
             fs_1.default.mkdirSync(path_1.default.dirname(this.dlqFilePath), { recursive: true });
@@ -173,3 +211,47 @@ class DeadLetterQueue {
     }
 }
 exports.DeadLetterQueue = DeadLetterQueue;
+class DLQRetryWorker {
+    dlq;
+    baseBackoffMs;
+    constructor(dlq, baseBackoffMs = 60000) {
+        this.dlq = dlq;
+        this.baseBackoffMs = baseBackoffMs;
+    }
+    async processDueTasks(handler, now) {
+        const dueTasks = this.dlq.getDueTasks(now);
+        let resolved = 0;
+        let failed = 0;
+        let dead = 0;
+        for (const task of dueTasks) {
+            try {
+                const success = await handler(task);
+                if (success) {
+                    this.dlq.markResolved(task.task_id);
+                    resolved++;
+                }
+                else {
+                    const updated = this.dlq.markFailedAttempt(task.task_id, "Handler returned false", this.baseBackoffMs);
+                    if (updated?.status === "DEAD")
+                        dead++;
+                    else
+                        failed++;
+                }
+            }
+            catch (err) {
+                const updated = this.dlq.markFailedAttempt(task.task_id, err?.message || String(err), this.baseBackoffMs);
+                if (updated?.status === "DEAD")
+                    dead++;
+                else
+                    failed++;
+            }
+        }
+        return {
+            processed: dueTasks.length,
+            resolved,
+            failed,
+            dead
+        };
+    }
+}
+exports.DLQRetryWorker = DLQRetryWorker;

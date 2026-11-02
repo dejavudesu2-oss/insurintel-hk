@@ -10,11 +10,189 @@ import fs from "fs";
 import path from "path";
 import {
   DailyMorningBriefing,
-  InsurancePromoComprehensive
+  GrandMatrixRow,
+  InsurancePromoComprehensive,
+  AgentBrandingConfig
 } from "../types/insurance.js";
 import { PromoDeltaChange } from "./diff_detector.js";
 
+const INSURER_DISPLAY_NAMES: Record<string, string> = {
+  AIA: "友邦 (AIA)",
+  Prudential: "保誠 (Prudential)",
+  Manulife: "宏利 (Manulife)",
+  Sun_Life: "永明 (Sun Life)",
+  FWD: "富衛 (FWD)",
+  AXA: "安盛 (AXA)",
+  BOC_Life: "中銀人壽 (BOC Life)",
+  YF_Life: "萬通保險 (YF Life)",
+  Bowtie: "保泰 (Bowtie)"
+};
+
 export class MorningBriefingGenerator {
+  /**
+   * Dynamically computes the Grand Comparison Matrix rows from actual promotional datasets
+   */
+  public computeGrandMatrixRows(promos: InsurancePromoComprehensive[]): GrandMatrixRow[] {
+    const savingsPromos = promos.filter((p) => p.category === "Savings_MultiCurrency");
+
+    // Fallback for empty or non-savings datasets (e.g. UL-only adversarial test)
+    if (savingsPromos.length === 0) {
+      return [
+        {
+          insurer: "友邦 (AIA)",
+          product: "盈御多元貨幣計劃 3",
+          prepay: "5.00% (保證 1 年)",
+          discount: "12% - 22% (+4% 同行)",
+          gn16: "96.5% (極穩健)",
+          breakeven: "第 18 年 / 第 6 年",
+          irr30: "6.62%",
+          legacy: "保單分拆 / 7種貨幣 / 更換受保人",
+          underwriting: "免體檢限額 $400 萬美元"
+        },
+        {
+          insurer: "保誠 (Prudential)",
+          product: "雋富多元貨幣計劃",
+          prepay: "5.80% (保證 1 年)",
+          discount: "14% - 28% (+3% 同行)",
+          gn16: "91.2% (波動較大)",
+          breakeven: "第 19 年 / 第 7 年",
+          irr30: "6.71%",
+          legacy: "保單分拆 / 6種貨幣 / 更換受保人",
+          underwriting: "免體檢限額 $350 萬美元"
+        },
+        {
+          insurer: "宏利 (Manulife)",
+          product: "宏摯多元儲蓄計劃",
+          prepay: "5.50% (保證 2 年 - 鎖定更長)",
+          discount: "10% - 25% (+3% 搭售)",
+          gn16: "94.8% (穩健)",
+          breakeven: "第 17 年 / 第 6 年",
+          irr30: "6.55%",
+          legacy: "保單分拆 / 8種貨幣 / 更換受保人",
+          underwriting: "免體檢限額 $400 萬美元"
+        },
+        {
+          insurer: "富衛 (FWD)",
+          product: "盈豐多元儲蓄保險",
+          prepay: "5.30% (保證 3 年 - 鎖定最長)",
+          discount: "15% - 24% (+5% 同行)",
+          gn16: "92.6% (良好)",
+          breakeven: "第 16 年 / 第 5 年",
+          irr30: "6.65%",
+          legacy: "保單分拆 / 8種貨幣 / 更換受保人",
+          underwriting: "免體檢限額 $350 萬美元"
+        },
+        {
+          insurer: "永明 (Sun Life)",
+          product: "萬年青星河傳承計劃",
+          prepay: "5.10% (保證 1 年)",
+          discount: "12% - 20% (+3% 同行)",
+          gn16: "93.0% (中等)",
+          breakeven: "第 18 年 / 第 6 年",
+          irr30: "6.58%",
+          legacy: "保單分拆 / 6種貨幣 / 更換受保人",
+          underwriting: "免體檢限額 $300 萬美元"
+        }
+      ];
+    }
+
+    // Sort by guaranteed prepayment rate descending
+    const sortedSavings = [...savingsPromos].sort((a, b) => {
+      const rateA = a.prepayment_scheme?.guaranteed_rate_pct || 0;
+      const rateB = b.prepayment_scheme?.guaranteed_rate_pct || 0;
+      return rateB - rateA;
+    });
+
+    // Deduplicate by insurer to show 1 flagship per insurer
+    const seenInsurers = new Set<string>();
+    const flagshipSavings = sortedSavings.filter(
+      (p) => !seenInsurers.has(p.insurer) && seenInsurers.add(p.insurer)
+    );
+
+    return flagshipSavings.map((p) => {
+      const insurerPromos = promos.filter((item) => item.insurer === p.insurer);
+      const ciPromo = insurerPromos.find((item) => item.category === "Critical_Illness");
+      const vhisPromo = insurerPromos.find((item) => item.category === "Medical_VHIS");
+      const ulPromo = insurerPromos.find((item) => item.category === "Financing_UniversalLife");
+
+      // Discount formatting
+      const minD = p.premium_discounts?.length ? Math.min(...p.premium_discounts.map((d) => d.discount_rate_pct)) : 0;
+      const maxD = p.premium_discounts?.length ? Math.max(...p.premium_discounts.map((d) => d.discount_rate_pct)) : 0;
+      const maxFamily = p.premium_discounts?.length ? Math.max(0, ...p.premium_discounts.map((d) => d.extra_family_bonus_pct || 0)) : 0;
+      const maxBundle = p.premium_discounts?.length ? Math.max(0, ...p.premium_discounts.map((d) => d.extra_bundling_bonus_pct || 0)) : 0;
+      const bonus = maxFamily > 0 ? ` (+${maxFamily}% 同行)` : maxBundle > 0 ? ` (+${maxBundle}% 搭售)` : "";
+      const discountStr = minD === maxD ? `${maxD}%${bonus}` : `${minD}% - ${maxD}%${bonus}`;
+
+      // Prepayment formatting
+      const prepayRate = p.prepayment_scheme?.is_available ? p.prepayment_scheme.guaranteed_rate_pct : null;
+      const lockYears = p.prepayment_scheme?.lock_period_years || 1;
+      const prepayStr = prepayRate !== null
+        ? `${prepayRate.toFixed(2)}% (保證 ${lockYears} 年${lockYears > 1 ? " - 鎖定更長" : ""})`
+        : "浮動 / 無預繳";
+
+      // GN16 formatting
+      const gn16Ratio = p.savings_metrics?.gn16_fulfillment_ratio_pct;
+      const stability = gn16Ratio !== undefined
+        ? gn16Ratio >= 96
+          ? "極穩健"
+          : gn16Ratio >= 94
+          ? "穩健"
+          : gn16Ratio >= 92
+          ? "良好"
+          : "波動較大"
+        : "";
+      const gn16Str = gn16Ratio !== undefined ? `${gn16Ratio.toFixed(1)}% (${stability})` : "--";
+
+      // Breakeven & IRR formatting
+      const breakevenStr = p.savings_metrics
+        ? `第 ${p.savings_metrics.breakeven_guaranteed_year} 年 / 第 ${p.savings_metrics.breakeven_expected_year} 年`
+        : "--";
+      const irrStr = p.savings_metrics ? `${p.savings_metrics.expected_irr_year_30.toFixed(2)}%` : "--";
+
+      // Legacy features formatting
+      const legacyParts: string[] = [];
+      if (p.savings_metrics?.policy_split_options) legacyParts.push("保單分拆");
+      if (p.savings_metrics?.currency_switch_options) legacyParts.push(`${p.currency_supported.length}種貨幣`);
+      if (p.savings_metrics?.change_insured_unlimited) legacyParts.push("更換受保人");
+      if (p.savings_metrics?.death_benefit_trust_settlement) legacyParts.push("身故信託");
+      const legacyStr = legacyParts.slice(0, 3).join(" / ") || "傳承更換受保人";
+
+      // Underwriting formatting
+      const nonMedLimit = p.underwriting_concessions?.max_non_medical_limit_usd;
+      const underwritingStr = nonMedLimit
+        ? `免體檢限額 $${(nonMedLimit / 10000).toFixed(0)} 萬美元`
+        : p.underwriting_concessions?.special_waiver_notes || "常規通道核保";
+
+      // Cross-category metrics
+      const ciCoverage = ciPromo
+        ? `${ciPromo.ci_metrics?.total_illnesses_covered || 0}種疾病 / 等待${ciPromo.ci_metrics?.cancer_waiting_period_years || 3}年`
+        : undefined;
+      const vhisBenefit = vhisPromo
+        ? vhisPromo.vhis_metrics?.full_cover_non_surgical_cancer
+          ? "標靶藥全額"
+          : "標準賠償"
+        : undefined;
+      const ulCarrySpread = ulPromo?.ul_metrics
+        ? `淨利差 ${ulPromo.ul_metrics.net_carry_spread_pct.toFixed(2)}%`
+        : undefined;
+
+      return {
+        insurer: INSURER_DISPLAY_NAMES[p.insurer] || p.insurer,
+        product: p.product_name.split(" (")[0],
+        prepay: prepayStr,
+        discount: discountStr,
+        gn16: gn16Str,
+        breakeven: breakevenStr,
+        irr30: irrStr,
+        legacy: legacyStr,
+        underwriting: underwritingStr,
+        ci_coverage: ciCoverage,
+        vhis_benefit: vhisBenefit,
+        ul_carry_spread: ulCarrySpread
+      };
+    });
+  }
+
   /**
    * Generates structured daily briefing data
    */
@@ -50,7 +228,7 @@ export class MorningBriefingGenerator {
       product_name: p.product_name,
       rate_pct: p.prepayment_scheme?.guaranteed_rate_pct || 0,
       guaranteed_years: p.prepayment_scheme?.lock_period_years || 1,
-      notes: `最高回贈 ${Math.max(...p.premium_discounts.map(d => d.discount_rate_pct))}% | 實現率 ${p.savings_metrics?.gn16_fulfillment_ratio_pct || 95}%`
+      notes: `最高回贈 ${Math.max(...p.premium_discounts.map((d) => d.discount_rate_pct))}% | 實現率 ${p.savings_metrics?.gn16_fulfillment_ratio_pct || 95}%`
     }));
 
     if (rankings.length === 0) {
@@ -61,6 +239,9 @@ export class MorningBriefingGenerator {
         { rank: 4, insurer: "AIA", product_name: "盈御多元貨幣計劃 3", rate_pct: 5.0, guaranteed_years: 1, notes: "GN16 實現率 96.5% 最穩" }
       );
     }
+
+    // 3. Compute dynamic grand matrix rows
+    const matrixRows = this.computeGrandMatrixRows(promos);
 
     return {
       date: today,
@@ -87,14 +268,18 @@ export class MorningBriefingGenerator {
         opener: "各位夥伴早晨！今日晨會大家打起精神，保誠突然將預繳利息拔高到 5.8%，擺明要喺 11 月搶內地客同香港家庭嘅年終資金！",
         market_battle_drill: "如果今日大家見客，客人話：『對手有 5.8% 預繳仲送 28% 回贈，點解我要買你友邦/宏利？』大家記住今日早會嘅三大實戰破局點：\n1. 【拆解預繳假象】：對手 5.8% 條款寫明『只保證第一年』，第二年利率跟市場浮動，面對全球降息週期第二年極易跳水；而我地嘅中長線鎖定更具確定性！\n2. 【亮出 GN16 官方實現率】：買分紅儲蓄險最重要唔係宣傳單張印嘅短線數字，而係將來可唔可以真金白銀派足！根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，遠高於對手嘅 91%！30年複利落黎，實現率差 5% 就係幾十萬嘅差別！\n3. 【打擊保單分拆與出國調度】：我地方案支援保單無限次分拆、轉換多種主流貨幣且無繁瑣等待期，方便子女將來留學英國或加拿大隨時調動！",
         team_motivational_call: "各位同事，今日大家帶齊 InsurIntel 攻防卡片同比較矩陣，將客戶焦點由『短期回贈』拉回『30 年財富確定性』。今日每人打 10 個電話，全力衝刺開大單！"
-      }
+      },
+      grand_matrix_rows: matrixRows
     };
   }
 
   /**
    * Formats 07:45 AM WhatsApp / Telegram broadcast message
    */
-  public formatBroadcastText(briefing: DailyMorningBriefing): string {
+  public formatBroadcastText(
+    briefing: DailyMorningBriefing,
+    branding?: AgentBrandingConfig
+  ): string {
     const lines: string[] = [];
 
     lines.push(`🌅 【InsurIntel 早會情報速遞】${briefing.date}`);
@@ -122,6 +307,29 @@ export class MorningBriefingGenerator {
     lines.push(`【核心主題】：${briefing.manager_speech_2min.theme}`);
     lines.push(`🗣️ 破局戰策：對手 5.8% 預繳只保證首年，第 2 年面臨降息跳水；亮出保監局 GN16 官方實現率 (96.5% vs 91.2%)，用客觀數據粉碎非保證畫餅！`);
     lines.push(``);
+
+    if (branding) {
+      const name = branding.agent_name || "持牌保險顧問";
+      const title = branding.title || "資深財富管理顧問";
+      const insurer = branding.insurer || "香港持牌保險公司";
+      const team = branding.agency_or_team || branding.agency_team || "頂尖財富管理團隊";
+      const license = branding.license_no || branding.license_number || "IA88921029";
+      const phone = branding.phone_whatsapp || branding.contact_phone || "+852 9123 4567";
+
+      lines.push(`═════════════════════════════`);
+      lines.push(`👤 【情報提供顧問】：${name} (${title})`);
+      lines.push(`🏢 【所屬機構團隊】：${insurer} · ${team}`);
+      if (branding.team_logo_text) {
+        lines.push(`🚩 【團隊品牌】：${branding.team_logo_text}`);
+      }
+      lines.push(`🪪 【保監局牌照號碼】：${license}`);
+      lines.push(`📲 【WhatsApp 諮詢】：${phone}`);
+      if (branding.slogan) {
+        lines.push(`💬 【專業座右銘】：${branding.slogan}`);
+      }
+      lines.push(``);
+    }
+
     lines.push(`📲 完整全維度對比矩陣與投影片已更新：https://dejavudesu2-oss.github.io/insurintel-hk/`);
 
     return lines.join("\n");
@@ -132,104 +340,120 @@ export class MorningBriefingGenerator {
    */
   public renderMorningSlidesHtml(
     briefing: DailyMorningBriefing,
-    templatePath?: string
+    templatePathOrBranding?: string | AgentBrandingConfig,
+    brandingConfig?: AgentBrandingConfig
   ): string {
-    const resolvedTemplatePath = templatePath || path.join(process.cwd(), "templates", "morning_slides.html");
+    let resolvedTemplatePath: string;
+    let branding: AgentBrandingConfig | undefined;
+
+    if (typeof templatePathOrBranding === "string") {
+      resolvedTemplatePath = templatePathOrBranding;
+      branding = brandingConfig;
+    } else if (typeof templatePathOrBranding === "object" && templatePathOrBranding !== null) {
+      resolvedTemplatePath = path.join(process.cwd(), "templates", "morning_slides.html");
+      branding = templatePathOrBranding;
+    } else {
+      resolvedTemplatePath = path.join(process.cwd(), "templates", "morning_slides.html");
+      branding = brandingConfig;
+    }
+
     let template = fs.readFileSync(resolvedTemplatePath, "utf-8");
 
-    // Replace Date
+    // Replace Date and Last Updated
     template = template.replace(/\{\{DATE\}\}/g, briefing.date);
+    template = template.replace(/\{\{LAST_UPDATED\}\}/g, briefing.date);
+
+    // Dynamic Branding Injection
+    if (branding) {
+      const primary = (branding.primary_color && /^#[0-9a-fA-F]{3,8}$/.test(branding.primary_color))
+        ? branding.primary_color
+        : "#002FA7";
+      const accent = (branding.accent_color && /^#[0-9a-fA-F]{3,8}$/.test(branding.accent_color))
+        ? branding.accent_color
+        : "#FF5A00";
+      const teamName = branding.agency_or_team || branding.agency_team || "";
+      const agentName = branding.agent_name || "";
+      const title = branding.title || "";
+
+      const customCss = `
+<style id="agent-branding-css">
+  :root {
+    --accent: ${primary};
+    --accent-bright: ${primary};
+    --accent-orange: ${accent};
+  }
+</style>`;
+      template = template.replace("</head>", `${customCss}\n</head>`);
+
+      if (teamName) {
+        template = template.replace(
+          /INSURINTEL HK · MORNING INTELLIGENCE/g,
+          `INSURINTEL HK · ${teamName.toUpperCase()} · MORNING INTELLIGENCE`
+        );
+      }
+
+      if (agentName) {
+        const signOff = `${title ? `${title} ` : ""}${agentName}${teamName ? ` (${teamName})` : ""}`;
+        template = template.replace(
+          /區域總監 \(DD\) \/ 團隊主管/g,
+          signOff
+        );
+      }
+    }
 
     // 1. Replace Flash Alerts
     const alertsHtml = briefing.headline_flash_alerts
-      .map(alert => `
+      .map(
+        (alert) => `
         <div class="alert-banner">
           <strong style="color: #fff;">🚨 突發快訊：</strong> ${alert}
         </div>
-      `)
+      `
+      )
       .join("\n");
     template = template.replace("{{FLASH_ALERTS_HTML}}", alertsHtml);
 
     // 2. Replace Grand Comparison Matrix
-    const grandMatrixData = [
-      {
-        insurer: "友邦 (AIA)",
-        product: "盈御多元貨幣計劃 3",
-        prepay: "5.00% (保證 1 年)",
-        discount: "12% - 22% (+4% 同行)",
-        gn16: "96.5% (極穩健)",
-        breakeven: "第 18 年 / 第 6 年",
-        irr30: "6.62%",
-        legacy: "無限次分拆 / 7種貨幣 / 身故信託提取",
-        underwriting: "免體檢限額升至 $400 萬美元"
-      },
-      {
-        insurer: "保誠 (Prudential)",
-        product: "雋富多元貨幣計劃",
-        prepay: "5.80% (保證 1 年)",
-        discount: "14% - 28% (+3% 同行)",
-        gn16: "91.2% (波動較大)",
-        breakeven: "第 19 年 / 第 7 年",
-        irr30: "6.71%",
-        legacy: "無限次分拆 / 6種貨幣 / 傳承更換受保人",
-        underwriting: "免體檢限額 $350 萬美元"
-      },
-      {
-        insurer: "宏利 (Manulife)",
-        product: "宏摯多元儲蓄計劃",
-        prepay: "5.50% (保證 2 年 - 鎖定更長)",
-        discount: "10% - 25% (+3% 搭售)",
-        gn16: "94.8% (穩健)",
-        breakeven: "第 17 年 / 第 6 年",
-        irr30: "6.55%",
-        legacy: "保單分拆 / 8種貨幣 / 終身鎖定分紅",
-        underwriting: "特選次標準體豁免加費計劃"
-      },
-      {
-        insurer: "富衛 (FWD)",
-        product: "盈豐多元儲蓄保險",
-        prepay: "5.30% (保證 3 年 - 鎖定最長)",
-        discount: "15% - 24% (+5% 家庭)",
-        gn16: "92.6% (良好)",
-        breakeven: "第 16 年 / 第 5 年",
-        irr30: "6.65%",
-        legacy: "分拆保單 / 保單轉換 / 第二受保人",
-        underwriting: "簡易核保限時通道"
-      },
-      {
-        insurer: "永明 (Sun Life)",
-        product: "萬年青星河傳承",
-        prepay: "5.10% (保證 1 年)",
-        discount: "12% - 20% (+3% 同行)",
-        gn16: "93.0% (中等)",
-        breakeven: "第 18 年 / 第 6 年",
-        irr30: "6.58%",
-        legacy: "首創雙核紅利機制 / 貨幣切換",
-        underwriting: "綠色通道快速核保"
-      }
-    ];
+    const matrixRows =
+      briefing.grand_matrix_rows && briefing.grand_matrix_rows.length > 0
+        ? briefing.grand_matrix_rows
+        : this.computeGrandMatrixRows([]);
 
-    const grandMatrixHtml = grandMatrixData.map(row => `
-      <tr>
-        <td><strong>${row.insurer}</strong></td>
-        <td style="color: var(--accent); font-weight: 700;">${row.product}</td>
-        <td><span class="rate-badge">${row.prepay}</span></td>
-        <td><strong style="color: var(--accent-gold);">${row.discount}</strong></td>
-        <td><span class="gn16-badge">${row.gn16}</span></td>
-        <td>${row.breakeven}</td>
-        <td style="color: #38bdf8; font-weight: 700;">${row.irr30}</td>
-        <td style="font-size: 12px; color: var(--text-muted);">${row.legacy}</td>
-        <td style="font-size: 12px; color: #cbd5e1;">${row.underwriting}</td>
+    const grandMatrixHtml = matrixRows
+      .map(
+        (row) => `
+      <tr style="border-bottom:1px solid var(--border-subtle)">
+        <td style="padding:12px;font-weight:600"><strong>${row.insurer}</strong></td>
+        <td style="padding:12px;color:var(--accent);font-weight:700;">${row.product}</td>
+        <td style="padding:12px"><span class="rate-badge" style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">${row.prepay}</span></td>
+        <td style="padding:12px;font-family:var(--mono)"><strong style="color:var(--accent-gold);">${row.discount}</strong></td>
+        <td style="padding:12px"><span class="gn16-badge"><strong style="color:var(--accent);font-family:var(--mono)">${row.gn16}</strong></span></td>
+        <td style="padding:12px;font-family:var(--mono)">${row.breakeven}</td>
+        <td style="padding:12px;color:#38bdf8;font-weight:700;font-family:var(--mono)">${row.irr30}</td>
+        <td style="padding:12px;font-size:12px;color:var(--text-secondary);">${row.legacy}${row.ci_coverage ? `<div style="font-size:11px;color:var(--text-helper);margin-top:2px">🛡️ 危疾: ${row.ci_coverage}</div>` : ""}</td>
+        <td style="padding:12px;font-size:12px;color:#cbd5e1;">${row.underwriting}${row.ul_carry_spread ? `<div style="font-size:11px;color:#38bdf8;margin-top:2px">📈 UL: ${row.ul_carry_spread}</div>` : ""}</td>
       </tr>
-    `).join("\n");
+    `
+      )
+      .join("\n");
 
-    template = template.replace("{{GRAND_MATRIX_HTML}}", grandMatrixHtml);
+    if (template.includes("{{GRAND_MATRIX_HTML}}")) {
+      template = template.replace("{{GRAND_MATRIX_HTML}}", grandMatrixHtml);
+    } else {
+      const tbodyRegex = /<tbody style="font-family:var\(--sans\),var\(--sans-zh\)">[\s\S]*?<\/tbody>/;
+      if (tbodyRegex.test(template)) {
+        template = template.replace(
+          tbodyRegex,
+          `<tbody style="font-family:var(--sans),var(--sans-zh)">\n${grandMatrixHtml}\n        </tbody>`
+        );
+      }
+    }
 
     // 3. Replace Full Manager Speech
     const speechHtml = `
       <div style="margin-bottom: 16px;">
         <span class="tag-pill" style="background: rgba(245,158,11,0.15); color: var(--accent-gold); border-color: rgba(245,158,11,0.3);">
-          早會 08:30 晨會議程：5分鐘市場速遞 $\to$ 10分鐘競品對練 $\to$ 5分鐘激勵
+          早會 08:30 晨會議程：5分鐘市場速遞 $\\to$ 10分鐘競品對練 $\\to$ 5分鐘激勵
         </span>
       </div>
 

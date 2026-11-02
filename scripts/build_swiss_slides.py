@@ -1,18 +1,24 @@
+"""
+scripts/build_swiss_slides.py
+Semantic Slide Deck Compiler for InsurIntel HK
+
+Compiles templates/template-swiss-base.html into templates/morning_slides.html
+using robust semantic boundaries and dynamic token placeholders.
+"""
+
 import os
+import re
+import sys
 
-base_template_path = os.path.join(os.getcwd(), "templates", "template-swiss-base.html")
-output_template_path = os.path.join(os.getcwd(), "templates", "morning_slides.html")
+# Directory-relative path resolution
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
+BASE_TEMPLATE_PATH = os.path.join(REPO_ROOT, "templates", "template-swiss-base.html")
+OUTPUT_TEMPLATE_PATH = os.path.join(REPO_ROOT, "templates", "morning_slides.html")
 
-with open(base_template_path, "r", encoding="utf-8") as f:
-    lines = f.readlines()
+TARGET_TITLE = "InsurIntel HK · 香港保險早會市場情報與攻防對策系統"
 
-# Head up to line 1250 (just before <section class="slide accent" data-slide-id="cover">)
-head_lines = lines[:1250]
-# Tail from line 1342 (after </div> <!-- /#deck -->)
-tail_lines = lines[1338:]
-
-slides_content = """
-<!-- ============ 01 · Hero Cover · IKB 满屏 + ASCII 呼吸场 ============ -->
+SLIDES_CONTENT = """<!-- ============ 01 · Hero Cover · IKB 满屏 + ASCII 呼吸场 ============ -->
 <section class="slide accent" data-animate="hero" data-slide-id="cover" data-layout="cover">
   <div class="canvas-card">
     <canvas class="ascii-bg" aria-hidden="true"></canvas>
@@ -30,7 +36,7 @@ slides_content = """
           5 大行儲蓄險全維度矩陣 · 預繳保證利率排行 · 保監局 GN16 官方實現率 · 見客撞單防禦卡片
         </div>
         <div style="display:flex;justify-content:space-between;align-items:end">
-          <div class="t-meta" style="color:rgba(255,255,255,.6)">持牌保險中介人內部決策專用 · 每日 07:45 實時更新</div>
+          <div class="t-meta" style="color:rgba(255,255,255,.6)">持牌保險中介人內部決策專用 · 每日 07:45 實時更新 · {{LAST_UPDATED}}</div>
           <div class="t-meta" style="color:rgba(255,255,255,.6)">[P 演講模式 · ESC 總覽 · ← → 翻頁]</div>
         </div>
       </div>
@@ -59,34 +65,14 @@ slides_content = """
           <div class="t-meta" style="color:rgba(255,255,255,.7)">⚠️ 關鍵條款：通函註明僅保證首 1 年，次年回到市場浮動利率</div>
         </div>
       </div>
-      <!-- 右半 · 今日三大突发快讯卡片 -->
+      <!-- 右半 · 今日三大突发快讯卡片 (动态注入占位符) -->
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
         <div class="chrome-min">
           <div class="l">TODAY'S FLASH ALERTS</div>
           <div class="r">3 UPDATES</div>
         </div>
-        <div data-anim="rules" style="display:flex;flex-direction:column;gap:0">
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--text-primary)">01</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(17px,1.4vw);line-height:1.3;color:var(--text-primary);margin-bottom:.6vh">保誠「雋富」5.8% 預繳利率 (保證1年)</h3>
-              <p style="font-size:max(15px,.95vw);line-height:1.5;color:var(--text-secondary)">首年保費折扣最高達 28%，鎖定 5 年期美元儲蓄客戶，限 11 月 20 日前遞交。</p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--text-primary)">02</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(17px,1.4vw);line-height:1.3;color:var(--text-primary);margin-bottom:.6vh">友邦「盈御 3」免體檢額上限飆升至 $400 萬美元</h3>
-              <p style="font-size:max(15px,.95vw);line-height:1.5;color:var(--text-secondary)">特選客戶啟動健康直通車，無需繁瑣驗身，預繳利率 5.0% 穩健兌現。</p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2.2vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--accent)">03</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(17px,1.4vw);line-height:1.3;color:var(--accent);margin-bottom:.6vh">宏利「宏摯」預繳 5.5% 鎖定 2 年期</h3>
-              <p style="font-size:max(15px,.95vw);line-height:1.5;color:var(--text-secondary)">抗擊降息週期利器，鎖定 2 年期確定利息，加配守護無間危疾額外享 3% 搭售折扣。</p>
-            </div>
-          </div>
+        <div data-anim="rules" style="display:flex;flex-direction:column;gap:1.4vh;flex:1;justify-content:center">
+          {{FLASH_ALERTS_HTML}}
         </div>
         <div class="t-meta" style="color:var(--text-helper);text-align:right">→ 詳情見下頁全維度對比大表</div>
       </div>
@@ -126,61 +112,7 @@ slides_content = """
           </tr>
         </thead>
         <tbody style="font-family:var(--sans),var(--sans-zh)">
-          <tr style="border-bottom:1px solid var(--border-subtle)">
-            <td style="padding:12px;font-weight:600">友邦 (AIA)</td>
-            <td style="padding:12px;color:var(--accent);font-weight:500">盈御多元貨幣計劃 3</td>
-            <td style="padding:12px"><span style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">5.00% (保證1年)</span></td>
-            <td style="padding:12px;font-family:var(--mono)">12% - 22% (+4% 同行)</td>
-            <td style="padding:12px"><strong style="color:var(--accent);font-family:var(--mono)">96.5% (極穩健)</strong></td>
-            <td style="padding:12px;font-family:var(--mono)">第 18 年 / 第 6 年</td>
-            <td style="padding:12px;font-weight:600;font-family:var(--mono)">6.62%</td>
-            <td style="padding:12px;font-size:12px;color:var(--text-secondary)">無限次分拆 / 7種貨幣 / 身故信託</td>
-            <td style="padding:12px;font-size:12px">免體檢升至 $400 萬美元</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border-subtle)">
-            <td style="padding:12px;font-weight:600">保誠 (Prudential)</td>
-            <td style="padding:12px;color:var(--accent);font-weight:500">雋富多元貨幣計劃</td>
-            <td style="padding:12px"><span style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">5.80% (保證1年)</span></td>
-            <td style="padding:12px;font-family:var(--mono)">14% - 28% (+3% 同行)</td>
-            <td style="padding:12px"><strong style="color:var(--text-secondary);font-family:var(--mono)">91.2% (波動較大)</strong></td>
-            <td style="padding:12px;font-family:var(--mono)">第 19 年 / 第 7 年</td>
-            <td style="padding:12px;font-weight:600;font-family:var(--mono)">6.71%</td>
-            <td style="padding:12px;font-size:12px;color:var(--text-secondary)">無限次分拆 / 6種貨幣 / 更換受保人</td>
-            <td style="padding:12px;font-size:12px">免體檢限額 $350 萬美元</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border-subtle)">
-            <td style="padding:12px;font-weight:600">宏利 (Manulife)</td>
-            <td style="padding:12px;color:var(--accent);font-weight:500">宏摯多元儲蓄計劃</td>
-            <td style="padding:12px"><span style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">5.50% (保證2年)</span></td>
-            <td style="padding:12px;font-family:var(--mono)">10% - 25% (+3% 搭售)</td>
-            <td style="padding:12px"><strong style="color:var(--accent);font-family:var(--mono)">94.8% (穩健)</strong></td>
-            <td style="padding:12px;font-family:var(--mono)">第 17 年 / 第 6 年</td>
-            <td style="padding:12px;font-weight:600;font-family:var(--mono)">6.55%</td>
-            <td style="padding:12px;font-size:12px;color:var(--text-secondary)">保單分拆 / 8種貨幣 / 終身分紅鎖定</td>
-            <td style="padding:12px;font-size:12px">特選次標準體豁免加費</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--border-subtle)">
-            <td style="padding:12px;font-weight:600">富衛 (FWD)</td>
-            <td style="padding:12px;color:var(--accent);font-weight:500">盈豐多元儲蓄保險</td>
-            <td style="padding:12px"><span style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">5.30% (保證3年)</span></td>
-            <td style="padding:12px;font-family:var(--mono)">15% - 24% (+5% 家庭)</td>
-            <td style="padding:12px"><strong style="color:var(--text-secondary);font-family:var(--mono)">92.6% (良好)</strong></td>
-            <td style="padding:12px;font-family:var(--mono)">第 16 年 / 第 5 年</td>
-            <td style="padding:12px;font-weight:600;font-family:var(--mono)">6.65%</td>
-            <td style="padding:12px;font-size:12px;color:var(--text-secondary)">保單分拆 / 保單轉換 / 第二受保人</td>
-            <td style="padding:12px;font-size:12px">簡易核保限時通道</td>
-          </tr>
-          <tr>
-            <td style="padding:12px;font-weight:600">永明 (Sun Life)</td>
-            <td style="padding:12px;color:var(--accent);font-weight:500">萬年青星河傳承計劃</td>
-            <td style="padding:12px"><span style="background:rgba(0,47,167,.08);color:var(--accent);padding:3px 8px;font-weight:600;font-family:var(--mono)">5.10% (保證1年)</span></td>
-            <td style="padding:12px;font-family:var(--mono)">12% - 20% (+3% 同行)</td>
-            <td style="padding:12px"><strong style="color:var(--text-secondary);font-family:var(--mono)">93.0% (中等)</strong></td>
-            <td style="padding:12px;font-family:var(--mono)">第 18 年 / 第 6 年</td>
-            <td style="padding:12px;font-weight:600;font-family:var(--mono)">6.58%</td>
-            <td style="padding:12px;font-size:12px;color:var(--text-secondary)">雙核紅利機制 / 貨幣切換</td>
-            <td style="padding:12px;font-size:12px">綠色通道快速核保</td>
-          </tr>
+{{GRAND_MATRIX_HTML}}
         </tbody>
       </table>
     </div>
@@ -346,7 +278,7 @@ slides_content = """
             晨會 3 分鐘<br/><span style="font-style:italic;font-weight:300">帶組實戰指令</span>
           </h2>
           <div style="font-family:var(--sans),var(--sans-zh);font-size:max(14px,1vw);line-height:1.6;color:rgba(255,255,255,.85);font-weight:300;max-width:38ch;margin-top:1.4vh">
-            08:30 晨會議程：<br/>5分鐘市場情報速遞 $\to$ 10分鐘競品對練 $\to$ 5分鐘衝刺號召
+            08:30 晨會議程：<br/>5分鐘市場情報速遞 $\\to$ 10分鐘競品對練 $\\to$ 5分鐘衝刺號召
           </div>
         </div>
 
@@ -356,53 +288,24 @@ slides_content = """
         </div>
       </div>
 
-      <!-- 右半 · 主管逐字讲稿与开单指令 -->
+      <!-- 右半 · 主管逐字讲稿与开单指令 (动态注入占位符) -->
       <div class="half" style="padding:5.6vh 3.6vw 4.4vh;justify-content:space-between">
         <div class="chrome-min">
           <div class="l">DIRECTOR'S VERBATIM SCRIPT</div>
           <div class="r">3 STEPS</div>
         </div>
 
-        <div data-anim="rules" style="display:flex;flex-direction:column;gap:0">
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--text-primary)">01</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(16px,1.3vw);line-height:1.3;color:var(--text-primary);margin-bottom:.5vh">開場呼應（熱場）</h3>
-              <p style="font-size:max(14px,.92vw);line-height:1.5;color:var(--text-secondary)">
-                「各位夥伴早晨！打開手機睇到今日早報未？保誠突然將預繳利息拔高到 5.8%，擺明要喺 11 月搶年終資金！但呢個正係我地主動出擊見客嘅絕佳藉口！」
-              </p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2vh 0;border-top:1px solid var(--border-subtle)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--text-primary)">02</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(16px,1.3vw);line-height:1.3;color:var(--text-primary);margin-bottom:.5vh">見客實戰指導（破局）</h3>
-              <p style="font-size:max(14px,.92vw);line-height:1.5;color:var(--text-secondary)">
-                「今日見客記住兩招：第一，拆解對手 5.8% 只保證頭 1 年，次年極易跳水；第二，直接亮出保監局 GN16 數據，我地旗艦系列歷史累積實現率 96.5% 最穩健，拒絕非保證畫餅！」
-              </p>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:auto 1fr;gap:2vw;align-items:start;padding:2vh 0;border-top:1px solid var(--border-subtle);border-bottom:2px solid var(--accent)">
-            <div style="font-family:var(--sans);font-weight:200;font-size:min(3.8vw,6.5vh);line-height:.9;color:var(--accent)">03</div>
-            <div>
-              <h3 style="font-weight:500;font-size:max(16px,1.3vw);line-height:1.3;color:var(--accent);margin-bottom:.5vh">今日開單號召（衝刺）</h3>
-              <p style="font-size:max(14px,.92vw);line-height:1.5;color:var(--text-secondary)">
-                「今日每位同事帶齊 InsurIntel 對比表同攻防卡片，每人打 10 個跟進電話，全力衝刺大單，今日全力以赴！」
-              </p>
-            </div>
-          </div>
+        <div class="speech-container" style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding:4px 0">
+          {{MANAGER_SPEECH_FULL}}
         </div>
 
         <div class="t-meta" style="color:var(--text-helper);text-align:right">→ 祝各位夥伴今日開大單！</div>
       </div>
     </div>
   </div>
-</section>
-"""
+</section>"""
 
-# Rebuild SPEAKER_NOTES array for the 6 slides
-speaker_notes_script = """
-<script>
+SPEAKER_NOTES_SCRIPT = """<script>
 const SPEAKER_NOTES = [
   {
     id: 'cover', title: '全港保險早會 3 分鐘速報', section: '開場', minutes: 0.5,
@@ -442,22 +345,62 @@ const SPEAKER_NOTES = [
   }
 ];
 window.__SPEAKER_NOTES__ = SPEAKER_NOTES;
-</script>
-"""
+</script>"""
 
-# Find where SPEAKER_NOTES starts in tail_lines and replace it
-tail_str = "".join(tail_lines)
-# Replace SPEAKER_NOTES definition block
-import re
-tail_str = re.sub(r'<script>\s*const SPEAKER_NOTES = \[.*?\];\s*window\.__SPEAKER_NOTES__ = SPEAKER_NOTES;\s*</script>', speaker_notes_script, tail_str, flags=re.DOTALL)
+EXTRA_STYLES = """<style>
+/* ============ Dynamic Briefing Component Styles (Swiss Theme Compatible) ============ */
+.alert-banner {
+  background: var(--grey-1);
+  border-left: 4px solid var(--accent);
+  padding: 14px 18px;
+  font-size: max(14px, 1.02vw);
+  line-height: 1.5;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+  border-radius: 2px;
+}
+.alert-banner strong {
+  color: var(--accent) !important;
+}
+.rate-badge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: rgba(0, 47, 167, 0.08);
+  color: var(--accent);
+  font-weight: 600;
+  font-family: var(--mono);
+  border-radius: 2px;
+}
+.gn16-badge strong {
+  font-family: var(--mono);
+  color: var(--accent);
+  font-weight: 700;
+}
+.tag-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 2px;
+  font-size: 12px;
+  font-family: var(--mono);
+  font-weight: 600;
+}
+.speech-container {
+  overflow-y: auto;
+  max-height: 65vh;
+  padding-right: 6px;
+}
+.script-quote {
+  background: var(--grey-1);
+  border-left: 3px solid var(--accent);
+  padding: 12px 16px;
+  font-size: max(13px, 0.95vw);
+  line-height: 1.6;
+  color: var(--text-primary);
+  margin-top: 6px;
+  border-radius: 2px;
+}
 
-# Replace title in head_lines and inject @media print styles
-head_str = "".join(head_lines)
-head_str = head_str.replace("<title>[必填] 替换为 PPT 标题 · Deck Title</title>", "<title>InsurIntel HK · 香港保險早會市場情報與攻防對策系統</title>")
-
-print_css = """
-<style>
-/* ============ Agent 5: High-Res PDF Handout Print Styles ============ */
+/* ============ High-Res PDF Handout Print Styles ============ */
 @media print {
   @page {
     size: landscape;
@@ -509,18 +452,53 @@ print_css = """
     box-shadow: none !important;
   }
 }
-</style>
-"""
-head_str = head_str.replace("</head>", print_css + "\n</head>")
+</style>"""
 
-tail_str = tail_str.replace(
-  '<button data-action="toggle-help" title="查看键盘快捷键帮助">',
-  '<button onclick="window.print()" title="匯出高清 PDF 晨會講義" style="background:var(--accent);color:#fff;padding:4px 10px;font-size:12px;font-family:var(--mono);cursor:pointer;border:0;margin-right:8px;">🖨️ PDF 講義</button><button data-action="toggle-help" title="查看键盘快捷键帮助">'
-)
 
-full_content = head_str + "\n" + slides_content + "\n" + tail_str
+def compile_swiss_slides(base_html: str, target_title: str) -> str:
+    html = base_html
 
-with open(output_template_path, "w", encoding="utf-8") as f:
-    f.write(full_content)
+    # 1. Semantic Title Replacement
+    html = re.sub(r'<title>.*?</title>', f'<title>{target_title}</title>', html, count=1, flags=re.IGNORECASE)
 
-print(f"[InsurIntel] Successfully generated Swiss Style morning slides template ({len(full_content)} chars)!")
+    # 2. Inject print & utility CSS before </head> if not already present
+    if '@media print' not in html:
+        html = re.sub(r'</head>', f'{EXTRA_STYLES}\n</head>', html, count=1, flags=re.IGNORECASE)
+
+    # 3. Semantic Deck Replacement: replace everything between <div id="deck"> and </div>\s*<div id="nav">
+    deck_pattern = re.compile(r'(<div\s+id=[\'"]deck[\'"][^>]*>)[\s\S]*?(</div>\s*<div\s+id=[\'"]nav[\'"])', re.IGNORECASE)
+    if not deck_pattern.search(html):
+        raise ValueError("Semantic boundary <div id='deck'>...</div><div id='nav'> not found in base template")
+    html = deck_pattern.sub(lambda m: f"{m.group(1)}\n{SLIDES_CONTENT}\n{m.group(2)}", html, count=1)
+
+    # 4. Semantic Speaker Notes Replacement: replace the SPEAKER_NOTES script block
+    notes_pattern = re.compile(r'<script>\s*const\s+SPEAKER_NOTES\s*=\s*\[[\s\S]*?\];\s*window\.__SPEAKER_NOTES__\s*=\s*SPEAKER_NOTES;\s*</script>', re.IGNORECASE)
+    if not notes_pattern.search(html):
+        raise ValueError("Semantic block SPEAKER_NOTES script not found in base template")
+    html = notes_pattern.sub(lambda m: SPEAKER_NOTES_SCRIPT, html, count=1)
+
+    # 5. Inject PDF print button into toolbar (#hint)
+    if 'window.print()' not in html:
+        pdf_btn = '<button onclick="window.print()" type="button" title="匯出高清 PDF 晨會講義" style="background:var(--accent);color:#fff;padding:4px 10px;font-size:12px;font-family:var(--mono);cursor:pointer;border:0;margin-right:4px;">🖨️ PDF 講義</button><span class="ppt-sep">·</span>'
+        html = html.replace('<button id="ppt-presenter-btn"', f'{pdf_btn}<button id="ppt-presenter-btn"', 1)
+
+    return html
+
+
+def main():
+    if not os.path.exists(BASE_TEMPLATE_PATH):
+        raise FileNotFoundError(f"Base template not found at: {BASE_TEMPLATE_PATH}")
+
+    with open(BASE_TEMPLATE_PATH, "r", encoding="utf-8") as f:
+        base_html = f.read()
+
+    full_content = compile_swiss_slides(base_html, TARGET_TITLE)
+
+    with open(OUTPUT_TEMPLATE_PATH, "w", encoding="utf-8") as f:
+        f.write(full_content)
+
+    print(f"[InsurIntel] Successfully compiled Swiss Style morning slides template ({len(full_content)} chars)!")
+
+
+if __name__ == "__main__":
+    main()

@@ -9,26 +9,13 @@ import { IntelligenceDiffDetector } from "./engine/diff_detector.js";
 import { CounterPitchEngine } from "./engine/counter_pitch.js";
 import { MorningBriefingGenerator } from "./engine/briefing_generator.js";
 import { InsurancePromoComprehensive } from "./types/insurance.js";
-
-function loadAllMockData(): InsurancePromoComprehensive[] {
-  const mockDir = path.join(process.cwd(), "src", "mock_data");
-  const files = ["savings_aia_pru.json", "ci_manulife_fwd.json", "vhis_qdap_sample.json"];
-  let all: InsurancePromoComprehensive[] = [];
-  for (const f of files) {
-    const p = path.join(mockDir, f);
-    if (fs.existsSync(p)) {
-      const data = JSON.parse(fs.readFileSync(p, "utf-8"));
-      all = all.concat(data);
-    }
-  }
-  return all;
-}
+import { loadAllMockPromos } from "./mock_data/loader.js";
 
 async function main() {
   const args = process.argv.slice(2);
   const command = args[0] || "briefing";
 
-  const promos = loadAllMockData();
+  const promos = loadAllMockPromos();
 
   if (command === "briefing") {
     console.log("\n=======================================================");

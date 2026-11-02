@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-10-27T00:25:06.036Z",
+  "generated_at": "2026-11-02T15:03:41.711Z",
   "version": "2.0.0",
   "top_prepayment": [
     {
       "rank": 1,
       "insurer": "Prudential",
-      "product_name": "Prudential 市場限時推廣",
+      "product_name": "保誠 雋富多元貨幣計劃",
       "rate_pct": 5.8,
       "guaranteed_years": 1,
       "notes": "最高回贈 28% | 實現率 95%"
@@ -13,9 +13,9 @@
   ],
   "full_promos": [
     {
-      "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793060706030-769",
+      "promo_id": "AUTO-CRAWL-PRUDENTIAL-1793631821704-312",
       "insurer": "Prudential",
-      "product_name": "Prudential 市場限時推廣",
+      "product_name": "保誠 雋富多元貨幣計劃",
       "product_aliases": [
         "保誠 Prudential「雋"
       ],
@@ -28,7 +28,7 @@
         5
       ],
       "validity": {
-        "start_date": "2026-10-27",
+        "start_date": "2026-11-02",
         "end_date": "2026-11-30",
         "channel": "All"
       },
@@ -48,13 +48,13 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-10-27T00:25:06.030Z"
+        "created_at": "2026-11-02T15:03:41.704Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-AIA-1793060706030-630",
+      "promo_id": "AUTO-CRAWL-AIA-1793631821704-631",
       "insurer": "AIA",
-      "product_name": "AIA 市場限時推廣",
+      "product_name": "友邦 盈御多元貨幣計劃 3",
       "product_aliases": [
         "友邦 AIA「盈御多元貨幣3」"
       ],
@@ -67,7 +67,7 @@
         5
       ],
       "validity": {
-        "start_date": "2026-10-27",
+        "start_date": "2026-11-02",
         "end_date": "2026-11-30",
         "channel": "All"
       },
@@ -87,13 +87,13 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-10-27T00:25:06.030Z"
+        "created_at": "2026-11-02T15:03:41.704Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-MANULIFE-1793060706030-608",
+      "promo_id": "AUTO-CRAWL-MANULIFE-1793631821704-182",
       "insurer": "Manulife",
-      "product_name": "Manulife 市場限時推廣",
+      "product_name": "宏利 宏摯多元儲蓄計劃",
       "product_aliases": [
         "宏利 Manulife「宏摯多"
       ],
@@ -106,7 +106,7 @@
         5
       ],
       "validity": {
-        "start_date": "2026-10-27",
+        "start_date": "2026-11-02",
         "end_date": "2026-11-30",
         "channel": "All"
       },
@@ -126,13 +126,13 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-10-27T00:25:06.030Z"
+        "created_at": "2026-11-02T15:03:41.704Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-FWD-1793060706030-133",
+      "promo_id": "AUTO-CRAWL-FWD-1793631821704-163",
       "insurer": "FWD",
-      "product_name": "FWD 市場限時推廣",
+      "product_name": "富衛 危疾加諾保",
       "product_aliases": [
         "富衛 FWD「危疾加諾保」限時"
       ],
@@ -145,7 +145,7 @@
         5
       ],
       "validity": {
-        "start_date": "2026-10-27",
+        "start_date": "2026-11-02",
         "end_date": "2026-11-30",
         "channel": "All"
       },
@@ -159,7 +159,7 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-10-27T00:25:06.030Z"
+        "created_at": "2026-11-02T15:03:41.704Z"
       }
     }
   ]

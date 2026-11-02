@@ -1,0 +1,480 @@
+[
+  {
+    "promo_id": "PROMO-AIA-SAV-2026-Q4",
+    "insurer": "AIA",
+    "product_name": "盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)",
+    "product_aliases": ["盈御", "GP3", "盈御3", "友邦盈御"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "EUR", "AUD", "CAD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-11-30",
+      "submission_deadline": "2026-11-30",
+      "payment_deadline": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 15000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 15000,
+        "max_annual_premium_usd": 35000,
+        "discount_rate_pct": 18.0,
+        "extra_family_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 35000,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 4.0,
+        "extra_bundling_bonus_pct": 2.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.0,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "提早提取預繳保費者，該年度利息將以 0% 計算並扣除手續費"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 18,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.85,
+      "expected_irr_year_30": 6.62,
+      "gn16_fulfillment_ratio_pct": 96.5,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 4000000,
+      "special_waiver_notes": "免體檢限額提升至400萬美元，全期無需提供常規財務核保證明"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-23T10:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-PRU-SAV-2026-Q4",
+    "insurer": "Prudential",
+    "product_name": "雋富多元貨幣計劃 (Evergreen Grandeur)",
+    "product_aliases": ["雋富", "EG", "保誠雋富"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "CAD", "AUD"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-11-20",
+      "submission_deadline": "2026-11-20",
+      "payment_deadline": "2026-12-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 15000,
+        "discount_rate_pct": 14.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 15000,
+        "max_annual_premium_usd": 30000,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 30000,
+        "discount_rate_pct": 28.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.8,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "僅限5年期首期預繳4年保費，提前提領扣減全部預繳利息"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 19,
+      "breakeven_expected_year": 7,
+      "expected_irr_year_20": 5.92,
+      "expected_irr_year_30": 6.71,
+      "gn16_fulfillment_ratio_pct": 91.2,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3500000,
+      "special_waiver_notes": "香港及內地客戶特選免體檢綠色通道"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-23T14:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-MANU-SAV-2026-Q4",
+    "insurer": "Manulife",
+    "product_name": "宏摯多元儲蓄計劃 (ManuGlobal Saver)",
+    "product_aliases": ["宏摯", "宏利宏摯", "ManuGlobal"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "CAD", "AUD", "GBP", "EUR", "SGD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 20000,
+        "discount_rate_pct": 10.0
+      },
+      {
+        "min_annual_premium_usd": 20000,
+        "max_annual_premium_usd": 50000,
+        "discount_rate_pct": 18.0,
+        "extra_bundling_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 50000,
+        "discount_rate_pct": 25.0,
+        "extra_bundling_bonus_pct": 3.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.5,
+      "lock_period_years": 2,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "保證期內提早提取預繳保費，需扣減已派發之預繳利息"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 17,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.88,
+      "expected_irr_year_30": 6.55,
+      "gn16_fulfillment_ratio_pct": 94.8,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 4000000,
+      "special_waiver_notes": "特選次標準體豁免加費計劃，核保綠色通道"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-20T09:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-SUN-SAV-2026-Q4",
+    "insurer": "Sun_Life",
+    "product_name": "萬年青星河傳承計劃 (Stellar Global Legacy)",
+    "product_aliases": ["萬年青星河", "永明星河", "Stellar Global"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "CAD", "AUD", "GBP"],
+    "payment_period_years": [2, 5],
+    "validity": {
+      "start_date": "2026-10-05",
+      "end_date": "2026-12-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "max_annual_premium_usd": 25000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 25000,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.1,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "提早提取預繳款項需收取1%行政費並取消未入賬利息"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 18,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.82,
+      "expected_irr_year_30": 6.58,
+      "gn16_fulfillment_ratio_pct": 93.0,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3000000,
+      "special_waiver_notes": "雙核紅利機制，家庭客戶同行尊享快線核保"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-21T11:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-FWD-SAV-2026-Q4",
+    "insurer": "FWD",
+    "product_name": "盈豐多元貨幣儲蓄保險 (MaxFortune Multi-Currency)",
+    "product_aliases": ["盈豐保", "富衛盈豐", "MaxFortune"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "AUD", "CAD", "EUR", "SGD"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 20000,
+        "discount_rate_pct": 15.0,
+        "extra_family_bonus_pct": 3.0
+      },
+      {
+        "min_annual_premium_usd": 20000,
+        "discount_rate_pct": 24.0,
+        "extra_family_bonus_pct": 5.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.3,
+      "lock_period_years": 3,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "鎖定期為3年，提早提取扣減全期預繳利息"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 16,
+      "breakeven_expected_year": 5,
+      "expected_irr_year_20": 5.95,
+      "expected_irr_year_30": 6.65,
+      "gn16_fulfillment_ratio_pct": 92.6,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3500000,
+      "special_waiver_notes": "第3保單年度起即可轉換貨幣，簡易核保通道"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-22T08:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-AXA-SAV-2026-Q4",
+    "insurer": "AXA",
+    "product_name": "摯匯多元貨幣儲蓄計劃 (Global DynaWealth)",
+    "product_aliases": ["摯匯", "安盛摯匯", "Global DynaWealth"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "EUR", "GBP", "AUD", "CAD", "SGD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-11-30",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 25000,
+        "discount_rate_pct": 14.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 25000,
+        "discount_rate_pct": 26.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.2,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "提早提取收取利息回撥及結算手續費"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 18,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.8,
+      "expected_irr_year_30": 6.6,
+      "gn16_fulfillment_ratio_pct": 95.1,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3800000,
+      "special_waiver_notes": "多達8-9種貨幣自由切換，保單價值靈活分拆"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-23T16:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-BOC-SAV-2026-Q4",
+    "insurer": "BOC_Life",
+    "product_name": "薪火相傳多元貨幣終身壽險計劃 (Generational Multi-Currency Whole Life)",
+    "product_aliases": ["薪火相傳", "中銀薪火", "中銀多元貨幣"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "AUD", "CAD"],
+    "payment_period_years": [2, 5],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Bank"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 10000,
+        "max_annual_premium_usd": 30000,
+        "discount_rate_pct": 10.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 30000,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 2.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.0,
+      "lock_period_years": 2,
+      "currency_restriction": ["USD", "RMB"],
+      "withdrawal_penalty": "提早提取預繳款項以實際存放日數按活期利息結算"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 15,
+      "breakeven_expected_year": 5,
+      "expected_irr_year_20": 5.75,
+      "expected_irr_year_30": 6.45,
+      "gn16_fulfillment_ratio_pct": 97.2,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 4500000,
+      "special_waiver_notes": "中銀集團跨境聯動，人民幣結算極具優勢，GN16 實現率超穩"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-24T09:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-YF-SAV-2026-Q4",
+    "insurer": "YF_Life",
+    "product_name": "富饒傳承多元貨幣計劃 (Infinite Fortune Multi-Currency)",
+    "product_aliases": ["富饒傳承", "萬通富饒", "Infinite Fortune"],
+    "category": "Savings_MultiCurrency",
+    "currency_supported": ["USD", "HKD", "RMB", "GBP", "AUD", "CAD", "EUR", "SGD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "max_annual_premium_usd": 20000,
+        "discount_rate_pct": 15.0,
+        "extra_family_bonus_pct": 2.0
+      },
+      {
+        "min_annual_premium_usd": 20000,
+        "discount_rate_pct": 28.0,
+        "extra_family_bonus_pct": 4.0
+      }
+    ],
+    "prepayment_scheme": {
+      "is_available": true,
+      "guaranteed_rate_pct": 5.6,
+      "lock_period_years": 1,
+      "currency_restriction": ["USD"],
+      "withdrawal_penalty": "提早提取預繳需扣除1.5%手續費及利息追溯"
+    },
+    "savings_metrics": {
+      "breakeven_guaranteed_year": 17,
+      "breakeven_expected_year": 6,
+      "expected_irr_year_20": 5.9,
+      "expected_irr_year_30": 6.68,
+      "gn16_fulfillment_ratio_pct": 94.0,
+      "policy_split_options": true,
+      "currency_switch_options": true,
+      "change_insured_unlimited": true,
+      "secondary_insured": true,
+      "death_benefit_trust_settlement": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 3500000,
+      "special_waiver_notes": "支援終身年金轉換選項，可直接轉化為退休固定現金流"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-24T14:00:00Z"
+    }
+  }
+]
