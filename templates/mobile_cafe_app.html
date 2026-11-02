@@ -69,6 +69,56 @@
       100% { opacity: 0.5; }
     }
 
+    /* Header Right Actions & Slides Navigation Pill */
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .offline-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      opacity: 0.8;
+      letter-spacing: 0.5px;
+    }
+    .top-nav-slides-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
+      white-space: nowrap;
+    }
+    .top-nav-slides-btn:hover, .top-nav-slides-btn:active {
+      background: #ffffff;
+      color: var(--ikb);
+      border-color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+    @media (max-width: 480px) {
+      .offline-tag {
+        display: none;
+      }
+      .logo-badge {
+        font-size: 14px;
+      }
+      .top-nav-slides-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
+    }
+
     /* Perspective Toggle Switch (Big Thumb Pill) */
     .view-toggle-bar {
       padding: 12px 16px;
@@ -283,13 +333,19 @@
 </head>
 <body>
 
-  <!-- Sticky Header -->
+  <!-- Sticky Header with Slides Quick-Nav -->
   <header>
     <div class="logo-badge">
       <div class="live-dot"></div>
-      INSURINTEL · 14:00 見客極速攻防卡
+      <span>INSURINTEL · 14:00 見客極速攻防卡</span>
     </div>
-    <div style="font-family:'JetBrains Mono'; font-size:12px; opacity:0.8;">OFFLINE READY</div>
+    <div class="header-actions">
+      <span class="offline-tag">OFFLINE READY</span>
+      <a href="morning_slides.html" class="top-nav-slides-btn" id="link-morning-slides" title="切換至全港早會情報投影片">
+        <span class="icon">📊</span>
+        <span class="btn-text">晨會投影片</span>
+      </a>
+    </div>
   </header>
 
   <!-- Dual-Perspective Switcher -->
@@ -426,14 +482,14 @@
         fullName: "友邦保險 AIA",
         flagshipSavings: "盈御多元貨幣計劃 3",
         gn16Fulfillment: 96.5,
-        flagshipCI: "加裕智倍保 / 尊顯",
+        flagshipCI: "盈愛 · 笑容危疾保",
         cancerWaitYears: 2,
         flagshipVHIS: "尊顯自願醫保靈活計劃",
         cashlessNetwork: "全球直付及全港私家醫院",
         flagshipUL: "財富傳承萬用壽險",
         ulLtv: 80,
         flagshipQDAP: "充裕未來年金計劃",
-        qdapGuaranteedPct: 82.5
+        qdapGuaranteedPct: 52.0
       },
       Prudential: {
         fullName: "保誠保險 Prudential",
@@ -444,7 +500,7 @@
         flagshipVHIS: "摯為您自願醫保計劃",
         cashlessNetwork: "本地特約醫療網絡",
         flagshipUL: "富傳萬用壽險",
-        ulLtv: 80,
+        ulLtv: 82,
         flagshipQDAP: "雋逸延期年金",
         qdapGuaranteedPct: 45.0
       },
@@ -467,7 +523,7 @@
         gn16Fulfillment: 90.5,
         flagshipCI: "世紀守護危疾保",
         cancerWaitYears: 3,
-        flagshipVHIS: "永明港悅自願醫保",
+        flagshipVHIS: "永明港悅自願醫保計劃",
         cashlessNetwork: "香港認可私家網絡",
         flagshipUL: "Stellar 萬用壽險",
         ulLtv: 80,
@@ -495,22 +551,22 @@
         cancerWaitYears: 3,
         flagshipVHIS: "智尊自願醫保卓越版",
         cashlessNetwork: "AXA 專屬全球醫療網絡",
-        flagshipUL: "Global Wealth 萬用壽險",
-        ulLtv: 80,
+        flagshipUL: "盛世傳承萬用壽險",
+        ulLtv: 85,
         flagshipQDAP: "盛滿延期年金計劃",
         qdapGuaranteedPct: 44.0
       },
       Bowtie: {
         fullName: "保泰人壽 Bowtie",
-        flagshipSavings: "（純網上未有儲蓄傳承產品）",
-        gn16Fulfillment: 88.0,
+        flagshipSavings: "純網上未有儲蓄傳承產品",
+        gn16Fulfillment: 0,
         flagshipCI: "Bowtie 早期危疾保",
         cancerWaitYears: 3,
         flagshipVHIS: "Bowtie Pink 自願醫保",
         cashlessNetwork: "自主線上申報（無直屬中介人網絡）",
-        flagshipUL: "（純網上不提供保費融資產品）",
+        flagshipUL: "純網上不提供保費融資產品",
         ulLtv: 0,
-        flagshipQDAP: "（無專屬延期年金產品）",
+        flagshipQDAP: "純網上無專屬延期年金產品",
         qdapGuaranteedPct: 0
       },
       'BOC Life': {
@@ -540,6 +596,7 @@
         qdapGuaranteedPct: 40.0
       }
     };
+    window.COMPANY_PROFILES = COMPANY_PROFILES;
 
     // Normalizers
     function normalizeCompany(str) {
@@ -576,6 +633,175 @@
       const profile = COMPANY_PROFILES[compKey] || COMPANY_PROFILES.Prudential;
       const disclaimer = `註：以上數據摘自香港保監局官方統計 (GN16) 及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。持牌人內部專業培訓用途，嚴禁作為宣傳單張散發。`;
 
+      // ==========================================
+      // Branch 1: Bowtie Virtual Insurer Tailored Logic
+      // ==========================================
+      if (compKey === 'Bowtie') {
+        if (claimKey === 'prepayment') {
+          return {
+            agent_title: `🎯 對抗戰策：拆解【保泰人壽 Bowtie】虛擬保險業務邊界與傳統旗艦儲蓄傳承價值`,
+            agent_step_1: `「客人考慮純網上保險通常追求性價比與透明度，呢個心態完全可以理解！」`,
+            agent_step_2: `「但虛擬保險目前受牌照與業務範疇限制，專注於純醫療及基礎保障，完全未設有具備複利分紅、無限次保單分拆、9種貨幣轉換及保單融資傳承的旗艦儲蓄險，更無 5.8% 預繳或長線 GN16 分紅實現率。」`,
+            agent_step_3: `「買儲蓄分紅險最緊要係資產跨代傳承與複利積累。我地旗艦系列歷年累積 GN16 實現率高達 96.5%，支援無限次分拆與多幣種轉換，呢種長線財富管家功能係純網上保障型保司無法提供的。」`,
+            client_title: `虛擬保險純保障定位 vs 綜合保司全功能儲蓄傳承比對`,
+            client_source: `來源：香港保監局 (IA) 認可保險公司名單及業務範疇審批指引`,
+            client_desc: `香港虛擬保險公司主要獲批純線上自願醫保與消費型保障；如需建立跨代資產傳承、子女教育基金或退休複利儲備，需依託全牌照人壽保險公司。`,
+            chart_title: `🏛️ 財富傳承架構與長期複利功能完備度評級`,
+            chart_bars: [
+              { label: `我方旗艦多元貨幣儲蓄系列`, value: `100% 完備 (分拆/換幣/信託傳承)`, widthPct: 100, color: `var(--ikb)` },
+              { label: `保泰人壽 Bowtie 業務範疇`, value: `純醫療保障 (未設儲蓄傳承險種)`, widthPct: 20, color: `#f59e0b` },
+              { label: `市場綜合保司平均水平`, value: `具備基礎儲蓄與分拆`, widthPct: 85, color: `#94a3b8` }
+            ],
+            table_title: `⚖️ 業務範疇與跨代傳承核心維度比對`,
+            table_rows: [
+              { label: `複利分紅儲蓄與傳承`, value: `完整提供 (GN16 累積實現率 96.5%) vs 無此類險種`, highlight: true },
+              { label: `保單無限次分拆`, value: `支援 (無次數上限) vs 不適用`, highlight: true },
+              { label: `多元貨幣自由轉換`, value: `7 - 9 種主流貨幣 vs 僅支援港幣/純消費`, highlight: true },
+              { label: `身故利益信託式分期提取`, value: `可自選分期給付 vs 不適用`, highlight: false }
+            ],
+            whatsapp_script: `陳生早晨！了解到您對純網上保險的透明度有好感。但若是考慮為家庭建立長線儲蓄、子女教育金或資產傳承，需注意虛擬保險目前專注於純消費型醫療保障，並未獲批發行具備長線複利分紅、9種貨幣轉換及保單分拆功能的旗艦儲蓄險。我發份「純保障 vs 跨代儲蓄資產配置」比對表供您參考！`,
+            disclaimer
+          };
+        }
+
+        if (claimKey === 'rebate') {
+          return {
+            agent_title: `🎯 對抗戰策：拆解【保泰人壽 Bowtie】純網上直銷保費架構 vs 傳統儲蓄現金價值`,
+            agent_step_1: `「客人覺得純網上無佣金好似即時慳保費，甚至期望有高額保費回贈，呢種心態好自然！」`,
+            agent_step_2: `「但純網上直銷本質係消費型定期保障，保費交一年保一年，所有保費 100% 消耗無儲蓄現金價值；而傳統綜合保險嘅儲蓄方案即使扣除各項費用，第 5 年保證回本，幾十年後複利滾存幾百萬本利和！」`,
+            agent_step_3: `「長線睇，交 20 年純消費保費隨時倒蝕十幾萬保費；而選擇我地第 5 年保證回本嘅旗艦儲蓄方案，本金完好無損兼享複利增長，呢個先係最精明嘅資金配置！」`,
+            client_title: `消費型保費支出 vs 累積保證現金價值長期效益比對`,
+            client_source: `來源：香港精算學會產品指引及公開利益說明書`,
+            client_desc: `消費型純保障產品缺乏儲蓄成分，累積繳交之保費無法轉化為保證現金價值；而優質儲蓄險第5年即可保證回本。`,
+            chart_title: `📈 保證現金價值累積速度與本金安全評級`,
+            chart_bars: [
+              { label: `我方旗艦方案保證回本`, value: `第 5 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
+              { label: `保泰人壽 Bowtie 消費型架構`, value: `0 現金價值 (純消費支出)`, widthPct: 15, color: `#f59e0b` },
+              { label: `市場綜合保司平均回本年期`, value: `第 7 年`, widthPct: 68, color: `#94a3b8` }
+            ],
+            table_title: `⚖️ 保證本金安全性與資產沉澱評比`,
+            table_rows: [
+              { label: `保證回本年期 (Break-even)`, value: `第 5 年保證回本 vs 無保證現金價值`, highlight: true },
+              { label: `繳費期滿資產累積`, value: `複利滾存形成家族資產 vs 保費全數消耗`, highlight: true },
+              { label: `30年預期複利總回報`, value: `高達本金 4-6 倍 vs 0 累積`, highlight: true },
+              { label: `資金流動與保單借貸`, value: `支援保單貸款與部分提取 vs 不支援`, highlight: false }
+            ],
+            whatsapp_script: `李生您好！見到您正在比較純網上保險的保費結構。純網上保險屬於純消費型開支，所繳保費無法積存現金價值；而我地方案第 5 年即保證 100% 回本，長遠形成龐大複利資產。我發份「消費型開支 vs 儲蓄資產沉澱」比對表供您客觀參考！`,
+            disclaimer
+          };
+        }
+
+        if (claimKey === 'critical_illness') {
+          return {
+            agent_title: `🎯 對抗戰策：直擊【保泰人壽 Bowtie】早期危疾年期跳水與重疾多次賠付缺口`,
+            agent_step_1: `「張生，Bowtie 早期危疾保純網上宣傳零佣金、涵蓋原位癌，睇落好吸引，你對市場新產品好有觸覺！」`,
+            agent_step_2: `「但仔細拆解佢係『每年續保（定期消費型）』！保費跟年齡自然費率跳升，40-50歲後保費以倍數暴漲；更致命嘅係只賠 1 次，無深切治療部 (ICU) 全額預支，亦無癌症/中風/心臟病多達 5-6 次的多次賠償保障！」`,
+            agent_step_3: `「我地旗艦危疾係『終身平準保費』，交 20 年保終身，年老時零保費壓力！涵蓋過百種嚴重疾病，癌症間隔僅 2 年即可多次索償，連續住 ICU 3-5 日即預支 100% 保額，呢種全面兜底防護先係抵禦重症的真正盾牌！」`,
+            client_title: `定期自然費率危疾 vs 終身平準保費重疾防線全維度比對`,
+            client_source: `來源：香港癌症資料統計中心及各保司正式保單批註`,
+            client_desc: `定期危疾隨年齡增長保費大幅遞增，且通常僅限單次賠付；終身危疾鎖定平準保費，並具備多次重疾賠付及ICU無指定病名全額預支保障。`,
+            chart_title: `⏱️ 長期保費穩定性與多次重疾防護評級`,
+            chart_bars: [
+              { label: `我方終身危疾防線`, value: `平準保費 + 900% 多次賠償 + ICU預支`, widthPct: 95, color: `var(--green)` },
+              { label: `保泰人壽 Bowtie 早期危疾`, value: `自然費率跳升 + 單次賠付 100%`, widthPct: 45, color: `#f59e0b` },
+              { label: `市場終身危疾平均水平`, value: `平準保費 + 3年癌症等待期`, widthPct: 75, color: `#94a3b8` }
+            ],
+            table_title: `🛡️ 關鍵重疾保障條款深度比對`,
+            table_rows: [
+              { label: `保費繳付模式`, value: `平準保費 (鎖定20年保終身) vs 自然費率隨年齡暴增`, highlight: true },
+              { label: `多次索償總賠償上限`, value: `高達 900% 保額 vs 僅限 1 次 100% 賠付`, highlight: true },
+              { label: `非指定疾病 ICU 保障`, value: `連續 3-5 日預支 100% 保額 vs 不設 ICU 預支`, highlight: true },
+              { label: `後期斷供與續保風險`, value: `繳費期滿終身受保 vs 年老保費過高被迫斷供`, highlight: false }
+            ],
+            whatsapp_script: `張生早晨！昨日您提到 Bowtie 早期危疾保。我幫您深入查閱了條款結構：其屬於純定期自然費率，年紀越大保費跳升越劇烈，且僅限單次賠償。我地全新旗艦方案鎖定 20 年平準保費保終身，具備 900% 多次賠償與連續住院 ICU 100% 預支。我發份詳細條款比對表給您參考！`,
+            disclaimer
+          };
+        }
+
+        if (claimKey === 'vhis') {
+          return {
+            agent_title: `🎯 對抗戰策：拆解【保泰人壽 Bowtie】自願醫保線上自主申報 vs 專屬 Agent 出院免找數`,
+            agent_step_1: `「王太，保泰 Bowtie 網上自願醫保平兩三成，主打無中介人，表面睇確實好符合追求極致性價比嘅客群！」`,
+            agent_step_2: `「但醫保最殘酷嘅時刻係入院要理賠！純線上保險只有 Chatbot 同 Email，大病入院時病人要自己聯絡私家醫院做預先批核、自己先找數墊付十幾廿萬、出院再自己影單填 Claim Form，一旦單據有遺漏隨時被拒賠投訴無門！」`,
+            agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；最關鍵係有專屬持牌 Agent 提供全港私院『出院免找數 (Cashless)』直付，專人入院前辦好擔保、出院保司直接同醫院找數！病人專心養病零操心，呢份專屬跑腿服務先係醫保核心價值！」`,
+            client_title: `純線上自主申報 vs 專屬持牌顧問出院免找數 (Cashless) 比對`,
+            client_source: `來源：醫務衞生局自願醫保認可產品名單及醫院直付協議`,
+            client_desc: `自願醫保核心體驗在於入院時的理賠支援。專屬顧問提供全程入院直付擔保、免墊支直接找數，免除投保人自行跑腿墊資與單據補件壓力。`,
+            chart_title: `🏥 大病住院理賠支援與直付便捷度評級`,
+            chart_bars: [
+              { label: `我方專屬顧問全額直付網絡`, value: `專人出院免找數 (0 自付墊資壓力)`, widthPct: 100, color: `var(--ikb)` },
+              { label: `保泰人壽 Bowtie 線上申報`, value: `自主線上墊付申報 (需自行交單跟進)`, widthPct: 55, color: `#f59e0b` },
+              { label: `市場標準自願醫保水平`, value: `設分項限額 / 需自行墊付`, widthPct: 60, color: `#94a3b8` }
+            ],
+            table_title: `🩺 醫療理賠與持牌中介人專屬服務`,
+            table_rows: [
+              { label: `入院擔保與出院免找數`, value: `專屬 Agent 辦妥直付手續 vs 自行透過 App 線上申請`, highlight: true },
+              { label: `非手術癌症標靶治療`, value: `全數賠償 (年度數千萬額度) vs 設分項自付額`, highlight: true },
+              { label: `爭議理賠專人跑腿協調`, value: `持牌顧問全力跟進爭取 vs 自行面對 Chatbot/客服`, highlight: true },
+              { label: `法定個人薪俸稅扣稅`, value: `每年每人最高 HK$8,000 (兩者均享)`, highlight: false }
+            ],
+            whatsapp_script: `王太您好！了解過您關注 Bowtie 網上自願醫保。純網上保險平在省去中介人，但入院時所有直付擔保、墊支款項和理賠單據都要由您自行透過 App 處理。大病時有專屬顧問為您跑腿辦妥「出院免找數」直付，不用自己墊付幾十萬，這份安心至關重要。我整理了一份對比表發給您參考！`,
+            disclaimer
+          };
+        }
+
+        if (claimKey === 'financing_ul') {
+          return {
+            agent_title: `🎯 對抗戰策：拆解【保泰人壽 Bowtie】虛擬保險業務邊界與私銀保費融資 (UL) 本質`,
+            agent_step_1: `「趙總，許多高資產客戶關注保費融資與萬用壽險 (UL)，但要注意純網上虛擬保險並無提供保費融資產品！」`,
+            agent_step_2: `「虛擬保險受牌照及資產規模所限，私人銀行及商業銀行均未設有任何針對虛擬保單的保費融資通道；而且傳統 85% 融資在降息週期極易面臨息差倒掛與銀行 Margin Call 補倉致命風險。」`,
+            agent_step_3: `「高淨值資產配置應首選『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與補倉滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握在家族手中。」`,
+            client_title: `虛擬保險業務範疇 vs 綜合保司萬用壽險與多元貨幣資產配置比對`,
+            client_source: `來源：香港金管局 (HKMA) 與保監局 (IA) 保費融資聯合通函及私人銀行貸款政策`,
+            client_desc: `虛擬保險專注於零售純保障，不具備私人銀行萬用壽險融資架構；進行高額家族資產配置需選用具備多元貨幣及跨代傳承架構之全牌照保司。`,
+            chart_title: `⚠️ 高淨值資產配置工具完整度與安全性評級`,
+            chart_bars: [
+              { label: `無槓桿多元貨幣儲蓄 (我方)`, value: `100% 安全 (自由分拆/多幣種傳承)`, widthPct: 100, color: `var(--green)` },
+              { label: `市場 85% 槓桿萬用壽險融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
+              { label: `保泰人壽 Bowtie 業務範疇`, value: `未設萬用壽險及私銀融資`, widthPct: 20, color: `#f59e0b` }
+            ],
+            table_title: `📊 家族資產傳承與融資工具全維度對比`,
+            table_rows: [
+              { label: `私人銀行保費融資支援`, value: `具備完整私銀融資通道 vs 虛擬保險不設融資服務`, highlight: true },
+              { label: `借貸利率倒掛與補倉風險`, value: `無槓桿配置零借貸風險 vs 槓桿融資承受浮動利息`, highlight: true },
+              { label: `多元貨幣自由轉換`, value: `支援 7-9 種主流貨幣 vs 僅限港幣純保障`, highlight: true },
+              { label: `家族信託式分期給付`, value: `支援保單代代相傳 vs 不適用`, highlight: false }
+            ],
+            whatsapp_script: `趙總早晨！留意到您在關注保費融資與各家保司架構。需要向您說明的是，Bowtie 等純網上虛擬保險專注於小額純醫療，私人銀行並無提供任何融資管道。對於大額資產配置，我們建議採用「無槓桿多元貨幣儲蓄傳承架構」，避開息差倒掛與補倉風險。我發份客觀分析報告給您參考！`,
+            disclaimer
+          };
+        }
+
+        // Bowtie + qdap
+        return {
+          agent_title: `🎯 對抗戰策：拆解【保泰人壽 Bowtie】虛擬保險業務邊界與 QDAP 扣稅年金資格`,
+          agent_step_1: `「林生，不少市民想在網上買延期年金扣稅，但請注意保泰 Bowtie 目前並未推出合資格延期年金 (QDAP)！」`,
+          agent_step_2: `「香港保監局對 QDAP 審批極其嚴格，要求總保費至少 50% 為保證年金且鎖定至少 10 年派發期。虛擬保險目前未獲批發行任何可享每年 HK$60,000 薪俸稅免稅額的 QDAP 年金產品。」`,
+          agent_step_3: `「要善用每年最高 HK$10,200 的實質退稅優惠並建立終身確定退休金，必須選擇全牌照保司的認可 QDAP。我地方案保證內部回報率全港頂尖，保證派息比例超過 80%，無論金融市場如何波動，退休現金流穩如泰山！」`,
+          client_title: `香港保監局合資格延期年金 (QDAP) 認可資格與退稅比對`,
+          client_source: `來源：香港保險業監管局 QDAP 認可產品名單及稅務局薪俸稅扣除指引`,
+          client_desc: `僅有列入保監局官方認可名單之合資格延期年金 (QDAP) 方可享有每年每人最高 HK$60,000 稅務扣除額；虛擬保險目前未設此類認可年金產品。`,
+          chart_title: `🛡️ 年金產品認可度與保證現金流確定性評級`,
+          chart_bars: [
+            { label: `我方旗艦 QDAP 認可年金`, value: `82.5% 保證 (享最高 $10,200 退稅)`, widthPct: 82.5, color: `var(--green)` },
+            { label: `市場傳統 QDAP 平均水平`, value: `50.0% 保證 (逾半依賴非保證)`, widthPct: 50.0, color: `#f59e0b` },
+            { label: `保泰人壽 Bowtie 業務範疇`, value: `未設保監局認可 QDAP 年金`, widthPct: 20, color: `#94a3b8` }
+          ],
+          table_title: `💰 法定扣稅資格與退休現金流確定性比對`,
+          table_rows: [
+            { label: `保監局合資格 QDAP 認可`, value: `正式認可名單 vs 未設認可 QDAP 產品`, highlight: true },
+            { label: `每年薪俸稅法定最高扣除額`, value: `HK$60,000 (最高實質慳稅 $10,200) vs 無扣稅資格`, highlight: true },
+            { label: `年金保證派息佔比`, value: `高達 82.5% 保證派息 vs 不適用`, highlight: true },
+            { label: `年金領取年期彈性`, value: `10 / 20 年或至 100 歲靈活選擇 vs 不適用`, highlight: false }
+          ],
+          whatsapp_script: `林生您好！昨日您提到退休扣稅年金。需要提醒您的是，Bowtie 等純線上虛擬保險目前未設有香港保監局認可的 QDAP 延期年金產品，無法享有每年 $60,000 扣稅額。要獲得每年最高 $10,200 的退稅並建立穩定退休金，必須選擇認可名單內的方案。我發份認可 QDAP 年金比較表給您參考！`,
+          disclaimer
+        };
+      }
+
+      // ==========================================
+      // Branch 2: Traditional Insurers (AIA, Pru, Manulife, Sun Life, FWD, AXA, BOC, YF)
+      // ==========================================
       if (claimKey === 'prepayment') {
         return {
           agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】5.8% 預繳噱頭與浮動陷阱`,
@@ -659,27 +885,27 @@
 
       if (claimKey === 'vhis') {
         return {
-          agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】自願醫保標靶藥細項上限與理賠支援`,
-          agent_step_1: `「王太，${profile.fullName} 網上宣傳自願醫保平兩三成，表面睇確實好符合現代人追求性價比嘅心態！」`,
-          agent_step_2: `「但醫保最殘酷嘅時刻係入院要理賠！純線上保險只有 Chatbot 同 Email，癌症非手術治療（標靶藥、免疫治療）常設有細項上限，每個月幾萬蚊嘅標靶藥，隨時要自己抬錢墊底兼自己寫 Claim Form。」`,
-          agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；仲有專屬持牌 Agent 提供全球『出院免找數 (Cashless)』！大病時專人為你跑腿墊付幾十萬醫療費嘅安心，遠遠超過一年慳返嗰千幾蚊！」`,
-          client_title: `全港自願醫保 (VHIS) 癌症標靶藥全數賠償與免找數比對`,
-          client_source: `來源：醫務衞生局自願醫保認可產品名單及醫院直付協議`,
-          client_desc: `自願醫保標準計劃與靈活計劃最大差異在於昂貴癌症標靶治療是否設有細項上限，以及是否具備私家醫院直付（出院免找數）網絡。`,
+          agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】自願醫保【${profile.flagshipVHIS}】標靶藥細項上限與特約網絡限制`,
+          agent_step_1: `「王太，${profile.fullName} 宣傳【${profile.flagshipVHIS}】全數賠償，單張睇落好豐富，你揀得咁細心好佩服你！」`,
+          agent_step_2: `「但仔細審視醫療合約細則：非手術癌症治療（標靶藥、免疫治療）喺部分級別依然設有分項限額；而且對手直付網絡主要依賴特約指定醫院，若因急症入住非網絡私家醫院，或病房級別限制嚴格，隨時面臨降級索償罰則自費幾成！」`,
+          agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；全港所有私家醫院無障礙直付『出院免找數 (Cashless)』，免除繁瑣預先審批門檻，大病時專人為你跑腿墊付，呢份萬全保障先係真正安心！」`,
+          client_title: `全港主流旗艦自願醫保 (VHIS) 癌症標靶藥全數賠償與網絡直付比對`,
+          client_source: `來源：醫務衞生局自願醫保認可產品名單及各大保司正式合約批註`,
+          client_desc: `自願醫保靈活計劃之關鍵差異在於昂貴非手術癌症標靶治療是否設有分項上限，以及直付免找數醫院網絡的覆蓋完整度與病房升級彈性。`,
           chart_title: `🏥 昂貴非手術癌症標靶治療保障額度評級`,
           chart_bars: [
             { label: `我方高端自願醫保靈活計劃`, value: `全數賠償 (無細項限額)`, widthPct: 100, color: `var(--ikb)` },
-            { label: `${profile.fullName} 基本配置`, value: `設分項限額 / 需自行墊付`, widthPct: 52, color: `#f59e0b` },
+            { label: `${profile.fullName}「${profile.flagshipVHIS}」`, value: `設分項限額 / 網絡限制`, widthPct: 68, color: `#f59e0b` },
             { label: `自願醫保標準計劃法定最低`, value: `年限額僅 HK$180,000`, widthPct: 30, color: `#94a3b8` }
           ],
-          table_title: `🩺 醫療理賠與持牌中介人專屬服務`,
+          table_title: `🩺 醫療理賠與直付服務核心維度深度比對`,
           table_rows: [
-            { label: `標靶藥 / 免疫治療`, value: `全數賠償 (年度數千萬保額)`, highlight: true },
-            { label: `出院免找數服務`, value: `專屬 Agent 全程跟進辦理`, highlight: true },
+            { label: `標靶藥 / 免疫治療`, value: `全數賠償 (年度數千萬保額) vs 部分級別設分項上限`, highlight: true },
+            { label: `出院免找數醫院網絡`, value: `全港所有私院無縫直付 vs 限指定特約合作網絡`, highlight: true },
             { label: `全球緊急醫療支援`, value: `支援全球直付免墊支`, highlight: true },
-            { label: `法定個人薪俸稅扣稅`, value: `每年每人最高 HK$8,000`, highlight: false }
+            { label: `法定個人薪俸稅扣稅`, value: `每年每人最高 HK$8,000 (兩者均享)`, highlight: false }
           ],
-          whatsapp_script: `王太您好！了解過您關注 ${profile.fullName} 的醫保方案。醫保的核心價值在於大病理賠時的確定性。我為您整理了一份「全數賠償 vs 分項限額」及「專屬出院免找數」的對比表，讓您清楚了解一旦需要使用標靶藥物時的實際保障差異！`,
+          whatsapp_script: `王太您好！了解過您關注 ${profile.fullName} 的【${profile.flagshipVHIS}】。醫保核心在於大病理賠時標靶藥物是否全數賠償及醫院直付無障礙。我為您整理了一份「標靶藥全額覆蓋 vs 分項限額」與「私院出院免找數網絡」深度比對表，讓您看清實際條款差異，稍後發給您參考！`,
           disclaimer
         };
       }
@@ -737,6 +963,7 @@
         disclaimer
       };
     }
+    window.getBattleCard = getBattleCard;
 
     // Interactive View Switcher
     function switchView(mode) {

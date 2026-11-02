@@ -10,6 +10,7 @@ const fs_1 = __importDefault(require("fs"));
 const path_1 = __importDefault(require("path"));
 const node_assert_1 = __importDefault(require("node:assert"));
 const node_test_1 = __importDefault(require("node:test"));
+const node_vm_1 = __importDefault(require("node:vm"));
 const diff_detector_js_1 = require("../src/engine/diff_detector.js");
 const counter_pitch_js_1 = require("../src/engine/counter_pitch.js");
 const briefing_generator_js_1 = require("../src/engine/briefing_generator.js");
@@ -195,7 +196,8 @@ function loadPromos() {
 });
 (0, node_test_1.default)("10. Feature F1, F2, F3: Universal Life & Expanded Catalog Dynamic Loader", () => {
     const allPromos = (0, loader_js_1.loadAllMockPromos)();
-    node_assert_1.default.strictEqual(allPromos.length, 31, "Should load all 31 mock products");
+    node_assert_1.default.ok(allPromos.length >= 40, "Should load 40+ mock products across all 9 HK insurers");
+    node_assert_1.default.strictEqual(allPromos.length, 42, "Should load all 42 mock products");
     const insurers = new Set(allPromos.map(p => p.insurer));
     node_assert_1.default.strictEqual(insurers.size, 9, "Should cover all 9 Hong Kong insurers");
     const expectedInsurers = ["AIA", "Prudential", "Manulife", "Sun_Life", "FWD", "AXA", "Bowtie", "BOC_Life", "YF_Life"];
@@ -205,13 +207,13 @@ function loadPromos() {
     const savings = (0, loader_js_1.loadPromosByCategory)("Savings_MultiCurrency");
     node_assert_1.default.strictEqual(savings.length, 8, "Should have 8 savings products");
     const ci = (0, loader_js_1.loadPromosByCategory)("Critical_Illness");
-    node_assert_1.default.strictEqual(ci.length, 7, "Should have 7 critical illness products");
+    node_assert_1.default.strictEqual(ci.length, 9, "Should have 9 critical illness products");
     const vhis = (0, loader_js_1.loadPromosByCategory)("Medical_VHIS");
-    node_assert_1.default.strictEqual(vhis.length, 6, "Should have 6 VHIS products");
+    node_assert_1.default.strictEqual(vhis.length, 9, "Should have 9 VHIS products");
     const qdap = (0, loader_js_1.loadPromosByCategory)("Annuity_QDAP");
-    node_assert_1.default.strictEqual(qdap.length, 5, "Should have 5 QDAP products");
+    node_assert_1.default.strictEqual(qdap.length, 8, "Should have 8 QDAP products");
     const ul = (0, loader_js_1.loadPromosByCategory)("Financing_UniversalLife");
-    node_assert_1.default.strictEqual(ul.length, 5, "Should have 5 Universal Life products");
+    node_assert_1.default.strictEqual(ul.length, 8, "Should have 8 Universal Life products");
     // Verify Universal Life domain metrics schema
     for (const p of ul) {
         node_assert_1.default.ok(p.ul_metrics, `Product ${p.promo_id} must have ul_metrics`);
@@ -227,7 +229,7 @@ function loadPromos() {
     const aiaPromos = (0, loader_js_1.loadPromosByInsurer)("AIA");
     node_assert_1.default.strictEqual(aiaPromos.length, 5, "AIA should have 5 products across categories");
     const pruPromos = (0, loader_js_1.loadPromosByInsurer)("Prudential");
-    node_assert_1.default.strictEqual(pruPromos.length, 4, "Prudential should have 4 products across categories");
+    node_assert_1.default.strictEqual(pruPromos.length, 5, "Prudential should have 5 products across categories");
 });
 (0, node_test_1.default)("11. Feature F4: Multimodal Extractor SDK & Offline Fallback across 9 Insurers & 5 Categories", async () => {
     const extractor = new gemini_pipeline_js_1.GeminiIntelligenceExtractor(); // Offline mode (no API key in test runner)
@@ -582,4 +584,140 @@ function loadPromos() {
     // Cleanup
     if (fs_1.default.existsSync(testDlqPath))
         fs_1.default.unlinkSync(testDlqPath);
+});
+(0, node_test_1.default)("20. Feature F13: Default Root Landing Page & Dual-App Navigation", async () => {
+    const cafeSource = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
+    const slidesSource = path_1.default.join(process.cwd(), "templates", "morning_slides.html");
+    node_assert_1.default.ok(fs_1.default.existsSync(cafeSource), "mobile_cafe_app.html must exist in templates/");
+    node_assert_1.default.ok(fs_1.default.existsSync(slidesSource), "morning_slides.html must exist in templates/");
+    const cafeHtml = fs_1.default.readFileSync(cafeSource, "utf-8");
+    node_assert_1.default.ok(cafeHtml.includes("morning_slides.html"), "Mobile cafe app header must link to morning_slides.html");
+    node_assert_1.default.ok(cafeHtml.includes("top-nav-slides-btn"), "Mobile cafe app header must include top-nav-slides-btn class");
+    node_assert_1.default.ok(cafeHtml.includes("晨會投影片"), "Mobile cafe app button must display 晨會投影片");
+    const slidesHtml = fs_1.default.readFileSync(slidesSource, "utf-8");
+    node_assert_1.default.ok(slidesHtml.includes("index.html"), "Morning slides must link back to index.html");
+    node_assert_1.default.ok(slidesHtml.includes("top-nav-battlecard-btn"), "Morning slides must include top-nav-battlecard-btn class");
+    node_assert_1.default.ok(slidesHtml.includes("見客攻防卡"), "Morning slides button must display 見客攻防卡");
+    node_assert_1.default.ok(slidesHtml.includes("ppt-hint-link"), "Morning slides toolbar must include ppt-hint-link shortcut");
+    node_assert_1.default.ok(slidesHtml.includes("body.ppt-presenter .top-nav-battlecard-btn"), "Morning slides must hide button in presenter mode");
+    // Verify daily runner generates dist files correctly
+    const { DailyIntelligenceRunner } = await import("../src/scheduler/daily_runner.js");
+    const runner = new DailyIntelligenceRunner();
+    await runner.executeDailyCycle();
+    const distIndex = path_1.default.join(process.cwd(), "dist", "index.html");
+    const distCafe = path_1.default.join(process.cwd(), "dist", "cafe.html");
+    const distSlides = path_1.default.join(process.cwd(), "dist", "morning_slides.html");
+    node_assert_1.default.ok(fs_1.default.existsSync(distIndex), "dist/index.html must exist");
+    node_assert_1.default.ok(fs_1.default.existsSync(distCafe), "dist/cafe.html must exist");
+    node_assert_1.default.ok(fs_1.default.existsSync(distSlides), "dist/morning_slides.html must exist");
+    const indexContent = fs_1.default.readFileSync(distIndex, "utf-8");
+    node_assert_1.default.ok(indexContent.includes("INSURINTEL · 14:00 見客極速攻防卡"), "dist/index.html must be the mobile cafe app");
+    node_assert_1.default.ok(indexContent.includes("morning_slides.html"), "dist/index.html must contain link to morning_slides.html");
+    const cafeContent = fs_1.default.readFileSync(distCafe, "utf-8");
+    node_assert_1.default.strictEqual(cafeContent, indexContent, "dist/cafe.html must be an identical alias of dist/index.html");
+    const slidesContent = fs_1.default.readFileSync(distSlides, "utf-8");
+    node_assert_1.default.ok(slidesContent.includes("index.html"), "dist/morning_slides.html must link to index.html");
+});
+(0, node_test_1.default)("21. Feature F14: Zero-Blank Battle Cards across All 54 Insurer x Claim Combinations", () => {
+    const cafePath = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
+    const html = fs_1.default.readFileSync(cafePath, "utf-8");
+    const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+    node_assert_1.default.ok(scriptMatch, "mobile_cafe_app.html must contain a <script> block");
+    const sandbox = {
+        document: {
+            getElementById: () => null,
+            querySelectorAll: () => []
+        },
+        navigator: {},
+        console,
+        addEventListener: () => { }
+    };
+    sandbox.window = sandbox;
+    node_vm_1.default.createContext(sandbox);
+    node_vm_1.default.runInContext(scriptMatch[1], sandbox);
+    node_assert_1.default.strictEqual(typeof sandbox.getBattleCard, "function", "getBattleCard must be defined in sandbox");
+    node_assert_1.default.strictEqual(typeof sandbox.COMPANY_PROFILES, "object", "COMPANY_PROFILES must be defined in sandbox");
+    const insurers = [
+        "保誠 Prudential",
+        "友邦 AIA",
+        "宏利 Manulife",
+        "永明 Sun Life",
+        "富衛 FWD",
+        "安盛 AXA",
+        "純網上虛擬 Bowtie",
+        "中銀人壽 BOC Life",
+        "萬通 YF Life"
+    ];
+    const claims = [
+        "5.8% 預繳",
+        "首年保費回贈 28%",
+        "癌症再次索償等待期",
+        "自願醫保全數賠償",
+        "保費融資 85% LTV",
+        "QDAP 延期年金總回報"
+    ];
+    let testedCount = 0;
+    for (const ins of insurers) {
+        for (const clm of claims) {
+            testedCount++;
+            const card = sandbox.getBattleCard(ins, clm);
+            node_assert_1.default.ok(card, `Battle card for [${ins}] x [${clm}] must exist`);
+            // 1. Text validations
+            node_assert_1.default.ok(card.agent_title && card.agent_title.length > 5, `[${ins}] x [${clm}] agent_title must be valid`);
+            node_assert_1.default.ok(card.agent_step_1 && card.agent_step_1.length > 5, `[${ins}] x [${clm}] agent_step_1 must be valid`);
+            node_assert_1.default.ok(card.agent_step_2 && card.agent_step_2.length > 5, `[${ins}] x [${clm}] agent_step_2 must be valid`);
+            node_assert_1.default.ok(card.agent_step_3 && card.agent_step_3.length > 5, `[${ins}] x [${clm}] agent_step_3 must be valid`);
+            node_assert_1.default.ok(card.client_title && card.client_title.length > 5, `[${ins}] x [${clm}] client_title must be valid`);
+            node_assert_1.default.ok(card.client_source && card.client_source.length > 3, `[${ins}] x [${clm}] client_source must be valid`);
+            node_assert_1.default.ok(card.client_desc && card.client_desc.length > 5, `[${ins}] x [${clm}] client_desc must be valid`);
+            node_assert_1.default.ok(card.whatsapp_script && card.whatsapp_script.length > 10, `[${ins}] x [${clm}] whatsapp_script must be valid`);
+            node_assert_1.default.ok(card.disclaimer && card.disclaimer.length > 10, `[${ins}] x [${clm}] disclaimer must be valid`);
+            // 2. Disallow forbidden strings
+            const jsonStr = JSON.stringify(card);
+            node_assert_1.default.ok(!jsonStr.includes("undefined"), `[${ins}] x [${clm}] must not contain 'undefined'`);
+            node_assert_1.default.ok(!jsonStr.includes("null"), `[${ins}] x [${clm}] must not contain 'null'`);
+            node_assert_1.default.ok(!jsonStr.includes("NaN"), `[${ins}] x [${clm}] must not contain 'NaN'`);
+            node_assert_1.default.ok(!jsonStr.includes("（純網上"), `[${ins}] x [${clm}] must not contain raw placeholder '（純網上'`);
+            node_assert_1.default.ok(!jsonStr.includes("（無專屬"), `[${ins}] x [${clm}] must not contain raw placeholder '（無專屬'`);
+            // 3. Chart Bars validation
+            node_assert_1.default.ok(Array.isArray(card.chart_bars) && card.chart_bars.length >= 2, `[${ins}] x [${clm}] chart_bars >= 2`);
+            for (const bar of card.chart_bars) {
+                node_assert_1.default.ok(bar.label && bar.label.length > 0, `Bar label must be non-empty in [${ins}] x [${clm}]`);
+                node_assert_1.default.ok(bar.value && bar.value.length > 0, `Bar value must be non-empty in [${ins}] x [${clm}]`);
+                node_assert_1.default.ok(typeof bar.widthPct === "number" && !Number.isNaN(bar.widthPct), `Bar widthPct must be number in [${ins}] x [${clm}]`);
+                node_assert_1.default.ok(bar.widthPct > 0 && bar.widthPct <= 100, `Bar widthPct must be between 1 and 100 in [${ins}] x [${clm}]`);
+                node_assert_1.default.ok(bar.color && bar.color.length > 0, `Bar color must be specified in [${ins}] x [${clm}]`);
+            }
+            // 4. Table Rows validation
+            node_assert_1.default.ok(Array.isArray(card.table_rows) && card.table_rows.length >= 3, `[${ins}] x [${clm}] table_rows >= 3`);
+            for (const row of card.table_rows) {
+                node_assert_1.default.ok(row.label && row.label.length > 0, `Row label must be non-empty in [${ins}] x [${clm}]`);
+                node_assert_1.default.ok(row.value && row.value.length > 0, `Row value must be non-empty in [${ins}] x [${clm}]`);
+            }
+            // 5. Bowtie Tailored Boundary Logic checks
+            if (ins.includes("Bowtie")) {
+                if (clm.includes("預繳")) {
+                    node_assert_1.default.ok(card.agent_step_2.includes("未設有具備複利分紅"), "Bowtie + prepayment must articulate pure protection vs par savings");
+                    node_assert_1.default.ok(!card.agent_step_3.includes("88%"), "Bowtie + prepayment must not assert fake 88% fulfillment ratio");
+                }
+                if (clm.includes("融資")) {
+                    node_assert_1.default.ok(card.agent_step_2.includes("未設有任何針對虛擬保單的保費融資通道"), "Bowtie + UL must explain virtual boundary");
+                }
+                if (clm.includes("年金")) {
+                    node_assert_1.default.ok(card.agent_step_2.includes("未獲批發行任何可享每年 HK$60,000 薪俸稅免稅額的 QDAP"), "Bowtie + QDAP must explain lack of IA-approved QDAP");
+                }
+                if (clm.includes("自願醫保")) {
+                    node_assert_1.default.ok(card.agent_step_2.includes("自主線上申報") || card.agent_step_2.includes("Chatbot") || card.agent_step_3.includes("出院免找數"), "Bowtie + VHIS must contrast cashless vs self-reimbursement");
+                }
+            }
+            else {
+                // Traditional insurers + VHIS: Must NOT say "純線上保險只有 Chatbot 同 Email"
+                if (clm.includes("自願醫保")) {
+                    node_assert_1.default.ok(!card.agent_step_2.includes("純線上保險只有 Chatbot 同 Email"), `Traditional insurer [${ins}] + VHIS must NOT say pure online chatbot`);
+                    node_assert_1.default.ok(card.agent_step_3.includes("出院免找數"), `Traditional insurer [${ins}] + VHIS must highlight cashless direct billing`);
+                }
+            }
+        }
+    }
+    node_assert_1.default.strictEqual(testedCount, 54, "Must have tested exactly 54 insurer x claim combinations");
 });

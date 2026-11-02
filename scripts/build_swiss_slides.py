@@ -400,6 +400,42 @@ EXTRA_STYLES = """<style>
   border-radius: 2px;
 }
 
+/* ============ Top Nav Battle Card Floating Capsule ============ */
+.top-nav-battlecard-btn {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(10, 10, 10, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff !important;
+  font-family: var(--sans), var(--sans-zh), system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
+}
+.top-nav-battlecard-btn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #ffffff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(0, 47, 167, 0.4);
+}
+body.ppt-presenter .top-nav-battlecard-btn,
+body.ppt-audience .top-nav-battlecard-btn,
+body.ppt-preview .top-nav-battlecard-btn {
+  display: none !important;
+}
+
 /* ============ High-Res PDF Handout Print Styles ============ */
 @media print {
   @page {
@@ -414,7 +450,7 @@ EXTRA_STYLES = """<style>
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
   }
-  #nav, #hint, #overview, #presenter-modal, canvas.bg, canvas.ascii-bg, .ascii-bg {
+  #nav, #hint, #overview, #presenter-modal, .top-nav-battlecard-btn, canvas.bg, canvas.ascii-bg, .ascii-bg {
     display: none !important;
   }
   #deck {
@@ -481,6 +517,21 @@ def compile_swiss_slides(base_html: str, target_title: str) -> str:
     if 'window.print()' not in html:
         pdf_btn = '<button onclick="window.print()" type="button" title="匯出高清 PDF 晨會講義" style="background:var(--accent);color:#fff;padding:4px 10px;font-size:12px;font-family:var(--mono);cursor:pointer;border:0;margin-right:4px;">🖨️ PDF 講義</button><span class="ppt-sep">·</span>'
         html = html.replace('<button id="ppt-presenter-btn"', f'{pdf_btn}<button id="ppt-presenter-btn"', 1)
+
+    # 6. Inject top-right reciprocal button linking to index.html (Mobile Battle Card)
+    if 'class="top-nav-battlecard-btn"' not in html:
+        battlecard_top_btn = (
+            '<a href="index.html" class="top-nav-battlecard-btn" id="link-battlecard" title="返回見客極速攻防卡">\n'
+            '  <span class="icon">📱</span>\n'
+            '  <span class="btn-text">見客攻防卡</span>\n'
+            '</a>\n'
+        )
+        html = html.replace('<div id="hint"', f'{battlecard_top_btn}<div id="hint"', 1)
+
+    # 7. Inject reciprocal shortcut in toolbar (#hint)
+    if 'class="ppt-hint-link"' not in html:
+        hint_link = '<a href="index.html" class="ppt-hint-link" title="返回見客攻防卡" style="display:inline-flex;align-items:center;gap:4px;color:inherit;text-decoration:none;"><span class="ppt-key">📱</span>攻防卡</a><span class="ppt-sep">·</span>'
+        html = html.replace('<button id="ppt-low-power-btn"', f'{hint_link}<button id="ppt-low-power-btn"', 1)
 
     return html
 

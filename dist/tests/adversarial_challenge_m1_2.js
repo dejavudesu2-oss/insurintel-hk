@@ -46,9 +46,9 @@ console.log("===================================================================
 // ============================================================================
 const ulFilePath = path_1.default.join(process.cwd(), "src", "mock_data", "universal_life.json");
 const rawUl = JSON.parse(fs_1.default.readFileSync(ulFilePath, "utf-8"));
-record("Suite 1: UL File", "File exists and contains exactly 5 UL products", () => {
+record("Suite 1: UL File", "File exists and contains 8 UL products (expanded catalog)", () => {
     node_assert_1.default.ok(Array.isArray(rawUl), "universal_life.json must be an array");
-    node_assert_1.default.strictEqual(rawUl.length, 5, `Expected 5 UL products, found ${rawUl.length}`);
+    node_assert_1.default.strictEqual(rawUl.length, 8, `Expected 8 UL products, found ${rawUl.length}`);
 });
 rawUl.forEach((ulProduct, idx) => {
     const pid = ulProduct.promo_id || `product_${idx}`;
@@ -100,8 +100,8 @@ rawUl.forEach((ulProduct, idx) => {
 // SUITE 2: Full 31-Product Catalog Loader & Distribution
 // ============================================================================
 const allPromos = (0, loader_js_1.loadAllMockPromos)();
-record("Suite 2: Catalog Loader", "Loads exactly 31 products with 9 insurers and 5 categories", () => {
-    node_assert_1.default.strictEqual(allPromos.length, 31, `Catalog must have 31 products, got ${allPromos.length}`);
+record("Suite 2: Catalog Loader", "Loads exactly 42 products with 9 insurers and 5 categories", () => {
+    node_assert_1.default.strictEqual(allPromos.length, 42, `Catalog must have 42 products, got ${allPromos.length}`);
     const insurers = new Set(allPromos.map(p => p.insurer));
     node_assert_1.default.strictEqual(insurers.size, 9, `Catalog must have 9 insurers, got ${insurers.size}`);
     const categories = new Set(allPromos.map(p => p.category));
@@ -155,7 +155,7 @@ record("Suite 3: CounterPitchEngine", "Generate counter pitch for each of 31 pro
 record("Suite 3: CounterPitchEngine", "UL Category handling in CounterPitchEngine (fallback to default safely)", () => {
     const engine = new counter_pitch_js_1.CounterPitchEngine(allPromos);
     const ulPromos = (0, loader_js_1.loadPromosByCategory)("Financing_UniversalLife");
-    node_assert_1.default.strictEqual(ulPromos.length, 5);
+    node_assert_1.default.strictEqual(ulPromos.length, 8);
     for (const ul of ulPromos) {
         const res = engine.generateCounterPitch({
             category: "Financing_UniversalLife",
@@ -231,11 +231,11 @@ record("Suite 5: DiffDetector & CircuitBreaker", "Self-diff on 31 products gener
     const newLaunchChanges = changes.filter(c => c.change_type === "NEW_LAUNCH");
     node_assert_1.default.strictEqual(newLaunchChanges.length, 0, "No new launch changes on identical sets");
 });
-record("Suite 5: DiffDetector & CircuitBreaker", "Diff detection against empty baseline triggers 31 NEW_LAUNCH", () => {
+record("Suite 5: DiffDetector & CircuitBreaker", "Diff detection against empty baseline triggers NEW_LAUNCH for all products", () => {
     const diffDetector = new diff_detector_js_1.IntelligenceDiffDetector();
     const changes = diffDetector.detectChanges(allPromos, []);
     const newLaunches = changes.filter(c => c.change_type === "NEW_LAUNCH");
-    node_assert_1.default.strictEqual(newLaunches.length, 31, `Expected 31 NEW_LAUNCH changes, found ${newLaunches.length}`);
+    node_assert_1.default.strictEqual(newLaunches.length, allPromos.length, `Expected ${allPromos.length} NEW_LAUNCH changes, found ${newLaunches.length}`);
 });
 record("Suite 5: DiffDetector & CircuitBreaker", "Simulated UL product modification triggers expected delta", () => {
     const diffDetector = new diff_detector_js_1.IntelligenceDiffDetector();

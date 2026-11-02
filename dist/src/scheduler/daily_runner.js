@@ -84,14 +84,15 @@ class DailyIntelligenceRunner {
         const slidesHtml = this.briefingGenerator.renderMorningSlidesHtml(briefingData);
         const slidesPath = path_1.default.join(outDir, "morning_slides.html");
         const indexPath = path_1.default.join(outDir, "index.html");
-        const txtPath = path_1.default.join(outDir, "morning_briefing.txt");
-        fs_1.default.writeFileSync(slidesPath, slidesHtml, "utf-8");
-        fs_1.default.writeFileSync(indexPath, slidesHtml, "utf-8");
-        fs_1.default.writeFileSync(txtPath, broadcastText, "utf-8");
-        // Agent 6: Ensure mobile café app is present in dist
-        const cafeSource = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
         const cafeDist = path_1.default.join(outDir, "cafe.html");
+        const txtPath = path_1.default.join(outDir, "morning_briefing.txt");
+        // Output morning presentation slides and text broadcast
+        fs_1.default.writeFileSync(slidesPath, slidesHtml, "utf-8");
+        fs_1.default.writeFileSync(txtPath, broadcastText, "utf-8");
+        // Agent 6: Ensure mobile café app is present as default index.html and cafe.html alias
+        const cafeSource = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
         if (fs_1.default.existsSync(cafeSource)) {
+            fs_1.default.copyFileSync(cafeSource, indexPath);
             fs_1.default.copyFileSync(cafeSource, cafeDist);
         }
         // Agent 7: Generate viral morning poster SVG
@@ -111,7 +112,8 @@ class DailyIntelligenceRunner {
         // Save only validated sanitized state as the new baseline
         fs_1.default.writeFileSync(this.dbSnapshotPath, JSON.stringify(sanitized, null, 2), "utf-8");
         console.log(`[InsurIntel] ✅ 晨會速報生成完畢！已導出至: ${slidesPath}`);
-        console.log(`[InsurIntel] 📱 見客極速攻防卡已就緒: ${cafeDist}`);
+        console.log(`[InsurIntel] 📱 見客極速攻防卡（首頁）已就緒: ${indexPath}`);
+        console.log(`[InsurIntel] 📱 見客極速攻防卡（別名）已就緒: ${cafeDist}`);
         console.log(`[InsurIntel] 🎨 個人化宣傳海報已導出: ${posterPath}`);
         return {
             discoveredCount: hits.length,

@@ -191,5 +191,143 @@
       "verified_by_editor": true,
       "created_at": "2026-10-24T16:00:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-FWD-QDAP-2026",
+    "insurer": "FWD",
+    "product_name": "智尊延期年金計劃 (Supreme QDAP)",
+    "product_aliases": [
+      "智尊延期年金計劃",
+      "智尊年金",
+      "富衛智尊延期年金",
+      "富衛年金",
+      "富衛QDAP",
+      "Supreme QDAP"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 2.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.92,
+      "total_internal_rate_pct": 4.70,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "保證回本期快至第8年，全期免體檢核保，兼享高達10,200港元薪俸稅扣除"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T15:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-AXA-QDAP-2026",
+    "insurer": "AXA",
+    "product_name": "盛滿延期年金計劃 (Joyful QDAP)",
+    "product_aliases": [
+      "盛滿延期年金計劃",
+      "盛滿年金",
+      "安盛盛滿延期年金",
+      "安盛年金",
+      "安盛QDAP",
+      "Joyful QDAP"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 15.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.88,
+      "total_internal_rate_pct": 4.62,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "提供靈活年金給付期與多樣年金領取年齡，首年保費折扣高達15%"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T16:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-YF-QDAP-2026",
+    "insurer": "YF_Life",
+    "product_name": "萬通延期年金計劃 (MY Deferred Annuity)",
+    "product_aliases": [
+      "萬通延期年金計劃",
+      "萬通延期年金",
+      "萬通年金",
+      "萬通QDAP",
+      "MY年金",
+      "MY Deferred Annuity"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 14.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 3.05,
+      "total_internal_rate_pct": 4.78,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "高保證年金派息比率，支援終身年金年期選項，自選傳承受益人分配"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T16:30:00Z"
+    }
   }
 ]
+

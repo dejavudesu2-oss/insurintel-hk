@@ -43,15 +43,25 @@ async function main() {
     const outDir = path.join(process.cwd(), "dist");
     fs.mkdirSync(outDir, { recursive: true });
     
-    const htmlPath = path.join(outDir, "morning_slides.html");
+    const slidesPath = path.join(outDir, "morning_slides.html");
     const indexPath = path.join(outDir, "index.html");
+    const cafePath = path.join(outDir, "cafe.html");
     const txtPath = path.join(outDir, "morning_briefing.txt");
 
-    fs.writeFileSync(htmlPath, html, "utf-8");
-    fs.writeFileSync(indexPath, html, "utf-8");
+    // Output morning slide deck to morning_slides.html
+    fs.writeFileSync(slidesPath, html, "utf-8");
     fs.writeFileSync(txtPath, broadcastText, "utf-8");
 
-    console.log(`\n[InsurIntel] 早會投影片已導出至: ${htmlPath}`);
+    // Copy mobile café app to index.html (default root landing) and cafe.html (backward-compatible alias)
+    const cafeSource = path.join(process.cwd(), "templates", "mobile_cafe_app.html");
+    if (fs.existsSync(cafeSource)) {
+      fs.copyFileSync(cafeSource, indexPath);
+      fs.copyFileSync(cafeSource, cafePath);
+    }
+
+    console.log(`\n[InsurIntel] 早會投影片已導出至: ${slidesPath}`);
+    console.log(`[InsurIntel] 📱 見客極速攻防卡（首頁）已導出至: ${indexPath}`);
+    console.log(`[InsurIntel] 📱 見客極速攻防卡（別名）已導出至: ${cafePath}`);
     console.log(`[InsurIntel] 廣播文本已導出至: ${txtPath}`);
   } else if (command === "search") {
     const { DailyIntelligenceRunner } = await import("./scheduler/daily_runner.js");

@@ -218,5 +218,160 @@
       "verified_by_editor": true,
       "created_at": "2026-10-25T17:00:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-PRU-UL-2026",
+    "insurer": "Prudential",
+    "product_name": "富傳萬用壽險 (Grandeur Universal Life)",
+    "product_aliases": [
+      "富傳萬用壽險",
+      "保誠富傳萬用壽險",
+      "保誠富傳",
+      "保誠萬用壽險",
+      "保誠UL",
+      "Grandeur Universal Life",
+      "Grandeur UL"
+    ],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 3.8
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.30,
+      "crediting_rate_guaranteed_pct": 2.20,
+      "surrender_charge_years": 4,
+      "financing_eligible": true,
+      "max_ltv_pct": 82.0,
+      "typical_funding_cost_pct": 3.88,
+      "net_carry_spread_pct": 1.42,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 5.05,
+      "margin_call_drop_buffer_pct": 20.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5000000,
+      "special_waiver_notes": "支援私人銀行 82% LTV 融資質押，特設極低鎖定門檻與大額家族辦公室專案審批"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T17:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-AXA-UL-2026",
+    "insurer": "AXA",
+    "product_name": "盛世傳承萬用壽險 (Grand Fortune Universal Life)",
+    "product_aliases": [
+      "盛世傳承萬用壽險",
+      "盛世傳承",
+      "Global Wealth 萬用壽險",
+      "安盛盛世傳承",
+      "安盛萬用壽險",
+      "安盛UL",
+      "Grand Fortune Universal Life",
+      "Grand Fortune UL"
+    ],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.0
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.40,
+      "crediting_rate_guaranteed_pct": 2.15,
+      "surrender_charge_years": 4,
+      "financing_eligible": true,
+      "max_ltv_pct": 85.0,
+      "typical_funding_cost_pct": 3.92,
+      "net_carry_spread_pct": 1.48,
+      "min_premium_usd": 600000,
+      "policy_loan_interest_pct": 5.10,
+      "margin_call_drop_buffer_pct": 18.5
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5500000,
+      "special_waiver_notes": "首年鎖定高結算派息率，提供優厚借貸息差套利空間與一級私人銀行快速批核通道"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T17:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-BOC-UL-2026",
+    "insurer": "BOC_Life",
+    "product_name": "盛世萬用壽險 (Golden Era Universal Life)",
+    "product_aliases": [
+      "盛世萬用壽險",
+      "中銀人壽盛世萬用壽險",
+      "中銀盛世萬用壽險",
+      "中銀萬用壽險",
+      "中銀UL",
+      "Golden Era Universal Life",
+      "Golden Era UL"
+    ],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Bank"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 3.5
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.35,
+      "crediting_rate_guaranteed_pct": 2.25,
+      "surrender_charge_years": 3,
+      "financing_eligible": true,
+      "max_ltv_pct": 80.0,
+      "typical_funding_cost_pct": 3.80,
+      "net_carry_spread_pct": 1.55,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 4.95,
+      "margin_call_drop_buffer_pct": 21.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 6000000,
+      "special_waiver_notes": "中銀香港及私人銀行聯動專屬融資息差折扣通道，退保費用年期僅3年"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-25T18:00:00Z"
+    }
   }
 ]
+
