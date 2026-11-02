@@ -720,4 +720,197 @@ function loadPromos() {
         }
     }
     node_assert_1.default.strictEqual(testedCount, 54, "Must have tested exactly 54 insurer x claim combinations");
+    // 6. Direct Canonical Keys Validation (Engine Idempotence across 9 Insurers x 6 Canonical Keys)
+    const canonicalClaimKeys = [
+        { key: "prepayment", expected: ["5.8%", "預繳", "業務邊界"] },
+        { key: "rebate", expected: ["28%", "回贈", "直銷保費架構"] },
+        { key: "critical_illness", expected: ["危疾", "癌症", "等待期", "跳水"] },
+        { key: "vhis", expected: ["自願醫保", "出院免找數", "標靶藥"] },
+        { key: "financing_ul", expected: ["保費融資", "85%", "私銀"] },
+        { key: "qdap", expected: ["QDAP", "年金", "扣稅"] }
+    ];
+    for (const ins of insurers) {
+        for (const cDef of canonicalClaimKeys) {
+            const card = sandbox.getBattleCard(ins, cDef.key);
+            node_assert_1.default.ok(card, `Battle card for [${ins}] x canonical key [${cDef.key}] must exist`);
+            const matched = cDef.expected.some(kw => card.agent_title.includes(kw));
+            node_assert_1.default.ok(matched, `Direct call getBattleCard('${ins}', '${cDef.key}') failed to resolve claim. Title was: ${card.agent_title}`);
+            if (cDef.key !== "prepayment") {
+                if (!ins.includes("Bowtie")) {
+                    node_assert_1.default.ok(!card.agent_title.includes("5.8% 預繳"), `Key '${cDef.key}' wrongly fell back to prepayment for ${ins}`);
+                }
+                else {
+                    node_assert_1.default.ok(!card.agent_title.includes("業務邊界與傳統旗艦儲蓄傳承價值"), `Key '${cDef.key}' wrongly fell back to Bowtie prepayment card`);
+                }
+            }
+        }
+    }
+});
+(0, node_test_1.default)("22. Feature F15: Interactive DOM Pill Switching & Event Loop across All 54 Insurer x Claim Combinations", () => {
+    const cafePath = path_1.default.join(process.cwd(), "templates", "mobile_cafe_app.html");
+    const html = fs_1.default.readFileSync(cafePath, "utf-8");
+    const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+    node_assert_1.default.ok(scriptMatch, "mobile_cafe_app.html must contain a <script> block");
+    const domElements = {};
+    const makeMockElement = (id, tagName = "div") => ({
+        id,
+        tagName: tagName.toUpperCase(),
+        innerHTML: "",
+        innerText: "",
+        value: "",
+        select: () => { },
+        style: { display: "block", opacity: "1" },
+        className: "",
+        classList: {
+            classes: new Set(),
+            add(c) { this.classes.add(c); },
+            remove(c) { this.classes.delete(c); },
+            toggle(c, force) {
+                if (force === true)
+                    this.classes.add(c);
+                else if (force === false)
+                    this.classes.delete(c);
+                else if (this.classes.has(c))
+                    this.classes.delete(c);
+                else
+                    this.classes.add(c);
+            },
+            contains(c) { return this.classes.has(c); }
+        }
+    });
+    const registeredIds = [
+        "btn-agent-view", "btn-client-view", "agent-view", "client-view",
+        "company-pills", "claim-pills", "agent-title", "agent-step-1",
+        "agent-step-2", "agent-step-3", "client-title", "client-source",
+        "client-desc", "client-chart-box", "client-chart-title",
+        "client-chart-bars", "client-table-container", "client-table-title",
+        "client-table", "client-disclaimer", "toast", "link-morning-slides"
+    ];
+    for (const id of registeredIds) {
+        domElements[id] = makeMockElement(id, id.includes("btn") ? "button" : id.includes("table") ? "table" : "div");
+    }
+    const makePill = (text) => {
+        const el = makeMockElement("", "button");
+        el.innerText = text;
+        el.className = "thumb-pill";
+        return el;
+    };
+    const companyPills = [
+        makePill("保誠 Prudential"),
+        makePill("友邦 AIA"),
+        makePill("宏利 Manulife"),
+        makePill("永明 Sun Life"),
+        makePill("富衛 FWD"),
+        makePill("安盛 AXA"),
+        makePill("網上 Bowtie"),
+        makePill("中銀人壽 BOC Life"),
+        makePill("萬通 YF Life")
+    ];
+    const claimPills = [
+        makePill("5.8% 預繳 / 保證高回報"),
+        makePill("首年保費回贈 28%"),
+        makePill("癌症再次索償等待期"),
+        makePill("自願醫保全數賠償"),
+        makePill("保費融資 85% LTV"),
+        makePill("QDAP 延期年金總回報")
+    ];
+    const sandbox = {
+        document: {
+            getElementById: (id) => domElements[id] || null,
+            querySelectorAll: (sel) => {
+                if (sel === "#company-pills .thumb-pill")
+                    return companyPills;
+                if (sel === "#claim-pills .thumb-pill")
+                    return claimPills;
+                return [];
+            },
+            createElement: (tag) => makeMockElement("", tag),
+            body: { appendChild: () => { }, removeChild: () => { } },
+            execCommand: () => true
+        },
+        navigator: { clipboard: { writeText: async () => { } } },
+        console,
+        clearTimeout: (t) => clearTimeout(t),
+        setTimeout: (fn, ms) => setTimeout(fn, ms),
+        alert: () => { },
+        addEventListener: () => { }
+    };
+    sandbox.window = sandbox;
+    node_vm_1.default.createContext(sandbox);
+    node_vm_1.default.runInContext(scriptMatch[1], sandbox);
+    // 1. Verify global functions and window exposure
+    node_assert_1.default.strictEqual(typeof sandbox.selectCompany, "function", "selectCompany must be defined");
+    node_assert_1.default.strictEqual(typeof sandbox.selectClaim, "function", "selectClaim must be defined");
+    node_assert_1.default.strictEqual(typeof sandbox.updateBattleCard, "function", "updateBattleCard must be defined");
+    node_assert_1.default.strictEqual(typeof sandbox.switchView, "function", "switchView must be defined");
+    node_assert_1.default.ok(typeof sandbox.setViewMode === "function" || typeof sandbox.window.setViewMode === "function", "setViewMode must be exposed on window");
+    const claimDefinitions = [
+        { key: "prepayment", label: "5.8% 預繳", keywords: ["5.8%", "預繳", "業務邊界"] },
+        { key: "rebate", label: "首年保費回贈 28%", keywords: ["28%", "回贈", "直銷保費架構"] },
+        { key: "critical_illness", label: "癌症再次索償等待期", keywords: ["危疾", "癌症", "跳水"] },
+        { key: "vhis", label: "自願醫保全數賠償", keywords: ["自願醫保", "出院免找數", "標靶藥"] },
+        { key: "financing_ul", label: "保費融資 85% LTV", keywords: ["保費融資", "85%", "私銀"] },
+        { key: "qdap", label: "QDAP 延期年金總回報", keywords: ["QDAP", "年金", "扣稅"] }
+    ];
+    let switchCount = 0;
+    for (let cIdx = 0; cIdx < companyPills.length; cIdx++) {
+        const compPill = companyPills[cIdx];
+        // Simulate user clicking company pill
+        sandbox.selectCompany(compPill, compPill.innerText);
+        node_assert_1.default.ok(compPill.classList.contains("active"), `Company pill ${compPill.innerText} must have active class`);
+        for (let kIdx = 0; kIdx < claimDefinitions.length; kIdx++) {
+            const claimDef = claimDefinitions[kIdx];
+            const claimPill = claimPills[kIdx];
+            // Simulate user clicking claim pill
+            sandbox.selectClaim(claimPill, claimPill.innerText);
+            switchCount++;
+            // Verify pill active class
+            node_assert_1.default.ok(claimPill.classList.contains("active"), `Claim pill ${claimDef.label} must have active class`);
+            // Verify DOM updates
+            const titleHtml = domElements["agent-title"].innerHTML;
+            node_assert_1.default.ok(titleHtml.length > 5, `agent-title must be populated for ${compPill.innerText} x ${claimDef.label}`);
+            // Critical Anti-Freeze Assertion: Non-prepayment claims MUST NOT render prepayment copy
+            if (claimDef.key !== "prepayment") {
+                const isBowtie = compPill.innerText.includes("Bowtie");
+                if (!isBowtie) {
+                    node_assert_1.default.ok(!titleHtml.includes("5.8% 預繳"), `UI FREEZE BUG: [${compPill.innerText}] x [${claimDef.label}] stayed on 5.8% 預繳! Got: ${titleHtml}`);
+                    node_assert_1.default.ok(!titleHtml.includes("浮動陷阱"), `UI FREEZE BUG: [${compPill.innerText}] x [${claimDef.label}] stayed on 浮動陷阱! Got: ${titleHtml}`);
+                }
+                else {
+                    node_assert_1.default.ok(!titleHtml.includes("業務邊界與傳統旗艦儲蓄傳承價值"), `UI FREEZE BUG: Bowtie x [${claimDef.label}] stayed on Bowtie prepayment card! Got: ${titleHtml}`);
+                }
+            }
+            // Assert expected content keywords are present
+            const matched = claimDef.keywords.some((kw) => titleHtml.includes(kw));
+            node_assert_1.default.ok(matched, `agent-title for [${compPill.innerText}] x [${claimDef.label}] must contain one of [${claimDef.keywords.join(", ")}]. Got: ${titleHtml}`);
+            // Verify other required DOM elements are reactive
+            node_assert_1.default.ok(domElements["agent-step-1"].innerHTML.length > 0, "agent-step-1 must be populated");
+            node_assert_1.default.ok(domElements["agent-step-2"].innerHTML.length > 0, "agent-step-2 must be populated");
+            node_assert_1.default.ok(domElements["agent-step-3"].innerHTML.length > 0, "agent-step-3 must be populated");
+            node_assert_1.default.ok(domElements["client-title"].innerHTML.length > 0, "client-title must be populated");
+            node_assert_1.default.ok(domElements["client-chart-bars"].innerHTML.includes("chart-bar-fill"), "chart-bars must render bars");
+            node_assert_1.default.ok(!domElements["client-chart-bars"].innerHTML.includes("NaN%"), "chart-bars must not have NaN%");
+            node_assert_1.default.ok(domElements["client-table"].innerHTML.includes("<tr"), "table must render rows");
+        }
+    }
+    node_assert_1.default.strictEqual(switchCount, 54, "Must have interactively switched all 54 pairs in the DOM");
+    // 2. Test canonical string overload for selectClaim
+    for (const claimDef of claimDefinitions) {
+        sandbox.selectClaim(claimDef.key);
+        const title = domElements["agent-title"].innerHTML;
+        const matched = claimDef.keywords.some((kw) => title.includes(kw));
+        node_assert_1.default.ok(matched, `selectClaim('${claimDef.key}') must update title. Got: ${title}`);
+    }
+    // 3. Test dual-perspective view toggle
+    sandbox.switchView("client");
+    node_assert_1.default.strictEqual(domElements["agent-view"].style.display, "none", "agent-view display must be none in client mode");
+    node_assert_1.default.strictEqual(domElements["client-view"].style.display, "block", "client-view display must be block in client mode");
+    sandbox.switchView("agent");
+    node_assert_1.default.strictEqual(domElements["agent-view"].style.display, "block", "agent-view display must be block in agent mode");
+    node_assert_1.default.strictEqual(domElements["client-view"].style.display, "none", "client-view display must be none in agent mode");
+    // 4. Test WhatsApp clipboard copy and toast
+    delete sandbox.navigator.clipboard;
+    sandbox.copyWhatsAppPitch();
+    node_assert_1.default.strictEqual(domElements["toast"].style.display, "block", "Toast must display on copy");
+    node_assert_1.default.ok(domElements["toast"].innerText.includes("WhatsApp"), "Toast text must mention WhatsApp");
 });

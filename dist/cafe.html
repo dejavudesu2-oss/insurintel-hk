@@ -616,12 +616,21 @@
 
     function normalizeClaim(str) {
       if (!str) return 'prepayment';
-      const s = String(str).toLowerCase();
-      if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報')) return 'prepayment';
-      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣')) return 'rebate';
-      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾')) return 'critical_illness';
-      if (s.includes('自願醫保') || s.includes('醫保') || s.includes('全數賠償') || s.includes('無佣金')) return 'vhis';
-      if (s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('萬用壽險')) return 'financing_ul';
+      const s = String(str).toLowerCase().trim();
+      // Canonical keys & abbreviations (ensures idempotence)
+      if (s === 'prepayment') return 'prepayment';
+      if (s === 'rebate') return 'rebate';
+      if (s === 'critical_illness' || s === 'ci') return 'critical_illness';
+      if (s === 'vhis') return 'vhis';
+      if (s === 'financing_ul' || s === 'financing' || s === 'universal_life' || s === 'ul') return 'financing_ul';
+      if (s === 'qdap') return 'qdap';
+
+      // UI pill labels & market keyword matching
+      if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報') || s.includes('prepayment')) return 'prepayment';
+      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣') || s.includes('rebate')) return 'rebate';
+      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical')) return 'critical_illness';
+      if (s.includes('自願醫保') || s.includes('醫保') || s.includes('全數賠償') || s.includes('無佣金') || s.includes('vhis')) return 'vhis';
+      if (s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('萬用壽險') || s.includes('financing')) return 'financing_ul';
       if (s.includes('年金') || s.includes('qdap')) return 'qdap';
       return 'prepayment';
     }
@@ -807,7 +816,9 @@
           agent_title: `🎯 對抗戰策：拆解【${profile.fullName}】5.8% 預繳噱頭與浮動陷阱`,
           agent_step_1: `「陳生，你真係好有眼光！${profile.fullName} 個 5.8% 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」`,
           agent_step_2: `「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」`,
-          agent_step_3: `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】得 ${profile.gn16Fulfillment}%。複利 30 年差 ${(96.5 - profile.gn16Fulfillment).toFixed(1)}% 就係幾十萬真金白銀！」`,
+          agent_step_3: (96.5 - profile.gn16Fulfillment) > 0
+            ? `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】得 ${profile.gn16Fulfillment}%。複利 30 年差 ${(96.5 - profile.gn16Fulfillment).toFixed(1)}% 就係幾十萬真金白銀！」`
+            : `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】雖同樣達 ${profile.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」`,
           client_title: `全港主流旗艦儲蓄險 · 長期分紅穩定性比對`,
           client_source: `來源：香港保監局 GN16 公開報告及各保司年報`,
           client_desc: `分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。`,
@@ -985,7 +996,11 @@
         if (clientView) clientView.style.display = 'block';
       }
     }
+    window.setViewMode = switchView;
     const setViewMode = switchView;
+    window.selectCompany = selectCompany;
+    window.selectClaim = selectClaim;
+    window.updateBattleCard = updateBattleCard;
 
     function toggleView() {
       switchView(currentMode === 'agent' ? 'client' : 'agent');
@@ -1150,6 +1165,18 @@
         // Registered for offline caching
       });
     }
+
+    // Global Window API Exposure for PWA / Sandbox Testability
+    window.switchView = switchView;
+    window.setViewMode = switchView;
+    window.toggleView = toggleView;
+    window.selectCompany = selectCompany;
+    window.selectClaim = selectClaim;
+    window.updateBattleCard = updateBattleCard;
+    window.getBattleCard = getBattleCard;
+    window.normalizeCompany = normalizeCompany;
+    window.normalizeClaim = normalizeClaim;
+    window.copyWhatsAppPitch = copyWhatsAppPitch;
 
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
