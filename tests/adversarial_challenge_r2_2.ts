@@ -82,6 +82,7 @@ function wipeDist() {
   if (fs.existsSync(distDir)) {
     const files = fs.readdirSync(distDir);
     for (const file of files) {
+      if (file.startsWith(".")) continue;
       const fullPath = path.join(distDir, file);
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {

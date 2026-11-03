@@ -99,12 +99,11 @@
       transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
       white-space: nowrap;
     }
-    .top-nav-slides-btn:hover, .top-nav-slides-btn:active {
+    .top-nav-slides-btn:hover {
       background: #ffffff;
       color: var(--ikb);
-      border-color: #ffffff;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     @media (max-width: 480px) {
       .offline-tag {
@@ -119,34 +118,34 @@
       }
     }
 
-    /* Perspective Toggle Switch (Big Thumb Pill) */
+    /* Dual-Perspective Switcher */
     .view-toggle-bar {
-      padding: 12px 16px;
-      background: #fff;
-      border-bottom: 1px solid var(--border);
       display: flex;
-      gap: 8px;
+      background: #e5e7eb;
+      margin: 12px 16px 8px;
+      padding: 4px;
+      border-radius: 12px;
     }
     .view-btn {
       flex: 1;
-      padding: 10px 14px;
+      border: none;
+      background: transparent;
+      padding: 10px;
       border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      border: 1px solid var(--border);
-      background: var(--bg);
+      font-size: 13px;
+      font-weight: 700;
       color: var(--text-sub);
       cursor: pointer;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       gap: 6px;
       transition: all 0.2s ease;
     }
     .view-btn.active-agent {
-      background: #1e1b4b;
-      color: #a5b4fc;
-      border-color: #312e81;
+      background: #0f172a;
+      color: #38bdf8;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
     }
     .view-btn.active-client {
       background: var(--ikb);
@@ -155,9 +154,44 @@
       box-shadow: 0 2px 6px rgba(0,47,167,0.25);
     }
 
+    /* 5 Categories Navigation Tabs Bar */
+    .category-tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 8px 16px 4px;
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .category-tabs-bar::-webkit-scrollbar { display: none; }
+    .cat-tab {
+      padding: 6px 12px;
+      border-radius: 18px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-sub);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
+    }
+    .cat-tab:hover {
+      border-color: var(--ikb);
+      color: var(--ikb);
+    }
+    .cat-tab.active {
+      background: var(--ikb);
+      border-color: var(--ikb);
+      color: #fff;
+      box-shadow: 0 2px 6px rgba(0, 47, 167, 0.25);
+    }
+
     /* 3-Sec Quick Match Selector */
     .quick-selector {
-      padding: 16px;
+      padding: 12px 16px;
     }
     .selector-label {
       font-size: 12px;
@@ -204,6 +238,198 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
 
+    /* 1v1 Battle Card Header in Client View */
+    .hero-battle-header {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px;
+      margin: 12px 0;
+    }
+    .hero-side {
+      text-align: center;
+    }
+    .hero-side .hero-tag {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
+    .hero-side.our-side .hero-tag {
+      color: var(--ikb);
+    }
+    .hero-side.rival-side .hero-tag {
+      color: #64748b;
+    }
+    .hero-side .hero-title {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .hero-side.our-side .hero-title {
+      color: var(--ikb);
+    }
+    .hero-vs-badge {
+      background: #0f172a;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 8px;
+      border-radius: 12px;
+      letter-spacing: 1px;
+    }
+
+    /* Dynamic Horizon Time-Slider Box */
+    .horizon-slider-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .horizon-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .horizon-slider-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .horizon-badge {
+      background: var(--ikb-light);
+      color: var(--ikb);
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    .horizon-range-wrap {
+      position: relative;
+      margin: 10px 0 6px;
+    }
+    .horizon-range-wrap input[type=range] {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+    .horizon-range-wrap input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--ikb);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,47,167,0.4);
+      border: 2px solid #fff;
+    }
+    .horizon-ticks {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+    .horizon-result-card {
+      background: #f8fafc;
+      border-left: 3px solid var(--ikb);
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--text-main);
+    }
+
+    /* Official GN16 Corridor Meter */
+    .corridor-meter-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .corridor-bar-track {
+      height: 14px;
+      border-radius: 7px;
+      background: linear-gradient(to right, #ef4444 0%, #f59e0b 60%, #10b981 85%, #059669 100%);
+      position: relative;
+      margin: 16px 0 10px;
+    }
+    .corridor-pointer {
+      position: absolute;
+      top: -8px;
+      width: 4px;
+      height: 30px;
+      background: #0f172a;
+      border-radius: 2px;
+      box-shadow: 0 0 6px rgba(0,0,0,0.6);
+      transition: left 0.3s ease;
+    }
+    .corridor-pointer-our {
+      background: #002FA7;
+      width: 5px;
+    }
+    .corridor-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+    }
+
+    /* Fine-Print Revealer */
+    .fineprint-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      margin-top: 14px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .fineprint-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .fineprint-item {
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+    .fineprint-item.gimmick {
+      background: #fef2f2;
+      border-left: 3px solid #ef4444;
+      color: #991b1b;
+    }
+    .fineprint-item.reality {
+      background: #f0fdf4;
+      border-left: 3px solid #10b981;
+      color: #065f46;
+    }
+    .fineprint-item.citation {
+      background: #f8fafc;
+      border-left: 3px solid #64748b;
+      color: #475569;
+      font-size: 11px;
+    }
+
     /* Agent Secret View Styles */
     .agent-view-container {
       background: #0f172a;
@@ -223,6 +449,20 @@
       color: #fff;
       font-weight: 700;
       margin-bottom: 8px;
+    }
+    .agent-trap-alert {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      border-left: 4px solid #ef4444;
+      padding: 10px 14px;
+      border-radius: 6px;
+      margin-bottom: 14px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #fca5a5;
+    }
+    .agent-trap-alert strong {
+      color: #f87171;
     }
     .step-box {
       margin-bottom: 14px;
@@ -248,7 +488,7 @@
       padding: 14px;
       background: #f8fafc;
       border-radius: 8px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--border);
     }
     .chart-bar-row {
       margin-bottom: 12px;
@@ -256,24 +496,189 @@
     .chart-bar-header {
       display: flex;
       justify-content: space-between;
-      font-size: 13px;
-      font-weight: 600;
+      font-size: 12px;
       margin-bottom: 4px;
     }
     .chart-bar-bg {
-      height: 12px;
       background: #e2e8f0;
-      border-radius: 6px;
+      height: 14px;
+      border-radius: 7px;
       overflow: hidden;
-      display: flex;
     }
     .chart-bar-fill {
       height: 100%;
-      border-radius: 6px;
-      transition: width 0.6s ease;
+      border-radius: 7px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Bottom Action Bar */
+    /* Catalog Drawer */
+    .catalog-drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      z-index: 1000;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      backdrop-filter: blur(4px);
+    }
+    .catalog-drawer-backdrop.open {
+      display: block;
+      opacity: 1;
+    }
+    .catalog-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 84vh;
+      background: #ffffff;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      z-index: 1001;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.2, 0, 0.38, 0.9);
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.25);
+    }
+    .catalog-drawer.open {
+      transform: translateY(0);
+    }
+    .drawer-header {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .drawer-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+    .drawer-close-btn {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: #64748b;
+      cursor: pointer;
+      padding: 4px 8px;
+    }
+    .drawer-search-bar {
+      padding: 10px 16px;
+      background: #f8fafc;
+      border-bottom: 1px solid var(--border);
+    }
+    .drawer-search-input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      font-size: 13px;
+      outline: none;
+    }
+    .drawer-filter-chips {
+      display: flex;
+      gap: 6px;
+      padding: 8px 16px;
+      overflow-x: auto;
+      border-bottom: 1px solid var(--border);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .drawer-filter-chips::-webkit-scrollbar { display: none; }
+    .drawer-chip {
+      padding: 4px 10px;
+      border-radius: 14px;
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      font-size: 11px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .drawer-chip.active {
+      background: var(--ikb);
+      border-color: var(--ikb);
+      color: #fff;
+    }
+    .drawer-cards-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .drawer-product-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      background: #ffffff;
+      transition: border-color 0.2s;
+    }
+    .drawer-product-card:hover {
+      border-color: var(--ikb);
+    }
+    .drawer-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 6px;
+    }
+    .drawer-card-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #eff6ff;
+      color: var(--ikb);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .drawer-card-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .drawer-card-insurer {
+      font-size: 11px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+    .drawer-card-specs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #f8fafc;
+      padding: 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+    .drawer-spec-label {
+      color: #64748b;
+      font-size: 10px;
+    }
+    .drawer-spec-val {
+      font-weight: 700;
+      color: #0f172a;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .drawer-card-btn {
+      width: 100%;
+      background: var(--ikb);
+      color: #fff;
+      border: none;
+      padding: 6px 0;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Fixed Bottom Action Bar */
     .bottom-bar {
       position: fixed;
       bottom: 0;
@@ -283,21 +688,23 @@
       border-top: 1px solid var(--border);
       padding: 10px 16px calc(10px + var(--safe-bottom));
       display: flex;
-      gap: 12px;
+      gap: 8px;
       z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
     }
     .action-btn {
       flex: 1;
+      border: none;
       padding: 12px;
-      border-radius: 8px;
-      font-size: 14px;
+      border-radius: 24px;
+      font-size: 13px;
       font-weight: 700;
-      border: 0;
       cursor: pointer;
       display: flex;
-      align-items: center;
       justify-content: center;
-      gap: 6px;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
     }
     .btn-whatsapp {
       background: #25D366;
@@ -306,6 +713,11 @@
     .btn-flip {
       background: var(--ikb);
       color: #fff;
+    }
+    .btn-drawer {
+      background: #0f172a;
+      color: #fff;
+      flex: 0.9;
     }
 
     /* Toast Notification */
@@ -358,6 +770,15 @@
     </button>
   </div>
 
+  <!-- 5 Major Category Selector Tabs -->
+  <div class="category-tabs-bar" id="category-tabs">
+    <button class="cat-tab active" data-cat="Savings_MultiCurrency" onclick="selectCategory(this, 'Savings_MultiCurrency')">📈 儲蓄分紅 (8款)</button>
+    <button class="cat-tab" data-cat="Critical_Illness" onclick="selectCategory(this, 'Critical_Illness')">🛡️ 重疾危疾 (9款)</button>
+    <button class="cat-tab" data-cat="Medical_VHIS" onclick="selectCategory(this, 'Medical_VHIS')">🏥 自願醫保 (9款)</button>
+    <button class="cat-tab" data-cat="Annuity_QDAP" onclick="selectCategory(this, 'Annuity_QDAP')">👴 扣稅年金 (8款)</button>
+    <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (8款)</button>
+  </div>
+
   <!-- 3-Second Quick Match Selector -->
   <div class="quick-selector">
     <div class="selector-label">
@@ -392,6 +813,12 @@
   <!-- Agent Private View (Dark, Tactical, Punchy) -->
   <div id="agent-view" class="agent-view-container">
     <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶</div>
+    
+    <!-- 条款陷阱警示框 -->
+    <div class="agent-trap-alert" id="agent-trap-alert">
+      <strong>條款陷阱避坑警示：</strong>對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！
+    </div>
+
     <h3 style="font-size:16px; margin-bottom:12px; color:#38bdf8;" id="agent-title">
       🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
     </h3>
@@ -418,18 +845,93 @@
     </div>
   </div>
 
-  <!-- Client Facing View (Light, Clean, Objective, IA Compliant) -->
+  <!-- Client Facing View (Light, Clean, Objective, IA Compliant Tear-Sheet) -->
   <div id="client-view" class="main-card" style="display:none;">
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
-      <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK</span>
+      <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK TEAR-SHEET</span>
       <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GN16 公開報告</span>
     </div>
+
+    <!-- 1v1 旗舰擂台对决卡 -->
+    <div class="hero-battle-header" id="hero-battle-header">
+      <div class="hero-side our-side">
+        <div class="hero-tag">我方推薦配置方案</div>
+        <div class="hero-title" id="hero-our-name">友邦 AIA · 盈御多元貨幣 3</div>
+      </div>
+      <div class="hero-vs-badge">VS</div>
+      <div class="hero-side rival-side">
+        <div class="hero-tag">競品市場宣傳方案</div>
+        <div class="hero-title" id="hero-rival-name">保誠 Prudential · 雋富多元貨幣</div>
+      </div>
+    </div>
+
     <h2 style="font-size:18px; font-weight:700; margin-bottom:6px;" id="client-title">
       全港主流旗艦儲蓄險·長期分紅穩定性比對
     </h2>
     <p style="font-size:13px; color:var(--text-sub); line-height:1.5;" id="client-desc">
       分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
     </p>
+
+    <!-- Dynamic Policy Horizon Slider -->
+    <div class="horizon-slider-box" id="horizon-slider-box">
+      <div class="horizon-slider-header">
+        <span class="horizon-slider-title">📈 政策收益動態投影儀 (Policy Horizon)</span>
+        <span class="horizon-badge" id="horizon-year-badge">30 年</span>
+      </div>
+      <div class="horizon-range-wrap">
+        <input type="range" id="horizon-slider" min="0" max="3" step="1" value="3" oninput="onHorizonChange(this.value)">
+      </div>
+      <div class="horizon-ticks">
+        <span>5年 (回本啟動)</span>
+        <span>10年 (收益加速)</span>
+        <span>20年 (財富倍增)</span>
+        <span>30年 (退休傳承)</span>
+      </div>
+      <div class="horizon-result-card" id="horizon-result-card">
+        <strong>第 30 年動態利益投影：</strong>退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！GN16 實現率每差 5.3%，30年複利累積差距將高達 HK$450,000 ~ $800,000 真金白銀！
+      </div>
+    </div>
+
+    <!-- Official GN16 Corridor of Reliability Meter -->
+    <div class="corridor-meter-box" id="corridor-meter-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <span style="font-size:12px;font-weight:700;color:var(--text-main);">🏛️ 保監局 GN16 實現率安全走廊 (Corridor of Reliability)</span>
+        <span style="font-size:11px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);">官方基準: 90%~100%</span>
+      </div>
+      <div class="corridor-bar-track">
+        <div class="corridor-pointer corridor-pointer-our" style="left:96.5%;" title="我方穩定度: 96.5%"></div>
+        <div class="corridor-pointer" id="corridor-rival-pointer" style="left:91.2%;" title="競品實現率"></div>
+      </div>
+      <div class="corridor-labels">
+        <span>0% (警戒)</span>
+        <span>80% (偏離)</span>
+        <span style="color:#10b981;font-weight:700;">90% (安全門檻)</span>
+        <span style="color:var(--ikb);font-weight:700;">96.5% (我方)</span>
+        <span>100%</span>
+      </div>
+      <div style="font-size:12px;color:var(--text-sub);margin-top:8px;line-height:1.5;" id="corridor-desc">
+        該保司歷史曾跌出 90% 安全走廊（僅 91.2%），30年複利實現率差 5% 造成數十萬派發折損。
+      </div>
+    </div>
+
+    <!-- Fine-Print Revealer -->
+    <div class="fineprint-box" id="fineprint-box">
+      <div style="font-size:12px;font-weight:700;color:var(--text-main);">🔍 條款細則照妖鏡 (Fine-Print Revealer)</div>
+      <div class="fineprint-grid">
+        <div class="fineprint-item gimmick">
+          <strong>宣傳噱頭 (Marketing Claim)：</strong>
+          <span id="fineprint-claim">~~5.80% 5年預繳保證高息~~</span>
+        </div>
+        <div class="fineprint-item reality">
+          <strong>通函真實細則 (Regulatory Reality)：</strong>
+          <span id="fineprint-reality">通函註明僅保證首 1 年，次年回到市場浮動利率；全球降息週期次年利息極易跳水</span>
+        </div>
+        <div class="fineprint-item citation">
+          <strong>監管備案出處 (Citation Source)：</strong>
+          <span id="fineprint-citation">香港保監局 (IA)《持牌保險中介人操守守則》第 4.2 條及各保司產品推廣通函批註</span>
+        </div>
+      </div>
+    </div>
 
     <!-- Chart: Dynamic GN16 / Metric Fulfillment Comparison -->
     <div class="client-chart-box" id="client-chart-box">
@@ -459,13 +961,39 @@
   <!-- Toast Notification Container -->
   <div id="toast" class="toast-feedback">✅ 見客 WhatsApp 話術模板已複製到剪貼簿！</div>
 
+  <!-- Catalog Drawer Modal -->
+  <div class="catalog-drawer-backdrop" id="catalog-drawer-backdrop" onclick="closeCatalogDrawer()"></div>
+  <div class="catalog-drawer" id="catalog-drawer">
+    <div class="drawer-header">
+      <div class="drawer-title">📚 全港 9 大保司 · 42 款主流產品規格全覽</div>
+      <button class="drawer-close-btn" onclick="closeCatalogDrawer()">✕</button>
+    </div>
+    <div class="drawer-search-bar">
+      <input type="text" class="drawer-search-input" id="catalog-search-input" placeholder="🔍 搜尋產品名稱、保司、免體檢額或關鍵字..." oninput="filterCatalog()">
+    </div>
+    <div class="drawer-filter-chips">
+      <button class="drawer-chip active" data-cat="all" onclick="filterCatalogByChip(this, 'all')">全部 (42)</button>
+      <button class="drawer-chip" data-cat="Savings_MultiCurrency" onclick="filterCatalogByChip(this, 'Savings_MultiCurrency')">儲蓄 (8)</button>
+      <button class="drawer-chip" data-cat="Critical_Illness" onclick="filterCatalogByChip(this, 'Critical_Illness')">危疾 (9)</button>
+      <button class="drawer-chip" data-cat="Medical_VHIS" onclick="filterCatalogByChip(this, 'Medical_VHIS')">醫保 (9)</button>
+      <button class="drawer-chip" data-cat="Annuity_QDAP" onclick="filterCatalogByChip(this, 'Annuity_QDAP')">年金 (8)</button>
+      <button class="drawer-chip" data-cat="Financing_UniversalLife" onclick="filterCatalogByChip(this, 'Financing_UniversalLife')">萬用 (8)</button>
+    </div>
+    <div class="drawer-cards-list" id="catalog-cards-list">
+      <!-- Rendered dynamically by renderCatalog() -->
+    </div>
+  </div>
+
   <!-- Bottom Fast Actions -->
   <div class="bottom-bar">
     <button class="action-btn btn-flip" onclick="toggleView()">
-      🔄 一鍵翻轉螢幕
+      🔄 一鍵翻轉
+    </button>
+    <button class="action-btn btn-drawer" onclick="openCatalogDrawer()">
+      📚 42款全產品庫
     </button>
     <button class="action-btn btn-whatsapp" onclick="copyWhatsAppPitch()">
-      📲 複製 WhatsApp 範本
+      📲 複製 WhatsApp
     </button>
   </div>
 
@@ -475,6 +1003,11 @@
     let selectedCompany = 'Prudential';
     let selectedClaim = 'prepayment';
     let currentWhatsAppScript = '';
+    let currentHorizonYear = 30;
+
+    // All 42 Market Products Catalog Knowledge Base
+    const ALL_PRODUCTS_CATALOG = [{"id":"PROMO-AIA-SAV-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (1年保證)","discount":"12%","gn16":"96.5%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-PRU-SAV-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋富多元貨幣計劃 (Evergreen Grandeur)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.8% (1年保證)","discount":"14%","gn16":"91.2%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-SAV-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏摯多元儲蓄計劃 (ManuGlobal Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (2年保證)","discount":"10%","gn16":"94.8%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-SUN-SAV-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年青星河傳承計劃 (Stellar Global Legacy)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.1% (1年保證)","discount":"12%","gn16":"93%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-FWD-SAV-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"盈豐多元貨幣儲蓄保險 (MaxFortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.3% (3年保證)","discount":"15%","gn16":"92.6%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-AXA-SAV-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"摯匯多元貨幣儲蓄計劃 (Global DynaWealth)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"14%","gn16":"95.1%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-BOC-SAV-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"薪火相傳多元貨幣終身壽險計劃 (Generational Multi-Currency Whole Life)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (2年保證)","discount":"10%","gn16":"97.2%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-YF-SAV-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富饒傳承多元貨幣計劃 (Infinite Fortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.6% (1年保證)","discount":"15%","gn16":"94%","breakeven":"第 18 年","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-CI-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"守護無間危疾保 (ManuFirst Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"10%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-FWD-CI-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾加諾保 (Crisis Xcelerator Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AIA-CI-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"友心意危疾保 (Care Extra Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-PRU-CI-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"誠保一生危疾保 (Guardian Care Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-SUN-CI-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬泰危疾保 (SunHealth Total Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AXA-CI-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"愛護同行危疾保 (Loving Care Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-YF-CI-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"首選健康加護保 (Prime Health Care Extra)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 1 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-CI-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie 早期危疾保 (Bowtie Early Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOC-CI-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"守護健康危疾保障計劃 (Health Guardian Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-VHIS-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie Pink 自願醫保 (靈活計劃)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"25%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AIA-VHIS-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"尊裕醫療自願醫保計劃 (CEO Medical VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-PRU-VHIS-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"摯為您醫療計劃 (Privilege VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-FWD-VHIS-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"至臻保醫療計劃 (vPrime Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-MANU-VHIS-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏達醫療保障計劃 (ManuMaster VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AXA-VHIS-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"智尊守慧醫療計劃 (Smart Medicare VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-VHIS-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"永明港悅自願醫保計劃 (SunHealth MediPro VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-BOC-VHIS-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"中銀卓越自願醫保計劃 (BOC Life Prestige VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-YF-VHIS-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通萬全自願醫保計劃 (YF Life VHIS Extra)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2800萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-QDAP-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年延期年金 (Stellar QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-BOC-QDAP-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃 (BOC Life Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.1%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-PRU-QDAP-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋逸年金計劃 (Evergreen Deferred Annuity QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.9%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-QDAP-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"延期年金計劃 (AIA Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.8%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-MANU-QDAP-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"悠然延期年金計劃 (ManuRetire QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.95%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-FWD-QDAP-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"智尊延期年金計劃 (Supreme QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.92%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AXA-QDAP-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛滿延期年金計劃 (Joyful QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"15%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.88%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-YF-QDAP-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通延期年金計劃 (MY Deferred Annuity)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.05%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-UL-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富尊享萬用壽險 (Platinum Wealth Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-MANU-UL-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏裕傳承萬用壽險 (ManuGrand Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-SUN-UL-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬世傳奇萬用壽險 (SunLegacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-FWD-UL-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"富逸傳家萬用壽險 (Apex Legacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"5%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-YF-UL-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富貴萬用壽險 (MassFortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-PRU-UL-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"富傳萬用壽險 (Grandeur Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.8%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-AXA-UL-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛世傳承萬用壽險 (Grand Fortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-BOC-UL-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"盛世萬用壽險 (Golden Era Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"}];
+    window.ALL_PRODUCTS_CATALOG = ALL_PRODUCTS_CATALOG;
 
     // Insurer Profile Knowledge Base
     const COMPANY_PROFILES = {
@@ -482,74 +1015,74 @@
         fullName: "友邦保險 AIA",
         flagshipSavings: "盈御多元貨幣計劃 3",
         gn16Fulfillment: 96.5,
-        flagshipCI: "盈愛 · 笑容危疾保",
+        flagshipCI: "友心意危疾保",
         cancerWaitYears: 2,
-        flagshipVHIS: "尊顯自願醫保靈活計劃",
+        flagshipVHIS: "尊裕醫療自願醫保計劃",
         cashlessNetwork: "全球直付及全港私家醫院",
-        flagshipUL: "財富傳承萬用壽險",
-        ulLtv: 80,
-        flagshipQDAP: "充裕未來年金計劃",
+        flagshipUL: "財富尊享萬用壽險",
+        ulLtv: 85,
+        flagshipQDAP: "延期年金計劃",
         qdapGuaranteedPct: 52.0
       },
       Prudential: {
         fullName: "保誠保險 Prudential",
         flagshipSavings: "雋富多元貨幣計劃",
         gn16Fulfillment: 91.2,
-        flagshipCI: "守護健康危疾加護保",
+        flagshipCI: "誠保一生危疾保",
         cancerWaitYears: 3,
-        flagshipVHIS: "摯為您自願醫保計劃",
+        flagshipVHIS: "摯為您醫療計劃",
         cashlessNetwork: "本地特約醫療網絡",
         flagshipUL: "富傳萬用壽險",
         ulLtv: 82,
-        flagshipQDAP: "雋逸延期年金",
+        flagshipQDAP: "雋逸年金計劃",
         qdapGuaranteedPct: 45.0
       },
       Manulife: {
         fullName: "宏利保險 Manulife",
-        flagshipSavings: "宏爵多元貨幣計劃",
+        flagshipSavings: "宏摯多元儲蓄計劃",
         gn16Fulfillment: 94.8,
-        flagshipCI: "活耀人生危疾保",
+        flagshipCI: "守護無間危疾保",
         cancerWaitYears: 3,
-        flagshipVHIS: "晉悅自願醫保計劃",
+        flagshipVHIS: "宏達醫療保障計劃",
         cashlessNetwork: "香港主要私家醫院",
-        flagshipUL: "ManuAmple 萬用壽險",
+        flagshipUL: "宏裕傳承萬用壽險",
         ulLtv: 80,
-        flagshipQDAP: "悠然延期年金",
+        flagshipQDAP: "悠然延期年金計劃",
         qdapGuaranteedPct: 48.0
       },
       'Sun Life': {
         fullName: "永明金融 Sun Life",
-        flagshipSavings: "萬年青星河多元貨幣",
+        flagshipSavings: "萬年青星河傳承計劃",
         gn16Fulfillment: 90.5,
-        flagshipCI: "世紀守護危疾保",
+        flagshipCI: "萬泰危疾保",
         cancerWaitYears: 3,
         flagshipVHIS: "永明港悅自願醫保計劃",
         cashlessNetwork: "香港認可私家網絡",
-        flagshipUL: "Stellar 萬用壽險",
+        flagshipUL: "萬世傳奇萬用壽險",
         ulLtv: 80,
-        flagshipQDAP: "安逸延期年金計劃",
+        flagshipQDAP: "萬年延期年金",
         qdapGuaranteedPct: 38.0
       },
       FWD: {
         fullName: "富衛保險 FWD",
-        flagshipSavings: "盈豐寶多元貨幣計劃",
+        flagshipSavings: "盈豐多元貨幣儲蓄保險",
         gn16Fulfillment: 92.5,
-        flagshipCI: "危機應變保 Crisis One",
-        cancerWaitYears: 3,
-        flagshipVHIS: "至臻自願醫保計劃",
+        flagshipCI: "危疾加諾保",
+        cancerWaitYears: 2,
+        flagshipVHIS: "至臻保醫療計劃",
         cashlessNetwork: "大灣區與香港聯網",
-        flagshipUL: "MaxFocus 融資萬用壽險",
+        flagshipUL: "富逸傳家萬用壽險",
         ulLtv: 85,
         flagshipQDAP: "智尊延期年金計劃",
         qdapGuaranteedPct: 42.0
       },
       AXA: {
         fullName: "安盛保險 AXA",
-        flagshipSavings: "摯匯多元貨幣儲蓄",
+        flagshipSavings: "摯匯多元貨幣儲蓄計劃",
         gn16Fulfillment: 91.8,
-        flagshipCI: "愛護同行危疾計劃",
+        flagshipCI: "愛護同行危疾保",
         cancerWaitYears: 3,
-        flagshipVHIS: "智尊自願醫保卓越版",
+        flagshipVHIS: "智尊守慧醫療計劃",
         cashlessNetwork: "AXA 專屬全球醫療網絡",
         flagshipUL: "盛世傳承萬用壽險",
         ulLtv: 85,
@@ -571,9 +1104,9 @@
       },
       'BOC Life': {
         fullName: "中銀人壽 BOC Life",
-        flagshipSavings: "守護多元貨幣終身壽險",
+        flagshipSavings: "薪火相傳多元貨幣終身壽險計劃",
         gn16Fulfillment: 93.0,
-        flagshipCI: "守護健康重疾保障",
+        flagshipCI: "守護健康危疾保障計劃",
         cancerWaitYears: 3,
         flagshipVHIS: "中銀卓越自願醫保計劃",
         cashlessNetwork: "中銀聯營醫療網絡",
@@ -584,13 +1117,13 @@
       },
       'YF Life': {
         fullName: "萬通保險 YF Life",
-        flagshipSavings: "富饒傳承儲蓄保",
+        flagshipSavings: "富饒傳承多元貨幣計劃",
         gn16Fulfillment: 92.0,
-        flagshipCI: "首選健康保",
+        flagshipCI: "首選健康加護保",
         cancerWaitYears: 3,
-        flagshipVHIS: "萬通萬全自願醫保",
+        flagshipVHIS: "萬通萬全自願醫保計劃",
         cashlessNetwork: "萬通專屬醫療卡網絡",
-        flagshipUL: "Infinity 萬用壽險",
+        flagshipUL: "富貴萬用壽險",
         ulLtv: 85,
         flagshipQDAP: "萬通延期年金計劃",
         qdapGuaranteedPct: 40.0
@@ -617,7 +1150,6 @@
     function normalizeClaim(str) {
       if (!str) return 'prepayment';
       const s = String(str).toLowerCase().trim();
-      // Canonical keys & abbreviations (ensures idempotence)
       if (s === 'prepayment') return 'prepayment';
       if (s === 'rebate') return 'rebate';
       if (s === 'critical_illness' || s === 'ci') return 'critical_illness';
@@ -625,7 +1157,6 @@
       if (s === 'financing_ul' || s === 'financing' || s === 'universal_life' || s === 'ul') return 'financing_ul';
       if (s === 'qdap') return 'qdap';
 
-      // UI pill labels & market keyword matching
       if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報') || s.includes('prepayment')) return 'prepayment';
       if (s.includes('28%') || s.includes('回贈') || s.includes('折扣') || s.includes('rebate')) return 'rebate';
       if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical')) return 'critical_illness';
@@ -642,6 +1173,74 @@
       const profile = COMPANY_PROFILES[compKey] || COMPANY_PROFILES.Prudential;
       const disclaimer = `註：以上數據摘自香港保監局官方統計 (GN16) 及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。持牌人內部專業培訓用途，嚴禁作為宣傳單張散發。`;
 
+      // Helper for default new fields
+      let heroOur = '友邦 AIA · 盈御多元貨幣 3';
+      let heroRival = `${profile.fullName} · ${profile.flagshipSavings}`;
+      let trapWarning = `⚠️ 陷阱警示：對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！`;
+      let fpClaim = '~~5.80% 5年預繳保證高息~~';
+      let fpReality = '通函註明僅保證首 1 年，次年回到市場浮動利率；全球降息週期次年利息極易跳水';
+      let fpCitation = '香港保監局 (IA)《持牌保險中介人操守守則》第 4.2 條及各保司產品推廣通函批註';
+      let corridorNote = (compKey === 'Bowtie')
+        ? '保泰人壽為純消費型醫療保障，不設分紅儲蓄險種，無需申報 GN16 分紅實現率。'
+        : (profile.gn16Fulfillment >= 95
+          ? '該保司歷史實現率穩定在 90%~100% 綠色安全走廊內，確定性較高。'
+          : `該保司歷史曾跌出 90% 安全走廊（僅 ${profile.gn16Fulfillment}%），30年複利實現率差 5% 造成數十萬派發折損。`);
+
+      const horizonData = {
+        5: '保單第 5 年：我方方案保證現金價值已達 100% 已繳保費（快速回本）；對手若有高額回贈通常仍處於鎖定退保期（提早退保罰則高達 20%~30%）。',
+        10: '保單第 10 年：我方內部回報率 (IRR) 突破 4.2%，保證利益佔比超過 45%，資產穩定跨越金融週期；對手浮動分紅受市場波動影響顯著。',
+        15: '保單第 15 年：子女高等教育出國深造黃金期，總現金價值達已繳保費 1.8~2.0 倍；可隨時行使多貨幣轉換功能對衝匯率風險。',
+        20: '保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 96.5% 累積實現率守護分紅派發，對手非保證部分折損顯現。',
+        25: '保單第 25 年：準退休籌劃與家族信託階段，現金流支取自由度高，已具備無限次更換受保人與拆分能力。',
+        30: '保單第 30 年：退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！GN16 實現率每差 5.3%，30年複利累積差距將高達 HK$450,000 ~ $800,000 真金白銀！'
+      };
+
+      // Set category-specific hero names, traps and fine prints
+      if (claimKey === 'critical_illness') {
+        heroOur = '友邦 AIA · 友心意危疾保';
+        heroRival = compKey === 'Bowtie' ? '保泰 Bowtie · 早期危疾保' : `${profile.fullName} · ${profile.flagshipCI}`;
+        trapWarning = compKey === 'Bowtie'
+          ? '⚠️ 陷阱警示：Bowtie 早期危疾為自然費率，年紀越大保費跳升越劇烈；且僅限單次賠付，無 ICU 預支與多次賠付防線！'
+          : '⚠️ 陷阱警示：癌症索償等候期 3 年 vs 2 年相差整整 365 天自費真空期；我方 ICU 連續住 3-5 天免病名預支 100% 是核心致勝點！';
+        fpClaim = '~~多重癌症無限次 100% 賠償~~';
+        fpReality = '每次癌症索償嚴格設有 2~3 年等候期；若等候期為 3 年，復發自費空窗期多達 365 天';
+        fpCitation = '各大保司危疾保單條款第 12 條「指定嚴重疾病多重保障等候期定義」';
+      } else if (claimKey === 'vhis') {
+        heroOur = '友邦 AIA · 尊裕醫療自願醫保';
+        heroRival = compKey === 'Bowtie' ? '保泰 Bowtie · Bowtie Pink 自願醫保' : `${profile.fullName} · ${profile.flagshipVHIS}`;
+        trapWarning = compKey === 'Bowtie'
+          ? '⚠️ 陷阱警示：純網上醫保入院時需投保人自備十幾萬現金墊付，並自行透過 App/Bot 上載單據；無專屬顧問辦理全流程出院免找數 (Cashless)！'
+          : '⚠️ 陷阱警示：對手部分級別標靶藥設有分項限額，且直付網絡限於特約醫院；我方高端自願醫保標靶藥全額賠償且私院無縫出院免找數！';
+        fpClaim = '~~純網上醫保超平無 Agent 佣金~~';
+        fpReality = '純網上理賠需病人自行墊付並上載單據對客務 Bot；專屬顧問提供私家醫院全流程出院免找數 (Cashless)';
+        fpCitation = '醫務衞生局自願醫保計劃認可產品規範及醫院管理局出院直付結算指引';
+      } else if (claimKey === 'financing_ul') {
+        heroOur = '友邦 AIA · 財富尊享萬用壽險';
+        heroRival = compKey === 'Bowtie' ? '保泰 Bowtie · 純線上無相應旗艦' : `${profile.fullName} · ${profile.flagshipUL}`;
+        trapWarning = compKey === 'Bowtie'
+          ? '⚠️ 陷阱警示：虛擬保險規模與資產限制，私人銀行完全未設有任何融資通道，無法進行保費融資與高資產信託傳承！'
+          : '⚠️ 陷阱警示：槓桿融資息差易受 HIBOR 浮動倒掛衝擊；我方萬用壽險設有最低保證派息防禦線 (2.0%~2.5%)，避開對手 Margin Call 補倉隱患！';
+        fpClaim = '~~85% LTV 保費融資年化回報超 15%~~';
+        fpReality = '融資借貸息率與 HIBOR / Prime 掛鉤，若利差收窄或抵押品跌價可能面臨追繳保證金 (Margin Call)';
+        fpCitation = '香港金融管理局 (HKMA) 及保監局 (IA) 關於保費融資業務聯合通函指引';
+      } else if (claimKey === 'qdap') {
+        heroOur = '友邦 AIA · 延期年金計劃';
+        heroRival = compKey === 'Bowtie' ? '保泰 Bowtie · 純線上無相應旗艦' : `${profile.fullName} · ${profile.flagshipQDAP}`;
+        trapWarning = compKey === 'Bowtie'
+          ? '⚠️ 陷阱警示：虛擬保險未設有香港保監局認可的 QDAP 延期年金產品，無法享有每年 HK$60,000 薪俸稅免稅額！'
+          : '⚠️ 陷阱警示：對手 4.2% 總回報中保證部分不足 50%，退休救命錢最忌承受市場波動；我方保證比例逾 80%，兼享 HK$10,200 實質退稅！';
+        fpClaim = '~~買年金等於即賺 17% 現金~~';
+        fpReality = '17% 為最高應課稅階稅務扣減，非保司利息；提早退保將面臨高額本金虧損且不可退稅';
+        fpCitation = '香港稅務局《稅務條例》第 26P 條合資格延期年金保費扣除指引';
+      } else if (claimKey === 'rebate') {
+        trapWarning = compKey === 'Bowtie'
+          ? '⚠️ 陷阱警示：純網上直銷為消費型定期保障，保費交一年保一年，無任何現金價值；切勿因表面省佣金而忽略終身資產沉澱！'
+          : '⚠️ 陷阱警示：28% 首期回贈附帶 7-8 年退保鎖定條款，前期現金價值幾近於零，提早斷供將追討回贈；長線財富重在保證回本速度！';
+        fpClaim = '~~首年保費最高回贈 28% 即慳~~';
+        fpReality = '回贈僅抵扣首期保費，次年起全額繳付；30年期合約中首期回贈僅佔總保費不足 1.8%';
+        fpCitation = '香港保險業監管局 GN16 分紅實現率指引及保單綜合費用總覽條款';
+      }
+
       // ==========================================
       // Branch 1: Bowtie Virtual Insurer Tailored Logic
       // ==========================================
@@ -652,6 +1251,16 @@
             agent_step_1: `「客人考慮純網上保險通常追求性價比與透明度，呢個心態完全可以理解！」`,
             agent_step_2: `「但虛擬保險目前受牌照與業務範疇限制，專注於純醫療及基礎保障，完全未設有具備複利分紅、無限次保單分拆、9種貨幣轉換及保單融資傳承的旗艦儲蓄險，更無 5.8% 預繳或長線 GN16 分紅實現率。」`,
             agent_step_3: `「買儲蓄分紅險最緊要係資產跨代傳承與複利積累。我地旗艦系列歷年累積 GN16 實現率高達 96.5%，支援無限次分拆與多幣種轉換，呢種長線財富管家功能係純網上保障型保司無法提供的。」`,
+            agent_trap_warning: trapWarning,
+            hero_our_name: heroOur,
+            hero_rival_name: heroRival,
+            fineprint_claim: fpClaim,
+            fineprint_reality: fpReality,
+            fineprint_citation: fpCitation,
+            corridor_our: '96.5%',
+            corridor_rival: '純保障 (0%)',
+            corridor_note: corridorNote,
+            horizon_data: horizonData,
             client_title: `虛擬保險純保障定位 vs 綜合保司全功能儲蓄傳承比對`,
             client_source: `來源：香港保監局 (IA) 認可保險公司名單及業務範疇審批指引`,
             client_desc: `香港虛擬保險公司主要獲批純線上自願醫保與消費型保障；如需建立跨代資產傳承、子女教育基金或退休複利儲備，需依託全牌照人壽保險公司。`,
@@ -679,6 +1288,16 @@
             agent_step_1: `「客人覺得純網上無佣金好似即時慳保費，甚至期望有高額保費回贈，呢種心態好自然！」`,
             agent_step_2: `「但純網上直銷本質係消費型定期保障，保費交一年保一年，所有保費 100% 消耗無儲蓄現金價值；而傳統綜合保險嘅儲蓄方案即使扣除各項費用，第 5 年保證回本，幾十年後複利滾存幾百萬本利和！」`,
             agent_step_3: `「長線睇，交 20 年純消費保費隨時倒蝕十幾萬保費；而選擇我地第 5 年保證回本嘅旗艦儲蓄方案，本金完好無損兼享複利增長，呢個先係最精明嘅資金配置！」`,
+            agent_trap_warning: trapWarning,
+            hero_our_name: heroOur,
+            hero_rival_name: heroRival,
+            fineprint_claim: fpClaim,
+            fineprint_reality: fpReality,
+            fineprint_citation: fpCitation,
+            corridor_our: '96.5%',
+            corridor_rival: '純保障 (0%)',
+            corridor_note: corridorNote,
+            horizon_data: horizonData,
             client_title: `消費型保費支出 vs 累積保證現金價值長期效益比對`,
             client_source: `來源：香港精算學會產品指引及公開利益說明書`,
             client_desc: `消費型純保障產品缺乏儲蓄成分，累積繳交之保費無法轉化為保證現金價值；而優質儲蓄險第5年即可保證回本。`,
@@ -706,6 +1325,16 @@
             agent_step_1: `「張生，Bowtie 早期危疾保純網上宣傳零佣金、涵蓋原位癌，睇落好吸引，你對市場新產品好有觸覺！」`,
             agent_step_2: `「但仔細拆解佢係『每年續保（定期消費型）』！保費跟年齡自然費率跳升，40-50歲後保費以倍數暴漲；更致命嘅係只賠 1 次，無深切治療部 (ICU) 全額預支，亦無癌症/中風/心臟病多達 5-6 次的多次賠償保障！」`,
             agent_step_3: `「我地旗艦危疾係『終身平準保費』，交 20 年保終身，年老時零保費壓力！涵蓋過百種嚴重疾病，癌症間隔僅 2 年即可多次索償，連續住 ICU 3-5 日即預支 100% 保額，呢種全面兜底防護先係抵禦重症的真正盾牌！」`,
+            agent_trap_warning: trapWarning,
+            hero_our_name: heroOur,
+            hero_rival_name: heroRival,
+            fineprint_claim: fpClaim,
+            fineprint_reality: fpReality,
+            fineprint_citation: fpCitation,
+            corridor_our: '96.5%',
+            corridor_rival: '純保障 (0%)',
+            corridor_note: corridorNote,
+            horizon_data: horizonData,
             client_title: `定期自然費率危疾 vs 終身平準保費重疾防線全維度比對`,
             client_source: `來源：香港癌症資料統計中心及各保司正式保單批註`,
             client_desc: `定期危疾隨年齡增長保費大幅遞增，且通常僅限單次賠付；終身危疾鎖定平準保費，並具備多次重疾賠付及ICU無指定病名全額預支保障。`,
@@ -733,6 +1362,16 @@
             agent_step_1: `「王太，保泰 Bowtie 網上自願醫保平兩三成，主打無中介人，表面睇確實好符合追求極致性價比嘅客群！」`,
             agent_step_2: `「但醫保最殘酷嘅時刻係入院要理賠！純線上保險只有 Chatbot 同 Email，大病入院時病人要自己聯絡私家醫院做預先批核、自己先找數墊付十幾廿萬、出院再自己影單填 Claim Form，一旦單據有遺漏隨時被拒賠投訴無門！」`,
             agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；最關鍵係有專屬持牌 Agent 提供全港私院『出院免找數 (Cashless)』直付，專人入院前辦好擔保、出院保司直接同醫院找數！病人專心養病零操心，呢份專屬跑腿服務先係醫保核心價值！」`,
+            agent_trap_warning: trapWarning,
+            hero_our_name: heroOur,
+            hero_rival_name: heroRival,
+            fineprint_claim: fpClaim,
+            fineprint_reality: fpReality,
+            fineprint_citation: fpCitation,
+            corridor_our: '96.5%',
+            corridor_rival: '純保障 (0%)',
+            corridor_note: corridorNote,
+            horizon_data: horizonData,
             client_title: `純線上自主申報 vs 專屬持牌顧問出院免找數 (Cashless) 比對`,
             client_source: `來源：醫務衞生局自願醫保認可產品名單及醫院直付協議`,
             client_desc: `自願醫保核心體驗在於入院時的理賠支援。專屬顧問提供全程入院直付擔保、免墊支直接找數，免除投保人自行跑腿墊資與單據補件壓力。`,
@@ -760,6 +1399,16 @@
             agent_step_1: `「趙總，許多高資產客戶關注保費融資與萬用壽險 (UL)，但要注意純網上虛擬保險並無提供保費融資產品！」`,
             agent_step_2: `「虛擬保險受牌照及資產規模所限，私人銀行及商業銀行均未設有任何針對虛擬保單的保費融資通道；而且傳統 85% 融資在降息週期極易面臨息差倒掛與銀行 Margin Call 補倉致命風險。」`,
             agent_step_3: `「高淨值資產配置應首選『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與補倉滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握在家族手中。」`,
+            agent_trap_warning: trapWarning,
+            hero_our_name: heroOur,
+            hero_rival_name: heroRival,
+            fineprint_claim: fpClaim,
+            fineprint_reality: fpReality,
+            fineprint_citation: fpCitation,
+            corridor_our: '96.5%',
+            corridor_rival: '純保障 (0%)',
+            corridor_note: corridorNote,
+            horizon_data: horizonData,
             client_title: `虛擬保險業務範疇 vs 綜合保司萬用壽險與多元貨幣資產配置比對`,
             client_source: `來源：香港金管局 (HKMA) 與保監局 (IA) 保費融資聯合通函及私人銀行貸款政策`,
             client_desc: `虛擬保險專注於零售純保障，不具備私人銀行萬用壽險融資架構；進行高額家族資產配置需選用具備多元貨幣及跨代傳承架構之全牌照保司。`,
@@ -787,6 +1436,16 @@
           agent_step_1: `「林生，不少市民想在網上買延期年金扣稅，但請注意保泰 Bowtie 目前並未推出合資格延期年金 (QDAP)！」`,
           agent_step_2: `「香港保監局對 QDAP 審批極其嚴格，要求總保費至少 50% 為保證年金且鎖定至少 10 年派發期。虛擬保險目前未獲批發行任何可享每年 HK$60,000 薪俸稅免稅額的 QDAP 年金產品。」`,
           agent_step_3: `「要善用每年最高 HK$10,200 的實質退稅優惠並建立終身確定退休金，必須選擇全牌照保司的認可 QDAP。我地方案保證內部回報率全港頂尖，保證派息比例超過 80%，無論金融市場如何波動，退休現金流穩如泰山！」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: '純保障 (0%)',
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `香港保監局合資格延期年金 (QDAP) 認可資格與退稅比對`,
           client_source: `來源：香港保險業監管局 QDAP 認可產品名單及稅務局薪俸稅扣除指引`,
           client_desc: `僅有列入保監局官方認可名單之合資格延期年金 (QDAP) 方可享有每年每人最高 HK$60,000 稅務扣除額；虛擬保險目前未設此類認可年金產品。`,
@@ -819,6 +1478,16 @@
           agent_step_3: (96.5 - profile.gn16Fulfillment) > 0
             ? `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】得 ${profile.gn16Fulfillment}%。複利 30 年差 ${(96.5 - profile.gn16Fulfillment).toFixed(1)}% 就係幾十萬真金白銀！」`
             : `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${profile.flagshipSavings}】雖同樣達 ${profile.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: `${profile.gn16Fulfillment}%`,
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `全港主流旗艦儲蓄險 · 長期分紅穩定性比對`,
           client_source: `來源：香港保監局 GN16 公開報告及各保司年報`,
           client_desc: `分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。`,
@@ -846,6 +1515,16 @@
           agent_step_1: `「李生，對手開出 28% 首年保費回贈確實好震撼，一眼睇落好似即時慳咗差唔多三成保費，換著邊個都會心動！」`,
           agent_step_2: `「但精算現金流拆解顯示：羊毛出自羊身上！保司送得出 28% 回贈，往往將退保鎖定期拉長至 7~8 年，頭 3 年保證現金價值近乎為零，而且提早斷供會追討扣回已派回贈。」`,
           agent_step_3: `「我地方案真正保證回本期（Break-even）足足快 2 年，第 5 年保證現金價值已達 100% 繳付保費！買儲蓄險係睇長線本金安全性與流動性，千祈唔好因一次性回贈鎖死流動資金。」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: `${profile.gn16Fulfillment}%`,
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `保費回贈 vs 保證現金價值回本年期比對`,
           client_source: `來源：香港精算學會產品指引及公開利益說明書`,
           client_desc: `評估大額保費回贈推廣時，投保人應綜合考量早期保證現金價值積存速度（回本期）及退保費用豁免年期。`,
@@ -873,6 +1552,16 @@
           agent_step_1: `「張生，${profile.fullName}【${profile.flagshipCI}】宣傳保過百種疾病、仲有多次賠償，單張睇落真係好豐富，你睇得咁細心好佩服你！」`,
           agent_step_2: `「但臨床大數據顯示 85% 危疾索償都係癌症。對手條款寫明癌症再次索償要等足『3 年』！醫學上腫瘤復發往往喺第 1-2 年高發期，呢 3 年空窗期若復發係一蚊都 Claim 唔到嘅致命自費盲點！」`,
           agent_step_3: `「我地將癌症再次索償間隔直接縮短至『2 年』生命安全線！而且首創深切治療部 (ICU) 全額預支：只要連續住 ICU 達 3-5 日，無需指定病名直接賠償 100% 保額，呢個先係真正兜底保命嘅保障！」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: `${profile.gn16Fulfillment}%`,
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `全港頂尖危疾險 · 癌症再次索償間隔與 ICU 兜底比對`,
           client_source: `來源：香港癌症資料統計中心及各保司正式保單批註`,
           client_desc: `臨床腫瘤學指出，癌症復發及轉移風險於治療後首兩年最為關鍵。縮短癌症再次索償等待期間隔能有效避免自費空窗期。`,
@@ -900,6 +1589,16 @@
           agent_step_1: `「王太，${profile.fullName} 宣傳【${profile.flagshipVHIS}】全數賠償，單張睇落好豐富，你揀得咁細心好佩服你！」`,
           agent_step_2: `「但仔細審視醫療合約細則：非手術癌症治療（標靶藥、免疫治療）喺部分級別依然設有分項限額；而且對手直付網絡主要依賴特約指定醫院，若因急症入住非網絡私家醫院，或病房級別限制嚴格，隨時面臨降級索償罰則自費幾成！」`,
           agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；全港所有私家醫院無障礙直付『出院免找數 (Cashless)』，免除繁瑣預先審批門檻，大病時專人為你跑腿墊付，呢份萬全保障先係真正安心！」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: `${profile.gn16Fulfillment}%`,
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `全港主流旗艦自願醫保 (VHIS) 癌症標靶藥全數賠償與網絡直付比對`,
           client_source: `來源：醫務衞生局自願醫保認可產品名單及各大保司正式合約批註`,
           client_desc: `自願醫保靈活計劃之關鍵差異在於昂貴非手術癌症標靶治療是否設有分項上限，以及直付免找數醫院網絡的覆蓋完整度與病房升級彈性。`,
@@ -927,6 +1626,16 @@
           agent_step_1: `「趙總，85% 高槓桿保費融資表面睇可以用 15 萬本金撬動 100 萬保單，息差收益率宣傳到 10% 以上，作為高資產配置確實好吸引！」`,
           agent_step_2: `「但融資命脈在於息差（Spread）。銀行借貸利息係浮動 Prime Rate / Hibor，而保單結算利率由保司每年釐定；一旦降息週期息差倒掛，每月倒貼利息；若保單退保價值跌破警戒線，銀行隨時出 Margin Call 要求補倉，否則強制斬倉！」`,
           agent_step_3: `「我地建議資產配置回歸『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與 Margin Call 滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握喺自己手中。」`,
+          agent_trap_warning: trapWarning,
+          hero_our_name: heroOur,
+          hero_rival_name: heroRival,
+          fineprint_claim: fpClaim,
+          fineprint_reality: fpReality,
+          fineprint_citation: fpCitation,
+          corridor_our: '96.5%',
+          corridor_rival: `${profile.gn16Fulfillment}%`,
+          corridor_note: corridorNote,
+          horizon_data: horizonData,
           client_title: `高槓桿保費融資 (UL) vs 無槓桿多元貨幣儲蓄風險收益比對`,
           client_source: `來源：香港金管局 (HKMA) 與保監局 (IA) 保費融資聯合通函`,
           client_desc: `監管機構嚴正警示：保費融資涉及利率風險、槓桿風險與補倉風險，降息週期極易引發息差倒掛及抵押品減值危機。`,
@@ -954,6 +1663,16 @@
         agent_step_1: `「林生，見到對手宣傳 QDAP 預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
         agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${profile.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
         agent_step_3: `「我地 QDAP 方案保證內部回報率 (Guaranteed IRR) 全港頂尖，保證派息比例超過 80%！無論金融海嘯點變，退休現金流一蚊都唔會少；加埋每年法定 HK$60,000 扣稅額，即時實質慳返最高 HK$10,200 稅款！」`,
+        agent_trap_warning: trapWarning,
+        hero_our_name: heroOur,
+        hero_rival_name: heroRival,
+        fineprint_claim: fpClaim,
+        fineprint_reality: fpReality,
+        fineprint_citation: fpCitation,
+        corridor_our: '96.5%',
+        corridor_rival: `${profile.gn16Fulfillment}%`,
+        corridor_note: corridorNote,
+        horizon_data: horizonData,
         client_title: `合資格延期年金 (QDAP) 保證利益佔比與扣稅效益比對`,
         client_source: `來源：香港保險業監管局 QDAP 認可名單及利益說明文件`,
         client_desc: `退休年金最核心價值在於提供確定不變的退休現金流。保證年金比例越高，退休生活越不受金融市場週期動盪影響。`,
@@ -1047,6 +1766,66 @@
       updateBattleCard();
     }
 
+    // Category Tabs Synchronizer
+    function syncCategoryTabWithClaim(claimKey) {
+      let targetCat = 'Savings_MultiCurrency';
+      if (claimKey === 'critical_illness') targetCat = 'Critical_Illness';
+      else if (claimKey === 'vhis') targetCat = 'Medical_VHIS';
+      else if (claimKey === 'qdap') targetCat = 'Annuity_QDAP';
+      else if (claimKey === 'financing_ul') targetCat = 'Financing_UniversalLife';
+
+      document.querySelectorAll('#category-tabs .cat-tab').forEach(tab => {
+        tab.classList.toggle('active', tab.dataset.cat === targetCat);
+      });
+    }
+
+    function selectCategory(targetOrKey, maybeKey) {
+      let rawKey = '';
+      if (typeof targetOrKey === 'string') rawKey = targetOrKey;
+      else if (typeof maybeKey === 'string') rawKey = maybeKey;
+      else if (targetOrKey && targetOrKey.dataset && targetOrKey.dataset.cat) rawKey = targetOrKey.dataset.cat;
+      else if (targetOrKey && targetOrKey.innerText) rawKey = targetOrKey.innerText;
+
+      const s = String(rawKey || '').toLowerCase().trim();
+      let claimKey = 'prepayment';
+      if (s === 'ci' || s === 'critical_illness' || s.includes('critical') || s.includes('危疾') || s.includes('重疾')) {
+        claimKey = 'critical_illness';
+      } else if (s.includes('vhis') || s.includes('medical') || s.includes('自願') || s.includes('醫保')) {
+        claimKey = 'vhis';
+      } else if (s.includes('qdap') || s.includes('annuity') || s.includes('年金') || s.includes('扣稅')) {
+        claimKey = 'qdap';
+      } else if (s === 'ul' || s.includes('financing') || s.includes('universal') || s.includes('萬用') || s.includes('融資')) {
+        claimKey = 'financing_ul';
+      } else if (s.includes('rebate') || s.includes('回贈')) {
+        claimKey = 'rebate';
+      } else {
+        claimKey = 'prepayment';
+      }
+
+      selectClaim(claimKey);
+    }
+    window.selectCategory = selectCategory;
+
+    // Horizon Slider Handler
+    function updateHorizonDisplay(card, year) {
+      const resultCard = document.getElementById('horizon-result-card');
+      const yearBadge = document.getElementById('horizon-year-badge');
+      if (yearBadge) yearBadge.innerText = `${year} 年`;
+      if (!resultCard || !card || !card.horizon_data) return;
+      const text = card.horizon_data[year] || card.horizon_data[30];
+      resultCard.innerHTML = `<strong>第 ${year} 年動態利益投影：</strong>${text}`;
+    }
+
+    function onHorizonChange(val) {
+      const v = Number(val);
+      const HORIZON_STEPS = [5, 10, 20, 30];
+      const year = (v >= 0 && v < HORIZON_STEPS.length && Number.isInteger(v)) ? HORIZON_STEPS[v] : v;
+      currentHorizonYear = year;
+      const card = getBattleCard(selectedCompany, selectedClaim);
+      updateHorizonDisplay(card, currentHorizonYear);
+    }
+    window.onHorizonChange = onHorizonChange;
+
     // Dynamic Reactive DOM Updater
     function updateBattleCard() {
       const card = getBattleCard(selectedCompany, selectedClaim);
@@ -1057,11 +1836,13 @@
       const agentStep1 = document.getElementById('agent-step-1');
       const agentStep2 = document.getElementById('agent-step-2');
       const agentStep3 = document.getElementById('agent-step-3');
+      const agentTrap = document.getElementById('agent-trap-alert');
 
       if (agentTitle) agentTitle.innerHTML = card.agent_title;
       if (agentStep1) agentStep1.innerHTML = card.agent_step_1;
       if (agentStep2) agentStep2.innerHTML = card.agent_step_2;
       if (agentStep3) agentStep3.innerHTML = card.agent_step_3;
+      if (agentTrap) agentTrap.innerHTML = `<strong>條款陷阱避坑警示：</strong>${card.agent_trap_warning}`;
 
       // Client View Updates
       const clientTitle = document.getElementById('client-title');
@@ -1078,6 +1859,34 @@
       if (clientDesc) clientDesc.innerHTML = card.client_desc;
       if (clientChartTitle) clientChartTitle.innerHTML = card.chart_title;
 
+      // 1v1 Battle Card Header
+      const heroOur = document.getElementById('hero-our-name');
+      const heroRival = document.getElementById('hero-rival-name');
+      if (heroOur) heroOur.innerText = card.hero_our_name;
+      if (heroRival) heroRival.innerText = card.hero_rival_name;
+
+      // Horizon Display
+      updateHorizonDisplay(card, currentHorizonYear);
+
+      // GN16 Corridor Meter
+      const corridorDesc = document.getElementById('corridor-desc');
+      const corridorRivalPointer = document.getElementById('corridor-rival-pointer');
+      if (corridorDesc) corridorDesc.innerHTML = card.corridor_note;
+      if (corridorRivalPointer) {
+        const num = parseFloat(card.corridor_rival);
+        const pos = isNaN(num) || num <= 0 ? 10 : Math.max(10, Math.min(98, num));
+        corridorRivalPointer.style.left = `${pos}%`;
+      }
+
+      // Fine-Print Revealer
+      const fpClaim = document.getElementById('fineprint-claim');
+      const fpReality = document.getElementById('fineprint-reality');
+      const fpCitation = document.getElementById('fineprint-citation');
+      if (fpClaim) fpClaim.innerHTML = card.fineprint_claim;
+      if (fpReality) fpReality.innerHTML = card.fineprint_reality;
+      if (fpCitation) fpCitation.innerHTML = card.fineprint_citation;
+
+      // Chart Bars
       if (clientChartBars && Array.isArray(card.chart_bars)) {
         clientChartBars.innerHTML = card.chart_bars.map(bar => `
           <div class="chart-bar-row">
@@ -1092,6 +1901,7 @@
         `).join('');
       }
 
+      // Feature Comparison Table
       if (clientTableTitle) clientTableTitle.innerHTML = card.table_title;
 
       if (clientTable && Array.isArray(card.table_rows)) {
@@ -1105,9 +1915,101 @@
 
       if (clientDisclaimer) clientDisclaimer.innerHTML = card.disclaimer;
 
+      // Category Tabs Sync
+      syncCategoryTabWithClaim(selectedClaim);
+
       // Update WhatsApp pitch script
       currentWhatsAppScript = card.whatsapp_script;
     }
+
+    // Catalog Drawer Handlers
+    function openCatalogDrawer() {
+      const drawer = document.getElementById('catalog-drawer');
+      const backdrop = document.getElementById('catalog-drawer-backdrop');
+      if (drawer) drawer.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+      renderCatalog('', 'all');
+    }
+    window.openCatalogDrawer = openCatalogDrawer;
+
+    function closeCatalogDrawer() {
+      const drawer = document.getElementById('catalog-drawer');
+      const backdrop = document.getElementById('catalog-drawer-backdrop');
+      if (drawer) drawer.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+    window.closeCatalogDrawer = closeCatalogDrawer;
+
+    function filterCatalog() {
+      const searchInput = document.getElementById('catalog-search-input');
+      const text = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      const activeChip = document.querySelector('.drawer-chip.active');
+      const cat = activeChip ? activeChip.dataset.cat : 'all';
+      renderCatalog(text, cat);
+    }
+    window.filterCatalog = filterCatalog;
+
+    function filterCatalogByChip(chip, cat) {
+      document.querySelectorAll('.drawer-chip').forEach(c => c.classList.remove('active'));
+      if (chip) chip.classList.add('active');
+      const searchInput = document.getElementById('catalog-search-input');
+      const text = searchInput ? searchInput.value.toLowerCase().trim() : '';
+      renderCatalog(text, cat);
+    }
+    window.filterCatalogByChip = filterCatalogByChip;
+
+    function renderCatalog(filterText, catFilter) {
+      const container = document.getElementById('catalog-cards-list');
+      if (!container || !Array.isArray(window.ALL_PRODUCTS_CATALOG)) return;
+
+      const filtered = window.ALL_PRODUCTS_CATALOG.filter(p => {
+        const matchesCat = (!catFilter || catFilter === 'all' || p.category === catFilter);
+        const matchesText = !filterText ||
+          p.name.toLowerCase().includes(filterText) ||
+          p.insurerName.toLowerCase().includes(filterText) ||
+          p.categoryName.toLowerCase().includes(filterText) ||
+          p.highlight.toLowerCase().includes(filterText) ||
+          p.id.toLowerCase().includes(filterText);
+        return matchesCat && matchesText;
+      });
+
+      container.innerHTML = filtered.map(p => `
+        <div class="drawer-product-card">
+          <div class="drawer-card-top">
+            <span class="drawer-card-badge">${p.categoryName}</span>
+            <span style="font-family:'JetBrains Mono';font-size:11px;color:#64748b;">${p.insurer}</span>
+          </div>
+          <div class="drawer-card-title">${p.name}</div>
+          <div class="drawer-card-insurer">${p.insurerName} · ${p.highlight}</div>
+          <div class="drawer-card-specs">
+            <div>
+              <div class="drawer-spec-label">預繳利率</div>
+              <div class="drawer-spec-val">${p.prepay}</div>
+            </div>
+            <div>
+              <div class="drawer-spec-label">最高回贈</div>
+              <div class="drawer-spec-val" style="color:var(--ikb);">${p.discount}</div>
+            </div>
+            <div>
+              <div class="drawer-spec-label">實現率/額度</div>
+              <div class="drawer-spec-val" style="color:#10b981;">${p.gn16}</div>
+            </div>
+          </div>
+          <button class="drawer-card-btn" onclick="selectProductFromCatalog('${p.id}')">🥊 載入對抗戰卡</button>
+        </div>
+      `).join('');
+    }
+    window.renderCatalog = renderCatalog;
+
+    function selectProductFromCatalog(promoId) {
+      const p = window.ALL_PRODUCTS_CATALOG.find(x => x.id === promoId);
+      if (!p) return;
+      selectCompany(p.insurerName);
+      selectCategory(p.category);
+      closeCatalogDrawer();
+      showToast(`已載入【${p.name}】對抗戰卡`);
+    }
+    window.selectProductFromCatalog = selectProductFromCatalog;
 
     // WhatsApp Clipboard Helper with Toast Feedback
     function copyWhatsAppPitch() {
@@ -1124,6 +2026,8 @@
       }
     }
     const copyWhatsAppTemplate = copyWhatsAppPitch;
+    window.copyWhatsAppPitch = copyWhatsAppPitch;
+    window.copyWhatsAppTemplate = copyWhatsAppPitch;
 
     function fallbackCopyText(text) {
       try {
@@ -1158,6 +2062,7 @@
         }, 250);
       }, 2500);
     }
+    window.showToast = showToast;
 
     // PWA Offline Service Worker Registration
     if ('serviceWorker' in navigator) {
@@ -1172,6 +2077,7 @@
     window.toggleView = toggleView;
     window.selectCompany = selectCompany;
     window.selectClaim = selectClaim;
+    window.selectCategory = selectCategory;
     window.updateBattleCard = updateBattleCard;
     window.getBattleCard = getBattleCard;
     window.normalizeCompany = normalizeCompany;
