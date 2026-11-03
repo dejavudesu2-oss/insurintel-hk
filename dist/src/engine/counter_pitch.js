@@ -208,21 +208,36 @@ class CounterPitchEngine {
         const compPromo = this.findPromo(req.competitor_product, "Savings_MultiCurrency");
         const ourGN16 = ourPromo?.savings_metrics?.gn16_fulfillment_ratio_pct ?? 96.5;
         const compGN16 = compPromo?.savings_metrics?.gn16_fulfillment_ratio_pct ?? 91.2;
+        const ourPrepayRate = ourPromo?.prepayment_scheme?.guaranteed_rate_pct ?? 5.0;
         const compPrepayRate = compPromo?.prepayment_scheme?.guaranteed_rate_pct ?? 5.8;
+        const ourRebate = (ourPromo?.premium_discounts && ourPromo.premium_discounts[0]) ? ourPromo.premium_discounts[0].discount_rate_pct : 22;
+        const compRebate = (compPromo?.premium_discounts && compPromo.premium_discounts[0]) ? compPromo.premium_discounts[0].discount_rate_pct : 28;
         const compPrepayLock = compPromo?.prepayment_scheme?.lock_period_years ?? 1;
         const ourCurrCount = ourPromo?.currency_supported?.length ?? 7;
+        const isOurGN16Higher = ourGN16 >= compGN16;
         const scripts = this.getSavingsScriptsByTone(req, tone, {
             ourGN16,
             compGN16,
+            ourPrepayRate,
             compPrepayRate,
+            ourRebate,
+            compRebate,
             compPrepayLock,
             ourCurrCount
         });
         const profileNotes = this.buildProfileTacticalNotes(req, ourPromo, compPromo);
+        const attackPoint2Title = isOurGN16Higher
+            ? `亮出 GN16 官方實現率 (${ourGN16}% vs ${compGN16}% 真金白銀複利差距)`
+            : `真金白銀首年鎖息落袋為安 (高回贈/鎖定利率 vs 遠期非保證浮動)`;
+        const attackPoint2DataFact = isOurGN16Higher
+            ? `依據香港保監局 GN16 規定，各保司官網歷年分紅實現率我方旗艦系列達 ${ourGN16}%，競品約 ${compGN16}%。30 年複利下 ${(ourGN16 - compGN16).toFixed(1)}% 差距等於幾十萬現金差別。`
+            : `對手宣傳長線分紅大多依賴 25-30 年後非保證終期紅利，早期現金流折損較大；我地方案首年提供更高實質折扣與鎖定利率，即時落袋真金白銀。`;
         return {
             matchup_title: `🥊 【儲蓄險精算對攻】${req.our_product} (我方) VS ${req.competitor_product} (競品)`,
             tone,
-            core_pivot_strategy: `拆解 ${compPrepayLock} 年預繳噱頭與短期折扣誘惑，搬出保監局 GN16 官方實現率 (${ourGN16}% vs ${compGN16}%) 與無限次保單分拆調度權。${profileNotes}`,
+            core_pivot_strategy: isOurGN16Higher
+                ? `拆解 ${compPrepayLock} 年預繳噱頭與短期折扣誘惑，搬出保監局 GN16 官方實現率 (${ourGN16}% vs ${compGN16}%) 與無限次保單分拆調度權。${profileNotes}`
+                : `痛擊競品前期進場成本高與依賴遠期非保證終期紅利，亮出我方首年超高回贈與鎖息落袋優勢，兼顧靈活傳承。${profileNotes}`,
             three_stage_framework: {
                 stage_1_empathy: scripts.stage_1,
                 stage_2_blindspot: scripts.stage_2,
@@ -236,10 +251,10 @@ class CounterPitchEngine {
                     underlying_data_fact: `通函條款明確註明僅保證首 ${compPrepayLock} 年，次年為非保證浮動息率；且提早退保或提取預繳款將被扣減全期利息。`
                 },
                 {
-                    title: `亮出 GN16 官方實現率 (${ourGN16}% vs ${compGN16}% 真金白銀複利差距)`,
+                    title: attackPoint2Title,
                     dimension: "保監局官方紅利兌現能力",
                     counter_pitch_script: scripts.attack_point_2,
-                    underlying_data_fact: `依據香港保監局 GN16 規定，各保司官網歷年分紅實現率我方旗艦系列達 ${ourGN16}%，競品約 ${compGN16}%。30 年複利下 ${(ourGN16 - compGN16).toFixed(1)}% 差距等於幾十萬現金差別。`
+                    underlying_data_fact: attackPoint2DataFact
                 },
                 {
                     title: "擊打保單分拆與出國調度自由度 (家族傳承核心防線)",
@@ -257,37 +272,86 @@ class CounterPitchEngine {
         };
     }
     getSavingsScriptsByTone(req, tone, m) {
+        const isOurGN16Higher = m.ourGN16 >= m.compGN16;
         if (tone === "hk_business_english") {
-            return {
-                stage_1: `「David，我非常理解點解競品嘅 ${m.compPrepayRate}% 預繳 promo 咁 catch your eyes！喺 current market environment 下，高息確實好吸引。」`,
-                stage_2: `「但如果你 double check 份 circular 的 fine print，會發現佢嘅 ${m.compPrepayRate}% rate 其實『guaranteed ${m.compPrepayLock} year only』，次年會 reset 成 floating market rate。喺全球 interest rate cut cycle 下，第 2 年 reinvestment risk 好高。」`,
-                stage_3: `「從 actuarial angle 睇，買 multi-currency savings 最重要係 HK Insurance Authority GN16 official fulfillment ratio。我地旗艦 product 累積實現率達 ${m.ourGN16}%，對手得 ${m.compGN16}%。30 年 compounding 之後，呢 ${(m.ourGN16 - m.compGN16).toFixed(1)}% 實現率 gap 足足係幾十萬 cash difference！」`,
-                attack_point_1: `「對手 ${m.compPrepayRate}% 預繳息率只 lock ${m.compPrepayLock} 年，次年 floating；而我地方案 lock period 更長，給予你 client portfolio 最需要嘅 cashflow certainty。」`,
-                attack_point_2: `「短期睇 discount，長期睇 GN16。保監局官方 record 顯示我地實現率達 ${m.ourGN16}%，穩定過對手 ${m.compGN16}%，用 hard data 擊破非保證畫餅。」`,
-                attack_point_3: `「將來仔女 overseas study，我地 support unlimited policy split 同 ${m.ourCurrCount} 種 currency swap，零 waiting period，capital mobility 遠勝對手。」`
-            };
+            if (isOurGN16Higher) {
+                return {
+                    stage_1: `「David，我非常理解點解競品嘅 ${m.compPrepayRate}% 預繳 promo 咁 catch your eyes！喺 current market environment 下，高息確實好吸引。」`,
+                    stage_2: `「但如果你 double check 份 circular 的 fine print，會發現佢嘅 ${m.compPrepayRate}% rate 其實『guaranteed ${m.compPrepayLock} year only』，次年會 reset 成 floating market rate。喺全球 interest rate cut cycle 下，第 2 年 reinvestment risk 好高。」`,
+                    stage_3: `「從 actuarial angle 睇，買 multi-currency savings 最重要係 HK Insurance Authority GN16 official fulfillment ratio。我地旗艦 product 累積實現率達 ${m.ourGN16}%，對手得 ${m.compGN16}%。30 年 compounding 之後，呢 ${(m.ourGN16 - m.compGN16).toFixed(1)}% 實現率 gap 足足係幾十萬 cash difference！」`,
+                    attack_point_1: `「對手 ${m.compPrepayRate}% 預繳息率只 lock ${m.compPrepayLock} 年，次年 floating；而我地方案 lock period 更長，給予你 client portfolio 最需要嘅 cashflow certainty。」`,
+                    attack_point_2: `「短期睇 discount，長期睇 GN16。保監局官方 record 顯示我地實現率達 ${m.ourGN16}%，穩定過對手 ${m.compGN16}%，用 hard data 擊破非保證畫餅。」`,
+                    attack_point_3: `「將來仔女 overseas study，我地 support unlimited policy split 同 ${m.ourCurrCount} 種 currency swap，零 waiting period，capital mobility 遠勝對手。」`
+                };
+            }
+            else {
+                return {
+                    stage_1: `「David，我非常理解點解對手嘅 brand awareness 咁強，市場宣傳確實好多人關注！」`,
+                    stage_2: `「但如果你 run 一下 numbers，會發現對手 entry cost 偏高，首年 rebate 得 ${m.compRebate}%，預繳息率亦只有 ${m.compPrepayRate}%；而且對手宣傳嘅 ${m.compGN16}% 實現率，大部份係 25-30 年後嘅 terminal bonus，遠水難救近火。」`,
+                    stage_3: `「從 liquidity 同 cashflow certainty 睇，我地方案 upfront 直接畀足最高 ${m.ourRebate}% 回贈同鎖定 ${m.ourPrepayRate}% 利息！第一年真金白銀 pocket the discount，即時落袋確定性遠高過 30 年後唔保證嘅非保證畫餅！」`,
+                    attack_point_1: `「我地方案首年提供 ${m.ourRebate}% 回贈與 ${m.ourPrepayRate}% 鎖息更具競爭力，真金白銀即時落袋，前期入市門檻更低！」`,
+                    attack_point_2: `「對手分紅偏重 25-30 年後終期紅利，存在非保證波動；我方 upfront 鎖定現金流更安全。」`,
+                    attack_point_3: `「彈性貨幣轉換與傳承功能，兼顧短線回贈與長線財富增長。」`
+                };
+            }
         }
         else if (tone === "formal_written_zh") {
-            return {
-                stage_1: `「陳先生，您所關注的競品 ${m.compPrepayRate}% 預繳利率推廣，確實是近期市場上宣傳力度較大的短期促銷方案，您的市場敏銳度非常高。」`,
-                stage_2: `「然而，若深入審視該保單條款細則，該 ${m.compPrepayRate}% 利率僅保證第一年，自第二年起將回歸市場浮動息率。在環球降息週期下，第二年面臨顯著的利息重置風險與收益稀釋。」`,
-                stage_3: `「從香港保險監管局 (IA) 的 GN16 指引官方數據來看，我司旗艦分紅儲蓄系列歷年累積實現率高達 ${m.ourGN16}%，而競品平均約為 ${m.compGN16}%。在長達 20 至 30 年的複利增值過程中，${(m.ourGN16 - m.compGN16).toFixed(1)}% 的實現率差異將在最終現金價值上轉化為數十萬元的實質利益差距。」`,
-                attack_point_1: `「競品 ${m.compPrepayRate}% 利率僅保證首年，次年回落為浮動利率；而我司方案鎖定期更具確定性，有效規避中長期再投資風險。」`,
-                attack_point_2: `「買分紅險核心在於兌現能力。香港保監局官方 GN16 實現率 ${m.ourGN16}% 提供了最權威的客觀數據支撐。」`,
-                attack_point_3: `「我司方案支援無限次保單分拆與多元貨幣無等待期切換，為家族跨代財富傳承與子女留學資產配置提供極致靈活性。」`
-            };
+            if (isOurGN16Higher) {
+                return {
+                    stage_1: `「陳先生，您所關注的競品 ${m.compPrepayRate}% 預繳利率推廣，確實是近期市場上宣傳力度較大的短期促銷方案，您的市場敏銳度非常高。」`,
+                    stage_2: `「然而，若深入審視該保單條款細則，該 ${m.compPrepayRate}% 利率僅保證第一年，自第二年起將回歸市場浮動息率。在環球降息週期下，第二年面臨顯著的利息重置風險與收益稀釋。」`,
+                    stage_3: `「從香港保險監管局 (IA) 的 GN16 指引官方數據來看，我司旗艦分紅儲蓄系列歷年累積實現率高達 ${m.ourGN16}%，而競品平均約為 ${m.compGN16}%。在長達 20 至 30 年的複利增值過程中，${(m.ourGN16 - m.compGN16).toFixed(1)}% 的實現率差異將在最終現金價值上轉化為數十萬元的實質利益差距。」`,
+                    attack_point_1: `「競品 ${m.compPrepayRate}% 利率僅保證首年，次年回落為浮動利率；而我司方案鎖定期更具確定性，有效規避中長期再投資風險。」`,
+                    attack_point_2: `「買分紅險核心在於兌現能力。香港保監局官方 GN16 實現率 ${m.ourGN16}% 提供了最權威的客觀數據支撐。」`,
+                    attack_point_3: `「我司方案支援無限次保單分拆與多元貨幣無等待期切換，為家族跨代財富傳承與子女留學資產配置提供極致靈活性。」`
+                };
+            }
+            else {
+                return {
+                    stage_1: `「陳先生，競品作為市場老牌保司，其知名度確實較高，您的關注非常具代表性。」`,
+                    stage_2: `「然而深入審視產品現金流結構，競品前期進場成本較高，首期折扣力度僅 ${m.compRebate}%，預繳利率僅 ${m.compPrepayRate}%；且其宣稱的實現率主要體現於 25 至 30 年後的非保證終期紅利，早期保證現金價值累積較為平緩。」`,
+                    stage_3: `「我司方案首期提供市場頂級的 ${m.ourRebate}% 折扣回贈與高達 ${m.ourPrepayRate}% 的鎖定預繳利率，在保單首年即為客戶鎖定實質現金折讓，提升前期資金安全性與流動性，有效規避遠期非保證分紅的市場波動風險。」`,
+                    attack_point_1: `「我司首期 ${m.ourRebate}% 折扣與 ${m.ourPrepayRate}% 鎖定利率優勢明顯，前期資金回籠更具確定性。」`,
+                    attack_point_2: `「規避競品過度依賴遠期非保證終期紅利的波動風險，現利現得。」`,
+                    attack_point_3: `「全方位多貨幣自由轉換與家族信託式給付，兼顧流動性與代際傳承。」`
+                };
+            }
         }
         else {
             // 廣東話口語 (預設)
-            return {
-                stage_1: `「陳生，你真係好有眼光，競品個 ${m.compPrepayRate}% 預繳 promo 呢兩日鋪天蓋地，換著係我第一眼睇到都會心動！」`,
-                stage_2: `「但仔細拆解對手通函嘅條款細節，佢個 ${m.compPrepayRate}% 寫明『只保證第一年』，由第 2 年起利息跟市場浮動。依家全球進入降息週期，第二年極易跳水，短期噱頭過後資金收益反而唔明朗。」`,
-                stage_3: `「買分紅儲蓄險最緊要唔係宣傳單張印嘅短線數字，而係將來可唔可以真金白銀派足！根據保監局官方 GN16 數據，我地歷年累積實現率高達 ${m.ourGN16}%，對手得 ${m.compGN16}%。複利 30 年落黎，實現率相差 ${(m.ourGN16 - m.compGN16).toFixed(1)}% 就係幾十萬嘅差別！」`,
-                attack_point_1: `「陳生，對手 ${m.compPrepayRate}% 預繳條款寫明只保證頭 ${m.compPrepayLock} 年，第二年浮動跳水；我地方案中長線鎖定更具確定性！」`,
-                attack_point_2: `「買分紅險睇保監局官方實現率最公道：我地 ${m.ourGN16}% 最穩健，對手 ${m.compGN16}%，拒絕非保證畫餅！」`,
-                attack_point_3: `「將來仔女去外國讀書，我地支援保單無限次分拆、隨時轉換多種主流貨幣無繁瑣限制，資產調度彈性大好多！」`
-            };
+            if (isOurGN16Higher) {
+                return {
+                    stage_1: `「陳生，你真係好有眼光，競品個 ${m.compPrepayRate}% 預繳 promo 呢兩日鋪天蓋地，換著係我第一眼睇到都會心動！」`,
+                    stage_2: `「但仔細拆解對手通函嘅條款細節，佢個 ${m.compPrepayRate}% 寫明『只保證第一年』，由第 2 年起利息跟市場浮動。依家全球進入降息週期，第二年極易跳水，短期噱頭過後資金收益反而唔明朗。」`,
+                    stage_3: `「買分紅儲蓄險最緊要唔係宣傳單張印嘅短線數字，而係將來可唔可以真金白銀派足！根據保監局官方 GN16 數據，我地歷年累積實現率高達 ${m.ourGN16}%，對手得 ${m.compGN16}%。複利 30 年落黎，實現率相差 ${(m.ourGN16 - m.compGN16).toFixed(1)}% 就係幾十萬嘅差別！」`,
+                    attack_point_1: `「陳生，對手 ${m.compPrepayRate}% 預繳條款寫明只保證頭 ${m.compPrepayLock} 年，第二年浮動跳水；我地方案中長線鎖定更具確定性！」`,
+                    attack_point_2: `「買分紅險睇保監局官方實現率最公道：我地 ${m.ourGN16}% 最穩健，對手 ${m.compGN16}%，拒絕非保證畫餅！」`,
+                    attack_point_3: `「將來仔女去外國讀書，我地支援保單無限次分拆、隨時轉換多種主流貨幣無繁瑣限制，資產調度彈性大好多！」`
+                };
+            }
+            else {
+                return {
+                    stage_1: `「陳生，你真係好有眼光，對手品牌大、宣傳聲量好足，換著係我都會留意！」`,
+                    stage_2: `「但仔細審查條款細則：對手前期進場成本偏高，首年回贈得 ${m.compRebate}%，預繳息率亦得 ${m.compPrepayRate}%！且其宣傳的 ${m.compGN16}% 實現率，絕大部分依賴 25-30 年後嘅非保證終期紅利，遠水難救近火；前 10 年資金累積速度偏慢。」`,
+                    stage_3: `「買儲蓄險最緊要睇『實時落袋確定性』！我地方案首年提供最高 ${m.ourRebate}% 保費回贈及鎖息高達 ${m.ourPrepayRate}%，真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，現金流掌控更穩妥！」`,
+                    attack_point_1: `「我地方案首年提供 ${m.ourRebate}% 回贈及 ${m.ourPrepayRate}% 鎖息更直接，第一年慳到真金白銀，減低沉沒成本！」`,
+                    attack_point_2: `「對手遠期分紅受市場波動影響大；我方前期回本與落袋現金流更具確定性！」`,
+                    attack_point_3: `「兼享多元貨幣與保單分拆傳承架構，短中長線資金調度最靈活！」`
+                };
+            }
         }
+    }
+    /**
+     * 雙向對稱 1v1 對抗話術輔助方法
+     */
+    generateBilateralCounterPitch(ourPromo, competitorPromo, tone = "cantonese_colloquial", claim) {
+        return this.generateCounterPitch({
+            our_product: ourPromo.product_name,
+            competitor_product: competitorPromo.product_name,
+            category: ourPromo.category,
+            tone,
+            client_scenario: claim || ""
+        });
     }
     // =========================================================================
     // 2. 危疾險對攻 (Critical Illness) - Enhanced F7
@@ -306,10 +370,23 @@ class CounterPitchEngine {
             compIllnesses
         });
         const profileNotes = this.buildProfileTacticalNotes(req, ourPromo, compPromo);
+        let corePivot = `避開單純疾病數量的數字遊戲，主攻「癌症再次索償間隔 ${ourCancerWait} 年 vs ${compCancerWait} 年生命防線」及「非指定疾病 ICU 住院 100% 預支賠償」。${profileNotes}`;
+        let attackPoint1Title = `痛擊癌症索償間隔年期 (${ourCancerWait}年 vs ${compCancerWait}年生命安全線)`;
+        let attackPoint1Fact = `癌症多重賠償等待期由 ${compCancerWait} 年縮短至 ${ourCancerWait} 年是市場頂尖防護指標。每多等 1 年就多承擔 1 年自費風險。`;
+        if (ourCancerWait === compCancerWait) {
+            corePivot = `雙方癌症多重保障等待期均為 ${ourCancerWait} 年，避開疾病數量噱頭，核心亮出「非指定疾病連續入住 ICU 達 3-5 天免病名預支 100% 保額」與高額免體檢通道。${profileNotes}`;
+            attackPoint1Title = `癌症索償間隔年期深度對決 (雙方均為 ${ourCancerWait} 年等待期，我方更設 ICU 100% 預支)`;
+            attackPoint1Fact = `雙方癌症多重保障等待期均為 ${ourCancerWait} 年，但我方首創非指定疾病連續入住 ICU 達 3-5 天免病名預支 100% 保額。`;
+        }
+        else if (ourCancerWait > compCancerWait) {
+            corePivot = `客觀承認對手 ${compCancerWait} 年癌症間隔特色，但核心亮出我方過百種全面重疾涵蓋、非指定疾病 ICU 100% 預支賠償及更高免體檢通道。${profileNotes}`;
+            attackPoint1Title = `拆解癌症索償間隔年期局限 (突破 ${compCancerWait}年單一指標，我方全面 ICU 兜底)`;
+            attackPoint1Fact = `競品雖以 ${compCancerWait} 年癌症間隔為宣傳點，但我方涵蓋過百種嚴重疾病，具備非指定疾病 ICU 100% 預支賠償與最高 $${(ourNonMedLimit / 10000).toFixed(0)} 萬美元免體檢通道。`;
+        }
         return {
             matchup_title: `🥊 【危疾險精算對攻】${req.our_product} (我方) VS ${req.competitor_product} (競品)`,
             tone,
-            core_pivot_strategy: `避開單純疾病數量的數字遊戲，主攻「癌症再次索償間隔 ${ourCancerWait} 年 vs ${compCancerWait} 年生命防線」及「非指定疾病 ICU 住院 100% 預支賠償」。${profileNotes}`,
+            core_pivot_strategy: corePivot,
             three_stage_framework: {
                 stage_1_empathy: scripts.stage_1,
                 stage_2_blindspot: scripts.stage_2,
@@ -317,10 +394,10 @@ class CounterPitchEngine {
             },
             attack_points: [
                 {
-                    title: `痛擊癌症索償間隔年期 (${ourCancerWait}年 vs ${compCancerWait}年生命安全線)`,
+                    title: attackPoint1Title,
                     dimension: "癌症多重保障等待期",
                     counter_pitch_script: scripts.attack_point_1,
-                    underlying_data_fact: `癌症多重賠償等待期由 ${compCancerWait} 年縮短至 ${ourCancerWait} 年是市場頂尖防護指標。每多等 1 年就多承擔 1 年自費風險。`
+                    underlying_data_fact: attackPoint1Fact
                 },
                 {
                     title: "非指定未知疾病 ICU 保障 (真正兜底安全網)",
@@ -344,33 +421,65 @@ class CounterPitchEngine {
         };
     }
     getCriticalIllnessScriptsByTone(req, tone, m) {
+        const isShorter = m.ourCancerWait < m.compCancerWait;
+        const isEqual = m.ourCancerWait === m.compCancerWait;
         if (tone === "hk_business_english") {
+            let s3 = `「我地計劃將癌症間隔期直接 shorten 到 ${m.ourCancerWait} 年（對手仲要等 ${m.compCancerWait} 年）！再加上全新 ICU advance coverage，萬一遇到 unknown virus 入住 ICU 達 3~5 日，無需指定病名直接 payout 100% sum assured，呢個先係真正 comprehensive 嘅 safety net。」`;
+            let ap1 = `「癌症再次索償 waiting period 縮短到 ${m.ourCancerWait} 年（對手仲要等 ${m.compCancerWait} 年），時間就係生命。」`;
+            if (isEqual) {
+                s3 = `「雖然雙方癌症再次索償 waiting period 均為 ${m.ourCancerWait} 年，但我地加入全新 ICU advance coverage，入住 ICU 達 3~5 日無需指定病名直接 payout 100% sum assured，加碼 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬 USD 免體檢額，防護更全面！」`;
+                ap1 = `「雙方癌症等待期均為 ${m.ourCancerWait} 年，但我方 ICU 條款無需指定病名即預支 100% 保額，打破疾病清單限制！」`;
+            }
+            else if (!isShorter) {
+                s3 = `「對手雖然主打 ${m.compCancerWait} 年癌症間隔，但我地方案保障深度遠超單一指標：涵蓋全面過百種嚴重病況，首創非指定疾病 ICU 連續入住 3~5 日全額 payout 100% sum assured，且免體檢額高達 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬 USD，投保更快捷、保障更無死角！」`;
+                ap1 = `「競品雖宣傳 ${m.compCancerWait} 年等待期，但我方 ICU 無指定病名預支 100% 與高免體檢額提供更實質的全面健康盾牌！」`;
+            }
             return {
                 stage_1: `「Michael，我都留意到對方宣傳 cover 過百種 diseases，乍睇 numbers 確實好 impressionable！」`,
                 stage_2: `「但從 medical claims statistics 睇，超過 80% 危疾索償都係 Cancer。對手標榜赔好多次，但癌症再次索償 waiting period 足足要等 ${m.compCancerWait} 年！喺醫學上，腫瘤 relapse 或 metastasis 往往喺第 2 年出現，${m.compCancerWait} 年 waiting period 係一個好大嘅 financial exposure。」`,
-                stage_3: `「我地計劃將癌症間隔期直接 shorten 到 ${m.ourCancerWait} 年！再加上全新 ICU advance coverage，萬一遇到 unknown virus 入住 ICU 達 3~5 日，無需指定病名直接 payout 100% sum assured，呢個先係真正 comprehensive 嘅 safety net。」`,
-                attack_point_1: `「癌症再次索償 waiting period 縮短到 ${m.ourCancerWait} 年（對手仲要等 ${m.compCancerWait} 年），時間就係生命。」`,
+                stage_3: s3,
+                attack_point_1: ap1,
                 attack_point_2: `「無需指定病名，只要連續 ICU 達標直接預支 100% 保額，防禦未知傳染病。」`,
                 attack_point_3: `「限時 green channel 免體檢額高達 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬 USD，避免 check up 帶來嘅 loading 或 exclusion。」`
             };
         }
         else if (tone === "formal_written_zh") {
+            let s3 = `「我司方案將癌症索償等待期間隔縮短至 ${m.ourCancerWait} 年，大幅降低自費風險；同時首創深切治療部 (ICU) 兜底機制，連續入住達 3-5 天即可全額預支最高 100% 保額，突破傳統指定病種清單的局限。」`;
+            let ap1 = `「癌症再次索償間隔縮短至 ${m.ourCancerWait} 年（行業主流仍需 ${m.compCancerWait} 年），縮小醫療自費風險空窗期。」`;
+            if (isEqual) {
+                s3 = `「雖然雙方癌症再次索償間隔均為 ${m.ourCancerWait} 年，但我司首創深切治療部 (ICU) 兜底機制，連續入住達 3-5 天即可全額預支最高 100% 保額，加享 ${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元免體檢上限，構築全方位保障網。」`;
+                ap1 = `「雙方癌症等待期均為 ${m.ourCancerWait} 年，但我司 ICU 條款突破指定疾病清單局限，全面兜底未知重症。」`;
+            }
+            else if (!isShorter) {
+                s3 = `「競品雖主打 ${m.compCancerWait} 年癌症間隔，但我司方案在過百種重疾覆蓋深度、非指定疾病 ICU 100% 預支賠償及 ${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元免體檢額度上具備更廣泛的綜合優勢，保障更為堅實全面。」`;
+                ap1 = `「客觀考量各項指標：我司方案在 ICU 兜底機制與超高免體檢額度上更具綜合競爭力。」`;
+            }
             return {
                 stage_1: `「李先生，競品涵蓋超過 ${m.compIllnesses} 種疾病名稱的宣傳確實引人注目，充分體現了您對家人健康保障的重視。」`,
                 stage_2: `「然而從臨床醫學與香港理賠大數據分析，超過 80% 的危疾索償集中於惡性腫瘤。競品雖然承保次數多，但其癌症再次索償等待期長達 ${m.compCancerWait} 年，在復發或轉移高發的第 2 年期間將面臨完全自費的空窗期風險。」`,
-                stage_3: `「我司方案將癌症索償等待期間隔縮短至 ${m.ourCancerWait} 年，大幅降低自費風險；同時首創深切治療部 (ICU) 兜底機制，連續入住達 3-5 天即可全額預支最高 100% 保額，突破傳統指定病種清單的局限。」`,
-                attack_point_1: `「癌症再次索償間隔縮短至 ${m.ourCancerWait} 年（行業主流仍需 ${m.compCancerWait} 年），縮小醫療自費風險空窗期。」`,
+                stage_3: s3,
+                attack_point_1: ap1,
                 attack_point_2: `「連續入住 ICU 達標即預支 100% 保額，打破傳統疾病名單滯後盲區。」`,
                 attack_point_3: `「尊享限時免體檢上限高達 ${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元，大幅簡化投保手續，鎖定標準體起保。」`
             };
         }
         else {
             // 廣東話口語
+            let s3 = `「我地將癌症間隔期直接縮短到 ${m.ourCancerWait} 年（對手要等足 ${m.compCancerWait} 年）！而且加設深切治療部 (ICU) 條款，無論遇到咩未知新病毒，只要連續住 ICU 達 3~5 日直接賠 100% 保額，呢個先係真正兜底保命嘅保障！」`;
+            let ap1 = `「癌症再索償等 ${m.ourCancerWait} 年（對手等 ${m.compCancerWait} 年），早 1 年攞到賠償，救命錢唔等人！」`;
+            if (isEqual) {
+                s3 = `「雖然雙方癌症再發間隔都係 ${m.ourCancerWait} 年，但我地加設全新深切治療部 (ICU) 條款，無論咩未知怪病，連續住 ICU 達 3~5 日直接預支 100% 保額，仲有高達 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元免體檢額，全面防護更勝一籌！」`;
+                ap1 = `「雙方癌症間隔同樣係 ${m.ourCancerWait} 年，但我地 ICU 條款唔使指定病名即賠 100%，兜底防禦更紮實！」`;
+            }
+            else if (!isShorter) {
+                s3 = `「對手雖然主打 ${m.compCancerWait} 年癌症間隔，但我地方案保障深度遠超單一指標：涵蓋過百種嚴重病況，加設非指定疾病 ICU 連續住 3~5 日全額預支 100% 保額，而且免體檢額高達 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元，投保更快、保障更全！」`;
+                ap1 = `「對手雖主打 ${m.compCancerWait} 年癌症間隔，但我方 ICU 100% 預支及高額免體檢通道提供更全面無死角防線！」`;
+            }
             return {
                 stage_1: `「張生，對方張單寫住保成 ${m.compIllnesses} 種病，單張睇落真係好豐富，你睇得咁細心好佩服你！」`,
                 stage_2: `「但實情係全港八成索償都係癌症。對方雖然標榜賠償次數多，但癌症再發間隔期要足足等 ${m.compCancerWait} 年！萬一第二年復發，呢一年空窗期就要全自費承擔幾十萬醫藥費。」`,
-                stage_3: `「我地將癌症間隔期直接縮短到 ${m.ourCancerWait} 年！而且加設深切治療部 (ICU) 條款，無論遇到咩未知新病毒，只要連續住 ICU 達 3~5 日直接賠 100% 保額，呢個先係真正兜底保命嘅保障！」`,
-                attack_point_1: `「癌症再索償等 ${m.ourCancerWait} 年（對手等 ${m.compCancerWait} 年），早 1 年攞到賠償，救命錢唔等人！」`,
+                stage_3: s3,
+                attack_point_1: ap1,
                 attack_point_2: `「唔使中指定病名，住 ICU 達標直接預支 100% 保額，全面兜底未知怪病。」`,
                 attack_point_3: `「現時免體檢額上限飆升到 $${(m.ourNonMedLimit / 10000).toFixed(0)} 萬美元，免繁瑣驗身手續，光速搞掂起保。」`
             };
@@ -500,6 +609,8 @@ class CounterPitchEngine {
         const surrenderYears = compPromo?.ul_metrics?.surrender_charge_years ?? ourPromo?.ul_metrics?.surrender_charge_years ?? 4;
         const marginBuffer = compPromo?.ul_metrics?.margin_call_drop_buffer_pct ?? ourPromo?.ul_metrics?.margin_call_drop_buffer_pct ?? 20.0;
         const minPremium = compPromo?.ul_metrics?.min_premium_usd ?? ourPromo?.ul_metrics?.min_premium_usd ?? 500000;
+        const ourSavingsPromo = this.findPromo(req.our_product, "Savings_MultiCurrency") || this.allPromos.find(p => p.insurer === ourPromo?.insurer && p.category === "Savings_MultiCurrency");
+        const ourGN16 = ourSavingsPromo?.savings_metrics?.gn16_fulfillment_ratio_pct ?? 96.5;
         const scripts = this.getUniversalLifeScriptsByTone(req, tone, {
             creditingRate,
             guaranteedRate,
@@ -508,7 +619,8 @@ class CounterPitchEngine {
             ltv,
             surrenderYears,
             marginBuffer,
-            minPremium
+            minPremium,
+            ourGN16
         });
         const profileNotes = this.buildProfileTacticalNotes(req, ourPromo, compPromo);
         return {
@@ -553,7 +665,7 @@ class CounterPitchEngine {
             return {
                 stage_1: `「David，我非常 understand 點解 private bank 嘅 Premium Financing UL proposal 咁 catch your eyes！Headline crediting rate 高達 ${m.creditingRate}%，加上 ${m.ltv}% LTV leverage，表面上的 carry trade return 確實好 attractive。」`,
                 stage_2: `「但如果你 run 一個 proper risk stress test，呢個 structure 有三個 critical blindspots：Number 1 係 floating funding cost vs non-guaranteed crediting rate，借貸成本跟 SOFR/HIBOR 浮動，但 guaranteed floor 得 ${m.guaranteedRate}%，rate cut cycle 下 carry spread 好易 invert 成 negative carry；Number 2 係 bank margin call，drop buffer 得 ${m.marginBuffer}%，一旦 market volatility 觸發 margin call，48 hours 內要 inject hundreds of thousands cash 補倉，否則 forced liquidation；Number 3 係 ${m.surrenderYears}-year surrender charge lock-in 加 Deed of Assignment，資產 control 完全被 bank covenants 鎖死。」`,
-                stage_3: `「For true long-term wealth preservation and family legacy，你唔需要 expose your capital to leverage debt risk。Pivot 去 unleveraged participating multi-currency savings，HK Insurance Authority GN16 official fulfillment ratio 達 96.5%，30-year expected IRR 穩達 6.6%+，zero margin call risk，支援 7-8 種 currency swaps 同 unlimited policy split。呢個先係最 resilient 嘅 balance sheet structure！」`,
+                stage_3: `「For true long-term wealth preservation and family legacy，你唔需要 expose your capital to leverage debt risk。Pivot 去 unleveraged participating multi-currency savings，HK Insurance Authority GN16 official fulfillment ratio 達 ${m.ourGN16}%，30-year expected IRR 穩達 6.6%+，zero margin call risk，支援 7-8 種 currency swaps 同 unlimited policy split。呢個先係最 resilient 嘅 balance sheet structure！」`,
                 attack_point_1: `「對手標榜嘅 carry spread 係建立喺 floating borrowing cost 基礎上，息口一變隨時負利差倒貼；我地方案無任何借貸負擔，yield 實實在在。」`,
                 attack_point_2: `「保費融資跌穿 ${m.marginBuffer}% buffer 就要 48 小時內 Margin Call 追錢；無槓桿儲蓄險零負債零催繳，安枕無憂。」`,
                 attack_point_3: `「萬用壽險押畀銀行鎖足 ${m.surrenderYears} 年；我地方案支援自由分拆保單同 7-8 種貨幣切換，資產傳承掌控權 100% 喺你手。」`
@@ -563,7 +675,7 @@ class CounterPitchEngine {
             return {
                 stage_1: `「王先生，私行與高端財富管理市場普遍推廣的保費融資 (Premium Financing) 萬用壽險方案，以高達 ${m.creditingRate}% 的現行結算利率及 ${m.ltv}% 的融資成數（LTV）槓桿套利為宣傳焦點，您的市場敏銳度與資產配置眼光非常獨到。」`,
                 stage_2: `「然而，在宏觀利率波動與嚴格的銀行信貸框架下，保費融資架構隱含三重核心風險盲點：其一，浮動借貸成本與息差倒掛風險，銀行融資利率錨定市場浮動基準（SOFR/HIBOR），而保單最低保證結算利率僅有 ${m.guaranteedRate}%，一旦結算利率下調或融資成本上升，利差將迅速收窄甚至形成『負利差』；其二，追繳保證金 (Margin Call) 爆倉風險，保單退保價值跌幅緩衝僅約 ${m.marginBuffer}%，一旦市場波動觸發補倉，客戶須於 48 至 72 小時內追加數十萬美元現金，否則將遭銀行強制處置斷供；其三，長達 ${m.surrenderYears} 年的退保費用鎖定與保單轉讓契約 (Deed of Assignment)，使資產流動性與處分權受到嚴重限制。」`,
-                stage_3: `「家族財富長青傳承與核心資產保值，切忌承擔槓桿債務與強平清算之脆弱性。回歸無槓桿多元貨幣分紅儲蓄架構，依託香港保監局 GN16 官方歷年分紅實現率高達 96.5% 的硬核數據，鎖定 20 至 30 年高達 6.6% 以上的預期複利收益；同時徹底免除保證金追繳壓力，尊享多種主流國際貨幣靈活調度、保單無限次分拆與信託式身故利益傳承，以最高確定性實現跨代財富護航。」`,
+                stage_3: `「家族財富長青傳承與核心資產保值，切忌承擔槓桿債務與強平清算之脆弱性。回歸無槓桿多元貨幣分紅儲蓄架構，依託香港保監局 GN16 官方歷年分紅實現率高達 ${m.ourGN16}% 的硬核數據，鎖定 20 至 30 年高達 6.6% 以上的預期複利收益；同時徹底免除保證金追繳壓力，尊享多種主流國際貨幣靈活調度、保單無限次分拆與信託式身故利益傳承，以最高確定性實現跨代財富護航。」`,
                 attack_point_1: `「融資利率浮動且保證底線僅 ${m.guaranteedRate}%，極易遭遇息差倒掛；無槓桿分紅儲蓄鎖定長線確定回報，無利率風險敞口。」`,
                 attack_point_2: `「警惕銀行 ${m.marginBuffer}% 緩衝線下的 48 小時保證金追繳 (Margin Call)；無槓桿儲蓄資產穩如磐石，絕無強平風險。」`,
                 attack_point_3: `「摒棄長達 ${m.surrenderYears} 年退保重罰與銀行質押協議束縛，擁抱多元貨幣無等待期轉換與家族無限次分拆傳承全權自主。」`
@@ -574,7 +686,7 @@ class CounterPitchEngine {
             return {
                 stage_1: `「張生，你真係好有投資眼光！私銀同大行推廣嘅保費融資 (Premium Financing) 萬用壽險，表面睇結算利率有 ${m.creditingRate}%，借足 ${m.ltv}% LTV 槓桿放大息差套利，宣傳單張計出黎嘅槓桿回報確實好吸引！」`,
                 stage_2: `「但保費融資背後有三大致命暗湧：第一，融資借貸利率係 Floating 浮動嘅（跟 SOFR/HIBOR），但保單保證息率得 ${m.guaranteedRate}%；一旦息差收窄甚至倒掛，唔單止無息收仲要倒貼利息！第二，銀行每日 Mon 住資產淨值，只要跌穿 ${m.marginBuffer}% 緩衝線就會 Margin Call 追繳保證金，48 小時內要抬幾十萬美金補倉，否則直接斬倉！第三，退保費用鎖足 ${m.surrenderYears} 年，仲要簽 Deed of Assignment 押畀銀行，資金完全失去流動性同支配權。」`,
-                stage_3: `「真正做家族傳承同穩健增值，唔需要承擔爆倉同負息差風險！轉去無槓桿多元貨幣分紅儲蓄險，保監局 GN16 官方實現率高達 96.5%，30 年複利總 IRR 達 6.6% 以上，而且零 Margin Call 負擔、支援 7-8 種主流貨幣隨時自由切換同無限次分拆保單。安心傳承真金白銀，確定性遠勝借錢賭息差！」`,
+                stage_3: `「真正做家族傳承同穩健增值，唔需要承擔爆倉同負息差風險！轉去無槓桿多元貨幣分紅儲蓄險，保監局 GN16 官方實現率高達 ${m.ourGN16}%，30 年複利總 IRR 達 6.6% 以上，而且零 Margin Call 負擔、支援 7-8 種主流貨幣隨時自由切換同無限次分拆保單。安心傳承真金白銀，確定性遠勝借錢賭息差！」`,
                 attack_point_1: `「融資利率浮動（約 ${m.fundingCost}%），但保證利率得 ${m.guaranteedRate}%，息差倒掛就要倒貼利息；我地方案全期無債務負擔最踏實！」`,
                 attack_point_2: `「跌穿 ${m.marginBuffer}% 緩衝位銀行即刻 Margin Call，48 小時唔填水喉就斬倉；無槓桿方案零爆倉風險！」`,
                 attack_point_3: `「退保罰足 ${m.surrenderYears} 年仲要全張單押畀銀行；我地支援隨時轉換多國貨幣同無限次分拆，資產傳承自己話事！」`

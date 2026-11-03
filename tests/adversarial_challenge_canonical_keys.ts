@@ -98,6 +98,14 @@ function createSandbox(): { sandbox: any; context: any } {
     "client-view",
     "company-pills",
     "claim-pills",
+    "select-my-insurer",
+    "select-rival-insurer",
+    "btn-swap-roles",
+    "my-product-display",
+    "rival-product-display",
+    "bilateral-spec-table",
+    "corridor-our-pointer",
+    "corridor-our-label",
     "agent-title",
     "agent-step-1",
     "agent-step-2",
@@ -133,8 +141,12 @@ function createSandbox(): { sandbox: any; context: any } {
   ];
 
   for (const id of registeredIds) {
-    domElements[id] = makeMockElement(id, id.includes("btn") ? "button" : id.includes("table") ? "table" : "div");
+    domElements[id] = makeMockElement(id, id.includes("btn") ? "button" : id.includes("table") ? "table" : id.includes("select") ? "select" : "div");
   }
+
+  const insurerNames = ["AIA", "Prudential", "Manulife", "Sun Life", "FWD", "AXA", "Bowtie", "BOC Life", "YF Life"];
+  domElements["select-my-insurer"].options = insurerNames.map(val => ({ value: val, text: val, disabled: false }));
+  domElements["select-rival-insurer"].options = insurerNames.map(val => ({ value: val, text: val, disabled: false }));
 
   const makePill = (text: string) => {
     const el = makeMockElement("", "button");
@@ -164,6 +176,14 @@ function createSandbox(): { sandbox: any; context: any } {
     makePill("QDAP 延期年金總回報")
   ];
 
+  const storageStore: Record<string, string> = {};
+  const mockLocalStorage = {
+    getItem: (k: string) => (k in storageStore ? storageStore[k] : null),
+    setItem: (k: string, v: string) => { storageStore[k] = String(v); },
+    removeItem: (k: string) => { delete storageStore[k]; },
+    clear: () => { for (const k in storageStore) delete storageStore[k]; }
+  };
+
   const sandbox: any = {
     document: {
       getElementById: (id: string) => domElements[id] || null,
@@ -176,6 +196,7 @@ function createSandbox(): { sandbox: any; context: any } {
       body: { appendChild: () => {}, removeChild: () => {} },
       execCommand: () => true
     },
+    localStorage: mockLocalStorage,
     navigator: {
       clipboard: { writeText: async (t: string) => {} }
     },
@@ -189,6 +210,7 @@ function createSandbox(): { sandbox: any; context: any } {
   sandbox.__domElements = domElements;
   sandbox.__companyPills = companyPills;
   sandbox.__claimPills = claimPills;
+  sandbox.__storageStore = storageStore;
 
   vm.createContext(sandbox);
   vm.runInContext(scriptCode, sandbox);
@@ -709,6 +731,187 @@ recordTest("Suite 9: Swiss Slides Slide 3 Category Switching & Web Audio Synthes
   assert.ok(slidesHtml.includes("AudioContext"), "morning_slides.html must implement AudioContext");
   assert.ok(slidesHtml.includes("playChime"), "morning_slides.html must implement playChime");
 });
+
+recordTest("Suite 10: My Company Selection & Persistence", "Verify setMyCompany updates state, DOM select, product display, and localStorage persistence", () => {
+  // 1. Initial default state
+  sandbox.setMyCompany("AIA");
+  assert.strictEqual(sandbox.getMyCompany(), "AIA", "Default myCompany should be AIA");
+  assert.strictEqual(dom["select-my-insurer"].value, "AIA", "select-my-insurer DOM value must be AIA");
+  assert.strictEqual(dom["my-product-display"].innerText, "盈御多元貨幣計劃 3", "AIA Savings flagship must be displayed");
+
+  // 2. Switch to Manulife
+  sandbox.setMyCompany("Manulife");
+  assert.strictEqual(sandbox.getMyCompany(), "Manulife", "myCompany must switch to Manulife");
+  assert.strictEqual(dom["select-my-insurer"].value, "Manulife", "select-my-insurer DOM must reflect Manulife");
+  assert.strictEqual(dom["my-product-display"].innerText, "宏摯多元儲蓄計劃", "Manulife Savings flagship must be displayed");
+
+  // Verify persistence in localStorage
+  const saved = sandbox.localStorage.getItem("insurintel_my_insurer");
+  assert.ok(saved && (saved.includes("Manulife") || saved.includes("宏利")), `localStorage must persist Manulife, got: ${saved}`);
+
+  // 3. Switch myCompany to currently selected rival (avoid self-matchup)
+  sandbox.selectCompany("Prudential");
+  assert.strictEqual(sandbox.getRivalCompany(), "Prudential");
+  sandbox.setMyCompany("Prudential");
+  // Rival should automatically flip away from Prudential to AIA
+  assert.strictEqual(sandbox.getMyCompany(), "Prudential");
+  assert.strictEqual(sandbox.getRivalCompany(), "AIA", "Rival must auto-flip away from Prudential to avoid self-matchup");
+
+  // 4. Object/target element input simulation
+  sandbox.setMyCompany({ value: "FWD" });
+  assert.strictEqual(sandbox.getMyCompany(), "FWD", "setMyCompany should accept object with value");
+  assert.strictEqual(dom["my-product-display"].innerText, "盈豐多元貨幣儲蓄保險", "FWD flagship should display");
+});
+
+recordTest("Suite 11: Swap Roles & Bilateral Stance Symmetry", "Verify swapCampRoles exchanges roles, updates DOM, and adapts attack stance symmetrically", () => {
+  // Set initial baseline: AIA (Our) vs Prudential (Rival) on Prepayment
+  sandbox.setMyCompany("AIA");
+  sandbox.selectCompany("Prudential");
+  sandbox.selectClaim("prepayment");
+
+  assert.strictEqual(sandbox.getMyCompany(), "AIA");
+  assert.strictEqual(sandbox.getRivalCompany(), "Prudential");
+  assert.ok(dom["agent-title"].innerHTML.includes("保誠"), "AIA title against Prudential must target Prudential");
+
+  // 1. Swap roles: Prudential becomes Our Company, AIA becomes Rival
+  sandbox.swapCampRoles();
+  assert.strictEqual(sandbox.getMyCompany(), "Prudential", "myCompany must become Prudential after swap");
+  assert.strictEqual(sandbox.getRivalCompany(), "AIA", "rivalCompany must become AIA after swap");
+  assert.strictEqual(dom["select-my-insurer"].value, "Prudential", "select-my-insurer must update to Prudential");
+  assert.strictEqual(dom["select-rival-insurer"].value, "AIA", "select-rival-insurer must update to AIA");
+  assert.strictEqual(dom["toast"].style.display, "block", "Toast notification must display upon role swap");
+  assert.ok(dom["toast"].innerText.includes("攻防已對調"), "Toast text must announce role swap");
+
+  // 2. Verify stance-aware pitch change
+  assert.ok(dom["agent-title"].innerHTML.includes("友邦"), "Prudential title against AIA must target AIA");
+  assert.ok(
+    dom["agent-step-3"].innerHTML.includes("實時落袋確定性") ||
+    dom["agent-step-3"].innerHTML.includes("真金白銀第一年就慳返幾皮嘢保費"),
+    "Prudential step 3 against AIA must attack upfront cash certainty"
+  );
+
+  // 3. Verify Bilateral Spec Table rendered Plan A as Prudential, Plan B as AIA
+  const specTableHtml = dom["bilateral-spec-table"].innerHTML;
+  assert.ok(specTableHtml.includes("Plan A (我方)"), "Spec table must include Plan A");
+  assert.ok(specTableHtml.includes("Plan B (對手)"), "Spec table must include Plan B");
+  assert.ok(specTableHtml.includes("首年保費回贈"), "Spec table must include rebate metric");
+  assert.ok(specTableHtml.includes("預繳保證利率"), "Spec table must include prepay metric");
+
+  // 4. Swap roles back: AIA restores to Our Company
+  sandbox.swapCampRoles();
+  assert.strictEqual(sandbox.getMyCompany(), "AIA", "myCompany must restore to AIA");
+  assert.strictEqual(sandbox.getRivalCompany(), "Prudential", "rivalCompany must restore to Prudential");
+  assert.ok(dom["agent-title"].innerHTML.includes("保誠"), "AIA title against Prudential must restore");
+});
+
+recordTest("Suite 12: 72 Bilateral Cross-Insurer Combinations", "Exhaustive evaluation of all 9 insurers x 8 rivals (72 combinations) across all canonical claims", () => {
+  const insurers = ["AIA", "Prudential", "Manulife", "Sun Life", "FWD", "AXA", "Bowtie", "BOC Life", "YF Life"];
+  const canonicalClaims = ["prepayment", "ci", "vhis", "financing_ul", "qdap"];
+
+  let evaluatedPairs = 0;
+  for (const ourComp of insurers) {
+    for (const rivalComp of insurers) {
+      if (ourComp === rivalComp) continue; // Skip self vs self
+      evaluatedPairs++;
+
+      for (const claimKey of canonicalClaims) {
+        const card = sandbox.getBattleCard(ourComp, rivalComp, claimKey);
+        assert.ok(card, `Battle card for [${ourComp}] vs [${rivalComp}] on [${claimKey}] must exist`);
+
+        // String sanity
+        assert.ok(card.agent_title && card.agent_title.length > 5, `[${ourComp}] vs [${rivalComp}] agent_title must be valid`);
+        assert.ok(card.agent_step_1 && card.agent_step_1.length > 5, `[${ourComp}] vs [${rivalComp}] agent_step_1 must be valid`);
+        assert.ok(card.agent_step_2 && card.agent_step_2.length > 5, `[${ourComp}] vs [${rivalComp}] agent_step_2 must be valid`);
+        assert.ok(card.agent_step_3 && card.agent_step_3.length > 5, `[${ourComp}] vs [${rivalComp}] agent_step_3 must be valid`);
+        assert.ok(card.whatsapp_script && card.whatsapp_script.length > 10, `[${ourComp}] vs [${rivalComp}] whatsapp_script must be valid`);
+
+        // Bilateral specs
+        assert.ok(Array.isArray(card.bilateral_specs), `[${ourComp}] vs [${rivalComp}] bilateral_specs must be array`);
+        assert.strictEqual(card.bilateral_specs.length, 6, `[${ourComp}] vs [${rivalComp}] bilateral_specs must have 6 rows`);
+
+        // Corridor data
+        assert.ok(card.corridor_our && card.corridor_our.length > 0, `[${ourComp}] vs [${rivalComp}] corridor_our must exist`);
+        assert.ok(card.corridor_rival && card.corridor_rival.length > 0, `[${ourComp}] vs [${rivalComp}] corridor_rival must exist`);
+
+        // Disallow corrupted strings
+        const jsonStr = JSON.stringify(card);
+        assert.ok(!jsonStr.includes("undefined"), `[${ourComp}] vs [${rivalComp}] on [${claimKey}] contains 'undefined'`);
+        assert.ok(!jsonStr.includes("NaN%"), `[${ourComp}] vs [${rivalComp}] on [${claimKey}] contains 'NaN%'`);
+      }
+    }
+  }
+
+  assert.strictEqual(evaluatedPairs, 72, "Must evaluate exactly 72 insurer pairs (9 x 8)");
+});
+
+// -----------------------------------------------------------------------------
+// SUITE 13: Adversarial Role-Swap Concurrency & Exotic Fallbacks
+// -----------------------------------------------------------------------------
+recordTest("Suite 13: Rapid Role Swap & Category Interleaving", "Simulate rapid consecutive swapCampRoles interleaved with category changes without row dropping", () => {
+  sandbox.setMyCompany("AIA");
+  sandbox.selectCompany("Prudential");
+
+  const categories = ["Savings_MultiCurrency", "Critical_Illness", "Medical_VHIS", "Annuity_QDAP", "Financing_UniversalLife"];
+  const expectedLabels = ["首年保費回贈", "預繳保證利率", "GN16 實現率", "保證回本年期", "30年預期複利 IRR", "核心條款亮點"];
+
+  for (let cycle = 0; cycle < 10; cycle++) {
+    const cat = categories[cycle % categories.length];
+    sandbox.selectCategory(cat);
+    sandbox.swapCampRoles();
+
+    const specTableHtml = dom["bilateral-spec-table"].innerHTML;
+    assert.ok(specTableHtml.length > 50, `Spec table must not be empty during cycle ${cycle}`);
+    assert.ok(!specTableHtml.includes("undefined"), `Spec table must not contain undefined in cycle ${cycle}`);
+    assert.ok(!specTableHtml.includes("NaN"), `Spec table must not contain NaN in cycle ${cycle}`);
+
+    for (const label of expectedLabels) {
+      assert.ok(specTableHtml.includes(label), `Spec table must retain '${label}' row in cycle ${cycle}`);
+    }
+  }
+});
+
+recordTest("Suite 13: Exotic & Uncanonical Insurer Injections", "Verify setMyCompany and selectCompany gracefully normalize exotic/unknown insurer strings", () => {
+  const exoticInputs = ["Zurich Life", "Generali International", "Bupa Overseas", "  ", "", null, undefined];
+
+  for (const input of exoticInputs) {
+    // Should never throw
+    assert.doesNotThrow(() => {
+      sandbox.setMyCompany(input);
+    }, `setMyCompany('${input}') must not throw`);
+
+    const myComp = sandbox.getMyCompany();
+    assert.strictEqual(typeof myComp, "string", "myCompany must always be a string");
+    assert.ok(ALL_INSURERS.includes(myComp), `Normalized myCompany '${myComp}' must be one of the canonical 9 insurers`);
+
+    assert.doesNotThrow(() => {
+      sandbox.selectCompany(input);
+    }, `selectCompany('${input}') must not throw`);
+
+    const rivalComp = sandbox.getRivalCompany();
+    assert.strictEqual(typeof rivalComp, "string", "rivalCompany must always be a string");
+    assert.ok(ALL_INSURERS.includes(rivalComp), `Normalized rivalCompany '${rivalComp}' must be one of the canonical 9 insurers`);
+  }
+
+  // Restore clean state
+  sandbox.setMyCompany("AIA");
+  sandbox.selectCompany("Prudential");
+});
+
+recordTest("Suite 13: Stance-Aware Tone and Content Inversion", "Verify reciprocal CI and Savings tactical pitches invert symmetrically between rivals", () => {
+  // Test CI between FWD (2-year wait) and Manulife (3-year wait)
+  // 1. FWD as Our Company vs Manulife as Rival
+  const fwdVsManu = sandbox.getBattleCard("FWD", "Manulife", "ci");
+  assert.ok(fwdVsManu.agent_title.includes("3 年") || fwdVsManu.agent_title.includes("等待期"), "FWD vs Manu title must target 3-year wait");
+  assert.ok(fwdVsManu.agent_step_2.includes("3 年"), "FWD vs Manu step 2 must attack Manulife 3-year wait");
+  assert.ok(fwdVsManu.agent_step_3.includes("2 年"), "FWD vs Manu step 3 must highlight FWD 2-year line");
+
+  // 2. Swapped: Manulife as Our Company vs FWD as Rival
+  const manuVsFwd = sandbox.getBattleCard("Manulife", "FWD", "ci");
+  assert.ok(manuVsFwd.agent_title.includes("危疾") || manuVsFwd.agent_title.includes("ICU"), "Manu vs FWD title must target ICU/breadth");
+  assert.ok(manuVsFwd.agent_step_2.includes("2 年") || manuVsFwd.agent_step_2.includes("等待期"), "Manu vs FWD step 2 must mention FWD 2-year claim");
+  assert.ok(manuVsFwd.agent_step_3.includes("ICU") && (manuVsFwd.agent_step_3.includes("100%") || manuVsFwd.agent_step_3.includes("全額")), "Manu vs FWD step 3 must pivot to ICU 100% advance payout");
+});
+
 console.log("\n================================================================================");
 console.log("CANONICAL KEY ADVERSARIAL STRESS TEST SUMMARY");
 console.log("================================================================================");

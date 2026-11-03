@@ -1070,6 +1070,81 @@ test("22. Feature F15: Interactive DOM Pill Switching & Event Loop across All 54
   assert.ok(domElements["toast"].innerText.includes("WhatsApp"), "Toast text must mention WhatsApp");
 });
 
+test("23. Feature F16: Stance-Aware Bilateral Counter-Pitch Engine & Direct 1v1 Product Comparison", () => {
+  const promos = loadPromos();
+  const engine = new CounterPitchEngine(promos);
+
+  const aiaSavings = promos.find(p => p.insurer === "AIA" && p.category === "Savings_MultiCurrency");
+  const pruSavings = promos.find(p => p.insurer === "Prudential" && p.category === "Savings_MultiCurrency");
+
+  assert.ok(aiaSavings, "AIA Savings promo must exist");
+  assert.ok(pruSavings, "Prudential Savings promo must exist");
+
+  // 1. Bilateral Test: AIA as Our Company vs Prudential as Rival (Higher GN16 stance)
+  const aiaVsPru = engine.generateBilateralCounterPitch(aiaSavings!, pruSavings!, "cantonese_colloquial");
+  assert.ok(aiaVsPru, "AIA vs Pru counter pitch must generate");
+  assert.strictEqual(aiaVsPru.regulatory_guardrail.compliance_audit_passed, true, "AIA vs Pru counter pitch must pass GL20 compliance");
+  assert.ok(
+    aiaVsPru.three_stage_framework.stage_3_actuarial_checkmate.includes("GN16") ||
+    aiaVsPru.three_stage_framework.stage_3_actuarial_checkmate.includes("96.5%"),
+    "AIA vs Pru stage 3 must focus on GN16 fulfillment ratio advantage"
+  );
+
+  // 2. Bilateral Test: Prudential as Our Company vs AIA as Rival (Lower GN16, higher upfront cash yield stance)
+  const pruVsAia = engine.generateBilateralCounterPitch(pruSavings!, aiaSavings!, "cantonese_colloquial");
+  assert.ok(pruVsAia, "Pru vs AIA counter pitch must generate");
+  assert.strictEqual(pruVsAia.regulatory_guardrail.compliance_audit_passed, true, "Pru vs AIA counter pitch must pass GL20 compliance");
+  assert.ok(
+    pruVsAia.three_stage_framework.stage_3_actuarial_checkmate.includes("實時落袋確定性") ||
+    pruVsAia.three_stage_framework.stage_3_actuarial_checkmate.includes("落袋收益") ||
+    pruVsAia.three_stage_framework.stage_3_actuarial_checkmate.includes("首年提供最高保費回贈"),
+    "Pru vs AIA stage 3 must focus on upfront cash rebate and certainty"
+  );
+
+  // 3. Test Bilateral Specs in Mobile Cafe App script
+  const cafePath = path.join(process.cwd(), "templates", "mobile_cafe_app.html");
+  const html = fs.readFileSync(cafePath, "utf-8");
+  const scriptMatch = html.match(/<script>([\s\S]*?)<\/script>/);
+  assert.ok(scriptMatch, "mobile_cafe_app.html must contain a <script> block");
+
+  const sandbox: any = {
+    document: {
+      getElementById: () => null,
+      querySelectorAll: () => []
+    },
+    navigator: {},
+    console,
+    addEventListener: () => {}
+  };
+  sandbox.window = sandbox;
+  vm.createContext(sandbox);
+  vm.runInContext(scriptMatch[1], sandbox);
+
+  assert.strictEqual(typeof sandbox.getBattleCard, "function", "getBattleCard must be defined");
+
+  // 3-arg bilateral call: (ourCompany, rivalCompany, claimKey)
+  const cardAiaVsPru = sandbox.getBattleCard("AIA", "Prudential", "prepayment");
+  assert.ok(cardAiaVsPru.bilateral_specs, "bilateral_specs must exist in battle card");
+  assert.strictEqual(cardAiaVsPru.bilateral_specs.length, 6, "Must contain exactly 6 core bilateral metrics");
+
+  const gn16RowA = cardAiaVsPru.bilateral_specs.find((r: any) => r.label === "GN16 實現率");
+  assert.ok(gn16RowA, "Must contain GN16 metric");
+  assert.strictEqual(gn16RowA.winner, "our", "AIA should be winner for GN16 against Prudential");
+
+  // Swap roles: Prudential as ourCompany vs AIA as rival
+  const cardPruVsAia = sandbox.getBattleCard("Prudential", "AIA", "prepayment");
+  assert.ok(cardPruVsAia.bilateral_specs, "bilateral_specs must exist in swapped battle card");
+
+  const rebateRowP = cardPruVsAia.bilateral_specs.find((r: any) => r.label === "首年保費回贈");
+  assert.ok(rebateRowP, "Must contain Rebate metric");
+  assert.strictEqual(rebateRowP.winner, "our", "Prudential should be winner for Rebate against AIA (28% vs 22%)");
+
+  const prepayRowP = cardPruVsAia.bilateral_specs.find((r: any) => r.label === "預繳保證利率");
+  assert.ok(prepayRowP, "Must contain Prepayment metric");
+  assert.strictEqual(prepayRowP.winner, "our", "Prudential should be winner for Prepayment against AIA (5.8% vs 5.0%)");
+});
+
+
 
 
 
