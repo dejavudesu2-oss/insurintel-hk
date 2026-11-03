@@ -713,8 +713,118 @@ recordTest("Suite 15: Drawer State Isolation & Alias Tagging", "openCatalogDrawe
   const renderedHtml = sandbox.renderCampProductOptions(prodsWithAlias, "Critical_Illness", "TEST-1");
   assert.ok(renderedHtml.includes("[危疾]"), "Must render [危疾] tag even when category is alias 'ci'");
   assert.ok(renderedHtml.includes("[醫保]"), "Must render [醫保] tag even when category is alias 'vhis'");
-  assert.ok(renderedHtml.includes("[年金]"), "Must render [年金] tag even when category is alias 'qdap'");
-  assert.ok(renderedHtml.includes("[萬用]"), "Must render [萬用] tag even when category is alias 'ul'");
+  // 4. Verify alias category is grouped in "當前選取險種" when current category matches
+  assert.ok(renderedHtml.includes("當前選取險種"), "Product with 'ci' category must be in 當前選取險種 when cat is Critical_Illness");
+  assert.ok(!renderedHtml.includes("該險種暫無產品"), "Must NOT show 該險種暫無產品 when a matching product exists with alias");
+});
+
+// -----------------------------------------------------------------------------
+// Suite 16: Category Normalization in renderCampProductOptions & updateCampSelectors
+// -----------------------------------------------------------------------------
+recordTest("Suite 16: Category Normalization in Dropdown", "renderCampProductOptions groups alias categories in '當前選取險種' without false gap warning", () => {
+  const { sandbox } = createSandbox();
+  const aliasProds = [
+    { id: "ALIAS-CI", name: "別名危疾測試", category: "ci" },
+    { id: "ALIAS-VHIS", name: "別名醫保測試", category: "vhis" },
+    { id: "ALIAS-SAV", name: "別名儲蓄測試", category: "Savings_MultiCurrency" }
+  ];
+
+  const htmlCI = sandbox.renderCampProductOptions(aliasProds, "Critical_Illness", "ALIAS-CI");
+  assert.ok(htmlCI.includes("當前選取險種"), "CI alias product must be in 當前選取險種");
+  assert.ok(htmlCI.includes("ALIAS-CI"), "CI alias product option must be rendered");
+  assert.ok(!htmlCI.includes("該險種暫無產品"), "Must not display gap warning when CI alias product exists");
+
+  const htmlVHIS = sandbox.renderCampProductOptions(aliasProds, "Medical_VHIS", "ALIAS-VHIS");
+  assert.ok(htmlVHIS.includes("當前選取險種"), "VHIS alias product must be in 當前選取險種");
+  assert.ok(!htmlVHIS.includes("該險種暫無產品"), "Must not display gap warning when VHIS alias product exists");
+});
+
+// -----------------------------------------------------------------------------
+// Suite 17: Category Normalization in getBattleCard for Products with Alias Categories
+// -----------------------------------------------------------------------------
+recordTest("Suite 17: Alias Category in Battle Card", "getBattleCard uses selected product name when product has alias category", () => {
+  const { sandbox } = createSandbox();
+  sandbox.setMyCompany("AIA");
+  sandbox.selectCompany("Prudential");
+  sandbox.selectCategory("Critical_Illness");
+
+  // Inject product with category: 'ci'
+  sandbox.setMyProduct({ id: "TEST-CUSTOM-CI", insurer: "AIA", name: "友邦自定義危疾測試 (Custom CI)", category: "ci" });
+  const card = sandbox.getBattleCard("AIA", "Prudential", "critical_illness");
+
+  assert.ok(card.hero_our_name.includes("友邦自定義危疾測試"), `hero_our_name must cite custom CI product, got: ${card.hero_our_name}`);
+});
+
+// -----------------------------------------------------------------------------
+// Suite 18: DOM Event Object Target Extraction in setMyCompany & selectCompany
+// -----------------------------------------------------------------------------
+recordTest("Suite 18: Event Object in Company Selectors", "setMyCompany and selectCompany accept DOM ChangeEvent with target.value", () => {
+  const { sandbox, dom } = createSandbox();
+
+  // Test setMyCompany with mock ChangeEvent
+  sandbox.setMyCompany({ target: { value: "FWD" } });
+  assert.strictEqual(sandbox.getMyCompany(), "FWD", "setMyCompany must extract value from event.target.value");
+  assert.strictEqual(dom["select-my-insurer"].value, "FWD", "select-my-insurer DOM value must update to FWD");
+
+  // Test selectCompany with mock ChangeEvent
+  sandbox.selectCompany({ target: { value: "AXA" } });
+  assert.strictEqual(sandbox.getRivalCompany(), "AXA", "selectCompany must extract value from event.target.value");
+  assert.strictEqual(dom["select-rival-insurer"].value, "AXA", "select-rival-insurer DOM value must update to AXA");
+});
+
+// -----------------------------------------------------------------------------
+// Suite 19: Dynamic Alignment in QDAP & Financing UL for Non-Flagship Selection
+// -----------------------------------------------------------------------------
+recordTest("Suite 19: QDAP & UL Non-Flagship Alignment", "Selecting non-flagship QDAP and UL products dynamically aligns pitch and charts", () => {
+  const { sandbox, dom } = createSandbox();
+
+  // QDAP non-flagship test
+  sandbox.setMyCompany("AIA");
+  sandbox.selectCompany("Prudential");
+  sandbox.selectCategory("Annuity_QDAP");
+  sandbox.setRivalProduct("PROMO-PRU-QDAP-2026"); // 雋逸年金計劃
+
+  const qdapCard = sandbox.getBattleCard("AIA", "Prudential", "qdap");
+  assert.ok(qdapCard.hero_rival_name.includes("雋逸年金"), "Hero rival name must cite 雋逸年金");
+  assert.ok(qdapCard.agent_step_1.includes("雋逸年金"), `agent_step_1 must cite 雋逸年金, got: ${qdapCard.agent_step_1}`);
+  assert.ok(qdapCard.whatsapp_script.includes("雋逸年金"), `whatsapp_script must cite 雋逸年金, got: ${qdapCard.whatsapp_script}`);
+
+  // Financing UL non-flagship test
+  sandbox.selectCategory("Financing_UniversalLife");
+  sandbox.selectCompany("Sun Life");
+  sandbox.setRivalProduct("PROMO-SUN-UL-PINNACLE-2026"); // 耀世傳承萬用壽險
+
+  const ulCard = sandbox.getBattleCard("AIA", "Sun Life", "financing_ul");
+  assert.ok(ulCard.hero_rival_name.includes("耀世傳承"), "Hero rival name must cite 耀世傳承");
+  assert.ok(ulCard.agent_step_1.includes("耀世傳承"), `agent_step_1 must cite 耀世傳承, got: ${ulCard.agent_step_1}`);
+  assert.ok(ulCard.whatsapp_script.includes("耀世傳承"), `whatsapp_script must cite 耀世傳承, got: ${ulCard.whatsapp_script}`);
+});
+
+// -----------------------------------------------------------------------------
+// Suite 20: Catalog Drawer Filter Category Normalization
+// -----------------------------------------------------------------------------
+recordTest("Suite 20: Catalog Drawer Filter Normalization", "renderCatalog filters correctly when given alias category keys (ci, vhis, qdap, ul)", () => {
+  const { sandbox, dom } = createSandbox();
+
+  // Filter with alias 'ci' (Critical_Illness has 13 products in 60-product catalog)
+  sandbox.renderCatalog("", "ci");
+  const ciCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
+  assert.strictEqual(ciCards, 13, `renderCatalog with alias 'ci' must return 13 products, got ${ciCards}`);
+
+  // Filter with alias 'vhis' (Medical_VHIS has 12 products in 60-product catalog)
+  sandbox.renderCatalog("", "vhis");
+  const vhisCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
+  assert.strictEqual(vhisCards, 12, `renderCatalog with alias 'vhis' must return 12 products, got ${vhisCards}`);
+
+  // Filter with alias 'qdap' (Annuity_QDAP has 11 products in 60-product catalog)
+  sandbox.renderCatalog("", "qdap");
+  const qdapCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
+  assert.strictEqual(qdapCards, 11, `renderCatalog with alias 'qdap' must return 11 products, got ${qdapCards}`);
+
+  // Filter with alias 'ul' (Financing_UniversalLife has 12 products in 60-product catalog)
+  sandbox.renderCatalog("", "ul");
+  const ulCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
+  assert.strictEqual(ulCards, 12, `renderCatalog with alias 'ul' must return 12 products, got ${ulCards}`);
 });
 
 console.log("================================================================================");

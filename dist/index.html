@@ -1711,21 +1711,21 @@
       else if (claimKey === 'financing_ul') categoryKey = 'Financing_UniversalLife';
       else if (claimKey === 'prepayment' || claimKey === 'rebate') categoryKey = 'Savings_MultiCurrency';
 
-      let ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && mySelectedProduct.category === categoryKey)
+      let ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && normalizeCategory(mySelectedProduct.category) === categoryKey)
         ? cleanProductName(mySelectedProduct.name)
         : getFlagshipProduct(ourKey, categoryKey);
-      let rivalProductName = (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && rivalSelectedProduct.category === categoryKey)
+      let rivalProductName = (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && normalizeCategory(rivalSelectedProduct.category) === categoryKey)
         ? cleanProductName(rivalSelectedProduct.name)
         : getFlagshipProduct(rivalKey, categoryKey);
 
       // Intra-insurer product comparison: active when distinct products are selected within same company for this category
       const isIntraInsurer = !!(ourKey === rivalKey && (
-        (mySelectedProduct && rivalSelectedProduct && mySelectedProduct.id !== rivalSelectedProduct.id && mySelectedProduct.category === categoryKey && rivalSelectedProduct.category === categoryKey) ||
-        (mySelectedProduct && mySelectedProduct.category === categoryKey && cleanProductName(mySelectedProduct.name) !== rivalProductName) ||
-        (rivalSelectedProduct && rivalSelectedProduct.category === categoryKey && ourProductName !== cleanProductName(rivalSelectedProduct.name))
+        (mySelectedProduct && rivalSelectedProduct && mySelectedProduct.id !== rivalSelectedProduct.id && normalizeCategory(mySelectedProduct.category) === categoryKey && normalizeCategory(rivalSelectedProduct.category) === categoryKey) ||
+        (mySelectedProduct && normalizeCategory(mySelectedProduct.category) === categoryKey && cleanProductName(mySelectedProduct.name) !== rivalProductName) ||
+        (rivalSelectedProduct && normalizeCategory(rivalSelectedProduct.category) === categoryKey && ourProductName !== cleanProductName(rivalSelectedProduct.name))
       ));
       if (isIntraInsurer && ourProductName === rivalProductName) {
-        const prods = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === ourKey && p.category === categoryKey);
+        const prods = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === ourKey && normalizeCategory(p.category) === categoryKey);
         if (prods.length > 1) {
           rivalProductName = cleanProductName(prods[1].name);
         }
@@ -2593,7 +2593,9 @@
 
         return {
           agent_title: ulTitle,
-          agent_step_1: `「趙總，85% 高槓桿保費融資表面睇可以用 15 萬本金撬動 100 萬保單，息差收益率宣傳到 10% 以上，作為高資產配置確實好吸引！」`,
+          agent_step_1: isIntraInsurer
+            ? `「趙總，您在考慮 ${ourProfile.fullName} 旗下的【${ourProductName}】同【${rivalProductName}】萬用壽險與保費融資方案！」`
+            : `「趙總，【${rivalProductName || rivalProfile.flagshipUL}】85% 高槓桿保費融資表面睇可以用 15 萬本金撬動 100 萬保單，息差收益率宣傳到 10% 以上，作為高資產配置確實好吸引！」`,
           agent_step_2: `「但融資命脈在於息差（Spread）。銀行借貸利息係浮動 Prime Rate / Hibor，而保單結算利率由保司每年釐定；一旦降息週期息差倒掛，每月倒貼利息；若保單退保價值跌破警戒線，銀行隨時出 Margin Call 要求補倉，否則強制斬倉！」`,
           agent_step_3: `「我地建議資產配置回歸『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與 Margin Call 滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握喺自己手中。」`,
           agent_trap_warning: `⚠️ 陷阱警示：槓桿融資息差易受 HIBOR 浮動倒掛衝擊；我方萬用壽險設有最低保證派息防禦線 (2.0%~2.5%)，避開對手 Margin Call 補倉隱患！`,
@@ -2612,7 +2614,7 @@
           chart_title: `⚠️ 利率波動與極端市況安全性評級 (越高越安全)`,
           chart_bars: [
             { label: `無槓桿多元貨幣儲蓄 (我方)`, value: `100% 安全 (零槓桿與補倉風險)`, widthPct: 100, color: `var(--green)` },
-            { label: `${rivalProfile.fullName} 85% 槓桿融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
+            { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipUL}】85% 槓桿融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
             { label: `市場融資平均安全緩衝區`, value: `約 15-20% 跌幅即觸發補倉`, widthPct: 40, color: `#f59e0b` }
           ],
           table_title: `📊 槓桿融資 vs 無槓桿儲蓄全維度對比`,
@@ -2623,7 +2625,7 @@
             { label: `多元貨幣自由切換`, value: `支援 7-9 種主流貨幣`, highlight: false }
           ],
           bilateral_specs: bilateralSpecs,
-          whatsapp_script: `趙總早晨！留意到市場上宣傳 85% LTV 保費融資高息差。金管局與保監局最新通函已多次提醒降息環境下的息差倒掛與銀行 Margin Call 補倉風險。我幫您做咗份「槓桿融資 vs 無槓桿多元貨幣傳承」壓力測試分析，發給您參考！`,
+          whatsapp_script: `趙總早晨！留意到市場上宣傳【${rivalProductName || rivalProfile.flagshipUL}】85% LTV 保費融資高息差。金管局與保監局最新通函已多次提醒降息環境下的息差倒掛與銀行 Margin Call 補倉風險。我幫您做咗份「槓桿融資 vs 無槓桿多元貨幣傳承」壓力測試分析，發給您參考！`,
           disclaimer
         };
       }
@@ -2644,7 +2646,9 @@
 
       return {
         agent_title: qdapTitle,
-        agent_step_1: `「林生，見到對手宣傳 QDAP 預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
+        agent_step_1: isIntraInsurer
+          ? `「林生，您在考慮 ${ourProfile.fullName} 旗下的【${ourProductName}】同【${rivalProductName}】合資格延期年金方案！」`
+          : `「林生，見到對手宣傳【${rivalProductName || rivalProfile.flagshipQDAP}】預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
         agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${rivalProfile.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
         agent_step_3: step3Script,
         agent_trap_warning: `⚠️ 陷阱警示：對手 4.2% 總回報中保證部分不足 50%，退休救命錢最忌承受市場波動；我方保證比例逾 80%，兼享 HK$10,200 實質退稅！`,
@@ -2662,8 +2666,8 @@
         client_desc: `退休年金最核心價值在於提供確定不變的退休現金流。保證年金比例越高，退休生活越不受金融市場週期動盪影響。`,
         chart_title: `🛡️ 年金總利益中「保證部分」確定性佔比`,
         chart_bars: [
-          { label: `我方旗艦年金方案`, value: `82.5% 保證 (極高確定性)`, widthPct: 82.5, color: `var(--green)` },
-          { label: `${rivalProfile.fullName} 宣傳方案`, value: `${rivalProfile.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: rivalProfile.qdapGuaranteedPct, color: `#f59e0b` },
+          { label: `我方【${ourProductName || '旗艦年金方案'}】`, value: `82.5% 保證 (極高確定性)`, widthPct: 82.5, color: `var(--green)` },
+          { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipQDAP}】`, value: `${rivalProfile.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: rivalProfile.qdapGuaranteedPct, color: `#f59e0b` },
           { label: `市場同業平均水平`, value: `50.0% 保證`, widthPct: 50.0, color: `#94a3b8` }
         ],
         table_title: `💰 退休現金流確定性與稅務扣除`,
@@ -2674,7 +2678,7 @@
           { label: `年金領取期選擇`, value: `10 / 20 年或至 100 歲靈活選擇`, highlight: false }
         ],
         bilateral_specs: bilateralSpecs,
-        whatsapp_script: `林生您好！昨日您關注的 QDAP 年金計劃，我對比了各大保司的利益結構。對手方案中非保證分紅佔比偏高，退休金受市場波動較大；我地方案保證派發比例達 80% 以上，並享足每年 $10,200 薪俸稅實質退稅。我發份年金確定性比對表給您參考！`,
+        whatsapp_script: `林生您好！昨日您關注的 ${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipQDAP}】QDAP 年金計劃，我對比了各大保司的利益結構。對手方案中非保證分紅佔比偏高，退休金受市場波動較大；我地方案保證派發比例達 80% 以上，並享足每年 $10,200 薪俸稅實質退稅。我發份年金確定性比對表給您參考！`,
         disclaimer
       };
     }
@@ -2712,6 +2716,7 @@
     function setMyCompany(targetOrName) {
       let rawName = '';
       if (typeof targetOrName === 'string') rawName = targetOrName;
+      else if (targetOrName && targetOrName.target && typeof targetOrName.target.value === 'string') rawName = targetOrName.target.value;
       else if (targetOrName && targetOrName.value) rawName = targetOrName.value;
       else if (targetOrName && targetOrName.innerText) rawName = targetOrName.innerText;
 
@@ -2741,15 +2746,16 @@
 
     function renderCampProductOptions(allProds, cat, selectedId) {
       if (!allProds || allProds.length === 0) return '';
-      const currentProds = allProds.filter(p => p.category === cat);
-      const otherProds = allProds.filter(p => p.category !== cat);
+      const normCat = normalizeCategory(cat);
+      const currentProds = allProds.filter(p => normalizeCategory(p.category) === normCat);
+      const otherProds = allProds.filter(p => normalizeCategory(p.category) !== normCat);
 
       let html = '';
       if (currentProds.length > 0) {
         html += '<optgroup label="當前選取險種">';
         html += currentProds.map(p => {
           const tag = CATEGORY_TAGS[p.category] || CATEGORY_TAGS[normalizeCategory(p.category)] || '';
-          const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId));
+          const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId || p.name === selectedId));
           return '<option value="' + p.id + '"' + (isSelected ? ' selected' : '') + '>' + tag + ' ' + cleanProductName(p.name) + '</option>';
         }).join('');
         html += '</optgroup>';
@@ -2762,7 +2768,7 @@
         html += '<optgroup label="' + groupLabel + '">';
         html += otherProds.map(p => {
           const tag = CATEGORY_TAGS[p.category] || CATEGORY_TAGS[normalizeCategory(p.category)] || '';
-          const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId));
+          const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId || p.name === selectedId));
           return '<option value="' + p.id + '"' + (isSelected ? ' selected' : '') + '>' + tag + ' ' + cleanProductName(p.name) + '</option>';
         }).join('');
         html += '</optgroup>';
@@ -2798,6 +2804,12 @@
       match = allProds.find(p => cleanProductName(p.name).includes(s) || s.includes(cleanProductName(p.name)) || p.name.includes(s));
       if (match) return match;
 
+      if (typeof identifier === 'object' && identifier !== null && identifier.name && identifier.category) {
+        if (!identifier.insurer || normalizeCompany(identifier.insurer) === normComp) {
+          return identifier;
+        }
+      }
+
       return null;
     }
 
@@ -2808,7 +2820,7 @@
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
       else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
-      const match = findProductInCompany(myCompany, prodId);
+      const match = findProductInCompany(myCompany, (typeof targetOrId === 'object' && targetOrId && !targetOrId.target) ? targetOrId : prodId);
       if (match) {
         mySelectedProduct = match;
         const targetCat = normalizeCategory(match.category);
@@ -2837,7 +2849,7 @@
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
       else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
-      const match = findProductInCompany(selectedCompany, prodId);
+      const match = findProductInCompany(selectedCompany, (typeof targetOrId === 'object' && targetOrId && !targetOrId.target) ? targetOrId : prodId);
       if (match) {
         rivalSelectedProduct = match;
         const targetCat = normalizeCategory(match.category);
@@ -2900,11 +2912,11 @@
       // Populate & sync select-my-product
       const allMyProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === myCompany);
       let myMatch = null;
-      if (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === myCompany && mySelectedProduct.category === cat) {
-        myMatch = allMyProds.find(p => p.id === mySelectedProduct.id) || null;
+      if (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer || myCompany) === myCompany && normalizeCategory(mySelectedProduct.category) === cat) {
+        myMatch = allMyProds.find(p => p.id === mySelectedProduct.id) || mySelectedProduct;
       }
       if (!myMatch) {
-        const curMyProds = allMyProds.filter(p => p.category === cat);
+        const curMyProds = allMyProds.filter(p => normalizeCategory(p.category) === cat);
         myMatch = curMyProds.find(p => p.name.includes(myFlagship) || myFlagship.includes(cleanProductName(p.name))) || curMyProds[0] || null;
       }
       if (selectMyProd) {
@@ -2922,11 +2934,11 @@
       // Populate & sync select-rival-product
       const allRivalProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === selectedCompany);
       let rivalMatch = null;
-      if (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === selectedCompany && rivalSelectedProduct.category === cat) {
-        rivalMatch = allRivalProds.find(p => p.id === rivalSelectedProduct.id) || null;
+      if (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer || selectedCompany) === selectedCompany && normalizeCategory(rivalSelectedProduct.category) === cat) {
+        rivalMatch = allRivalProds.find(p => p.id === rivalSelectedProduct.id) || rivalSelectedProduct;
       }
       if (!rivalMatch) {
-        const curRivalProds = allRivalProds.filter(p => p.category === cat);
+        const curRivalProds = allRivalProds.filter(p => normalizeCategory(p.category) === cat);
         if (myCompany === selectedCompany && curRivalProds.length > 1 && mySelectedProduct) {
           rivalMatch = curRivalProds.find(p => p.id !== mySelectedProduct.id) || curRivalProds[0] || null;
         } else {
@@ -2971,6 +2983,8 @@
         rawName = targetOrName;
       } else if (typeof maybeName === 'string') {
         rawName = maybeName;
+      } else if (targetOrName && targetOrName.target && typeof targetOrName.target.value === 'string') {
+        rawName = targetOrName.target.value;
       } else if (targetOrName && targetOrName.value) {
         rawName = targetOrName.value;
       } else if (targetOrName && targetOrName.innerText) {
@@ -3288,7 +3302,8 @@
       if (!container || !Array.isArray(window.ALL_PRODUCTS_CATALOG)) return;
 
       const filtered = window.ALL_PRODUCTS_CATALOG.filter(p => {
-        const matchesCat = (!catFilter || catFilter === 'all' || p.category === catFilter);
+        const normFilter = (!catFilter || catFilter === 'all') ? 'all' : normalizeCategory(catFilter);
+        const matchesCat = (normFilter === 'all' || normalizeCategory(p.category) === normFilter);
         const matchesText = !filterText ||
           p.name.toLowerCase().includes(filterText) ||
           p.insurerName.toLowerCase().includes(filterText) ||
