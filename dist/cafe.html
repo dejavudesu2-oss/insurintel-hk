@@ -1537,7 +1537,7 @@
         { label: "深切治療部 (ICU) 預支賠償", key: "critical_illness" },
         { label: "心臟病/中風多次賠償", key: "critical_illness" },
         { label: "首次嚴重危疾保費豁免", key: "critical_illness" },
-        { label: "首年保費折扣回贈", key: "rebate" }
+        { label: "首年保費折扣回贈", key: "critical_illness" }
       ],
       Savings_MultiCurrency: [
         { label: "5.8% 預繳 / 保證高回報", key: "prepayment" },
@@ -1573,12 +1573,15 @@
       const normCat = normalizeCategory(category);
       const chips = CATEGORY_CLAIMS[normCat] || CATEGORY_CLAIMS.Savings_MultiCurrency;
 
-      let activeIndex = chips.findIndex(c => c.label === selectedClaimText || c.key === selectedClaim);
+      let activeIndex = chips.findIndex(c => c.label === selectedClaimText);
+      if (activeIndex === -1) {
+        activeIndex = chips.findIndex(c => c.key === selectedClaim);
+      }
       if (activeIndex === -1) activeIndex = 0;
 
       container.innerHTML = chips.map((c, idx) => {
         const isAct = (idx === activeIndex);
-        return '<button class="thumb-pill ' + (isAct ? 'active' : '') + '" onclick="selectClaim(this, this.innerText)" data-claim="' + c.key + '">' + c.label + '</button>';
+        return '<button class="thumb-pill ' + (isAct ? 'active' : '') + '" onclick="selectClaim(this)" data-claim="' + c.key + '">' + c.label + '</button>';
       }).join('');
     }
     window.renderClaimPills = renderClaimPills;
@@ -1615,7 +1618,7 @@
       }
 
       // Critical Illness
-      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical') || s.includes('icu') || s.includes('深切治療') || s.includes('心臟病') || s.includes('中風') || s.includes('保費豁免')) {
+      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical') || s.includes('icu') || s.includes('深切治療') || s.includes('心臟病') || s.includes('中風') || s.includes('保費豁免') || s.includes('折扣')) {
         return 'critical_illness';
       }
       // VHIS Medical
@@ -1631,7 +1634,7 @@
         return 'qdap';
       }
       // Rebate
-      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣') || s.includes('rebate')) {
+      if (s.includes('28%') || s === 'rebate' || s.includes('首年保費回贈') || (s.includes('回贈') && !s.includes('危疾') && !s.includes('折扣'))) {
         return 'rebate';
       }
       // Savings / Prepayment
@@ -1641,6 +1644,18 @@
 
       return 'prepayment';
     }
+
+    function detectCategoryFromClaim(str) {
+      if (!str) return null;
+      const s = String(str).toLowerCase().trim();
+      if (s === 'ci' || s === 'critical_illness' || s.includes('critical') || s.includes('危疾') || s.includes('重疾') || s.includes('癌症') || s.includes('深切治療') || s.includes('icu') || s.includes('中風') || s.includes('折扣')) return 'Critical_Illness';
+      if (s === 'vhis' || s === 'medical' || s.includes('自願') || s.includes('醫保') || s.includes('標靶') || s.includes('cashless') || s.includes('免找數')) return 'Medical_VHIS';
+      if (s === 'qdap' || s === 'annuity' || s.includes('年金') || s.includes('扣稅') || s.includes('10,200')) return 'Annuity_QDAP';
+      if (s === 'ul' || s === 'financing_ul' || s === 'financing' || s.includes('universal') || s.includes('萬用') || s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('margin')) return 'Financing_UniversalLife';
+      if (s === 'prepayment' || s === 'rebate' || s.includes('預繳') || s.includes('5.8%') || s.includes('28%') || s.includes('gn16') || s.includes('分紅') || s.includes('儲蓄') || s.includes('回本')) return 'Savings_MultiCurrency';
+      return null;
+    }
+    window.detectCategoryFromClaim = detectCategoryFromClaim;
 
     function getFlagshipProduct(compKey, category) {
       const profile = COMPANY_PROFILES[compKey] || COMPANY_PROFILES.Prudential;
@@ -1652,36 +1667,52 @@
     }
 
     // Dynamic Bilateral Battle Card Resolver
-    function getBattleCard(arg1, arg2, arg3) {
-      let ourKey, rivalKey, claimKey;
+    function getBattleCard(arg1, arg2, arg3, arg4) {
+      let ourKey, rivalKey, claimKey, chipTopic = '';
 
       if (arguments.length >= 3) {
         ourKey = normalizeCompany(arg1);
         rivalKey = normalizeCompany(arg2);
         claimKey = normalizeClaim(arg3);
+        chipTopic = String(arg4 || arg3 || (typeof selectedClaimText !== 'undefined' ? selectedClaimText : '') || '');
       } else {
         // 2 arguments: (rawCompany, rawClaim)
         rivalKey = normalizeCompany(arg1);
         claimKey = normalizeClaim(arg2);
+        chipTopic = String(arg2 || (typeof selectedClaimText !== 'undefined' ? selectedClaimText : '') || '');
         ourKey = (typeof myCompany !== 'undefined' && myCompany) ? normalizeCompany(myCompany) : 'AIA';
       }
 
       const ourProfile = COMPANY_PROFILES[ourKey] || COMPANY_PROFILES.AIA;
       const rivalProfile = COMPANY_PROFILES[rivalKey] || COMPANY_PROFILES.Prudential;
 
-      let categoryKey = 'Savings_MultiCurrency';
-      if (claimKey === 'critical_illness') categoryKey = 'Critical_Illness';
+      let categoryKey = (typeof currentCategory !== 'undefined' && currentCategory) ? currentCategory : 'Savings_MultiCurrency';
+      if (claimKey === 'critical_illness' || chipTopic.includes('危疾') || chipTopic.includes('癌症') || chipTopic.includes('ICU') || chipTopic.includes('折扣')) categoryKey = 'Critical_Illness';
       else if (claimKey === 'vhis') categoryKey = 'Medical_VHIS';
       else if (claimKey === 'qdap') categoryKey = 'Annuity_QDAP';
       else if (claimKey === 'financing_ul') categoryKey = 'Financing_UniversalLife';
-      else categoryKey = 'Savings_MultiCurrency';
+      else if (claimKey === 'prepayment' && (!currentCategory || currentCategory === 'Savings_MultiCurrency')) categoryKey = 'Savings_MultiCurrency';
 
-      const ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && mySelectedProduct.category === categoryKey)
+      let ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && mySelectedProduct.category === categoryKey)
         ? cleanProductName(mySelectedProduct.name)
         : getFlagshipProduct(ourKey, categoryKey);
-      const rivalProductName = (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && rivalSelectedProduct.category === categoryKey)
+      let rivalProductName = (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && rivalSelectedProduct.category === categoryKey)
         ? cleanProductName(rivalSelectedProduct.name)
         : getFlagshipProduct(rivalKey, categoryKey);
+
+      // Intra-insurer product comparison: active when distinct products are selected within same company
+      const isIntraInsurer = !!(ourKey === rivalKey && (
+        (mySelectedProduct && rivalSelectedProduct && mySelectedProduct.id !== rivalSelectedProduct.id) ||
+        (mySelectedProduct && cleanProductName(mySelectedProduct.name) !== rivalProductName) ||
+        (rivalSelectedProduct && ourProductName !== cleanProductName(rivalSelectedProduct.name))
+      ));
+      if (isIntraInsurer && ourProductName === rivalProductName) {
+        const prods = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === ourKey && p.category === categoryKey);
+        if (prods.length > 1) {
+          rivalProductName = cleanProductName(prods[1].name);
+        }
+      }
+
       const heroOur = `${ourProfile.fullName} · ${ourProductName}`;
       const heroRival = `${rivalProfile.fullName} · ${rivalProductName}`;
 
@@ -2240,27 +2271,45 @@
           step3Script = `「買儲蓄險最緊要睇『實時落袋確定性』！我地方案首年提供高額保費回贈及鎖息高達 ${ourProfile.prepayRate}%，真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，前期資金負擔大幅減輕！」`;
         }
 
-        const agentTitle = (ourKey === 'Prudential' && rivalKey === 'AIA')
+        let agentTitle = (ourKey === 'Prudential' && rivalKey === 'AIA')
           ? `🎯 對抗戰策：拆解【${rivalProfile.fullName}】預繳息率與高進場門檻 (我方: 保誠 5.8% 預繳)`
           : `🎯 對抗戰策：拆解【${rivalProfile.fullName}】${rivalPrepay} 預繳噱頭與浮動陷阱`;
 
-        const step1 = (ourKey === 'Prudential' && rivalKey === 'AIA')
-          ? `「陳生，你真係好有眼光！友邦係老牌大公司，盈御系列宣傳聲量好大，換著邊個都會關注！」`
-          : `「陳生，你真係好有眼光！${rivalProfile.fullName} 個 ${rivalPrepay} 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」`;
+        if (isIntraInsurer) {
+          agentTitle = `🎯 產品選型：【${ourProfile.fullName}】內部主力【${ourProductName}】vs【${rivalProductName}】5.8% 預繳利率與回本深度對比`;
+        } else if (chipTopic.includes('GN16') || chipTopic.includes('實現率')) {
+          agentTitle = `🎯 對抗戰策：拆解保監局 GN16 官方分紅實現率 (我方 ${ourProfile.gn16Fulfillment}% vs 【${rivalProfile.fullName}】${rivalProfile.gn16Fulfillment}%)`;
+        } else if (chipTopic.includes('回本')) {
+          agentTitle = `🎯 對抗戰策：保證現金價值回本年期比對 (我方第 ${ourProfile.breakevenYear || 5} 年 vs 【${rivalProfile.fullName}】第 ${rivalProfile.breakevenYear || 7} 年)`;
+        } else if (chipTopic.includes('IRR')) {
+          agentTitle = `🎯 對抗戰策：30年預期複利 IRR 長線總回報比對 (我方 ${ourProfile.irr30}% vs 【${rivalProfile.fullName}】${rivalProfile.irr30}%)`;
+        } else if (chipTopic.includes('貨幣') || chipTopic.includes('分拆')) {
+          agentTitle = `🎯 對抗戰策：無限次保單分拆與多元貨幣自由轉換 (我方 9 種貨幣 vs 【${rivalProfile.fullName}】)`;
+        }
 
-        const step2 = (ourKey === 'Prudential' && rivalKey === 'AIA')
-          ? `「但仔細審查條款細則：友邦前期進場成本偏高，首年回贈得 22%，預繳息率亦只有 5.0%！且其宣傳的 96.5% 實現率，絕大部分依賴 25-30 年後嘅非保證終期紅利，遠水難救近火；前 10 年資金累積速度偏慢。」`
-          : `「但仔細拆解對手通函嘅 fine print，佢個 ${rivalPrepay} 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」`;
+        const step1 = isIntraInsurer
+          ? `「陳生，您在考慮 ${ourProfile.fullName} 旗下的【${ourProductName}】同【${rivalProductName}】，兩款都係市場極具聲量嘅旗艦儲蓄險！」`
+          : ((ourKey === 'Prudential' && rivalKey === 'AIA')
+            ? `「陳生，你真係好有眼光！友邦係老牌大公司，盈御系列宣傳聲量好大，換著邊個都會關注！」`
+            : `「陳生，你真係好有眼光！${rivalProfile.fullName} 個 ${rivalPrepay} 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」`);
 
-        const trapAlert = (ourKey === 'Prudential' && rivalKey === 'AIA')
-          ? `⚠️ 陷阱警示：友邦首年回贈少 6%、預繳利率少 0.8%，前期資金佔用高；且長線分紅主要依賴非保證終期紅利，注意前期現金流折損！`
-          : `⚠️ 陷阱警示：對手 ${rivalPrepay} 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！`;
+        const step2 = isIntraInsurer
+          ? `「【${ourProductName}】作為新一代多貨幣旗艦，具備更多貨幣轉換與無限次分拆傳承架構；而【${rivalProductName}】側重穩健鎖定與快速回本。」`
+          : ((ourKey === 'Prudential' && rivalKey === 'AIA')
+            ? `「但仔細審查條款細則：友邦前期進場成本偏高，首年回贈得 22%，預繳息率亦只有 5.0%！且其宣傳的 96.5% 實現率，絕大部分依賴 25-30 年後嘅非保證終期紅利，遠水難救近火；前 10 年資金累積速度偏慢。」`
+            : `「但仔細拆解對手通函嘅 fine print，佢個 ${rivalPrepay} 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」`);
+
+        const trapAlert = isIntraInsurer
+          ? `⚠️ 選型提示：【${ourProductName}】更適合長線多幣種家族傳承，【${rivalProductName}】適合確定年期鎖息，按客戶資金流動性需求推薦！`
+          : ((ourKey === 'Prudential' && rivalKey === 'AIA')
+            ? `⚠️ 陷阱警示：友邦首年回贈少 6%、預繳利率少 0.8%，前期資金佔用高；且長線分紅主要依賴非保證終期紅利，注意前期現金流折損！`
+            : `⚠️ 陷阱警示：對手 ${rivalPrepay} 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！`);
 
         return {
           agent_title: agentTitle,
           agent_step_1: step1,
           agent_step_2: step2,
-          agent_step_3: step3Script,
+          agent_step_3: isIntraInsurer ? `「如果您著重跨代傳承、多幣種配置與長線複利最大化，建議首選【${ourProductName}】；我方旗艦歷年累積實現率高達 ${ourProfile.gn16Fulfillment}% GN16 守護分紅；若追求短期資金確定性與特定回本年期，【${rivalProductName}】各具優勢！」` : step3Script,
           agent_trap_warning: trapAlert,
           hero_our_name: heroOur,
           hero_rival_name: heroRival,
@@ -2347,7 +2396,57 @@
         let ciTrap = '';
         let ciChartBars = [];
 
-        if (ourWait < rivalWait) {
+        if (isIntraInsurer) {
+          ciTitle = `🎯 產品選型：【${ourProfile.fullName}】內部主力危疾【${ourProductName}】vs【${rivalProductName}】癌症等待期深度對比`;
+          ciStep2 = `「兩者定位各有專長：【${ourProductName}】深切治療部 (ICU) 全額預支兜底與縮短癌症間隔領先，非指定疾病防護更強；而【${rivalProductName}】則側重多重特定危疾持續支援與保費預算平衡。」`;
+          ciStep3 = `「追求最頂級無死角的危疾防禦與 ICU 兜底，首選配置【${ourProductName}】；兼顧性價比與基礎多次賠償，【${rivalProductName}】亦係極具競爭力的選擇！」`;
+          ciTrap = `⚠️ 選型提示：同門產品側重點不同，【${ourProductName}】具備更強 ICU 與間隔優勢，按客戶預算與健康保障優先級進行配置！`;
+          ciChartBars = [
+            { label: `【${ourProductName}】生命防線`, value: `${ourWait} 年 (ICU預支兜底)`, widthPct: 95, color: `var(--green)` },
+            { label: `【${rivalProductName}】多次保障`, value: `${rivalWait} 年 (多次持續給付)`, widthPct: 90, color: `var(--ikb)` },
+            { label: `市場同業普遍標準`, value: `3 年`, widthPct: 65, color: `#94a3b8` }
+          ];
+        } else if (chipTopic.includes('ICU') || chipTopic.includes('深切治療')) {
+          ciTitle = `🎯 對抗戰策：深切治療部 (ICU) 連續 3-5 天免病名預支 100% 賠償 (我方 vs 【${rivalProfile.fullName}】)`;
+          ciStep2 = `「醫學臨床顯示，未知傳染病或嚴重併發症往往未達指定危疾定義，但需入住 ICU 搶救。對手傳統條款必須符合指定病名；若非名單疾病，隨時無法索償！」`;
+          ciStep3 = `「我地首創深切治療部 (ICU) 全額預支：只要連續入住 ICU 達 3-5 日，無需指定病名直接預支 100% 保額！呢個先係真正不留保障死角嘅救命兜底！」`;
+          ciTrap = `⚠️ 陷阱警示：對手危疾必須嚴格對號入座指定病種；我方連續住 ICU 3-5 天免病名預支 100% 才是最堅實防禦！`;
+          ciChartBars = [
+            { label: `我方非指定疾病 ICU 兜底`, value: `100% 全額預支 (連續住 3-5 日)`, widthPct: 98, color: `var(--green)` },
+            { label: `【${rivalProfile.fullName}】條款`, value: `限指定病名 / 無 ICU 預支`, widthPct: 50, color: `#f59e0b` },
+            { label: `市場同業普遍標準`, value: `不設未知疾病預支`, widthPct: 40, color: `#94a3b8` }
+          ];
+        } else if (chipTopic.includes('心臟病') || chipTopic.includes('中風')) {
+          ciTitle = `🎯 對抗戰策：拆解【${rivalProfile.fullName}】危疾多次賠付門檻 vs 我方心臟病/中風多次持續賠償`;
+          ciStep2 = `「心血管疾病與中風為本港第二大殺手，復發率極高！對手宣傳多次賠償，但細查條款對心臟病/中風往往設有嚴苛的復原標準或僅限單次賠付！」`;
+          ciStep3 = `「我地方案覆蓋心臟病與中風多重全額給付，等候期合理且支援持續現金流支援，避免第二次病發面臨保障真空！」`;
+          ciTrap = `⚠️ 陷阱警示：對手心血管多次索償條款嚴格；我方心臟病/中風多次給付門檻透明，全面守護高發重疾！`;
+          ciChartBars = [
+            { label: `我方心腦血管多重防線`, value: `多次全額賠付 (覆蓋高復發風險)`, widthPct: 95, color: `var(--green)` },
+            { label: `【${rivalProfile.fullName}】心血管給付`, value: `設單次限制或高門檻`, widthPct: 60, color: `#f59e0b` },
+            { label: `市場同業普遍標準`, value: `單次 100% 賠付即終止`, widthPct: 50, color: `#94a3b8` }
+          ];
+        } else if (chipTopic.includes('保費豁免') || chipTopic.includes('豁免')) {
+          ciTitle = `🎯 對抗戰策：首次嚴重危疾即時豁免後續保費 (我方全免 vs 【${rivalProfile.fullName}】繁瑣條件)`;
+          ciStep2 = `「不幸罹患嚴重疾病時，收入頓時中斷，若仍需每年繳付幾萬蚊保費，對家庭財務無疑係雪上加霜！對手保費豁免往往需額外附加或設有自付期！」`;
+          ciStep3 = `「我地方案內置首次嚴重危疾保費豁免：一旦確診首項合資格嚴重危疾，即刻豁免後續所有未繳保費，而後續多次危疾賠償與終身人壽保障完全不受影響！」`;
+          ciTrap = `⚠️ 陷阱警示：對手豁免條款繁雜且需額外加費；我方首次確診即自動豁免全部剩餘保費，保障依然終身有效！`;
+          ciChartBars = [
+            { label: `我方首次確診保費豁免`, value: `即刻全免未繳保費 (保障終身有效)`, widthPct: 98, color: `var(--green)` },
+            { label: `【${rivalProfile.fullName}】豁免機制`, value: `需額外附加費或高門檻`, widthPct: 55, color: `#f59e0b` },
+            { label: `市場同業普遍標準`, value: `僅豁免指定短期保費`, widthPct: 45, color: `#94a3b8` }
+          ];
+        } else if (chipTopic.includes('折扣') || chipTopic.includes('回贈')) {
+          ciTitle = `🎯 對抗戰策：拆解【${rivalProfile.fullName}】危疾保費折扣宣傳 vs 我方全方位多次賠償與 ICU 兜底實質保障`;
+          ciStep2 = `「對手開出危疾首年折扣優惠，乍睇之下慳咗幾千蚊好似好抵。但買危疾係買未來幾十年嘅救命防線！對手折扣背後往往等候期長達 3 年，且無非指定疾病 ICU 預支，一旦病發自費醫療動輒幾十萬，首期幾千蚊折扣完全唔夠填補自費黑洞！」`;
+          ciStep3 = `「我地方案提供極具競爭力的限時首年折扣回贈，同時將癌症再次索償縮短至 2 年黃金期，更設 ICU 連續住 3-5 天免病名預支 100% 保額！實質保障全面領先，先係真正有誠意的危疾配置！」`;
+          ciTrap = `⚠️ 陷阱警示：勿因短期幾千元折扣忽視癌症等候期與 ICU 兜底；我方兼備折扣優惠與頂級條款防線！`;
+          ciChartBars = [
+            { label: `我方保障＋折扣綜合防線`, value: `頂級條款 (ICU預支+2年等待期)`, widthPct: 95, color: `var(--green)` },
+            { label: `【${rivalProfile.fullName}】單一折扣宣傳`, value: `條款等候期 3 年 / 缺乏 ICU`, widthPct: 65, color: `#f59e0b` },
+            { label: `市場同業普遍標準`, value: `3 年等待期`, widthPct: 60, color: `#94a3b8` }
+          ];
+        } else if (ourWait < rivalWait) {
           ciTitle = `🎯 對抗戰策：直擊【${rivalProfile.fullName}】危疾癌症再索償 ${rivalWait} 年等待期空窗期`;
           ciStep2 = `「但臨床大數據顯示 85% 危疾索償都係癌症。對手條款寫明癌症再次索償要等足『${rivalWait} 年』！醫學上腫瘤復發往往喺第 1-2 年高發期，呢 ${rivalWait} 年空窗期若復發係一蚊都 Claim 唔到嘅致命自費盲點！」`;
           ciStep3 = `「我地將癌症再次索償間隔直接縮短至『${ourWait} 年』生命安全線！早 1 年獲得保障。而且首創深切治療部 (ICU) 全額預支：只要連續住 ICU 達 3-5 日，無需指定病名直接賠償 100% 保額，呢個先係真正兜底保命嘅保障！」`;
@@ -2381,7 +2480,7 @@
 
         return {
           agent_title: ciTitle,
-          agent_step_1: `「張生，${rivalProfile.fullName}【${rivalProfile.flagshipCI}】宣傳保過百種疾病、仲有多次賠償，單張睇落真係好豐富，你睇得咁細心好佩服你！」`,
+          agent_step_1: `「張生，${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipCI}】宣傳保過百種疾病、仲有多次賠償，單張睇落真係好豐富，你睇得咁細心好佩服你！」`,
           agent_step_2: ciStep2,
           agent_step_3: ciStep3,
           agent_trap_warning: ciTrap,
@@ -2401,10 +2500,10 @@
           chart_bars: ciChartBars,
           table_title: `🛡️ 關鍵重疾保障條款深度比對`,
           table_rows: [
-            { label: `癌症再次索償等待期`, value: `${ourWait} 年 vs 對手 ${rivalWait} 年`, highlight: true },
-            { label: `非指定疾病 ICU 保障`, value: `連續 3-5 日預支 100% 保額`, highlight: true },
-            { label: `限時免體檢上限`, value: `高達 $400 萬美元`, highlight: true },
-            { label: `保費豁免生效門檻`, value: `首次確診即豁免後續保費`, highlight: false }
+            { label: `癌症再次索償等待期`, value: `${ourWait} 年 vs 對手 ${rivalWait} 年`, highlight: !chipTopic.includes('ICU') && !chipTopic.includes('心臟病') && !chipTopic.includes('豁免') && !chipTopic.includes('折扣') },
+            { label: `非指定疾病 ICU 保障`, value: `連續 3-5 日預支 100% 保額`, highlight: chipTopic.includes('ICU') || chipTopic.includes('深切治療') },
+            { label: `限時免體檢上限`, value: `高達 $400 萬美元`, highlight: chipTopic.includes('折扣') || chipTopic.includes('回贈') },
+            { label: `保費豁免生效門檻`, value: `首次確診即豁免後續保費`, highlight: chipTopic.includes('保費豁免') || chipTopic.includes('豁免') }
           ],
           bilateral_specs: bilateralSpecs,
           whatsapp_script: `張生早晨！昨日您提到 ${rivalProfile.fullName} 嘅危疾單張。我幫您深入查閱咗合約條款，發現其癌症再次索償等待期需足足等 ${rivalWait} 年。我地全新方案具備非指定疾病 ICU 100% 預支賠償與過百種疾病防線。我發份醫療條款比較表俾您詳細對比！`,
@@ -2414,9 +2513,20 @@
 
       // 4. VHIS Claim
       if (claimKey === 'vhis') {
+        let vhisTitle = `🎯 對抗戰策：拆解【${rivalProfile.fullName}】自願醫保【${rivalProductName || rivalProfile.flagshipVHIS}】標靶藥細項上限與特約網絡限制`;
+        if (isIntraInsurer) {
+          vhisTitle = `🎯 產品選型：【${ourProfile.fullName}】內部自願醫保【${ourProductName}】vs【${rivalProductName}】深度對比`;
+        } else if (chipTopic.includes('Cashless') || chipTopic.includes('免找數')) {
+          vhisTitle = `🎯 對抗戰策：全港私家醫院出院免找數 (Cashless) 拆解【${rivalProfile.fullName}】墊付壓力`;
+        } else if (chipTopic.includes('中介人') || chipTopic.includes('客服')) {
+          vhisTitle = `🎯 對抗戰策：專屬持牌中介人全流程跑腿理賠 vs 【${rivalProfile.fullName}】純線上客服 Chatbot`;
+        } else if (chipTopic.includes('8,000') || chipTopic.includes('稅務') || chipTopic.includes('扣除')) {
+          vhisTitle = `🎯 對抗戰策：善用自願醫保每年每人 HK$8,000 薪俸稅稅務扣除頂格規劃`;
+        }
+
         return {
-          agent_title: `🎯 對抗戰策：拆解【${rivalProfile.fullName}】自願醫保【${rivalProfile.flagshipVHIS}】標靶藥細項上限與特約網絡限制`,
-          agent_step_1: `「王太，${rivalProfile.fullName} 宣傳【${rivalProfile.flagshipVHIS}】全數賠償，單張睇落好豐富，你揀得咁細心好佩服你！」`,
+          agent_title: vhisTitle,
+          agent_step_1: `「王太，${rivalProfile.fullName} 宣傳【${rivalProductName || rivalProfile.flagshipVHIS}】全數賠償，單張睇落好豐富，你揀得咁細心好佩服你！」`,
           agent_step_2: `「但仔細審視醫療合約細則：非手術癌症治療（標靶藥、免疫治療）喺部分級別依然設有分項限額；而且對手直付網絡主要依賴特約指定醫院，若因急症入住非網絡私家醫院，或病房級別限制嚴格，隨時面臨降級索償罰則自費幾成！」`,
           agent_step_3: `「我地高端自願醫保標靶藥全數賠償無細項上限，年度保額數千萬；全港所有私家醫院無障礙直付『出院免找數 (Cashless)』，免除繁瑣預先審批門檻，大病時專人為你跑腿墊付，呢份萬全保障先係真正安心！」`,
           agent_trap_warning: `⚠️ 陷阱警示：對手部分級別標靶藥設有分項限額，且直付網絡限於特約醫院；我方高端自願醫保標靶藥全額賠償且私院無縫出院免找數！`,
@@ -2453,8 +2563,17 @@
 
       // 5. Financing UL Claim
       if (claimKey === 'financing_ul') {
+        let ulTitle = `🎯 對抗戰策：拆解【${rivalProfile.fullName}】85% 槓桿保費融資息差倒掛與 Margin Call 致命盲點`;
+        if (isIntraInsurer) {
+          ulTitle = `🎯 產品選型：【${ourProfile.fullName}】內部萬用壽險與保費融資【${ourProductName}】vs【${rivalProductName}】深度對比`;
+        } else if (chipTopic.includes('息差') || chipTopic.includes('結算利率')) {
+          ulTitle = `🎯 對抗戰策：萬用壽險保單結算利率 vs 銀行浮動借貸利率淨息差壓力測試`;
+        } else if (chipTopic.includes('Margin') || chipTopic.includes('追加保證金')) {
+          ulTitle = `🎯 對抗戰策：防禦銀行追加保證金 (Margin Call) 斬倉風險之資產安全配置`;
+        }
+
         return {
-          agent_title: `🎯 對抗戰策：拆解【${rivalProfile.fullName}】85% 槓桿保費融資息差倒掛與 Margin Call 致命盲點`,
+          agent_title: ulTitle,
           agent_step_1: `「趙總，85% 高槓桿保費融資表面睇可以用 15 萬本金撬動 100 萬保單，息差收益率宣傳到 10% 以上，作為高資產配置確實好吸引！」`,
           agent_step_2: `「但融資命脈在於息差（Spread）。銀行借貸利息係浮動 Prime Rate / Hibor，而保單結算利率由保司每年釐定；一旦降息週期息差倒掛，每月倒貼利息；若保單退保價值跌破警戒線，銀行隨時出 Margin Call 要求補倉，否則強制斬倉！」`,
           agent_step_3: `「我地建議資產配置回歸『無槓桿多元貨幣儲蓄』，免除銀行利率倒掛與 Margin Call 滅頂之災；同時享有 8-9 種貨幣自由轉換與無限次保單分拆，將財富掌控權 100% 掌握喺自己手中。」`,
@@ -2493,8 +2612,19 @@
       // 6. QDAP Claim
       const step3Script = `「我地 QDAP 方案保證內部回報率 (Guaranteed IRR) 全港頂尖，保證派息比例超過 80%！無論金融海嘯點變，退休現金流一蚊都唔會少；加埋每年法定 HK$60,000 扣稅額，即時實質慳返最高 HK$10,200 稅款！」`;
 
+      let qdapTitle = `🎯 對抗戰策：直擊【${rivalProfile.fullName}】QDAP 延期年金非保證分紅畫餅`;
+      if (isIntraInsurer) {
+        qdapTitle = `🎯 產品選型：【${ourProfile.fullName}】內部 QDAP 扣稅年金【${ourProductName}】vs【${rivalProductName}】深度對比`;
+      } else if (chipTopic.includes('10,200') || chipTopic.includes('實慳')) {
+        qdapTitle = `🎯 對抗戰策：QDAP 每年法定最高實慳 HK$10,200 稅款與退休金確定性比對`;
+      } else if (chipTopic.includes('IRR')) {
+        qdapTitle = `🎯 對抗戰策：QDAP 延期年金內部回報率 (IRR) 與長線保證現金流深度比對`;
+      } else if (chipTopic.includes('起派年齡') || chipTopic.includes('現金流')) {
+        qdapTitle = `🎯 對抗戰策：退休年金起派年齡彈性與終身穩定現金流對比 (我方 vs 【${rivalProfile.fullName}】)`;
+      }
+
       return {
-        agent_title: `🎯 對抗戰策：直擊【${rivalProfile.fullName}】QDAP 延期年金非保證分紅畫餅`,
+        agent_title: qdapTitle,
         agent_step_1: `「林生，見到對手宣傳 QDAP 預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
         agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${rivalProfile.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
         agent_step_3: step3Script,
@@ -2658,7 +2788,7 @@
       if (selectRival) {
         selectRival.value = selectedCompany;
         Array.from(selectRival.options || []).forEach(opt => {
-          opt.disabled = (normalizeCompany(opt.value) === myCompany);
+          opt.disabled = false;
         });
       }
 
@@ -2696,7 +2826,11 @@
             match = rivalProds.find(p => p.id === rivalSelectedProduct.id) || null;
           }
           if (!match) {
-            match = rivalProds.find(p => p.name.includes(rivalFlagship) || rivalFlagship.includes(cleanProductName(p.name))) || rivalProds[0];
+            if (myCompany === selectedCompany && rivalProds.length > 1 && mySelectedProduct) {
+              match = rivalProds.find(p => p.id !== mySelectedProduct.id) || rivalProds[0];
+            } else {
+              match = rivalProds.find(p => p.name.includes(rivalFlagship) || rivalFlagship.includes(cleanProductName(p.name))) || rivalProds[0];
+            }
           }
           rivalSelectedProduct = match;
           selectRivalProd.value = match.id;
@@ -2731,13 +2865,16 @@
         rawName = targetOrName;
       } else if (typeof maybeName === 'string') {
         rawName = maybeName;
+      } else if (targetOrName && targetOrName.value) {
+        rawName = targetOrName.value;
       } else if (targetOrName && targetOrName.innerText) {
         rawName = targetOrName.innerText;
       }
 
       const cand = normalizeCompany(rawName);
-      if (cand === myCompany) {
-        // Auto-swap roles so user can smoothly examine this company as rival without self-matchup
+      // Auto-swap roles only when clicking directly on legacy company-pills buttons
+      const isLegacyPill = !!(targetOrName && targetOrName.classList && !targetOrName.tagName?.toLowerCase().includes('select'));
+      if (isLegacyPill && cand === myCompany) {
         const prevRival = selectedCompany;
         myCompany = (prevRival === cand) ? ((cand === 'AIA') ? 'Prudential' : 'AIA') : prevRival;
         mySelectedProduct = null;
@@ -2774,17 +2911,22 @@
       }
 
       selectedClaimText = rawClaim || selectedClaimText;
-      selectedClaim = normalizeClaim(rawClaim);
-      syncCategoryTabWithClaim(selectedClaim);
+
+      const currentCatClaims = CATEGORY_CLAIMS[currentCategory] || [];
+      const isChipOfCurrentCat = currentCatClaims.some(c => c.text === rawClaim || c.claim === rawClaim);
+
+      if (!isChipOfCurrentCat) {
+        selectedClaim = normalizeClaim(rawClaim);
+        syncCategoryTabWithClaim(selectedClaim);
+      } else {
+        selectedClaim = normalizeClaim(rawClaim);
+      }
 
       renderClaimPills(currentCategory);
 
       let foundExact = false;
       document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
-        if (targetOrClaim && (targetOrClaim === btn || targetOrClaim.innerText === btn.innerText)) {
-          btn.classList.add('active');
-          foundExact = true;
-        } else if (rawClaim && (btn.innerText === rawClaim || (btn.dataset && btn.dataset.claim === rawClaim))) {
+        if (!foundExact && ((targetOrClaim && (targetOrClaim === btn || targetOrClaim.innerText === btn.innerText)) || (rawClaim && (btn.innerText === rawClaim || (btn.dataset && btn.dataset.claim === rawClaim))))) {
           btn.classList.add('active');
           foundExact = true;
         } else {
@@ -2796,7 +2938,7 @@
         let firstMatch = false;
         document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
           const btnNorm = normalizeClaim(btn.innerText);
-          if (!firstMatch && btnNorm === selectedClaim) {
+          if (!firstMatch && (btnNorm === selectedClaim || (selectedClaimText && btn.innerText.includes(selectedClaimText)))) {
             btn.classList.add('active');
             firstMatch = true;
           } else {
@@ -2812,11 +2954,12 @@
 
     // Category Tabs Synchronizer
     function syncCategoryTabWithClaim(claimKey) {
-      let targetCat = 'Savings_MultiCurrency';
+      let targetCat = currentCategory || 'Savings_MultiCurrency';
       if (claimKey === 'critical_illness') targetCat = 'Critical_Illness';
       else if (claimKey === 'vhis') targetCat = 'Medical_VHIS';
       else if (claimKey === 'qdap') targetCat = 'Annuity_QDAP';
       else if (claimKey === 'financing_ul') targetCat = 'Financing_UniversalLife';
+      else if (claimKey === 'prepayment') targetCat = 'Savings_MultiCurrency';
 
       currentCategory = targetCat;
 
@@ -2873,7 +3016,7 @@
 
     // Dynamic Reactive DOM Updater
     function updateBattleCard() {
-      const card = getBattleCard(myCompany, selectedCompany, selectedClaim);
+      const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
       if (!card) return;
 
       // Agent View Updates
@@ -2995,9 +3138,6 @@
 
       if (clientDisclaimer) clientDisclaimer.innerHTML = card.disclaimer;
 
-      // Category Tabs Sync
-      syncCategoryTabWithClaim(selectedClaim);
-
       // Update WhatsApp pitch script
       currentWhatsAppScript = card.whatsapp_script;
     }
@@ -3082,11 +3222,18 @@
     }
     window.renderCatalog = renderCatalog;
 
+    let lastCatalogSide = null;
     function selectProductFromCatalog(promoId) {
       const p = window.ALL_PRODUCTS_CATALOG.find(x => x.id === promoId);
       if (!p) return;
       const prodInsurer = normalizeCompany(p.insurer);
-      if (prodInsurer === myCompany) {
+      if (lastCatalogSide === 'rival' || (prodInsurer === selectedCompany && lastCatalogSide !== 'our')) {
+        selectCompany(prodInsurer);
+        selectCategory(p.category);
+        setRivalProduct(p.id);
+        showToast(`已載入競品【${cleanProductName(p.name)}】對抗卡`);
+      } else if (lastCatalogSide === 'our' || prodInsurer === myCompany) {
+        setMyCompany(prodInsurer);
         selectCategory(p.category);
         setMyProduct(p.id);
         showToast(`已載入我方主力【${cleanProductName(p.name)}】對抗卡`);
@@ -3096,11 +3243,13 @@
         setRivalProduct(p.id);
         showToast(`已載入競品【${cleanProductName(p.name)}】對抗卡`);
       }
+      lastCatalogSide = null;
       closeCatalogDrawer();
     }
     window.selectProductFromCatalog = selectProductFromCatalog;
 
     function openCatalogForCompany(side) {
+      lastCatalogSide = side;
       const comp = (side === 'our') ? myCompany : selectedCompany;
       const drawer = document.getElementById('catalog-drawer');
       const backdrop = document.getElementById('catalog-drawer-backdrop');
