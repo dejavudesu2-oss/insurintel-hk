@@ -393,7 +393,19 @@ async function main() {
   });
 
   await recordTest("Suite 2: Lifecycle & Build", "Python Swiss Slide Deck Compiler Execution (py scripts/build_swiss_slides.py)", () => {
-    const output = execSync("py scripts/build_swiss_slides.py", { cwd: projectRoot, encoding: "utf-8" });
+    let output = "";
+    const pyCommands = process.platform === "win32" ? ["py", "python", "python3"] : ["python3", "python", "py"];
+    let execSuccess = false;
+    for (const cmd of pyCommands) {
+      try {
+        output = execSync(`${cmd} scripts/build_swiss_slides.py`, { cwd: projectRoot, encoding: "utf-8" });
+        execSuccess = true;
+        break;
+      } catch {
+        // try next candidate
+      }
+    }
+    assert.ok(execSuccess, "At least one python binary must execute scripts/build_swiss_slides.py successfully");
     assert.ok(output.includes("Successfully compiled"), "Slide compiler output must indicate success");
 
     const compiledPath = path.join(templatesDir, "morning_slides.html");
