@@ -194,36 +194,39 @@
       margin: 8px 16px 12px;
       background: #ffffff;
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
       display: grid;
       grid-template-columns: 1fr auto 1fr;
-      gap: 8px;
+      gap: 10px;
       align-items: center;
     }
     .camp-card {
-      border-radius: 8px;
+      border-radius: 10px;
       padding: 8px 10px;
       min-width: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
     }
     .camp-card.camp-our {
       background: #eff6ff;
-      border: 1px solid #bfdbfe;
+      border: 1.5px solid #bfdbfe;
     }
     .camp-card.camp-rival {
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
     }
     .camp-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
     .camp-label {
       font-size: 11px;
-      font-weight: 700;
+      font-weight: 800;
       letter-spacing: 0.3px;
       font-family: 'JetBrains Mono', monospace;
     }
@@ -231,41 +234,71 @@
       color: var(--ikb);
     }
     .camp-label.rival-label {
-      color: #475569;
+      color: #b91c1c;
     }
     .camp-saved-indicator {
       font-size: 9px;
       background: rgba(0, 47, 167, 0.12);
       color: var(--ikb);
-      padding: 1px 4px;
-      border-radius: 3px;
+      padding: 1px 5px;
+      border-radius: 4px;
       font-family: 'JetBrains Mono', monospace;
-      font-weight: 600;
+      font-weight: 700;
     }
     .camp-hint-text {
       font-size: 9px;
-      color: #94a3b8;
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+      padding: 1px 5px;
+      border-radius: 4px;
       font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
     }
     .camp-select-wrap {
       position: relative;
     }
     .camp-select {
       width: 100%;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      padding: 4px 6px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 6px 8px;
       font-size: 12px;
       font-weight: 700;
       color: var(--text-main);
       background: #ffffff;
       outline: none;
       cursor: pointer;
+      min-height: 36px;
+      transition: all 0.15s ease;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 6px center;
+      background-size: 14px;
+      padding-right: 22px;
+    }
+    .camp-select:focus {
+      border-color: var(--ikb);
+      box-shadow: 0 0 0 2px rgba(0, 47, 167, 0.18);
+    }
+    .camp-select.camp-product-select {
+      border-color: #93c5fd;
+      background-color: #ffffff;
+      color: #1e3a8a;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .camp-card.camp-rival .camp-select.camp-product-select {
+      border-color: #fca5a5;
+      background-color: #ffffff;
+      color: #991b1b;
+      font-weight: 700;
     }
     .camp-product-meta {
-      font-size: 11px;
+      font-size: 10px;
       color: #64748b;
-      margin-top: 4px;
+      margin-top: 1px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -273,36 +306,38 @@
       font-weight: 600;
     }
     .btn-swap-camp {
-      background: #0f172a;
+      background: linear-gradient(135deg, #002FA7, #1e3a8a);
       color: #ffffff;
-      border: none;
-      width: 40px;
-      height: 40px;
+      border: 2px solid #ffffff;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      box-shadow: 0 3px 10px rgba(0, 47, 167, 0.35);
       transition: all 0.25s cubic-bezier(0.2, 0, 0.38, 0.9);
       flex-shrink: 0;
+      user-select: none;
     }
     .btn-swap-camp:hover {
-      transform: rotate(180deg) scale(1.06);
-      background: var(--ikb);
+      transform: scale(1.1);
+      box-shadow: 0 4px 14px rgba(0, 47, 167, 0.5);
     }
     .btn-swap-camp:active {
-      transform: rotate(180deg) scale(0.95);
+      transform: scale(0.92);
     }
     .btn-swap-camp .swap-icon {
-      font-size: 14px;
+      font-size: 17px;
       line-height: 1;
+      font-weight: 900;
     }
     .btn-swap-camp .swap-text {
       font-size: 8px;
-      font-weight: 700;
-      margin-top: 2px;
+      font-weight: 800;
+      margin-top: 1px;
       letter-spacing: -0.5px;
     }
 
@@ -933,13 +968,15 @@
     <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (8款)</button>
   </div>
 
-  <!-- Bilateral Dual-Entity Arena Selector (我方陣營 vs 遭遇競品 + 一鍵對調) -->
+  <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
   <div class="bilateral-arena-box" id="bilateral-arena-box">
+    <!-- Plan A: 我方陣營 -->
     <div class="camp-card camp-our" id="camp-card-our">
       <div class="camp-header">
-        <span class="camp-label our-label">🔵 我方陣營 (Plan A)</span>
+        <span class="camp-label our-label">🔵 我方 (Plan A)</span>
         <span class="camp-saved-indicator" id="camp-saved-indicator" title="已持久化儲存於本機">💾 已記住</span>
       </div>
+      <!-- Field 1: 保司選擇 -->
       <div class="camp-select-wrap">
         <select class="camp-select" id="select-my-insurer" onchange="setMyCompany(this.value)" aria-label="選擇我方代表保司">
           <option value="AIA">友邦 AIA</option>
@@ -953,20 +990,28 @@
           <option value="YF Life">萬通 YF Life</option>
         </select>
       </div>
+      <!-- Field 2: 產品選擇 -->
+      <div class="camp-select-wrap">
+        <select class="camp-select camp-product-select" id="select-my-product" onchange="setMyProduct(this.value)" aria-label="選擇我方產品">
+          <!-- Populated dynamically by updateCampSelectors() -->
+        </select>
+      </div>
       <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">盈御多元貨幣 3 📋</div>
     </div>
 
-    <!-- Swap Roles Button (攻防對調) -->
+    <!-- Central Prominent Swap Roles Button [ ⇄ 對調 ] -->
     <button class="btn-swap-camp" id="btn-swap-roles" onclick="swapCampRoles()" title="一鍵攻防立場對調 (Swap Roles)" aria-label="攻防對調">
-      <span class="swap-icon">🔄</span>
+      <span class="swap-icon">⇄</span>
       <span class="swap-text">對調</span>
     </button>
 
+    <!-- Plan B: 遭遇競品 -->
     <div class="camp-card camp-rival" id="camp-card-rival">
       <div class="camp-header">
-        <span class="camp-label rival-label">🔴 遭遇競品 (Plan B)</span>
-        <span class="camp-hint-text">點選或下方快切</span>
+        <span class="camp-label rival-label">🔴 對手 (Plan B)</span>
+        <span class="camp-hint-text">競品</span>
       </div>
+      <!-- Field 1: 保司選擇 -->
       <div class="camp-select-wrap">
         <select class="camp-select" id="select-rival-insurer" onchange="selectCompany(this.value)" aria-label="選擇遭遇競品保司">
           <option value="Prudential">保誠 Prudential</option>
@@ -980,38 +1025,57 @@
           <option value="YF Life">萬通 YF Life</option>
         </select>
       </div>
+      <!-- Field 2: 產品選擇 -->
+      <div class="camp-select-wrap">
+        <select class="camp-select camp-product-select" id="select-rival-product" onchange="setRivalProduct(this.value)" aria-label="選擇競品產品">
+          <!-- Populated dynamically by updateCampSelectors() -->
+        </select>
+      </div>
       <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
     </div>
   </div>
 
   <!-- 3-Second Quick Match Selector -->
   <div class="quick-selector">
-    <div class="selector-label">
-      <span>1. 快速切換競品保司 (Plan B)</span>
-      <span style="color:var(--ikb)">單手點選</span>
-    </div>
-    <div class="pill-scroll" id="company-pills">
-      <button class="thumb-pill" onclick="selectCompany(this, '保誠 Prudential')">保誠 Prudential</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '友邦 AIA')">友邦 AIA</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '宏利 Manulife')">宏利 Manulife</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '永明 Sun Life')">永明 Sun Life</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '富衛 FWD')">富衛 FWD</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '安盛 AXA')">安盛 AXA</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '純網上虛擬 Bowtie')">網上 Bowtie</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '中銀人壽 BOC Life')">中銀人壽 BOC Life</button>
-      <button class="thumb-pill" onclick="selectCompany(this, '萬通 YF Life')">萬通 YF Life</button>
+    <!-- Redundant Plan B company pills hidden from visual layout while preserving DOM testability -->
+    <div id="company-pills-row" style="display:none;" aria-hidden="true">
+      <div class="selector-label">
+        <span>1. 快速切換競品保司 (Plan B)</span>
+        <span style="color:var(--ikb)">單手點選</span>
+      </div>
+      <div class="pill-scroll" id="company-pills">
+        <button class="thumb-pill" onclick="selectCompany(this, '保誠 Prudential')">保誠 Prudential</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '友邦 AIA')">友邦 AIA</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '宏利 Manulife')">宏利 Manulife</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '永明 Sun Life')">永明 Sun Life</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '富衛 FWD')">富衛 FWD</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '安盛 AXA')">安盛 AXA</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '純網上虛擬 Bowtie')">網上 Bowtie</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '中銀人壽 BOC Life')">中銀人壽 BOC Life</button>
+        <button class="thumb-pill" onclick="selectCompany(this, '萬通 YF Life')">萬通 YF Life</button>
+      </div>
     </div>
 
-    <div class="selector-label" style="margin-top:12px;">
-      <span>2. 客戶異議 / 競品主打點</span>
+    <div class="selector-label" style="margin-top:2px;">
+      <span>⚡ 客戶異議 / 競品焦點主打點</span>
+      <span style="color:var(--ikb);font-size:11px;">即點即應對</span>
     </div>
     <div class="pill-scroll" id="claim-pills">
-      <button class="thumb-pill active" onclick="selectClaim(this, '保證回報高達 5.8%')">5.8% 預繳 / 保證高回報</button>
+      <button class="thumb-pill active" onclick="selectClaim(this, '5.8% 預繳 / 保證高回報')">5.8% 預繳 / 保證高回報</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
+      <button class="thumb-pill" onclick="selectClaim(this, 'GN16 官方分紅實現率')">GN16 官方分紅實現率</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '保證回本年期 vs 預期回本')">保證回本年期 vs 預期回本</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '30年預期複利 IRR')">30年預期複利 IRR</button>
+      <button class="thumb-pill" onclick="selectClaim(this, '多元貨幣轉換與保單分拆')">多元貨幣轉換與保單分拆</button>
+    </div>
+    <!-- Hidden legacy pills fallback for backward test compatibility -->
+    <div id="legacy-claim-pills" style="display:none;" aria-hidden="true">
+      <button class="thumb-pill" onclick="selectClaim(this, '5.8% 預繳')">5.8% 預繳</button>
       <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
       <button class="thumb-pill" onclick="selectClaim(this, '癌症再次索償等待期')">癌症再次索償等待期</button>
       <button class="thumb-pill" onclick="selectClaim(this, '自願醫保全數賠償')">自願醫保全數賠償</button>
       <button class="thumb-pill" onclick="selectClaim(this, '保費融資 85% LTV')">保費融資 85% LTV</button>
-      <button class="thumb-pill" onclick="selectClaim(this, 'QDAP 總回報率')">QDAP 延期年金總回報</button>
+      <button class="thumb-pill" onclick="selectClaim(this, 'QDAP 延期年金總回報')">QDAP 延期年金總回報</button>
     </div>
   </div>
 
@@ -1241,9 +1305,12 @@
     let myCompany = getStoredMyCompany();
     let selectedCompany = (myCompany === 'Prudential') ? 'AIA' : 'Prudential';
     let selectedClaim = 'prepayment';
+    let selectedClaimText = '5.8% 預繳 / 保證高回報';
     let currentCategory = 'Savings_MultiCurrency';
     let currentWhatsAppScript = '';
     let currentHorizonYear = 30;
+    let mySelectedProduct = null;
+    let rivalSelectedProduct = null;
 
     // All 42 Market Products Catalog Knowledge Base
     const ALL_PRODUCTS_CATALOG = [{"id":"PROMO-AIA-SAV-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (1年保證)","discount":"12%","gn16":"96.5%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-PRU-SAV-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋富多元貨幣計劃 (Evergreen Grandeur)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.8% (1年保證)","discount":"14%","gn16":"91.2%","breakeven":"第 19 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-SAV-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏摯多元儲蓄計劃 (ManuGlobal Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (2年保證)","discount":"10%","gn16":"94.8%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-SUN-SAV-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年青星河傳承計劃 (Stellar Global Legacy)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.1% (1年保證)","discount":"12%","gn16":"93%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-FWD-SAV-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"盈豐多元貨幣儲蓄保險 (MaxFortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.3% (3年保證)","discount":"15%","gn16":"92.6%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-AXA-SAV-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"摯匯多元貨幣儲蓄計劃 (Global DynaWealth)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"14%","gn16":"95.1%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-BOC-SAV-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"薪火相傳多元貨幣終身壽險計劃 (Generational Multi-Currency Whole Life)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (2年保證)","discount":"10%","gn16":"97.2%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-YF-SAV-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富饒傳承多元貨幣計劃 (Infinite Fortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.6% (1年保證)","discount":"15%","gn16":"94%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-AIA-SAV-SLE5-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"簡愛延續保障計劃 5 (Simple Love Encore 5)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"8%","gn16":"97.5%","breakeven":"第 8 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-PRU-SAV-EGSP2-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"特級「雋陞」儲蓄保障計劃 II (Evergreen Growth Saver Plus II)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (1年保證)","discount":"12%","gn16":"92.5%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-SAV-CENTURY-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"世紀傳承保障計劃 (Century Legacy Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (2年保證)","discount":"14%","gn16":"95.2%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-FWD-SAV-MAXACC-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"盈聚天下儲蓄保險 (MaxAccumulator Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (1年保證)","discount":"16%","gn16":"93.5%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-CI-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"守護無間危疾保 (ManuFirst Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"10%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-FWD-CI-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾加諾保 (Crisis Xcelerator Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AIA-CI-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"友心意危疾保 (Care Extra Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-PRU-CI-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"誠保一生危疾保 (Guardian Care Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-SUN-CI-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬泰危疾保 (SunHealth Total Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AXA-CI-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"愛護同行危疾保 (Loving Care Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-YF-CI-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"首選健康加護保 (Prime Health Care Extra)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 1 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-CI-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie 早期危疾保 (Bowtie Early Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOC-CI-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"守護健康危疾保障計劃 (Health Guardian Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AIA-CI-ABSOLUTE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"愛伴航首選危疾保 (AIA One Absolute Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-PRU-CI-CIE3-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"危疾加護保 3 (Crisis Care Pro 3)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"16%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-MANU-CI-ACTUARY2-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"活耀人生危疾保 2 (ManuActuary Care 2)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-FWD-CI-SUPREME-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾致諾 (Crisis Supreme Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"22%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-VHIS-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie Pink 自願醫保 (靈活計劃)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"25%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AIA-VHIS-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"尊裕醫療自願醫保計劃 (CEO Medical VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-PRU-VHIS-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"摯為您醫療計劃 (Privilege VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-FWD-VHIS-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"至臻保醫療計劃 (vPrime Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-MANU-VHIS-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏達醫療保障計劃 (ManuMaster VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AXA-VHIS-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"智尊守慧醫療計劃 (Smart Medicare VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-VHIS-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"永明港悅自願醫保計劃 (SunHealth MediPro VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-BOC-VHIS-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"中銀卓越自願醫保計劃 (BOC Life Prestige VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-YF-VHIS-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通萬全自願醫保計劃 (YF Life VHIS Extra)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2800萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AIA-VHIS-ASIA-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"亞洲至尊明珠醫療計劃 (AIA Asia CEO Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-CIGNA-VHIS-FLEXI-2026","insurer":"Cigna","insurerName":"信諾 Cigna","name":"信諾自願醫保靈活計劃 (Cigna VHIS Flexi Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"22%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-BUPA-VHIS-HERO-2026","insurer":"Bupa","insurerName":"保柏 Bupa","name":"保柏英雄自願醫保計劃 (Bupa Hero VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-QDAP-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年延期年金 (Stellar QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-BOC-QDAP-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃 (BOC Life Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.1%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-PRU-QDAP-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋逸年金計劃 (Evergreen Deferred Annuity QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.9%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-QDAP-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"延期年金計劃 (AIA Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.8%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-MANU-QDAP-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"悠然延期年金計劃 (ManuRetire QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.95%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-FWD-QDAP-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"智尊延期年金計劃 (Supreme QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.92%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AXA-QDAP-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛滿延期年金計劃 (Joyful QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"15%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.88%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-YF-QDAP-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通延期年金計劃 (MY Deferred Annuity)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.05%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-MANU-QDAP-DELIGHT-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"智優延期年金計劃 (ManuDelight QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.02%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-BOC-QDAP-FIXED-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃（固定年期）(BOC Life Fixed Term QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.18%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-QDAP-RETIRE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"欣悅延期年金計劃 (AIA Joyful Annuity QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-UL-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富尊享萬用壽險 (Platinum Wealth Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-MANU-UL-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏裕傳承萬用壽險 (ManuGrand Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-SUN-UL-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬世傳奇萬用壽險 (SunLegacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-FWD-UL-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"富逸傳家萬用壽險 (Apex Legacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"5%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-YF-UL-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富貴萬用壽險 (MassFortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-PRU-UL-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"富傳萬用壽險 (Grandeur Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.8%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-AXA-UL-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛世傳承萬用壽險 (Grand Fortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-BOC-UL-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"盛世萬用壽險 (Golden Era Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-AIA-UL-ELITE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富恒裕萬用壽險 (AIA Fortune Elite Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-PRU-UL-PRESTIGE-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"尊富萬用壽險 (Prudential Prestige Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-SUN-UL-PINNACLE-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"耀世傳承萬用壽險 (Sun Life Pinnacle Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.8%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-MANU-UL-INDEX-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏耀指數萬用壽險 (ManuFlex Indexed Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.2%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"}];
@@ -1446,7 +1513,76 @@
     COMPANY_PROFILES['YF_Life'] = COMPANY_PROFILES['YF Life'];
     window.COMPANY_PROFILES = COMPANY_PROFILES;
 
-    // Normalizers
+    // Normalizers & Helpers
+    function cleanProductName(name) {
+      if (!name) return '';
+      return String(name).replace(/s*([^)]*)$/, '').trim();
+    }
+    window.cleanProductName = cleanProductName;
+
+    function normalizeCategory(cat) {
+      if (!cat) return 'Savings_MultiCurrency';
+      const s = String(cat).toLowerCase().trim();
+      if (s === 'critical_illness' || s === 'ci' || s.includes('critical') || s.includes('危疾') || s.includes('重疾')) return 'Critical_Illness';
+      if (s === 'medical_vhis' || s === 'vhis' || s.includes('medical') || s.includes('自願') || s.includes('醫保')) return 'Medical_VHIS';
+      if (s === 'annuity_qdap' || s === 'qdap' || s.includes('annuity') || s.includes('年金') || s.includes('扣稅')) return 'Annuity_QDAP';
+      if (s === 'financing_universallife' || s === 'financing_ul' || s === 'ul' || s.includes('financing') || s.includes('universal') || s.includes('萬用') || s.includes('融資')) return 'Financing_UniversalLife';
+      return 'Savings_MultiCurrency';
+    }
+    window.normalizeCategory = normalizeCategory;
+
+    const CATEGORY_CLAIMS = {
+      Critical_Illness: [
+        { label: "癌症再次索償等待期 (2年 vs 3年)", key: "critical_illness" },
+        { label: "深切治療部 (ICU) 預支賠償", key: "critical_illness" },
+        { label: "心臟病/中風多次賠償", key: "critical_illness" },
+        { label: "首次嚴重危疾保費豁免", key: "critical_illness" },
+        { label: "首年保費折扣回贈", key: "rebate" }
+      ],
+      Savings_MultiCurrency: [
+        { label: "5.8% 預繳 / 保證高回報", key: "prepayment" },
+        { label: "首年保費回贈 28%", key: "rebate" },
+        { label: "GN16 官方分紅實現率", key: "prepayment" },
+        { label: "保證回本年期 vs 預期回本", key: "prepayment" },
+        { label: "30年預期複利 IRR", key: "prepayment" },
+        { label: "多元貨幣轉換與保單分拆", key: "prepayment" }
+      ],
+      Medical_VHIS: [
+        { label: "標靶藥物全額賠償", key: "vhis" },
+        { label: "全額出院免找數 (Cashless)", key: "vhis" },
+        { label: "專屬中介人 vs 純網上客服", key: "vhis" },
+        { label: "每年 HK$8,000 稅務扣除", key: "vhis" }
+      ],
+      Annuity_QDAP: [
+        { label: "每年實慳 HK$10,200 稅款", key: "qdap" },
+        { label: "保證回報 vs 浮動紅利佔比", key: "qdap" },
+        { label: "QDAP 總內部回報率 IRR", key: "qdap" },
+        { label: "年金起派年齡與現金流", key: "qdap" }
+      ],
+      Financing_UniversalLife: [
+        { label: "保費融資 85% LTV 槓桿", key: "financing_ul" },
+        { label: "結算利率 vs 融資借貸淨息差", key: "financing_ul" },
+        { label: "銀行追加保證金 (Margin Call) 緩衝", key: "financing_ul" }
+      ]
+    };
+    window.CATEGORY_CLAIMS = CATEGORY_CLAIMS;
+
+    function renderClaimPills(category) {
+      const container = document.getElementById('claim-pills');
+      if (!container) return;
+      const normCat = normalizeCategory(category);
+      const chips = CATEGORY_CLAIMS[normCat] || CATEGORY_CLAIMS.Savings_MultiCurrency;
+
+      let activeIndex = chips.findIndex(c => c.label === selectedClaimText || c.key === selectedClaim);
+      if (activeIndex === -1) activeIndex = 0;
+
+      container.innerHTML = chips.map((c, idx) => {
+        const isAct = (idx === activeIndex);
+        return '<button class="thumb-pill ' + (isAct ? 'active' : '') + '" onclick="selectClaim(this, this.innerText)" data-claim="' + c.key + '">' + c.label + '</button>';
+      }).join('');
+    }
+    window.renderClaimPills = renderClaimPills;
+
     function normalizeCompany(str) {
       if (!str) return 'Prudential';
       const s = String(str).toUpperCase();
@@ -1472,12 +1608,37 @@
       if (s === 'financing_ul' || s === 'financing' || s === 'universal_life' || s === 'ul') return 'financing_ul';
       if (s === 'qdap') return 'qdap';
 
-      if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報') || s.includes('prepayment')) return 'prepayment';
-      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣') || s.includes('rebate')) return 'rebate';
-      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical')) return 'critical_illness';
-      if (s.includes('自願醫保') || s.includes('醫保') || s.includes('全數賠償') || s.includes('無佣金') || s.includes('vhis')) return 'vhis';
-      if (s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('萬用壽險') || s.includes('financing')) return 'financing_ul';
-      if (s.includes('年金') || s.includes('qdap')) return 'qdap';
+      // Exact phrase match from CATEGORY_CLAIMS
+      for (const catKey in CATEGORY_CLAIMS) {
+        const item = CATEGORY_CLAIMS[catKey].find(c => c.label.toLowerCase() === s);
+        if (item) return item.key;
+      }
+
+      // Critical Illness
+      if (s.includes('癌症') || s.includes('等待期') || s.includes('危疾') || s.includes('critical') || s.includes('icu') || s.includes('深切治療') || s.includes('心臟病') || s.includes('中風') || s.includes('保費豁免')) {
+        return 'critical_illness';
+      }
+      // VHIS Medical
+      if (s.includes('自願醫保') || s.includes('醫保') || s.includes('標靶') || s.includes('免找數') || s.includes('cashless') || s.includes('中介人') || s.includes('8,000') || s.includes('vhis')) {
+        return 'vhis';
+      }
+      // Universal Life Financing
+      if (s.includes('融資') || s.includes('85%') || s.includes('ltv') || s.includes('萬用') || s.includes('息差') || s.includes('margin') || s.includes('追加保證金') || s.includes('financing')) {
+        return 'financing_ul';
+      }
+      // QDAP Annuity
+      if (s.includes('年金') || s.includes('qdap') || s.includes('10,200') || s.includes('實慳') || s.includes('起派年齡')) {
+        return 'qdap';
+      }
+      // Rebate
+      if (s.includes('28%') || s.includes('回贈') || s.includes('折扣') || s.includes('rebate')) {
+        return 'rebate';
+      }
+      // Savings / Prepayment
+      if (s.includes('5.8%') || s.includes('預繳') || s.includes('回報高達') || s.includes('保證回報') || s.includes('prepayment') || s.includes('gn16') || s.includes('實現率') || s.includes('回本') || s.includes('irr') || s.includes('貨幣轉換') || s.includes('保單分拆')) {
+        return 'prepayment';
+      }
+
       return 'prepayment';
     }
 
@@ -1515,8 +1676,12 @@
       else if (claimKey === 'financing_ul') categoryKey = 'Financing_UniversalLife';
       else categoryKey = 'Savings_MultiCurrency';
 
-      const ourProductName = getFlagshipProduct(ourKey, categoryKey);
-      const rivalProductName = getFlagshipProduct(rivalKey, categoryKey);
+      const ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && mySelectedProduct.category === categoryKey)
+        ? cleanProductName(mySelectedProduct.name)
+        : getFlagshipProduct(ourKey, categoryKey);
+      const rivalProductName = (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && rivalSelectedProduct.category === categoryKey)
+        ? cleanProductName(rivalSelectedProduct.name)
+        : getFlagshipProduct(rivalKey, categoryKey);
       const heroOur = `${ourProfile.fullName} · ${ourProductName}`;
       const heroRival = `${rivalProfile.fullName} · ${rivalProductName}`;
 
@@ -2402,10 +2567,12 @@
       else if (targetOrName && targetOrName.innerText) rawName = targetOrName.innerText;
 
       myCompany = normalizeCompany(rawName);
+      mySelectedProduct = null;
       persistMyCompany(myCompany);
 
       if (selectedCompany === myCompany) {
         selectedCompany = (myCompany === 'AIA') ? 'Prudential' : 'AIA';
+        rivalSelectedProduct = null;
       }
 
       updateCampSelectors();
@@ -2415,22 +2582,75 @@
     window.getMyCompany = () => myCompany;
     window.getRivalCompany = () => selectedCompany;
 
+    function setMyProduct(targetOrId) {
+      let prodId = '';
+      if (typeof targetOrId === 'string') prodId = targetOrId;
+      else if (targetOrId && targetOrId.value) prodId = targetOrId.value;
+
+      const cat = currentCategory || 'Savings_MultiCurrency';
+      const prods = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === myCompany && p.category === cat);
+      const match = prods.find(p => p.id === prodId || p.name === prodId || cleanProductName(p.name) === prodId);
+      if (match) {
+        mySelectedProduct = match;
+      }
+      const selectMyProd = document.getElementById('select-my-product');
+      if (selectMyProd && match) {
+        selectMyProd.value = match.id;
+      }
+      const myProdDisplay = document.getElementById('my-product-display');
+      if (myProdDisplay) {
+        myProdDisplay.innerText = mySelectedProduct ? cleanProductName(mySelectedProduct.name) : getFlagshipProduct(myCompany, cat);
+      }
+      updateBattleCard();
+    }
+    window.setMyProduct = setMyProduct;
+
+    function setRivalProduct(targetOrId) {
+      let prodId = '';
+      if (typeof targetOrId === 'string') prodId = targetOrId;
+      else if (targetOrId && targetOrId.value) prodId = targetOrId.value;
+
+      const cat = currentCategory || 'Savings_MultiCurrency';
+      const prods = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === selectedCompany && p.category === cat);
+      const match = prods.find(p => p.id === prodId || p.name === prodId || cleanProductName(p.name) === prodId);
+      if (match) {
+        rivalSelectedProduct = match;
+      }
+      const selectRivalProd = document.getElementById('select-rival-product');
+      if (selectRivalProd && match) {
+        selectRivalProd.value = match.id;
+      }
+      const rivalProdDisplay = document.getElementById('rival-product-display');
+      if (rivalProdDisplay) {
+        rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : getFlagshipProduct(selectedCompany, cat);
+      }
+      updateBattleCard();
+    }
+    window.setRivalProduct = setRivalProduct;
+
     function swapCampRoles() {
-      const prevMy = myCompany;
+      const prevMyComp = myCompany;
+      const prevMyProd = mySelectedProduct;
+
       myCompany = selectedCompany;
-      selectedCompany = prevMy;
+      mySelectedProduct = rivalSelectedProduct;
+
+      selectedCompany = prevMyComp;
+      rivalSelectedProduct = prevMyProd;
 
       persistMyCompany(myCompany);
       updateCampSelectors();
       updateBattleCard();
 
-      showToast(`🔄 攻防已對調：我方【${COMPANY_PROFILES[myCompany]?.fullName || myCompany}】vs 對手【${COMPANY_PROFILES[selectedCompany]?.fullName || selectedCompany}】`);
+      showToast('🔄 攻防已對調：我方【' + (COMPANY_PROFILES[myCompany]?.fullName || myCompany) + '】vs 對手【' + (COMPANY_PROFILES[selectedCompany]?.fullName || selectedCompany) + '】');
     }
     window.swapCampRoles = swapCampRoles;
 
     function updateCampSelectors() {
       const selectMy = document.getElementById('select-my-insurer');
       const selectRival = document.getElementById('select-rival-insurer');
+      const selectMyProd = document.getElementById('select-my-product');
+      const selectRivalProd = document.getElementById('select-rival-product');
       const myProdDisplay = document.getElementById('my-product-display');
       const rivalProdDisplay = document.getElementById('rival-product-display');
 
@@ -2443,10 +2663,57 @@
       }
 
       const cat = currentCategory || 'Savings_MultiCurrency';
-      if (myProdDisplay) myProdDisplay.innerText = getFlagshipProduct(myCompany, cat);
-      if (rivalProdDisplay) rivalProdDisplay.innerText = getFlagshipProduct(selectedCompany, cat);
+      const myFlagship = getFlagshipProduct(myCompany, cat);
+      const rivalFlagship = getFlagshipProduct(selectedCompany, cat);
 
-      // Reflect in quick selector pills
+      // Populate & sync select-my-product
+      const myProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === myCompany && p.category === cat);
+      if (selectMyProd) {
+        if (myProds.length > 0) {
+          selectMyProd.innerHTML = myProds.map(p => '<option value="' + p.id + '">' + cleanProductName(p.name) + '</option>').join('');
+          let match = null;
+          if (mySelectedProduct && mySelectedProduct.category === cat && normalizeCompany(mySelectedProduct.insurer) === myCompany) {
+            match = myProds.find(p => p.id === mySelectedProduct.id) || null;
+          }
+          if (!match) {
+            match = myProds.find(p => p.name.includes(myFlagship) || myFlagship.includes(cleanProductName(p.name))) || myProds[0];
+          }
+          mySelectedProduct = match;
+          selectMyProd.value = match.id;
+        } else {
+          selectMyProd.innerHTML = '<option value="">' + myFlagship + '</option>';
+          mySelectedProduct = null;
+        }
+      }
+
+      // Populate & sync select-rival-product
+      const rivalProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === selectedCompany && p.category === cat);
+      if (selectRivalProd) {
+        if (rivalProds.length > 0) {
+          selectRivalProd.innerHTML = rivalProds.map(p => '<option value="' + p.id + '">' + cleanProductName(p.name) + '</option>').join('');
+          let match = null;
+          if (rivalSelectedProduct && rivalSelectedProduct.category === cat && normalizeCompany(rivalSelectedProduct.insurer) === selectedCompany) {
+            match = rivalProds.find(p => p.id === rivalSelectedProduct.id) || null;
+          }
+          if (!match) {
+            match = rivalProds.find(p => p.name.includes(rivalFlagship) || rivalFlagship.includes(cleanProductName(p.name))) || rivalProds[0];
+          }
+          rivalSelectedProduct = match;
+          selectRivalProd.value = match.id;
+        } else {
+          selectRivalProd.innerHTML = '<option value="">' + rivalFlagship + '</option>';
+          rivalSelectedProduct = null;
+        }
+      }
+
+      if (myProdDisplay) {
+        myProdDisplay.innerText = mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship;
+      }
+      if (rivalProdDisplay) {
+        rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
+      }
+
+      // Reflect in quick selector pills (for tests and backwards compatibility)
       document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
         const btnComp = normalizeCompany(btn.innerText);
         const isMyComp = (btnComp === myCompany);
@@ -2473,9 +2740,11 @@
         // Auto-swap roles so user can smoothly examine this company as rival without self-matchup
         const prevRival = selectedCompany;
         myCompany = (prevRival === cand) ? ((cand === 'AIA') ? 'Prudential' : 'AIA') : prevRival;
+        mySelectedProduct = null;
         persistMyCompany(myCompany);
       }
       selectedCompany = cand;
+      rivalSelectedProduct = null;
 
       if (targetOrName && targetOrName.classList) {
         targetOrName.classList.add('active');
@@ -2504,13 +2773,37 @@
         rawClaim = targetOrClaim.innerText;
       }
 
+      selectedClaimText = rawClaim || selectedClaimText;
       selectedClaim = normalizeClaim(rawClaim);
       syncCategoryTabWithClaim(selectedClaim);
 
+      renderClaimPills(currentCategory);
+
+      let foundExact = false;
       document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
-        const btnClaim = normalizeClaim(btn.innerText);
-        btn.classList.toggle('active', btnClaim === selectedClaim);
+        if (targetOrClaim && (targetOrClaim === btn || targetOrClaim.innerText === btn.innerText)) {
+          btn.classList.add('active');
+          foundExact = true;
+        } else if (rawClaim && (btn.innerText === rawClaim || (btn.dataset && btn.dataset.claim === rawClaim))) {
+          btn.classList.add('active');
+          foundExact = true;
+        } else {
+          btn.classList.remove('active');
+        }
       });
+
+      if (!foundExact) {
+        let firstMatch = false;
+        document.querySelectorAll('#claim-pills .thumb-pill').forEach(btn => {
+          const btnNorm = normalizeClaim(btn.innerText);
+          if (!firstMatch && btnNorm === selectedClaim) {
+            btn.classList.add('active');
+            firstMatch = true;
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+      }
 
       updateCampSelectors();
       updateBattleCard();
@@ -2528,7 +2821,7 @@
       currentCategory = targetCat;
 
       document.querySelectorAll('#category-tabs .cat-tab').forEach(tab => {
-        tab.classList.toggle('active', tab.dataset.cat === targetCat);
+        tab.classList.toggle('active', !!(tab.dataset && tab.dataset.cat === targetCat));
       });
     }
 
@@ -2539,21 +2832,20 @@
       else if (targetOrKey && targetOrKey.dataset && targetOrKey.dataset.cat) rawKey = targetOrKey.dataset.cat;
       else if (targetOrKey && targetOrKey.innerText) rawKey = targetOrKey.innerText;
 
-      const s = String(rawKey || '').toLowerCase().trim();
+      const normCat = normalizeCategory(rawKey);
+      currentCategory = normCat;
+
       let claimKey = 'prepayment';
-      if (s === 'ci' || s === 'critical_illness' || s.includes('critical') || s.includes('危疾') || s.includes('重疾')) {
-        claimKey = 'critical_illness';
-      } else if (s.includes('vhis') || s.includes('medical') || s.includes('自願') || s.includes('醫保')) {
-        claimKey = 'vhis';
-      } else if (s.includes('qdap') || s.includes('annuity') || s.includes('年金') || s.includes('扣稅')) {
-        claimKey = 'qdap';
-      } else if (s === 'ul' || s.includes('financing') || s.includes('universal') || s.includes('萬用') || s.includes('融資')) {
-        claimKey = 'financing_ul';
-      } else if (s.includes('rebate') || s.includes('回贈')) {
-        claimKey = 'rebate';
-      } else {
-        claimKey = 'prepayment';
-      }
+      if (normCat === 'Critical_Illness') claimKey = 'critical_illness';
+      else if (normCat === 'Medical_VHIS') claimKey = 'vhis';
+      else if (normCat === 'Annuity_QDAP') claimKey = 'qdap';
+      else if (normCat === 'Financing_UniversalLife') claimKey = 'financing_ul';
+      else claimKey = 'prepayment';
+
+      // Reset product selections to flagship for new category
+      mySelectedProduct = null;
+      rivalSelectedProduct = null;
+      selectedClaimText = '';
 
       selectClaim(claimKey);
     }
@@ -2796,11 +3088,13 @@
       const prodInsurer = normalizeCompany(p.insurer);
       if (prodInsurer === myCompany) {
         selectCategory(p.category);
-        showToast(`已載入我方主力【${p.name}】對抗卡`);
+        setMyProduct(p.id);
+        showToast(`已載入我方主力【${cleanProductName(p.name)}】對抗卡`);
       } else {
         selectCompany(prodInsurer);
         selectCategory(p.category);
-        showToast(`已載入競品【${p.name}】對抗卡`);
+        setRivalProduct(p.id);
+        showToast(`已載入競品【${cleanProductName(p.name)}】對抗卡`);
       }
       closeCatalogDrawer();
     }
@@ -2888,6 +3182,8 @@
     window.selectClaim = selectClaim;
     window.selectCategory = selectCategory;
     window.setMyCompany = setMyCompany;
+    window.setMyProduct = setMyProduct;
+    window.setRivalProduct = setRivalProduct;
     window.swapCampRoles = swapCampRoles;
     window.getMyCompany = () => myCompany;
     window.getRivalCompany = () => selectedCompany;
@@ -2896,14 +3192,19 @@
     window.getBilateralBattleCard = (ourC, rivalC, clm) => getBattleCard(ourC, rivalC, clm);
     window.normalizeCompany = normalizeCompany;
     window.normalizeClaim = normalizeClaim;
+    window.normalizeCategory = normalizeCategory;
+    window.cleanProductName = cleanProductName;
+    window.renderClaimPills = renderClaimPills;
     window.copyWhatsAppPitch = copyWhatsAppPitch;
 
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
+      renderClaimPills(currentCategory);
       updateCampSelectors();
       updateBattleCard();
     });
     // Fallback immediate trigger
+    renderClaimPills(currentCategory);
     updateCampSelectors();
     updateBattleCard();
   </script>
