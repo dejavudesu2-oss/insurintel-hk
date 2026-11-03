@@ -518,6 +518,102 @@ recordTest("Suite 10: CSS & Layout Defenses", "Verify camp-select has ellipsis t
     node_assert_1.default.ok(cafeHtml.includes(".camp-select optgroup"), "CSS must style .camp-select optgroup");
     node_assert_1.default.ok(cafeHtml.includes(".camp-select option"), "CSS must style .camp-select option");
 });
+// -----------------------------------------------------------------------------
+// Suite 11: Cross-Category Claim Independence in getBattleCard
+// -----------------------------------------------------------------------------
+recordTest("Suite 11: Cross-Category Claim Independence", "getBattleCard('prepayment') while in Critical_Illness must evaluate Savings products, not CI products", () => {
+    const { sandbox } = createSandbox();
+    sandbox.setMyCompany("AIA");
+    sandbox.selectCompany("Prudential");
+    sandbox.selectCategory("Critical_Illness");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness");
+    // Querying prepayment (a savings claim) must resolve to Savings products
+    const card = sandbox.getBattleCard("AIA", "Prudential", "prepayment");
+    node_assert_1.default.ok(card.hero_our_name.includes("盈御多元貨幣"), `hero_our_name should be Savings product, got: ${card.hero_our_name}`);
+    node_assert_1.default.ok(card.hero_rival_name.includes("雋富多元貨幣"), `hero_rival_name should be Savings product, got: ${card.hero_rival_name}`);
+    node_assert_1.default.ok(card.agent_title.includes("預繳") || card.agent_title.includes("儲蓄"), "agent_title must address prepayment");
+});
+// -----------------------------------------------------------------------------
+// Suite 12: Claim Chip Label and Key Resolution in selectClaim
+// -----------------------------------------------------------------------------
+recordTest("Suite 12: Claim Chip Resolution", "selectClaim correctly resolves current category chips by label or key without false category reset", () => {
+    const { sandbox, dom } = createSandbox();
+    sandbox.setMyCompany("AIA");
+    sandbox.selectCompany("Prudential");
+    sandbox.selectCategory("Critical_Illness");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness");
+    // Select chip by exact label in Critical_Illness
+    sandbox.selectClaim("首年保費折扣回贈");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness", "Must remain in Critical_Illness");
+    node_assert_1.default.ok(dom["agent-title"].innerHTML.includes("折扣") || dom["agent-title"].innerHTML.includes("回贈"));
+    // Select chip by key in Critical_Illness
+    sandbox.selectClaim("深切治療部 (ICU) 預支賠償");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness");
+    node_assert_1.default.ok(dom["agent-title"].innerHTML.includes("ICU") || dom["agent-step-2"].innerHTML.includes("ICU"));
+});
+// -----------------------------------------------------------------------------
+// Suite 13: Agent Pitch Script Product Alignment for Non-Flagship Selection
+// -----------------------------------------------------------------------------
+recordTest("Suite 13: Agent Pitch Script Alignment", "Agent pitch scripts dynamically align with selected non-flagship product names", () => {
+    const { sandbox, dom } = createSandbox();
+    sandbox.setMyCompany("AIA");
+    sandbox.selectCompany("Prudential");
+    sandbox.selectCategory("Savings_MultiCurrency");
+    // Select Prudential second savings product: 特級「雋陞」儲蓄保障計劃 II
+    sandbox.setRivalProduct("PROMO-PRU-SAV-EGSP2-2026");
+    node_assert_1.default.ok(dom["hero-rival-name"].innerText.includes("雋陞"), "Hero rival name must cite 雋陞");
+    // In Savings prepayment pitch, step 3 should reference 雋陞, not hardcode 雋富
+    const card = sandbox.getBattleCard("AIA", "Prudential", "prepayment");
+    node_assert_1.default.ok(card.agent_step_3.includes("雋陞"), `agent_step_3 must reference selected rival product 雋陞, got: ${card.agent_step_3}`);
+    // Test VHIS non-flagship alignment
+    sandbox.selectCategory("Medical_VHIS");
+    sandbox.setRivalProduct("PROMO-PRU-VHIS-2026");
+    const vhisCard = sandbox.getBattleCard("AIA", "Prudential", "vhis");
+    node_assert_1.default.ok(vhisCard.hero_rival_name.includes("摯為您"), "Hero rival name must cite 摯為您");
+    node_assert_1.default.ok(vhisCard.whatsapp_script.includes("摯為您"), "WhatsApp script must cite 摯為您");
+});
+// -----------------------------------------------------------------------------
+// Suite 14: DOM Event Objects & Target Extraction
+// -----------------------------------------------------------------------------
+recordTest("Suite 14: Event Object & Target Extraction", "setMyProduct and setRivalProduct accept standard DOM ChangeEvent with target.value", () => {
+    const { sandbox, dom } = createSandbox();
+    sandbox.setMyCompany("AIA");
+    sandbox.selectCategory("Savings_MultiCurrency");
+    // Simulate change event dispatched from <select>
+    const mockEventA = { target: { value: "PROMO-AIA-CI-2026-Q4" } };
+    sandbox.setMyProduct(mockEventA);
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness", "setMyProduct with event target must switch category");
+    node_assert_1.default.strictEqual(dom["my-product-display"].innerText, "友心意危疾保");
+    // Simulate change event on rival
+    const mockEventB = { target: { value: "PROMO-PRU-QDAP-2026" } };
+    sandbox.setRivalProduct(mockEventB);
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Annuity_QDAP", "setRivalProduct with event target must switch category");
+    node_assert_1.default.ok(dom["rival-product-display"].innerText.includes("雋逸年金") || dom["rival-product-display"].innerText.includes("年金"));
+});
+// -----------------------------------------------------------------------------
+// Suite 15: Global Drawer State Isolation & Alias Category Tagging
+// -----------------------------------------------------------------------------
+recordTest("Suite 15: Drawer State Isolation & Alias Tagging", "openCatalogDrawer resets lastCatalogSide and search input; alias categories produce valid tags", () => {
+    const { sandbox, dom } = createSandbox();
+    // 1. Open drawer for company, which sets lastCatalogSide = 'our'
+    sandbox.openCatalogForCompany("our");
+    node_assert_1.default.ok(dom["catalog-search-input"].value.length > 0, "Search input should have company name");
+    // 2. Open global drawer, must reset lastCatalogSide and clear input
+    sandbox.openCatalogDrawer();
+    node_assert_1.default.strictEqual(dom["catalog-search-input"].value, "", "openCatalogDrawer must reset search input to empty");
+    // 3. Test alias category tag rendering
+    const prodsWithAlias = [
+        { id: "TEST-1", name: "測試產品 1", category: "ci" },
+        { id: "TEST-2", name: "測試產品 2", category: "vhis" },
+        { id: "TEST-3", name: "測試產品 3", category: "qdap" },
+        { id: "TEST-4", name: "測試產品 4", category: "ul" }
+    ];
+    const renderedHtml = sandbox.renderCampProductOptions(prodsWithAlias, "Critical_Illness", "TEST-1");
+    node_assert_1.default.ok(renderedHtml.includes("[危疾]"), "Must render [危疾] tag even when category is alias 'ci'");
+    node_assert_1.default.ok(renderedHtml.includes("[醫保]"), "Must render [醫保] tag even when category is alias 'vhis'");
+    node_assert_1.default.ok(renderedHtml.includes("[年金]"), "Must render [年金] tag even when category is alias 'qdap'");
+    node_assert_1.default.ok(renderedHtml.includes("[萬用]"), "Must render [萬用] tag even when category is alias 'ul'");
+});
 console.log("================================================================================");
 console.log("PRODUCT DROPDOWN & CROSS-CATEGORY LINKAGE VERIFICATION SUMMARY");
 console.log("================================================================================");

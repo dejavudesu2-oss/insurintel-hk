@@ -1803,11 +1803,13 @@ const htmlContent = `<!DOCTYPE html>
       const rivalProfile = COMPANY_PROFILES[rivalKey] || COMPANY_PROFILES.Prudential;
 
       let categoryKey = (typeof currentCategory !== 'undefined' && currentCategory) ? currentCategory : 'Savings_MultiCurrency';
-      if (claimKey === 'critical_illness' || chipTopic.includes('危疾') || chipTopic.includes('癌症') || chipTopic.includes('ICU') || chipTopic.includes('折扣')) categoryKey = 'Critical_Illness';
+      const detectedCat = detectCategoryFromClaim(chipTopic) || detectCategoryFromClaim(claimKey);
+      if (detectedCat) categoryKey = detectedCat;
+      else if (claimKey === 'critical_illness' || chipTopic.includes('危疾') || chipTopic.includes('癌症') || chipTopic.includes('ICU') || chipTopic.includes('折扣')) categoryKey = 'Critical_Illness';
       else if (claimKey === 'vhis') categoryKey = 'Medical_VHIS';
       else if (claimKey === 'qdap') categoryKey = 'Annuity_QDAP';
       else if (claimKey === 'financing_ul') categoryKey = 'Financing_UniversalLife';
-      else if (claimKey === 'prepayment' && (!currentCategory || currentCategory === 'Savings_MultiCurrency')) categoryKey = 'Savings_MultiCurrency';
+      else if (claimKey === 'prepayment' || claimKey === 'rebate') categoryKey = 'Savings_MultiCurrency';
 
       let ourProductName = (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && mySelectedProduct.category === categoryKey)
         ? cleanProductName(mySelectedProduct.name)
@@ -2274,7 +2276,7 @@ const htmlContent = `<!DOCTYPE html>
             chart_title: \`🛡️ 單位保費撬動危疾保障槓桿比率 (越頂越高性價比)\`,
             chart_bars: [
               { label: \`Bowtie 早期危疾保 (純保障)\`, value: \`高槓桿 (用 1/3 保費買足百萬)\`, widthPct: 98, color: \`var(--green)\` },
-              { label: \`\${rivalProfile.fullName}【\${rivalProfile.flagshipCI}】\`, value: \`低槓桿 (70%保費流入儲蓄分紅)\`, widthPct: 45, color: \`#f59e0b\` },
+              { label: \`\${rivalProfile.fullName}【\${rivalProductName || rivalProfile.flagshipCI}】\`, value: \`低槓桿 (70%保費流入儲蓄分紅)\`, widthPct: 45, color: \`#f59e0b\` },
               { label: \`市場終身儲蓄危疾平均\`, value: \`保費昂貴 / 易保額不足\`, widthPct: 50, color: \`#94a3b8\` }
             ],
             table_title: \`🩺 危疾保障槓桿與保費支出比對\`,
@@ -2312,7 +2314,7 @@ const htmlContent = `<!DOCTYPE html>
             chart_title: \`🏥 標靶藥賠償完整度與保費性價比評級\`,
             chart_bars: [
               { label: \`Bowtie 自願醫保 (靈活計劃)\`, value: \`全數賠償 (零佣金·平 20-30%)\`, widthPct: 98, color: \`var(--green)\` },
-              { label: \`\${rivalProfile.fullName}【\${rivalProfile.flagshipVHIS}】\`, value: \`設分項限額 / 內置中介人佣金\`, widthPct: 70, color: \`#f59e0b\` },
+              { label: \`\${rivalProfile.fullName}【\${rivalProductName || rivalProfile.flagshipVHIS}】\`, value: \`設分項限額 / 內置中介人佣金\`, widthPct: 70, color: \`#f59e0b\` },
               { label: \`自願醫保標準計劃法定最低\`, value: \`年限額僅 HK$180,000\`, widthPct: 30, color: \`#94a3b8\` }
             ],
             table_title: \`🩺 自願醫保核心保障與保費成本深度比對\`,
@@ -2375,14 +2377,15 @@ const htmlContent = `<!DOCTYPE html>
       // 1. Prepayment Claim
       if (claimKey === 'prepayment') {
         let step3Script = '';
+        const rivalDisplayPlan = rivalProductName || rivalProfile.flagshipSavings;
         if (ourKey === 'AIA' && rivalKey === 'Prudential') {
-          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【\${rivalProfile.flagshipSavings}】得 \${rivalProfile.gn16Fulfillment}%。複利 30 年差 \${deltaGN16}% 就係幾十萬真金白銀！」\`;
+          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【\${rivalDisplayPlan}】得 \${rivalProfile.gn16Fulfillment}%。複利 30 年差 \${deltaGN16}% 就係幾十萬真金白銀！」\`;
         } else if (ourKey === 'Prudential' && rivalKey === 'AIA') {
           step3Script = \`「買儲蓄險最緊要睇『實時落袋確定性』！我地保誠直接亮出全港最高 28% 首年回贈，加埋 5.8% 鎖息立即落袋為安！對手宣傳保監局 GN16 官方數據歷年累積實現率高達 96.5%，但絕大部分依賴 25-30 年後嘅非保證終期紅利；真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，現金流掌控更穩妥！」\`;
         } else if (isOurGN16Higher) {
-          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 \${ourProfile.gn16Fulfillment}%，對手【\${rivalProfile.flagshipSavings}】得 \${rivalProfile.gn16Fulfillment}%。複利 30 年差 \${deltaGN16}% 就係幾十萬真金白銀！」\`;
+          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 \${ourProfile.gn16Fulfillment}%，對手【\${rivalDisplayPlan}】得 \${rivalProfile.gn16Fulfillment}%。複利 30 年差 \${deltaGN16}% 就係幾十萬真金白銀！」\`;
         } else if (isGN16Equal) {
-          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 \${ourProfile.gn16Fulfillment}%，對手【\${rivalProfile.flagshipSavings}】雖同樣達 \${rivalProfile.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」\`;
+          step3Script = \`「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 \${ourProfile.gn16Fulfillment}%，對手【\${rivalDisplayPlan}】雖同樣達 \${rivalProfile.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」\`;
         } else {
           step3Script = \`「買儲蓄險最緊要睇『實時落袋確定性』！我地方案首年提供高額保費回贈及鎖息高達 \${ourProfile.prepayRate}%，真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，前期資金負擔大幅減輕！」\`;
         }
@@ -2661,7 +2664,7 @@ const htmlContent = `<!DOCTYPE html>
           chart_title: \`🏥 昂貴非手術癌症標靶治療保障額度評級\`,
           chart_bars: [
             { label: \`我方高端自願醫保靈活計劃\`, value: \`全數賠償 (無細項限額)\`, widthPct: 100, color: \`var(--ikb)\` },
-            { label: \`\${rivalProfile.fullName}「\${rivalProfile.flagshipVHIS}」\`, value: \`設分項限額 / 網絡限制\`, widthPct: 68, color: \`#f59e0b\` },
+            { label: \`\${rivalProfile.fullName}「\${rivalProductName || rivalProfile.flagshipVHIS}」\`, value: \`設分項限額 / 網絡限制\`, widthPct: 68, color: \`#f59e0b\` },
             { label: \`自願醫保標準計劃法定最低\`, value: \`年限額僅 HK$180,000\`, widthPct: 30, color: \`#94a3b8\` }
           ],
           table_title: \`🩺 醫療理賠與直付服務核心維度深度比對\`,
@@ -2672,7 +2675,7 @@ const htmlContent = `<!DOCTYPE html>
             { label: \`法定個人薪俸稅扣稅\`, value: \`每年每人最高 HK$8,000 (兩者均享)\`, highlight: false }
           ],
           bilateral_specs: bilateralSpecs,
-          whatsapp_script: \`王太您好！了解過您關注 \${rivalProfile.fullName} 的【\${rivalProfile.flagshipVHIS}】。醫保核心在於大病理賠時標靶藥物是否全數賠償及醫院直付無障礙。我為您整理了一份「標靶藥全額覆蓋 vs 分項限額」與「私院出院免找數網絡」深度比對表，讓您看清實際條款差異，稍後發給您參考！\`,
+          whatsapp_script: \`王太您好！了解過您關注 \${rivalProfile.fullName} 的【\${rivalProductName || rivalProfile.flagshipVHIS}】。醫保核心在於大病理賠時標靶藥物是否全數賠償及醫院直付無障礙。我為您整理了一份「標靶藥全額覆蓋 vs 分項限額」與「私院出院免找數網絡」深度比對表，讓您看清實際條款差異，稍後發給您參考！\`,
           disclaimer
         };
       }
@@ -2845,7 +2848,7 @@ const htmlContent = `<!DOCTYPE html>
       if (currentProds.length > 0) {
         html += '<optgroup label="當前選取險種">';
         html += currentProds.map(p => {
-          const tag = CATEGORY_TAGS[p.category] || '';
+          const tag = CATEGORY_TAGS[p.category] || CATEGORY_TAGS[normalizeCategory(p.category)] || '';
           const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId));
           return '<option value="' + p.id + '"' + (isSelected ? ' selected' : '') + '>' + tag + ' ' + cleanProductName(p.name) + '</option>';
         }).join('');
@@ -2858,7 +2861,7 @@ const htmlContent = `<!DOCTYPE html>
         const groupLabel = (currentProds.length > 0) ? '該公司其他險種產品' : '該公司其他險種產品 (全線)';
         html += '<optgroup label="' + groupLabel + '">';
         html += otherProds.map(p => {
-          const tag = CATEGORY_TAGS[p.category] || '';
+          const tag = CATEGORY_TAGS[p.category] || CATEGORY_TAGS[normalizeCategory(p.category)] || '';
           const isSelected = !!(selectedId && (p.id === selectedId || cleanProductName(p.name) === selectedId));
           return '<option value="' + p.id + '"' + (isSelected ? ' selected' : '') + '>' + tag + ' ' + cleanProductName(p.name) + '</option>';
         }).join('');
@@ -2871,7 +2874,7 @@ const htmlContent = `<!DOCTYPE html>
       if (!identifier) return null;
       const normComp = normalizeCompany(compKey);
       const s = (typeof identifier === 'object' && identifier !== null)
-        ? String(identifier.id || identifier.name || '').trim()
+        ? String(identifier.id || identifier.name || (identifier.target && identifier.target.value) || identifier.value || '').trim()
         : String(identifier).trim();
       if (!s) return null;
 
@@ -2887,7 +2890,7 @@ const htmlContent = `<!DOCTYPE html>
       if (match) return match;
 
       match = allProds.find(p => {
-        const tag = CATEGORY_TAGS[p.category] || '';
+        const tag = CATEGORY_TAGS[p.category] || CATEGORY_TAGS[normalizeCategory(p.category)] || '';
         return (tag + ' ' + cleanProductName(p.name)) === s || (tag + cleanProductName(p.name)) === s;
       });
       if (match) return match;
@@ -2901,6 +2904,7 @@ const htmlContent = `<!DOCTYPE html>
     function setMyProduct(targetOrId) {
       let prodId = '';
       if (typeof targetOrId === 'string') prodId = targetOrId;
+      else if (targetOrId && targetOrId.target && typeof targetOrId.target.value === 'string') prodId = targetOrId.target.value;
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
       else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
@@ -2929,6 +2933,7 @@ const htmlContent = `<!DOCTYPE html>
     function setRivalProduct(targetOrId) {
       let prodId = '';
       if (typeof targetOrId === 'string') prodId = targetOrId;
+      else if (targetOrId && targetOrId.target && typeof targetOrId.target.value === 'string') prodId = targetOrId.target.value;
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
       else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
@@ -3114,7 +3119,7 @@ const htmlContent = `<!DOCTYPE html>
       selectedClaimText = rawClaim || selectedClaimText;
 
       const currentCatClaims = CATEGORY_CLAIMS[currentCategory] || [];
-      const isChipOfCurrentCat = currentCatClaims.some(c => c.text === rawClaim || c.claim === rawClaim);
+      const isChipOfCurrentCat = currentCatClaims.some(c => (c.label && c.label === rawClaim) || (c.key && c.key === rawClaim) || c.text === rawClaim || c.claim === rawClaim);
 
       if (!isChipOfCurrentCat) {
         selectedClaim = normalizeClaim(rawClaim);
@@ -3172,6 +3177,7 @@ const htmlContent = `<!DOCTYPE html>
 
       const normCat = normalizeCategory(rawKey);
       currentCategory = normCat;
+      syncCategoryTabWithClaim(normCat);
 
       let claimKey = 'prepayment';
       if (normCat === 'Critical_Illness') claimKey = 'critical_illness';
@@ -3340,10 +3346,13 @@ const htmlContent = `<!DOCTYPE html>
 
     // Catalog Drawer Handlers
     function openCatalogDrawer() {
+      lastCatalogSide = null;
       const drawer = document.getElementById('catalog-drawer');
       const backdrop = document.getElementById('catalog-drawer-backdrop');
+      const searchInput = document.getElementById('catalog-search-input');
       if (drawer) drawer.classList.add('open');
       if (backdrop) backdrop.classList.add('open');
+      if (searchInput) searchInput.value = '';
       renderCatalog('', 'all');
     }
     window.openCatalogDrawer = openCatalogDrawer;
