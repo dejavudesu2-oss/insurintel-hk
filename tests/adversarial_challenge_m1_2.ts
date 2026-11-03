@@ -56,9 +56,9 @@ console.log("===================================================================
 const ulFilePath = path.join(process.cwd(), "src", "mock_data", "universal_life.json");
 const rawUl = JSON.parse(fs.readFileSync(ulFilePath, "utf-8"));
 
-record("Suite 1: UL File", "File exists and contains 8 UL products (expanded catalog)", () => {
+record("Suite 1: UL File", "File exists and contains 12 UL products (expanded catalog)", () => {
   assert.ok(Array.isArray(rawUl), "universal_life.json must be an array");
-  assert.strictEqual(rawUl.length, 8, `Expected 8 UL products, found ${rawUl.length}`);
+  assert.strictEqual(rawUl.length, 12, `Expected 12 UL products, found ${rawUl.length}`);
 });
 
 rawUl.forEach((ulProduct: any, idx: number) => {
@@ -141,10 +141,10 @@ rawUl.forEach((ulProduct: any, idx: number) => {
 // ============================================================================
 const allPromos = loadAllMockPromos();
 
-record("Suite 2: Catalog Loader", "Loads exactly 42 products with 9 insurers and 5 categories", () => {
-  assert.strictEqual(allPromos.length, 42, `Catalog must have 42 products, got ${allPromos.length}`);
+record("Suite 2: Catalog Loader", "Loads exactly 60 products with 11 insurers and 5 categories", () => {
+  assert.strictEqual(allPromos.length, 60, `Catalog must have 60 products, got ${allPromos.length}`);
   const insurers = new Set(allPromos.map(p => p.insurer));
-  assert.strictEqual(insurers.size, 9, `Catalog must have 9 insurers, got ${insurers.size}`);
+  assert.strictEqual(insurers.size, 11, `Catalog must have 11 insurers, got ${insurers.size}`);
   const categories = new Set(allPromos.map(p => p.category));
   assert.strictEqual(categories.size, 5, `Catalog must have 5 categories, got ${categories.size}`);
 
@@ -203,7 +203,7 @@ record("Suite 3: CounterPitchEngine", "Generate counter pitch for each of 31 pro
 record("Suite 3: CounterPitchEngine", "UL Category handling in CounterPitchEngine (fallback to default safely)", () => {
   const engine = new CounterPitchEngine(allPromos);
   const ulPromos = loadPromosByCategory("Financing_UniversalLife");
-  assert.strictEqual(ulPromos.length, 8);
+  assert.strictEqual(ulPromos.length, 12);
 
   for (const ul of ulPromos) {
     const res = engine.generateCounterPitch({

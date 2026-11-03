@@ -106,7 +106,9 @@ class CounterPitchEngine {
             AXA: ["安盛", "axa"],
             YF_Life: ["萬通", "yf life", "yflife", "yf"],
             BOC_Life: ["中銀人壽", "中銀", "boc life", "boc"],
-            Bowtie: ["保泰", "bowtie"]
+            Bowtie: ["保泰", "bowtie"],
+            Cigna: ["信諾", "cigna"],
+            Bupa: ["保柏", "bupa"]
         };
         for (const [insurer, aliases] of Object.entries(insurerAliases)) {
             const mentionsInsurer = aliases.some(a => cleanId.includes(a));
@@ -210,8 +212,12 @@ class CounterPitchEngine {
         const compGN16 = compPromo?.savings_metrics?.gn16_fulfillment_ratio_pct ?? 91.2;
         const ourPrepayRate = ourPromo?.prepayment_scheme?.guaranteed_rate_pct ?? 5.0;
         const compPrepayRate = compPromo?.prepayment_scheme?.guaranteed_rate_pct ?? 5.8;
-        const ourRebate = (ourPromo?.premium_discounts && ourPromo.premium_discounts[0]) ? ourPromo.premium_discounts[0].discount_rate_pct : 22;
-        const compRebate = (compPromo?.premium_discounts && compPromo.premium_discounts[0]) ? compPromo.premium_discounts[0].discount_rate_pct : 28;
+        const ourRebate = (ourPromo?.premium_discounts && ourPromo.premium_discounts.length > 0)
+            ? Math.max(...ourPromo.premium_discounts.map(d => d.discount_rate_pct))
+            : 22;
+        const compRebate = (compPromo?.premium_discounts && compPromo.premium_discounts.length > 0)
+            ? Math.max(...compPromo.premium_discounts.map(d => d.discount_rate_pct))
+            : 28;
         const compPrepayLock = compPromo?.prepayment_scheme?.lock_period_years ?? 1;
         const ourCurrCount = ourPromo?.currency_supported?.length ?? 7;
         const isOurGN16Higher = ourGN16 >= compGN16;

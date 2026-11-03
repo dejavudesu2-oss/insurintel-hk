@@ -27,7 +27,9 @@ const insurerNames = {
   AXA: '安盛 AXA',
   Bowtie: '保泰 Bowtie',
   BOC_Life: '中銀人壽 BOC Life',
-  YF_Life: '萬通 YF Life'
+  YF_Life: '萬通 YF Life',
+  Cigna: '信諾 Cigna',
+  Bupa: '保柏 Bupa'
 };
 
 const mockFiles = [
@@ -55,7 +57,8 @@ for (const file of mockFiles) {
       catName = '儲蓄分紅';
       prepay = p.prepayment_scheme ? p.prepayment_scheme.guaranteed_rate_pct + '% (' + p.prepayment_scheme.lock_period_years + '年保證)' : '無預繳';
       gn16 = (p.savings_metrics && p.savings_metrics.gn16_fulfillment_ratio_pct) ? p.savings_metrics.gn16_fulfillment_ratio_pct + '%' : '95%';
-      breakeven = (p.savings_metrics && p.savings_metrics.guaranteed_breakeven_year) ? '第 ' + p.savings_metrics.guaranteed_breakeven_year + ' 年保證' : '第 18 年';
+      const bkYear = p.savings_metrics ? (p.savings_metrics.guaranteed_breakeven_year || p.savings_metrics.breakeven_guaranteed_year) : null;
+      breakeven = bkYear ? '第 ' + bkYear + ' 年保證' : '第 18 年';
       highlight = '多貨幣轉換 · 保單分拆';
     } else if (p.category === 'Critical_Illness') {
       catName = '重疾危疾';
@@ -1278,19 +1281,19 @@ const htmlContent = `<!DOCTYPE html>
   <div class="catalog-drawer-backdrop" id="catalog-drawer-backdrop" onclick="closeCatalogDrawer()"></div>
   <div class="catalog-drawer" id="catalog-drawer">
     <div class="drawer-header">
-      <div class="drawer-title">📚 全港 9 大保司 · 42 款主流產品規格全覽</div>
+      <div class="drawer-title">📚 全港保司 · 60 款主流產品規格全覽</div>
       <button class="drawer-close-btn" onclick="closeCatalogDrawer()">✕</button>
     </div>
     <div class="drawer-search-bar">
       <input type="text" class="drawer-search-input" id="catalog-search-input" placeholder="🔍 搜尋產品名稱、保司、免體檢額或關鍵字..." oninput="filterCatalog()">
     </div>
     <div class="drawer-filter-chips">
-      <button class="drawer-chip active" data-cat="all" onclick="filterCatalogByChip(this, 'all')">全部 (42)</button>
-      <button class="drawer-chip" data-cat="Savings_MultiCurrency" onclick="filterCatalogByChip(this, 'Savings_MultiCurrency')">儲蓄 (8)</button>
-      <button class="drawer-chip" data-cat="Critical_Illness" onclick="filterCatalogByChip(this, 'Critical_Illness')">危疾 (9)</button>
-      <button class="drawer-chip" data-cat="Medical_VHIS" onclick="filterCatalogByChip(this, 'Medical_VHIS')">醫保 (9)</button>
-      <button class="drawer-chip" data-cat="Annuity_QDAP" onclick="filterCatalogByChip(this, 'Annuity_QDAP')">年金 (8)</button>
-      <button class="drawer-chip" data-cat="Financing_UniversalLife" onclick="filterCatalogByChip(this, 'Financing_UniversalLife')">萬用 (8)</button>
+      <button class="drawer-chip active" data-cat="all" onclick="filterCatalogByChip(this, 'all')">全部 (60)</button>
+      <button class="drawer-chip" data-cat="Savings_MultiCurrency" onclick="filterCatalogByChip(this, 'Savings_MultiCurrency')">儲蓄 (12)</button>
+      <button class="drawer-chip" data-cat="Critical_Illness" onclick="filterCatalogByChip(this, 'Critical_Illness')">危疾 (13)</button>
+      <button class="drawer-chip" data-cat="Medical_VHIS" onclick="filterCatalogByChip(this, 'Medical_VHIS')">醫保 (12)</button>
+      <button class="drawer-chip" data-cat="Annuity_QDAP" onclick="filterCatalogByChip(this, 'Annuity_QDAP')">年金 (11)</button>
+      <button class="drawer-chip" data-cat="Financing_UniversalLife" onclick="filterCatalogByChip(this, 'Financing_UniversalLife')">萬用 (12)</button>
     </div>
     <div class="drawer-cards-list" id="catalog-cards-list">
       <!-- Rendered dynamically by renderCatalog() -->
@@ -1303,7 +1306,7 @@ const htmlContent = `<!DOCTYPE html>
       🔄 一鍵翻轉
     </button>
     <button class="action-btn btn-drawer" onclick="openCatalogDrawer()">
-      📚 42款全產品庫
+      📚 60款全產品庫
     </button>
     <button class="action-btn btn-whatsapp" onclick="copyWhatsAppPitch()">
       📲 複製 WhatsApp

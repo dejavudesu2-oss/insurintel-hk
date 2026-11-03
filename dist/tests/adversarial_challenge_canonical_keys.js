@@ -552,10 +552,10 @@ recordTest("Suite 5: Malformed Inputs Resiliency", "Verify malformed and exotic 
         }, `Failed on malformed input: ${JSON.stringify(bad)}`);
     }
 });
-recordTest("Suite 6: 42-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 42 products and no corrupted HK,000 strings", () => {
+recordTest("Suite 6: 60-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 60 products and no corrupted HK,000 strings", () => {
     const catalog = sandbox.ALL_PRODUCTS_CATALOG || sandbox.window.ALL_PRODUCTS_CATALOG;
     node_assert_1.default.ok(Array.isArray(catalog), "ALL_PRODUCTS_CATALOG must be an array");
-    node_assert_1.default.strictEqual(catalog.length, 42, "ALL_PRODUCTS_CATALOG must contain exactly 42 products");
+    node_assert_1.default.strictEqual(catalog.length, 60, "ALL_PRODUCTS_CATALOG must contain exactly 60 products");
     const catCounts = {};
     for (const item of catalog) {
         catCounts[item.category] = (catCounts[item.category] || 0) + 1;
@@ -565,11 +565,11 @@ recordTest("Suite 6: 42-Product Market Catalog in Mobile Battle Card", "Verify w
         node_assert_1.default.ok(item.highlight, "Product must have a highlight");
         node_assert_1.default.ok(!item.highlight.includes("HK,000"), `Corrupted 'HK,000' found in product ${item.id}: ${item.highlight}`);
     }
-    node_assert_1.default.strictEqual(catCounts["Savings_MultiCurrency"], 8, "Expected 8 Savings products");
-    node_assert_1.default.strictEqual(catCounts["Critical_Illness"], 9, "Expected 9 CI products");
-    node_assert_1.default.strictEqual(catCounts["Medical_VHIS"], 9, "Expected 9 VHIS products");
-    node_assert_1.default.strictEqual(catCounts["Annuity_QDAP"], 8, "Expected 8 QDAP products");
-    node_assert_1.default.strictEqual(catCounts["Financing_UniversalLife"], 8, "Expected 8 UL products");
+    node_assert_1.default.strictEqual(catCounts["Savings_MultiCurrency"], 12, "Expected 12 Savings products");
+    node_assert_1.default.strictEqual(catCounts["Critical_Illness"], 13, "Expected 13 CI products");
+    node_assert_1.default.strictEqual(catCounts["Medical_VHIS"], 12, "Expected 12 VHIS products");
+    node_assert_1.default.strictEqual(catCounts["Annuity_QDAP"], 11, "Expected 11 QDAP products");
+    node_assert_1.default.strictEqual(catCounts["Financing_UniversalLife"], 12, "Expected 12 UL products");
     const qdapItems = catalog.filter((x) => x.category === "Annuity_QDAP");
     for (const q of qdapItems) {
         node_assert_1.default.ok(q.highlight.includes("HK$60,000"), `QDAP highlight must contain HK$60,000. Got: ${q.highlight}`);

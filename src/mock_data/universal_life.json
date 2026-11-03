@@ -372,6 +372,178 @@
       "verified_by_editor": true,
       "created_at": "2026-10-25T18:00:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-AIA-UL-ELITE-2026",
+    "insurer": "AIA",
+    "product_name": "財富恒裕萬用壽險 (AIA Fortune Elite Universal Life)",
+    "product_aliases": ["財富恒裕", "AIA財富恒裕", "Fortune Elite UL", "友邦恒裕"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.0
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.45,
+      "crediting_rate_guaranteed_pct": 2.25,
+      "surrender_charge_years": 4,
+      "financing_eligible": true,
+      "max_ltv_pct": 85.0,
+      "typical_funding_cost_pct": 3.90,
+      "net_carry_spread_pct": 1.55,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 5.00,
+      "margin_call_drop_buffer_pct": 20.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 6000000,
+      "special_waiver_notes": "超高淨值客戶專屬私人銀行融資通道，85% LTV 保單抵押，極大化息差槓桿收益"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T17:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-PRU-UL-PRESTIGE-2026",
+    "insurer": "Prudential",
+    "product_name": "尊富萬用壽險 (Prudential Prestige Universal Life)",
+    "product_aliases": ["尊富萬用壽險", "保誠尊富", "Prestige Universal Life", "Prestige UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.5
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.35,
+      "crediting_rate_guaranteed_pct": 2.20,
+      "surrender_charge_years": 3,
+      "financing_eligible": true,
+      "max_ltv_pct": 82.0,
+      "typical_funding_cost_pct": 3.85,
+      "net_carry_spread_pct": 1.50,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 5.10,
+      "margin_call_drop_buffer_pct": 22.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5500000,
+      "special_waiver_notes": "退保鎖定期僅 3 年，提供靈活資金變現與低融資成本利差套利"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T18:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-SUN-UL-PINNACLE-2026",
+    "insurer": "Sun_Life",
+    "product_name": "耀世傳承萬用壽險 (Sun Life Pinnacle Universal Life)",
+    "product_aliases": ["耀世傳承", "永明耀世傳承", "Pinnacle Universal Life", "Pinnacle UL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "channel": "Broker"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.8
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.30,
+      "crediting_rate_guaranteed_pct": 2.50,
+      "surrender_charge_years": 3,
+      "financing_eligible": true,
+      "max_ltv_pct": 80.0,
+      "typical_funding_cost_pct": 3.80,
+      "net_carry_spread_pct": 1.50,
+      "min_premium_usd": 500000,
+      "policy_loan_interest_pct": 4.85,
+      "margin_call_drop_buffer_pct": 25.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 5000000,
+      "special_waiver_notes": "永明百年加資後盾，提供市場極高 2.5% 保證底線利率及 25% 追繳保證金緩衝"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T18:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-MANU-UL-INDEX-2026",
+    "insurer": "Manulife",
+    "product_name": "宏耀指數萬用壽險 (ManuFlex Indexed Universal Life)",
+    "product_aliases": ["宏耀指數", "宏利指數萬用壽險", "ManuFlex IUL", "宏耀IUL"],
+    "category": "Financing_UniversalLife",
+    "currency_supported": ["USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 500000,
+        "discount_rate_pct": 4.2
+      }
+    ],
+    "ul_metrics": {
+      "crediting_rate_current_pct": 5.50,
+      "crediting_rate_guaranteed_pct": 2.00,
+      "surrender_charge_years": 5,
+      "financing_eligible": true,
+      "max_ltv_pct": 82.0,
+      "typical_funding_cost_pct": 3.90,
+      "net_carry_spread_pct": 1.60,
+      "min_premium_usd": 800000,
+      "policy_loan_interest_pct": 5.15,
+      "margin_call_drop_buffer_pct": 18.0
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 6000000,
+      "special_waiver_notes": "連結標普500指數表現，設有 0% 保證保底機制，兼具保費融資 82% LTV 槓桿"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T19:00:00Z"
+    }
   }
 ]
 

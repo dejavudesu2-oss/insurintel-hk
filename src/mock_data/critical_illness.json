@@ -415,6 +415,185 @@
       "verified_by_editor": true,
       "created_at": "2026-10-25T13:00:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-AIA-CI-ABSOLUTE-2026",
+    "insurer": "AIA",
+    "product_name": "愛伴航首選危疾保 (AIA One Absolute Critical Illness)",
+    "product_aliases": ["愛伴航", "AIA愛伴航", "One Absolute", "友邦愛伴航"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 18, 25],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 5000,
+        "discount_rate_pct": 14.0
+      },
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 4.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 140,
+      "multiple_claim_limit_pct": 900,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 2500000,
+      "special_waiver_notes": "首創持續癌症每3年直接賠付 100% 保額至85歲，特設兒童腦疾及自閉症支援"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T09:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-PRU-CI-CIE3-2026",
+    "insurer": "Prudential",
+    "product_name": "危疾加護保 3 (Crisis Care Pro 3)",
+    "product_aliases": ["危疾加護保3", "危疾加護保", "CIE3", "保誠危疾加護保"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 15, 20, 25],
+    "validity": {
+      "start_date": "2026-10-15",
+      "end_date": "2026-12-20",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 6000,
+        "discount_rate_pct": 16.0
+      },
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 26.0,
+        "extra_family_bonus_pct": 4.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 127,
+      "multiple_claim_limit_pct": 960,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 2400000,
+      "special_waiver_notes": "全港重疾市場標桿旗艦，特設產前準媽媽投保通道保障初生嬰兒"
+    },
+    "audit_metadata": {
+      "source_type": "Broker_Notice",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T11:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-MANU-CI-ACTUARY2-2026",
+    "insurer": "Manulife",
+    "product_name": "活耀人生危疾保 2 (ManuActuary Care 2)",
+    "product_aliases": ["活耀人生2", "活耀人生", "ManuActuary2", "宏利活耀人生"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 20, 25],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 5000,
+        "discount_rate_pct": 12.0
+      },
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 125,
+      "multiple_claim_limit_pct": 1000,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 2000000,
+      "special_waiver_notes": "提供深切治療部 ICU 入住保障及鎖定分紅選項"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T12:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-FWD-CI-SUPREME-2026",
+    "insurer": "FWD",
+    "product_name": "危疾致諾 (Crisis Supreme Critical Illness)",
+    "product_aliases": ["危疾致諾", "富衛危疾致諾", "Crisis Supreme"],
+    "category": "Critical_Illness",
+    "currency_supported": ["USD", "HKD"],
+    "payment_period_years": [10, 20, 25],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 5.0
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 135,
+      "multiple_claim_limit_pct": 1100,
+      "cancer_waiting_period_years": 2,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 2500000,
+      "special_waiver_notes": "癌症索償間隔僅需 2 年，特設生活津貼與保費直接豁免"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T15:00:00Z"
+    }
   }
 ]
 

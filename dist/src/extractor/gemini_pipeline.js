@@ -247,6 +247,12 @@ class GeminiIntelligenceExtractor {
         else if (text.includes("BOWTIE") || text.includes("保泰")) {
             detectedInsurer = "Bowtie";
         }
+        else if (text.includes("CIGNA") || text.includes("信諾")) {
+            detectedInsurer = "Cigna";
+        }
+        else if (text.includes("BUPA") || text.includes("保柏")) {
+            detectedInsurer = "Bupa";
+        }
         else if (text.includes("AIA") || text.includes("友邦") || text.includes("盈御")) {
             detectedInsurer = "AIA";
         }

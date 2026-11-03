@@ -328,6 +328,123 @@
       "verified_by_editor": true,
       "created_at": "2026-10-25T16:30:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-MANU-QDAP-DELIGHT-2026",
+    "insurer": "Manulife",
+    "product_name": "智優延期年金計劃 (ManuDelight QDAP Plan)",
+    "product_aliases": ["智優延期年金", "智優年金", "ManuDelight QDAP", "宏利智優"],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 14.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 3.02,
+      "total_internal_rate_pct": 4.85,
+      "annuity_start_age": 50
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "5年供款期，高保證年金成分，全期保證免體檢快速核保"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T16:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-BOC-QDAP-FIXED-2026",
+    "insurer": "BOC_Life",
+    "product_name": "延期年金計劃（固定年期）(BOC Life Fixed Term QDAP Plan)",
+    "product_aliases": ["中銀固定年期年金", "中銀固定年金", "中銀固定QDAP", "BOC Fixed QDAP"],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD", "RMB"],
+    "payment_period_years": [5],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Bank"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 3.18,
+      "total_internal_rate_pct": 4.50,
+      "annuity_start_age": 50
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 600000,
+      "special_waiver_notes": "中銀香港龍頭銷量旗艦，保證內部回報率高達 3.18%，支援人民幣及港幣雙幣扣稅"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T16:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-AIA-QDAP-RETIRE-2026",
+    "insurer": "AIA",
+    "product_name": "欣悅延期年金計劃 (AIA Joyful Annuity QDAP Plan)",
+    "product_aliases": ["欣悅延期年金", "欣悅年金", "AIA欣悅", "Joyful QDAP AIA"],
+    "category": "Annuity_QDAP",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [5, 10],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 12.0,
+        "extra_family_bonus_pct": 3.0
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.85,
+      "total_internal_rate_pct": 4.70,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "銜接 AIA Vitality 健康積分享有額外 10% 年金增值，保證傳承安排"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T17:00:00Z"
+    }
   }
 ]
 

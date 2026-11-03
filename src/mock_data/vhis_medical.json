@@ -390,6 +390,129 @@
       "verified_by_editor": true,
       "created_at": "2026-10-25T15:00:00Z"
     }
+  },
+  {
+    "promo_id": "PROMO-AIA-VHIS-ASIA-2026",
+    "insurer": "AIA",
+    "product_name": "亞洲至尊明珠醫療計劃 (AIA Asia CEO Medical Plan)",
+    "product_aliases": ["亞洲至尊", "亞洲至尊醫療", "AIA Asia CEO", "至尊醫療"],
+    "category": "Medical_VHIS",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 1000,
+        "discount_rate_pct": 18.0,
+        "extra_family_bonus_pct": 5.0
+      }
+    ],
+    "vhis_metrics": {
+      "vhis_scheme_type": "Flexi",
+      "vhis_certification_number": "F00015-02-000-01",
+      "ward_class": "Semi_Private",
+      "annual_limit_hkd": 30000000,
+      "lifetime_limit_hkd": 60000000,
+      "full_cover_non_surgical_cancer": true,
+      "psychiatric_treatment_covered": true,
+      "deductible_options_hkd": [0, 16000, 25000, 50000]
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "special_waiver_notes": "亞洲頂級私家醫院直付免找數服務，標靶藥及免疫治療全額實報實銷"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T13:00:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-CIGNA-VHIS-FLEXI-2026",
+    "insurer": "Cigna",
+    "product_name": "信諾自願醫保靈活計劃 (Cigna VHIS Flexi Plan)",
+    "product_aliases": ["信諾自願醫保", "信諾靈活計劃", "信諾醫保", "Cigna VHIS", "Cigna Flexi"],
+    "category": "Medical_VHIS",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 600,
+        "discount_rate_pct": 22.0,
+        "extra_family_bonus_pct": 6.0
+      }
+    ],
+    "vhis_metrics": {
+      "vhis_scheme_type": "Flexi",
+      "vhis_certification_number": "F00049-01-000-01",
+      "ward_class": "Semi_Private",
+      "annual_limit_hkd": 30000000,
+      "lifetime_limit_hkd": 0,
+      "full_cover_non_surgical_cancer": true,
+      "psychiatric_treatment_covered": true,
+      "deductible_options_hkd": [0, 15000, 25000, 50000, 75000]
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "special_waiver_notes": "全球醫療健康巨擘信諾專門網絡，無索償健康折扣最高 15%，住院直付信譽極佳"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T14:30:00Z"
+    }
+  },
+  {
+    "promo_id": "PROMO-BUPA-VHIS-HERO-2026",
+    "insurer": "Bupa",
+    "product_name": "保柏英雄自願醫保計劃 (Bupa Hero VHIS Plan)",
+    "product_aliases": ["保柏英雄", "保柏自願醫保", "Bupa Hero", "Bupa VHIS", "保柏醫保"],
+    "category": "Medical_VHIS",
+    "currency_supported": ["HKD", "USD"],
+    "payment_period_years": [1],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 800,
+        "discount_rate_pct": 20.0,
+        "extra_family_bonus_pct": 5.0
+      }
+    ],
+    "vhis_metrics": {
+      "vhis_scheme_type": "Flexi",
+      "vhis_certification_number": "F00036-01-000-01",
+      "ward_class": "Private",
+      "annual_limit_hkd": 35000000,
+      "lifetime_limit_hkd": 0,
+      "full_cover_non_surgical_cancer": true,
+      "psychiatric_treatment_covered": true,
+      "deductible_options_hkd": [0, 20000, 40000, 80000]
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "special_waiver_notes": "英國保柏百年醫療專門機構，全港保柏專屬醫療中心免找數，癌症化療標靶藥 100% 全數賠償"
+    },
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-10-26T15:30:00Z"
+    }
   }
 ]
 

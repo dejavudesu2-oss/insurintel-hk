@@ -21,6 +21,7 @@ export type InsurerCode =
   | "BOC_Life"
   | "Bowtie"
   | "Bupa"
+  | "Cigna"
   | string;
 
 export type Currency = "USD" | "HKD" | "RMB" | "GBP" | "EUR" | "AUD" | "CAD" | "SGD";
@@ -45,6 +46,8 @@ export interface PrepaymentScheme {
   lock_period_years: number; // 鎖定期（如 1 年、2 年或 3 年）
   currency_restriction?: Currency[];
   withdrawal_penalty: string; // 提早提領罰則說明
+  prepayment_rate_pct?: number; // alias of guaranteed_rate_pct
+  prepayment_lock_years?: number; // alias of lock_period_years
 }
 
 /**
@@ -61,6 +64,13 @@ export interface SavingsMetrics {
   change_insured_unlimited: boolean; // 是否支援無限次更換受保人
   secondary_insured: boolean; // 支援第二受保人 / 後續保單持有人
   death_benefit_trust_settlement: boolean; // 身故信託式提取功能
+
+  // Ergonomic / Survey Aliases
+  guaranteed_breakeven_year?: number; // alias of breakeven_guaranteed_year
+  projected_breakeven_year?: number; // alias of breakeven_expected_year
+  irr_20yr_pct?: number; // alias of expected_irr_year_20
+  irr_30yr_pct?: number; // alias of expected_irr_year_30
+  gn16_fulfillment_pct?: number; // alias of gn16_fulfillment_ratio_pct
 }
 
 /**
@@ -89,6 +99,8 @@ export interface VHISMetrics {
   psychiatric_treatment_covered: boolean; // 本地精神科治療保障
   deductible_options_hkd: number[]; // 自付額選項 (e.g. [0, 20000, 50000, 80000])
 }
+
+export type MedicalVHISMetrics = VHISMetrics;
 
 /**
  * 合資格延期年金 (QDAP) 特有指標

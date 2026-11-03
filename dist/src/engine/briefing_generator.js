@@ -22,7 +22,9 @@ const INSURER_DISPLAY_NAMES = {
     AXA: "安盛 (AXA)",
     BOC_Life: "中銀人壽 (BOC Life)",
     YF_Life: "萬通保險 (YF Life)",
-    Bowtie: "保泰 (Bowtie)"
+    Bowtie: "保泰 (Bowtie)",
+    Cigna: "信諾 (Cigna)",
+    Bupa: "保柏 (Bupa)"
 };
 class MorningBriefingGenerator {
     /**
@@ -90,16 +92,16 @@ class MorningBriefingGenerator {
                 }
             ];
         }
+        // Deduplicate by insurer to show 1 flagship per insurer (preserving flagship product order)
+        const seenInsurers = new Set();
+        const flagshipSavings = savingsPromos.filter((p) => !seenInsurers.has(p.insurer) && seenInsurers.add(p.insurer));
         // Sort by guaranteed prepayment rate descending
-        const sortedSavings = [...savingsPromos].sort((a, b) => {
+        const sortedSavings = [...flagshipSavings].sort((a, b) => {
             const rateA = a.prepayment_scheme?.guaranteed_rate_pct || 0;
             const rateB = b.prepayment_scheme?.guaranteed_rate_pct || 0;
             return rateB - rateA;
         });
-        // Deduplicate by insurer to show 1 flagship per insurer
-        const seenInsurers = new Set();
-        const flagshipSavings = sortedSavings.filter((p) => !seenInsurers.has(p.insurer) && seenInsurers.add(p.insurer));
-        return flagshipSavings.map((p) => {
+        return sortedSavings.map((p) => {
             const insurerPromos = promos.filter((item) => item.insurer === p.insurer);
             const ciPromo = insurerPromos.find((item) => item.category === "Critical_Illness");
             const vhisPromo = insurerPromos.find((item) => item.category === "Medical_VHIS");
@@ -139,7 +141,7 @@ class MorningBriefingGenerator {
             if (p.savings_metrics?.policy_split_options)
                 legacyParts.push("保單分拆");
             if (p.savings_metrics?.currency_switch_options)
-                legacyParts.push(`${p.currency_supported.length}種貨幣`);
+                legacyParts.push(`${p.currency_supported?.length || 0}種貨幣`);
             if (p.savings_metrics?.change_insured_unlimited)
                 legacyParts.push("更換受保人");
             if (p.savings_metrics?.death_benefit_trust_settlement)

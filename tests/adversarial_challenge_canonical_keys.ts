@@ -635,10 +635,10 @@ recordTest("Suite 5: Malformed Inputs Resiliency", "Verify malformed and exotic 
   }
 });
 
-recordTest("Suite 6: 42-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 42 products and no corrupted HK,000 strings", () => {
+recordTest("Suite 6: 60-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 60 products and no corrupted HK,000 strings", () => {
   const catalog = sandbox.ALL_PRODUCTS_CATALOG || sandbox.window.ALL_PRODUCTS_CATALOG;
   assert.ok(Array.isArray(catalog), "ALL_PRODUCTS_CATALOG must be an array");
-  assert.strictEqual(catalog.length, 42, "ALL_PRODUCTS_CATALOG must contain exactly 42 products");
+  assert.strictEqual(catalog.length, 60, "ALL_PRODUCTS_CATALOG must contain exactly 60 products");
 
   const catCounts: Record<string, number> = {};
   for (const item of catalog) {
@@ -650,11 +650,11 @@ recordTest("Suite 6: 42-Product Market Catalog in Mobile Battle Card", "Verify w
     assert.ok(!item.highlight.includes("HK,000"), `Corrupted 'HK,000' found in product ${item.id}: ${item.highlight}`);
   }
 
-  assert.strictEqual(catCounts["Savings_MultiCurrency"], 8, "Expected 8 Savings products");
-  assert.strictEqual(catCounts["Critical_Illness"], 9, "Expected 9 CI products");
-  assert.strictEqual(catCounts["Medical_VHIS"], 9, "Expected 9 VHIS products");
-  assert.strictEqual(catCounts["Annuity_QDAP"], 8, "Expected 8 QDAP products");
-  assert.strictEqual(catCounts["Financing_UniversalLife"], 8, "Expected 8 UL products");
+  assert.strictEqual(catCounts["Savings_MultiCurrency"], 12, "Expected 12 Savings products");
+  assert.strictEqual(catCounts["Critical_Illness"], 13, "Expected 13 CI products");
+  assert.strictEqual(catCounts["Medical_VHIS"], 12, "Expected 12 VHIS products");
+  assert.strictEqual(catCounts["Annuity_QDAP"], 11, "Expected 11 QDAP products");
+  assert.strictEqual(catCounts["Financing_UniversalLife"], 12, "Expected 12 UL products");
 
   const qdapItems = catalog.filter((x: any) => x.category === "Annuity_QDAP");
   for (const q of qdapItems) {
