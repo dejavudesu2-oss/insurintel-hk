@@ -377,6 +377,9 @@ const htmlContent = `<!DOCTYPE html>
       background-position: right 6px center;
       background-size: 14px;
       padding-right: 22px;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
     }
     .camp-select:focus {
       border-color: var(--ikb);
@@ -2847,6 +2850,8 @@ const htmlContent = `<!DOCTYPE html>
           return '<option value="' + p.id + '"' + (isSelected ? ' selected' : '') + '>' + tag + ' ' + cleanProductName(p.name) + '</option>';
         }).join('');
         html += '</optgroup>';
+      } else {
+        html += '<option value="" disabled' + (!selectedId ? ' selected' : '') + '>⚠️ 該險種暫無產品（請從下方跨險種選取）</option>';
       }
 
       if (otherProds.length > 0) {
@@ -2864,8 +2869,13 @@ const htmlContent = `<!DOCTYPE html>
 
     function findProductInCompany(compKey, identifier) {
       if (!identifier) return null;
-      const s = String(identifier).trim();
-      const allProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === compKey);
+      const normComp = normalizeCompany(compKey);
+      const s = (typeof identifier === 'object' && identifier !== null)
+        ? String(identifier.id || identifier.name || '').trim()
+        : String(identifier).trim();
+      if (!s) return null;
+
+      const allProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === normComp);
 
       let match = allProds.find(p => p.id === s);
       if (match) return match;
@@ -2885,15 +2895,14 @@ const htmlContent = `<!DOCTYPE html>
       match = allProds.find(p => cleanProductName(p.name).includes(s) || s.includes(cleanProductName(p.name)) || p.name.includes(s));
       if (match) return match;
 
-      match = (window.ALL_PRODUCTS_CATALOG || []).find(p => p.id === s || cleanProductName(p.name) === s || p.name === s);
-      return match || null;
+      return null;
     }
 
     function setMyProduct(targetOrId) {
       let prodId = '';
       if (typeof targetOrId === 'string') prodId = targetOrId;
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
-      else if (targetOrId && targetOrId.id) prodId = targetOrId.id;
+      else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
       const match = findProductInCompany(myCompany, prodId);
       if (match) {
@@ -2921,7 +2930,7 @@ const htmlContent = `<!DOCTYPE html>
       let prodId = '';
       if (typeof targetOrId === 'string') prodId = targetOrId;
       else if (targetOrId && typeof targetOrId.value === 'string') prodId = targetOrId.value;
-      else if (targetOrId && targetOrId.id) prodId = targetOrId.id;
+      else if (targetOrId && typeof targetOrId === 'object') prodId = targetOrId.id || targetOrId.name || '';
 
       const match = findProductInCompany(selectedCompany, prodId);
       if (match) {
@@ -2991,16 +3000,14 @@ const htmlContent = `<!DOCTYPE html>
       }
       if (!myMatch) {
         const curMyProds = allMyProds.filter(p => p.category === cat);
-        myMatch = curMyProds.find(p => p.name.includes(myFlagship) || myFlagship.includes(cleanProductName(p.name))) || curMyProds[0];
-        if (!myMatch && allMyProds.length > 0) {
-          myMatch = allMyProds[0];
-        }
+        myMatch = curMyProds.find(p => p.name.includes(myFlagship) || myFlagship.includes(cleanProductName(p.name))) || curMyProds[0] || null;
       }
       if (selectMyProd) {
         mySelectedProduct = myMatch;
         if (allMyProds.length > 0) {
           selectMyProd.innerHTML = renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '');
           if (myMatch) selectMyProd.value = myMatch.id;
+          else selectMyProd.value = '';
         } else {
           selectMyProd.innerHTML = '<option value="">' + myFlagship + '</option>';
           mySelectedProduct = null;
@@ -3016,12 +3023,9 @@ const htmlContent = `<!DOCTYPE html>
       if (!rivalMatch) {
         const curRivalProds = allRivalProds.filter(p => p.category === cat);
         if (myCompany === selectedCompany && curRivalProds.length > 1 && mySelectedProduct) {
-          rivalMatch = curRivalProds.find(p => p.id !== mySelectedProduct.id) || curRivalProds[0];
+          rivalMatch = curRivalProds.find(p => p.id !== mySelectedProduct.id) || curRivalProds[0] || null;
         } else {
-          rivalMatch = curRivalProds.find(p => p.name.includes(rivalFlagship) || rivalFlagship.includes(cleanProductName(p.name))) || curRivalProds[0];
-        }
-        if (!rivalMatch && allRivalProds.length > 0) {
-          rivalMatch = allRivalProds[0];
+          rivalMatch = curRivalProds.find(p => p.name.includes(rivalFlagship) || rivalFlagship.includes(cleanProductName(p.name))) || curRivalProds[0] || null;
         }
       }
 
@@ -3030,6 +3034,7 @@ const htmlContent = `<!DOCTYPE html>
         if (allRivalProds.length > 0) {
           selectRivalProd.innerHTML = renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '');
           if (rivalMatch) selectRivalProd.value = rivalMatch.id;
+          else selectRivalProd.value = '';
         } else {
           selectRivalProd.innerHTML = '<option value="">' + rivalFlagship + '</option>';
           rivalSelectedProduct = null;

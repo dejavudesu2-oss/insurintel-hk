@@ -384,6 +384,140 @@ recordTest("Suite 5: Swap Roles Interaction", "swapCampRoles preserves product s
     node_assert_1.default.ok(dom["hero-our-name"].innerText.includes("保誠"));
     node_assert_1.default.ok(dom["hero-rival-name"].innerText.includes("友邦"));
 });
+// -----------------------------------------------------------------------------
+// Suite 6: Multi-Strategy Identifier Resolution & Insurer Isolation
+// -----------------------------------------------------------------------------
+recordTest("Suite 6: Multi-Strategy Resolution & Isolation", "findProductInCompany normalizes company alias and enforces strict company isolation", () => {
+    const { sandbox } = createSandbox();
+    // Test alias normalization for company key
+    const aiaQdap = sandbox.findProductInCompany("友邦保險", "延期年金計劃");
+    node_assert_1.default.ok(aiaQdap, "Should find AIA QDAP even when passing alias '友邦保險'");
+    node_assert_1.default.strictEqual(sandbox.normalizeCompany(aiaQdap.insurer), "AIA", "Must belong to AIA, not BOC Life");
+    node_assert_1.default.strictEqual(aiaQdap.id, "PROMO-AIA-QDAP-2026");
+    const bocQdap = sandbox.findProductInCompany("中銀人壽", "延期年金計劃");
+    node_assert_1.default.ok(bocQdap, "Should find BOC Life QDAP when passing '中銀人壽'");
+    node_assert_1.default.strictEqual(sandbox.normalizeCompany(bocQdap.insurer), "BOC Life", "Must belong to BOC Life");
+    node_assert_1.default.strictEqual(bocQdap.id, "PROMO-BOC-QDAP-2026");
+    // Test company keys with underscores
+    const sunQdap = sandbox.findProductInCompany("Sun_Life", "萬年延期年金");
+    node_assert_1.default.ok(sunQdap, "Should resolve product with Sun_Life key");
+    node_assert_1.default.strictEqual(sandbox.normalizeCompany(sunQdap.insurer), "Sun Life");
+    // Test strict insurer isolation: passing competitor product must return null
+    const competitorLeak = sandbox.findProductInCompany("AIA", "PROMO-PRU-CI-2026-Q4");
+    node_assert_1.default.strictEqual(competitorLeak, null, "Passing Prudential product ID to AIA must return null and not leak");
+    // Test object identifier resolution
+    const objMatch = sandbox.findProductInCompany("AIA", { id: "PROMO-AIA-SAV-2026-Q4" });
+    node_assert_1.default.ok(objMatch, "Should support object parameter with id property");
+    node_assert_1.default.strictEqual(objMatch.id, "PROMO-AIA-SAV-2026-Q4");
+    const objNameMatch = sandbox.findProductInCompany("AIA", { name: "友心意危疾保" });
+    node_assert_1.default.ok(objNameMatch, "Should support object parameter with name property");
+    node_assert_1.default.strictEqual(objNameMatch.id, "PROMO-AIA-CI-2026-Q4");
+    // Malformed / empty inputs
+    node_assert_1.default.strictEqual(sandbox.findProductInCompany("AIA", null), null);
+    node_assert_1.default.strictEqual(sandbox.findProductInCompany("AIA", ""), null);
+    node_assert_1.default.strictEqual(sandbox.findProductInCompany("AIA", "NON_EXISTENT_XYZ"), null);
+});
+// -----------------------------------------------------------------------------
+// Suite 7: Insurers with Gap Categories (e.g. Bowtie in Savings/QDAP/UL)
+// -----------------------------------------------------------------------------
+recordTest("Suite 7: Gap Categories Handling", "Bowtie in Savings shows gap warning, displays flagship fallback, and enables cross-category jump", () => {
+    const { sandbox, dom, tabs } = createSandbox();
+    sandbox.setMyCompany("Bowtie");
+    sandbox.selectCompany("AIA");
+    sandbox.selectCategory("Savings_MultiCurrency");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Savings_MultiCurrency");
+    const selectHtml = dom["select-my-product"].innerHTML;
+    node_assert_1.default.ok(selectHtml.includes("該險種暫無產品"), "Dropdown must render disabled warning option when company has no products in active category");
+    node_assert_1.default.ok(selectHtml.includes("該公司其他險種產品 (全線)"), "Dropdown must list remaining products under (全線) group");
+    node_assert_1.default.ok(selectHtml.includes("PROMO-BOWTIE-CI-2026"), "Dropdown must list Bowtie CI");
+    node_assert_1.default.ok(selectHtml.includes("PROMO-BOWTIE-VHIS-2026"), "Dropdown must list Bowtie VHIS");
+    // Display must show flagship message, not falsely claim CI product
+    node_assert_1.default.ok(dom["my-product-display"].innerText.includes("純網上未有儲蓄傳承產品") || dom["my-product-display"].innerText.includes("純網上"));
+    node_assert_1.default.ok(dom["hero-our-name"].innerText.includes("純網上未有儲蓄傳承產品") || dom["hero-our-name"].innerText.includes("純網上"));
+    // Selecting Bowtie CI from dropdown must cleanly jump to Critical_Illness
+    sandbox.setMyProduct("PROMO-BOWTIE-CI-2026");
+    node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), "Critical_Illness");
+    const activeTab = tabs.find((t) => t.classList.contains("active"));
+    node_assert_1.default.ok(activeTab, "Active tab must exist");
+    node_assert_1.default.strictEqual(activeTab.dataset.cat, "Critical_Illness");
+    node_assert_1.default.strictEqual(dom["my-product-display"].innerText, "Bowtie 早期危疾保");
+    node_assert_1.default.ok(dom["hero-our-name"].innerText.includes("Bowtie 早期危疾保"));
+    node_assert_1.default.ok(dom["agent-title"].innerHTML.includes("危疾") || dom["agent-title"].innerHTML.includes("癌症"));
+});
+// -----------------------------------------------------------------------------
+// Suite 8: Exhaustive Cross-Category Matrix (5 Categories x 60 Products)
+// -----------------------------------------------------------------------------
+recordTest("Suite 8: Exhaustive Cross-Category Matrix", "Exhaustively verify all 60 products across all 5 initial categories (300 pairs) for Plan A & Plan B", () => {
+    const { sandbox, tabs } = createSandbox();
+    const allCategories = [
+        "Savings_MultiCurrency",
+        "Critical_Illness",
+        "Medical_VHIS",
+        "Annuity_QDAP",
+        "Financing_UniversalLife"
+    ];
+    const catalog = sandbox.ALL_PRODUCTS_CATALOG;
+    node_assert_1.default.strictEqual(catalog.length, 60, "Catalog must contain exactly 60 products");
+    for (const startCat of allCategories) {
+        for (const p of catalog) {
+            const comp = sandbox.normalizeCompany(p.insurer);
+            // 1. Test setMyProduct cross-category transition
+            sandbox.setMyCompany(comp);
+            sandbox.selectCategory(startCat);
+            sandbox.setMyProduct(p.id);
+            node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), p.category, `From ${startCat} -> setMyProduct(${p.id}) must switch currentCategory to ${p.category}`);
+            const activeTabA = tabs.find((t) => t.classList.contains("active"));
+            node_assert_1.default.ok(activeTabA, "Active category tab must exist");
+            node_assert_1.default.strictEqual(activeTabA.dataset.cat, p.category, `Active tab must be ${p.category}`);
+            // 2. Test setRivalProduct cross-category transition
+            sandbox.selectCompany(comp);
+            sandbox.selectCategory(startCat);
+            sandbox.setRivalProduct(p.id);
+            node_assert_1.default.strictEqual(sandbox.getCurrentCategory(), p.category, `From ${startCat} -> setRivalProduct(${p.id}) must switch currentCategory to ${p.category}`);
+            const activeTabB = tabs.find((t) => t.classList.contains("active"));
+            node_assert_1.default.ok(activeTabB, "Active category tab must exist");
+            node_assert_1.default.strictEqual(activeTabB.dataset.cat, p.category, `Active tab must be ${p.category}`);
+        }
+    }
+});
+// -----------------------------------------------------------------------------
+// Suite 9: Rapid Asynchronous Interaction Loop
+// -----------------------------------------------------------------------------
+recordTest("Suite 9: Rapid Interaction Loop", "Simulate rapid consecutive user toggles across categories, products, and role swaps without desync", () => {
+    const { sandbox, dom } = createSandbox();
+    sandbox.setMyCompany("AIA");
+    sandbox.selectCompany("Prudential");
+    sandbox.selectCategory("Savings_MultiCurrency");
+    const actions = [
+        () => sandbox.setMyProduct("PROMO-AIA-CI-2026-Q4"),
+        () => sandbox.setRivalProduct("PROMO-PRU-VHIS-2026"),
+        () => sandbox.swapCampRoles(),
+        () => sandbox.selectCategory("Financing_UniversalLife"),
+        () => sandbox.setMyProduct("PROMO-PRU-UL-2026"),
+        () => sandbox.setRivalProduct("PROMO-AIA-UL-ELITE-2026"),
+        () => sandbox.swapCampRoles(),
+        () => sandbox.setMyProduct("PROMO-AIA-QDAP-2026"),
+        () => sandbox.setRivalProduct("PROMO-PRU-QDAP-2026"),
+        () => sandbox.selectCategory("Savings_MultiCurrency"),
+        () => sandbox.setMyProduct("PROMO-AIA-SAV-SLE5-2026")
+    ];
+    for (let i = 0; i < actions.length; i++) {
+        actions[i]();
+        // After each step, verify essential state integrity
+        node_assert_1.default.ok(sandbox.getCurrentCategory(), `currentCategory must be non-empty at step ${i}`);
+        node_assert_1.default.ok(dom["hero-our-name"].innerText.length > 0, `hero-our-name must be non-empty at step ${i}`);
+        node_assert_1.default.ok(dom["hero-rival-name"].innerText.length > 0, `hero-rival-name must be non-empty at step ${i}`);
+        node_assert_1.default.ok(dom["bilateral-spec-table"].innerHTML.includes("tbody"), `bilateral spec table must be populated at step ${i}`);
+    }
+});
+// -----------------------------------------------------------------------------
+// Suite 10: CSS & Layout Defenses
+// -----------------------------------------------------------------------------
+recordTest("Suite 10: CSS & Layout Defenses", "Verify camp-select has ellipsis truncation and optgroup styling", () => {
+    node_assert_1.default.ok(cafeHtml.includes("text-overflow: ellipsis;"), "CSS must specify text-overflow: ellipsis for select dropdown");
+    node_assert_1.default.ok(cafeHtml.includes(".camp-select optgroup"), "CSS must style .camp-select optgroup");
+    node_assert_1.default.ok(cafeHtml.includes(".camp-select option"), "CSS must style .camp-select option");
+});
 console.log("================================================================================");
 console.log("PRODUCT DROPDOWN & CROSS-CATEGORY LINKAGE VERIFICATION SUMMARY");
 console.log("================================================================================");
