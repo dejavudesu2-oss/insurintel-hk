@@ -5194,6 +5194,7 @@ const htmlContent = `<!DOCTYPE html>
         if (targetCat !== currentCategory) {
           currentCategory = targetCat;
           syncCategoryTabWithClaim(targetCat);
+          syncScenarioWithCategory(targetCat);
           const defaultClaim = (CATEGORY_CLAIMS[targetCat] && CATEGORY_CLAIMS[targetCat][0]) ? CATEGORY_CLAIMS[targetCat][0] : null;
           if (defaultClaim) {
             selectedClaim = defaultClaim.key;
@@ -5224,6 +5225,7 @@ const htmlContent = `<!DOCTYPE html>
         if (targetCat !== currentCategory) {
           currentCategory = targetCat;
           syncCategoryTabWithClaim(targetCat);
+          syncScenarioWithCategory(targetCat);
           const defaultClaim = (CATEGORY_CLAIMS[targetCat] && CATEGORY_CLAIMS[targetCat][0]) ? CATEGORY_CLAIMS[targetCat][0] : null;
           if (defaultClaim) {
             selectedClaim = defaultClaim.key;
@@ -5453,6 +5455,38 @@ const htmlContent = `<!DOCTYPE html>
       });
     }
 
+    function syncScenarioWithCategory(newCategory) {
+      const normCat = normalizeCategory(newCategory);
+      if (normCat === 'Medical_VHIS') {
+        if (currentScenario === 'retirement_tax') {
+          currentScenario = 'cashless_medical';
+        }
+      } else if (normCat === 'Annuity_QDAP') {
+        if (currentScenario === 'cashless_medical') {
+          currentScenario = 'retirement_tax';
+        }
+      } else {
+        if (currentScenario === 'cashless_medical' || currentScenario === 'retirement_tax') {
+          currentScenario = 'cafe_rapid';
+        }
+      }
+
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage && localStorage.setItem) {
+          localStorage.setItem(STORAGE_KEY_SCENARIO, currentScenario);
+        }
+      } catch (e) {}
+
+      document.querySelectorAll('.scenario-tab-btn').forEach(function(btn) {
+        btn.classList.toggle('active', btn.getAttribute('data-scenario') === currentScenario);
+      });
+      const tag = document.getElementById('scenario-active-tag');
+      if (tag && SCENARIO_NAMES[currentScenario]) {
+        tag.innerText = SCENARIO_NAMES[currentScenario];
+      }
+    }
+    window.syncScenarioWithCategory = syncScenarioWithCategory;
+
     function selectCategory(targetOrKey, maybeKey) {
       let rawKey = '';
       if (typeof targetOrKey === 'string') rawKey = targetOrKey;
@@ -5463,6 +5497,7 @@ const htmlContent = `<!DOCTYPE html>
       const normCat = normalizeCategory(rawKey);
       currentCategory = normCat;
       syncCategoryTabWithClaim(normCat);
+      syncScenarioWithCategory(normCat);
 
       let claimKey = 'prepayment';
       if (normCat === 'Critical_Illness') claimKey = 'critical_illness';
@@ -6745,6 +6780,29 @@ const htmlContent = `<!DOCTYPE html>
         }
       } catch (e) {}
 
+      // Two-Way Collaboration: Scenario-to-Category Auto-Switching
+      if (scenarioId === 'cashless_medical') {
+        if (currentCategory !== 'Medical_VHIS') {
+          selectCategory('Medical_VHIS');
+          return;
+        }
+      } else if (scenarioId === 'retirement_tax') {
+        if (currentCategory !== 'Annuity_QDAP') {
+          selectCategory('Annuity_QDAP');
+          return;
+        }
+      } else if (scenarioId === 'offshore_mcv') {
+        if (currentCategory === 'Medical_VHIS' || currentCategory === 'Annuity_QDAP') {
+          selectCategory('Savings_MultiCurrency');
+          return;
+        }
+      } else if (scenarioId === 'young_family') {
+        if (currentCategory === 'Financing_UniversalLife' || currentCategory === 'Annuity_QDAP') {
+          selectCategory('Critical_Illness');
+          return;
+        }
+      }
+
       // Update Tab Buttons UI
       const tabs = document.querySelectorAll('.scenario-tab-btn');
       tabs.forEach(function(btn) {
@@ -7452,6 +7510,15 @@ const htmlContent = `<!DOCTYPE html>
             '</div>' +
             '<span class="scenario-pill-badge green">出院免找數</span>' +
           '</div>' +
+          '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">' +
+            '<div style="font-size:12px;font-weight:800;color:var(--ikb);display:flex;align-items:center;gap:4px;">' +
+              '<span>🔗 雙邊方案實時聯動中：</span>' +
+              '<span style="color:#1e40af;background:#dbeafe;padding:2px 8px;border-radius:4px;">【Plan A 我方】' + medicalOurProdName + '</span>' +
+              '<span style="color:#64748b;font-weight:normal;">vs</span>' +
+              '<span style="color:#991b1b;background:#fee2e2;padding:2px 8px;border-radius:4px;">【Plan B 對手】' + medicalRivalProdName + '</span>' +
+            '</div>' +
+            '<div style="font-size:11px;color:#2563eb;font-weight:600;">(可在上方 Plan A / Plan B 即時更換產品)</div>' +
+          '</div>' +
           '<div class="medical-select-box">' +
             '<label style="font-size:11px;font-weight:700;color:#334155;">🏥 選擇目標私家醫院：</label>' +
             '<select class="medical-select" id="medical-hospital-select" onchange="onMedicalHospitalSelect(this.value)">' +
@@ -7754,8 +7821,19 @@ const htmlContent = `<!DOCTYPE html>
       }
     }
 
+    function initCompatibility() {
+      if (currentScenario === 'cashless_medical' && currentCategory !== 'Medical_VHIS') {
+        currentCategory = 'Medical_VHIS';
+        syncCategoryTabWithClaim('Medical_VHIS');
+      } else if (currentScenario === 'retirement_tax' && currentCategory !== 'Annuity_QDAP') {
+        currentCategory = 'Annuity_QDAP';
+        syncCategoryTabWithClaim('Annuity_QDAP');
+      }
+    }
+
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
+      initCompatibility();
       renderClaimPills(currentCategory);
       updateCampSelectors();
       updateBattleCard();
@@ -7763,6 +7841,7 @@ const htmlContent = `<!DOCTYPE html>
       bindAiDrawerTriggers();
     });
     // Fallback immediate trigger
+    initCompatibility();
     renderClaimPills(currentCategory);
     updateCampSelectors();
     updateBattleCard();
