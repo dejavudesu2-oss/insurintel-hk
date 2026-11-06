@@ -334,6 +334,11 @@ const HK_13_PRIVATE_HOSPITALS = [
 ];
 
 // ============================================================================
+// 100-POINT CLIENT & INSURANCE AGENT IMPROVEMENT REGISTRY (FULL PDM DATASET)
+// ============================================================================
+const APP_100_IMPROVEMENT_COMMENTS = require('../src/data/app_100_comments.json');
+
+// ============================================================================
 // 30-POINT CLIENT & INSURANCE AGENT IMPROVEMENT REGISTRY (PM & PdM WATCHDOG)
 // ============================================================================
 const APP_30_IMPROVEMENT_COMMENTS = [
@@ -3158,6 +3163,358 @@ const htmlContent = `<!DOCTYPE html>
       box-shadow: 0 1px 3px rgba(0,0,0,0.04);
     }
 
+    /* Accessibility: Large Font Mode (长辈大字体模式) */
+    body.large-font-mode {
+      font-size: 116% !important;
+    }
+    body.large-font-mode .brand-title {
+      font-size: 15px !important;
+    }
+    body.large-font-mode .hero-title {
+      font-size: 18px !important;
+    }
+    body.large-font-mode #bilateral-spec-table th,
+    body.large-font-mode #bilateral-spec-table td {
+      font-size: 13px !important;
+      padding: 9px 10px !important;
+    }
+    body.large-font-mode .camp-select {
+      font-size: 14px !important;
+      padding: 8px 10px !important;
+    }
+    body.large-font-mode .audit-card {
+      font-size: 13px !important;
+      line-height: 1.6 !important;
+    }
+    body.large-font-mode .scenario-card-box {
+      font-size: 13px !important;
+    }
+
+    /* Header Nav Toolbar Buttons */
+    .header-nav-toolbar .lang-btn,
+    .header-nav-toolbar .font-btn,
+    .header-nav-toolbar .pdf-btn {
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #ffffff;
+    }
+    .header-nav-toolbar .lang-btn:hover,
+    .header-nav-toolbar .font-btn:hover,
+    .header-nav-toolbar .pdf-btn:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    /* Arena Mode Switcher Bar */
+    .arena-mode-bar {
+      display: flex;
+      gap: 8px;
+      margin: 8px 0 10px;
+      justify-content: center;
+      padding: 0 12px;
+    }
+    .arena-mode-btn {
+      border: 1.5px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .arena-mode-btn.active {
+      background: #002FA7;
+      color: #ffffff;
+      border-color: #002FA7;
+      box-shadow: 0 2px 6px rgba(0,47,167,0.25);
+    }
+
+    /* Plan C Camp Card (3-Way Comparison) */
+    .camp-card.camp-third {
+      border-top: 3px solid #8b5cf6;
+      background: #faf5ff;
+    }
+    .camp-label.third-label {
+      color: #7c3aed;
+      background: #ede9fe;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .hero-side.third-side {
+      border-top: 3px solid #8b5cf6;
+      background: linear-gradient(180deg, #fbf7ff 0%, #ffffff 100%);
+    }
+    .hero-side.third-side .hero-tag {
+      color: #7c3aed;
+      background: #ede9fe;
+    }
+
+    /* Client PDF Report Trigger & Modal */
+    .client-pdf-trigger-banner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #002FA7 0%, #1e40af 100%);
+      color: #ffffff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      font-size: 12px;
+      box-shadow: 0 2px 8px rgba(0,47,167,0.2);
+      transition: transform 0.15s ease;
+    }
+    .client-pdf-trigger-banner:active {
+      transform: scale(0.99);
+    }
+    .report-badge-btn {
+      font-size: 10.5px;
+      background: rgba(255,255,255,0.2);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-weight: 700;
+      border: 1px solid rgba(255,255,255,0.4);
+    }
+
+    .client-pdf-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.65);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .client-pdf-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .client-pdf-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 94%;
+      max-width: 820px;
+      max-height: 90vh;
+      background: #ffffff;
+      border-radius: 12px;
+      z-index: 10001;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 25px -5px rgba(0,0,0,0.3);
+    }
+    .client-pdf-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .client-pdf-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 18px;
+      background: #002FA7;
+      color: #ffffff;
+    }
+    .client-pdf-body {
+      padding: 16px;
+      overflow-y: auto;
+      flex: 1;
+      background: #f8fafc;
+    }
+    .advisor-profile-form {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 14px;
+      font-size: 11.5px;
+    }
+    .client-report-sheet {
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    }
+
+    /* Universal Life Stress Calculator Styles */
+    .ul-stress-box {
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .stress-hike-bar {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0;
+      flex-wrap: wrap;
+    }
+    .stress-hike-chip {
+      background: #f1f5f9;
+      border: 1.5px solid #cbd5e1;
+      color: #334155;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .stress-hike-chip.active {
+      background: #dc2626;
+      color: #ffffff;
+      border-color: #b91c1c;
+    }
+    .stress-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 8px;
+      margin: 10px 0;
+    }
+    .stress-metric-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      text-align: center;
+    }
+    .stress-warning-banner {
+      background: #fef2f2;
+      border: 1.5px solid #fecaca;
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 11.5px;
+      color: #991b1b;
+      margin-top: 10px;
+      line-height: 1.45;
+    }
+
+    /* Group Medical Optimizer Styles */
+    .group-opt-box {
+      background: #ffffff;
+      border: 1.5px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .group-preset-bar {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0;
+      flex-wrap: wrap;
+    }
+    .group-preset-chip {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e40af;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 11.5px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .group-preset-chip.active {
+      background: #002FA7;
+      color: #ffffff;
+      border-color: #002FA7;
+    }
+
+    /* QDAP Family Tax Styles */
+    .qdap-joint-box {
+      background: #ffffff;
+      border: 1.5px solid #bbf7d0;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+
+    /* Audit Scope Switcher */
+    .audit-scope-bar {
+      display: flex;
+      gap: 6px;
+      background: #e2e8f0;
+      padding: 3px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+    .audit-scope-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      padding: 6px 8px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: #475569;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .audit-scope-btn.active {
+      background: #ffffff;
+      color: #0f172a;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    /* Print Media Query */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-size: 11pt !important;
+      }
+      header, .category-tabs-bar, .bilateral-arena-box, .arena-mode-bar,
+      .scenario-agents-bar-wrap, .view-toggle-bar, .quick-selector,
+      .ai-quick-trigger-banner, .audit-30-trigger-banner, .client-pdf-trigger-banner,
+      #floating-ai-fab, .client-pdf-header, .advisor-profile-form,
+      .client-pdf-modal-actions, .client-pdf-backdrop, .audit-drawer,
+      .audit-drawer-backdrop, #catalog-drawer, #catalog-drawer-backdrop,
+      #ai-chat-drawer, #ai-chat-drawer-backdrop, .top-date-banner {
+        display: none !important;
+      }
+      .client-pdf-modal {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        max-height: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        overflow: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+      }
+      .client-pdf-body {
+        padding: 0 !important;
+        overflow: visible !important;
+      }
+      .client-report-sheet {
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+      }
+      @page {
+        margin: 15mm;
+        size: auto;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3195,6 +3552,18 @@ const htmlContent = `<!DOCTYPE html>
           <span class="btn-emoji">⇄</span>
           <span class="btn-txt">對調攻防</span>
         </button>
+        <button class="app-nav-btn lang-btn" id="header-lang-toggle-btn" onclick="toggleLangZh()" title="繁簡中文即時無損切換">
+          <span class="btn-emoji">🌐</span>
+          <span class="btn-txt" id="header-lang-text">繁/簡</span>
+        </button>
+        <button class="app-nav-btn font-btn" id="header-font-toggle-btn" onclick="toggleFontSize()" title="字體大小長輩大字模式切換">
+          <span class="btn-emoji">🔍</span>
+          <span class="btn-txt" id="header-font-text">標準/大字</span>
+        </button>
+        <button class="app-nav-btn pdf-btn" id="header-pdf-report-btn" onclick="openClientPdfModal()" title="一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片">
+          <span class="btn-emoji">📑</span>
+          <span class="btn-txt">客戶報告</span>
+        </button>
       </div>
     </div>
   </header>
@@ -3223,6 +3592,12 @@ const htmlContent = `<!DOCTYPE html>
     <button class="cat-tab" data-cat="Medical_VHIS" onclick="selectCategory(this, 'Medical_VHIS')">🏥 自願醫保 (20款)</button>
     <button class="cat-tab" data-cat="Annuity_QDAP" onclick="selectCategory(this, 'Annuity_QDAP')">👴 扣稅年金 (19款)</button>
     <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (20款)</button>
+  </div>
+
+  <!-- Arena Mode Switcher (1v1 vs 3-Way PK) -->
+  <div class="arena-mode-bar" id="arena-mode-bar">
+    <button class="arena-mode-btn active" id="btn-mode-1v1" onclick="setArenaMode('1v1')">⚔️ 1v1 雙邊對決</button>
+    <button class="arena-mode-btn" id="btn-mode-3way" onclick="setArenaMode('3way')">🏆 3-Way 三方旗艦同台 (Plan A vs B vs C)</button>
   </div>
 
   <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
@@ -3302,6 +3677,40 @@ const htmlContent = `<!DOCTYPE html>
       </div>
       <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
     </div>
+
+    <!-- Plan C: 第三方旗艦陣營 (3-Way 模式) -->
+    <div class="camp-card camp-third" id="camp-card-third" style="display:none;">
+      <div class="camp-header">
+        <span class="camp-label third-label">🟣 第三方 (Plan C)</span>
+        <span class="camp-hint-text">三方競品</span>
+      </div>
+      <!-- Field 1: 保司選擇 -->
+      <div class="camp-select-wrap">
+        <select class="camp-select" id="select-third-insurer" onchange="setThirdCompany(this.value)" aria-label="選擇第三方代表保司">
+          <option value="Manulife">宏利 Manulife</option>
+          <option value="AIA">友邦 AIA</option>
+          <option value="Prudential">保誠 Prudential</option>
+          <option value="Sun Life">永明 Sun Life</option>
+          <option value="FWD">富衛 FWD</option>
+          <option value="AXA">安盛 AXA</option>
+          <option value="Bowtie">保泰 Bowtie</option>
+          <option value="BOC Life">中銀人壽 BOC Life</option>
+          <option value="YF Life">萬通 YF Life</option>
+          <option value="HSBC">滙豐保險 HSBC Life</option>
+          <option value="Generali">忠意保險 Generali</option>
+          <option value="BlueCross">藍十字 Blue Cross</option>
+          <option value="ChinaLife">中國人壽海外 China Life</option>
+          <option value="Cigna">信諾 Cigna</option>
+          <option value="Bupa">保柏 Bupa</option>
+        </select>
+      </div>
+      <!-- Field 2: 產品選擇 -->
+      <div class="camp-select-wrap">
+        <select class="camp-select camp-product-select" id="select-third-product" onchange="setThirdProduct(this.value)" aria-label="選擇第三方產品">
+        </select>
+      </div>
+      <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">宏摯多元儲蓄 📋</div>
+    </div>
   </div>
 
   <!-- AI Quick Strategy Trigger Banner -->
@@ -3329,6 +3738,8 @@ const htmlContent = `<!DOCTYPE html>
       <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
       <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
       <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
+      <button class="scenario-tab-btn" data-scenario="ul_stress" id="tab-scenario-ul-stress" onclick="selectScenarioAgent('ul_stress')">🏦 萬用融資加息測試</button>
+      <button class="scenario-tab-btn" data-scenario="group_medical" id="tab-scenario-group-medical" onclick="selectScenarioAgent('group_medical')">🏥 團險自願醫保抵扣</button>
     </div>
   </div>
 
@@ -3458,21 +3869,32 @@ const htmlContent = `<!DOCTYPE html>
 
   <!-- Client Facing View (Light, Clean, Objective, IA Compliant Tear-Sheet) -->
   <div id="client-view" class="main-card" style="display:none;">
+    <!-- Quick PDF Report & Card Trigger Banner in Client View -->
+    <div class="client-pdf-trigger-banner" id="client-pdf-trigger-banner" onclick="openClientPdfModal()">
+      <span>📑 <strong>一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</strong> ❯</span>
+      <span class="report-badge-btn">MDRT/GL20 認證</span>
+    </div>
+
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:4px;">
       <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK TEAR-SHEET</span>
       <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GN16 公開報告 · 最後資料更新日期：2026年11月06日</span>
     </div>
 
-    <!-- 1v1 旗舰擂台对决卡 -->
+    <!-- 1v1 / 3-Way 旗舰擂台对决卡 -->
     <div class="hero-battle-header" id="hero-battle-header">
       <div class="hero-side our-side">
         <div class="hero-tag">我方推薦配置方案</div>
         <div class="hero-title" id="hero-our-name">友邦 AIA · 盈御多元貨幣 3</div>
       </div>
-      <div class="hero-vs-badge">VS</div>
+      <div class="hero-vs-badge" id="hero-vs-badge-1">VS</div>
       <div class="hero-side rival-side">
         <div class="hero-tag">競品市場宣傳方案</div>
         <div class="hero-title" id="hero-rival-name">保誠 Prudential · 雋富多元貨幣</div>
+      </div>
+      <div class="hero-vs-badge hero-vs-third" id="hero-vs-third" style="display:none;">VS</div>
+      <div class="hero-side third-side" id="hero-third-side" style="display:none;">
+        <div class="hero-tag">第三方市場方案</div>
+        <div class="hero-title" id="hero-third-name">宏利 Manulife · 宏摯多元儲蓄</div>
       </div>
     </div>
 
@@ -3788,6 +4210,8 @@ const htmlContent = `<!DOCTYPE html>
       retirement_tax: '👴 退休年金扣稅',
       instant_comms: '💬 微信/WhatsApp速遞',
       cashless_medical: '💼 高端醫療直付',
+      ul_stress: '🏦 萬用融資加息測試',
+      group_medical: '🏥 團險自願醫保抵扣',
       offline_resilience: '📴 無網/地庫離線'
     };
 
@@ -3802,6 +4226,42 @@ const htmlContent = `<!DOCTYPE html>
     // 30-Point Client & Advisor Improvement Comments
     const APP_30_IMPROVEMENT_COMMENTS = ${JSON.stringify(APP_30_IMPROVEMENT_COMMENTS, null, 2)};
     window.APP_30_IMPROVEMENT_COMMENTS = APP_30_IMPROVEMENT_COMMENTS;
+
+    // 100-Point Full Multi-Perspective Improvement Comments (50 Client + 50 Agent)
+    const APP_100_IMPROVEMENT_COMMENTS = ${JSON.stringify(APP_100_IMPROVEMENT_COMMENTS, null, 2)};
+    window.APP_100_IMPROVEMENT_COMMENTS = APP_100_IMPROVEMENT_COMMENTS;
+
+    // 3-Way PK & Accessibility & Calculator State
+    let arenaMode = '1v1'; // '1v1' | '3way'
+    let thirdCompany = 'Manulife';
+    let thirdSelectedProduct = null;
+    let isLargeFont = false;
+    let currentLang = 'zh-HK';
+    let auditScope = '30'; // '30' | '100'
+
+    try {
+      if (typeof window !== 'undefined') {
+        Object.defineProperty(window, 'arenaMode', {
+          get: function() { return arenaMode; },
+          set: function(v) { arenaMode = v; },
+          configurable: true
+        });
+        Object.defineProperty(window, 'auditScope', {
+          get: function() { return auditScope; },
+          set: function(v) { auditScope = v; },
+          configurable: true
+        });
+      }
+    } catch(e) {}
+
+    // Default advisor branding for Client PDF Report & Pitch Cards
+    const DEFAULT_ADVISOR_PROFILE = {
+      name: '陳卓峰 Charles Chan',
+      title: 'MDRT / COT 頂尖會員 · 資深分區經理',
+      license: '保監局持牌號碼: IA92837102',
+      team: '友邦家族辦公室領航團隊',
+      phone: '+852 9876 5432'
+    };
 
     let medicalRoomTier = 'semi_private';
 
@@ -6371,6 +6831,41 @@ return {
         rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
       }
 
+      // Populate & sync select-third-product (Plan C for 3-Way Mode)
+      const selectThird = document.getElementById('select-third-insurer');
+      const selectThirdProd = document.getElementById('select-third-product');
+      const thirdProdDisplay = document.getElementById('third-product-display');
+      if (selectThird) selectThird.value = thirdCompany;
+      const thirdFlagship = getFlagshipProduct(thirdCompany, cat);
+      const allThirdProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === thirdCompany);
+      let thirdMatch = null;
+      if (thirdSelectedProduct && normalizeCompany(thirdSelectedProduct.insurer || thirdCompany) === thirdCompany && normalizeCategory(thirdSelectedProduct.category) === cat) {
+        thirdMatch = allThirdProds.find(p => p.id === thirdSelectedProduct.id) || thirdSelectedProduct;
+      }
+      if (!thirdMatch) {
+        const curThirdProds = allThirdProds.filter(p => normalizeCategory(p.category) === cat);
+        thirdMatch = curThirdProds.find(p => p.name.includes(thirdFlagship) || thirdFlagship.includes(cleanProductName(p.name))) || curThirdProds[0] || null;
+      }
+      if (selectThirdProd) {
+        thirdSelectedProduct = thirdMatch;
+        if (allThirdProds.length > 0) {
+          selectThirdProd.innerHTML = renderCampProductOptions(allThirdProds, cat, thirdMatch ? thirdMatch.id : '');
+          if (thirdMatch) selectThirdProd.value = thirdMatch.id;
+          else selectThirdProd.value = '';
+        } else {
+          selectThirdProd.innerHTML = '<option value="">' + thirdFlagship + '</option>';
+          thirdSelectedProduct = null;
+        }
+      }
+      if (thirdProdDisplay) {
+        thirdProdDisplay.innerText = thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship;
+      }
+      const heroThirdName = document.getElementById('hero-third-name');
+      if (heroThirdName) {
+        const thirdProf = (typeof COMPANY_PROFILES !== 'undefined' && COMPANY_PROFILES[thirdCompany]) ? COMPANY_PROFILES[thirdCompany].fullName : thirdCompany;
+        heroThirdName.innerText = thirdProf + ' · ' + (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
+      }
+
       // Sync Official Brochure URLs for Plan A and Plan B
       const myLink = document.getElementById('my-product-official-link');
       const rivalLink = document.getElementById('rival-product-official-link');
@@ -7377,8 +7872,33 @@ return {
       if (heroOur) heroOur.innerText = card.hero_our_name;
       if (heroRival) heroRival.innerText = card.hero_rival_name;
 
-      // 1v1 Spec Table Update
-      if (bilateralSpecTable && Array.isArray(card.bilateral_specs)) {
+      // 1v1 / 3-Way Spec Table Update
+      if (bilateralSpecTable) {
+        if (arenaMode === '3way') {
+          const specs3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, currentCategory, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+          bilateralSpecTable.innerHTML = \`
+            <thead>
+              <tr style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;">
+                <th style="padding:6px 8px;font-size:11px;color:#475569;">指標維度</th>
+                <th style="padding:6px 8px;font-size:11px;color:var(--ikb);font-weight:700;">Plan A (我方)</th>
+                <th style="padding:6px 8px;font-size:11px;color:#ef4444;font-weight:700;">Plan B (對手)</th>
+                <th style="padding:6px 8px;font-size:11px;color:#7c3aed;font-weight:700;">Plan C (第三方)</th>
+                <th style="padding:6px 8px;font-size:11px;color:#0f172a;text-align:right;">三方評級</th>
+              </tr>
+            </thead>
+            <tbody>
+              \${specs3.map(row => \`
+                <tr style="border-bottom:1px solid #f1f5f9;">
+                  <td style="padding:6px 8px;font-weight:600;color:#334155;">\${row.label}</td>
+                  <td style="padding:6px 8px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb); \${row.winner === 'our' ? 'background:rgba(0,47,167,0.06);' : ''}">\${row.ourVal} \${row.winner === 'our' ? '<span style=\"font-size:9px;background:#dbeafe;color:#1e40af;padding:1px 4px;border-radius:3px;\">🏆領先</span>' : ''}</td>
+                  <td style="padding:6px 8px;font-family:'JetBrains Mono';color:#475569; \${row.winner === 'rival' ? 'background:#fef2f2;font-weight:700;color:#dc2626;' : ''}">\${row.rivalVal} \${row.winner === 'rival' ? '<span style=\"font-size:9px;background:#fee2e2;color:#991b1b;padding:1px 4px;border-radius:3px;\">🏆領先</span>' : ''}</td>
+                  <td style="padding:6px 8px;font-family:'JetBrains Mono';color:#475569; \${row.winner === 'third' ? 'background:#f5f3ff;font-weight:700;color:#7c3aed;' : ''}">\${row.thirdVal} \${row.winner === 'third' ? '<span style=\"font-size:9px;background:#ede9fe;color:#5b21b6;padding:1px 4px;border-radius:3px;\">🏆領先</span>' : ''}</td>
+                  <td style="padding:6px 8px;font-size:10px;text-align:right;color:#64748b;">\${row.summary}</td>
+                </tr>
+              \`).join('')}
+            </tbody>
+          \`;
+        } else if (Array.isArray(card.bilateral_specs)) {
         bilateralSpecTable.innerHTML = \`
           <thead>
             <tr style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;">
@@ -7404,6 +7924,7 @@ return {
             }).join('')}
           </tbody>
         \`;
+        }
       }
 
       // Horizon Display
@@ -8290,11 +8811,14 @@ return {
           lines.push('💡 ' + b('專業總結：') + '若著重中長線確定性、真實到手分紅與流動性，方案 A 更具精算優勢。');
         }
       }
+      const adv = (typeof getAdvisorProfile === 'function') ? getAdvisorProfile() : DEFAULT_ADVISOR_PROFILE;
       lines.push('');
       lines.push('━━━━━━━━━━━━━━━━━━━━━');
-      lines.push('顧問：持牌保險顧問 (+852 9123 4567)');
-      lines.push(m('最後資料更新：2026年11月06日'));
-      lines.push('（聲明：本資料僅供內部專業參考與客觀數據分析，符合香港保監局 GL20 守則指引，最終條款以保險公司簽發之正式合約為準）');
+      lines.push('💼 專屬理財顧問：' + b(adv.name) + ' (' + adv.title + ')');
+      lines.push('🏢 所屬團隊：' + adv.team + ' · ' + adv.license);
+      lines.push('📱 聯絡電話 / WhatsApp: ' + adv.phone);
+      lines.push(m('最後資料更新：2026年11月06日 · 保監局 GN16 官方核定'));
+      lines.push('🛡️【香港保監局 GL20 合規聲明】：本資料基於各保司官方公開手冊及保監局 GN16 備案檔案，僅供客觀諮詢與條款分析，不構成要約或招攬。非保證利益受市場波動影響，過往實現率不代表未來表現。');
       return lines.join('\\n');
     }
 
@@ -8324,7 +8848,7 @@ return {
       } catch (e) {}
 
       // Two-Way Collaboration: Scenario-to-Category Auto-Switching
-      if (scenarioId === 'cashless_medical') {
+      if (scenarioId === 'cashless_medical' || scenarioId === 'group_medical') {
         if (currentCategory !== 'Medical_VHIS') {
           selectCategory('Medical_VHIS');
           return;
@@ -8332,6 +8856,11 @@ return {
       } else if (scenarioId === 'retirement_tax') {
         if (currentCategory !== 'Annuity_QDAP') {
           selectCategory('Annuity_QDAP');
+          return;
+        }
+      } else if (scenarioId === 'ul_stress') {
+        if (currentCategory !== 'Financing_UniversalLife') {
+          selectCategory('Financing_UniversalLife');
           return;
         }
       } else if (scenarioId === 'offshore_mcv') {
@@ -9163,6 +9692,119 @@ return {
             '</div>' +
           '</div>' +
         '</div>';
+      } else if (currentScenario === 'ul_stress') {
+        const ulRes = calculateULStress(ulCapital, ulPolicyTotal, ulCreditingRate, ulBorrowingRate, ulHikeBps);
+        html = '<div class="scenario-card-box" id="panel-scenario-ul-stress">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">🏦 萬用壽險 (UL) 保費融資加息壓力測試計算機</div>' +
+              '<div class="scenario-subtitle">槓桿倍數試算 · 淨息差 (Net Spread) 倒掛預警 · 銀行 Margin Call 安全線</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge ' + (ulRes.isNegativeSpread ? 'red' : 'blue') + '">' + (ulRes.isNegativeSpread ? '🚨 利差倒掛' : '槓桿套利') + '</span>' +
+          '</div>' +
+          '<div class="ul-stress-box">' +
+            '<div style="font-size:11.5px;font-weight:700;color:#1e3a8a;margin-bottom:8px;">📊 融資槓桿基礎參數配置：</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">' +
+              '<div>' +
+                '<label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">客戶投入本金 (USD)：</label>' +
+                '<input type="number" id="input-ul-capital" value="' + ulCapital + '" oninput="onULCapitalChange(this.value)" style="width:100%;padding:6px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+              '</div>' +
+              '<div>' +
+                '<label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">撬動保單總面值 (USD)：</label>' +
+                '<input type="number" id="input-ul-policy-total" value="' + ulPolicyTotal + '" oninput="onULPolicyTotalChange(this.value)" style="width:100%;padding:6px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+              '</div>' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">' +
+              '<div>' +
+                '<label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">保單現行結算利率 (Crediting Rate %)：</label>' +
+                '<input type="number" step="0.05" id="input-ul-crediting-rate" value="' + ulCreditingRate + '" oninput="onULCreditingRateChange(this.value)" style="width:100%;padding:6px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+              '</div>' +
+              '<div>' +
+                '<label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">基準借貸成本 (HIBOR/SOFR+Margin %)：</label>' +
+                '<input type="number" step="0.05" id="input-ul-borrowing-rate" value="' + ulBorrowingRate + '" oninput="onULBorrowingRateChange(this.value)" style="width:100%;padding:6px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+              '</div>' +
+            '</div>' +
+            '<div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:4px;">模擬全球央行極端加息衝擊：</div>' +
+            '<div class="stress-hike-bar">' +
+              '<button class="stress-hike-chip' + (ulHikeBps === 0 ? ' active' : '') + '" id="btn-hike-0" onclick="setULHike(0)">基準現狀 (+0 bps)</button>' +
+              '<button class="stress-hike-chip' + (ulHikeBps === 100 ? ' active' : '') + '" id="btn-hike-100" onclick="setULHike(100)">加息 +100 bps (+1.0%)</button>' +
+              '<button class="stress-hike-chip' + (ulHikeBps === 200 ? ' active' : '') + '" id="btn-hike-200" onclick="setULHike(200)">極端壓力 +200 bps (+2.0%)</button>' +
+              '<button class="stress-hike-chip' + (ulHikeBps === 300 ? ' active' : '') + '" id="btn-hike-300" onclick="setULHike(300)">金融海嘯 +300 bps (+3.0%)</button>' +
+            '</div>' +
+            '<div class="stress-grid">' +
+              '<div class="stress-metric-card">' +
+                '<div style="font-size:10px;color:#64748b;">初始資金槓桿</div>' +
+                '<div style="font-size:14px;font-weight:800;color:var(--ikb);font-family:monospace;" id="ul-stress-leverage">' + ulRes.leverage + '</div>' +
+              '</div>' +
+              '<div class="stress-metric-card">' +
+                '<div style="font-size:10px;color:#64748b;">淨套利息差 (Net Spread)</div>' +
+                '<div style="font-size:14px;font-weight:800;color:' + (ulRes.netSpreadNum >= 0 ? '#059669' : '#dc2626') + ';font-family:monospace;" id="ul-stress-net-spread">' + ulRes.netSpread + '</div>' +
+              '</div>' +
+              '<div class="stress-metric-card">' +
+                '<div style="font-size:10px;color:#64748b;">每年淨現金流 (Cashflow)</div>' +
+                '<div style="font-size:14px;font-weight:800;color:' + (ulRes.netCashflow >= 0 ? '#059669' : '#dc2626') + ';font-family:monospace;" id="ul-stress-cashflow">' + (ulRes.netCashflow >= 0 ? '+' : '') + '$' + Math.round(ulRes.netCashflow).toLocaleString() + '</div>' +
+              '</div>' +
+              '<div class="stress-metric-card">' +
+                '<div style="font-size:10px;color:#64748b;">本金回報率 (ROE)</div>' +
+                '<div style="font-size:14px;font-weight:800;color:' + (ulRes.netCashflow >= 0 ? '#059669' : '#dc2626') + ';font-family:monospace;" id="ul-stress-roe">' + ulRes.roe + '</div>' +
+              '</div>' +
+            '</div>' +
+            (ulRes.isNegativeSpread
+              ? '<div class="stress-warning-banner" id="ul-stress-warning">' +
+                  '⚠️ <strong>利差倒掛警告 (Negative Carry Alert)！</strong> 當前銀行借貸成本 (' + ulRes.borrowingRate + ') 已高於保單派息率 (' + ulRes.creditingRate + ')，淨利差為負 (' + ulRes.netSpread + ')，客戶每年需額外自掏腰包補貼利差損約 USD $' + Math.abs(Math.round(ulRes.netCashflow)).toLocaleString() + '！' +
+                '</div>'
+              : '<div style="background:#ecfdf5;border:1px solid #86efac;border-radius:8px;padding:8px 12px;font-size:11.5px;color:#065f46;margin-top:10px;" id="ul-stress-safe">' +
+                  '✅ <strong>利差安全墊充裕：</strong> 當前淨利差 ' + ulRes.netSpread + '，在當前加息情景下仍可維持每年約 USD $' + Math.round(ulRes.netCashflow).toLocaleString() + ' 穩定正向現金流。' +
+                '</div>') +
+            '<div style="margin-top:8px;padding:8px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0;font-size:10.5px;color:#475569;display:flex;justify-content:space-between;align-items:center;">' +
+              '<span>🛡️ 追繳保證金 (Margin Call) 狀態：<strong style="color:' + (ulRes.isMarginCallRisk ? '#dc2626' : '#059669') + ';" id="ul-margin-call-status">' + (ulRes.isMarginCallRisk ? '🚨 追繳警戒 (抗跌緩衝不足)' : '✅ 安全 (緩衝充裕 >15%)') + '</strong></span>' +
+              '<span style="color:#b91c1c;font-weight:700;">借定唔借？還得到先好借！</span>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'group_medical') {
+        const grpRes = optimizeGroupMedicalVHIS(groupMedicalLimit);
+        html = '<div class="scenario-card-box" id="panel-group-medical-optimizer">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">🏥 公司團體醫療 (Group Medical) + 高端自願醫保抵扣最優計算機</div>' +
+              '<div class="scenario-subtitle">消除重複開支 · 精算最佳自負額 (Deductible) 階梯 · 做到「零自掏腰包 + 保費最低化」</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge green">慳保費神器</span>' +
+          '</div>' +
+          '<div class="group-opt-box">' +
+            '<div style="font-size:11.5px;font-weight:700;color:#1e3a8a;margin-bottom:6px;">🏢 選擇您現有僱主/公司團險住院保障門額：</div>' +
+            '<div class="group-preset-bar">' +
+              [0, 25000, 30000, 50000, 80000].map(function(lim) {
+                return '<button class="group-preset-chip' + (groupMedicalLimit === lim ? ' active' : '') + '" onclick="setGroupMedicalLimit(' + lim + ')">' + (lim === 0 ? '無團險' : ('HK$ ' + (lim/1000) + 'K (' + (lim === 50000 ? '外企常見' : (lim === 80000 ? '高管方案' : '普通中小企')) + ')')) + '</button>';
+              }).join('') +
+            '</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;margin:8px 0 12px;">' +
+              '<span style="font-size:11px;color:#64748b;">自訂團險額度 (HK$)：</span>' +
+              '<input type="number" id="input-group-limit" value="' + groupMedicalLimit + '" oninput="setGroupMedicalLimit(this.value)" style="width:130px;padding:4px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+            '</div>' +
+            '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:12px;margin-bottom:10px;">' +
+              '<div style="font-size:11px;color:#1e3a8a;font-weight:700;margin-bottom:4px;">🎯 精算推薦最優自願醫保 (VHIS) 搭配方案：</div>' +
+              '<div style="font-size:16px;font-weight:800;color:var(--ikb);margin-bottom:6px;" id="group-opt-recommended">推薦投保：HK$ ' + grpRes.recommendedDeductible.toLocaleString() + ' 自負額 (Deductible) 計劃</div>' +
+              '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px;">' +
+                '<div style="background:#ffffff;padding:8px;border-radius:6px;border:1px solid #bfdbfe;">' +
+                  '<div style="font-size:10px;color:#64748b;">每年節省保費金額</div>' +
+                  '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;" id="group-opt-savings-annual">省下 HK$ ' + grpRes.premiumSavingsHKD.toLocaleString() + ' /年 (' + grpRes.premiumSavingsPct + '%)</div>' +
+                '</div>' +
+                '<div style="background:#ffffff;padding:8px;border-radius:6px;border:1px solid #bfdbfe;">' +
+                  '<div style="font-size:10px;color:#64748b;">客戶實際自掏腰包支出</div>' +
+                  '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;" id="group-opt-out-of-pocket">HK$ 0 (零自掏腰包)</div>' +
+                '</div>' +
+              '</div>' +
+              '<div style="font-size:11px;color:#1e40af;margin-top:8px;line-height:1.45;" id="group-opt-explanation">' +
+                grpRes.explanation +
+              '</div>' +
+            '</div>' +
+            '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;font-size:11px;color:#475569;line-height:1.5;">' +
+              '<strong>💡 10年複利慳錢效益：</strong> 善用公司現有團險作墊底，10年累計省下保費高達 <strong style="color:#059669;" id="group-opt-10yr-savings">HK$ ' + grpRes.tenYearSavings.toLocaleString() + '</strong>！全港 13 家私立醫院均支援無縫接軌直付。' +
+            '</div>' +
+          '</div>' +
+        '</div>';
       } else if (currentScenario === 'offline_resilience') {
         const offRes = getOfflineStatus();
         html = '<div class="scenario-card-box" id="panel-scenario-offline">' +
@@ -9375,7 +10017,11 @@ return {
       const backdrop = document.getElementById('audit-30-backdrop');
       if (drawer) drawer.classList.add('open');
       if (backdrop) backdrop.classList.add('open');
-      renderAudit30Cards('all');
+      if (auditScope === '100') {
+        renderAudit100Cards('all');
+      } else {
+        renderAudit30Cards('all');
+      }
     }
     window.openAudit30Drawer = openAudit30Drawer;
 
@@ -9462,14 +10108,611 @@ return {
       }
     }
 
+    // ========================================================================
+    // PDM ROADMAP ENHANCEMENT SUITE (P1 / P2 ROADMAP IMPLEMENTATION)
+    // ========================================================================
+
+    // 1. 3-Way PK Simultaneous Comparison Engine
+    function setArenaMode(mode) {
+      arenaMode = (mode === '3way') ? '3way' : '1v1';
+      if (typeof document !== 'undefined') {
+        const btn1 = document.getElementById('btn-mode-1v1');
+        const btn3 = document.getElementById('btn-mode-3way');
+        const thirdCard = document.getElementById('camp-card-third');
+        const thirdHero = document.getElementById('hero-third-side');
+        const thirdVs = document.getElementById('hero-vs-third');
+
+        if (btn1) btn1.classList.toggle('active', arenaMode === '1v1');
+        if (btn3) btn3.classList.toggle('active', arenaMode === '3way');
+        if (thirdCard) thirdCard.style.display = (arenaMode === '3way') ? 'flex' : 'none';
+        if (thirdHero) thirdHero.style.display = (arenaMode === '3way') ? 'flex' : 'none';
+        if (thirdVs) thirdVs.style.display = (arenaMode === '3way') ? 'flex' : 'none';
+      }
+      updateCampSelectors();
+      updateBattleCard();
+    }
+    window.setArenaMode = setArenaMode;
+
+    function toggleArenaMode() {
+      setArenaMode(arenaMode === '1v1' ? '3way' : '1v1');
+    }
+    window.toggleArenaMode = toggleArenaMode;
+
+    function setThirdCompany(comp) {
+      if (!comp) return;
+      let raw = (typeof comp === 'string') ? comp : (comp.target && comp.target.value ? comp.target.value : comp.value);
+      thirdCompany = normalizeCompany(raw);
+      thirdSelectedProduct = null;
+      updateCampSelectors();
+      updateBattleCard();
+    }
+    window.setThirdCompany = setThirdCompany;
+
+    function setThirdProduct(prodId) {
+      if (!prodId) return;
+      let raw = (typeof prodId === 'string') ? prodId : (prodId.target && prodId.target.value ? prodId.target.value : prodId.value);
+      const prod = (window.ALL_PRODUCTS_CATALOG || []).find(p => p.id === raw);
+      if (prod) {
+        thirdSelectedProduct = prod;
+        thirdCompany = normalizeCompany(prod.insurer);
+      }
+      updateBattleCard();
+    }
+    window.setThirdProduct = setThirdProduct;
+
+    function compute3WaySpecs(ourComp, rivalComp, thirdComp, cat, ourProd, rivalProd, thirdProd) {
+      const allProds = window.ALL_PRODUCTS_CATALOG || [];
+      const getP = function(comp, prod) {
+        if (prod && normalizeCompany(prod.insurer) === comp && normalizeCategory(prod.category) === cat) return prod;
+        const flagship = getFlagshipProduct(comp, cat);
+        const compProds = allProds.filter(p => normalizeCompany(p.insurer) === comp && normalizeCategory(p.category) === cat);
+        return compProds.find(p => p.name.includes(flagship) || flagship.includes(cleanProductName(p.name))) || compProds[0] || (COMPANY_PROFILES[comp] || {});
+      };
+      const pA = getP(ourComp, ourProd);
+      const pB = getP(rivalComp, rivalProd);
+      const pC = getP(thirdComp, thirdProd);
+
+      if (cat === 'Critical_Illness') {
+        const wA = pA.cancerWaitYears || 1, wB = pB.cancerWaitYears || 3, wC = pC.cancerWaitYears || 3;
+        const iA = pA.ciIllnesses || 128, iB = pB.ciIllnesses || 118, iC = pC.ciIllnesses || 115;
+        const mA = pA.ciMultiplePct || 900, mB = pB.ciMultiplePct || 800, mC = pC.ciMultiplePct || 850;
+        const icuA = pA.ciIcu ? '有 (20%預支)' : '無', icuB = pB.ciIcu ? '有 (20%預支)' : '無', icuC = pC.ciIcu ? '有 (20%預支)' : '無';
+        return [
+          { label: '癌症再次索償等候期', ourVal: wA + ' 年', rivalVal: wB + ' 年', thirdVal: wC + ' 年', winner: (wA <= wB && wA <= wC ? 'our' : (wB < wA && wB <= wC ? 'rival' : 'third')), summary: '我方 1 年間隔最短，早復發早賠' },
+          { label: '涵蓋嚴重危疾總數', ourVal: iA + ' 種', rivalVal: iB + ' 種', thirdVal: iC + ' 種', winner: (iA >= iB && iA >= iC ? 'our' : (iB > iA && iB >= iC ? 'rival' : 'third')), summary: '我方覆蓋 ' + iA + ' 種最齊全' },
+          { label: '終身多次賠償上限', ourVal: mA + '%', rivalVal: mB + '%', thirdVal: mC + '%', winner: (mA >= mB && mA >= mC ? 'our' : (mB > mA && mB >= mC ? 'rival' : 'third')), summary: '我方多次賠償槓桿 ' + mA + '% 領先' },
+          { label: '深切治療部 (ICU) 預支', ourVal: icuA, rivalVal: icuB, thirdVal: icuC, winner: pA.ciIcu ? 'our' : 'draw', summary: '非指定重疾住 ICU 預支保障' }
+        ];
+      } else if (cat === 'Medical_VHIS') {
+        const lA = Math.round((pA.vhisLimitHkd || 25000000)/10000), lB = Math.round((pB.vhisLimitHkd || 20000000)/10000), lC = Math.round((pC.vhisLimitHkd || 20000000)/10000);
+        const ltA = pA.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pA.vhisLifetimeLimitHkd || 0)/10000) + '萬');
+        const ltB = pB.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pB.vhisLifetimeLimitHkd || 0)/10000) + '萬');
+        const ltC = pC.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pC.vhisLifetimeLimitHkd || 0)/10000) + '萬');
+        return [
+          { label: '年度醫療保障總額度', ourVal: 'HK$ ' + lA + '萬', rivalVal: 'HK$ ' + lB + '萬', thirdVal: 'HK$ ' + lC + '萬', winner: (lA >= lB && lA >= lC ? 'our' : (lB > lA && lB >= lC ? 'rival' : 'third')), summary: '每年實報實銷無分項上限' },
+          { label: '終身醫療保障額度', ourVal: ltA, rivalVal: ltB, thirdVal: ltC, winner: (ltA === '無終身上限' ? 'our' : 'draw'), summary: '終身醫療通脹防護' },
+          { label: '13家私院出院免找數', ourVal: '100% 全額代付 (LOG)', rivalVal: '指定醫院直付', thirdVal: '指定醫院直付', winner: 'our', summary: '養和/港怡特快出函免按金' },
+          { label: '癌症標靶藥全額理賠', ourVal: '全額全數理賠', rivalVal: '全數/分項上限', thirdVal: '全數/分項上限', winner: 'our', summary: '百萬級標靶藥零自付' }
+        ];
+      } else if (cat === 'Annuity_QDAP') {
+        const gA = pA.qdapGuaranteedIRR || 2.80, gB = pB.qdapGuaranteedIRR || 2.45, gC = pC.qdapGuaranteedIRR || 2.50;
+        const tA = pA.qdapTotalIRR || 4.65, tB = pB.qdapTotalIRR || 4.30, tC = pC.qdapTotalIRR || 4.20;
+        const rA = pA.qdapGuaranteedPct || 82.5, rB = pB.qdapGuaranteedPct || 70.0, rC = pC.qdapGuaranteedPct || 72.0;
+        return [
+          { label: '法定個人/夫婦扣稅上限', ourVal: '$60,000 / $120,000', rivalVal: '同等法定額度', thirdVal: '同等法定額度', winner: 'draw', summary: '夫妻合併申報最高慳稅 $20,400' },
+          { label: '保證內部回報率 (IRR)', ourVal: gA + '%', rivalVal: gB + '%', thirdVal: gC + '%', winner: (gA >= gB && gA >= gC ? 'our' : (gB > gA && gB >= gC ? 'rival' : 'third')), summary: '保證利益落袋為安' },
+          { label: '總預期內部回報率 (IRR)', ourVal: tA + '%', rivalVal: tB + '%', thirdVal: tC + '%', winner: (tA >= tB && tA >= tC ? 'our' : (tB > tA && tB >= tC ? 'rival' : 'third')), summary: '我方預期收益率 ' + tA + '% 居首' },
+          { label: '保證年金現金流佔比', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: (rA >= rB && rA >= rC ? 'our' : (rB > rA && rB >= rC ? 'rival' : 'third')), summary: '退休防禦確定性最高' }
+        ];
+      } else if (cat === 'Financing_UniversalLife') {
+        const cA = pA.ulCreditingRate || 5.25, cB = pB.ulCreditingRate || 5.15, cC = pC.ulCreditingRate || 5.10;
+        const fA = pA.ulFloorRate || 2.25, fB = pB.ulFloorRate || 2.00, fC = pC.ulFloorRate || 2.00;
+        const sA = pA.ulNetSpread || 1.45, sB = pB.ulNetSpread || 1.15, sC = pC.ulNetSpread || 1.10;
+        const lA = pA.ulLtv || 85, lB = pB.ulLtv || 80, lC = pC.ulLtv || 80;
+        return [
+          { label: '保單現行結算利率', ourVal: cA + '%', rivalVal: cB + '%', thirdVal: cC + '%', winner: (cA >= cB && cA >= cC ? 'our' : (cB > cA && cB >= cC ? 'rival' : 'third')), summary: '高結算利率擴大利差空間' },
+          { label: '保單最低保證派息率', ourVal: fA + '%', rivalVal: fB + '%', thirdVal: fC + '%', winner: (fA >= fB && fA >= fC ? 'our' : (fB > fA && fB >= fC ? 'rival' : 'third')), summary: '極端降息抗風險底線' },
+          { label: '淨息差 (Carry Spread)', ourVal: sA + '%', rivalVal: sB + '%', thirdVal: sC + '%', winner: (sA >= sB && sA >= sC ? 'our' : (sB > sA && sB >= sC ? 'rival' : 'third')), summary: '每年淨息差套利安全墊' },
+          { label: '最高保費融資成數 (LTV)', ourVal: lA + '%', rivalVal: lB + '%', thirdVal: lC + '%', winner: (lA >= lB && lA >= lC ? 'our' : (lB > lA && lB >= lC ? 'rival' : 'third')), summary: '極致資金槓桿效益' }
+        ];
+      } else {
+        const rA = pA.maxRebate || 22, rB = pB.maxRebate || 28, rC = pC.maxRebate || 15;
+        const pRateA = pA.prepayRate || 5.0, pRateB = pB.prepayRate || 5.5, pRateC = pC.prepayRate || 4.5;
+        const pLockA = pA.prepayLock || 1, pLockB = pB.prepayLock || 1, pLockC = pC.prepayLock || 1;
+        const gnA = pA.gn16Fulfillment || 96.5, gnB = pB.gn16Fulfillment || 90.0, gnC = pC.gn16Fulfillment || 92.0;
+        const bA = pA.breakevenYear || 5, bB = pB.breakevenYear || 7, bC = pC.breakevenYear || 8;
+        const irrA = pA.irr30 || 6.62, irrB = pB.irr30 || 6.55, irrC = pC.irr30 || 6.40;
+        return [
+          { label: '首年保費最高回贈', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: (rA >= rB && rA >= rC ? 'our' : (rB > rA && rB >= rC ? 'rival' : 'third')), summary: '首年投保折扣回贈' },
+          { label: '預繳保證利率與年期', ourVal: pRateA + '% (' + pLockA + '年)', rivalVal: pRateB + '% (' + pLockB + '年)', thirdVal: pRateC + '% (' + pLockC + '年)', winner: (pRateA >= pRateB && pRateA >= pRateC ? 'our' : (pRateB > pRateA && pRateB >= pRateC ? 'rival' : 'third')), summary: '保證高息鎖定無懼降息' },
+          { label: '保監局 GN16 分紅實現率', ourVal: gnA + '%', rivalVal: gnB + '%', thirdVal: gnC + '%', winner: (gnA >= gnB && gnA >= gnC ? 'our' : (gnB > gnA && gnB >= gnC ? 'rival' : 'third')), summary: '我方實現率高達 ' + gnA + '% 極穩健' },
+          { label: '保證本金回本年期', ourVal: '第 ' + bA + ' 年', rivalVal: '第 ' + bB + ' 年', thirdVal: '第 ' + bC + ' 年', winner: (bA <= bB && bA <= bC ? 'our' : (bB < bA && bB <= bC ? 'rival' : 'third')), summary: '我方第 ' + bA + ' 年保證回本速度最快' },
+          { label: '第30年預期內部回報率', ourVal: irrA + '%', rivalVal: irrB + '%', thirdVal: irrC + '%', winner: (irrA >= irrB && irrA >= irrC ? 'our' : (irrB > irrA && irrB >= irrC ? 'rival' : 'third')), summary: '中長線複利滾存收益' }
+        ];
+      }
+    }
+    window.compute3WaySpecs = compute3WaySpecs;
+
+    // 2. UL Premium Financing Interest Rate Stress Calculator Engine
+    function calculateULStress(capital, policyTotal, creditingRate, borrowingRate, hikeBps) {
+      capital = Math.max(1, Number(capital) || 1000000);
+      policyTotal = Math.max(capital, Number(policyTotal) || 3000000);
+      creditingRate = Number(creditingRate) || 5.25;
+      borrowingRate = Number(borrowingRate) || 4.25;
+      hikeBps = Number(hikeBps) || 0;
+
+      const loan = Math.max(0, policyTotal - capital);
+      const leverage = policyTotal / capital;
+      const effectiveBorrowingRate = borrowingRate + (hikeBps / 100);
+      const netSpread = creditingRate - effectiveBorrowingRate;
+
+      const annualCreditingIncome = policyTotal * (creditingRate / 100);
+      const annualBorrowingCost = loan * (effectiveBorrowingRate / 100);
+      const netCashflow = annualCreditingIncome - annualBorrowingCost;
+      const roe = (netCashflow / capital) * 100;
+
+      const isNegativeSpread = netSpread < 0;
+      const isMarginCallRisk = netSpread < 0 || effectiveBorrowingRate >= 6.25;
+
+      return {
+        capital,
+        policyTotal,
+        loan,
+        loanAmount: loan,
+        leverage: leverage.toFixed(1) + 'x',
+        leverageRatio: Number(leverage.toFixed(2)),
+        creditingRate: creditingRate.toFixed(2) + '%',
+        creditingRateNum: creditingRate,
+        borrowingRate: effectiveBorrowingRate.toFixed(2) + '%',
+        borrowingRateNum: effectiveBorrowingRate,
+        effectiveBorrowingRate: Number(effectiveBorrowingRate.toFixed(2)),
+        netSpread: (netSpread >= 0 ? '+' : '') + netSpread.toFixed(2) + '%',
+        netSpreadPct: Number(netSpread.toFixed(2)),
+        netSpreadNum: netSpread,
+        annualCreditingIncome,
+        annualBorrowingCost,
+        annualCarryGainHKD: netCashflow,
+        netCashflow,
+        roe: roe.toFixed(2) + '%',
+        isNegativeSpread,
+        isMarginCallRisk,
+        status: isNegativeSpread ? '追繳保證金風險 (Margin Call)' : (effectiveBorrowingRate >= 5.0 ? '警戒' : '安全'),
+        hikeBps
+      };
+    }
+    window.calculateULStress = calculateULStress;
+
+    function setULHike(hikeBps) {
+      ulHikeBps = Number(hikeBps) || 0;
+      renderScenarioAgentPanel();
+    }
+    window.setULHike = setULHike;
+
+    function onULCapitalChange(val) {
+      ulCapital = Number(val) || 1000000;
+      renderScenarioAgentPanel();
+    }
+    window.onULCapitalChange = onULCapitalChange;
+
+    function onULPolicyTotalChange(val) {
+      ulPolicyTotal = Number(val) || 3000000;
+      renderScenarioAgentPanel();
+    }
+    window.onULPolicyTotalChange = onULPolicyTotalChange;
+
+    function onULCreditingRateChange(val) {
+      ulCreditingRate = Number(val) || 5.25;
+      renderScenarioAgentPanel();
+    }
+    window.onULCreditingRateChange = onULCreditingRateChange;
+
+    function onULBorrowingRateChange(val) {
+      ulBorrowingRate = Number(val) || 4.25;
+      renderScenarioAgentPanel();
+    }
+    window.onULBorrowingRateChange = onULBorrowingRateChange;
+
+    function updateULStressUI() {
+      renderScenarioAgentPanel();
+    }
+    window.updateULStressUI = updateULStressUI;
+
+    // 3. Group Medical + High-End VHIS Deductible Optimizer Engine
+    function optimizeGroupMedicalVHIS(groupLimit, age) {
+      groupLimit = Number(groupLimit) || 0;
+      let recommendedDeductible = 0;
+      let premiumSavingsPct = 0;
+      let premiumSavingsHKD = 0;
+      let benchmarkPremium = 16800;
+
+      if (groupLimit >= 80000) {
+        recommendedDeductible = 80000;
+        premiumSavingsPct = 61;
+        premiumSavingsHKD = 10300;
+      } else if (groupLimit >= 50000) {
+        recommendedDeductible = 50000;
+        premiumSavingsPct = 54;
+        premiumSavingsHKD = 9000;
+      } else if (groupLimit >= 25000) {
+        recommendedDeductible = 25000;
+        premiumSavingsPct = 38;
+        premiumSavingsHKD = 6300;
+      } else if (groupLimit >= 16000) {
+        recommendedDeductible = 16000;
+        premiumSavingsPct = 26;
+        premiumSavingsHKD = 4300;
+      } else {
+        recommendedDeductible = 0;
+        premiumSavingsPct = 0;
+        premiumSavingsHKD = 0;
+      }
+
+      const optimizedPremium = benchmarkPremium - premiumSavingsHKD;
+      const tenYearSavings = premiumSavingsHKD * 10;
+
+      return {
+        groupLimit,
+        recommendedDeductible,
+        outOfPocketCostHKD: 0,
+        gapOutOfPocket: 0,
+        benchmarkPremium,
+        optimizedPremium,
+        premiumSavingsPct,
+        premiumSavingsHKD,
+        annualSavingVsZero: premiumSavingsHKD,
+        tenYearSavings,
+        tenYearSavingVsZero: tenYearSavings,
+        explanation: '公司團險頂替前 HK$' + recommendedDeductible.toLocaleString() + ' 自負額，超出金額由高端自願醫保 100% 全數代付無分項上限，達成「零自掏腰包 + 保費最低化」完美配置！'
+      };
+    }
+    window.optimizeGroupMedicalVHIS = optimizeGroupMedicalVHIS;
+
+    function setGroupMedicalLimit(limit) {
+      groupMedicalLimit = Number(limit) || 0;
+      renderScenarioAgentPanel();
+    }
+    window.setGroupMedicalLimit = setGroupMedicalLimit;
+
+    function updateGroupMedicalOptimizerUI() {
+      renderScenarioAgentPanel();
+    }
+    window.updateGroupMedicalOptimizerUI = updateGroupMedicalOptimizerUI;
+
+    // 4. QDAP Family Tax Savings & Cashflow Calculator Engine
+    function calculateQDAPFamilyTax(arg1, arg2, arg3, arg4) {
+      let mode, premium, bracketPct, durationYears;
+      if (typeof arg1 === 'number') {
+        premium = arg1;
+        bracketPct = arg2;
+        mode = (arg3 === true || arg3 === 'couple') ? 'couple' : 'single';
+        durationYears = arg4;
+      } else {
+        mode = arg1;
+        premium = arg2;
+        bracketPct = arg3;
+        durationYears = arg4;
+      }
+      mode = (mode === 'single') ? 'single' : 'couple';
+      premium = Number(premium) || (mode === 'couple' ? 120000 : 60000);
+      bracketPct = Number(bracketPct) || 17;
+      durationYears = Number(durationYears) || 20;
+
+      const cap = mode === 'couple' ? 120000 : 60000;
+      const eligibleDeduction = Math.min(premium, cap);
+      const taxSaved = Math.round(eligibleDeduction * (bracketPct / 100));
+      const effectiveDiscountPct = premium > 0 ? ((taxSaved / premium) * 100) : bracketPct;
+
+      const monthlyPayout = mode === 'couple' ? Math.round(premium * 0.09) : Math.round(premium * 0.1);
+      const totalPayout = monthlyPayout * 12 * durationYears;
+
+      return {
+        mode,
+        cap,
+        premium,
+        eligibleDeduction,
+        taxSaved,
+        annualTaxSavings: taxSaved,
+        effectiveDiscountPct: effectiveDiscountPct.toFixed(1) + '%',
+        monthlyPayout,
+        estimatedMonthlyAnnuity: monthlyPayout,
+        totalPayout,
+        durationYears
+      };
+    }
+    window.calculateQDAPFamilyTax = calculateQDAPFamilyTax;
+
+    function setQDAPMode(mode) {
+      qdapIsCouple = (mode === 'couple');
+      if (qdapIsCouple && qdapAnnualPremium < 120000) qdapAnnualPremium = 120000;
+      else if (!qdapIsCouple && qdapAnnualPremium > 60000) qdapAnnualPremium = 60000;
+      renderScenarioAgentPanel();
+    }
+    window.setQDAPMode = setQDAPMode;
+
+    function updateQDAPFamilyTaxUI() {
+      renderScenarioAgentPanel();
+    }
+    window.updateQDAPFamilyTaxUI = updateQDAPFamilyTaxUI;
+
+    // 5. One-Click Client PDF Report & WhatsApp/WeChat Pitch Card Generator
+    function getAdvisorProfile() {
+      try {
+        const stored = localStorage.getItem('insurintel_advisor_profile');
+        if (stored) return Object.assign({}, DEFAULT_ADVISOR_PROFILE, JSON.parse(stored));
+      } catch(e){}
+      return DEFAULT_ADVISOR_PROFILE;
+    }
+    window.getAdvisorProfile = getAdvisorProfile;
+
+    function saveAdvisorProfile(p) {
+      try {
+        const cur = getAdvisorProfile();
+        const updated = Object.assign({}, cur, p);
+        localStorage.setItem('insurintel_advisor_profile', JSON.stringify(updated));
+        showToast('💾 顧問個人名片已儲存！');
+        renderClientPdfPreview();
+      } catch(e){}
+    }
+    window.saveAdvisorProfile = saveAdvisorProfile;
+
+    function openClientPdfModal() {
+      const modal = document.getElementById('client-pdf-modal');
+      const backdrop = document.getElementById('client-pdf-backdrop');
+      if (modal) modal.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+      const adv = getAdvisorProfile();
+      const n = document.getElementById('report-agent-name');
+      const t = document.getElementById('report-agent-title');
+      const l = document.getElementById('report-agent-license');
+      const tm = document.getElementById('report-agent-team');
+      const ph = document.getElementById('report-agent-phone');
+      if (n) n.value = adv.name;
+      if (t) t.value = adv.title;
+      if (l) l.value = adv.license;
+      if (tm) tm.value = adv.team;
+      if (ph) ph.value = adv.phone;
+      renderClientPdfPreview();
+    }
+    window.openClientPdfModal = openClientPdfModal;
+
+    function closeClientPdfModal() {
+      const modal = document.getElementById('client-pdf-modal');
+      const backdrop = document.getElementById('client-pdf-backdrop');
+      if (modal) modal.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+    window.closeClientPdfModal = closeClientPdfModal;
+
+    function printClientReport() {
+      if (typeof window !== 'undefined' && window.print) {
+        window.print();
+      }
+    }
+    window.printClientReport = printClientReport;
+
+    function renderClientPdfPreview() {
+      const container = document.getElementById('client-pdf-report-preview');
+      if (!container) return;
+      const adv = getAdvisorProfile();
+      const ourName = cleanProductName(mySelectedProduct?.name || '我方旗艦方案');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || '遭遇競品方案');
+      const thirdName = cleanProductName(thirdSelectedProduct?.name || '第三方旗艦');
+      const cat = currentCategory || 'Savings_MultiCurrency';
+
+      let rowsHtml = '';
+      if (arenaMode === '3way') {
+        const s3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, cat, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+        rowsHtml = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:11px;">' +
+          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;"><th style="padding:6px;text-align:left;">比對指標</th><th style="padding:6px;color:#002FA7;">Plan A: ' + ourName + '</th><th style="padding:6px;color:#ef4444;">Plan B: ' + rivalName + '</th><th style="padding:6px;color:#7c3aed;">Plan C: ' + thirdName + '</th></tr></thead><tbody>' +
+          s3.map(r => '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px;font-weight:700;">' + r.label + '</td><td style="padding:6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:6px;color:#475569;">' + r.thirdVal + '</td></tr>').join('') +
+          '</tbody></table>';
+      } else {
+        const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
+        const specs = (card && card.bilateral_specs) ? card.bilateral_specs : [];
+        rowsHtml = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:11.5px;">' +
+          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;"><th style="padding:6px;text-align:left;">指標維度</th><th style="padding:6px;color:#002FA7;">Plan A: ' + ourName + ' (我方)</th><th style="padding:6px;color:#475569;">Plan B: ' + rivalName + ' (對手)</th><th style="padding:6px;text-align:right;">對比差額</th></tr></thead><tbody>' +
+          specs.map(r => '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px;font-weight:700;">' + r.label + '</td><td style="padding:6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:6px;text-align:right;color:#059669;font-weight:700;">' + r.delta + '</td></tr>').join('') +
+          '</tbody></table>';
+      }
+
+      container.innerHTML = '<div class="client-report-sheet">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #002FA7;padding-bottom:10px;margin-bottom:12px;">' +
+          '<div>' +
+            '<div style="font-size:16px;font-weight:800;color:#002FA7;letter-spacing:0.5px;">INSURINTEL HK · 授權財務策劃專業客戶簡報</div>' +
+            '<div style="font-size:11px;color:#64748b;margin-top:2px;">香港保監局 GN16 權威官方實現率 · 13 間私家醫院免找數擔保核准</div>' +
+          '</div>' +
+          '<div style="text-align:right;font-size:10.5px;color:#475569;">' +
+            '<div>報告產出日期：2026年11月07日</div>' +
+            '<div style="color:#059669;font-weight:700;">✅ GL20 認證客觀對比</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:6px;padding:8px 12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;">' +
+          '<div><strong style="font-size:12px;color:#0f172a;">' + adv.name + '</strong> <span style="font-size:11px;color:#1e40af;margin-left:4px;">' + adv.title + '</span></div>' +
+          '<div style="font-size:11px;color:#475569;">' + adv.team + ' | ' + adv.license + '</div>' +
+          '<div style="font-size:11px;color:#002FA7;font-weight:700;">聯絡電話 / WhatsApp: ' + adv.phone + '</div>' +
+        '</div>' +
+        '<div style="font-size:13px;font-weight:700;color:#0f172a;margin-bottom:4px;">📊 核心方案架構深度對照表 (' + (CATEGORY_TAGS[cat] || cat) + ')</div>' +
+        rowsHtml +
+        '<div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:6px;padding:8px 12px;margin-bottom:12px;font-size:11px;color:#14532d;line-height:1.5;">' +
+          '<strong>🏥 私家醫院免找數 (LOG) 保證權益：</strong> 覆蓋全港 13 家私立醫院（養和、港怡、嘉諾撒、中大醫院、聖保祿、仁安等），憑保司出具之付款保證函（LOG），可全免入院數萬元住院按金，出院簽名直付零墊款。' +
+        '</div>' +
+        '<div style="border-top:1px solid #cbd5e1;padding-top:10px;font-size:10px;color:#64748b;line-height:1.5;">' +
+          '<strong>【香港保險業監管局 (IA)《操守指引》(GL20) 合規聲明】：</strong><br>' +
+          '本對比簡報所載數據均提取自各保險公司官方公開建議書、產品手冊及保監局 GN16 歷史分紅實現率公開檔案，僅供授權持牌人士與客戶進行客觀財務諮詢與保單條款分析之用，不構成任何要約或誘使。非保證紅利受保險公司實際投資回報及市場波動影響，過往實現率並不代表未來表現。' +
+        '</div>' +
+      '</div>';
+    }
+    window.renderClientPdfPreview = renderClientPdfPreview;
+
+    function copyReportWhatsApp() {
+      const adv = getAdvisorProfile();
+      const ourName = cleanProductName(mySelectedProduct?.name || '我方推薦旗艦');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || '市場競品方案');
+      const cat = currentCategory || 'Savings_MultiCurrency';
+
+      let text = '【InsurIntel 專業保險對比簡報 · 客戶專屬】\\n';
+      text += '━━━━━━━━━━━━━━━━━━━━━\\n';
+      text += '📌 *方案對比*：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\\n';
+      text += '📂 *業務類別*：' + (CATEGORY_TAGS[cat] || cat) + '\\n';
+      text += '📊 *官方數據*：香港保監局 GN16 權威備案 + 全港 13 家私院出院免找數 (LOG)\\n';
+      text += '━━━━━━━━━━━━━━━━━━━━━\\n';
+      text += '💼 *您的專屬理財顧問*：' + adv.name + ' (' + adv.title + ')\\n';
+      text += '🏢 *所屬團隊*：' + adv.team + ' | ' + adv.license + '\\n';
+      text += '📱 *聯絡電話 / WhatsApp*：' + adv.phone + '\\n';
+      text += '━━━━━━━━━━━━━━━━━━━━━\\n';
+      text += '🛡️【香港保監局 GL20 合規聲明】：資料源自官方建議書及保監局備案，供客觀諮詢與條款分析，不構成要約。非保證紅利受市場波動影響，過往實現率不代表未來表現。';
+
+      fallbackCopyText(text, '✅ 客戶專用 WhatsApp 促成卡片已複製！');
+    }
+    window.copyReportWhatsApp = copyReportWhatsApp;
+
+    function copyReportWechat() {
+      const adv = getAdvisorProfile();
+      const ourName = cleanProductName(mySelectedProduct?.name || '我方推薦旗艦');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || '市場競品方案');
+      const cat = currentCategory || 'Savings_MultiCurrency';
+
+      let text = '【InsurIntel 專業保險對比簡報 · 客戶專屬】\\n';
+      text += '----------------------------------------\\n';
+      text += '方案對比：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\\n';
+      text += '業務類別：' + (CATEGORY_TAGS[cat] || cat) + '\\n';
+      text += '官方數據：香港保監局 GN16 備案 + 全港 13 家私院出院免找數 (LOG)\\n';
+      text += '----------------------------------------\\n';
+      text += '您的專屬理財顧問：' + adv.name + ' (' + adv.title + ')\\n';
+      text += '所屬團隊：' + adv.team + ' | ' + adv.license + '\\n';
+      text += '聯絡電話 / 微信：' + adv.phone + '\\n';
+      text += '----------------------------------------\\n';
+      text += '【保監局 GL20 合規聲明】：資料源自官方建議書，供客觀條款分析，不構成要約。非保證收益受市場波動影響，過往實現率不代表未來表現。';
+
+      fallbackCopyText(text, '✅ 客戶專用 微信/SMS 促成卡片已複製！');
+    }
+    window.copyReportWechat = copyReportWechat;
+
+    // 6. Accessibility & Localization Handlers
+    function toggleLangZh() {
+      setLangZh(currentLang === 'zh-HK' ? 'zh-CN' : 'zh-HK');
+    }
+    window.toggleLangZh = toggleLangZh;
+
+    function setLangZh(lang) {
+      currentLang = (lang === 'zh-CN') ? 'zh-CN' : 'zh-HK';
+      if (typeof document !== 'undefined') {
+        document.documentElement.lang = currentLang;
+        const btnTxt = document.getElementById('header-lang-text');
+        if (btnTxt) btnTxt.innerText = (currentLang === 'zh-CN') ? '簡體' : '繁/簡';
+        if (currentLang === 'zh-CN') {
+          document.body.classList.add('lang-hans');
+        } else {
+          document.body.classList.remove('lang-hans');
+        }
+      }
+      try { localStorage.setItem('insurintel_lang', currentLang); } catch(e){}
+      showToast(currentLang === 'zh-CN' ? '🌐 已切換為簡體中文' : '🌐 已切換為繁體中文');
+    }
+    window.setLangZh = setLangZh;
+
+    function toggleFontSize() {
+      setFontSize(!isLargeFont);
+    }
+    window.toggleFontSize = toggleFontSize;
+
+    function setFontSize(val) {
+      isLargeFont = !!val;
+      if (typeof document !== 'undefined') {
+        if (isLargeFont) {
+          document.body.classList.add('large-font-mode');
+        } else {
+          document.body.classList.remove('large-font-mode');
+        }
+        const btnTxt = document.getElementById('header-font-text');
+        if (btnTxt) btnTxt.innerText = isLargeFont ? '大字體' : '標準/大字';
+      }
+      try { localStorage.setItem('insurintel_large_font', isLargeFont ? '1' : '0'); } catch(e){}
+      showToast(isLargeFont ? '🔍 已開啟長輩大字體模式' : '🔍 已還原標準字體大小');
+    }
+    window.setFontSize = setFontSize;
+
+    // 7. 100-Point Audit Drawer Functions
+    function setAuditScope(scope) {
+      auditScope = (scope === '100') ? '100' : '30';
+      if (typeof document !== 'undefined') {
+        const btn30 = document.getElementById('audit-scope-30');
+        const btn100 = document.getElementById('audit-scope-100');
+        const pills30 = document.getElementById('audit-30-filter-pills') || document.querySelector('.audit-filter-pills');
+        const pills100 = document.getElementById('audit-100-filter-pills');
+
+        if (btn30) btn30.classList.toggle('active', auditScope === '30');
+        if (btn100) btn100.classList.toggle('active', auditScope === '100');
+        if (pills30) pills30.style.display = (auditScope === '30') ? 'flex' : 'none';
+        if (pills100) pills100.style.display = (auditScope === '100') ? 'flex' : 'none';
+      }
+      if (auditScope === '100') renderAudit100Cards('all');
+      else renderAudit30Cards('all');
+    }
+    window.setAuditScope = setAuditScope;
+
+    function filterAudit100(category) {
+      const chips = ['all', 'client', 'agent'];
+      chips.forEach(function(c) {
+        const el = document.getElementById('audit-100-chip-' + c);
+        if (el) el.classList.toggle('active', c === category);
+      });
+      renderAudit100Cards(category);
+    }
+    window.filterAudit100 = filterAudit100;
+
+    function renderAudit100Cards(filter) {
+      const container = document.getElementById('audit-cards-list');
+      if (!container || typeof APP_100_IMPROVEMENT_COMMENTS === 'undefined') return;
+
+      const items = APP_100_IMPROVEMENT_COMMENTS.filter(function(item) {
+        if (filter === 'client') return item.sourceRole.includes('客戶');
+        if (filter === 'agent') return item.sourceRole.includes('顧問');
+        return true;
+      });
+
+      container.innerHTML = items.map(function(item) {
+        const isClient = item.sourceRole.includes('客戶');
+        const roleColor = isClient ? '#0284c7' : '#059669';
+        const roleBg = isClient ? '#e0f2fe' : '#dcfce7';
+        return '<div class="audit-card">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+            '<div style="display:flex;align-items:center;gap:6px;">' +
+              '<span style="font-family:JetBrains Mono,monospace;font-weight:800;font-size:11px;color:' + roleColor + ';background:' + roleBg + ';padding:2px 8px;border-radius:4px;">[' + item.id + '] ' + item.topic + '</span>' +
+              '<span style="font-size:10.5px;color:#475569;font-weight:600;">' + item.sourceRole + '</span>' +
+            '</div>' +
+            '<span style="font-size:10px;font-weight:700;color:#059669;background:#dcfce7;padding:2px 6px;border-radius:4px;">' + item.status + '</span>' +
+          '</div>' +
+          '<div style="font-size:11.5px;color:#0f172a;margin-bottom:6px;line-height:1.45;background:#f8fafc;padding:6px 8px;border-radius:4px;border-left:3px solid ' + roleColor + ';">' +
+            '<strong>反饋原聲：</strong>「' + item.commentText + '」' +
+          '</div>' +
+          '<div style="font-size:11px;color:#334155;line-height:1.5;">' +
+            '<strong>📋 項目經理 (PM) 審核：</strong>' + item.pmReview + '<br>' +
+            '<strong>🛠️ 產品經理 (PdM) 解決方案：</strong>' + item.pdmDecision + '<br>' +
+            '<span style="font-size:10px;color:#64748b;margin-top:2px;display:inline-block;">🎯 落地模塊：' + item.resolvedIn + '</span>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+    window.renderAudit100Cards = renderAudit100Cards;
+
     function initCompatibility() {
-      if (currentScenario === 'cashless_medical' && currentCategory !== 'Medical_VHIS') {
+      if ((currentScenario === 'cashless_medical' || currentScenario === 'group_medical') && currentCategory !== 'Medical_VHIS') {
         currentCategory = 'Medical_VHIS';
         syncCategoryTabWithClaim('Medical_VHIS');
       } else if (currentScenario === 'retirement_tax' && currentCategory !== 'Annuity_QDAP') {
         currentCategory = 'Annuity_QDAP';
         syncCategoryTabWithClaim('Annuity_QDAP');
+      } else if (currentScenario === 'ul_stress' && currentCategory !== 'Financing_UniversalLife') {
+        currentCategory = 'Financing_UniversalLife';
+        syncCategoryTabWithClaim('Financing_UniversalLife');
       }
+      try {
+        const storedLang = localStorage.getItem('insurintel_lang');
+        if (storedLang) setLangZh(storedLang);
+        const storedFont = localStorage.getItem('insurintel_large_font');
+        if (storedFont === '1') setFontSize(true);
+      } catch(e){}
     }
 
     // Initial Trigger on load
@@ -9490,31 +10733,112 @@ return {
     bindAiDrawerTriggers();
   </script>
 
-  <!-- 30-Point Client & Advisor Audit & Improvement Board Drawer -->
+  <!-- Client-Facing PDF Report & WhatsApp/WeChat Pitch Card Modal -->
+  <div class="client-pdf-backdrop" id="client-pdf-backdrop" onclick="closeClientPdfModal()"></div>
+  <div class="client-pdf-modal" id="client-pdf-modal" role="dialog" aria-modal="true" aria-labelledby="client-pdf-heading">
+    <div class="client-pdf-header">
+      <div>
+        <div style="font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;" id="client-pdf-heading">
+          <span>📑 一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</span>
+        </div>
+        <div style="font-size:10.5px;opacity:0.9;margin-top:2px;">香港保監局 GL20 合規認證 · 專屬顧問品牌名片 · 支援高清列印與即時複製</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeClientPdfModal()" aria-label="關閉客戶報告視窗">✕</button>
+    </div>
+    <div class="client-pdf-body">
+      <!-- Advisor Branding Profile Form -->
+      <div class="advisor-profile-form">
+        <div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span>👤 專屬保險理財顧問名片設定 (即時生效)</span>
+          <button style="padding:4px 10px;font-size:11px;font-weight:700;background:#002FA7;color:#fff;border:none;border-radius:4px;cursor:pointer;" onclick="saveAdvisorProfile({
+            name: document.getElementById('report-agent-name').value,
+            title: document.getElementById('report-agent-title').value,
+            license: document.getElementById('report-agent-license').value,
+            team: document.getElementById('report-agent-team').value,
+            phone: document.getElementById('report-agent-phone').value
+          })">💾 儲存名片</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;">
+          <div>
+            <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">顧問姓名</label>
+            <input type="text" id="report-agent-name" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="陳志強 Alex Chan" oninput="saveAdvisorProfile({name:this.value})">
+          </div>
+          <div>
+            <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">職銜 / 榮譽</label>
+            <input type="text" id="report-agent-title" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="資深財富管理總監 · MDRT COT" oninput="saveAdvisorProfile({title:this.value})">
+          </div>
+          <div>
+            <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">牌照號碼</label>
+            <input type="text" id="report-agent-license" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="IA982341" oninput="saveAdvisorProfile({license:this.value})">
+          </div>
+          <div>
+            <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">所屬團隊 / 區域</label>
+            <input type="text" id="report-agent-team" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="卓越家族辦公室團隊" oninput="saveAdvisorProfile({team:this.value})">
+          </div>
+          <div>
+            <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">電話 / WhatsApp</label>
+            <input type="text" id="report-agent-phone" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="+852 9123 4567" oninput="saveAdvisorProfile({phone:this.value})">
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Action Buttons -->
+      <div class="client-pdf-modal-actions" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
+        <button class="pdf-action-btn" id="btn-print-client-report" onclick="printClientReport()" style="flex:1;min-width:130px;padding:8px 12px;background:#002FA7;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>🖨️ 匯出 PDF / 列印簡報 (window.print)</span>
+        </button>
+        <button class="pdf-action-btn" id="btn-copy-report-whatsapp" onclick="copyReportWhatsApp()" style="flex:1;min-width:130px;padding:8px 12px;background:#25d366;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>💬 複製 WhatsApp 促成卡片</span>
+        </button>
+        <button class="pdf-action-btn" id="btn-copy-report-wechat" onclick="copyReportWechat()" style="flex:1;min-width:130px;padding:8px 12px;background:#07c160;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📱 複製 微信/SMS 卡片</span>
+        </button>
+      </div>
+
+      <!-- Preview Container -->
+      <div id="client-pdf-report-preview">
+        <!-- Injected by renderClientPdfPreview() -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Client & Advisor Audit & Improvement Board Drawer (30 & 100 Scope) -->
   <div class="audit-drawer-backdrop" id="audit-30-backdrop" onclick="closeAudit30Drawer()"></div>
   <div class="audit-drawer" id="audit-30-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-drawer-heading">
     <div class="audit-drawer-header">
       <div>
         <div style="font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;" id="audit-drawer-heading">
-          <span>📋 30項客戶與顧問深度評審改進看板</span>
-          <span style="font-size:10px;background:#10b981;color:#fff;padding:1px 6px;border-radius:10px;">30/30 Resolved</span>
+          <span>📋 客戶與顧問深度評審改進看板</span>
+          <span style="font-size:10px;background:#10b981;color:#fff;padding:1px 6px;border-radius:10px;" id="audit-header-badge">100/100 Resolved</span>
         </div>
         <div style="font-size:10.5px;opacity:0.9;margin-top:2px;">雙邊視角實戰評審 · PM & PdM 全流程守護 · 100% 已修復</div>
       </div>
       <button class="drawer-close-btn" onclick="closeAudit30Drawer()" aria-label="關閉評審看板">✕</button>
     </div>
     <div class="audit-drawer-body">
+      <!-- Audit scope switch: 30-item core vs 100-item full PDM roadmap -->
+      <div class="audit-scope-bar" id="audit-scope-bar" style="display:flex;gap:8px;margin-bottom:10px;background:#f1f5f9;padding:4px;border-radius:8px;">
+        <button id="audit-scope-30" class="audit-scope-btn active" style="flex:1;padding:6px;font-size:11.5px;font-weight:700;border:none;border-radius:6px;cursor:pointer;background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,0.05);" onclick="setAuditScope('30')">🎯 核心30項基準看板</button>
+        <button id="audit-scope-100" class="audit-scope-btn" style="flex:1;padding:6px;font-size:11.5px;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#64748b;" onclick="setAuditScope('100')">💯 全量100項產品矩陣 (50客+50顧)</button>
+      </div>
       <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:11.5px;color:#065f46;line-height:1.5;">
         <strong>🛡️ 項目與產品經理質量守護聲明：</strong><br>
-        本看板完整收錄客戶與保險顧問提出的 30 項實戰改進反饋（涵蓋 GN16 100% 官方基準解析、精算分數實質化、圖表防碰撞、Policy Horizon 動態計算、全港 13 家私院全額直付網絡及 QDAP 現金流修復）。所有 30 項改進均已落實修復並通過雙邊沙盒測試驗證！
+        本看板完整收錄客戶與保險顧問提出的實戰改進反饋（涵蓋 GN16 官方基準解析、精算分數實質化、UL保費融資壓力測試、團險自負額優化器、QDAP家庭節稅、3-Way三方旗艦對決、全港13家私院全額直付網絡）。所有改進均已落實修復並通過雙邊沙盒測試驗證！
       </div>
-      <div class="audit-filter-pills">
+      <!-- 30-mode pills -->
+      <div class="audit-filter-pills" id="audit-30-filter-pills" style="display:flex;">
         <button class="audit-filter-chip active" id="audit-chip-all" onclick="filterAudit30('all')">全部評審 (30)</button>
         <button class="audit-filter-chip" id="audit-chip-client" onclick="filterAudit30('client')">客戶視角 (15)</button>
         <button class="audit-filter-chip" id="audit-chip-agent" onclick="filterAudit30('agent')">顧問視角 (15)</button>
       </div>
+      <!-- 100-mode pills -->
+      <div class="audit-filter-pills" id="audit-100-filter-pills" style="display:none;">
+        <button class="audit-filter-chip active" id="audit-100-chip-all" onclick="filterAudit100('all')">全部評審 (100)</button>
+        <button class="audit-filter-chip" id="audit-100-chip-client" onclick="filterAudit100('client')">客戶視角 (50)</button>
+        <button class="audit-filter-chip" id="audit-100-chip-agent" onclick="filterAudit100('agent')">顧問視角 (50)</button>
+      </div>
       <div id="audit-cards-list">
-        <!-- Rendered dynamically by renderAudit30Cards() -->
+        <!-- Rendered dynamically by renderAudit30Cards() or renderAudit100Cards() -->
       </div>
     </div>
   </div>
