@@ -2415,21 +2415,10 @@
 
     /* 30-Comment Multi-Perspective Audit Drawer (#audit-30-drawer) */
     .audit-30-trigger-banner {
-      background: linear-gradient(135deg, #065f46 0%, #047857 60%, #10b981 100%);
-      color: #ffffff;
-      padding: 8px 14px;
-      margin: 8px 16px;
-      border-radius: 8px;
-      font-size: 11.5px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      box-shadow: 0 2px 8px rgba(4, 120, 87, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: none !important;
     }
-    .audit-30-trigger-banner:hover {
-      opacity: 0.95;
+    #btn-open-audit-drawer {
+      display: none !important;
     }
     .audit-drawer {
       position: fixed;
@@ -2831,23 +2820,23 @@
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
     }
 
-    /* Print Media Query */
+    /* Executive Print Media Query (A4 Tear-Sheet) */
     @media print {
       body {
         background: #ffffff !important;
         color: #000000 !important;
-        font-size: 11pt !important;
+        font-size: 10pt !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
-      header, .category-tabs-bar, .bilateral-arena-box, .arena-mode-bar,
-      .scenario-agents-bar-wrap, .view-toggle-bar, .quick-selector,
-      .ai-quick-trigger-banner, .audit-30-trigger-banner, .client-pdf-trigger-banner,
-      #floating-ai-fab, .client-pdf-header, .advisor-profile-form,
-      .client-pdf-modal-actions, .client-pdf-backdrop, .audit-drawer,
-      .audit-drawer-backdrop, #catalog-drawer, #catalog-drawer-backdrop,
-      #ai-chat-drawer, #ai-chat-drawer-backdrop, .top-date-banner {
+      /* Hide all top-level elements except client PDF modal */
+      body > *:not(#client-pdf-modal) {
         display: none !important;
       }
       .client-pdf-modal {
+        display: block !important;
         position: static !important;
         transform: none !important;
         width: 100% !important;
@@ -2855,22 +2844,36 @@
         max-height: none !important;
         border-radius: 0 !important;
         box-shadow: none !important;
+        border: none !important;
         overflow: visible !important;
         opacity: 1 !important;
         pointer-events: auto !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #ffffff !important;
+      }
+      .client-pdf-header,
+      .advisor-profile-form,
+      .client-pdf-modal-actions,
+      .client-pdf-backdrop,
+      .drawer-close-btn {
+        display: none !important;
       }
       .client-pdf-body {
         padding: 0 !important;
         overflow: visible !important;
       }
       .client-report-sheet {
-        border: none !important;
+        border: 1px solid #cbd5e1 !important;
         box-shadow: none !important;
-        padding: 0 !important;
+        padding: 12mm 15mm !important;
+        background: #ffffff !important;
+        page-break-after: avoid;
+        break-after: avoid;
       }
       @page {
-        margin: 15mm;
-        size: auto;
+        margin: 10mm 12mm;
+        size: A4 portrait;
       }
     }
 
@@ -2993,7 +2996,10 @@
           <!-- Populated dynamically by updateCampSelectors() -->
         </select>
       </div>
-      <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">盈御多元貨幣 3 📋</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
+        <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">盈御多元貨幣 3 📋</div>
+        <a id="my-product-official-link" class="official-brochure-link" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#002FA7;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(0,47,167,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+      </div>
     </div>
 
     <!-- Central Prominent Swap Roles Button [ ⇄ 對調 ] -->
@@ -3034,7 +3040,10 @@
           <!-- Populated dynamically by updateCampSelectors() -->
         </select>
       </div>
-      <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
+        <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
+        <a id="rival-product-official-link" class="official-brochure-link" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#dc2626;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(220,38,38,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+      </div>
     </div>
 
     <!-- Plan C: 第三方旗艦陣營 (3-Way 模式) -->
@@ -3068,7 +3077,10 @@
         <select class="camp-select camp-product-select" id="select-third-product" onchange="setThirdProduct(this.value)" aria-label="選擇第三方產品">
         </select>
       </div>
-      <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">宏摯多元儲蓄 📋</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
+        <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">宏摯多元儲蓄 📋</div>
+        <a id="third-product-official-link" class="official-brochure-link" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#7c3aed;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(124,58,237,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+      </div>
     </div>
   </div>
 
@@ -3076,12 +3088,6 @@
   <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
     <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
     <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AIA Copilot</span>
-  </div>
-
-  <!-- 30-Point Client & Advisor Multi-Perspective Audit Banner -->
-  <div class="audit-30-trigger-banner" id="audit-30-trigger-banner" onclick="openAudit30Drawer()">
-    <span>📋 <strong>客戶與顧問深度評審看板</strong>：30 項實戰改進與 PM/PdM 守護進度 ❯</span>
-    <span style="font-size:10px;background:#10b981;color:#ffffff;padding:2px 8px;border-radius:10px;font-weight:800;">30/30 Verified</span>
   </div>
 
   <!-- AI Scenario Agents Switcher Bar -->
@@ -3255,6 +3261,19 @@
         <div class="hero-tag">第三方市場方案</div>
         <div class="hero-title" id="hero-third-name">宏利 Manulife · 宏摯多元儲蓄</div>
       </div>
+    </div>
+
+    <!-- Prominent Official Original Source / Brochure Direct Links -->
+    <div class="tearsheet-official-links-bar" id="tearsheet-official-links-bar" style="display:flex;gap:8px;margin:8px 0 12px;flex-wrap:wrap;">
+      <a id="tearsheet-our-pdf-link" class="tearsheet-pdf-btn our" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+        <span>📄 我方【盈御多元貨幣 3】官方手冊原件 ↗</span>
+      </a>
+      <a id="tearsheet-rival-pdf-link" class="tearsheet-pdf-btn rival" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+        <span>📄 競品【雋富多元貨幣】官方手冊原件 ↗</span>
+      </a>
+      <a id="tearsheet-third-pdf-link" class="tearsheet-pdf-btn third" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="display:none;flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;align-items:center;gap:4px;background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;">
+        <span>📄 第三方【宏摯多元儲蓄】官方手冊原件 ↗</span>
+      </a>
     </div>
 
     <!-- 1v1 Client Head-to-Head Comparison Grid -->
@@ -3483,9 +3502,6 @@
     <button class="action-btn btn-flip" onclick="toggleView()">
       🔄 一鍵翻轉
     </button>
-    <button class="action-btn btn-audit" id="btn-open-audit-drawer" onclick="openAudit30Drawer()" style="background:#065f46;color:#ffffff;font-weight:700;">
-      📋 30項評審
-    </button>
     <button class="action-btn btn-ai-chat" id="btn-open-ai-chat" onclick="openAiChatDrawer()">
       🤖 AI 攻防大腦
     </button>
@@ -3498,6 +3514,31 @@
   </div>
 
   <script>
+    const insurerOfficialUrls = {
+      AIA: 'https://www.aia.com.hk/zh-hk/',
+      Prudential: 'https://www.prudential.com.hk/zh-hk/',
+      Manulife: 'https://www.manulife.com.hk/zh-hk/',
+      Sun_Life: 'https://www.sunlife.com.hk/zh-hk/',
+      FWD: 'https://www.fwd.com.hk/zh/',
+      AXA: 'https://www.axa.com.hk/zh/',
+      Bowtie: 'https://www.bowtie.com.hk/zh-hk/',
+      BOC_Life: 'https://www.boclife.com.hk/tc/',
+      YF_Life: 'https://www.yflife.com/zh-hk/',
+      Cigna: 'https://www.cigna.com.hk/zh-hant/',
+      Bupa: 'https://www.bupa.com.hk/zh-hk/',
+      HSBC: 'https://www.insurance.hsbc.com.hk/1/2/chinese/',
+      HSBC_Life: 'https://www.insurance.hsbc.com.hk/1/2/chinese/',
+      Generali: 'https://www.generali.com.hk/zh-hk/',
+      BlueCross: 'https://www.bluecross.com.hk/ch/',
+      ChinaLife: 'https://www.chinalife.com.hk/zh-hk/'
+    };
+
+    function getInsurerOfficialUrl(insurerKey) {
+      const key = String(insurerKey || '').replace(/s+/g, '_');
+      return insurerOfficialUrls[key] || insurerOfficialUrls[insurerKey] || 'https://www.ia.org.hk/tc/';
+    }
+    window.getInsurerOfficialUrl = getInsurerOfficialUrl;
+
     // Storage Key for My Company Persistence
     const STORAGE_KEY_MY_INSURER = 'insurintel_my_insurer';
 
@@ -7684,25 +7725,48 @@ return {
         heroThirdName.innerText = thirdProf + ' · ' + (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
       }
 
-      // Sync Official Brochure URLs for Plan A and Plan B
+      // Sync Official Brochure URLs for Plan A, Plan B and Plan C
       const myLink = document.getElementById('my-product-official-link');
       const rivalLink = document.getElementById('rival-product-official-link');
+      const thirdLink = document.getElementById('third-product-official-link');
       const tearsheetOurLink = document.getElementById('tearsheet-our-pdf-link');
       const tearsheetRivalLink = document.getElementById('tearsheet-rival-pdf-link');
+      const tearsheetThirdLink = document.getElementById('tearsheet-third-pdf-link');
 
-      const ourUrl = mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || 'https://www.aia.com.hk/zh-hk/';
-      const rivalUrl = rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || 'https://www.prudential.com.hk/zh-hk/';
+      const ourUrl = mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || getInsurerOfficialUrl(myCompany);
+      const rivalUrl = rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || getInsurerOfficialUrl(selectedCompany);
+      const thirdUrl = thirdSelectedProduct?.official_url || thirdSelectedProduct?.brochure_url || getInsurerOfficialUrl(thirdCompany);
+
+      const ourCleanName = mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship;
+      const rivalCleanName = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
+      const thirdCleanName = thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship;
 
       if (myLink) {
         myLink.href = ourUrl;
-        myLink.title = '查閱【' + (mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship) + '】官方產品說明書及條款 (另開新分頁)';
+        myLink.title = '查閱【' + ourCleanName + '】官方產品說明書及條款 (另開新分頁)';
       }
       if (rivalLink) {
         rivalLink.href = rivalUrl;
-        rivalLink.title = '查閱【' + (rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship) + '】官方產品說明書及條款 (另開新分頁)';
+        rivalLink.title = '查閱【' + rivalCleanName + '】官方產品說明書及條款 (另開新分頁)';
       }
-      if (tearsheetOurLink) tearsheetOurLink.href = ourUrl;
-      if (tearsheetRivalLink) tearsheetRivalLink.href = rivalUrl;
+      if (thirdLink) {
+        thirdLink.href = thirdUrl;
+        thirdLink.title = '查閱【' + thirdCleanName + '】官方產品說明書及條款 (另開新分頁)';
+      }
+
+      if (tearsheetOurLink) {
+        tearsheetOurLink.href = ourUrl;
+        tearsheetOurLink.innerHTML = '<span>📄 我方【' + ourCleanName + '】官方手冊原件 ↗</span>';
+      }
+      if (tearsheetRivalLink) {
+        tearsheetRivalLink.href = rivalUrl;
+        tearsheetRivalLink.innerHTML = '<span>📄 競品【' + rivalCleanName + '】官方手冊原件 ↗</span>';
+      }
+      if (tearsheetThirdLink) {
+        tearsheetThirdLink.href = thirdUrl;
+        tearsheetThirdLink.style.display = (arenaMode === '3way') ? 'inline-flex' : 'none';
+        tearsheetThirdLink.innerHTML = '<span>📄 第三方【' + thirdCleanName + '】官方手冊原件 ↗</span>';
+      }
 
       // Reflect in quick selector pills (for tests and backwards compatibility)
       document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
@@ -8912,6 +8976,10 @@ return {
               <div class="drawer-spec-label">實現率/額度</div>
               <div class="drawer-spec-val" style="color:#10b981;">${p.gn16}</div>
             </div>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px;gap:6px;">
+            <a href="${p.official_url || p.brochure_url || getInsurerOfficialUrl(p.insurer)}" target="_blank" rel="noopener noreferrer" class="catalog-official-link" title="查閱原廠官方說明書與產品條款" style="font-size:11px;color:#002FA7;font-weight:700;text-decoration:underline;display:inline-flex;align-items:center;gap:3px;">📄 官方原廠說明書及條款 ↗</a>
+            <span style="font-size:10px;color:#64748b;">保監局GN16核備</span>
           </div>
           <button class="drawer-card-btn" onclick="selectProductFromCatalog('${p.id}')">🥊 載入對抗戰卡</button>
         </div>
@@ -10290,7 +10358,7 @@ return {
             '<div style="font-size:11px;color:#64748b;margin-bottom:4px;">選擇個人薪俸稅最高邊際稅階：</div>' +
             '<div class="tax-bracket-chips">' +
               [2, 6, 10, 14, 17].map(function(rate) {
-                return '<button class="tax-chip' + (qdapTaxRate === rate ? ' active' : '') + '" onclick="onQDAPRateSelect(' + rate + ')">' + rate + '% ' + (rate === 17 ? '(頂階稅率)' : '') + '</button>';
+                return '<button class="tax-chip' + (qdapTaxRate === rate ? ' active' : '') + '" id="qdap-chip-' + rate + '" onclick="onQDAPRateSelect(' + rate + ')">' + rate + '% ' + (rate === 17 ? '(頂階稅率)' : '') + '</button>';
               }).join('') +
             '</div>' +
             '<div class="tax-result-card">' +
@@ -10523,7 +10591,7 @@ return {
               '<div class="scenario-title">🏦 萬用壽險 (UL) 保費融資加息壓力測試計算機</div>' +
               '<div class="scenario-subtitle">槓桿倍數試算 · 淨息差 (Net Spread) 倒掛預警 · 銀行 Margin Call 安全線</div>' +
             '</div>' +
-            '<span class="scenario-pill-badge ' + (ulRes.isNegativeSpread ? 'red' : 'blue') + '">' + (ulRes.isNegativeSpread ? '🚨 利差倒掛' : '槓桿套利') + '</span>' +
+            '<span class="scenario-pill-badge ' + (ulRes.isNegativeSpread ? 'red' : 'blue') + '" id="ul-stress-status-pill">' + (ulRes.isNegativeSpread ? '🚨 利差倒掛' : '槓桿套利') + '</span>' +
           '</div>' +
           '<div class="ul-stress-box">' +
             '<div style="font-size:11.5px;font-weight:700;color:#1e3a8a;margin-bottom:8px;">📊 融資槓桿基礎參數配置：</div>' +
@@ -10604,7 +10672,7 @@ return {
             '<div style="font-size:11.5px;font-weight:700;color:#1e3a8a;margin-bottom:6px;">🏢 選擇您現有僱主/公司團險住院保障門額：</div>' +
             '<div class="group-preset-bar">' +
               [0, 25000, 30000, 50000, 80000].map(function(lim) {
-                return '<button class="group-preset-chip' + (groupMedicalLimit === lim ? ' active' : '') + '" onclick="setGroupMedicalLimit(' + lim + ')">' + (lim === 0 ? '無團險' : ('HK$ ' + (lim/1000) + 'K (' + (lim === 50000 ? '外企常見' : (lim === 80000 ? '高管方案' : '普通中小企')) + ')')) + '</button>';
+                return '<button class="group-preset-chip' + (groupMedicalLimit === lim ? ' active' : '') + '" id="group-chip-' + lim + '" onclick="setGroupMedicalLimit(' + lim + ')">' + (lim === 0 ? '無團險' : ('HK$ ' + (lim/1000) + 'K (' + (lim === 50000 ? '外企常見' : (lim === 80000 ? '高管方案' : '普通中小企')) + ')')) + '</button>';
               }).join('') +
             '</div>' +
             '<div style="display:flex;gap:8px;align-items:center;margin:8px 0 12px;flex-wrap:wrap;">' +
@@ -11168,40 +11236,77 @@ return {
     }
     window.calculateULStress = calculateULStress;
 
+    function updateULStressUI() {
+      const ulRes = calculateULStress(ulCapital, ulPolicyTotal, ulCreditingRate, ulBorrowingRate, ulHikeBps);
+      const elLeverage = document.getElementById('ul-stress-leverage');
+      const elSpread = document.getElementById('ul-stress-net-spread');
+      const elCashflow = document.getElementById('ul-stress-cashflow');
+      const elRoe = document.getElementById('ul-stress-roe');
+      const elBadge = document.getElementById('ul-stress-status-pill');
+      const elMargin = document.getElementById('ul-margin-call-status');
+
+      if (!elLeverage || !elSpread) {
+        renderScenarioAgentPanel();
+        return;
+      }
+
+      elLeverage.innerText = ulRes.leverage;
+      elSpread.innerText = ulRes.netSpread;
+      elSpread.style.color = ulRes.netSpreadNum >= 0 ? '#059669' : '#dc2626';
+
+      if (elCashflow) {
+        elCashflow.innerText = (ulRes.netCashflow >= 0 ? '+' : '') + '$' + Math.round(ulRes.netCashflow).toLocaleString();
+        elCashflow.style.color = ulRes.netCashflow >= 0 ? '#059669' : '#dc2626';
+      }
+      if (elRoe) {
+        elRoe.innerText = ulRes.roe;
+        elRoe.style.color = ulRes.netCashflow >= 0 ? '#059669' : '#dc2626';
+      }
+      if (elBadge) {
+        elBadge.innerText = ulRes.isNegativeSpread ? '🚨 利差倒掛' : '槓桿套利';
+        elBadge.className = 'scenario-pill-badge ' + (ulRes.isNegativeSpread ? 'red' : 'blue');
+      }
+      if (elMargin) {
+        elMargin.innerText = ulRes.isMarginCallRisk ? '🚨 追繳警戒 (抗跌緩衝不足)' : '✅ 安全 (緩衝充裕 >15%)';
+        elMargin.style.color = ulRes.isMarginCallRisk ? '#dc2626' : '#059669';
+      }
+
+      [0, 100, 200, 300].forEach(function(bps) {
+        const chip = document.getElementById('btn-hike-' + bps);
+        if (chip) chip.classList.toggle('active', ulHikeBps === bps);
+      });
+    }
+    window.updateULStressUI = updateULStressUI;
+
     function setULHike(hikeBps) {
       ulHikeBps = Number(hikeBps) || 0;
-      renderScenarioAgentPanel();
+      updateULStressUI();
     }
     window.setULHike = setULHike;
 
     function onULCapitalChange(val) {
-      ulCapital = Number(val) || 1000000;
-      renderScenarioAgentPanel();
+      ulCapital = Math.max(1, Number(val) || 1000000);
+      updateULStressUI();
     }
     window.onULCapitalChange = onULCapitalChange;
 
     function onULPolicyTotalChange(val) {
-      ulPolicyTotal = Number(val) || 3000000;
-      renderScenarioAgentPanel();
+      ulPolicyTotal = Math.max(ulCapital, Number(val) || 3000000);
+      updateULStressUI();
     }
     window.onULPolicyTotalChange = onULPolicyTotalChange;
 
     function onULCreditingRateChange(val) {
       ulCreditingRate = Number(val) || 5.25;
-      renderScenarioAgentPanel();
+      updateULStressUI();
     }
     window.onULCreditingRateChange = onULCreditingRateChange;
 
     function onULBorrowingRateChange(val) {
       ulBorrowingRate = Number(val) || 4.25;
-      renderScenarioAgentPanel();
+      updateULStressUI();
     }
     window.onULBorrowingRateChange = onULBorrowingRateChange;
-
-    function updateULStressUI() {
-      renderScenarioAgentPanel();
-    }
-    window.updateULStressUI = updateULStressUI;
 
     // 3. Group Medical + High-End VHIS Deductible Optimizer Engine
     function optimizeGroupMedicalVHIS(groupLimit, age) {
@@ -11253,16 +11358,41 @@ return {
     }
     window.optimizeGroupMedicalVHIS = optimizeGroupMedicalVHIS;
 
-    function setGroupMedicalLimit(limit) {
-      groupMedicalLimit = Math.max(0, Number(limit) || 0);
-      renderScenarioAgentPanel();
-    }
-    window.setGroupMedicalLimit = setGroupMedicalLimit;
-
     function updateGroupMedicalOptimizerUI() {
-      renderScenarioAgentPanel();
+      const grpRes = optimizeGroupMedicalVHIS(groupMedicalLimit);
+      const elRec = document.getElementById('group-opt-recommended');
+      const elAnnual = document.getElementById('group-opt-savings-annual');
+      const elOop = document.getElementById('group-opt-out-of-pocket');
+      const elExp = document.getElementById('group-opt-explanation');
+      const el10Y = document.getElementById('group-opt-10yr-savings');
+      const slider = document.getElementById('slider-group-limit');
+      const input = document.getElementById('input-group-limit');
+
+      if (!elRec || !elAnnual) {
+        renderScenarioAgentPanel();
+        return;
+      }
+
+      elRec.innerText = '推薦投保：HK$ ' + grpRes.recommendedDeductible.toLocaleString() + ' 自負額 (Deductible) 計劃';
+      elAnnual.innerText = '省下 HK$ ' + grpRes.premiumSavingsHKD.toLocaleString() + ' /年 (' + grpRes.premiumSavingsPct + '%)';
+      if (elOop) elOop.innerText = 'HK$ 0 (零自掏腰包)';
+      if (elExp) elExp.innerText = grpRes.explanation;
+      if (el10Y) el10Y.innerText = 'HK$ ' + grpRes.tenYearSavings.toLocaleString();
+      if (slider && slider.value !== String(groupMedicalLimit)) slider.value = groupMedicalLimit;
+      if (input && input.value !== String(groupMedicalLimit)) input.value = groupMedicalLimit;
+
+      [0, 25000, 30000, 50000, 80000].forEach(function(lim) {
+        const chip = document.getElementById('group-chip-' + lim);
+        if (chip) chip.classList.toggle('active', groupMedicalLimit === lim);
+      });
     }
     window.updateGroupMedicalOptimizerUI = updateGroupMedicalOptimizerUI;
+
+    function setGroupMedicalLimit(limit) {
+      groupMedicalLimit = Math.max(0, Number(limit) || 0);
+      updateGroupMedicalOptimizerUI();
+    }
+    window.setGroupMedicalLimit = setGroupMedicalLimit;
 
     // 4. QDAP Family Tax Savings & Cashflow Calculator Engine
     function calculateQDAPFamilyTax(arg1, arg2, arg3, arg4) {
@@ -11320,17 +11450,22 @@ return {
     window.calculateQDAPFamilyTax = calculateQDAPFamilyTax;
 
     function setQDAPMode(mode) {
-      qdapIsCouple = (mode === 'couple');
+      qdapIsCouple = (mode === 'couple' || mode === true);
       if (qdapIsCouple && qdapAnnualPremium < 120000) qdapAnnualPremium = 120000;
       else if (!qdapIsCouple && qdapAnnualPremium > 60000) qdapAnnualPremium = 60000;
-      renderScenarioAgentPanel();
+      updateQDAPFamilyTaxUI();
     }
     window.setQDAPMode = setQDAPMode;
 
     function updateQDAPFamilyTaxUI() {
-      renderScenarioAgentPanel();
+      if (typeof updateQDAPUI === 'function') {
+        updateQDAPUI();
+      } else {
+        renderScenarioAgentPanel();
+      }
     }
     window.updateQDAPFamilyTaxUI = updateQDAPFamilyTaxUI;
+    window.setQDAPRate = onQDAPRateSelect;
 
     // 5. One-Click Client PDF Report & WhatsApp/WeChat Pitch Card Generator
     function getAdvisorProfile() {
@@ -11400,19 +11535,37 @@ return {
       const thirdName = cleanProductName(thirdSelectedProduct?.name || '第三方旗艦');
       const cat = currentCategory || 'Savings_MultiCurrency';
 
+      const ourUrl = mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || getInsurerOfficialUrl(myCompany);
+      const rivalUrl = rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || getInsurerOfficialUrl(selectedCompany);
+      const thirdUrl = thirdSelectedProduct?.official_url || thirdSelectedProduct?.brochure_url || getInsurerOfficialUrl(thirdCompany);
+
       let rowsHtml = '';
       if (arenaMode === '3way') {
         const s3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, cat, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
         rowsHtml = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:11px;">' +
-          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;"><th style="padding:6px;text-align:left;">比對指標</th><th style="padding:6px;color:#002FA7;">Plan A: ' + ourName + '</th><th style="padding:6px;color:#ef4444;">Plan B: ' + rivalName + '</th><th style="padding:6px;color:#7c3aed;">Plan C: ' + thirdName + '</th></tr></thead><tbody>' +
-          s3.map(r => '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px;font-weight:700;">' + r.label + '</td><td style="padding:6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:6px;color:#475569;">' + r.thirdVal + '</td></tr>').join('') +
+          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;">' +
+            '<th style="padding:8px 6px;text-align:left;">比對指標</th>' +
+            '<th style="padding:8px 6px;color:#002FA7;">Plan A: ' + ourName + '<br><a href="' + ourUrl + '" target="_blank" rel="noopener noreferrer" style="font-size:10px;text-decoration:underline;color:#002FA7;font-weight:700;">📄 官網原文手冊 ↗</a></th>' +
+            '<th style="padding:8px 6px;color:#ef4444;">Plan B: ' + rivalName + '<br><a href="' + rivalUrl + '" target="_blank" rel="noopener noreferrer" style="font-size:10px;text-decoration:underline;color:#ef4444;font-weight:700;">📄 官網原文手冊 ↗</a></th>' +
+            '<th style="padding:8px 6px;color:#7c3aed;">Plan C: ' + thirdName + '<br><a href="' + thirdUrl + '" target="_blank" rel="noopener noreferrer" style="font-size:10px;text-decoration:underline;color:#7c3aed;font-weight:700;">📄 官網原文手冊 ↗</a></th>' +
+          '</tr></thead><tbody>' +
+          s3.map(function(r) {
+            return '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:7px 6px;font-weight:700;color:#334155;">' + r.label + '</td><td style="padding:7px 6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:7px 6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:7px 6px;color:#475569;">' + r.thirdVal + '</td></tr>';
+          }).join('') +
           '</tbody></table>';
       } else {
         const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
         const specs = (card && card.bilateral_specs) ? card.bilateral_specs : [];
         rowsHtml = '<table style="width:100%;border-collapse:collapse;margin:12px 0;font-size:11.5px;">' +
-          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;"><th style="padding:6px;text-align:left;">指標維度</th><th style="padding:6px;color:#002FA7;">Plan A: ' + ourName + ' (我方)</th><th style="padding:6px;color:#475569;">Plan B: ' + rivalName + ' (對手)</th><th style="padding:6px;text-align:right;">對比差額</th></tr></thead><tbody>' +
-          specs.map(r => '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:6px;font-weight:700;">' + r.label + '</td><td style="padding:6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:6px;text-align:right;color:#059669;font-weight:700;">' + r.delta + '</td></tr>').join('') +
+          '<thead><tr style="background:#f1f5f9;border-bottom:1.5px solid #cbd5e1;">' +
+            '<th style="padding:8px 6px;text-align:left;">指標維度</th>' +
+            '<th style="padding:8px 6px;color:#002FA7;">Plan A: ' + ourName + ' (我方)<br><a href="' + ourUrl + '" target="_blank" rel="noopener noreferrer" style="font-size:10px;text-decoration:underline;color:#002FA7;font-weight:700;">📄 官網原文手冊 ↗</a></th>' +
+            '<th style="padding:8px 6px;color:#475569;">Plan B: ' + rivalName + ' (對手)<br><a href="' + rivalUrl + '" target="_blank" rel="noopener noreferrer" style="font-size:10px;text-decoration:underline;color:#dc2626;font-weight:700;">📄 官網原文手冊 ↗</a></th>' +
+            '<th style="padding:8px 6px;text-align:right;">對比差額</th>' +
+          '</tr></thead><tbody>' +
+          specs.map(function(r) {
+            return '<tr style="border-bottom:1px solid #e2e8f0;"><td style="padding:7px 6px;font-weight:700;color:#334155;">' + r.label + '</td><td style="padding:7px 6px;color:#002FA7;font-weight:700;">' + r.ourVal + '</td><td style="padding:7px 6px;color:#475569;">' + r.rivalVal + '</td><td style="padding:7px 6px;text-align:right;color:#059669;font-weight:700;">' + r.delta + '</td></tr>';
+          }).join('') +
           '</tbody></table>';
       }
 
@@ -11420,7 +11573,7 @@ return {
         '<div style="display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #002FA7;padding-bottom:10px;margin-bottom:12px;">' +
           '<div>' +
             '<div style="font-size:16px;font-weight:800;color:#002FA7;letter-spacing:0.5px;">INSURINTEL HK · 授權財務策劃專業客戶簡報</div>' +
-            '<div style="font-size:11px;color:#64748b;margin-top:2px;">香港保監局 GN16 權威官方實現率 · 13 間私家醫院免找數擔保核准</div>' +
+            '<div style="font-size:11px;color:#64748b;margin-top:2px;">香港保監局 GN16 權威官方實現率存檔 · 全港 13 間私家醫院免找數擔保核准 · 客戶客觀對比專用</div>' +
           '</div>' +
           '<div style="text-align:right;font-size:10.5px;color:#475569;">' +
             '<div>報告產出日期：2026年11月07日</div>' +
@@ -11448,6 +11601,44 @@ return {
       }
     }
     window.renderClientPdfPreview = renderClientPdfPreview;
+
+    function downloadClientHtmlReport() {
+      renderClientPdfPreview();
+      const container = document.getElementById('client-pdf-report-preview');
+      const parts = [
+        '<!DOCTYPE html>',
+        '<html lang="' + currentLang + '">',
+        '<head>',
+        '<meta charset="UTF-8">',
+        '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
+        '<title>InsurIntel HK · 客戶專屬保險對比簡報 (Executive Tear-Sheet)</title>',
+        '<style>',
+        'body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "PingFang TC", "Microsoft JhengHei", sans-serif; background: #f8fafc; color: #0f172a; margin: 0; padding: 20px; }',
+        '.client-report-sheet { max-width: 860px; margin: 0 auto; background: #fff; padding: 24px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 1.5px solid #cbd5e1; }',
+        'table { width: 100%; border-collapse: collapse; }',
+        '@media print { body { background: #fff; padding: 0; } .client-report-sheet { border: none; box-shadow: none; padding: 0; max-width: 100%; } @page { margin: 10mm 12mm; size: A4 portrait; } }',
+        '</style>',
+        '</head>',
+        '<body>',
+        container.innerHTML,
+        '</body>',
+        '</html>'
+      ];
+      const htmlDoc = parts.join(String.fromCharCode(10));
+      try {
+        const blob = new Blob([htmlDoc], { type: 'text/html;charset=utf-8' });
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'InsurIntel_Executive_TearSheet_' + Date.now() + '.html';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showToast('📥 獨立 HTML 客戶簡報已下載！');
+      } catch (e) {
+        showToast('⚠️ 下載未支援，請點選列印匯出');
+      }
+    }
+    window.downloadClientHtmlReport = downloadClientHtmlReport;
 
     function copyReportWhatsApp() {
       const adv = getAdvisorProfile();
@@ -11805,6 +11996,9 @@ return {
       <div class="client-pdf-modal-actions" style="display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;">
         <button class="pdf-action-btn" id="btn-print-client-report" onclick="printClientReport()" style="flex:1;min-width:130px;padding:8px 12px;background:#002FA7;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
           <span>🖨️ 匯出 PDF / 列印簡報 (window.print)</span>
+        </button>
+        <button class="pdf-action-btn" id="btn-download-html-report" onclick="downloadClientHtmlReport()" style="flex:1;min-width:130px;padding:8px 12px;background:#0284c7;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📥 下載獨立 HTML 簡報</span>
         </button>
         <button class="pdf-action-btn" id="btn-copy-report-whatsapp" onclick="copyReportWhatsApp()" style="flex:1;min-width:130px;padding:8px 12px;background:#25d366;color:#fff;border:none;border-radius:6px;font-weight:700;font-size:11.5px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
           <span>💬 複製 WhatsApp 促成卡片</span>
