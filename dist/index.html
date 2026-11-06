@@ -969,6 +969,236 @@
       color: #fff;
       flex: 0.9;
     }
+    .btn-ai-chat {
+      background: linear-gradient(135deg, #0284c7, #002FA7);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0, 47, 167, 0.3);
+    }
+    .inline-pitch-copy-btn {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 6px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .inline-pitch-copy-btn:hover {
+      background: #38bdf8;
+      color: #0f172a;
+    }
+    .inline-pitch-copy-btn.copied {
+      background: #10b981 !important;
+      border-color: #10b981 !important;
+      color: #ffffff !important;
+    }
+    .inline-pitch-copy-btn.btn-copy-full {
+      background: #0284c7;
+      color: #ffffff;
+      border-color: #38bdf8;
+      padding: 4px 10px;
+    }
+    .step-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .ai-quick-trigger-banner {
+      margin: 8px 16px 4px;
+      background: linear-gradient(135deg, #eff6ff, #dbeafe);
+      border: 1px solid #bfdbfe;
+      border-radius: 10px;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--ikb);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0, 47, 167, 0.08);
+    }
+    .ai-quick-trigger-banner:hover {
+      background: #dbeafe;
+      transform: translateY(-1px);
+    }
+    .ai-drawer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      max-height: 85vh;
+      background: #ffffff;
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.25);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      transform: translateY(100%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      overflow: hidden;
+    }
+    @media (min-width: 768px) {
+      .ai-drawer {
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: auto;
+        width: 460px;
+        max-height: 100vh;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
+        border-top-right-radius: 0;
+        box-shadow: -8px 0 30px rgba(0, 0, 0, 0.2);
+        transform: translateX(100%);
+      }
+    }
+    .ai-drawer.open {
+      transform: translateY(0);
+    }
+    @media (min-width: 768px) {
+      .ai-drawer.open {
+        transform: translateX(0);
+      }
+    }
+    .ai-drawer-header {
+      padding: 14px 16px;
+      background: #0f172a;
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #1e293b;
+    }
+    .ai-drawer-title {
+      font-size: 15px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .ai-drawer-status {
+      font-size: 10px;
+      color: #4ade80;
+      font-family: 'JetBrains Mono', monospace;
+      margin-top: 2px;
+    }
+    .ai-drawer-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    .ai-context-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      font-size: 11px;
+      line-height: 1.5;
+    }
+    .ai-context-header {
+      font-weight: 800;
+      color: #0f172a;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .ai-prompt-chips-wrap {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      scrollbar-width: none;
+    }
+    .ai-prompt-chips-wrap::-webkit-scrollbar { display: none; }
+    .ai-prompt-chip {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--ikb);
+      padding: 6px 10px;
+      border-radius: 16px;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .ai-prompt-chip:hover {
+      background: var(--ikb);
+      color: #ffffff;
+      border-color: var(--ikb);
+    }
+    .ai-chat-messages {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .ai-chat-bubble {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #1e293b;
+    }
+    .ai-chat-bubble.ai-assistant-reply {
+      background: #ffffff;
+      border-left: 4px solid var(--ikb);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+    }
+    .ai-chat-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #e2e8f0;
+    }
+    .ai-input-row {
+      display: flex;
+      gap: 8px;
+      padding: 10px 16px calc(10px + var(--safe-bottom));
+      background: #ffffff;
+      border-top: 1px solid var(--border);
+    }
+    .ai-input-field {
+      flex: 1;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 20px;
+      padding: 8px 14px;
+      font-size: 12px;
+      outline: none;
+    }
+    .ai-input-field:focus {
+      border-color: var(--ikb);
+    }
+    .ai-send-btn {
+      background: var(--ikb);
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
 
     /* Top Date Audit Banner */
     .top-date-banner {
@@ -1883,6 +2113,12 @@
     <!-- Populated dynamically by renderScenarioAgentPanel() -->
   </div>
 
+  <!-- AI Quick Strategy Trigger Banner -->
+  <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
+    <span>🤖 <strong>AI 精算攻防助手</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
+    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AIA Copilot</span>
+  </div>
+
   <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
   <div class="bilateral-arena-box" id="bilateral-arena-box">
     <!-- Plan A: 我方陣營 -->
@@ -2026,26 +2262,40 @@
       <strong>條款陷阱避坑警示：</strong>對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！
     </div>
 
-    <h3 style="font-size:16px; margin-bottom:12px; color:#38bdf8;" id="agent-title">
-      🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
-    </h3>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;">
+      <h3 style="font-size:16px; margin:0; color:#38bdf8;" id="agent-title">
+        🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
+      </h3>
+      <button class="inline-pitch-copy-btn btn-copy-full" id="btn-copy-full-pitch" onclick="copyFull3StepPitch(this)" title="一鍵複製完整 3 步破局話術">
+        📋 複製全部
+      </button>
+    </div>
 
     <div class="step-box">
-      <div class="step-title">步驟 1：共情肯定眼光（不硬駁）</div>
+      <div class="step-title-row">
+        <div class="step-title">步驟 1：共情肯定眼光（不硬駁）</div>
+        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(1, this)" title="一鍵複製步驟 1 話術">📋 複製</button>
+      </div>
       <div class="step-script" id="agent-step-1">
         「陳生，你真係好有眼光！保誠個 5.8% 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」
       </div>
     </div>
 
     <div class="step-box">
-      <div class="step-title">步驟 2：點破條款盲點（次年浮動跳水）</div>
+      <div class="step-title-row">
+        <div class="step-title">步驟 2：點破條款盲點（次年浮動跳水）</div>
+        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(2, this)" title="一鍵複製步驟 2 話術">📋 複製</button>
+      </div>
       <div class="step-script" id="agent-step-2">
         「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」
       </div>
     </div>
 
     <div class="step-box" style="border-left-color: #4ade80;">
-      <div class="step-title" style="color:#4ade80;">步驟 3：數據絕殺（保監局 GN16 官方實現率）</div>
+      <div class="step-title-row">
+        <div class="step-title" style="color:#4ade80;">步驟 3：數據絕殺（保監局 GN16 官方實現率）</div>
+        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(3, this)" title="一鍵複製步驟 3 話術">📋 複製</button>
+      </div>
       <div class="step-script" id="agent-step-3">
         「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【雋富多元貨幣計劃】得 91.2%。複利 30 年差 5.3% 就係幾十萬真金白銀！」
       </div>
@@ -2217,15 +2467,87 @@
     </div>
   </div>
 
+  <!-- AI Analysis Drawer Backdrop -->
+  <div class="catalog-drawer-backdrop" id="ai-analysis-backdrop" onclick="closeAiChatDrawer()"></div>
+
+  <!-- AI Analysis Assistant Drawer / Dialog -->
+  <div class="ai-drawer" id="ai-analysis-drawer" role="dialog" aria-modal="true" aria-labelledby="ai-drawer-heading">
+    <div class="ai-drawer-header">
+      <div>
+        <div class="ai-drawer-title" id="ai-drawer-heading">
+          <span>🤖 InsurIntel AI 精算攻防大腦</span>
+          <span style="font-size:11px;background:#0284c7;color:#fff;padding:1px 6px;border-radius:10px;font-weight:700;">AIA Copilot</span>
+        </div>
+        <div class="ai-drawer-status">🟢 實時精算數據注入 · 香港保監局 GL20 監管護欄加載</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeAiChatDrawer()" aria-label="關閉 AI 助手">✕</button>
+    </div>
+    
+    <div class="ai-drawer-body">
+      <!-- 1. Live Injected Context Preview Payload -->
+      <div class="ai-context-card" id="ai-live-context-card">
+        <div class="ai-context-header">
+          <span>📦 即時注入對陣精算上下文 (Injected Context Payload)</span>
+          <span style="color:var(--ikb);font-family:'JetBrains Mono';font-size:10px;" id="ai-context-timestamp">LIVE SYNC</span>
+        </div>
+        <div id="ai-context-details" style="color:#475569;display:flex;flex-direction:column;gap:3px;">
+          <!-- Dynamically populated by renderAiContextPreview() -->
+        </div>
+      </div>
+
+      <!-- 2. AIA Advisor System Prompt Architecture Accordion -->
+      <details class="ai-context-card" style="cursor:pointer;" id="ai-system-prompt-details">
+        <summary style="font-weight:700;color:#0f172a;outline:none;display:flex;justify-content:space-between;align-items:center;">
+          <span>📐 檢視 AIA 專用 System Prompt 提示詞架構設計 (點擊展開)</span>
+          <button class="inline-pitch-copy-btn" id="btn-copy-system-prompt" onclick="event.stopPropagation();copySystemPrompt(this)" style="font-size:10px;padding:2px 6px;">📋 複製 Prompt</button>
+        </summary>
+        <div style="margin-top:8px;padding-top:8px;border-top:1px dashed #cbd5e1;font-size:11px;color:#334155;line-height:1.6;" id="ai-system-prompt-text">
+          <strong>【角色定義】</strong>友邦 (AIA) 首席攻防核保精算顧問與商業談判 Copilot，具備 15 年全港保險深度分析經驗。精通香港保監局《持牌保險中介人操守守則》第 4.2 條及各大保司（AIA、保誠、宏利、永明、富衛、安盛、Bowtie等）官方通函與歷年 GN16 分紅實現率。<br><br>
+          <strong>【攻防架構】</strong>三步破局法：① 共情肯定眼光（絕不硬駁，肯定宣傳吸睛點）➔ ② 點破條款 Fine Print（次年浮動利率/等待期陷阱/早期退保損失）➔ ③ 數據絕殺（GN16 官方實現率與 30 年複利實質差額）。<br><br>
+          <strong>【動態上下文規範 (Context Schema)】</strong><br>
+          即時注入 Plan A（我方）vs Plan B（競品）官方產品名稱、GN16 官方分紅實現率、預繳保證利率與保證年期、保證/預期回本年期、條款亮點與競品避坑細則、客戶異議焦點標籤。<br><br>
+          <strong>【合規邊界】</strong>嚴格恪守香港保監局《操守守則》第 4.2 條及 GL20，嚴禁非理性貶損，所有對比必須有通函或年報依據，並附帶風險披露。<br><br>
+          <strong>【輸出格式風格】</strong>地道港式商業粵語（繁體中文），結構化輸出【🎯 戰略破局核心】、【🗣️ 30 秒地道口頭話術】、【📊 精算數據出處】及【🛡️ 保監局 GL20 合規護欄】，附帶一鍵複製功能。
+        </div>
+      </details>
+
+      <!-- 3. Smart Prompt Chips -->
+      <div style="font-size:11px;font-weight:700;color:#475569;margin-top:4px;">
+        💡 實戰智能 Prompt 快捷點擊 (點擊即時生成分析與話術)：
+      </div>
+      <div class="ai-prompt-chips-wrap">
+        <button class="ai-prompt-chip" id="ai-chip-analysis-core" onclick="handleSmartPromptClick('analysis_core')">🔥 雙方攻防核心精算分析</button>
+        <button class="ai-prompt-chip" id="ai-chip-gimmick-break" onclick="handleSmartPromptClick('gimmick_break')">⚡ 客問：高額預繳點解唔買？30s 破局</button>
+        <button class="ai-prompt-chip" id="ai-chip-family-bundling" onclick="handleSmartPromptClick('family_bundling')">👨‍👩‍👧 家庭客：60/40 儲蓄與危疾搭售話術</button>
+        <button class="ai-prompt-chip" id="ai-chip-offshore-mcv" onclick="handleSmartPromptClick('offshore_mcv')">🇨🇳 MCV 內地客：直付名單與離岸信託優勢</button>
+        <button class="ai-prompt-chip" id="ai-chip-gl20-compliance" onclick="handleSmartPromptClick('gl20_compliance')">🛡️ 合規應對虛擬保險低價競爭</button>
+      </div>
+
+      <!-- 4. Dynamic AI Chat Conversation Area -->
+      <div class="ai-chat-messages" id="ai-chat-messages">
+        <!-- Rendered dynamically by generateAiAnalysis() -->
+      </div>
+    </div>
+
+    <!-- 5. User Input Bar -->
+    <div class="ai-input-row">
+      <input type="text" class="ai-input-field" id="ai-chat-input" placeholder="輸入你想問 AI 的攻防或核保問題... (例如：客人堅持買對手點答？)" onkeydown="if(event.key==='Enter') sendAiChatQuery()">
+      <button class="ai-send-btn" id="btn-ai-chat-send" onclick="sendAiChatQuery()">發送 🚀</button>
+    </div>
+  </div>
+
   <!-- Bottom Fast Actions -->
   <div class="bottom-bar">
     <button class="action-btn btn-flip" onclick="toggleView()">
       🔄 一鍵翻轉
     </button>
-    <button class="action-btn btn-drawer" onclick="openCatalogDrawer()">
-      📚 99款全產品庫
+    <button class="action-btn btn-ai-chat" id="btn-open-ai-chat" onclick="openAiChatDrawer()">
+      🤖 AI 深度分析
     </button>
-    <button class="action-btn btn-whatsapp" onclick="copyWhatsAppPitch()">
+    <button class="action-btn btn-drawer" onclick="openCatalogDrawer()">
+      📚 99款產品庫
+    </button>
+    <button class="action-btn btn-whatsapp" id="btn-bottom-whatsapp" onclick="copyWhatsAppPitch()" style="display:none;" aria-hidden="true">
       📲 複製 WhatsApp
     </button>
   </div>
@@ -5236,6 +5558,9 @@
 
       // Render Active AI Scenario Agent Panel
       renderScenarioAgentPanel(card);
+
+      // Sync AI Context Preview
+      renderAiContextPreview();
     }
     window.updateBattleCard = updateBattleCard;
 
@@ -5381,6 +5706,256 @@
     const copyWhatsAppTemplate = copyWhatsAppPitch;
     window.copyWhatsAppPitch = copyWhatsAppPitch;
     window.copyWhatsAppTemplate = copyWhatsAppPitch;
+
+    // Pitch Step & Full Copy Helpers with Visual Feedback
+    function copyTextWithFeedback(text, btn, successMsg) {
+      const msg = '✅ ' + (successMsg || '已複製到剪貼簿！');
+      showToast(msg);
+      if (btn && btn.nodeType === 1) flashButtonCopied(btn);
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).catch(() => {
+          fallbackCopyText(text, false);
+        });
+      } else {
+        fallbackCopyText(text, false);
+      }
+    }
+
+    function flashButtonCopied(btn) {
+      if (!btn || !btn.innerHTML) return;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '已複製 ✔';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.classList.remove('copied');
+      }, 1500);
+    }
+
+    function copyStepPitch(stepNum, btn) {
+      const el = document.getElementById('agent-step-' + stepNum);
+      const text = el ? (el.innerText || el.textContent || '').trim() : '';
+      if (!text) return;
+      copyTextWithFeedback(text, btn, '步驟 ' + stepNum + ' 破局話術已複製！');
+    }
+    window.copyStepPitch = copyStepPitch;
+
+    function copyFull3StepPitch(btn) {
+      const s1 = document.getElementById('agent-step-1');
+      const s2 = document.getElementById('agent-step-2');
+      const s3 = document.getElementById('agent-step-3');
+      const t1 = s1 ? (s1.innerText || s1.textContent || '').trim() : '';
+      const t2 = s2 ? (s2.innerText || s2.textContent || '').trim() : '';
+      const t3 = s3 ? (s3.innerText || s3.textContent || '').trim() : '';
+      const full = ['【步驟 1：肯定眼光】', t1, '', '【步驟 2：點破盲點】', t2, '', '【步驟 3：數據絕殺】', t3].join(String.fromCharCode(10));
+      copyTextWithFeedback(full, btn, '完整 3 步破局話術已複製！');
+    }
+    window.copyFull3StepPitch = copyFull3StepPitch;
+
+    // AI Analysis Assistant & System Prompt Copilot Handlers
+    function openAiChatDrawer() {
+      const drawer = document.getElementById('ai-analysis-drawer');
+      const backdrop = document.getElementById('ai-analysis-backdrop');
+      if (drawer) drawer.classList.add('open');
+      if (backdrop) backdrop.classList.add('open');
+      renderAiContextPreview();
+      const chatContainer = document.getElementById('ai-chat-messages');
+      if (chatContainer && chatContainer.children.length === 0) {
+        handleSmartPromptClick('analysis_core');
+      }
+    }
+    window.openAiChatDrawer = openAiChatDrawer;
+
+    function closeAiChatDrawer() {
+      const drawer = document.getElementById('ai-analysis-drawer');
+      const backdrop = document.getElementById('ai-analysis-backdrop');
+      if (drawer) drawer.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('open');
+    }
+    window.closeAiChatDrawer = closeAiChatDrawer;
+
+    function getProductById(idOrObj) {
+      if (!idOrObj) return null;
+      if (typeof idOrObj === 'object' && idOrObj !== null) {
+        if (idOrObj.name && (idOrObj.gn16 || idOrObj.gn16Fulfillment || idOrObj.category)) {
+          return idOrObj;
+        }
+        idOrObj = idOrObj.id || idOrObj.name || '';
+      }
+      const s = String(idOrObj).trim();
+      if (!s) return null;
+      if (typeof window !== 'undefined' && Array.isArray(window.ALL_PRODUCTS_CATALOG)) {
+        return window.ALL_PRODUCTS_CATALOG.find(function(p) {
+          return p.id === s || p.name === s || cleanProductName(p.name) === cleanProductName(s);
+        }) || null;
+      }
+      return null;
+    }
+    window.getProductById = getProductById;
+
+    function renderAiContextPreview() {
+      const el = document.getElementById('ai-context-details');
+      if (!el) return;
+      const ourProf = COMPANY_PROFILES[myCompany] || { fullName: myCompany, code: myCompany, flagshipSavings: '友邦 盈御多元貨幣 3' };
+      const rivalProf = COMPANY_PROFILES[selectedCompany] || { fullName: selectedCompany, code: selectedCompany, flagshipSavings: '保誠 雋富多元貨幣' };
+      const ourProd = getProductById(mySelectedProduct) || { name: ourProf.flagshipSavings || '我方旗艦', gn16: '96.5%', prepay: '5.0%', breakeven: '第 18 年保證', breakevenYear: 18, gn16Fulfillment: 96.5 };
+      const rivalProd = getProductById(rivalSelectedProduct) || { name: rivalProf.flagshipSavings || '對手旗艦', gn16: '91.2%', prepay: '5.8%', breakeven: '第 19 年保證', breakevenYear: 19, gn16Fulfillment: 91.2 };
+
+      const ourGn16 = (ourProd.gn16Fulfillment || parseFloat(ourProd.gn16) || 96.5);
+      const rivalGn16 = (rivalProd.gn16Fulfillment || parseFloat(rivalProd.gn16) || 91.2);
+      const gn16Diff = (ourGn16 - rivalGn16).toFixed(1);
+      const ourBe = (ourProd.breakevenYear || 18);
+      const rivalBe = (rivalProd.breakevenYear || 19);
+      const ourPrepay = ourProd.prepay || (ourProd.prepayRate ? ourProd.prepayRate + '%' : '無預繳');
+      const rivalPrepay = rivalProd.prepay || (rivalProd.prepayRate ? rivalProd.prepayRate + '%' : '無預繳');
+
+      const pitfallsHtml = (rivalProd.clause_pitfalls && rivalProd.clause_pitfalls.length > 0)
+        ? rivalProd.clause_pitfalls.slice(0, 2).map(function(pf){ return '⚠️ ' + pf; }).join('<br>')
+        : '⚠️ 次年浮動利率跳水風險 · 提早退保罰則折損';
+
+      el.innerHTML = [
+        '<div>🔵 <strong>我方代表 (Plan A)</strong>：' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】 (GN16: ' + (ourProd.gn16 || (ourGn16 + '%')) + ' | 預繳: ' + ourPrepay + ' | 回本: 第 ' + ourBe + ' 年)</div>',
+        '<div>🔴 <strong>遭遇競品 (Plan B)</strong>：' + rivalProf.fullName + '【' + cleanProductName(rivalProd.name) + '】 (GN16: ' + (rivalProd.gn16 || (rivalGn16 + '%')) + ' | 預繳: ' + rivalPrepay + ' | 回本: 第 ' + rivalBe + ' 年)</div>',
+        '<div style="background:#eff6ff;padding:4px 6px;border-radius:4px;border:1px solid #bfdbfe;font-size:10px;color:#1e3a8a;"><strong>⚖️ 精算差值 (Deltas)</strong>：GN16 差額 <strong>' + (gn16Diff >= 0 ? '+' : '') + gn16Diff + '%</strong> | 保證回本 <strong>' + (ourBe <= rivalBe ? '快 ' + (rivalBe - ourBe) + ' 年' : '慢 ' + (ourBe - rivalBe) + ' 年') + '</strong></div>',
+        '<div>⚡ <strong>客戶異議焦點</strong>：' + (selectedClaimText || selectedClaim) + '</div>',
+        '<div style="font-size:10px;color:#b91c1c;"><strong>⚠️ 競品避坑細則</strong>：<br>' + pitfallsHtml + '</div>',
+        '<div>🛡️ <strong>合規約束</strong>：香港保監局《持牌保險中介人操守守則》第 4.2 條 (客觀事實對比，嚴禁非理性貶損)</div>'
+      ].join('');
+
+      // Dynamically update smart prompt chips to reflect current entities
+      const chip1 = document.getElementById('ai-chip-analysis-core');
+      if (chip1) chip1.innerText = '🔥 攻防核心：【' + (ourProf.code || 'AIA') + ' vs ' + (rivalProf.code || '對手') + '】';
+      const chip2 = document.getElementById('ai-chip-gimmick-break');
+      if (chip2) chip2.innerText = '⚡ 客問：' + (selectedClaimText || selectedClaim || '高額預繳') + ' 點解唔買？';
+    }
+    window.renderAiContextPreview = renderAiContextPreview;
+
+    function handleSmartPromptClick(promptType) {
+      const ourProf = COMPANY_PROFILES[myCompany] || { fullName: myCompany };
+      const rivalProf = COMPANY_PROFILES[selectedCompany] || { fullName: selectedCompany };
+      let queryTitle = '';
+      if (promptType === 'analysis_core') {
+        queryTitle = '🔥 攻防核心：【' + ourProf.fullName + ' vs ' + rivalProf.fullName + '】精算深度比對與戰略定位';
+      } else if (promptType === 'gimmick_break') {
+        queryTitle = '⚡ 客問：' + (selectedClaimText || selectedClaim) + '，點解唔買對手？(30秒破局話術)';
+      } else if (promptType === 'family_bundling') {
+        queryTitle = '👨‍👩‍👧 年輕家庭客：60/40 儲蓄與危疾組合以守代攻';
+      } else if (promptType === 'offshore_mcv') {
+        queryTitle = '🇨🇳 MCV 內地訪港客：醫院直付名單、特快核保與離岸信託優勢';
+      } else if (promptType === 'gl20_compliance') {
+        queryTitle = '🛡️ 如何合規 (GL20) 應對虛擬網上保險低價競爭？';
+      }
+      generateAiResponse(queryTitle, promptType);
+    }
+    window.handleSmartPromptClick = handleSmartPromptClick;
+
+    function sendAiChatQuery() {
+      const input = document.getElementById('ai-chat-input');
+      const text = input ? input.value.trim() : '';
+      if (!text) return;
+      input.value = '';
+      generateAiResponse(text, 'custom');
+    }
+    window.sendAiChatQuery = sendAiChatQuery;
+
+    function generateAiResponse(query, type) {
+      const chatContainer = document.getElementById('ai-chat-messages');
+      if (!chatContainer) return;
+      
+      const ourProf = COMPANY_PROFILES[myCompany] || { fullName: myCompany, code: myCompany, flagshipSavings: '友邦 盈御多元貨幣 3' };
+      const rivalProf = COMPANY_PROFILES[selectedCompany] || { fullName: selectedCompany, code: selectedCompany, flagshipSavings: '保誠 雋富多元貨幣' };
+      const ourProd = getProductById(mySelectedProduct) || { name: ourProf.flagshipSavings || '我方主力', gn16: '96.5%', prepay: '5.0%', breakevenYear: 18, gn16Fulfillment: 96.5 };
+      const rivalProd = getProductById(rivalSelectedProduct) || { name: rivalProf.flagshipSavings || '對手旗艦', gn16: '91.2%', prepay: '5.8%', breakevenYear: 19, gn16Fulfillment: 91.2 };
+
+      const ourGn16 = (ourProd.gn16Fulfillment || parseFloat(ourProd.gn16) || 96.5);
+      const rivalGn16 = (rivalProd.gn16Fulfillment || parseFloat(rivalProd.gn16) || 91.2);
+      const gn16Diff = (ourGn16 - rivalGn16).toFixed(1);
+      const ourBe = (ourProd.breakevenYear || 18);
+      const rivalBe = (rivalProd.breakevenYear || 19);
+
+      let strategy = '';
+      let script = '';
+      let evidence = '';
+      let compliance = '';
+
+      if (type === 'analysis_core' || query.includes('攻防核心') || query.includes('精算深度比對') || query.includes('雙方攻防')) {
+        const deltaLead = (ourGn16 - rivalGn16 >= 0)
+          ? ('官方 GN16 實現率領先 +' + gn16Diff + '%')
+          : ('官方 GN16 實現率 ' + ourGn16 + '% vs ' + rivalGn16 + '%');
+        strategy = '圍繞【' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】 vs ' + rivalProf.fullName + '【' + cleanProductName(rivalProd.name) + '】】展開精算對決。以「' + deltaLead + '」與「' + (ourBe <= rivalBe ? '保證回本期更短、資金安全性更強' : '長期複利更高') + '」為核心護城河，化解競品短期促銷宣傳衝擊。引導客戶著眼 30 年複利累積真金白銀，而非首年噱頭。';
+        script = '「' + (ourProf.code === 'AIA' ? '陳生' : '張總') + '，買長期保險好比馬拉松，短期促銷宣傳單張只係起跑線。我地' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】深耕香港，歷年保監局 GN16 官方實現率達 ' + ourGn16 + '%（對手【' + cleanProductName(rivalProd.name) + '】為 ' + rivalGn16 + '%）。複利 30 年差額往往高達幾十萬港元！條款更支援多貨幣無等待期轉換與保單分拆，為您家族傳承提供跨越幾十年的確定承諾！」';
+        evidence = '香港保監局 (IA) 官方 GN16 分紅實現率數據庫、各大保險公司官方產品說明書。';
+        compliance = '恪守香港保監局 GL20 守則及第 4.2 條：以官方數據客觀陳述，提示非保證分紅可能浮動，無詆毀性詞彙。';
+      } else if (type === 'gimmick_break' || query.includes('預繳') || query.includes('回贈') || query.includes('點解唔買')) {
+        strategy = '採用「肯定眼光 ➔ 點破次年浮動 ➔ GN16 官方數據絕殺」三步法。切忌直接硬駁客戶，先肯定' + rivalProf.fullName + '【' + cleanProductName(rivalProd.name) + '】宣傳單張的吸睛度，再引導其細閱通函備註：對手高息僅限首年，次年回歸市場浮動息；我方' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】歷年 GN16 官方實現率達 ' + ourGn16 + '%，30 年複利實質派發遠超短期息差。';
+        script = '「' + (ourProf.code === 'AIA' ? '陳生' : '客官') + '，你真係好有眼光！' + rivalProf.fullName + '個宣傳第一眼睇真係好吸引！但仔細睇通函 fine print，佢個利息寫明只保證頭 1 年，第二年起跟市場浮動。長線儲蓄最緊要係幾十年後派唔派得足，我地' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】歷年 GN16 實現率達 ' + ourGn16 + '%，複利 30 年足足領先對手幾十萬真金白銀！」';
+        evidence = '香港保監局 (IA) 官方 GN16 分紅實現率數據庫及各大保險公司年度通函批註。';
+        compliance = '嚴格遵循保監局 GL20 第 4.2 條：以官方數據為依據，提示次年浮動利率機制，無任何詆毀競品詞彙。';
+      } else if (type === 'family_bundling' || query.includes('家庭')) {
+        strategy = '採用「60/40 攻守兼備配置法」：60% 預算鎖定高槓桿人壽危疾底層防禦（覆蓋未供完房貸與子女教育缺口），40% 配置' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】多元貨幣儲蓄，實現資產穩定增長與跨代傳承。';
+        script = '「張生張太，為家庭理財最怕『單腳跳』——淨買儲蓄若突發重疾會被迫斷供退保；淨買消費型醫保保費隨年紀暴漲無資產沉澱。我地建議將月預算 60% 佈局平準終身防禦，40% 放入多元貨幣儲蓄滾存複利，兼顧眼下保障與子女長遠留學儲備！」';
+        evidence = '家庭財務精算防禦模型、平準保費終身精算表。';
+        compliance = '合規提示：資產配置組合需因應客戶負債比率、流動性需求及風險承受能力獨立評估。';
+      } else if (type === 'offshore_mcv' || query.includes('內地') || query.includes('MCV')) {
+        strategy = '主打「內地 1,000+ 家三甲醫院出院免找數直付」+「特快免體檢額最高達 USD 400 萬」+「合法入境小白條跨境合規保單」+「離岸多幣種信託架構」。';
+        script = '「趙總，內地企業家赴港投保最關鍵在於理賠便捷與資產確定性。我地' + ourProf.fullName + '直連北京協和、上海瑞金等全國過千家三甲醫院，出院免找數直接結算，無需親自抵港索償；且支援 9 種世界貨幣無等待期轉換與保單分拆，離岸信託架構助您跨代財富無憂傳承！」';
+        evidence = '官方認可內地直付醫院名冊、境外大額保單核保指引。';
+        compliance = '嚴格遵守內地訪港投保法規，簽單手續必須在香港境內持有效入境標籤 (小白條) 依法完成。';
+      } else if (type === 'gl20_compliance' || query.includes('虛擬') || query.includes('Bowtie')) {
+        strategy = '客觀指出「純消費型醫療保障 vs 具備資產沉澱與跨代傳承的旗艦分紅險」之本質差異。純網上保險保費雖低但屬消費開支且多為自然費率，年紀越大保費跳升越劇烈；大病時缺乏專屬中介人跑腿辦妥出院免找數直付擔保。';
+        script = '「李太，純網上保險確實透明度高，適合作為年輕時的短期消費補充。但面對長線退休、子女傳承或大額重疾，我們旗艦方案鎖定 20 年平準保費終身保證，兼備專人全程跑腿直付理賠，不用大病時自己對住個 App 煩惱墊支幾十萬。」';
+        evidence = '自願醫保各計劃條款對比、平準費率 vs 自然費率精算模型。';
+        compliance = '嚴格恪守保監局第 4.2 條：客觀闡述產品結構特性差異，不使用「網上公司不可靠」等主觀不當言論。';
+      } else {
+        strategy = '圍繞當前所選【' + ourProf.fullName + ' vs ' + rivalProf.fullName + '】之精算優勢，以穩定分紅實現率 (GN16)、靈活保單分拆、貨幣轉換及健全核保額度為核心，化解競品短期促銷宣傳衝擊。';
+        script = '「陳生，買長期保險好比長跑，短期促銷宣傳單張只係起跑線。我地' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】深耕香港數十年，分紅實現率歷經牛熊市考驗依然穩健，條款清晰無次年跳水陷阱，為你家族提供跨越幾十年的確定承諾！」';
+        evidence = '香港保監局 GN16 公開年報及各大保司官方產品說明書。';
+        compliance = '恪守香港保監局 GL20 守則：客觀中立，利益陳述與風險披露並重。';
+      }
+
+      const msgHtml = '<div class="ai-chat-bubble ai-assistant-reply">' +
+        '<div style="font-weight:800;color:var(--ikb);margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">' +
+          '<span>💡 攻防課題：' + query + '</span>' +
+          '<span style="font-size:10px;color:#64748b;font-family:JetBrains Mono,monospace">AI COPILOT</span>' +
+        '</div>' +
+        '<div style="margin-bottom:8px;">' +
+          '<strong style="color:#0f172a;">🎯 戰略破局核心：</strong><br>' +
+          '<span style="color:#334155;">' + strategy + '</span>' +
+        '</div>' +
+        '<div style="background:#f8fafc;border-left:3px solid var(--ikb);padding:8px 10px;border-radius:4px;margin-bottom:8px;">' +
+          '<strong style="color:var(--ikb);">🗣️ 30 秒地道口頭話術（粵語實戰）：</strong><br>' +
+          '<span style="color:#0f172a;font-weight:600;" class="ai-script-text">' + script + '</span>' +
+        '</div>' +
+        '<div style="font-size:11px;color:#64748b;margin-bottom:4px;">' +
+          '<strong>📊 精算數據出處：</strong>' + evidence +
+        '</div>' +
+        '<div style="font-size:10px;color:#059669;background:#ecfdf5;padding:4px 8px;border-radius:4px;border:1px solid #a7f3d0;">' +
+          '<strong>🛡️ 保監局 GL20 合規護欄：</strong>' + compliance +
+        '</div>' +
+        '<div class="ai-chat-footer">' +
+          '<button class="inline-pitch-copy-btn btn-copy-full" onclick="copyAiGeneratedScript(this)">📋 一鍵複製 AI 話術</button>' +
+        '</div>' +
+      '</div>';
+
+      chatContainer.innerHTML = msgHtml + chatContainer.innerHTML;
+    }
+
+    function copyAiGeneratedScript(btn) {
+      const card = btn.closest('.ai-chat-bubble');
+      const scriptEl = card ? card.querySelector('.ai-script-text') : null;
+      const text = scriptEl ? scriptEl.innerText.trim() : '';
+      if (!text) return;
+      copyTextWithFeedback(text, btn, 'AI 攻防話術已複製！');
+    }
+    window.copyAiGeneratedScript = copyAiGeneratedScript;
+
+    function copySystemPrompt(btn) {
+      const el = document.getElementById('ai-system-prompt-text');
+      const text = el ? (el.innerText || el.textContent || '').trim() : '';
+      if (!text) return;
+      copyTextWithFeedback(text, btn, 'AIA System Prompt 已複製！');
+    }
+    window.copySystemPrompt = copySystemPrompt;
 
     // ==========================================================================
     // AI Scenario Agent Engines & Handlers
@@ -5637,18 +6212,11 @@
       renderScenarioAgentPanel();
     }
 
-    function copyCafeScript() {
+    function copyCafeScript(btn) {
       const el = document.getElementById('cafe-elevator-script');
-      const text = el ? (el.innerText || el.textContent) : '';
-      if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function() {
-          showToast('✅ 30秒見客話術已複製到剪貼簿！');
-        }).catch(function() {
-          fallbackCopyText(text);
-        });
-      } else {
-        fallbackCopyText(text);
-      }
+      const text = el ? (el.innerText || el.textContent || '').trim() : '';
+      if (!text) return;
+      copyTextWithFeedback(text, btn, '30秒見客話術已複製！');
     }
 
     function copyCommsMessage(plat) {
@@ -5848,15 +6416,18 @@
           '<div class="cafe-elevator-box">' +
             '<div class="cafe-elevator-header">' +
               '<span>⏱️ 30 秒見客電梯演講提詞 (單手口頭攻防)</span>' +
-              '<span style="font-family:monospace;">30s PITCH</span>' +
+              '<div style="display:flex;align-items:center;gap:6px;">' +
+                '<button class="inline-pitch-copy-btn" id="btn-inline-copy-cafe" onclick="copyCafeScript(this)" style="font-size:11px;padding:2px 8px;">📋 複製話術</button>' +
+                '<span style="font-family:monospace;font-size:10px;">30s PITCH</span>' +
+              '</div>' +
             '</div>' +
             '<div class="cafe-elevator-script" id="cafe-elevator-script">' + elevatorScript + '</div>' +
           '</div>' +
-          '<div class="cafe-actions-row">' +
-            '<button class="scenario-action-btn primary-btn" id="btn-copy-cafe-script" onclick="copyCafeScript()">' +
-              '📲 複製 30s 話術' +
+          '<div class="cafe-actions-row" style="display:none;" aria-hidden="true">' +
+            '<button class="scenario-action-btn primary-btn" id="btn-copy-cafe-script" onclick="copyCafeScript(this)">' +
+              '📋 複製 30s 話術' +
             '</button>' +
-            '<button class="scenario-action-btn" id="btn-cafe-open-whatsapp" onclick="openWhatsAppCafeScript()">' +
+            '<button class="scenario-action-btn" id="btn-cafe-open-whatsapp" onclick="openWhatsAppCafeScript()" style="display:none;" aria-hidden="true">' +
               '🚀 WhatsApp 傳送' +
             '</button>' +
             '<button class="scenario-action-btn" id="btn-cafe-flip-client" onclick="flipToClientView()">' +
@@ -6091,7 +6662,7 @@
       container.innerHTML = html;
     }
 
-    function fallbackCopyText(text) {
+    function fallbackCopyText(text, fallbackMsg) {
       try {
         const ta = document.createElement("textarea");
         ta.value = text;
@@ -6101,7 +6672,9 @@
         ta.select();
         document.execCommand("copy");
         document.body.removeChild(ta);
-        showToast("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
+        if (fallbackMsg !== false) {
+          showToast(fallbackMsg || "✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
+        }
       } catch (e) {
         alert(text);
       }
@@ -6182,6 +6755,15 @@
     window.setScenarioAgent = (s) => selectScenarioAgent(s);
     window.getScenarioAgent = () => currentScenario;
     window.renderScenarioAgentPanel = renderScenarioAgentPanel;
+    window.copyStepPitch = copyStepPitch;
+    window.copyFull3StepPitch = copyFull3StepPitch;
+    window.openAiChatDrawer = openAiChatDrawer;
+    window.closeAiChatDrawer = closeAiChatDrawer;
+    window.renderAiContextPreview = renderAiContextPreview;
+    window.handleSmartPromptClick = handleSmartPromptClick;
+    window.sendAiChatQuery = sendAiChatQuery;
+    window.copyAiGeneratedScript = copyAiGeneratedScript;
+    window.copySystemPrompt = copySystemPrompt;
     window.calculateQDAPTaxRelief = calculateQDAPTaxRelief;
     window.calculateFamilyBudget = calculateFamilyBudget;
     window.convertMCVCurrency = convertMCVCurrency;
