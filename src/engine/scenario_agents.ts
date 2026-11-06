@@ -540,6 +540,166 @@ export class OfflineResilienceAgent {
   }
 }
 
+// All 13 Private Hospitals in Hong Kong with full Tier/Room and Cashless Direct Billing metadata
+export const HK_13_PRIVATE_HOSPITALS = [
+  {
+    name: '香港養和醫院 (Hong Kong Sanatorium & Hospital)',
+    shortName: '養和醫院 (HKSH)',
+    district: '港島跑馬地 (Happy Valley)',
+    roomTier: '半私家房 / 尊貴私家房',
+    directBillingStatus: '全額保證代付 (LOG 擔保綠色通道)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '綜合腫瘤中心、質子治療、微創外科、頂級心血管中心',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 50,000 - 80,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '港怡醫院 (Gleneagles Hospital Hong Kong)',
+    shortName: '港怡醫院 (Gleneagles)',
+    district: '港島黃竹坑 (Wong Chuk Hang)',
+    roomTier: '標準半私家房 / 定價套式病房',
+    directBillingStatus: '全額保證代付 (全包醫療套式收費直通)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '50+項全包醫療套餐、達芬奇機械人、全方位骨科與腫瘤',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 40,000 - 60,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '嘉諾撒醫院 (Canossa Hospital)',
+    shortName: '嘉諾撒醫院 (Canossa)',
+    district: '港島中半山舊山頂道 (Old Peak Road)',
+    roomTier: '標準雙人房 / 單人房',
+    directBillingStatus: '保司直接結算 (出院免找數)',
+    preApprovalHours: '48 小時預先批核',
+    specialties: '明愛優質全科、婦幼健康、微創腹腔鏡、日間白內障',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  },
+  {
+    name: '香港中文大學醫院 (CUHK Medical Centre)',
+    shortName: '中大醫院 (CUHKMC)',
+    district: '新界沙田 (Shatin)',
+    roomTier: '標準雙人房 / 智慧單人房',
+    directBillingStatus: '全額保證代付 (全港首家非牟利智慧定價私院)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '全面定價收費套餐、日間手術中心、智慧無紙化直付網絡',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: "聖保祿醫院 (St. Paul's Hospital)",
+    shortName: '聖保祿醫院 / 法國修女醫院',
+    district: '港島銅鑼灣 (Causeway Bay)',
+    roomTier: '標準房 / 半私家房 / 私家房',
+    directBillingStatus: '保司直接結算 (出院免找數)',
+    preApprovalHours: '24-48 小時預先批核',
+    specialties: '先進放射治療中心、心臟導管微創、綜合癌症治療',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  },
+  {
+    name: '仁安醫院 (Union Hospital)',
+    shortName: '仁安醫院 (Union)',
+    district: '新界沙田大圍 (Tai Wai)',
+    roomTier: '二等雙人房 / 頭等單人房',
+    directBillingStatus: '全額保證代付 (LOG 擔保特快直付)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '微創中心、微創心臟介入手術、婦產科、日間手術中心',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '香港浸信會醫院 (Hong Kong Baptist Hospital)',
+    shortName: '浸會醫院 (HKBH)',
+    district: '九龍塘 (Kowloon Tong)',
+    roomTier: '標準三人房 / 半私家單人房',
+    directBillingStatus: '全額保證代付 (特設保險直付專屬櫃枱)',
+    preApprovalHours: '24-48 小時預先批核',
+    specialties: '癌症治療中心、心臟血管中心、大型腎科及日間內窺鏡',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  },
+  {
+    name: '香港港安醫院－司徒拔道 (Hong Kong Adventist Hospital - Stubbs Road)',
+    shortName: '港安醫院 (司徒拔道)',
+    district: '港島跑馬地/東半山 (Stubbs Road)',
+    roomTier: '半私家房 / 全單人房',
+    directBillingStatus: '全球國際保險直接結算 (Cashless Billing)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: 'JCI國際認證、心臟中心、微創機械人、全天候急症支援',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 40,000 - 60,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '香港港安醫院－荃灣 (Hong Kong Adventist Hospital - Tsuen Wan)',
+    shortName: '港安醫院 (荃灣)',
+    district: '新界荃灣 (Tsuen Wan)',
+    roomTier: '標準房 / 優質半私家房 / 私家房',
+    directBillingStatus: '全額保證代付 (新界西頂尖私院直付通道)',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '24小時急症、先進綜合腫瘤中心、骨科微創、日間手術',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '播道醫院 (Evangel Hospital)',
+    shortName: '播道醫院 (Evangel)',
+    district: '九龍城亞皆老街 (Kowloon City)',
+    roomTier: '標準房 / 半私家房',
+    directBillingStatus: '特約保險直接結算 (出院免找數)',
+    preApprovalHours: '48 小時預先批核',
+    specialties: '高性價比內窺鏡日間手術、白內障手術、全科門診與住院',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 20,000 - 30,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  },
+  {
+    name: "聖德肋撒醫院 / 法國醫院 (St. Teresa's Hospital)",
+    shortName: '聖德肋撒醫院 / 九龍法國醫院',
+    district: '九龍城太子道 (Prince Edward Road)',
+    roomTier: '標準房 / 二等房 / 頭等房',
+    directBillingStatus: '全港主流保險直接結算網絡 (出院免找數)',
+    preApprovalHours: '24-48 小時預先批核',
+    specialties: '九龍區超大型全科私院、千張床位、腫瘤科、心導管介入手術',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 30,000 - 50,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  },
+  {
+    name: '明德國際醫院 (Matilda International Hospital)',
+    shortName: '明德醫院 (Matilda)',
+    district: '港島山頂加列山道 (The Peak)',
+    roomTier: '尊貴山景/海景單人房 / 標準房',
+    directBillingStatus: '國際涉外高端保險全額直接結算',
+    preApprovalHours: '24 小時特快批核',
+    specialties: '頂級奢華尊貴醫療、先進骨科微創、脊柱手術、全科日間外科',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 50,000 - 100,000',
+    cashlessNetworkRank: 'Tier 1 旗艦直付'
+  },
+  {
+    name: '寶血醫院（明愛） (Precious Blood Hospital (Caritas))',
+    shortName: '寶血醫院 (Precious Blood)',
+    district: '九龍深水埗青山道 (Sham Shui Po)',
+    roomTier: '標準多人間 / 二等雙人房',
+    directBillingStatus: '明愛社福合資格保險直付 (出院免找數)',
+    preApprovalHours: '48 小時預先批核',
+    specialties: '社區高性價比微創手術、日間白內障、腸胃鏡、婦科手術',
+    depositWithLOG: 'HK$ 0 (全免入院按金)',
+    depositWithoutLOG: 'HK$ 20,000 - 30,000',
+    cashlessNetworkRank: 'Tier 1 認可直付'
+  }
+];
+
 // ============================================================================
 // AGENT 7: 💼 Cashless Medical & Hospital Pre-Approval Agent
 // ============================================================================
@@ -552,9 +712,15 @@ export class CashlessMedicalAgent {
     ourProduct?: any;
     rivalProduct?: any;
   }): CashlessMedicalOutput {
-    const hospital = params.hospital || "香港養和醫院 (Hong Kong Sanatorium & Hospital)";
-    const treatment = params.treatment || "癌症非手術標靶治療 (Targeted Cancer Therapy)";
-    const deductible = typeof params.deductibleHKD === "number" ? params.deductibleHKD : 0;
+    const hospital = (typeof params?.hospital === "string" && params.hospital.trim())
+      ? params.hospital.trim()
+      : "香港養和醫院 (Hong Kong Sanatorium & Hospital)";
+    const treatment = (typeof params?.treatment === "string" && params.treatment.trim())
+      ? params.treatment.trim()
+      : "癌症非手術標靶治療 (Targeted Cancer Therapy)";
+    const deductible = (typeof params?.deductibleHKD === "number" && !isNaN(params.deductibleHKD) && params.deductibleHKD >= 0)
+      ? params.deductibleHKD
+      : 0;
 
     let estimatedCost = 500000;
     if (treatment.includes("癌症") || treatment.includes("標靶")) estimatedCost = 680000;
@@ -562,6 +728,8 @@ export class CashlessMedicalAgent {
     else if (treatment.includes("骨科") || treatment.includes("關節")) estimatedCost = 280000;
     else if (treatment.includes("達芬奇") || treatment.includes("機械人")) estimatedCost = 450000;
     else if (treatment.includes("白內障") || treatment.includes("日間")) estimatedCost = 65000;
+    else if (treatment.includes("腸胃鏡") || treatment.includes("息肉")) estimatedCost = 45000;
+    else if (treatment.includes("脊柱") || treatment.includes("椎間盤")) estimatedCost = 350000;
 
     const clientPay = Math.min(deductible, estimatedCost);
     const covered = estimatedCost - clientPay;
