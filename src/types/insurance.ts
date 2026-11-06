@@ -324,6 +324,9 @@ export interface CashlessMedicalOutput {
   preApprovalDaysNotice: number;
   directBillingHotline: string;
   workflowSteps: string[];
+  ourProductPlan?: string;
+  rivalProductPlan?: string;
+  rivalDirectBillingStatus?: string;
 }
 
 export interface CafePitchOutput {
@@ -386,6 +389,8 @@ export interface QDAPTaxOutput {
   effectiveDiscountPct: number;
   monthlyAnnuityEstimateHKD: number;
   guaranteedCashflowSharePct: number;
+  guaranteedIRR?: number;
+  totalIRR?: number;
 }
 
 export interface InstantMessageOutput {

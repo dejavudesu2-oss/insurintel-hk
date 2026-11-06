@@ -96,6 +96,35 @@ suite('1. Pure TypeScript Core Scenario Agents Logic & Boundary Resilience', () 
       assert.ok(res.punchlineBullets.length >= 3, `Key metrics should have >= 3 items for ${cat}`);
       assert.ok(res.deltaBadges.statusTag.length > 0, `Status tag should be populated for ${cat}`);
     }
+
+    // Bilateral CI metrics test
+    const ciPitch = agent.generate30sPitch(
+      { name: '友邦 加裕智倍保 3', cancerWaitYears: 1, ciIllnesses: 128, ciMultiplePct: 900, ciIcu: true },
+      { name: '保誠 守護健康危疾加倍保', cancerWaitYears: 3, ciIllnesses: 118, ciMultiplePct: 800 },
+      'Critical_Illness'
+    );
+    assert.ok(ciPitch.deltaBadges.breakevenDelta.includes('短 2 年'));
+    assert.ok(ciPitch.deltaBadges.rebateDelta.includes('+10種'));
+    assert.ok(ciPitch.deltaBadges.gn16Delta.includes('+100%'));
+
+    // Bilateral VHIS metrics test
+    const vhisPitch = agent.generate30sPitch(
+      { name: '友邦 亞洲至尊明珠', vhisLimitHkd: 25000000, vhisLifetimeLimitHkd: 0, vhisDeductibles: [0, 16000, 25000, 50000] },
+      { name: '保誠 摯為您', vhisLimitHkd: 16000000, vhisLifetimeLimitHkd: 60000000 },
+      'Medical_VHIS'
+    );
+    assert.ok(vhisPitch.deltaBadges.breakevenDelta.includes('+900萬'));
+    assert.ok(vhisPitch.deltaBadges.rebateDelta.includes('終身無上限 vs HK$ 6000萬'));
+    assert.ok(vhisPitch.deltaBadges.gn16Delta.includes('$0/$16k/$25k/$50k'));
+
+    // Bilateral QDAP metrics test
+    const qdapPitch = agent.generate30sPitch(
+      { name: '友邦 延期年金', qdapGuaranteedIRR: 2.92, qdapTotalIRR: 4.70, qdapGuaranteedPct: 85.0 },
+      { name: '保誠 延期年金', qdapGuaranteedIRR: 2.80, qdapTotalIRR: 4.50, qdapGuaranteedPct: 78.5 },
+      'Annuity_QDAP'
+    );
+    assert.ok(qdapPitch.deltaBadges.breakevenDelta.includes('+0.12%'));
+    assert.ok(qdapPitch.deltaBadges.rebateDelta.includes('+6.5%'));
   });
 
   test('CafeRapidPitchAgent: Gracefully handles empty/null products without throwing', () => {
@@ -179,6 +208,23 @@ suite('1. Pure TypeScript Core Scenario Agents Logic & Boundary Resilience', () 
     // 2% tax bracket check: annualPremium = 60000, taxRate = 2
     const res2 = agent.calculateQDAPTaxRelief(60000, 2, false);
     assert.strictEqual(res2.taxReliefSavedHKD, 1200); // 60,000 * 2%
+
+    // User Test Case: Large QDAP premium (6,000,013) must scale monthly annuity and effective discount
+    const resLarge = agent.calculateQDAPTaxRelief(6000013, 17, false);
+    assert.strictEqual(resLarge.monthlyAnnuityEstimateHKD, 200000); // (6,000,013 * 5 * 1.6) / (20 * 12) = 200,000
+    assert.strictEqual(resLarge.effectiveDiscountPct, 0.2); // 10,200 / 6,000,013 = 0.17% -> 0.2%
+
+    // Custom product binding: guaranteed cashflow ratio and IRR
+    const customQDAP = {
+      name: '宏利 延期年金',
+      qdapGuaranteedIRR: 2.95,
+      qdapTotalIRR: 4.80,
+      qdapGuaranteedPct: 86.5
+    };
+    const resCustom = agent.calculateQDAPTaxRelief(60000, 17, false, customQDAP);
+    assert.strictEqual(resCustom.guaranteedIRR, 2.95);
+    assert.strictEqual(resCustom.totalIRR, 4.80);
+    assert.strictEqual(resCustom.guaranteedCashflowSharePct, 86.5);
   });
 
   test('InstantCommsSynthesizerAgent: WhatsApp & WeChat tones with statutory GL20 compliance', () => {
@@ -285,6 +331,33 @@ suite('1. Pure TypeScript Core Scenario Agents Logic & Boundary Resilience', () 
     assert.strictEqual(resHeart.estimatedCostHKD, 380000);
     assert.strictEqual(resHeart.clientOutOfPocketHKD, 25000);
     assert.strictEqual(resHeart.coverageHKD, 355000);
+
+    // Bilateral test: AIA vs Bowtie Pink (online insurer limitations)
+    const resBowtie = agent.checkCashlessDirectBilling({
+      hospital: '香港中文大學醫院 (CUHK Medical Centre)',
+      treatment: '達芬奇機械人微創手術 (Da Vinci Robotic Surgery)',
+      deductibleHKD: 16000,
+      ourProduct: { name: '友邦 亞洲至尊明珠', insurer: 'AIA' },
+      rivalProduct: { name: '保泰 自願醫保靈活計劃 (Pink)', insurer: 'Bowtie' }
+    });
+    assert.strictEqual(resBowtie.estimatedCostHKD, 450000);
+    assert.strictEqual(resBowtie.clientOutOfPocketHKD, 16000);
+    assert.strictEqual(resBowtie.coverageHKD, 434000);
+    assert.strictEqual(resBowtie.ourProductPlan, '友邦 亞洲至尊明珠');
+    assert.strictEqual(resBowtie.rivalProductPlan, '保泰 自願醫保靈活計劃 (Pink)');
+    assert.ok(resBowtie.rivalDirectBillingStatus?.includes('純網上自願醫保'));
+    assert.ok(resBowtie.rivalDirectBillingStatus?.includes('越級病房設 50% 折減'));
+
+    // Bilateral test: AIA vs Prudential (traditional insurer limits)
+    const resPru = agent.checkCashlessDirectBilling({
+      hospital: '香港中文大學醫院 (CUHK Medical Centre)',
+      treatment: '達芬奇機械人微創手術 (Da Vinci Robotic Surgery)',
+      deductibleHKD: 25000,
+      ourProduct: { name: '友邦 亞洲至尊明珠', insurer: 'AIA' },
+      rivalProduct: { name: '保誠 摯為您', insurer: 'Prudential', vhisLimitHkd: 16000000 }
+    });
+    assert.ok(resPru.rivalDirectBillingStatus?.includes('1600萬'));
+    assert.ok(resPru.rivalDirectBillingStatus?.includes('5-7 工作天'));
   });
 
   test('ScenarioAgentHub: Accurately routes to each specialized agent', () => {
@@ -789,6 +862,20 @@ suite('3. Dynamic Reactivity on Camp / Category / Product Switching', () => {
     // Switch Category to Medical VHIS
     mockWindow.selectCategory('Medical_VHIS');
     assert.ok(domElements['scenario-agent-panel'].innerHTML.length > 0, 'Scenario panel should re-render on VHIS category switch');
+
+    // Test updateCampSelectors triggers renderScenarioAgentPanel
+    mockWindow.selectScenarioAgent('cashless_medical');
+    const cashlessBefore = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(cashlessBefore.includes('免找數直付速查'));
+
+    // Test updateCampSelectors re-renders cashless medical panel
+    mockWindow.updateCampSelectors();
+    const cashlessAfter = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(cashlessAfter.includes('免找數直付速查'), 'updateCampSelectors must refresh scenario panel');
+
+    // Test cashless medical dynamically incorporates Plan A vs Plan B
+    assert.ok(cashlessAfter.includes('我方 (Plan A)'), 'Must render Plan A header');
+    assert.ok(cashlessAfter.includes('對手 (Plan B)'), 'Must render Plan B header');
   });
 
   test('Adversarial Boundary Inputs: Handlers remain completely crash-proof with non-numeric or malformed data', () => {

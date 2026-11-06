@@ -5174,6 +5174,8 @@
         btn.classList.toggle('my-company-pill', isMyComp);
         btn.classList.toggle('active', isSelectedRival);
       });
+
+      renderScenarioAgentPanel();
     }
 
     // Pill Selector Handlers
@@ -6407,12 +6409,14 @@
         estimatedCost: est,
         coverage: covered,
         clientOutOfPocket: outOfPocket,
-        isApproved: true
+        isApproved: true,
+        ourProduct: mySelectedProduct ? cleanProductName(mySelectedProduct.name) : '我方方案',
+        rivalProduct: rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : '遭遇競品'
       };
     }
     window.checkCashlessDirectBilling = checkCashlessDirectBilling;
 
-    function calculateQDAPTaxRelief(taxRate, annualPremium, isCouple) {
+    function calculateQDAPTaxRelief(taxRate, annualPremium, isCouple, product) {
       const rate = (typeof taxRate === 'number' && !isNaN(taxRate)) ? taxRate : qdapTaxRate;
       const prem = (typeof annualPremium === 'number' && !isNaN(annualPremium)) ? Math.max(0, annualPremium) : qdapAnnualPremium;
       const couple = (typeof isCouple === 'boolean') ? isCouple : qdapIsCouple;
@@ -6422,6 +6426,12 @@
       const effectiveDiscount = prem > 0 ? Math.round((taxSaved / prem) * 1000) / 10 : 0;
       // Monthly annuity payout scales proportionally with actual entered premium (prem)
       const monthlyAnnuity = Math.round((prem * 5 * 1.6) / (20 * 12));
+
+      const prod = product || mySelectedProduct || {};
+      const gIrr = prod.qdapGuaranteedIRR || (prod.qdap_metrics && prod.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
+      const tIrr = prod.qdapTotalIRR || (prod.qdap_metrics && prod.qdap_metrics.total_internal_rate_pct) || 4.65;
+      const gRatio = prod.qdapGuaranteedPct || (prod.qdap_metrics && prod.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.round((gIrr / tIrr) * 100 * 10) / 10);
+
       return {
         annualPremium: prem,
         taxRate: rate,
@@ -6430,7 +6440,10 @@
         eligible: eligible,
         taxSaved: taxSaved,
         monthlyAnnuity: monthlyAnnuity,
-        discountPct: effectiveDiscount
+        discountPct: effectiveDiscount,
+        guaranteedIRR: gIrr,
+        totalIRR: tIrr,
+        guaranteedPct: gRatio
       };
     }
 
@@ -6506,8 +6519,10 @@
           lines.push('');
           lines.push('💡 ' + b('專業總結：') + '醫療險首重全額賠償與出院直付免墊支體驗，方案 A 具備最佳性價比。');
         } else if (cat === 'Annuity_QDAP') {
+          const qdapProd = (mySelectedProduct && (mySelectedProduct.category === 'Annuity_QDAP' || mySelectedProduct.qdap_metrics)) ? mySelectedProduct : null;
+          const qdapShare = (qdapProd && qdapProd.qdapGuaranteedPct) ? qdapProd.qdapGuaranteedPct : 80.5;
           lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
-          lines.push('   └ 保證年金利益佔比超 80.5%，頂階稅階實質退稅 17%，保證終身月派現金流。');
+          lines.push('   └ 保證年金利益佔比超 ' + qdapShare + '%，頂階稅階實質退稅 17%，保證終身月派現金流。');
           lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
           lines.push('   └ 浮動紅利佔比較大，長期受宏觀降息與投資波動影響，退休預算確定性較弱。');
           lines.push('');
@@ -6652,12 +6667,15 @@
     }
 
     function updateQDAPUI() {
-      const ourProd = mySelectedProduct || {};
+      const qdapOur = (mySelectedProduct && (normalizeCategory(mySelectedProduct.category) === 'Annuity_QDAP' || mySelectedProduct.qdap_metrics)) ? mySelectedProduct : null;
+      const qdapFlagshipOur = getFlagshipProduct(myCompany, 'Annuity_QDAP');
+      const ourProd = qdapOur || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Annuity_QDAP' && (p.name.includes(qdapFlagshipOur) || qdapFlagshipOur.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Annuity_QDAP') || (mySelectedProduct || {});
+
       const gIrr = ourProd.qdapGuaranteedIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
       const tIrr = ourProd.qdapTotalIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.total_internal_rate_pct) || 4.65;
-      const gRatio = ourProd.qdapGuaranteedPct || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((gIrr / tIrr) * 100 * 1.3 * 10) / 10)));
+      const gRatio = ourProd.qdapGuaranteedPct || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.round((gIrr / tIrr) * 100 * 10) / 10);
 
-      const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple);
+      const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple, ourProd);
 
       const eligibleEl = document.getElementById('qdap-eligible-limit-val');
       if (eligibleEl) {
@@ -7003,6 +7021,10 @@
             '<span class="scenario-pill-badge blue">跨境資產配置</span>' +
           '</div>' +
           '<div class="mcv-converter-box">' +
+            '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:11px;color:#1e3a8a;display:flex;justify-content:space-between;align-items:center;">' +
+              '<span>🔵 當前配置：<strong>' + ourProdName + '</strong> vs 🔴 <strong>' + rivalProdName + '</strong></span>' +
+              '<span style="font-size:10px;color:#0369a1;font-weight:700;">離岸跨幣配置</span>' +
+            '</div>' +
             '<div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">💱 跨境保費與現金流即時換算器 (即時多幣種比對)</div>' +
             '<div class="mcv-input-row">' +
               '<input type="number" class="mcv-input" id="mcv-amount-input" value="' + mcvAmount + '" oninput="onMCVAmountChange(this.value)" placeholder="輸入金額">' +
@@ -7067,6 +7089,10 @@
             '<span class="scenario-pill-badge green">高性價比槓桿</span>' +
           '</div>' +
           '<div class="family-budget-box">' +
+            '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:11px;color:#1e3a8a;display:flex;justify-content:space-between;align-items:center;">' +
+              '<span>🔵 方案 A 推薦組合: <strong>' + ourProdName + '</strong></span>' +
+              '<span style="color:#64748b;">🔴 遭遇競品: <strong>' + rivalProdName + '</strong></span>' +
+            '</div>' +
             '<div class="family-slider-header">' +
               '<span>家庭每月總保險預算</span>' +
               '<span class="family-slider-val" id="family-budget-display">HK$ ' + familyMonthlyBudget.toLocaleString() + ' / 月</span>' +
@@ -7107,11 +7133,16 @@
           '</div>' +
         '</div>';
       } else if (currentScenario === 'retirement_tax') {
-        const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple);
-        const ourProd = mySelectedProduct || {};
-        const gIrr = ourProd.qdapGuaranteedIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
-        const tIrr = ourProd.qdapTotalIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.total_internal_rate_pct) || 4.65;
-        const gRatio = ourProd.qdapGuaranteedPct || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((gIrr / tIrr) * 100 * 1.3 * 10) / 10)));
+        const qdapOur = (mySelectedProduct && (normalizeCategory(mySelectedProduct.category) === 'Annuity_QDAP' || mySelectedProduct.qdap_metrics)) ? mySelectedProduct : null;
+        const qdapFlagshipOur = getFlagshipProduct(myCompany, 'Annuity_QDAP');
+        const resolvedOurQDAP = qdapOur || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Annuity_QDAP' && (p.name.includes(qdapFlagshipOur) || qdapFlagshipOur.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Annuity_QDAP') || (mySelectedProduct || {});
+
+        const gIrr = resolvedOurQDAP.qdapGuaranteedIRR || (resolvedOurQDAP.qdap_metrics && resolvedOurQDAP.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
+        const tIrr = resolvedOurQDAP.qdapTotalIRR || (resolvedOurQDAP.qdap_metrics && resolvedOurQDAP.qdap_metrics.total_internal_rate_pct) || 4.65;
+        const gRatio = resolvedOurQDAP.qdapGuaranteedPct || (resolvedOurQDAP.qdap_metrics && resolvedOurQDAP.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.round((gIrr / tIrr) * 100 * 10) / 10);
+        const qdapOurName = cleanProductName(resolvedOurQDAP.name || ourProdName);
+
+        const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple, resolvedOurQDAP);
 
         html = '<div class="scenario-card-box" id="panel-scenario-retirement">' +
           '<div class="scenario-head">' +
@@ -7122,6 +7153,10 @@
             '<span class="scenario-pill-badge green">法定退稅</span>' +
           '</div>' +
           '<div class="retirement-calc-box">' +
+            '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:6px 10px;margin-bottom:8px;font-size:11px;color:#1e3a8a;display:flex;justify-content:space-between;align-items:center;">' +
+              '<span>🔵 方案 A: <strong>' + qdapOurName + '</strong> (保證IRR ' + gIrr + '% · 總IRR ' + tIrr + '%)</span>' +
+              '<span style="color:#64748b;">🔴 遭遇競品: <strong>' + rivalProdName + '</strong></span>' +
+            '</div>' +
             '<div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">💰 QDAP 年繳保費與邊際稅階試算</div>' +
             '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">' +
               '<input type="number" style="flex:1;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:14px;font-weight:700;font-family:monospace;" id="qdap-premium-input" value="' + qdapAnnualPremium + '" oninput="onQDAPPremiumChange(this.value)" placeholder="QDAP 年繳保費">' +
@@ -7205,19 +7240,38 @@
         ];
         const curTreatmentObj = treatments.find(function(t) { return t.name === medicalTreatment; }) || treatments[0];
         const estCost = curTreatmentObj.est;
+
+        const medOur = (ourMetrics && normalizeCategory(ourMetrics.category) === 'Medical_VHIS') ? ourMetrics : null;
+        const medFlagshipOur = getFlagshipProduct(myCompany, 'Medical_VHIS');
+        const resolvedOurMed = medOur || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipOur) || medFlagshipOur.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS') || ourMetrics;
+
+        const medRival = (rivalMetrics && normalizeCategory(rivalMetrics.category) === 'Medical_VHIS') ? rivalMetrics : null;
+        const medFlagshipRival = getFlagshipProduct(selectedCompany, 'Medical_VHIS');
+        const resolvedRivalMed = medRival || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipRival) || medFlagshipRival.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS') || rivalMetrics;
+
+        const medicalOurProdName = cleanProductName(resolvedOurMed.name || resolvedOurMed.product_name || ourProdName);
+        const medicalRivalProdName = cleanProductName(resolvedRivalMed.name || resolvedRivalMed.product_name || rivalProdName);
+
+        // Dynamic deductible tiers from selected product or standard options
+        const ourDeds = (resolvedOurMed.vhisDeductibles && resolvedOurMed.vhisDeductibles.length > 0)
+          ? resolvedOurMed.vhisDeductibles
+          : (resolvedOurMed.vhis_metrics && Array.isArray(resolvedOurMed.vhis_metrics.deductible_options_hkd) && resolvedOurMed.vhis_metrics.deductible_options_hkd.length > 0)
+            ? resolvedOurMed.vhis_metrics.deductible_options_hkd
+            : [0, 16000, 25000, 50000, 80000];
+        const dedTiers = Array.from(new Set(ourDeds)).sort((a,b) => a - b);
+        if (!dedTiers.includes(medicalDeductible)) {
+          medicalDeductible = dedTiers[0] || 0;
+        }
+
         const outOfPocket = Math.min(medicalDeductible, estCost);
         const coveredAmt = estCost - outOfPocket;
 
-        // Dynamic deductible tiers from selected product or standard options
-        const ourDeds = (ourMetrics.vhisDeductibles || (ourMetrics.vhis_metrics && ourMetrics.vhis_metrics.deductible_options_hkd)) || [0, 16000, 25000, 50000];
-        const dedTiers = Array.from(new Set([...ourDeds, 0, 16000, 25000, 50000, 80000])).sort((a,b) => a - b);
-
-        const rivalAnnual = (rivalMetrics.vhisLimitHkd || (rivalMetrics.vhis_metrics && rivalMetrics.vhis_metrics.annual_limit_hkd)) || 20000000;
+        const rivalAnnual = (resolvedRivalMed.vhisLimitHkd || (resolvedRivalMed.vhis_metrics && resolvedRivalMed.vhis_metrics.annual_limit_hkd)) || 20000000;
         const rivalAnnualWan = Math.round(rivalAnnual / 10000);
-        const rivalCompName = rivalMetrics.insurerName || rivalMetrics.insurer || selectedCompany;
-        const ourCompName = ourMetrics.insurerName || ourMetrics.insurer || myCompany;
+        const rivalCompName = resolvedRivalMed.insurerName || resolvedRivalMed.insurer || selectedCompany;
+        const ourCompName = resolvedOurMed.insurerName || resolvedOurMed.insurer || myCompany;
 
-        const rivalLimitation = (rivalMetrics.insurer === 'Bowtie' || selectedCompany === 'Bowtie')
+        const rivalLimitation = (resolvedRivalMed.insurer === 'Bowtie' || selectedCompany === 'Bowtie')
           ? '純網上自願醫保，無 Agent 實體跟進出院直付；需全在線自主遞交申請，越級病房設 50% 折減'
           : '【' + rivalCompName + '】年度限額 HK$ ' + rivalAnnualWan + '萬；傳統直付批核需 5-7 工作天，超出限額或自負額需先自行墊支';
 
@@ -7260,14 +7314,14 @@
             '</div>' +
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">' +
               '<div style="background:#eff6ff;padding:8px;border-radius:8px;border:1.5px solid #93c5fd;">' +
-                '<div style="font-size:11px;font-weight:800;color:var(--ikb);margin-bottom:4px;">🔵 我方 (Plan A): ' + ourProdName + '</div>' +
+                '<div style="font-size:11px;font-weight:800;color:var(--ikb);margin-bottom:4px;">🔵 我方 (Plan A): ' + medicalOurProdName + '</div>' +
                 '<div style="font-size:10px;color:#1e3a8a;">保司直接代付 (LOG擔保)：</div>' +
                 '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;">HK$ ' + (coveredAmt/10000).toFixed(1) + '萬</div>' +
                 '<div style="font-size:10px;color:#64748b;margin-top:2px;">客戶自負額：<strong style="color:' + (outOfPocket > 0 ? '#b91c1c' : '#059669') + ';">HK$ ' + outOfPocket.toLocaleString() + '</strong></div>' +
                 '<div style="font-size:10px;color:#1e40af;margin-top:4px;">✅ 【' + ourCompName + '】專屬醫療顧問直通，全額保證代付，入院免收大額按金！</div>' +
               '</div>' +
               '<div style="background:#fef2f2;padding:8px;border-radius:8px;border:1.5px solid #fca5a5;">' +
-                '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:4px;">🔴 對手 (Plan B): ' + rivalProdName + '</div>' +
+                '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:4px;">🔴 對手 (Plan B): ' + medicalRivalProdName + '</div>' +
                 '<div style="font-size:10px;color:#7f1d1d;">競品直付覆蓋與限制：</div>' +
                 '<div style="font-size:12px;font-weight:700;color:#991b1b;line-height:1.4;margin-top:3px;">' + rivalLimitation + '</div>' +
                 '<div style="font-size:10px;color:#64748b;margin-top:4px;">⚠️ 若超出單項限額或非認可醫院，客戶需出院時自行刷卡墊付差額！</div>' +

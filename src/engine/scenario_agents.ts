@@ -57,56 +57,69 @@ export class CafeRapidPitchAgent {
       const ourWait = ourProduct?.cancerWaitYears || ourProduct?.ci_metrics?.cancer_waiting_period_years || 1;
       const rivalWait = rivalProduct?.cancerWaitYears || rivalProduct?.ci_metrics?.cancer_waiting_period_years || 3;
       const diffWait = rivalWait - ourWait;
-      breakevenDelta = diffWait > 0 ? `癌症等候短 ${diffWait} 年` : `等候期 ${ourWait} 年`;
-      rebateDelta = `涵蓋 ${ourProduct?.ciIllnesses || 120} 種危疾`;
-      gn16Delta = ourProduct?.ciIcu ? "含 ICU 深度預支" : "多次賠付高達 900%";
+
+      const ourIll = ourProduct?.ciIllnesses || ourProduct?.ci_metrics?.total_illnesses_covered || 128;
+      const rivalIll = rivalProduct?.ciIllnesses || rivalProduct?.ci_metrics?.total_illnesses_covered || 118;
+      const illDiff = ourIll - rivalIll;
+
+      const ourMult = ourProduct?.ciMultiplePct || ourProduct?.ci_metrics?.multiple_claim_limit_pct || 900;
+      const rivalMult = rivalProduct?.ciMultiplePct || rivalProduct?.ci_metrics?.multiple_claim_limit_pct || 800;
+      const multDiff = ourMult - rivalMult;
+
+      breakevenDelta = diffWait > 0 ? `癌症等候短 ${diffWait} 年 (${ourWait}年 vs ${rivalWait}年)` : `等候期 ${ourWait} 年`;
+      rebateDelta = illDiff > 0 ? `涵蓋疾病多 +${illDiff}種 (${ourIll}種 vs ${rivalIll}種)` : `涵蓋 ${ourIll} 種危疾`;
+      gn16Delta = multDiff > 0 ? `多次索償限額高 +${multDiff}% (${ourMult}% vs ${rivalMult}%)` : `多次賠付高達 ${ourMult}%`;
       statusTag = "🛡️ 危疾條款穿透";
 
       punchlines = [
-        `【等候期極限壓制】我方【${ourName}】癌症間隔僅 ${ourWait} 年（競品需熬足 ${rivalWait} 年），復發第一時間賠足！`,
-        `【理賠廣度全覆蓋】涵蓋 ${ourProduct?.ciIllnesses || 120} 種疾病 + 深切治療部 (ICU) 入住即預支 20% 保額！`,
-        `【保費槓桿優勢】同一保費下，多次索償總額高達 ${ourProduct?.ciMultiplePct || 900}%，守護終身！`
+        `【等候期極限壓制】我方【${ourName}】癌症間隔僅 ${ourWait} 年（競品需熬足 ${rivalWait} 年${diffWait > 0 ? `，快 ${diffWait} 年理賠` : ''}），復發第一時間賠足！`,
+        `【理賠廣度全覆蓋】涵蓋 ${ourIll} 種疾病（對手 ${rivalIll} 種）${ourProduct?.ciIcu ? ' + 深切治療部 (ICU) 入住即預支 20% 保額' : ''}！`,
+        `【保費槓桿優勢】同一保費下，多次索償總額高達 ${ourMult}%（對手 ${rivalMult}%），守護終身！`
       ];
     } else if (category === "Medical_VHIS") {
       const ourAnnual = ourProduct?.vhisLimitHkd || ourProduct?.vhis_metrics?.annual_limit_hkd || 25000000;
-      const rivalAnnual = rivalProduct?.vhisLimitHkd || rivalProduct?.vhis_metrics?.annual_limit_hkd || 20000000;
+      const rivalAnnual = rivalProduct?.vhisLimitHkd || rivalProduct?.vhis_metrics?.annual_limit_hkd || 16000000;
       const ourAnnualWan = Math.round(ourAnnual / 10000);
       const rivalAnnualWan = Math.round(rivalAnnual / 10000);
       const diffAnnual = ourAnnualWan - rivalAnnualWan;
 
       const ourLifetime = (ourProduct?.vhisLifetimeLimitHkd !== undefined ? ourProduct?.vhisLifetimeLimitHkd : ourProduct?.vhis_metrics?.lifetime_limit_hkd) ?? 0;
-      const rivalLifetime = (rivalProduct?.vhisLifetimeLimitHkd !== undefined ? rivalProduct?.vhisLifetimeLimitHkd : rivalProduct?.vhis_metrics?.lifetime_limit_hkd) ?? 0;
+      const rivalLifetime = (rivalProduct?.vhisLifetimeLimitHkd !== undefined ? rivalProduct?.vhisLifetimeLimitHkd : rivalProduct?.vhis_metrics?.lifetime_limit_hkd) ?? 60000000;
       const ourLifeStr = ourLifetime === 0 ? "終身無上限" : `HK$ ${Math.round(ourLifetime / 10000)}萬`;
       const rivalLifeStr = rivalLifetime === 0 ? "終身無上限" : `HK$ ${Math.round(rivalLifetime / 10000)}萬`;
 
+      const ourDeds = (ourProduct?.vhisDeductibles || ourProduct?.vhis_metrics?.deductible_options_hkd) || [0, 16000, 25000, 50000];
+      const ourDedStr = ourDeds.map((d: number) => d === 0 ? '$0' : `$${d/1000}k`).join('/');
+
       breakevenDelta = diffAnnual > 0 ? `年限額高 +${diffAnnual}萬 (${ourAnnualWan}萬 vs ${rivalAnnualWan}萬)` : `年度額度 HK$${ourAnnualWan}萬`;
       rebateDelta = `終身限額 ${ourLifeStr} vs ${rivalLifeStr}`;
-      gn16Delta = "全港私院及千家三甲免找數直付";
+      gn16Delta = `全港私院及千家三甲免找數直付 (自負額 ${ourDedStr})`;
       statusTag = "🏥 醫保全數賠償";
 
       punchlines = [
-        `【每年賠償上限】我方【${ourName}】每年高達 HK$ ${ourAnnualWan}萬（對手【${rivalName}】為 HK$ ${rivalAnnualWan}萬）！`,
-        `【終身保障總額】我方提供【${ourLifeStr}】（對手為【${rivalLifeStr}】），無懼醫療通脹！`,
+        `【每年賠償上限】我方【${ourName}】每年高達 HK$ ${ourAnnualWan}萬（對手【${rivalName}】為 HK$ ${rivalAnnualWan}萬${diffAnnual > 0 ? `，足足多出 +${diffAnnual}萬` : ''}）！`,
+        `【終身保障總額】我方提供【${ourLifeStr}】（對手為【${rivalLifeStr}】），自負額靈活可選 (${ourDedStr})！`,
         `【出院免找數直付】全港頂尖私家醫院 + 內地 1,000+ 家三甲醫院付款擔保 (LOG) 直付通道，零墊支安心出院！`
       ];
     } else if (category === "Annuity_QDAP") {
-      const ourGIRR = ourProduct?.qdapGuaranteedIRR || ourProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.80;
-      const rivalGIRR = rivalProduct?.qdapGuaranteedIRR || rivalProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.50;
-      const ourTIRR = ourProduct?.qdapTotalIRR || ourProduct?.qdap_metrics?.total_internal_rate_pct || 4.65;
-      const rivalTIRR = rivalProduct?.qdapTotalIRR || rivalProduct?.qdap_metrics?.total_internal_rate_pct || 4.20;
+      const ourGIRR = ourProduct?.qdapGuaranteedIRR || ourProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.92;
+      const rivalGIRR = rivalProduct?.qdapGuaranteedIRR || rivalProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.80;
+      const ourTIRR = ourProduct?.qdapTotalIRR || ourProduct?.qdap_metrics?.total_internal_rate_pct || 4.70;
+      const rivalTIRR = rivalProduct?.qdapTotalIRR || rivalProduct?.qdap_metrics?.total_internal_rate_pct || 4.50;
       const ourRatio = ourProduct?.qdapGuaranteedPct || ourProduct?.qdap_metrics?.guaranteed_cashflow_ratio_pct || (Math.round((ourGIRR / ourTIRR) * 100 * 10) / 10);
       const rivalRatio = rivalProduct?.qdapGuaranteedPct || rivalProduct?.qdap_metrics?.guaranteed_cashflow_ratio_pct || (Math.round((rivalGIRR / rivalTIRR) * 100 * 10) / 10);
       const diffGIRR = (ourGIRR - rivalGIRR).toFixed(2);
+      const ratioDiff = (ourRatio - rivalRatio).toFixed(1);
 
       breakevenDelta = parseFloat(diffGIRR) > 0 ? `保證回報高出 +${diffGIRR}% (${ourGIRR}% vs ${rivalGIRR}%)` : `保證內部回報率 IRR ${ourGIRR}%`;
-      rebateDelta = `保證現金流佔比 ${ourRatio}% vs ${rivalRatio}%`;
+      rebateDelta = parseFloat(ratioDiff) > 0 ? `保證現金流佔比領先 +${ratioDiff}% (${ourRatio}% vs ${rivalRatio}%)` : `保證現金流佔比 ${ourRatio}%`;
       gn16Delta = "每人每年 HK$60,000 法定扣稅";
       statusTag = "👴 退休現金流鎖定";
 
       punchlines = [
         `【法定扣稅慳到極】每位納稅人每年享受高達 HK$60,000 扣稅額，頂階稅率慳足 HK$10,200（夫妻慳 $20,400）！`,
         `【保證內部回報率】我方保證 IRR 達 ${ourGIRR}%（對手 ${rivalGIRR}%），總預期 IRR 達 ${ourTIRR}%！`,
-        `【高比例保證現金流】保證年金比例高達 ${ourRatio}%，月月保證派發至百歲，退休生活自帶被動收入！`
+        `【高比例保證現金流】保證年金比例高達 ${ourRatio}%（對手 ${rivalRatio}%），月月保證派發至百歲，退休生活自帶被動收入！`
       ];
     } else if (category === "Financing_UniversalLife") {
       const ourLtv = ourProduct?.ulLtv || ourProduct?.ul_metrics?.max_ltv_pct || 85;
@@ -316,7 +329,8 @@ export class RetirementTaxAgent {
   public calculateQDAPTaxRelief(
     annualPremiumHKD: number = 60000,
     taxBracketPct: number = 17,
-    isCouple: boolean = false
+    isCouple: boolean = false,
+    selectedProduct?: any
   ): QDAPTaxOutput {
     const maxLimit = isCouple
       ? RetirementTaxAgent.QDAP_COUPLE_MAX_DEDUCTION
@@ -324,11 +338,15 @@ export class RetirementTaxAgent {
 
     const eligible = Math.min(annualPremiumHKD, maxLimit);
     const taxSaved = Math.round(eligible * (taxBracketPct / 100));
-    const effectiveDiscount = eligible > 0 ? Math.round((taxSaved / eligible) * 1000) / 10 : 0;
+    const effectiveDiscount = annualPremiumHKD > 0 ? Math.round((taxSaved / annualPremiumHKD) * 1000) / 10 : 0;
 
     // Projected annuity income: 5-year premium gives ~15-20 years payout with ~3.2% IRR (scaled by annualPremiumHKD)
     const totalEstAnnualPayout = Math.round((annualPremiumHKD * 5 * 1.6) / 20);
     const monthlyAnnuity = Math.round(totalEstAnnualPayout / 12);
+
+    const gIrr = selectedProduct?.qdapGuaranteedIRR || selectedProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.80;
+    const tIrr = selectedProduct?.qdapTotalIRR || selectedProduct?.qdap_metrics?.total_internal_rate_pct || 4.65;
+    const guaranteedCashflowSharePct = selectedProduct?.qdapGuaranteedPct || selectedProduct?.qdap_metrics?.guaranteed_cashflow_ratio_pct || (Math.round((gIrr / tIrr) * 100 * 10) / 10);
 
     return {
       scenario: "retirement_tax",
@@ -340,7 +358,9 @@ export class RetirementTaxAgent {
       taxReliefSavedHKD: taxSaved,
       effectiveDiscountPct: effectiveDiscount,
       monthlyAnnuityEstimateHKD: monthlyAnnuity,
-      guaranteedCashflowSharePct: 80.5
+      guaranteedCashflowSharePct,
+      guaranteedIRR: gIrr,
+      totalIRR: tIrr
     };
   }
 }
@@ -434,8 +454,9 @@ export class InstantCommsSynthesizerAgent {
         lines.push(``);
         lines.push(`💡 ${bold("專業總結：")}醫療險首重全額賠償與出院直付免墊支體驗，方案 A 具備最佳性價比。`);
       } else if (category === "Annuity_QDAP") {
+        const qdapShare = params.ourProduct?.qdapGuaranteedPct || (params.ourProduct?.qdap_metrics && params.ourProduct?.qdap_metrics.guaranteed_internal_rate_pct && params.ourProduct?.qdap_metrics.total_internal_rate_pct ? Math.round((params.ourProduct.qdap_metrics.guaranteed_internal_rate_pct / params.ourProduct.qdap_metrics.total_internal_rate_pct) * 1000) / 10 : 80.5);
         lines.push(`📊 ${bold("方案 A (我方推薦):")} 【${ourProd}】`);
-        lines.push(`   └ 保證年金利益佔比超 80.5%，頂階稅階實質退稅 17%，保證終身月派現金流。`);
+        lines.push(`   └ 保證年金利益佔比超 ${qdapShare}%，頂階稅階實質退稅 17%，保證終身月派現金流。`);
         lines.push(`📊 ${bold("方案 B (市場競品):")} 【${rivalProd}】`);
         lines.push(`   └ 浮動紅利佔比較大，長期受宏觀降息與投資波動影響，退休預算確定性較弱。`);
         lines.push(``);
@@ -528,6 +549,8 @@ export class CashlessMedicalAgent {
     treatment?: string;
     deductibleHKD?: number;
     planType?: string;
+    ourProduct?: any;
+    rivalProduct?: any;
   }): CashlessMedicalOutput {
     const hospital = params.hospital || "香港養和醫院 (Hong Kong Sanatorium & Hospital)";
     const treatment = params.treatment || "癌症非手術標靶治療 (Targeted Cancer Therapy)";
@@ -542,6 +565,16 @@ export class CashlessMedicalAgent {
 
     const clientPay = Math.min(deductible, estimatedCost);
     const covered = estimatedCost - clientPay;
+
+    const ourProdName = params.ourProduct?.name || params.ourProduct?.product_name || "我方推薦自願醫保旗艦";
+    const rivalProdName = params.rivalProduct?.name || params.rivalProduct?.product_name || "遭遇競品醫保";
+    const rivalComp = params.rivalProduct?.insurerName || params.rivalProduct?.insurer || "競品保司";
+    const rivalAnnual = params.rivalProduct?.vhisLimitHkd || params.rivalProduct?.vhis_metrics?.annual_limit_hkd || 20000000;
+    const rivalAnnualWan = Math.round(rivalAnnual / 10000);
+
+    const rivalLimitation = (params.rivalProduct?.insurer === 'Bowtie' || rivalComp.includes('Bowtie'))
+      ? '純網上自願醫保，無 Agent 實體跟進出院直付；需全在線自主遞交申請，越級病房設 50% 折減'
+      : `【${rivalComp}】年度限額 HK$ ${rivalAnnualWan}萬；傳統直付批核需 5-7 工作天，超出限額或自負額需先自行墊支`;
 
     return {
       scenario: "cashless_medical",
@@ -559,7 +592,10 @@ export class CashlessMedicalAgent {
         "保司精算理賠部審核通過後，直接向指定私家醫院發出「付款擔保書 (Letter of Guarantee)」",
         "入院登記出示醫療直付卡與身份證明文件，免收大額住院按金",
         "出院結算由保險公司直接與醫院全額對賬支付，客戶簽名即可安心出院"
-      ]
+      ],
+      ourProductPlan: ourProdName,
+      rivalProductPlan: rivalProdName,
+      rivalDirectBillingStatus: rivalLimitation
     };
   }
 }
