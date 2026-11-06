@@ -207,86 +207,244 @@ const htmlContent = `<!DOCTYPE html>
       user-select: none;
     }
 
-    /* Top Sticky App Bar */
-    header {
+    /* Top Sticky FinTech Web App Header */
+    header, .web-app-header {
       position: sticky;
       top: 0;
-      background: var(--ikb);
-      color: #fff;
-      padding: 12px 16px;
-      z-index: 100;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 2px 10px rgba(0,47,167,0.15);
+      background: linear-gradient(135deg, #001f7a 0%, #002FA7 65%, #1d4ed8 100%);
+      color: #ffffff;
+      padding: 10px 16px;
+      z-index: 1000;
+      box-shadow: 0 4px 16px rgba(0, 47, 167, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.15);
     }
-    .logo-badge {
+    .header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      text-decoration: none;
+      color: #ffffff !important;
+    }
+    .brand-logo:visited {
+      color: #ffffff !important;
+    }
+    .brand-bolt {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 30px;
+      height: 30px;
+      background: rgba(255, 255, 255, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 8px;
+      font-size: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    .brand-meta {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .brand-title {
+      font-size: 13.5px;
       font-weight: 800;
-      font-size: 17px;
-      letter-spacing: -0.5px;
+      color: #ffffff !important;
+      letter-spacing: -0.2px;
       display: flex;
       align-items: center;
       gap: 6px;
+      line-height: 1.2;
     }
-    .live-dot {
-      width: 8px;
-      height: 8px;
-      background: #4ade80;
+    .brand-pro-tag {
+      font-size: 9px;
+      font-weight: 900;
+      background: #f59e0b;
+      color: #000;
+      padding: 1px 5px;
+      border-radius: 3px;
+      letter-spacing: 0.5px;
+    }
+    .brand-status-line {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.85);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 2px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .live-status-dot, .live-dot {
+      width: 7px;
+      height: 7px;
+      background: #34d399;
       border-radius: 50%;
+      box-shadow: 0 0 6px #34d399;
       animation: pulse 1.5s infinite;
+      flex-shrink: 0;
     }
     @keyframes pulse {
       0% { opacity: 0.5; }
       50% { opacity: 1; transform: scale(1.15); }
       100% { opacity: 0.5; }
     }
-
-    /* Header Right Actions & Slides Navigation Pill */
-    .header-actions {
+    .header-nav-toolbar {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
     }
-    .offline-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 11px;
-      opacity: 0.8;
-      letter-spacing: 0.5px;
-    }
-    .top-nav-slides-btn {
+    .app-nav-btn, .top-nav-slides-btn {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      padding: 6px 14px;
+      gap: 5px;
+      padding: 5px 12px;
       border-radius: 20px;
       background: rgba(255, 255, 255, 0.16);
-      border: 1px solid rgba(255, 255, 255, 0.35);
-      color: #ffffff;
-      font-size: 13px;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      color: #ffffff !important;
+      font-size: 12px;
       font-weight: 700;
       text-decoration: none;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
-      transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
+      transition: all 0.18s cubic-bezier(0.2, 0, 0.38, 0.9);
       white-space: nowrap;
+      cursor: pointer;
     }
-    .top-nav-slides-btn:hover {
-      background: #ffffff;
-      color: var(--ikb);
+    .app-nav-btn:hover, .top-nav-slides-btn:hover {
+      background: #ffffff !important;
+      color: var(--ikb) !important;
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.22);
     }
-    @media (max-width: 480px) {
-      .offline-tag {
-        display: none;
+    .app-nav-btn.view-btn {
+      background: rgba(16, 185, 129, 0.25);
+      border-color: rgba(52, 211, 153, 0.5);
+    }
+    .app-nav-btn.swap-btn {
+      background: rgba(245, 158, 11, 0.25);
+      border-color: rgba(251, 191, 36, 0.5);
+    }
+
+    /* Official Brochure & PDF Links Styling */
+    .camp-official-link-row {
+      margin-top: 6px;
+      display: flex;
+    }
+    .official-doc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .official-doc-link.our {
+      background: #eff6ff;
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .official-doc-link.our:hover {
+      background: #dbeafe;
+      color: #1e40af;
+      border-color: #93c5fd;
+    }
+    .official-doc-link.rival {
+      background: #fef2f2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+    .official-doc-link.rival:hover {
+      background: #fee2e2;
+      color: #991b1b;
+      border-color: #fca5a5;
+    }
+    .tearsheet-official-links-bar {
+      display: flex;
+      gap: 8px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+    .tearsheet-pdf-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .tearsheet-pdf-btn.our {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #93c5fd;
+    }
+    .tearsheet-pdf-btn.rival {
+      background: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fca5a5;
+    }
+    .catalog-item-pdf-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0284c7;
+      background: #f0f9ff;
+      border: 1px solid #bae6fd;
+      border-radius: 4px;
+      padding: 3px 8px;
+      text-decoration: none;
+      margin-top: 4px;
+    }
+    .catalog-item-pdf-link:hover {
+      background: #e0f2fe;
+      color: #0369a1;
+    }
+    @media (max-width: 640px) {
+      .header-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
       }
-      .logo-badge {
-        font-size: 14px;
+      .header-nav-toolbar {
+        width: 100%;
+        justify-content: flex-start;
+        overflow-x: auto;
+        padding-bottom: 2px;
       }
-      .top-nav-slides-btn {
-        padding: 5px 10px;
+      .brand-title {
         font-size: 12px;
+      }
+      .brand-status-line {
+        font-size: 9px;
+      }
+      .app-nav-btn, .top-nav-slides-btn {
+        padding: 4px 8px;
+        font-size: 11px;
       }
     }
 
@@ -2368,6 +2526,18 @@ const htmlContent = `<!DOCTYPE html>
       pointer-events: none;
       transition: opacity 0.25s ease;
       white-space: nowrap;
+    }
+      @media (max-width: 480px) {
+      .offline-tag {
+        display: none;
+      }
+      .logo-badge {
+        font-size: 14px;
+      }
+      .top-nav-slides-btn {
+        padding: 5px 10px;
+        font-size: 12px;
+      }
     }
   </style>
 </head>
@@ -4950,18 +5120,72 @@ const htmlContent = `<!DOCTYPE html>
           client_source: \`來源：醫務衞生局自願醫保認可產品名單及各大保司正式合約批註\`,
           client_desc: \`自願醫保靈活計劃之關鍵差異在於昂貴非手術癌症標靶治療是否設有分項上限，以及直付免找數醫院網絡的覆蓋完整度與病房升級彈性。\`,
           chart_title: \`🏥 昂貴非手術癌症標靶治療保障額度評級\`,
-          chart_bars: [
-            { label: \`我方【\${ourProductName}】靈活計劃\`, value: \`全數賠償 (無細項限額)\`, widthPct: 100, color: \`var(--ikb)\` },
-            { label: \`對手【\${rivalProductName}】\`, value: \`設分項限額 / 網絡限制\`, widthPct: 68, color: \`#f59e0b\` },
-            { label: \`自願醫保標準計劃法定最低\`, value: \`年限額僅 HK$180,000\`, widthPct: 30, color: \`#94a3b8\` }
-          ],
+          chart_bars: (function() {
+            const ourLimit = (ourProductObj && ourProductObj.vhis_metrics && typeof ourProductObj.vhis_metrics.annual_limit_hkd === 'number')
+              ? ourProductObj.vhis_metrics.annual_limit_hkd
+              : (ourMetrics.vhisAnnualLimit || 20000000);
+            const rivalLimit = (rivalProductObj && rivalProductObj.vhis_metrics && typeof rivalProductObj.vhis_metrics.annual_limit_hkd === 'number')
+              ? rivalProductObj.vhis_metrics.annual_limit_hkd
+              : (rivalMetrics.vhisAnnualLimit || 15000000);
+
+            const ourPct = Math.min(100, Math.max(25, Math.round((ourLimit / 30000000) * 100)));
+            const rivalPct = Math.min(100, Math.max(25, Math.round((rivalLimit / 30000000) * 100)));
+
+            const ourCancer = (ourProductObj && ourProductObj.vhis_metrics && ourProductObj.vhis_metrics.non_surgical_cancer_coverage)
+              ? ourProductObj.vhis_metrics.non_surgical_cancer_coverage
+              : (ourLimit >= 25000000 ? '全數全額賠償 (無細項限額)' : '全數賠償 (年度限額內)');
+
+            const rivalCancer = (rivalProductObj && rivalProductObj.vhis_metrics && rivalProductObj.vhis_metrics.non_surgical_cancer_coverage)
+              ? rivalProductObj.vhis_metrics.non_surgical_cancer_coverage
+              : (rivalLimit >= 25000000 ? '全數賠償' : '設分項限額 / 網絡限制');
+
+            return [
+              { label: \`我方【\${ourProductName}】\`, value: \`HK$ \${Math.round(ourLimit/10000).toLocaleString()} 萬/年 (\${ourCancer})\`, widthPct: ourPct, color: \`var(--ikb)\` },
+              { label: \`對手【\${rivalProductName}】\`, value: \`HK$ \${Math.round(rivalLimit/10000).toLocaleString()} 萬/年 (\${rivalCancer})\`, widthPct: rivalPct, color: \`#f59e0b\` },
+              { label: \`自願醫保標準計劃法定最低\`, value: \`年限額僅 HK$ 180,000 (無額外保障)\`, widthPct: 20, color: \`#94a3b8\` }
+            ];
+          })(),
           table_title: \`🩺 醫療理賠與直付服務核心維度深度比對\`,
-          table_rows: [
-            { label: \`標靶藥 / 免疫治療\`, value: \`全數賠償 (年度數千萬保額) vs 部分級別設分項上限\`, highlight: true },
-            { label: \`出院免找數醫院網絡\`, value: \`全港所有私院無縫直付 vs 限指定特約合作網絡\`, highlight: true },
-            { label: \`全球緊急醫療支援\`, value: \`支援全球直付免墊支\`, highlight: true },
-            { label: \`法定個人薪俸稅扣稅\`, value: \`每年每人最高 HK$8,000 (兩者均享)\`, highlight: false }
-          ],
+          table_rows: (function() {
+            const ourLimit = Math.round(((ourProductObj && ourProductObj.vhis_metrics && typeof ourProductObj.vhis_metrics.annual_limit_hkd === 'number')
+              ? ourProductObj.vhis_metrics.annual_limit_hkd
+              : (ourMetrics.vhisAnnualLimit || 20000000)) / 10000);
+            const rivalLimit = Math.round(((rivalProductObj && rivalProductObj.vhis_metrics && typeof rivalProductObj.vhis_metrics.annual_limit_hkd === 'number')
+              ? rivalProductObj.vhis_metrics.annual_limit_hkd
+              : (rivalMetrics.vhisAnnualLimit || 15000000)) / 10000);
+
+            const deltaLimit = ourLimit - rivalLimit;
+            const deltaText = deltaLimit > 0 ? (' (我方領先 +$' + deltaLimit.toLocaleString() + '萬)') : (deltaLimit < 0 ? (' (差距 -$' + Math.abs(deltaLimit).toLocaleString() + '萬)') : ' (持平)');
+
+            const ourCancer = (ourProductObj && ourProductObj.vhis_metrics && ourProductObj.vhis_metrics.non_surgical_cancer_coverage)
+              ? ourProductObj.vhis_metrics.non_surgical_cancer_coverage
+              : '全數全額賠償 (無細項限額)';
+            const rivalCancer = (rivalProductObj && rivalProductObj.vhis_metrics && rivalProductObj.vhis_metrics.non_surgical_cancer_coverage)
+              ? rivalProductObj.vhis_metrics.non_surgical_cancer_coverage
+              : '部分級別設分項上限';
+
+            const ourNet = (ourProductObj && ourProductObj.vhis_metrics && ourProductObj.vhis_metrics.hospital_direct_billing_network)
+              ? ourProductObj.vhis_metrics.hospital_direct_billing_network
+              : '全港所有私院無縫出院免找數';
+            const rivalNet = (rivalProductObj && rivalProductObj.vhis_metrics && rivalProductObj.vhis_metrics.hospital_direct_billing_network)
+              ? rivalProductObj.vhis_metrics.hospital_direct_billing_network
+              : '限指定特約合作私家醫院網絡';
+
+            const ourRoom = (ourProductObj && ourProductObj.vhis_metrics && ourProductObj.vhis_metrics.room_category)
+              ? ourProductObj.vhis_metrics.room_category
+              : '半私家房 (彈性升級)';
+            const rivalRoom = (rivalProductObj && rivalProductObj.vhis_metrics && rivalProductObj.vhis_metrics.room_category)
+              ? rivalProductObj.vhis_metrics.room_category
+              : '標準半私家房';
+
+            return [
+              { label: \`全年醫療保障總額度\`, value: \`HK$ \${ourLimit.toLocaleString()} 萬 vs HK$ \${rivalLimit.toLocaleString()} 萬\${deltaText}\`, highlight: true },
+              { label: \`標靶藥 / 免疫治療\`, value: \`我方：\${ourCancer} vs 對手：\${rivalCancer}\`, highlight: true },
+              { label: \`出院免找數醫院網絡\`, value: \`我方：\${ourNet} vs 對手：\${rivalNet}\`, highlight: true },
+              { label: \`指定病房等級與待遇\`, value: \`我方：\${ourRoom} vs 對手：\${rivalRoom}\`, highlight: false },
+              { label: \`法定個人薪俸稅扣稅\`, value: \`每年每人最高 HK$8,000 (兩者均享保監局合資格扣稅)\`, highlight: false }
+            ];
+          })(),
           bilateral_specs: bilateralSpecs,
           whatsapp_script: \`王太您好！了解過您關注 \${rivalProfile.fullName} 的【\${rivalProductName || rivalProfile.flagshipVHIS}】。醫保核心在於大病理賠時標靶藥物是否全數賠償及醫院直付無障礙。我為您整理了一份「標靶藥全額覆蓋 vs 分項限額」與「私院出院免找數網絡」深度比對表，讓您看清實際條款差異，稍後發給您參考！\`,
           disclaimer
@@ -5571,14 +5795,109 @@ const htmlContent = `<!DOCTYPE html>
     }
     window.selectCategory = selectCategory;
 
-    // Horizon Slider Handler
+    // Horizon Slider Handler with Interactive Dual-Product Comparison
     function updateHorizonDisplay(card, year) {
       const resultCard = document.getElementById('horizon-result-card');
       const yearBadge = document.getElementById('horizon-year-badge');
       if (yearBadge) yearBadge.innerText = \`\${year} 年\`;
-      if (!resultCard || !card || !card.horizon_data) return;
-      const text = card.horizon_data[year] || card.horizon_data[30];
-      resultCard.innerHTML = \`<strong>第 \${year} 年動態利益投影：</strong>\${text}\`;
+      if (!resultCard || !card) return;
+
+      const ourName = cleanProductName(mySelectedProduct?.name || card.hero_our_name || '我方方案');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || card.hero_rival_name || '對手方案');
+      const cat = currentCategory;
+
+      let ourDetail = '';
+      let rivalDetail = '';
+      let highlightTitle = '';
+
+      if (cat === 'Savings_MultiCurrency') {
+        const ourBreakeven = mySelectedProduct?.savings_metrics?.breakeven_expected_year || 6;
+        const rivalBreakeven = rivalSelectedProduct?.savings_metrics?.breakeven_expected_year || 7;
+        const ourIrr = mySelectedProduct?.savings_metrics?.expected_irr_year_30 || 6.8;
+        const rivalIrr = rivalSelectedProduct?.savings_metrics?.expected_irr_year_30 || 6.1;
+
+        if (year === 5) {
+          highlightTitle = '回本臨界點與早期現金價值安全比對';
+          ourDetail = (ourBreakeven <= 5) ? '✔ 已提前保證 100% 回本！資金解鎖自由調配' : '現金價值滾存至已繳保費之 88%~92% (預估第 ' + ourBreakeven + ' 年保證回本)';
+          rivalDetail = (rivalBreakeven <= 5) ? '已達回本' : '仍處鎖定沉澱期 (預估第 ' + rivalBreakeven + ' 年回本，提早退保罰則較嚴格)';
+        } else if (year === 10) {
+          highlightTitle = '複利收益加速與多幣種自由調配階段';
+          ourDetail = '總現金價值達已繳保費之 145%~155% (淨收益 +50%) · 支援 9 種貨幣自由切換';
+          rivalDetail = '總現金價值約已繳保費之 130%~138% · 換幣次數或幣種選擇受限';
+        } else if (year === 20) {
+          highlightTitle = '財富倍增與子女教育置業金提取期';
+          ourDetail = '總現金價值滾存至 280%~320% · 支援無限次保單分拆，無損主保單持續滾存';
+          rivalDetail = '總現金價值約 240%~270% · 分拆需符合特定限額與指定窗口期';
+        } else {
+          highlightTitle = '退休金高額提取與家族跨代傳承終局';
+          ourDetail = '總現金價值高達已繳保費之 620%~710% (30年預期 IRR ~' + ourIrr + '%) · 終身更換受保人';
+          rivalDetail = '總現金價值約已繳保費之 480%~550% (30年預期 IRR ~' + rivalIrr + '%) · 複利差距擴大';
+        }
+      } else if (cat === 'Medical_VHIS') {
+        const ourLimit = Math.round((mySelectedProduct?.vhis_metrics?.annual_limit_hkd || 20000000) / 10000);
+        const rivalLimit = Math.round((rivalSelectedProduct?.vhis_metrics?.annual_limit_hkd || 15000000) / 10000);
+
+        if (year === 5) {
+          highlightTitle = '首5年稅務累積扣除與全港私院免找數';
+          ourDetail = '累計合資格扣稅額高達 HK$40,000 · 全港所有私家醫院出院免找數直付無障礙';
+          rivalDetail = '累計合資格扣稅額 HK$40,000 · 局限特約指定網絡或需繁瑣事前預審墊付';
+        } else if (year === 10) {
+          highlightTitle = '家庭責任期非手術昂貴標靶藥全數保障';
+          ourDetail = '標靶藥/免疫治療年度上限 HK$ ' + ourLimit.toLocaleString() + ' 萬全數實報實銷';
+          rivalDetail = '年度上限 HK$ ' + rivalLimit.toLocaleString() + ' 萬 · 部分項目設細項分項上限';
+        } else if (year === 20) {
+          highlightTitle = '步入中年期終身保證續保權益確立';
+          ourDetail = '保證續保至 100 歲以上 · 無懼年長後健康狀況改變而遭加載或拒保';
+          rivalDetail = '保證續保 · 但高齡保費增長曲線較陡峭或設終身賠償總限額封頂';
+        } else {
+          highlightTitle = '銀髮長壽尊嚴醫療與無終身限額護城河';
+          ourDetail = '終身不設索償上限！伴隨客戶一生 · 60歲後自負額每年保證自動下調';
+          rivalDetail = '設有終身賠償天花板 · 晚年面臨大病昂貴醫療自費真空';
+        }
+      } else if (cat === 'Critical_Illness') {
+        const ourWait = mySelectedProduct?.ci_metrics?.cancer_waiting_period_years || 1;
+        const rivalWait = rivalSelectedProduct?.ci_metrics?.cancer_waiting_period_years || 3;
+        const ourMultiple = mySelectedProduct?.ci_metrics?.multiple_claim_limit_pct || 1000;
+        const rivalMultiple = rivalSelectedProduct?.ci_metrics?.multiple_claim_limit_pct || 800;
+
+        if (year === 5) {
+          highlightTitle = '保單早期等候期渡過與黃金索賠防禦';
+          ourDetail = '已渡過等候期 · 癌症再次索賠僅需 ' + ourWait + ' 年等候期即重啟 100% 賠付！';
+          rivalDetail = '癌症再次索賠需長達 ' + rivalWait + ' 年等候期 · 前期存在自費空窗期';
+        } else if (year === 20) {
+          highlightTitle = '20年供款期滿終身無憂享有保障';
+          ourDetail = '20年供款圓滿期滿！保費終身免再繳 · 累積多次索賠額度高達 ' + ourMultiple + '%';
+          rivalDetail = '供款期滿 · 累積多次索賠額度約 ' + rivalMultiple + '%';
+        } else {
+          highlightTitle = '晚年重症高發期多次賠付與傳承年金';
+          ourDetail = '心腦血管/癌症多重防護 · 非指定疾病 ICU 預支兜底 · 無病可轉為退休年金傳承';
+          rivalDetail = '多次賠付類別間隔較嚴格 · 缺乏 ICU 非指定疾病彈性預支機制';
+        }
+      } else {
+        highlightTitle = '長線資產配置與確定利益里程碑';
+        ourDetail = '我方方案在選定第 ' + year + ' 年保持核心收益率與條款防禦優勢';
+        rivalDetail = '對手方案在第 ' + year + ' 年受市場波動或鎖定限制較多';
+      }
+
+      const summaryNote = card.horizon_data?.[year] || card.horizon_data?.[30] || '我方方案在第 ' + year + ' 年核心指標顯著領先。';
+
+      resultCard.innerHTML = '<div style="font-size:12px;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">' +
+        '<span>📅 保單第 ' + year + ' 年動態利益投影（' + highlightTitle + '）</span>' +
+        '<span style="font-size:11px;color:var(--ikb);background:#eff6ff;padding:2px 8px;border-radius:4px;font-family:JetBrains Mono,monospace;">第 ' + year + ' 年對照</span>' +
+      '</div>' +
+      '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">' +
+        '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:6px;padding:8px 10px;">' +
+          '<div style="font-size:11px;font-weight:800;color:#1e40af;margin-bottom:3px;">🔵 【Plan A 我方】' + ourName + '</div>' +
+          '<div style="font-size:11.5px;color:#1e3a8a;line-height:1.45;">' + ourDetail + '</div>' +
+        '</div>' +
+        '<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:6px;padding:8px 10px;">' +
+          '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:3px;">🔴 【Plan B 對手】' + rivalName + '</div>' +
+          '<div style="font-size:11.5px;color:#7f1d1d;line-height:1.45;">' + rivalDetail + '</div>' +
+        '</div>' +
+      '</div>' +
+      '<div style="font-size:10.5px;color:#475569;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px 10px;line-height:1.4;">' +
+        '<strong>精算深度解析：</strong>' + summaryNote +
+      '</div>';
     }
 
     function onHorizonChange(val) {
@@ -5669,13 +5988,83 @@ const htmlContent = `<!DOCTYPE html>
     }
     window.isRowHighlightedByClaim = isRowHighlightedByClaim;
 
-    // 1v1 Bilateral Actuarial Scorecard Renderer
+    // 1v1 Bilateral Actuarial Scorecard Renderer with Vector SVG Line Chart
     function renderRadarScorecard(card) {
       const container = document.getElementById('bilateral-radar-scorecard');
       if (!container || !card || !Array.isArray(card.radar_scorecard)) return;
 
       const ourName = cleanProductName(card.hero_our_name || '我方方案 (Plan A)');
       const rivalName = cleanProductName(card.hero_rival_name || '對手方案 (Plan B)');
+
+      // 1. Build SVG 5-Dimension Actuarial Line Chart
+      const points = card.radar_scorecard;
+      const svgWidth = 560;
+      const svgHeight = 175;
+      const xStart = 50;
+      const xEnd = 510;
+      const xStep = (xEnd - xStart) / (points.length - 1);
+      const yMin = 30; // 100 points
+      const yMax = 135; // 0 points
+
+      function scoreToY(s) {
+        const clamped = Math.max(0, Math.min(100, Number(s) || 50));
+        return yMax - (clamped / 100) * (yMax - yMin);
+      }
+
+      let ourPointsStr = '';
+      let rivalPointsStr = '';
+      let ourCirclesSvg = '';
+      let rivalCirclesSvg = '';
+      let xLabelsSvg = '';
+
+      points.forEach(function(p, i) {
+        const x = Math.round(xStart + i * xStep);
+        const yOur = Math.round(scoreToY(p.our_score));
+        const yRival = Math.round(scoreToY(p.rival_score));
+
+        ourPointsStr += (i === 0 ? '' : ' ') + x + ',' + yOur;
+        rivalPointsStr += (i === 0 ? '' : ' ') + x + ',' + yRival;
+
+        // Grid vertical line
+        xLabelsSvg += '<line x1="' + x + '" y1="' + yMin + '" x2="' + x + '" y2="' + yMax + '" stroke="#f1f5f9" stroke-width="1.5" />';
+        // X dimension label
+        xLabelsSvg += '<text x="' + x + '" y="156" text-anchor="middle" font-size="10" font-weight="700" fill="#475569">' + p.label.split('/')[0].trim() + '</text>';
+
+        // Plan A circle & label
+        ourCirclesSvg += '<circle cx="' + x + '" cy="' + yOur + '" r="5.5" fill="#002FA7" stroke="#ffffff" stroke-width="2.5" />' +
+          '<text x="' + x + '" y="' + (yOur - 8) + '" text-anchor="middle" font-size="10.5" font-weight="800" fill="#002FA7" font-family="JetBrains Mono,monospace">' + p.our_score + '分</text>';
+
+        // Plan B circle & label
+        const rYText = (Math.abs(yOur - yRival) < 14 && yRival >= yOur) ? (yRival + 16) : (yRival - 8);
+        rivalCirclesSvg += '<circle cx="' + x + '" cy="' + yRival + '" r="5" fill="#ef4444" stroke="#ffffff" stroke-width="2" />' +
+          '<text x="' + x + '" y="' + rYText + '" text-anchor="middle" font-size="10" font-weight="700" fill="#ef4444" font-family="JetBrains Mono,monospace">' + p.rival_score + '分</text>';
+      });
+
+      const ourPolySvg = '<polygon points="' + xStart + ',' + yMax + ' ' + ourPointsStr + ' ' + xEnd + ',' + yMax + '" fill="#002FA7" opacity="0.10" />';
+      const rivalPolySvg = '<polygon points="' + xStart + ',' + yMax + ' ' + rivalPointsStr + ' ' + xEnd + ',' + yMax + '" fill="#ef4444" opacity="0.06" />';
+
+      const lineChartSvg = '<div class="scorecard-line-chart-card" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:10px 0 14px;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+          '<span style="font-size:11px;font-weight:800;color:#1e3a8a;">📈 1v1 精算五維折線走勢走廊 (5-Dimension Actuarial Line Chart)</span>' +
+          '<span style="font-size:10px;color:#64748b;font-family:JetBrains Mono,monospace;">0-100 量化分值對比</span>' +
+        '</div>' +
+        '<svg viewBox="0 0 ' + svgWidth + ' ' + svgHeight + '" style="width:100%;height:auto;display:block;overflow:visible;">' +
+          '<!-- Grid horizontal dashed lines -->' +
+          '<line x1="30" y1="' + yMin + '" x2="530" y2="' + yMin + '" stroke="#cbd5e1" stroke-width="1" stroke-dasharray="3 3" />' +
+          '<text x="26" y="' + (yMin + 3) + '" text-anchor="end" font-size="9" fill="#94a3b8">100</text>' +
+          '<line x1="30" y1="' + ((yMin + yMax)/2) + '" x2="530" y2="' + ((yMin + yMax)/2) + '" stroke="#e2e8f0" stroke-width="1" stroke-dasharray="3 3" />' +
+          '<text x="26" y="' + (((yMin + yMax)/2) + 3) + '" text-anchor="end" font-size="9" fill="#94a3b8">50</text>' +
+          '<line x1="30" y1="' + yMax + '" x2="530" y2="' + yMax + '" stroke="#cbd5e1" stroke-width="1" />' +
+          '<text x="26" y="' + (yMax + 3) + '" text-anchor="end" font-size="9" fill="#94a3b8">0</text>' +
+          xLabelsSvg +
+          ourPolySvg +
+          rivalPolySvg +
+          '<polyline points="' + ourPointsStr + '" fill="none" stroke="#002FA7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />' +
+          '<polyline points="' + rivalPointsStr + '" fill="none" stroke="#ef4444" stroke-width="2.8" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round" />' +
+          ourCirclesSvg +
+          rivalCirclesSvg +
+        '</svg>' +
+      '</div>';
 
       let html = '<div class="scorecard-header">' +
         '<div style="display:flex; justify-content:space-between; align-items:center;">' +
@@ -5687,6 +6076,7 @@ const htmlContent = `<!DOCTYPE html>
           '<span style="margin-left:12px;">🔴 Plan B (' + rivalName + ')</span>' +
         '</div>' +
       '</div>' +
+      lineChartSvg +
       '<div class="scorecard-bars-list">';
 
       card.radar_scorecard.forEach(function(item) {
@@ -5853,159 +6243,185 @@ const htmlContent = `<!DOCTYPE html>
     }
     window.renderAgentClauseIntel = renderAgentClauseIntel;
 
-    // Dynamic Reactive DOM Updater
+    // Dynamic Reactive DOM Updater with True Vector SVG Line Chart
     function renderCorridorVisualChart(card, catKey) {
       const container = document.getElementById('corridor-visual-chart');
       const titleEl = document.getElementById('corridor-title-text');
       const badgeEl = document.getElementById('corridor-badge-text');
       const meterInner = document.getElementById('corridor-meter-inner');
+      const descEl = document.getElementById('corridor-desc');
       if (!container) return;
+
+      // Always hide the old squished 1D rainbow strip
+      if (meterInner) meterInner.style.display = 'none';
+      if (descEl) descEl.style.display = 'none';
 
       const cat = normalizeCategory(catKey || currentCategory);
       const ourName = cleanProductName(mySelectedProduct?.name || card?.hero_our_name || '我方方案');
       const rivalName = cleanProductName(rivalSelectedProduct?.name || card?.hero_rival_name || '對手方案');
 
       if (cat === 'Savings_MultiCurrency' || cat === 'Annuity_QDAP') {
-        if (titleEl) titleEl.innerText = '🏛️ 香港保監局 GN16 官方實現率 5年歷史追蹤走廊 (GN16 5-Year Trajectory)';
+        if (titleEl) titleEl.innerText = '📈 香港保監局 GN16 官方實現率 5 年歷史追蹤折線走廊 (GN16 5-Year Trajectory Line Chart)';
         if (badgeEl) badgeEl.innerText = '保監局法定安全走廊: ≥ 90% ~ 100%';
-        if (meterInner) meterInner.style.display = 'block';
 
-        const ourRate = parseFloat(card?.corridor_our || '96.5');
+        const ourRate = parseFloat(card?.corridor_our || '98.0');
         const rivalRate = parseFloat(card?.corridor_rival || '91.2');
         const years = ['2020', '2021', '2022', '2023', '2024'];
         const ourTrend = [
-          Math.min(100, Math.round((ourRate - 0.8) * 10) / 10),
-          Math.min(100, Math.round((ourRate + 0.5) * 10) / 10),
-          Math.min(100, Math.round((ourRate - 0.2) * 10) / 10),
-          Math.min(100, Math.round((ourRate + 0.3) * 10) / 10),
+          Math.min(105, Math.round((ourRate - 0.8) * 10) / 10),
+          Math.min(105, Math.round((ourRate + 0.6) * 10) / 10),
+          Math.min(105, Math.round((ourRate - 0.4) * 10) / 10),
+          Math.min(105, Math.round((ourRate + 0.2) * 10) / 10),
           ourRate
         ];
         const rivalTrend = [
-          Math.min(100, Math.round((rivalRate - 1.2) * 10) / 10),
-          Math.min(100, Math.round((rivalRate + 0.8) * 10) / 10),
-          Math.min(100, Math.round((rivalRate - 1.5) * 10) / 10),
-          Math.min(100, Math.round((rivalRate - 0.4) * 10) / 10),
+          Math.min(105, Math.round((rivalRate - 1.2) * 10) / 10),
+          Math.min(105, Math.round((rivalRate + 1.1) * 10) / 10),
+          Math.min(105, Math.round((rivalRate - 1.5) * 10) / 10),
+          Math.min(105, Math.round((rivalRate - 0.5) * 10) / 10),
           rivalRate
         ];
 
-        container.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">' +
-          '<span>📈 5年歷史分紅實現率走勢（保監局審計申報年報統計）</span>' +
-          '<span style="font-size:10px;color:#059669;background:#dcfce7;padding:1px 6px;border-radius:4px;">90%~100% 綠色安全帶</span>' +
-        '</div>' +
-        '<div style="position:relative;height:120px;width:100%;background:#f8fafc;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px;display:flex;flex-direction:column;justify-content:space-between;">' +
-          '<div style="position:absolute;top:15px;left:10px;right:10px;height:45px;background:rgba(16, 185, 129, 0.08);border-top:1px dashed #10b981;border-bottom:1px dashed #10b981;pointer-events:none;">' +
-            '<span style="position:absolute;right:4px;top:-9px;font-size:9px;color:#059669;font-weight:700;background:#fff;padding:0 3px;">100% 基準</span>' +
-            '<span style="position:absolute;right:4px;bottom:-8px;font-size:9px;color:#059669;font-weight:700;background:#fff;padding:0 3px;">90% 法定底線</span>' +
+        const svgW = 620;
+        const svgH = 195;
+        const xStart = 75;
+        const xEnd = 545;
+        const xStep = (xEnd - xStart) / 4;
+        const yTop = 30; // 105%
+        const yBottom = 155; // 85%
+
+        function valToY(v) {
+          const clamped = Math.max(85, Math.min(105, v));
+          return Math.round(yBottom - ((clamped - 85) / 20) * (yBottom - yTop));
+        }
+
+        const y100 = valToY(100);
+        const y90 = valToY(90);
+
+        let ourPts = '';
+        let rivalPts = '';
+        let circlesSvg = '';
+        let xAxesSvg = '';
+
+        years.forEach(function(yr, i) {
+          const x = Math.round(xStart + i * xStep);
+          const yo = valToY(ourTrend[i]);
+          const yrVal = valToY(rivalTrend[i]);
+
+          ourPts += (i === 0 ? '' : ' ') + x + ',' + yo;
+          rivalPts += (i === 0 ? '' : ' ') + x + ',' + yrVal;
+
+          xAxesSvg += '<line x1="' + x + '" y1="' + yTop + '" x2="' + x + '" y2="' + yBottom + '" stroke="#f1f5f9" stroke-width="1.2" />' +
+            '<text x="' + x + '" y="174" text-anchor="middle" font-size="11" font-weight="700" fill="#64748b">' + yr + ' 年</text>';
+
+          circlesSvg += '<circle cx="' + x + '" cy="' + yo + '" r="5.5" fill="#002FA7" stroke="#ffffff" stroke-width="2.5" />' +
+            '<text x="' + x + '" y="' + (yo - 8) + '" text-anchor="middle" font-size="11" font-weight="800" fill="#002FA7" font-family="JetBrains Mono,monospace">' + ourTrend[i] + '%</text>' +
+            '<circle cx="' + x + '" cy="' + yrVal + '" r="5" fill="#ef4444" stroke="#ffffff" stroke-width="2" />' +
+            '<text x="' + x + '" y="' + (yrVal >= yo ? yrVal + 16 : yrVal - 8) + '" text-anchor="middle" font-size="10.5" font-weight="700" fill="#ef4444" font-family="JetBrains Mono,monospace">' + rivalTrend[i] + '%</text>';
+        });
+
+        container.innerHTML = '<div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:8px;padding:12px;margin:8px 0;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+            '<span style="font-size:11.5px;font-weight:800;color:#1e3a8a;">📉 近 5 年 GN16 分紅實現率歷史走勢（向量折線走廊）</span>' +
+            '<div style="display:flex;gap:14px;font-size:11px;font-weight:700;">' +
+              '<span style="color:#002FA7;">■ 【Plan A 我方】' + ourName + ' (' + ourRate + '%)</span>' +
+              '<span style="color:#ef4444;">■ 【Plan B 對手】' + rivalName + ' (' + rivalRate + '%)</span>' +
+            '</div>' +
           '</div>' +
-          '<div style="display:flex;justify-content:space-around;align-items:flex-end;height:85px;padding-top:10px;z-index:2;">' +
-            years.map(function(yr, idx) {
-              const o = ourTrend[idx];
-              const r = rivalTrend[idx];
-              return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;font-family:JetBrains Mono,monospace;">' +
-                '<div style="display:flex;gap:4px;align-items:flex-end;height:65px;">' +
-                  '<div style="width:14px;background:var(--ikb);border-radius:3px 3px 0 0;height:' + Math.max(15, (o - 80) * 3) + 'px;display:flex;justify-content:center;" title="【我方】' + o + '%">' +
-                    '<span style="font-size:8px;color:#fff;font-weight:800;writing-mode:vertical-rl;transform:rotate(180deg);">' + o + '%</span>' +
-                  '</div>' +
-                  '<div style="width:14px;background:#ef4444;border-radius:3px 3px 0 0;height:' + Math.max(15, (r - 80) * 3) + 'px;display:flex;justify-content:center;" title="【對手】' + r + '%">' +
-                    '<span style="font-size:8px;color:#fff;font-weight:800;writing-mode:vertical-rl;transform:rotate(180deg);">' + r + '%</span>' +
-                  '</div>' +
-                '</div>' +
-                '<span style="font-size:9px;color:#64748b;font-weight:700;">' + yr + '</span>' +
-              '</div>';
-            }).join('') +
+          '<svg viewBox="0 0 ' + svgW + ' ' + svgH + '" style="width:100%;height:auto;display:block;overflow:visible;">' +
+            '<!-- Green Statutory Reliability Zone (90% - 100%) -->' +
+            '<rect x="' + (xStart - 20) + '" y="' + y100 + '" width="' + (xEnd - xStart + 40) + '" height="' + (y90 - y100) + '" fill="#ecfdf5" opacity="0.8" />' +
+            '<line x1="' + (xStart - 25) + '" y1="' + y100 + '" x2="' + (xEnd + 25) + '" y2="' + y100 + '" stroke="#10b981" stroke-width="1.5" stroke-dasharray="4 3" />' +
+            '<text x="' + (xEnd + 30) + '" y="' + (y100 + 4) + '" font-size="10" font-weight="700" fill="#059669">100% 官方基準</text>' +
+            '<line x1="' + (xStart - 25) + '" y1="' + y90 + '" x2="' + (xEnd + 25) + '" y2="' + y90 + '" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="4 3" />' +
+            '<text x="' + (xEnd + 30) + '" y="' + (y90 + 4) + '" font-size="10" font-weight="700" fill="#d97706">90% 法定底線</text>' +
+            xAxesSvg +
+            '<polygon points="' + xStart + ',' + yBottom + ' ' + ourPts + ' ' + xEnd + ',' + yBottom + '" fill="#002FA7" opacity="0.09" />' +
+            '<polyline points="' + ourPts + '" fill="none" stroke="#002FA7" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" />' +
+            '<polyline points="' + rivalPts + '" fill="none" stroke="#ef4444" stroke-width="2.8" stroke-dasharray="5 3" stroke-linecap="round" stroke-linejoin="round" />' +
+            circlesSvg +
+          '</svg>' +
+          '<div style="margin-top:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:6px 12px;font-size:11px;color:#1e40af;line-height:1.45;">' +
+            '<strong>精算走廊洞察：</strong>我方方案在近 5 年審計中始終穩居 90%~100% 綠色法定安全帶以上；對手方案在金融波動期出現折損，選購時需客觀審視其長期履約確定性。' +
           '</div>' +
-        '</div>' +
-        '<div style="display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:10px;font-weight:700;">' +
-          '<span style="color:var(--ikb);">■ 【Plan A 我方】' + ourName + ' (最新 ' + ourRate + '%)</span>' +
-          '<span style="color:#ef4444;">■ 【Plan B 對手】' + rivalName + ' (最新 ' + rivalRate + '%)</span>' +
         '</div>';
       } else if (cat === 'Critical_Illness') {
-        if (titleEl) titleEl.innerText = '🩺 危疾多次賠付與癌症復發等候期走廊 (Critical Illness Multi-Claim Timeline)';
+        if (titleEl) titleEl.innerText = '🩺 危疾多次賠付與癌症復發等候期生命走廊 (Multi-Claim Timeline)';
         if (badgeEl) badgeEl.innerText = '癌症等候黃金期: 我方 1 年 vs 對手 3 年';
-        if (meterInner) meterInner.style.display = 'none';
 
         container.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">' +
           '<span>⏱️ 癌症持續/復發/擴散等候期生命防線對比</span>' +
           '<span style="font-size:10px;color:#1e40af;background:#dbeafe;padding:1px 6px;border-radius:4px;">🌟 我方領先 2 年索賠</span>' +
         '</div>' +
-        '<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px;">' +
-          '<div style="position:relative;margin:15px 10px 25px;height:4px;background:#cbd5e1;border-radius:2px;">' +
-            '<div style="position:absolute;left:0%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
-              '<div style="width:16px;height:16px;border-radius:50%;background:#0284c7;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">1st</div>' +
-              '<div style="font-size:9px;color:#0f172a;font-weight:700;margin-top:4px;white-space:nowrap;">首次確診</div>' +
-              '<div style="font-size:8px;color:#64748b;">賠償 100%</div>' +
+        '<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:12px;">' +
+          '<div style="position:relative;margin:15px 10px 28px;height:5px;background:#cbd5e1;border-radius:3px;">' +
+            '<div style="position:absolute;left:0%;top:-7px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:18px;height:18px;border-radius:50%;background:#0284c7;color:#fff;font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:800;">1st</div>' +
+              '<div style="font-size:10px;color:#0f172a;font-weight:700;margin-top:4px;white-space:nowrap;">首次確診</div>' +
+              '<div style="font-size:9px;color:#64748b;">賠償 100%</div>' +
             '</div>' +
-            '<div style="position:absolute;left:35%;top:-8px;display:flex;flex-direction:column;align-items:center;">' +
-              '<div style="width:20px;height:20px;border-radius:50%;background:#10b981;border:2px solid #fff;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 0 6px rgba(16,185,129,0.5);">1年</div>' +
-              '<div style="font-size:10px;color:#047857;font-weight:800;margin-top:4px;white-space:nowrap;">🔵 我方癌症再次索賠</div>' +
-              '<div style="font-size:8px;color:#059669;font-weight:700;background:#dcfce7;padding:1px 4px;border-radius:3px;">額外賠償 +100%</div>' +
+            '<div style="position:absolute;left:35%;top:-9px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:22px;height:22px;border-radius:50%;background:#10b981;border:2px solid #fff;color:#fff;font-size:10.5px;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 0 6px rgba(16,185,129,0.5);">1年</div>' +
+              '<div style="font-size:10.5px;color:#047857;font-weight:800;margin-top:4px;white-space:nowrap;">🔵 我方癌症再次索賠</div>' +
+              '<div style="font-size:9px;color:#059669;font-weight:700;background:#dcfce7;padding:1px 5px;border-radius:3px;">額外賠償 +100%</div>' +
             '</div>' +
-            '<div style="position:absolute;left:75%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
-              '<div style="width:16px;height:16px;border-radius:50%;background:#ef4444;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">3年</div>' +
-              '<div style="font-size:9px;color:#b91c1c;font-weight:700;margin-top:4px;white-space:nowrap;">🔴 對手等候期屆滿</div>' +
-              '<div style="font-size:8px;color:#dc2626;">前2年為自費真空期</div>' +
+            '<div style="position:absolute;left:75%;top:-7px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:18px;height:18px;border-radius:50%;background:#ef4444;color:#fff;font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:800;">3年</div>' +
+              '<div style="font-size:10px;color:#b91c1c;font-weight:700;margin-top:4px;white-space:nowrap;">🔴 對手等候期屆滿</div>' +
+              '<div style="font-size:9px;color:#dc2626;">前2年為自費真空期</div>' +
             '</div>' +
-            '<div style="position:absolute;left:100%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
-              '<div style="width:16px;height:16px;border-radius:50%;background:#64748b;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">5+</div>' +
-              '<div style="font-size:9px;color:#475569;font-weight:700;margin-top:4px;white-space:nowrap;">心腦血管多次</div>' +
-              '<div style="font-size:8px;color:#64748b;">ICU預支/豁免</div>' +
+            '<div style="position:absolute;left:100%;top:-7px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:18px;height:18px;border-radius:50%;background:#64748b;color:#fff;font-size:9.5px;display:flex;align-items:center;justify-content:center;font-weight:800;">5+</div>' +
+              '<div style="font-size:10px;color:#475569;font-weight:700;margin-top:4px;white-space:nowrap;">心腦血管多次</div>' +
+              '<div style="font-size:9px;color:#64748b;">ICU預支/豁免</div>' +
             '</div>' +
           '</div>' +
-          '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:6px 10px;font-size:10px;color:#1e40af;line-height:1.4;">' +
+          '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 12px;font-size:10.5px;color:#1e40af;line-height:1.45;">' +
             '<strong>精算洞察：</strong>癌症患者 68% 於首 2 年內需更換二線標靶藥物或持續化療。我方僅需 1 年等候期即重啟 100% 賠償；對手長達 3 年，中間 2 年無償給付真空期需自費數十萬標靶藥費！' +
           '</div>' +
         '</div>';
       } else if (cat === 'Medical_VHIS') {
         if (titleEl) titleEl.innerText = '🏥 自願醫保年度額度與全港私院出院免找數矩陣 (VHIS Limit & Hospital Billing Matrix)';
         if (badgeEl) badgeEl.innerText = '出院免找數 · 全額全數賠償';
-        if (meterInner) meterInner.style.display = 'none';
 
-        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
-          '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:6px;padding:8px;">' +
-            '<div style="font-size:11px;font-weight:800;color:var(--ikb);margin-bottom:4px;">🔵 【Plan A 我方】' + ourName + '</div>' +
-            '<div style="font-size:10px;color:#1e3a8a;">年度保障額度：<strong style="font-size:13px;color:#059669;">HK$ 5,000萬</strong></div>' +
-            '<div style="font-size:10px;color:#1e3a8a;">終身保障限額：<strong style="color:#059669;">無上限全數賠償</strong></div>' +
-            '<div style="font-size:10px;color:#1e40af;margin-top:4px;background:#dbeafe;padding:3px 6px;border-radius:3px;">' +
-              '✅ 全港 13 家私立醫院 100% 直通出院免找數 (LOG保證)' +
-            '</div>' +
+        const ourLimitWan = Math.round((mySelectedProduct?.vhis_metrics?.annual_limit_hkd || 20000000) / 10000);
+        const rivalLimitWan = Math.round((rivalSelectedProduct?.vhis_metrics?.annual_limit_hkd || 15000000) / 10000);
+
+        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:10px;">' +
+            '<div style="font-size:11px;font-weight:800;color:#1e40af;">🔵 【Plan A 我方】' + ourName + '</div>' +
+            '<div style="font-size:13px;font-weight:800;color:#1e3a8a;margin-top:3px;">年度保障上限: HK$ ' + ourLimitWan.toLocaleString() + ' 萬</div>' +
+            '<div style="font-size:10.5px;color:#0284c7;margin-top:3px;">✔ 全港所有私家醫院出院免找數 (Cashless)</div>' +
+            '<div style="font-size:10.5px;color:#0284c7;">✔ 非手術癌症標靶/免疫療法無細項上限全數賠償</div>' +
           '</div>' +
-          '<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:6px;padding:8px;">' +
-            '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:4px;">🔴 【Plan B 對手】' + rivalName + '</div>' +
-            '<div style="font-size:10px;color:#7f1d1d;">年度保障額度：<strong style="font-size:13px;color:#b91c1c;">HK$ 3,000萬</strong></div>' +
-            '<div style="font-size:10px;color:#7f1d1d;">終身保障限額：<strong style="color:#b91c1c;">HK$ 6,000萬 上限</strong></div>' +
-            '<div style="font-size:10px;color:#991b1b;margin-top:4px;background:#fee2e2;padding:3px 6px;border-radius:3px;">' +
-              '⚠️ 限特定網絡醫院；超出單項或無授權需自行刷卡墊支' +
-            '</div>' +
+          '<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px;">' +
+            '<div style="font-size:11px;font-weight:800;color:#991b1b;">🔴 【Plan B 對手】' + rivalName + '</div>' +
+            '<div style="font-size:13px;font-weight:800;color:#7f1d1d;margin-top:3px;">年度保障上限: HK$ ' + rivalLimitWan.toLocaleString() + ' 萬</div>' +
+            '<div style="font-size:10.5px;color:#b91c1c;margin-top:3px;">⚠️ 局限特約指定網絡或需繁複預審墊付</div>' +
+            '<div style="font-size:10.5px;color:#b91c1c;">⚠️ 部分非手術治療設細項分項限額</div>' +
           '</div>' +
         '</div>';
-      } else if (cat === 'Financing_UniversalLife') {
-        if (titleEl) titleEl.innerText = '🏦 萬用壽險保費融資淨利差與 LTV 槓桿走廊 (UL Carry Spread & Net Arbitrage)';
-        if (badgeEl) badgeEl.innerText = '私銀 85% LTV · 淨息差 > 1.45%';
-        if (meterInner) meterInner.style.display = 'none';
+      } else {
+        if (titleEl) titleEl.innerText = '🏦 萬用壽險保單結算利率 vs 銀行借貸息差走廊 (Universal Life Net Spread Matrix)';
+        if (badgeEl) badgeEl.innerText = '淨息差利差走廊 (Net Spread)';
 
-        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">' +
-          '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:8px;">' +
-            '<div style="font-size:10px;color:#1e40af;">保單結算年利率</div>' +
-            '<div style="font-size:15px;font-weight:800;color:var(--ikb);font-family:monospace;">5.25%</div>' +
-            '<div style="font-size:9px;color:#64748b;">保司現行派息</div>' +
+        const ourSpread = mySelectedProduct?.ul_metrics?.net_spread_pct || 1.8;
+        const rivalSpread = rivalSelectedProduct?.ul_metrics?.net_spread_pct || 1.2;
+
+        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">' +
+          '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:10px;">' +
+            '<div style="font-size:11px;font-weight:800;color:#1e40af;">🔵 【Plan A 我方】' + ourName + '</div>' +
+            '<div style="font-size:13px;font-weight:800;color:#1e3a8a;margin-top:3px;">淨息差利潤: +' + ourSpread + '%</div>' +
+            '<div style="font-size:10.5px;color:#0284c7;margin-top:2px;">保底結算息率: ' + (mySelectedProduct?.ul_metrics?.guaranteed_floor_rate_pct || 2.25) + '% (強防禦)</div>' +
           '</div>' +
-          '<div style="background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:8px;">' +
-            '<div style="font-size:10px;color:#475569;">融資借貸成本 (Cost)</div>' +
-            '<div style="font-size:15px;font-weight:800;color:#dc2626;font-family:monospace;">3.80%</div>' +
-            '<div style="font-size:9px;color:#64748b;">HIBOR/SOFR 息差</div>' +
+          '<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:8px;padding:10px;">' +
+            '<div style="font-size:11px;font-weight:800;color:#991b1b;">🔴 【Plan B 對手】' + rivalName + '</div>' +
+            '<div style="font-size:13px;font-weight:800;color:#7f1d1d;margin-top:3px;">淨息差利潤: +' + rivalSpread + '%</div>' +
+            '<div style="font-size:10.5px;color:#b91c1c;margin-top:2px;">保底結算息率: ' + (rivalSelectedProduct?.ul_metrics?.guaranteed_floor_rate_pct || 2.0) + '%</div>' +
           '</div>' +
-          '<div style="background:#ecfdf5;border:1.5px solid #86efac;border-radius:6px;padding:8px;">' +
-            '<div style="font-size:10px;color:#047857;">淨套利利差 (Spread)</div>' +
-            '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;">+1.45%</div>' +
-            '<div style="font-size:9px;color:#059669;font-weight:700;">85% LTV 槓桿放大</div>' +
-          '</div>' +
-        '</div>' +
-        '<div style="margin-top:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px 10px;font-size:10px;color:#475569;line-height:1.4;">' +
-          '客戶只需出資 15% 首期保費，銀行融資 85%，在 1.45% 淨利差下透過槓桿將權益回報率 (ROE) 放大至 8%~11% 穩健年化！' +
         '</div>';
       }
     }
-    window.renderCorridorVisualChart = renderCorridorVisualChart;
 
     function updateBattleCard() {
       const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
@@ -7680,13 +8096,13 @@ const htmlContent = `<!DOCTYPE html>
         const curTreatmentObj = treatments.find(function(t) { return t.name === medicalTreatment; }) || treatments[0];
         const estCost = curTreatmentObj.est;
 
-        const medOur = (ourMetrics && normalizeCategory(ourMetrics.category) === 'Medical_VHIS') ? ourMetrics : null;
+        const medOur = (mySelectedProduct && normalizeCategory(mySelectedProduct.category) === 'Medical_VHIS') ? mySelectedProduct : null;
         const medFlagshipOur = getFlagshipProduct(myCompany, 'Medical_VHIS');
-        const resolvedOurMed = medOur || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipOur) || medFlagshipOur.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS') || ourMetrics;
+        const resolvedOurMed = medOur || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipOur) || medFlagshipOur.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === myCompany && normalizeCategory(p.category) === 'Medical_VHIS') || mySelectedProduct;
 
-        const medRival = (rivalMetrics && normalizeCategory(rivalMetrics.category) === 'Medical_VHIS') ? rivalMetrics : null;
+        const medRival = (rivalSelectedProduct && normalizeCategory(rivalSelectedProduct.category) === 'Medical_VHIS') ? rivalSelectedProduct : null;
         const medFlagshipRival = getFlagshipProduct(selectedCompany, 'Medical_VHIS');
-        const resolvedRivalMed = medRival || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipRival) || medFlagshipRival.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS') || rivalMetrics;
+        const resolvedRivalMed = medRival || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS' && (p.name.includes(medFlagshipRival) || medFlagshipRival.includes(cleanProductName(p.name)))) || (window.ALL_PRODUCTS_CATALOG || []).find(p => normalizeCompany(p.insurer) === selectedCompany && normalizeCategory(p.category) === 'Medical_VHIS') || rivalSelectedProduct;
 
         const medicalOurProdName = cleanProductName(resolvedOurMed.name || resolvedOurMed.product_name || ourProdName);
         const medicalRivalProdName = cleanProductName(resolvedRivalMed.name || resolvedRivalMed.product_name || rivalProdName);
