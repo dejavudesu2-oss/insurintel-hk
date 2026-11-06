@@ -489,6 +489,51 @@
       border-bottom: 1px solid #f1f5f9;
       line-height: 1.4;
     }
+    .bilateral-spec-table tr.spec-row-highlighted {
+      background: #fffbeb !important;
+      border-left: 4px solid #f59e0b !important;
+      box-shadow: inset 0 0 6px rgba(245, 158, 11, 0.15);
+    }
+    .spec-focus-badge {
+      display: inline-block;
+      margin-left: 5px;
+      font-size: 9px;
+      background: #f59e0b;
+      color: #ffffff;
+      padding: 1px 5px;
+      border-radius: 4px;
+      font-weight: 700;
+      vertical-align: middle;
+      letter-spacing: 0.5px;
+      box-shadow: 0 1px 2px rgba(245, 158, 11, 0.3);
+    }
+    .claim-selector-header {
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+    .claim-guide-tip {
+      font-size: 11px;
+      color: #475569;
+      line-height: 1.4;
+      margin-top: 4px;
+      margin-bottom: 6px;
+      background: #eff6ff;
+      border-left: 3px solid var(--ikb);
+      padding: 6px 10px;
+      border-radius: 0 6px 6px 0;
+    }
+    .agent-objection-banner {
+      background: #0f172a;
+      border: 1px solid #38bdf8;
+      border-radius: 8px;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
 
     /* Dynamic Horizon Time-Slider Box */
     .horizon-slider-box {
@@ -1072,9 +1117,14 @@
       </div>
     </div>
 
-    <div class="selector-label" style="margin-top:2px;">
-      <span>⚡ 客戶異議 / 競品焦點主打點</span>
-      <span style="color:var(--ikb);font-size:11px;">即點即應對</span>
+    <div class="claim-selector-header" style="margin-top:6px; margin-bottom:4px;">
+      <div class="selector-label" style="display:flex; justify-content:space-between; align-items:center;">
+        <span>⚡ 選擇客戶提出的競品噱頭 / 攻防焦點 (點擊即時切換破局話術與對比高亮)</span>
+        <span style="color:var(--ikb);font-size:11px;font-weight:700;">即點即破局</span>
+      </div>
+      <div class="claim-guide-tip">
+        💡 <strong>實戰指南：</strong>當客戶提出對手宣傳賣點（例如「對手話有 5.8% 預繳」），點擊下方對應標籤。系統即時在【顧問私密視角】提供 3 步破局話術，並在【客戶展示視角】精算擂台自動高亮該項對比與細則盲點！
+      </div>
     </div>
     <div class="pill-scroll" id="claim-pills">
       <button class="thumb-pill active" onclick="selectClaim(this, '5.8% 預繳 / 保證高回報')">5.8% 預繳 / 保證高回報</button>
@@ -1099,6 +1149,12 @@
   <div id="agent-view" class="agent-view-container">
     <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶</div>
     
+    <!-- 当前应对噱头提示条 -->
+    <div class="agent-objection-banner" id="agent-objection-banner">
+      <span>⚡ 應對客戶異議焦點：</span>
+      <strong id="agent-objection-title" style="color:#38bdf8;">5.8% 預繳 / 保證高回報</strong>
+    </div>
+
     <!-- 条款陷阱警示框 -->
     <div class="agent-trap-alert" id="agent-trap-alert">
       <strong>條款陷阱避坑警示：</strong>對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！
@@ -1329,7 +1385,7 @@
     let rivalSelectedProduct = null;
 
     // All 42 Market Products Catalog Knowledge Base
-    const ALL_PRODUCTS_CATALOG = [{"id":"PROMO-AIA-SAV-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (1年保證)","discount":"12%","gn16":"96.5%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-PRU-SAV-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋富多元貨幣計劃 (Evergreen Grandeur)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.8% (1年保證)","discount":"14%","gn16":"91.2%","breakeven":"第 19 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-SAV-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏摯多元儲蓄計劃 (ManuGlobal Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (2年保證)","discount":"10%","gn16":"94.8%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-SUN-SAV-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年青星河傳承計劃 (Stellar Global Legacy)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.1% (1年保證)","discount":"12%","gn16":"93%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-FWD-SAV-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"盈豐多元貨幣儲蓄保險 (MaxFortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.3% (3年保證)","discount":"15%","gn16":"92.6%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-AXA-SAV-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"摯匯多元貨幣儲蓄計劃 (Global DynaWealth)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"14%","gn16":"95.1%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-BOC-SAV-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"薪火相傳多元貨幣終身壽險計劃 (Generational Multi-Currency Whole Life)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (2年保證)","discount":"10%","gn16":"97.2%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-YF-SAV-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富饒傳承多元貨幣計劃 (Infinite Fortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.6% (1年保證)","discount":"15%","gn16":"94%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-AIA-SAV-SLE5-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"簡愛延續保障計劃 5 (Simple Love Encore 5)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"8%","gn16":"97.5%","breakeven":"第 8 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-PRU-SAV-EGSP2-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"特級「雋陞」儲蓄保障計劃 II (Evergreen Growth Saver Plus II)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (1年保證)","discount":"12%","gn16":"92.5%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-SAV-CENTURY-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"世紀傳承保障計劃 (Century Legacy Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (2年保證)","discount":"14%","gn16":"95.2%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-FWD-SAV-MAXACC-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"盈聚天下儲蓄保險 (MaxAccumulator Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (1年保證)","discount":"16%","gn16":"93.5%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆"},{"id":"PROMO-MANU-CI-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"守護無間危疾保 (ManuFirst Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"10%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-FWD-CI-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾加諾保 (Crisis Xcelerator Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AIA-CI-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"友心意危疾保 (Care Extra Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-PRU-CI-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"誠保一生危疾保 (Guardian Care Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-SUN-CI-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬泰危疾保 (SunHealth Total Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AXA-CI-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"愛護同行危疾保 (Loving Care Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-YF-CI-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"首選健康加護保 (Prime Health Care Extra)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 1 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-CI-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie 早期危疾保 (Bowtie Early Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOC-CI-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"守護健康危疾保障計劃 (Health Guardian Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-AIA-CI-ABSOLUTE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"愛伴航首選危疾保 (AIA One Absolute Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-PRU-CI-CIE3-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"危疾加護保 3 (Crisis Care Pro 3)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"16%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-MANU-CI-ACTUARY2-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"活耀人生危疾保 2 (ManuActuary Care 2)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-FWD-CI-SUPREME-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾致諾 (Crisis Supreme Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"22%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支"},{"id":"PROMO-BOWTIE-VHIS-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie Pink 自願醫保 (靈活計劃)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"25%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AIA-VHIS-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"尊裕醫療自願醫保計劃 (CEO Medical VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-PRU-VHIS-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"摯為您醫療計劃 (Privilege VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-FWD-VHIS-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"至臻保醫療計劃 (vPrime Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-MANU-VHIS-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏達醫療保障計劃 (ManuMaster VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AXA-VHIS-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"智尊守慧醫療計劃 (Smart Medicare VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-VHIS-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"永明港悅自願醫保計劃 (SunHealth MediPro VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-BOC-VHIS-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"中銀卓越自願醫保計劃 (BOC Life Prestige VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-YF-VHIS-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通萬全自願醫保計劃 (YF Life VHIS Extra)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2800萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-AIA-VHIS-ASIA-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"亞洲至尊明珠醫療計劃 (AIA Asia CEO Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-CIGNA-VHIS-FLEXI-2026","insurer":"Cigna","insurerName":"信諾 Cigna","name":"信諾自願醫保靈活計劃 (Cigna VHIS Flexi Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"22%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-BUPA-VHIS-HERO-2026","insurer":"Bupa","insurerName":"保柏 Bupa","name":"保柏英雄自願醫保計劃 (Bupa Hero VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數"},{"id":"PROMO-SUN-QDAP-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年延期年金 (Stellar QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-BOC-QDAP-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃 (BOC Life Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.1%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-PRU-QDAP-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋逸年金計劃 (Evergreen Deferred Annuity QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.9%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-QDAP-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"延期年金計劃 (AIA Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.8%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-MANU-QDAP-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"悠然延期年金計劃 (ManuRetire QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.95%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-FWD-QDAP-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"智尊延期年金計劃 (Supreme QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.92%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AXA-QDAP-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛滿延期年金計劃 (Joyful QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"15%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.88%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-YF-QDAP-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通延期年金計劃 (MY Deferred Annuity)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.05%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-MANU-QDAP-DELIGHT-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"智優延期年金計劃 (ManuDelight QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.02%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-BOC-QDAP-FIXED-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃（固定年期）(BOC Life Fixed Term QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.18%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-QDAP-RETIRE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"欣悅延期年金計劃 (AIA Joyful Annuity QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限"},{"id":"PROMO-AIA-UL-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富尊享萬用壽險 (Platinum Wealth Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-MANU-UL-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏裕傳承萬用壽險 (ManuGrand Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-SUN-UL-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬世傳奇萬用壽險 (SunLegacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-FWD-UL-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"富逸傳家萬用壽險 (Apex Legacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"5%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-YF-UL-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富貴萬用壽險 (MassFortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-PRU-UL-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"富傳萬用壽險 (Grandeur Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.8%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-AXA-UL-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛世傳承萬用壽險 (Grand Fortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-BOC-UL-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"盛世萬用壽險 (Golden Era Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-AIA-UL-ELITE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富恒裕萬用壽險 (AIA Fortune Elite Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-PRU-UL-PRESTIGE-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"尊富萬用壽險 (Prudential Prestige Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-SUN-UL-PINNACLE-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"耀世傳承萬用壽險 (Sun Life Pinnacle Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.8%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿"},{"id":"PROMO-MANU-UL-INDEX-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏耀指數萬用壽險 (ManuFlex Indexed Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.2%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿"}];
+    const ALL_PRODUCTS_CATALOG = [{"id":"PROMO-AIA-SAV-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"盈御多元貨幣計劃 3 (Global Power Multi-Currency 3)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (1年保證)","discount":"12%","gn16":"96.5%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":22,"prepayRate":5,"prepayLock":1,"gn16Fulfillment":96.5,"breakevenYear":18,"expectedBreakevenYear":6,"irr30":6.62,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"免體檢限額提升至400萬美元，全期無需提供常規財務核保證明"},{"id":"PROMO-PRU-SAV-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋富多元貨幣計劃 (Evergreen Grandeur)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.8% (1年保證)","discount":"14%","gn16":"91.2%","breakeven":"第 19 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":28,"prepayRate":5.8,"prepayLock":1,"gn16Fulfillment":91.2,"breakevenYear":19,"expectedBreakevenYear":7,"irr30":6.71,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"香港及內地客戶特選免體檢綠色通道"},{"id":"PROMO-MANU-SAV-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏摯多元儲蓄計劃 (ManuGlobal Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (2年保證)","discount":"10%","gn16":"94.8%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":25,"prepayRate":5.5,"prepayLock":2,"gn16Fulfillment":94.8,"breakevenYear":17,"expectedBreakevenYear":6,"irr30":6.55,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"特選次標準體豁免加費計劃，核保綠色通道"},{"id":"PROMO-SUN-SAV-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年青星河傳承計劃 (Stellar Global Legacy)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.1% (1年保證)","discount":"12%","gn16":"93%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":20,"prepayRate":5.1,"prepayLock":1,"gn16Fulfillment":93,"breakevenYear":18,"expectedBreakevenYear":6,"irr30":6.58,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"雙核紅利機制，家庭客戶同行尊享快線核保"},{"id":"PROMO-FWD-SAV-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"盈豐多元貨幣儲蓄保險 (MaxFortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.3% (3年保證)","discount":"15%","gn16":"92.6%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":24,"prepayRate":5.3,"prepayLock":3,"gn16Fulfillment":92.6,"breakevenYear":16,"expectedBreakevenYear":5,"irr30":6.65,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"第3保單年度起即可轉換貨幣，簡易核保通道"},{"id":"PROMO-AXA-SAV-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"摯匯多元貨幣儲蓄計劃 (Global DynaWealth)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"14%","gn16":"95.1%","breakeven":"第 18 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":26,"prepayRate":5.2,"prepayLock":1,"gn16Fulfillment":95.1,"breakevenYear":18,"expectedBreakevenYear":6,"irr30":6.6,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"多達8-9種貨幣自由切換，保單價值靈活分拆"},{"id":"PROMO-BOC-SAV-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"薪火相傳多元貨幣終身壽險計劃 (Generational Multi-Currency Whole Life)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5% (2年保證)","discount":"10%","gn16":"97.2%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":22,"prepayRate":5,"prepayLock":2,"gn16Fulfillment":97.2,"breakevenYear":15,"expectedBreakevenYear":5,"irr30":6.45,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"中銀集團跨境聯動，人民幣結算極具優勢，GN16 實現率超穩"},{"id":"PROMO-YF-SAV-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富饒傳承多元貨幣計劃 (Infinite Fortune Multi-Currency)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.6% (1年保證)","discount":"15%","gn16":"94%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":28,"prepayRate":5.6,"prepayLock":1,"gn16Fulfillment":94,"breakevenYear":17,"expectedBreakevenYear":6,"irr30":6.68,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"支援終身年金轉換選項，可直接轉化為退休固定現金流"},{"id":"PROMO-AIA-SAV-SLE5-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"簡愛延續保障計劃 5 (Simple Love Encore 5)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.2% (1年保證)","discount":"8%","gn16":"97.5%","breakeven":"第 8 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":15,"prepayRate":5.2,"prepayLock":1,"gn16Fulfillment":97.5,"breakevenYear":8,"expectedBreakevenYear":4,"irr30":6.25,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"大額快線免體檢通道，特設 4 年超快預期回本期，高淨值客戶資金快速回籠首選"},{"id":"PROMO-PRU-SAV-EGSP2-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"特級「雋陞」儲蓄保障計劃 II (Evergreen Growth Saver Plus II)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.5% (1年保證)","discount":"12%","gn16":"92.5%","breakeven":"第 17 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":24,"prepayRate":5.5,"prepayLock":1,"gn16Fulfillment":92.5,"breakevenYear":17,"expectedBreakevenYear":7,"irr30":6.82,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全港最廣受歡迎長青分紅旗艦，30年預期複利高達6.82%，享譽中港兩地"},{"id":"PROMO-MANU-SAV-CENTURY-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"世紀傳承保障計劃 (Century Legacy Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (2年保證)","discount":"14%","gn16":"95.2%","breakeven":"第 16 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":26,"prepayRate":5.4,"prepayLock":2,"gn16Fulfillment":95.2,"breakevenYear":16,"expectedBreakevenYear":6,"irr30":6.6,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"支援終身保單分拆與世代傳承，GN16 實現率超 95%，加拿大背景穩健背書"},{"id":"PROMO-FWD-SAV-MAXACC-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"盈聚天下儲蓄保險 (MaxAccumulator Saver)","category":"Savings_MultiCurrency","categoryName":"儲蓄分紅","prepay":"5.4% (1年保證)","discount":"16%","gn16":"93.5%","breakeven":"第 15 年保證","highlight":"多貨幣轉換 · 保單分拆","maxRebate":26,"prepayRate":5.4,"prepayLock":1,"gn16Fulfillment":93.5,"breakevenYear":15,"expectedBreakevenYear":5,"irr30":6.72,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"第 5 年起高速回本，首年最高 30% 保費回贈組合，市場極速滾存代表"},{"id":"PROMO-MANU-CI-2026-Q4","insurer":"Manulife","insurerName":"宏利 Manulife","name":"守護無間危疾保 (ManuFirst Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"10%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":16,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":122,"ciMultiplePct":950,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"特選次標準體（血壓高/膽固醇高）提供豁免加費計劃"},{"id":"PROMO-FWD-CI-2026-Q4","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾加諾保 (Crisis Xcelerator Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":2,"ciIllnesses":130,"ciMultiplePct":1000,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"限時免體檢快線，首期保費直接回贈高達20%"},{"id":"PROMO-AIA-CI-2026-Q4","insurer":"AIA","insurerName":"友邦 AIA","name":"友心意危疾保 (Care Extra Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":125,"ciMultiplePct":900,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"AIA Vitality 額外首年 10% 保額提升，特設兒童先天性疾病保障"},{"id":"PROMO-PRU-CI-2026-Q4","insurer":"Prudential","insurerName":"保誠 Prudential","name":"誠保一生危疾保 (Guardian Care Pro)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":25,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":128,"ciMultiplePct":1000,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"特設心腦血管病況終身保障及跨代保費豁免"},{"id":"PROMO-SUN-CI-2026-Q4","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬泰危疾保 (SunHealth Total Care)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":22,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":2,"ciIllnesses":132,"ciMultiplePct":1100,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"早期未命名疾病保障涵蓋未知病毒爆發引起的重症入住ICU"},{"id":"PROMO-AXA-CI-2026-Q4","insurer":"AXA","insurerName":"安盛 AXA","name":"愛護同行危疾保 (Loving Care Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":24,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":135,"ciMultiplePct":900,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"獨特良性病變保障，甲狀腺結節/乳房纖維瘤專屬投保特惠"},{"id":"PROMO-YF-CI-2026-Q4","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"首選健康加護保 (Prime Health Care Extra)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"15%","gn16":"非分紅","breakeven":"癌症間隔 1 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":26,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":1,"ciIllnesses":138,"ciMultiplePct":1080,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"首創癌症持續/轉移再次索償間隔縮短至1年，市場最快再次賠付條款"},{"id":"PROMO-BOWTIE-CI-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie 早期危疾保 (Bowtie Early Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"20%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":42,"ciMultiplePct":100,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"純網上自主投保，無中介人佣金加成，保費直減20%，覆蓋早期原位癌及微創手術"},{"id":"PROMO-BOC-CI-2026-Q4","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"守護健康危疾保障計劃 (Health Guardian Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":22,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":126,"ciMultiplePct":900,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"中銀集團特選高血壓/高血糖客戶核保快線，特設大灣區指定三甲醫院綠通就醫"},{"id":"PROMO-AIA-CI-ABSOLUTE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"愛伴航首選危疾保 (AIA One Absolute Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"14%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":22,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":140,"ciMultiplePct":900,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"首創持續癌症每3年直接賠付 100% 保額至85歲，特設兒童腦疾及自閉症支援"},{"id":"PROMO-PRU-CI-CIE3-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"危疾加護保 3 (Crisis Care Pro 3)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"16%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":26,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":127,"ciMultiplePct":960,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全港重疾市場標桿旗艦，特設產前準媽媽投保通道保障初生嬰兒"},{"id":"PROMO-MANU-CI-ACTUARY2-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"活耀人生危疾保 2 (ManuActuary Care 2)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"12%","gn16":"非分紅","breakeven":"癌症間隔 3 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":125,"ciMultiplePct":1000,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"提供深切治療部 ICU 入住保障及鎖定分紅選項"},{"id":"PROMO-FWD-CI-SUPREME-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"危疾致諾 (Crisis Supreme Critical Illness)","category":"Critical_Illness","categoryName":"重疾危疾","prepay":"無預繳","discount":"22%","gn16":"非分紅","breakeven":"癌症間隔 2 年","highlight":"癌症多次賠償 · ICU預支","maxRebate":22,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":2,"ciIllnesses":135,"ciMultiplePct":1100,"ciIcu":true,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"癌症索償間隔僅需 2 年，特設生活津貼與保費直接豁免"},{"id":"PROMO-BOWTIE-VHIS-2026","insurer":"Bowtie","insurerName":"保泰 Bowtie","name":"Bowtie Pink 自願醫保 (靈活計劃)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"25%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":25,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":20000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"網上即時核保，無Agent佣金架構，保費直減"},{"id":"PROMO-AIA-VHIS-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"尊裕醫療自願醫保計劃 (CEO Medical VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":25000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"專屬醫療禮賓管家服務，全港頂級私家醫院出院免找數 (Cashless)"},{"id":"PROMO-PRU-VHIS-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"摯為您醫療計劃 (Privilege VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":18,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":30000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"無索償保費折扣高達15%，支援海外頂尖醫療網絡直付"},{"id":"PROMO-FWD-VHIS-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"至臻保醫療計劃 (vPrime Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":25000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全數賠償非手術癌症治療，特設中風復康專項照護"},{"id":"PROMO-MANU-VHIS-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏達醫療保障計劃 (ManuMaster VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":16,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":35000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"尊尚私家房保障，指定亞洲頂級私家醫院直付服務"},{"id":"PROMO-AXA-VHIS-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"智尊守慧醫療計劃 (Smart Medicare VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"15%","gn16":"自願醫保","breakeven":"額度 $2000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":15,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":20000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"守慧健康同行獎勵，連續三年無索償自付額自動遞減15%"},{"id":"PROMO-SUN-VHIS-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"永明港悅自願醫保計劃 (SunHealth MediPro VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"16%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":16,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":30000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全數賠償非手術癌症治療（標靶藥/化療），全港認可私家醫院直付網絡"},{"id":"PROMO-BOC-VHIS-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"中銀卓越自願醫保計劃 (BOC Life Prestige VHIS)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $2500萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":18,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":25000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"中銀集團聯營私家醫院直付免找數服務，無終身賠償限額"},{"id":"PROMO-YF-VHIS-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通萬全自願醫保計劃 (YF Life VHIS Extra)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $2800萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":28000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"靈活自付額選項，環球緊急直付援助與專屬醫療網絡卡"},{"id":"PROMO-AIA-VHIS-ASIA-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"亞洲至尊明珠醫療計劃 (AIA Asia CEO Medical Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"18%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":18,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":30000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"亞洲頂級私家醫院直付免找數服務，標靶藥及免疫治療全額實報實銷"},{"id":"PROMO-CIGNA-VHIS-FLEXI-2026","insurer":"Cigna","insurerName":"信諾 Cigna","name":"信諾自願醫保靈活計劃 (Cigna VHIS Flexi Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"22%","gn16":"自願醫保","breakeven":"額度 $3000萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":22,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":30000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全球醫療健康巨擘信諾專門網絡，無索償健康折扣最高 15%，住院直付信譽極佳"},{"id":"PROMO-BUPA-VHIS-HERO-2026","insurer":"Bupa","insurerName":"保柏 Bupa","name":"保柏英雄自願醫保計劃 (Bupa Hero VHIS Plan)","category":"Medical_VHIS","categoryName":"自願醫保","prepay":"無預繳","discount":"20%","gn16":"自願醫保","breakeven":"額度 $3500萬","highlight":"標靶藥全額 · 出院免找數","maxRebate":20,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":35000000,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"英國保柏百年醫療專門機構，全港保柏專屬醫療中心免找數，癌症化療標靶藥 100% 全數賠償"},{"id":"PROMO-SUN-QDAP-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬年延期年金 (Stellar QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限","maxRebate":10,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.85,"qdapTotalIRR":4.6,"qdapGuaranteedPct":62,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全期保證免體檢，合資格香港納稅人可享最高10,200港元薪俸稅節省"},{"id":"PROMO-BOC-QDAP-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃 (BOC Life Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.1%","highlight":"HK$60,000 法定扣稅上限","maxRebate":12,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":3.1,"qdapTotalIRR":4.45,"qdapGuaranteedPct":69.7,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"特高保證年金回報率 3.10%，支援人民幣結算與扣稅"},{"id":"PROMO-PRU-QDAP-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"雋逸年金計劃 (Evergreen Deferred Annuity QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.9%","highlight":"HK$60,000 法定扣稅上限","maxRebate":14,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.9,"qdapTotalIRR":4.75,"qdapGuaranteedPct":61.1,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"全期保證免體檢，提供彈性年金領取期及受保人後續安排"},{"id":"PROMO-AIA-QDAP-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"延期年金計劃 (AIA Deferred Annuity Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"10%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.8%","highlight":"HK$60,000 法定扣稅上限","maxRebate":10,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.8,"qdapTotalIRR":4.65,"qdapGuaranteedPct":60.2,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"結合 AIA Vitality 享額外年金入賬或保費扣減"},{"id":"PROMO-MANU-QDAP-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"悠然延期年金計劃 (ManuRetire QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.95%","highlight":"HK$60,000 法定扣稅上限","maxRebate":12,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.95,"qdapTotalIRR":4.8,"qdapGuaranteedPct":61.5,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"退休年金每月保證入賬，兼具身故信託提取選擇"},{"id":"PROMO-FWD-QDAP-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"智尊延期年金計劃 (Supreme QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.92%","highlight":"HK$60,000 法定扣稅上限","maxRebate":12,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.92,"qdapTotalIRR":4.7,"qdapGuaranteedPct":62.1,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"保證回本期快至第8年，全期免體檢核保，兼享高達10,200港元薪俸稅扣除"},{"id":"PROMO-AXA-QDAP-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛滿延期年金計劃 (Joyful QDAP)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"15%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.88%","highlight":"HK$60,000 法定扣稅上限","maxRebate":15,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.88,"qdapTotalIRR":4.62,"qdapGuaranteedPct":62.3,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"提供靈活年金給付期與多樣年金領取年齡，首年保費折扣高達15%"},{"id":"PROMO-YF-QDAP-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"萬通延期年金計劃 (MY Deferred Annuity)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.05%","highlight":"HK$60,000 法定扣稅上限","maxRebate":14,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":3.05,"qdapTotalIRR":4.78,"qdapGuaranteedPct":63.8,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"高保證年金派息比率，支援終身年金年期選項，自選傳承受益人分配"},{"id":"PROMO-MANU-QDAP-DELIGHT-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"智優延期年金計劃 (ManuDelight QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"14%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.02%","highlight":"HK$60,000 法定扣稅上限","maxRebate":14,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":3.02,"qdapTotalIRR":4.85,"qdapGuaranteedPct":62.3,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"5年供款期，高保證年金成分，全期保證免體檢快速核保"},{"id":"PROMO-BOC-QDAP-FIXED-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"延期年金計劃（固定年期）(BOC Life Fixed Term QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 3.18%","highlight":"HK$60,000 法定扣稅上限","maxRebate":12,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":3.18,"qdapTotalIRR":4.5,"qdapGuaranteedPct":70.7,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"中銀香港龍頭銷量旗艦，保證內部回報率高達 3.18%，支援人民幣及港幣雙幣扣稅"},{"id":"PROMO-AIA-QDAP-RETIRE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"欣悅延期年金計劃 (AIA Joyful Annuity QDAP Plan)","category":"Annuity_QDAP","categoryName":"扣稅年金","prepay":"無預繳","discount":"12%","gn16":"QDAP扣稅","breakeven":"保證 IRR 2.85%","highlight":"HK$60,000 法定扣稅上限","maxRebate":12,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":2.85,"qdapTotalIRR":4.7,"qdapGuaranteedPct":60.6,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.25,"ulNetSpread":1.45,"specialNotes":"銜接 AIA Vitality 健康積分享有額外 10% 年金增值，保證傳承安排"},{"id":"PROMO-AIA-UL-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富尊享萬用壽險 (Platinum Wealth Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿","maxRebate":5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.35,"ulNetSpread":1.45,"specialNotes":"指定合作私人銀行綠色審批通道，48小時極速出具融資批核意向書 (Facility Letter)"},{"id":"PROMO-MANU-UL-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏裕傳承萬用壽險 (ManuGrand Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿","maxRebate":4,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":82,"ulFloorRate":2,"ulCreditingRate":5.45,"ulNetSpread":1.5,"specialNotes":"大額家族信託架構直通，支援聯名受保人與跨代受託人"},{"id":"PROMO-SUN-UL-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"萬世傳奇萬用壽險 (SunLegacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿","maxRebate":4.5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":80,"ulFloorRate":2.5,"ulCreditingRate":5.25,"ulNetSpread":1.4,"specialNotes":"退保費用鎖定期僅3年，具極高資金變現與退出靈活性，保證底線利率高達2.5%"},{"id":"PROMO-FWD-UL-2026","insurer":"FWD","insurerName":"富衛 FWD","name":"富逸傳家萬用壽險 (Apex Legacy Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"5%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿","maxRebate":5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.1,"ulCreditingRate":5.5,"ulNetSpread":1.6,"specialNotes":"支援特定銀行一站式抵押轉讓 (Deed of Assignment) 手續簡化，結算利率高達5.5%"},{"id":"PROMO-YF-UL-2026","insurer":"YF_Life","insurerName":"萬通 YF Life","name":"富貴萬用壽險 (MassFortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿","maxRebate":3.5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":80,"ulFloorRate":2.3,"ulCreditingRate":5.15,"ulNetSpread":1.35,"specialNotes":"起投門檻降至30萬美元，可簡易健康宣告，高達25%補倉安全緩衝墊"},{"id":"PROMO-PRU-UL-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"富傳萬用壽險 (Grandeur Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.8%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿","maxRebate":3.8,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":82,"ulFloorRate":2.2,"ulCreditingRate":5.3,"ulNetSpread":1.42,"specialNotes":"支援私人銀行 82% LTV 融資質押，特設極低鎖定門檻與大額家族辦公室專案審批"},{"id":"PROMO-AXA-UL-2026","insurer":"AXA","insurerName":"安盛 AXA","name":"盛世傳承萬用壽險 (Grand Fortune Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿","maxRebate":4,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.15,"ulCreditingRate":5.4,"ulNetSpread":1.48,"specialNotes":"首年鎖定高結算派息率，提供優厚借貸息差套利空間與一級私人銀行快速批核通道"},{"id":"PROMO-BOC-UL-2026","insurer":"BOC_Life","insurerName":"中銀人壽 BOC Life","name":"盛世萬用壽險 (Golden Era Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"3.5%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿","maxRebate":3.5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":80,"ulFloorRate":2.25,"ulCreditingRate":5.35,"ulNetSpread":1.55,"specialNotes":"中銀香港及私人銀行聯動專屬融資息差折扣通道，退保費用年期僅3年"},{"id":"PROMO-AIA-UL-ELITE-2026","insurer":"AIA","insurerName":"友邦 AIA","name":"財富恒裕萬用壽險 (AIA Fortune Elite Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4%","gn16":"萬用壽險","breakeven":"LTV 85%","highlight":"85% LTV 保費融資槓桿","maxRebate":4,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":85,"ulFloorRate":2.25,"ulCreditingRate":5.45,"ulNetSpread":1.55,"specialNotes":"超高淨值客戶專屬私人銀行融資通道，85% LTV 保單抵押，極大化息差槓桿收益"},{"id":"PROMO-PRU-UL-PRESTIGE-2026","insurer":"Prudential","insurerName":"保誠 Prudential","name":"尊富萬用壽險 (Prudential Prestige Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.5%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿","maxRebate":4.5,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":82,"ulFloorRate":2.2,"ulCreditingRate":5.35,"ulNetSpread":1.5,"specialNotes":"退保鎖定期僅 3 年，提供靈活資金變現與低融資成本利差套利"},{"id":"PROMO-SUN-UL-PINNACLE-2026","insurer":"Sun_Life","insurerName":"永明 Sun Life","name":"耀世傳承萬用壽險 (Sun Life Pinnacle Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.8%","gn16":"萬用壽險","breakeven":"LTV 80%","highlight":"85% LTV 保費融資槓桿","maxRebate":4.8,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":80,"ulFloorRate":2.5,"ulCreditingRate":5.3,"ulNetSpread":1.5,"specialNotes":"永明百年加資後盾，提供市場極高 2.5% 保證底線利率及 25% 追繳保證金緩衝"},{"id":"PROMO-MANU-UL-INDEX-2026","insurer":"Manulife","insurerName":"宏利 Manulife","name":"宏耀指數萬用壽險 (ManuFlex Indexed Universal Life)","category":"Financing_UniversalLife","categoryName":"萬用融資","prepay":"無預繳","discount":"4.2%","gn16":"萬用壽險","breakeven":"LTV 82%","highlight":"85% LTV 保費融資槓桿","maxRebate":4.2,"prepayRate":0,"prepayLock":1,"gn16Fulfillment":0,"breakevenYear":0,"expectedBreakevenYear":0,"irr30":0,"cancerWaitYears":3,"ciIllnesses":120,"ciMultiplePct":900,"ciIcu":false,"vhisLimitHkd":0,"qdapGuaranteedIRR":0,"qdapTotalIRR":0,"qdapGuaranteedPct":50,"ulLtv":82,"ulFloorRate":2,"ulCreditingRate":5.5,"ulNetSpread":1.6,"specialNotes":"連結標普500指數表現，設有 0% 保證保底機制，兼具保費融資 82% LTV 槓桿"}];
     window.ALL_PRODUCTS_CATALOG = ALL_PRODUCTS_CATALOG;
 
     // Insurer Profile Knowledge Base
@@ -1731,6 +1787,106 @@
         }
       }
 
+      // Resolve Active Products
+      const allCatalog = (typeof ALL_PRODUCTS_CATALOG !== 'undefined' && Array.isArray(ALL_PRODUCTS_CATALOG))
+        ? ALL_PRODUCTS_CATALOG
+        : ((typeof window !== 'undefined' && Array.isArray(window.ALL_PRODUCTS_CATALOG)) ? window.ALL_PRODUCTS_CATALOG : []);
+
+      let ourProductObj = null;
+      let rivalProductObj = null;
+
+      if (mySelectedProduct && normalizeCompany(mySelectedProduct.insurer) === ourKey && normalizeCategory(mySelectedProduct.category) === categoryKey) {
+        ourProductObj = mySelectedProduct;
+      } else {
+        const matchingOur = allCatalog.filter(p => normalizeCompany(p.insurer) === ourKey && normalizeCategory(p.category) === categoryKey);
+        ourProductObj = matchingOur.find(p => p.name.includes(ourProductName) || ourProductName.includes(cleanProductName(p.name))) || matchingOur[0] || null;
+      }
+
+      if (rivalSelectedProduct && normalizeCompany(rivalSelectedProduct.insurer) === rivalKey && normalizeCategory(rivalSelectedProduct.category) === categoryKey) {
+        rivalProductObj = rivalSelectedProduct;
+      } else {
+        const matchingRival = allCatalog.filter(p => normalizeCompany(p.insurer) === rivalKey && normalizeCategory(p.category) === categoryKey);
+        if (isIntraInsurer && matchingRival.length > 1 && ourProductObj) {
+          rivalProductObj = matchingRival.find(p => p.id !== ourProductObj.id) || matchingRival[1] || matchingRival[0] || null;
+        } else {
+          rivalProductObj = matchingRival.find(p => p.name.includes(rivalProductName) || rivalProductName.includes(cleanProductName(p.name))) || matchingRival[0] || null;
+        }
+      }
+
+      if (ourProductObj && cleanProductName(ourProductObj.name)) {
+        ourProductName = cleanProductName(ourProductObj.name);
+      }
+      if (rivalProductObj && cleanProductName(rivalProductObj.name)) {
+        rivalProductName = cleanProductName(rivalProductObj.name);
+      }
+
+      function extractMetrics(prod, profile, compKey, catKey) {
+        const isBowtie = (compKey === 'Bowtie');
+
+        let maxRebate = 0;
+        if (prod && typeof prod.maxRebate === 'number') maxRebate = prod.maxRebate;
+        else if (profile && typeof profile.maxRebate === 'number') maxRebate = profile.maxRebate;
+
+        let prepayRate = 0;
+        if (prod && typeof prod.prepayRate === 'number') prepayRate = prod.prepayRate;
+        else if (profile && typeof profile.prepayRate === 'number') prepayRate = profile.prepayRate;
+
+        let prepayLock = 1;
+        if (prod && typeof prod.prepayLock === 'number' && prod.prepayLock > 0) prepayLock = prod.prepayLock;
+        else if (profile && typeof profile.prepayLock === 'number') prepayLock = profile.prepayLock;
+
+        let gn16 = isBowtie ? 0 : 95;
+        if (isBowtie) {
+          gn16 = 0;
+        } else if (prod && typeof prod.gn16Fulfillment === 'number' && prod.gn16Fulfillment > 0) {
+          gn16 = prod.gn16Fulfillment;
+        } else if (profile && typeof profile.gn16Fulfillment === 'number') {
+          gn16 = profile.gn16Fulfillment;
+        }
+
+        let breakevenYear = 0;
+        if (prod && typeof prod.breakevenYear === 'number' && prod.breakevenYear > 0) {
+          breakevenYear = prod.breakevenYear;
+        } else if (profile && typeof profile.breakevenYear === 'number') {
+          breakevenYear = profile.breakevenYear;
+        }
+
+        let irr30 = 0;
+        if (prod && typeof prod.irr30 === 'number' && prod.irr30 > 0) {
+          irr30 = prod.irr30;
+        } else if (profile && typeof profile.irr30 === 'number') {
+          irr30 = profile.irr30;
+        }
+
+        let highlight = '';
+        if (prod && (prod.highlight || prod.specialNotes)) {
+          highlight = prod.highlight || prod.specialNotes;
+        } else if (profile) {
+          if (catKey === 'Critical_Illness') highlight = profile.specialCI || profile.specialSavings || '';
+          else if (catKey === 'Medical_VHIS') highlight = profile.specialVHIS || profile.cashlessNetwork || '';
+          else highlight = profile.specialSavings || '';
+        }
+
+        let cancerWaitYears = (prod && typeof prod.cancerWaitYears === 'number') ? prod.cancerWaitYears : (profile && profile.cancerWaitYears ? profile.cancerWaitYears : 3);
+        let qdapGuaranteedPct = (prod && typeof prod.qdapGuaranteedPct === 'number') ? prod.qdapGuaranteedPct : (profile && profile.qdapGuaranteedPct ? profile.qdapGuaranteedPct : 50);
+
+        return {
+          maxRebate,
+          prepayRate,
+          prepayLock,
+          gn16Fulfillment: gn16,
+          breakevenYear,
+          irr30,
+          highlight,
+          cancerWaitYears,
+          qdapGuaranteedPct,
+          rawProd: prod
+        };
+      }
+
+      const ourMetrics = extractMetrics(ourProductObj, ourProfile, ourKey, categoryKey);
+      const rivalMetrics = extractMetrics(rivalProductObj, rivalProfile, rivalKey, categoryKey);
+
       const heroOur = `${ourProfile.fullName} · ${ourProductName}`;
       const heroRival = `${rivalProfile.fullName} · ${rivalProductName}`;
 
@@ -1738,32 +1894,35 @@
 
       let corridorNote = (rivalKey === 'Bowtie')
         ? '保泰人壽為純消費型醫療保障，不設分紅儲蓄險種，無需申報 GN16 分紅實現率。'
-        : (rivalProfile.gn16Fulfillment >= 95
-          ? `該保司歷史實現率達 ${rivalProfile.gn16Fulfillment}%，穩定在 90%~100% 綠色安全走廊內。`
-          : `該保司歷史曾跌出 90% 安全走廊（僅 ${rivalProfile.gn16Fulfillment}%），30年複利實現率差 5% 造成數十萬派發折損。`);
+        : (rivalMetrics.gn16Fulfillment >= 95
+          ? `該保司歷史實現率達 ${rivalMetrics.gn16Fulfillment}%，穩定在 90%~100% 綠色安全走廊內。`
+          : `該保司歷史曾跌出 90% 安全走廊（僅 ${rivalMetrics.gn16Fulfillment}%），30年複利實現率差 5% 造成數十萬派發折損。`);
 
-      const deltaGN16 = Math.abs(ourProfile.gn16Fulfillment - rivalProfile.gn16Fulfillment).toFixed(1);
-      const isOurGN16Higher = ourProfile.gn16Fulfillment > rivalProfile.gn16Fulfillment;
-      const isGN16Equal = ourProfile.gn16Fulfillment === rivalProfile.gn16Fulfillment;
+      const deltaGN16 = Math.abs(Number(ourMetrics.gn16Fulfillment || 0) - Number(rivalMetrics.gn16Fulfillment || 0)).toFixed(1);
+      const isOurGN16Higher = ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment;
+      const isGN16Equal = ourMetrics.gn16Fulfillment === rivalMetrics.gn16Fulfillment;
+
+      const corridorOurVal = (ourKey === 'Bowtie') ? '純保障 (0%)' : `${ourMetrics.gn16Fulfillment}%`;
+      const corridorRivalVal = (rivalKey === 'Bowtie') ? '純保障 (0%)' : `${rivalMetrics.gn16Fulfillment}%`;
 
       let horizonYear5 = '';
       if (ourKey === 'Bowtie') {
-        horizonYear5 = `保單第 5 年：保泰純保障零佣金直銷，不設儲蓄鎖定期；所省下保費（對手【${rivalProductName}】第 ${rivalProfile.breakevenYear || 7} 年才回本）可自主定存或投資，資金 100% 自由支配。`;
+        horizonYear5 = `保單第 5 年：保泰純保障零佣金直銷，不設儲蓄鎖定期；所省下保費（對手【${rivalProductName}】第 ${rivalMetrics.breakevenYear || 7} 年才回本）可自主定存或投資，資金 100% 自由支配。`;
       } else if (rivalKey === 'Bowtie') {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】保證現金價值已達 100% 已繳保費（第 ${ourProfile.breakevenYear || 5} 年保證回本）；對手純消費型定期醫保無任何現金價值。`;
-      } else if (ourProfile.breakevenYear <= rivalProfile.breakevenYear) {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】第 ${ourProfile.breakevenYear} 年即保證 100% 回本；對手【${rivalProductName}】需至第 ${rivalProfile.breakevenYear} 年才回本，提早退保罰則較嚴格。`;
+        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】保證現金價值已達 100% 已繳保費（第 ${ourMetrics.breakevenYear || 5} 年保證回本）；對手純消費型定期醫保無任何現金價值。`;
+      } else if (ourMetrics.breakevenYear <= rivalMetrics.breakevenYear) {
+        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】第 ${ourMetrics.breakevenYear} 年即保證 100% 回本；對手【${rivalProductName}】需至第 ${rivalMetrics.breakevenYear} 年才回本，提早退保罰則較嚴格。`;
       } else {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】前期提供高達 ${ourProfile.maxRebate}% 回贈與 ${ourProfile.prepayRate}% 鎖息，已即時鎖定實質現金折讓；預計第 ${ourProfile.breakevenYear} 年保證回本（對手第 ${rivalProfile.breakevenYear} 年）。`;
+        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】前期提供高達 ${ourMetrics.maxRebate}% 回贈與 ${ourMetrics.prepayRate}% 鎖息，已即時鎖定實質現金折讓；預計第 ${ourMetrics.breakevenYear} 年保證回本（對手第 ${rivalMetrics.breakevenYear} 年）。`;
       }
 
       let horizonYear20 = '';
       if (ourKey === 'Bowtie') {
         horizonYear20 = `保單第 20 年：省下之高達幾十萬中介人佣金與管理費用於自主投資滾存；對手【${rivalProductName}】非保證分紅可能面臨實現率波動折損。`;
       } else if (rivalKey === 'Bowtie') {
-        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourProfile.gn16Fulfillment}% 累積實現率守護分紅派發，純保障產品無任何資產累積。`;
+        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 累積實現率守護分紅派發，純保障產品無任何資產累積。`;
       } else if (isOurGN16Higher) {
-        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourProfile.gn16Fulfillment}% 官方實現率守護分紅派發，對手 ${rivalProfile.gn16Fulfillment}% 存在折損隱憂。`;
+        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 官方實現率守護分紅派發，對手 ${rivalMetrics.gn16Fulfillment}% 存在折損隱憂。`;
       } else {
         horizonYear20 = `保單第 20 年：我方前期最高回贈與鎖定利息已複利滾存多年，兼備無限次保單分拆與 8-9 種貨幣自由調配；對手過度依賴非保證遠期紅利。`;
       }
@@ -1774,67 +1933,67 @@
         15: `保單第 15 年：子女高等教育出國深造黃金期，總現金價值達已繳保費 1.8~2.0 倍；可隨時行使多貨幣轉換功能對衝匯率風險。`,
         20: horizonYear20,
         25: `保單第 25 年：準退休籌劃與家族信託階段，現金流支取自由度高，已具備無限次更換受保人與拆分能力。`,
-        30: `保單第 30 年：退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！Plan A (我方 30Y IRR: ${ourProfile.irr30}%, GN16: ${ourProfile.gn16Fulfillment}%) vs Plan B (對手 30Y IRR: ${rivalProfile.irr30}%, GN16: ${rivalProfile.gn16Fulfillment}%)，GN16 實現率每差 ${deltaGN16}%，30年複利累積差距高達 HK$300,000 ~ $800,000 真金白銀！`
+        30: `保單第 30 年：退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！Plan A (我方 30Y IRR: ${ourMetrics.irr30}%, GN16: ${ourMetrics.gn16Fulfillment}%) vs Plan B (對手 30Y IRR: ${rivalMetrics.irr30}%, GN16: ${rivalMetrics.gn16Fulfillment}%)，GN16 實現率每差 ${deltaGN16}%，30年複利累積差距高達 HK$300,000 ~ $800,000 真金白銀！`
       };
 
       // 6 Core Bilateral Metrics
       const bilateralSpecs = [
         {
           label: "首年保費回贈",
-          ourVal: ourProfile.maxRebate > 0 ? ourProfile.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
-          rivalVal: rivalProfile.maxRebate > 0 ? rivalProfile.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
-          delta: ourProfile.maxRebate > rivalProfile.maxRebate
-            ? `我方高 +${ourProfile.maxRebate - rivalProfile.maxRebate}% 🏆`
-            : (ourProfile.maxRebate < rivalProfile.maxRebate ? `對手高 +${rivalProfile.maxRebate - ourProfile.maxRebate}% (鎖定期長)` : "持平"),
-          winner: ourProfile.maxRebate > rivalProfile.maxRebate ? 'our' : (ourProfile.maxRebate < rivalProfile.maxRebate ? 'rival' : 'tie')
+          ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+          rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+          delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
+            ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
+            : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}% (鎖定期長)` : "持平"),
+          winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
         },
         {
           label: "預繳保證利率",
-          ourVal: ourProfile.prepayRate > 0 ? `${ourProfile.prepayRate}% (${ourProfile.prepayLock}年)` : (ourKey === 'Bowtie' ? "自主投資" : "無預繳"),
-          rivalVal: rivalProfile.prepayRate > 0 ? `${rivalProfile.prepayRate}% (${rivalProfile.prepayLock}年)` : (rivalKey === 'Bowtie' ? "自主投資" : "無預繳"),
-          delta: ourProfile.prepayRate > rivalProfile.prepayRate
-            ? `我方高 +${(ourProfile.prepayRate - rivalProfile.prepayRate).toFixed(1)}% 🏆`
-            : (ourProfile.prepayRate < rivalProfile.prepayRate ? `對手高 +${(rivalProfile.prepayRate - ourProfile.prepayRate).toFixed(1)}% (次年浮動)` : "持平"),
-          winner: ourProfile.prepayRate > rivalProfile.prepayRate ? 'our' : (ourProfile.prepayRate < rivalProfile.prepayRate ? 'rival' : 'tie')
+          ourVal: ourMetrics.prepayRate > 0 ? `${ourMetrics.prepayRate}% (${ourMetrics.prepayLock}年)` : (ourKey === 'Bowtie' ? "自主投資" : "無預繳"),
+          rivalVal: rivalMetrics.prepayRate > 0 ? `${rivalMetrics.prepayRate}% (${rivalMetrics.prepayLock}年)` : (rivalKey === 'Bowtie' ? "自主投資" : "無預繳"),
+          delta: ourMetrics.prepayRate > rivalMetrics.prepayRate
+            ? `我方高 +${(ourMetrics.prepayRate - rivalMetrics.prepayRate).toFixed(1)}% 🏆`
+            : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? `對手高 +${(rivalMetrics.prepayRate - ourMetrics.prepayRate).toFixed(1)}% (次年浮動)` : "持平"),
+          winner: ourMetrics.prepayRate > rivalMetrics.prepayRate ? 'our' : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? 'rival' : 'tie')
         },
         {
           label: "GN16 實現率",
-          ourVal: ourProfile.gn16Fulfillment > 0 ? ourProfile.gn16Fulfillment + "%" : "純保障",
-          rivalVal: rivalProfile.gn16Fulfillment > 0 ? rivalProfile.gn16Fulfillment + "%" : "純保障",
-          delta: ourProfile.gn16Fulfillment > rivalProfile.gn16Fulfillment
-            ? `我方高 +${(ourProfile.gn16Fulfillment - rivalProfile.gn16Fulfillment).toFixed(1)}% 🏆`
-            : (ourProfile.gn16Fulfillment < rivalProfile.gn16Fulfillment ? `對手偏重遠期非保證` : `雙方均達 ${ourProfile.gn16Fulfillment}%`),
-          winner: ourProfile.gn16Fulfillment > rivalProfile.gn16Fulfillment ? 'our' : (ourProfile.gn16Fulfillment < rivalProfile.gn16Fulfillment ? 'rival' : 'tie')
+          ourVal: ourMetrics.gn16Fulfillment > 0 ? ourMetrics.gn16Fulfillment + "%" : "純保障",
+          rivalVal: rivalMetrics.gn16Fulfillment > 0 ? rivalMetrics.gn16Fulfillment + "%" : "純保障",
+          delta: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment
+            ? `我方高 +${(ourMetrics.gn16Fulfillment - rivalMetrics.gn16Fulfillment).toFixed(1)}% 🏆`
+            : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? `對手偏重遠期非保證` : `雙方均達 ${ourMetrics.gn16Fulfillment}%`),
+          winner: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment ? 'our' : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? 'rival' : 'tie')
         },
         {
           label: "保證回本年期",
-          ourVal: ourProfile.breakevenYear > 0 ? `第 ${ourProfile.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-          rivalVal: rivalProfile.breakevenYear > 0 ? `第 ${rivalProfile.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-          delta: (ourProfile.breakevenYear > 0 && rivalProfile.breakevenYear > 0)
-            ? (ourProfile.breakevenYear < rivalProfile.breakevenYear
-              ? `我方快 ${rivalProfile.breakevenYear - ourProfile.breakevenYear} 年回本 🏆`
-              : (ourProfile.breakevenYear > rivalProfile.breakevenYear ? `對手回本快 ${ourProfile.breakevenYear - rivalProfile.breakevenYear} 年` : "持平"))
+          ourVal: ourMetrics.breakevenYear > 0 ? `第 ${ourMetrics.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用"),
+          rivalVal: rivalMetrics.breakevenYear > 0 ? `第 ${rivalMetrics.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用"),
+          delta: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
+            ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear
+              ? `我方快 ${rivalMetrics.breakevenYear - ourMetrics.breakevenYear} 年回本 🏆`
+              : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? `對手回本快 ${ourMetrics.breakevenYear - rivalMetrics.breakevenYear} 年` : "持平"))
             : "依產品特性",
-          winner: (ourProfile.breakevenYear > 0 && rivalProfile.breakevenYear > 0)
-            ? (ourProfile.breakevenYear < rivalProfile.breakevenYear ? 'our' : (ourProfile.breakevenYear > rivalProfile.breakevenYear ? 'rival' : 'tie'))
+          winner: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
+            ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear ? 'our' : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? 'rival' : 'tie'))
             : 'tie'
         },
         {
           label: "30年預期複利 IRR",
-          ourVal: ourProfile.irr30 > 0 ? ourProfile.irr30 + "%" : (ourKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
-          rivalVal: rivalProfile.irr30 > 0 ? rivalProfile.irr30 + "%" : (rivalKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
-          delta: (ourProfile.irr30 > 0 && rivalProfile.irr30 > 0)
-            ? (ourProfile.irr30 > rivalProfile.irr30 ? `我方高 +${(ourProfile.irr30 - rivalProfile.irr30).toFixed(2)}%` : (ourProfile.irr30 < rivalProfile.irr30 ? `對手高 +${(rivalProfile.irr30 - ourProfile.irr30).toFixed(2)}%` : "持平"))
+          ourVal: ourMetrics.irr30 > 0 ? ourMetrics.irr30 + "%" : (ourKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
+          rivalVal: rivalMetrics.irr30 > 0 ? rivalMetrics.irr30 + "%" : (rivalKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
+          delta: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
+            ? (ourMetrics.irr30 > rivalMetrics.irr30 ? `我方高 +${(ourMetrics.irr30 - rivalMetrics.irr30).toFixed(2)}%` : (ourMetrics.irr30 < rivalMetrics.irr30 ? `對手高 +${(rivalMetrics.irr30 - ourMetrics.irr30).toFixed(2)}%` : "持平"))
             : "依產品特性",
-          winner: (ourProfile.irr30 > 0 && rivalProfile.irr30 > 0)
-            ? (ourProfile.irr30 > rivalProfile.irr30 ? 'our' : (ourProfile.irr30 < rivalProfile.irr30 ? 'rival' : 'tie'))
+          winner: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
+            ? (ourMetrics.irr30 > rivalMetrics.irr30 ? 'our' : (ourMetrics.irr30 < rivalMetrics.irr30 ? 'rival' : 'tie'))
             : 'tie'
         },
         {
           label: "核心條款亮點",
-          ourVal: ourProfile.specialSavings,
-          rivalVal: rivalProfile.specialSavings,
-          delta: "傳承與調度差異",
+          ourVal: ourMetrics.highlight || ourProfile.specialSavings || "旗艦優勢配置",
+          rivalVal: rivalMetrics.highlight || rivalProfile.specialSavings || "市場同級競品",
+          delta: "條款與定位特色",
           winner: (ourKey === 'Bowtie') ? 'our' : (rivalKey === 'Bowtie' ? 'our' : 'tie')
         }
       ];
@@ -2271,37 +2430,37 @@
       // ==========================================
       // Branch 2: Traditional Insurers (Bilateral 1v1 Stance-Aware Engine)
       // ==========================================
-      const rivalPrepay = rivalProfile.prepayRate > 0 ? `${rivalProfile.prepayRate}%` : '高息';
-      const rivalRebate = rivalProfile.maxRebate || 20;
+      const rivalPrepay = rivalMetrics.prepayRate > 0 ? `${rivalMetrics.prepayRate}%` : '高息';
+      const rivalRebate = rivalMetrics.maxRebate || 20;
 
       // 1. Prepayment Claim
       if (claimKey === 'prepayment') {
         let step3Script = '';
         const rivalDisplayPlan = rivalProductName || rivalProfile.flagshipSavings;
         if (ourKey === 'AIA' && rivalKey === 'Prudential') {
-          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【${rivalDisplayPlan}】得 ${rivalProfile.gn16Fulfillment}%。複利 30 年差 ${deltaGN16}% 就係幾十萬真金白銀！」`;
+          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 ${ourMetrics.gn16Fulfillment}%，對手【${rivalDisplayPlan}】得 ${rivalMetrics.gn16Fulfillment}%。複利 30 年差 ${deltaGN16}% 就係幾十萬真金白銀！」`;
         } else if (ourKey === 'Prudential' && rivalKey === 'AIA') {
-          step3Script = `「買儲蓄險最緊要睇『實時落袋確定性』！我地保誠直接亮出全港最高 28% 首年回贈，加埋 5.8% 鎖息立即落袋為安！對手宣傳保監局 GN16 官方數據歷年累積實現率高達 96.5%，但絕大部分依賴 25-30 年後嘅非保證終期紅利；真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，現金流掌控更穩妥！」`;
-        } else if (isOurGN16Higher) {
-          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 ${ourProfile.gn16Fulfillment}%，對手【${rivalDisplayPlan}】得 ${rivalProfile.gn16Fulfillment}%。複利 30 年差 ${deltaGN16}% 就係幾十萬真金白銀！」`;
-        } else if (isGN16Equal) {
-          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 ${ourProfile.gn16Fulfillment}%，對手【${rivalDisplayPlan}】雖同樣達 ${rivalProfile.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」`;
+          step3Script = `「買儲蓄險最緊要睇『實時落袋確定性』！我地保誠直接亮出全港最高 ${ourMetrics.maxRebate}% 首年回贈，加埋 ${ourMetrics.prepayRate}% 鎖息立即落袋為安！對手宣傳保監局 GN16 官方數據歷年累積實現率高達 ${rivalMetrics.gn16Fulfillment}%，但絕大部分依賴 25-30 年後嘅非保證終期紅利；真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，現金流掌控更穩妥！」`;
+        } else if (isGN16Equal || ourKey === rivalKey) {
+          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 ${ourMetrics.gn16Fulfillment}%，對手【${rivalDisplayPlan}】雖同樣達 ${rivalMetrics.gn16Fulfillment}%，但我地具備更靈活之無限次保單分拆與9種貨幣轉換，家族信託架構更為完備！」`;
+        } else if (ourKey === 'AIA' || isOurGN16Higher) {
+          step3Script = `「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 ${ourMetrics.gn16Fulfillment}%，對手【${rivalDisplayPlan}】${ourMetrics.gn16Fulfillment >= rivalMetrics.gn16Fulfillment ? '得' : '宣傳'} ${rivalMetrics.gn16Fulfillment}%。複利 30 年差 ${deltaGN16}% 就係幾十萬真金白銀！」`;
         } else {
-          step3Script = `「買儲蓄險最緊要睇『實時落袋確定性』！我地方案首年提供高額保費回贈及鎖息高達 ${ourProfile.prepayRate}%，真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，前期資金負擔大幅減輕！」`;
+          step3Script = `「買儲蓄險最緊要睇『實時落袋確定性』！我地方案首年提供高額保費回贈及鎖息高達 ${ourMetrics.prepayRate}%，真金白銀第一年就慳返幾皮嘢保費，落袋收益遠勝幾十年後唔確定嘅浮動分紅，前期資金負擔大幅減輕！」`;
         }
 
         let agentTitle = (ourKey === 'Prudential' && rivalKey === 'AIA')
-          ? `🎯 對抗戰策：拆解【${rivalProfile.fullName}】預繳息率與高進場門檻 (我方: 保誠 5.8% 預繳)`
+          ? `🎯 對抗戰策：拆解【${rivalProfile.fullName}】預繳息率與高進場門檻 (我方: 保誠 ${ourMetrics.prepayRate}% 預繳)`
           : `🎯 對抗戰策：拆解【${rivalProfile.fullName}】${rivalPrepay} 預繳噱頭與浮動陷阱`;
 
         if (isIntraInsurer) {
-          agentTitle = `🎯 產品選型：【${ourProfile.fullName}】內部主力【${ourProductName}】vs【${rivalProductName}】5.8% 預繳利率與回本深度對比`;
+          agentTitle = `🎯 產品選型：【${ourProfile.fullName}】內部主力【${ourProductName}】vs【${rivalProductName}】${ourMetrics.prepayRate}% 預繳利率與回本深度對比`;
         } else if (chipTopic.includes('GN16') || chipTopic.includes('實現率')) {
-          agentTitle = `🎯 對抗戰策：拆解保監局 GN16 官方分紅實現率 (我方 ${ourProfile.gn16Fulfillment}% vs 【${rivalProfile.fullName}】${rivalProfile.gn16Fulfillment}%)`;
+          agentTitle = `🎯 對抗戰策：拆解保監局 GN16 官方分紅實現率 (我方 ${ourMetrics.gn16Fulfillment}% vs 【${rivalProfile.fullName}】${rivalMetrics.gn16Fulfillment}%)`;
         } else if (chipTopic.includes('回本')) {
-          agentTitle = `🎯 對抗戰策：保證現金價值回本年期比對 (我方第 ${ourProfile.breakevenYear || 5} 年 vs 【${rivalProfile.fullName}】第 ${rivalProfile.breakevenYear || 7} 年)`;
+          agentTitle = `🎯 對抗戰策：保證現金價值回本年期比對 (我方第 ${ourMetrics.breakevenYear || 5} 年 vs 【${rivalProfile.fullName}】第 ${rivalMetrics.breakevenYear || 7} 年)`;
         } else if (chipTopic.includes('IRR')) {
-          agentTitle = `🎯 對抗戰策：30年預期複利 IRR 長線總回報比對 (我方 ${ourProfile.irr30}% vs 【${rivalProfile.fullName}】${rivalProfile.irr30}%)`;
+          agentTitle = `🎯 對抗戰策：30年預期複利 IRR 長線總回報比對 (我方 ${ourMetrics.irr30}% vs 【${rivalProfile.fullName}】${rivalMetrics.irr30}%)`;
         } else if (chipTopic.includes('貨幣') || chipTopic.includes('分拆')) {
           agentTitle = `🎯 對抗戰策：無限次保單分拆與多元貨幣自由轉換 (我方 9 種貨幣 vs 【${rivalProfile.fullName}】)`;
         }
@@ -2328,15 +2487,15 @@
           agent_title: agentTitle,
           agent_step_1: step1,
           agent_step_2: step2,
-          agent_step_3: isIntraInsurer ? `「如果您著重跨代傳承、多幣種配置與長線複利最大化，建議首選【${ourProductName}】；我方旗艦歷年累積實現率高達 ${ourProfile.gn16Fulfillment}% GN16 守護分紅；若追求短期資金確定性與特定回本年期，【${rivalProductName}】各具優勢！」` : step3Script,
+          agent_step_3: isIntraInsurer ? `「如果您著重跨代傳承、多幣種配置與長線複利最大化，建議首選【${ourProductName}】；我方旗艦歷年累積實現率高達 ${ourMetrics.gn16Fulfillment}% GN16 守護分紅；若追求短期資金確定性與特定回本年期，【${rivalProductName}】各具優勢！」` : step3Script,
           agent_trap_warning: trapAlert,
           hero_our_name: heroOur,
           hero_rival_name: heroRival,
           fineprint_claim: (ourKey === 'Prudential' && rivalKey === 'AIA') ? '~~友邦 96.5% 超高分紅承諾~~' : `~~${rivalPrepay} 5年預繳保證高息~~`,
           fineprint_reality: (ourKey === 'Prudential' && rivalKey === 'AIA') ? '友邦分紅主要為 25-30 年後非保證終期紅利；首年回贈僅 22%，預繳僅 5.0%' : '通函註明僅保證首 1 年，次年回到市場浮動利率；全球降息週期次年利息極易跳水',
           fineprint_citation: '香港保監局 (IA)《持牌保險中介人操守守則》第 4.2 條及各保司產品推廣通函批註',
-          corridor_our: `${ourProfile.gn16Fulfillment}%`,
-          corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+          corridor_our: corridorOurVal,
+          corridor_rival: corridorRivalVal,
           corridor_note: corridorNote,
           horizon_data: horizonData,
           client_title: `全港主流旗艦儲蓄險 · 長期分紅穩定性比對`,
@@ -2344,8 +2503,8 @@
           client_desc: `分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。`,
           chart_title: `📊 歷年分紅累積實現率 (Fulfillment Ratio)`,
           chart_bars: [
-            { label: `我方旗艦配置方案【${ourProfile.fullName}】`, value: `${ourProfile.gn16Fulfillment}% (穩健)`, widthPct: ourProfile.gn16Fulfillment || 90, color: `var(--ikb)` },
-            { label: `對手方案【${rivalProfile.fullName}】`, value: `${rivalProfile.gn16Fulfillment}% (市場波動)`, widthPct: rivalProfile.gn16Fulfillment || 85, color: `#f59e0b` },
+            { label: `我方旗艦配置方案【${ourProfile.fullName}】`, value: `${ourMetrics.gn16Fulfillment}% (穩健)`, widthPct: ourMetrics.gn16Fulfillment || 90, color: `var(--ikb)` },
+            { label: `對手方案【${rivalProfile.fullName}】`, value: `${rivalMetrics.gn16Fulfillment}% (市場波動)`, widthPct: rivalMetrics.gn16Fulfillment || 85, color: `#f59e0b` },
             { label: `市場同業平均水平`, value: `91.2%`, widthPct: 91.2, color: `#94a3b8` }
           ],
           table_title: `🏛️ 家族傳承與資金靈活性比較`,
@@ -2363,14 +2522,14 @@
 
       // 2. Rebate Claim
       if (claimKey === 'rebate') {
-        const step3Script = (ourProfile.breakevenYear > 0 && rivalProfile.breakevenYear > 0 && ourProfile.breakevenYear < rivalProfile.breakevenYear)
-          ? `「我地方案真正保證回本期（Break-even）足足快 ${rivalProfile.breakevenYear - ourProfile.breakevenYear} 年，第 ${ourProfile.breakevenYear} 年保證現金價值已達 100% 繳付保費！買儲蓄險係睇長線本金安全性與流動性，千祈唔好因一次性回贈鎖死流動資金。」`
-          : `「我地方案兼備高額回贈與快速回本優勢，第 ${ourProfile.breakevenYear || 5} 年即可保證回本，本金安全性與流動性更優！」`;
+        const step3Script = (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0 && ourMetrics.breakevenYear < rivalMetrics.breakevenYear)
+          ? `「我地方案真正保證回本期（Break-even）足足快 ${rivalMetrics.breakevenYear - ourMetrics.breakevenYear} 年，第 ${ourMetrics.breakevenYear} 年保證現金價值已達 100% 繳付保費！買儲蓄險係睇長線本金安全性與流動性，千祈唔好因一次性回贈鎖死流動資金。」`
+          : `「我地方案兼備高額回贈與快速回本優勢，第 ${ourMetrics.breakevenYear || 5} 年即可保證回本，本金安全性與流動性更優！」`;
 
         return {
           agent_title: `🎯 對抗戰策：破解【${rivalProfile.fullName}】${rivalRebate}% 高額保費回贈誘餌`,
           agent_step_1: `「李生，對手開出 ${rivalRebate}% 首年保費回贈確實好震撼，一眼睇落好似即時慳咗唔少保費，換著邊個都會心動！」`,
-          agent_step_2: `「但精算現金流拆解顯示：羊毛出自羊身上！保司送得出 ${rivalRebate}% 回贈，往往將退保鎖定期拉長至 ${rivalProfile.breakevenYear || 7} 年，頭 3 年保證現金價值近乎為零，而且提早斷供會追討扣回已派回贈。」`,
+          agent_step_2: `「但精算現金流拆解顯示：羊毛出自羊身上！保司送得出 ${rivalRebate}% 回贈，往往將退保鎖定期拉長至 ${rivalMetrics.breakevenYear || 7} 年，頭 3 年保證現金價值近乎為零，而且提早斷供會追討扣回已派回贈。」`,
           agent_step_3: step3Script,
           agent_trap_warning: `⚠️ 陷阱警示：${rivalRebate}% 首期回贈附帶退保鎖定條款，前期現金價值幾近於零，提早斷供將追討回贈；長線財富重在保證回本速度！`,
           hero_our_name: heroOur,
@@ -2378,8 +2537,8 @@
           fineprint_claim: `~~首年保費最高回贈 ${rivalRebate}% 即慳~~`,
           fineprint_reality: '回贈僅抵扣首期保費，次年起全額繳付；且附帶長年退保鎖定期',
           fineprint_citation: '香港保險業監管局 GN16 分紅實現率指引及保單綜合費用總覽條款',
-          corridor_our: `${ourProfile.gn16Fulfillment}%`,
-          corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+          corridor_our: corridorOurVal,
+          corridor_rival: corridorRivalVal,
           corridor_note: corridorNote,
           horizon_data: horizonData,
           client_title: `保費回贈 vs 保證現金價值回本年期比對`,
@@ -2387,27 +2546,27 @@
           client_desc: `評估大額保費回贈推廣時，投保人應綜合考量早期保證現金價值積存速度（回本期）及退保費用豁免年期。`,
           chart_title: `📈 保證回本年期與資金流動性評級`,
           chart_bars: [
-            { label: `我方旗艦方案保證回本`, value: `第 ${ourProfile.breakevenYear || 5} 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
-            { label: `${rivalProfile.fullName} 回贈方案保證回本`, value: `第 ${rivalProfile.breakevenYear || 8} 年 (前期鎖定嚴格)`, widthPct: 60, color: `#f59e0b` },
+            { label: `我方旗艦方案保證回本`, value: `第 ${ourMetrics.breakevenYear || 5} 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
+            { label: `${rivalProfile.fullName} 回贈方案保證回本`, value: `第 ${rivalMetrics.breakevenYear || 8} 年 (前期鎖定嚴格)`, widthPct: 60, color: `#f59e0b` },
             { label: `市場同業平均水平`, value: `第 7 年`, widthPct: 68, color: `#94a3b8` }
           ],
           table_title: `⚖️ 保證本金安全性與流動性評比`,
           table_rows: [
-            { label: `保證回本年期 (Break-even)`, value: `第 ${ourProfile.breakevenYear || 5} 年 vs 對手第 ${rivalProfile.breakevenYear || 8} 年`, highlight: true },
+            { label: `保證回本年期 (Break-even)`, value: `第 ${ourMetrics.breakevenYear || 5} 年 vs 對手第 ${rivalMetrics.breakevenYear || 8} 年`, highlight: true },
             { label: `提早退保罰則寬免`, value: `我方回本更快零手續費`, highlight: true },
             { label: `30年預期複利總回報`, value: `長線複利滾存更穩定`, highlight: true },
             { label: `回贈金額追討條款`, value: `無嚴苛追回附加條件`, highlight: false }
           ],
           bilateral_specs: bilateralSpecs,
-          whatsapp_script: `李生您好！見到市場上有保司推高達 ${rivalRebate}% 保費回贈，看似好抵。但仔細拆解利益說明書，往往伴隨較長嘅退保鎖定期（需 ${rivalProfile.breakevenYear || 7} 年才回本）。我整理咗一份「回贈 vs 保證回本速度」客觀比較表，幫您避開流動性陷阱，稍後發給您參考！`,
+          whatsapp_script: `李生您好！見到市場上有保司推高達 ${rivalRebate}% 保費回贈，看似好抵。但仔細拆解利益說明書，往往伴隨較長嘅退保鎖定期（需 ${rivalMetrics.breakevenYear || 7} 年才回本）。我整理咗一份「回贈 vs 保證回本速度」客觀比較表，幫您避開流動性陷阱，稍後發給您參考！`,
           disclaimer
         };
       }
 
       // 3. Critical Illness Claim
       if (claimKey === 'critical_illness') {
-        const ourWait = ourProfile.cancerWaitYears || 3;
-        const rivalWait = rivalProfile.cancerWaitYears || 3;
+        const ourWait = ourMetrics.cancerWaitYears || 3;
+        const rivalWait = rivalMetrics.cancerWaitYears || 3;
 
         let ciTitle = '';
         let ciStep2 = '';
@@ -2508,8 +2667,8 @@
           fineprint_claim: '~~多重癌症無限次 100% 賠償~~',
           fineprint_reality: `每次癌症索償嚴格設有等候期；我方以 ICU 全額預支與過百種疾病建構生命兜底`,
           fineprint_citation: '各大保司危疾保單條款第 12 條「指定嚴重疾病多重保障等候期定義」',
-          corridor_our: `${ourProfile.gn16Fulfillment}%`,
-          corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+          corridor_our: corridorOurVal,
+          corridor_rival: corridorRivalVal,
           corridor_note: corridorNote,
           horizon_data: horizonData,
           client_title: `全港頂尖危疾險 · 癌症再次索償間隔與 ICU 兜底比對`,
@@ -2554,8 +2713,8 @@
           fineprint_claim: '~~自願醫保全額包賠無自負~~',
           fineprint_reality: '非手術癌症治療若設有分項限額，標靶藥費用動輒數十萬易觸發自費；直付需覆蓋全港所有私院',
           fineprint_citation: '醫務衞生局自願醫保認可產品名單及各大保司正式合約批註',
-          corridor_our: `${ourProfile.gn16Fulfillment}%`,
-          corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+          corridor_our: corridorOurVal,
+          corridor_rival: corridorRivalVal,
           corridor_note: corridorNote,
           horizon_data: horizonData,
           client_title: `全港主流旗艦自願醫保 (VHIS) 癌症標靶藥全數賠償與網絡直付比對`,
@@ -2604,8 +2763,8 @@
           fineprint_claim: '~~85% LTV 保費融資年化回報超 15%~~',
           fineprint_reality: '融資借貸息率與 HIBOR / Prime 掛鉤，若利差收窄或抵押品跌價可能面臨追繳保證金 (Margin Call)',
           fineprint_citation: '香港金融管理局 (HKMA) 及保監局 (IA) 關於保費融資業務聯合通函指引',
-          corridor_our: `${ourProfile.gn16Fulfillment}%`,
-          corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+          corridor_our: corridorOurVal,
+          corridor_rival: corridorRivalVal,
           corridor_note: corridorNote,
           horizon_data: horizonData,
           client_title: `高槓桿保費融資 (UL) vs 無槓桿多元貨幣儲蓄風險收益比對`,
@@ -2649,7 +2808,7 @@
         agent_step_1: isIntraInsurer
           ? `「林生，您在考慮 ${ourProfile.fullName} 旗下的【${ourProductName}】同【${rivalProductName}】合資格延期年金方案！」`
           : `「林生，見到對手宣傳【${rivalProductName || rivalProfile.flagshipQDAP}】預期總 IRR 達 4.2%，乍睇確實好吸引，你為退休做準備嘅意識好前瞻！」`,
-        agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${rivalProfile.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
+        agent_step_2: `「但魔鬼在細節：對手 4.2% 總回報入面，『保證部分』得唔夠 1.8%（佔比僅 ${rivalMetrics.qdapGuaranteedPct}%），其餘全部係非保證分紅！退休救命錢最忌承受市場波動，若退休後股市下跌分紅跳水，每個月糧餉大縮水！」`,
         agent_step_3: step3Script,
         agent_trap_warning: `⚠️ 陷阱警示：對手 4.2% 總回報中保證部分不足 50%，退休救命錢最忌承受市場波動；我方保證比例逾 80%，兼享 HK$10,200 實質退稅！`,
         hero_our_name: heroOur,
@@ -2657,8 +2816,8 @@
         fineprint_claim: '~~買年金等於即賺 17% 現金~~',
         fineprint_reality: '17% 為最高應課稅階稅務扣減，非保司利息；提早退保將面臨高額本金虧損且不可退稅',
         fineprint_citation: '香港稅務局《稅務條例》第 26P 條合資格延期年金保費扣除指引',
-        corridor_our: `${ourProfile.gn16Fulfillment}%`,
-        corridor_rival: `${rivalProfile.gn16Fulfillment}%`,
+        corridor_our: corridorOurVal,
+        corridor_rival: corridorRivalVal,
         corridor_note: corridorNote,
         horizon_data: horizonData,
         client_title: `合資格延期年金 (QDAP) 保證利益佔比與扣稅效益比對`,
@@ -2667,7 +2826,7 @@
         chart_title: `🛡️ 年金總利益中「保證部分」確定性佔比`,
         chart_bars: [
           { label: `我方【${ourProductName || '旗艦年金方案'}】`, value: `82.5% 保證 (極高確定性)`, widthPct: 82.5, color: `var(--green)` },
-          { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipQDAP}】`, value: `${rivalProfile.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: rivalProfile.qdapGuaranteedPct, color: `#f59e0b` },
+          { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipQDAP}】`, value: `${rivalMetrics.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: rivalMetrics.qdapGuaranteedPct, color: `#f59e0b` },
           { label: `市場同業平均水平`, value: `50.0% 保證`, widthPct: 50.0, color: `#94a3b8` }
         ],
         table_title: `💰 退休現金流確定性與稅務扣除`,
@@ -3129,6 +3288,41 @@
     }
     window.onHorizonChange = onHorizonChange;
 
+    function isRowHighlightedByClaim(label, claimKey, claimText) {
+      if (!label) return false;
+      const l = String(label).toLowerCase();
+      const k = String(claimKey || '').toLowerCase();
+      const t = String(claimText || '').toLowerCase();
+
+      // Check prepay
+      if (l.includes('預繳') || l.includes('prepay')) {
+        if (k.includes('prepay') && (t.includes('預繳') || t.includes('5.8%') || t.includes('息率') || !t)) return true;
+        if (t.includes('預繳') || t.includes('保證利率') || t.includes('5.8%')) return true;
+      }
+      // Check rebate
+      if (l.includes('回贈') || l.includes('rebate') || l.includes('折扣')) {
+        if (k.includes('rebate') || t.includes('回贈') || t.includes('折扣') || t.includes('28%')) return true;
+      }
+      // Check GN16
+      if (l.includes('gn16') || l.includes('實現率') || l.includes('分紅')) {
+        if (t.includes('gn16') || t.includes('實現率') || t.includes('分紅')) return true;
+      }
+      // Check breakeven
+      if (l.includes('回本') || l.includes('breakeven')) {
+        if (t.includes('回本') || t.includes('年期')) return true;
+      }
+      // Check IRR
+      if (l.includes('irr') || l.includes('複利')) {
+        if (t.includes('irr') || t.includes('複利') || t.includes('30年')) return true;
+      }
+      // Check highlights / features
+      if (l.includes('亮點') || l.includes('條款') || l.includes('傳承') || l.includes('分拆') || l.includes('貨幣')) {
+        if (t.includes('貨幣') || t.includes('分拆') || t.includes('傳承') || t.includes('條款') || t.includes('icu') || t.includes('癌症') || t.includes('等待期') || t.includes('全數賠償') || t.includes('融資') || t.includes('年金') || t.includes('稅款') || t.includes('ltv') || t.includes('中介人') || t.includes('cashless')) return true;
+      }
+      return false;
+    }
+    window.isRowHighlightedByClaim = isRowHighlightedByClaim;
+
     // Dynamic Reactive DOM Updater
     function updateBattleCard() {
       const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
@@ -3140,12 +3334,14 @@
       const agentStep2 = document.getElementById('agent-step-2');
       const agentStep3 = document.getElementById('agent-step-3');
       const agentTrap = document.getElementById('agent-trap-alert');
+      const agentObjection = document.getElementById('agent-objection-title');
 
       if (agentTitle) agentTitle.innerHTML = card.agent_title;
       if (agentStep1) agentStep1.innerHTML = card.agent_step_1;
       if (agentStep2) agentStep2.innerHTML = card.agent_step_2;
       if (agentStep3) agentStep3.innerHTML = card.agent_step_3;
       if (agentTrap) agentTrap.innerHTML = `<strong>條款陷阱避坑警示：</strong>${card.agent_trap_warning}`;
+      if (agentObjection) agentObjection.innerText = selectedClaimText || selectedClaim || '5.8% 預繳 / 保證高回報';
 
       // Client View Updates
       const clientTitle = document.getElementById('client-title');
@@ -3181,14 +3377,19 @@
             </tr>
           </thead>
           <tbody>
-            ${card.bilateral_specs.map(row => `
-              <tr style="border-bottom:1px solid #f1f5f9; ${row.winner === 'our' ? 'background:rgba(0,47,167,0.02);' : ''}">
-                <td style="padding:6px 8px;font-weight:600;color:#334155;">${row.label}</td>
+            ${card.bilateral_specs.map(row => {
+              const isHighlighted = isRowHighlightedByClaim(row.label, selectedClaim, selectedClaimText);
+              const highlightClass = isHighlighted ? ' class="spec-row-highlighted"' : '';
+              const badgeHtml = isHighlighted ? '<span class="spec-focus-badge">🎯 攻防焦點</span>' : '';
+              return `
+              <tr${highlightClass} style="border-bottom:1px solid #f1f5f9; ${row.winner === 'our' ? 'background:rgba(0,47,167,0.02);' : ''}">
+                <td style="padding:6px 8px;font-weight:600;color:#334155;">${row.label}${badgeHtml}</td>
                 <td style="padding:6px 8px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);">${row.ourVal}</td>
                 <td style="padding:6px 8px;font-family:'JetBrains Mono';color:#64748b;">${row.rivalVal}</td>
                 <td style="padding:6px 8px;font-family:'JetBrains Mono';font-weight:700;text-align:right;color:${row.winner === 'our' ? '#10b981' : (row.winner === 'rival' ? '#f59e0b' : '#64748b')};">${row.delta}</td>
               </tr>
-            `).join('')}
+            `;
+            }).join('')}
           </tbody>
         `;
       }
@@ -3471,6 +3672,7 @@
     window.getMySelectedProduct = () => mySelectedProduct;
     window.getRivalSelectedProduct = () => rivalSelectedProduct;
     window.updateCampSelectors = updateCampSelectors;
+    window.isRowHighlightedByClaim = isRowHighlightedByClaim;
 
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
