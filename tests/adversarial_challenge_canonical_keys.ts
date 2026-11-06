@@ -852,7 +852,13 @@ recordTest("Suite 13: Rapid Role Swap & Category Interleaving", "Simulate rapid 
   sandbox.selectCompany("Prudential");
 
   const categories = ["Savings_MultiCurrency", "Critical_Illness", "Medical_VHIS", "Annuity_QDAP", "Financing_UniversalLife"];
-  const expectedLabels = ["首年保費回贈", "預繳保證利率", "GN16 實現率", "保證回本年期", "30年預期複利 IRR", "核心條款亮點"];
+  const expectedLabelsByCat: Record<string, string[]> = {
+    Savings_MultiCurrency: ["首年保費回贈", "預繳保證利率", "GN16 實現率", "保證回本年期", "30年預期複利 IRR", "核心條款亮點"],
+    Critical_Illness: ["首年保費折扣", "癌症再次索償等待期", "涵蓋嚴重疾病總數", "多次索償賠償總上限", "深切治療部 (ICU) 預支", "核心條款亮點"],
+    Medical_VHIS: ["首年保費回贈", "全年保障限額", "非手術癌症標靶治療", "出院免找數 (Cashless) 直付", "每年法定稅務扣除額", "核心條款亮點"],
+    Annuity_QDAP: ["首年保費回贈", "每年實質慳稅額", "保證內部回報率 IRR", "QDAP 總內部回報率 IRR", "保證年金利益佔比", "核心條款亮點"],
+    Financing_UniversalLife: ["最高融資成數 LTV", "最低保證結算利率 (Floor)", "當前結算利率 (Crediting)", "融資借貸淨息差 (Spread)", "追加保證金 (Margin Call) 緩衝", "核心條款亮點"]
+  };
 
   for (let cycle = 0; cycle < 10; cycle++) {
     const cat = categories[cycle % categories.length];
@@ -864,8 +870,9 @@ recordTest("Suite 13: Rapid Role Swap & Category Interleaving", "Simulate rapid 
     assert.ok(!specTableHtml.includes("undefined"), `Spec table must not contain undefined in cycle ${cycle}`);
     assert.ok(!specTableHtml.includes("NaN"), `Spec table must not contain NaN in cycle ${cycle}`);
 
+    const expectedLabels = expectedLabelsByCat[cat] || expectedLabelsByCat.Savings_MultiCurrency;
     for (const label of expectedLabels) {
-      assert.ok(specTableHtml.includes(label), `Spec table must retain '${label}' row in cycle ${cycle}`);
+      assert.ok(specTableHtml.includes(label), `Spec table must retain '${label}' row in cycle ${cycle} (${cat})`);
     }
   }
 });

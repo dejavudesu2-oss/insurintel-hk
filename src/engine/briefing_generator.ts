@@ -98,11 +98,27 @@ export class MorningBriefingGenerator {
       ];
     }
 
-    // Deduplicate by insurer to show 1 flagship per insurer (preserving flagship product order)
-    const seenInsurers = new Set<string>();
-    const flagshipSavings = savingsPromos.filter(
-      (p) => !seenInsurers.has(p.insurer) && seenInsurers.add(p.insurer)
-    );
+    // Deduplicate by insurer to show 1 flagship per insurer (preserving canonical flagship or highest prepay yield)
+    const insurerMap = new Map<string, InsurancePromoComprehensive>();
+    for (const p of savingsPromos) {
+      const existing = insurerMap.get(p.insurer);
+      if (!existing) {
+        insurerMap.set(p.insurer, p);
+        continue;
+      }
+      const isCurrentFlagship = p.product_name.includes("盈御") || p.product_name.includes("雋富") || p.product_name.includes("宏摯") || p.product_name.includes("盈豐") || p.product_name.includes("萬年青");
+      const isExistingFlagship = existing.product_name.includes("盈御") || existing.product_name.includes("雋富") || existing.product_name.includes("宏摯") || existing.product_name.includes("盈豐") || existing.product_name.includes("萬年青");
+      if (isCurrentFlagship && !isExistingFlagship) {
+        insurerMap.set(p.insurer, p);
+      } else if (!isExistingFlagship && !isCurrentFlagship) {
+        const rateExisting = existing.prepayment_scheme?.guaranteed_rate_pct || 0;
+        const rateCurrent = p.prepayment_scheme?.guaranteed_rate_pct || 0;
+        if (rateCurrent > rateExisting) {
+          insurerMap.set(p.insurer, p);
+        }
+      }
+    }
+    const flagshipSavings = Array.from(insurerMap.values());
 
     // Sort by guaranteed prepayment rate descending
     const sortedSavings = [...flagshipSavings].sort((a, b) => {

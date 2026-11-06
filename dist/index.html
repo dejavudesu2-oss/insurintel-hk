@@ -1868,7 +1868,20 @@
         }
 
         let cancerWaitYears = (prod && typeof prod.cancerWaitYears === 'number') ? prod.cancerWaitYears : (profile && profile.cancerWaitYears ? profile.cancerWaitYears : 3);
+        let ciIllnesses = (prod && typeof prod.ciIllnesses === 'number') ? prod.ciIllnesses : 120;
+        let ciMultiplePct = (prod && typeof prod.ciMultiplePct === 'number') ? prod.ciMultiplePct : 900;
+        let ciIcu = (prod && typeof prod.ciIcu === 'boolean') ? prod.ciIcu : true;
+
+        let vhisLimitHkd = (prod && typeof prod.vhisLimitHkd === 'number') ? prod.vhisLimitHkd : 20000000;
+
+        let qdapGuaranteedIRR = (prod && typeof prod.qdapGuaranteedIRR === 'number') ? prod.qdapGuaranteedIRR : 2.85;
+        let qdapTotalIRR = (prod && typeof prod.qdapTotalIRR === 'number') ? prod.qdapTotalIRR : 4.5;
         let qdapGuaranteedPct = (prod && typeof prod.qdapGuaranteedPct === 'number') ? prod.qdapGuaranteedPct : (profile && profile.qdapGuaranteedPct ? profile.qdapGuaranteedPct : 50);
+
+        let ulLtv = (prod && typeof prod.ulLtv === 'number') ? prod.ulLtv : 85;
+        let ulFloorRate = (prod && typeof prod.ulFloorRate === 'number') ? prod.ulFloorRate : 2.25;
+        let ulCreditingRate = (prod && typeof prod.ulCreditingRate === 'number') ? prod.ulCreditingRate : 5.25;
+        let ulNetSpread = (prod && typeof prod.ulNetSpread === 'number') ? prod.ulNetSpread : 1.45;
 
         return {
           maxRebate,
@@ -1879,7 +1892,17 @@
           irr30,
           highlight,
           cancerWaitYears,
+          ciIllnesses,
+          ciMultiplePct,
+          ciIcu,
+          vhisLimitHkd,
+          qdapGuaranteedIRR,
+          qdapTotalIRR,
           qdapGuaranteedPct,
+          ulLtv,
+          ulFloorRate,
+          ulCreditingRate,
+          ulNetSpread,
           rawProd: prod
         };
       }
@@ -1892,11 +1915,30 @@
 
       const disclaimer = `註：以上數據摘自香港保監局官方統計 (GN16) 及各大保險公司年報公佈之實現率，過往表現不代表將來業績；最終條款以正式保單合約批註為準。持牌人內部專業培訓用途，嚴禁作為宣傳單張散發。`;
 
-      let corridorNote = (rivalKey === 'Bowtie')
-        ? '保泰人壽為純消費型醫療保障，不設分紅儲蓄險種，無需申報 GN16 分紅實現率。'
-        : (rivalMetrics.gn16Fulfillment >= 95
-          ? `該保司歷史實現率達 ${rivalMetrics.gn16Fulfillment}%，穩定在 90%~100% 綠色安全走廊內。`
-          : `該保司歷史曾跌出 90% 安全走廊（僅 ${rivalMetrics.gn16Fulfillment}%），30年複利實現率差 5% 造成數十萬派發折損。`);
+      let corridorNote = '';
+      if (categoryKey === 'Critical_Illness') {
+        corridorNote = (rivalKey === 'Bowtie')
+          ? '保泰早期危疾為純消費型定期費率，隨年齡保費跳升；傳統旗艦危疾採平準保費並設 ICU 全額兜底。'
+          : `重疾保障核心在於平準保費及癌症等候期防線（我方 ${ourMetrics.cancerWaitYears} 年 vs 對手 ${rivalMetrics.cancerWaitYears} 年），防禦復發自費真空期。`;
+      } else if (categoryKey === 'Medical_VHIS') {
+        corridorNote = (rivalKey === 'Bowtie')
+          ? '自願醫保為純醫療實報實銷；我方專屬持牌顧問提供全港私院出院免找數 (Cashless) 直付，免除病人自行墊付交單壓力。'
+          : '高端自願醫保核心在於非手術癌症標靶治療全額無細項限額，及全港私家醫院無障礙出院免找數 (Cashless) 網絡。';
+      } else if (categoryKey === 'Annuity_QDAP') {
+        corridorNote = (rivalKey === 'Bowtie')
+          ? '虛擬保險未設保監局認可合資格延期年金 (QDAP)，無法享有每年最高 HK$60,000 法定薪俸稅免稅額。'
+          : `合資格延期年金 (QDAP) 核心在於退休金確定性，我方保證年金利益比例達 ${ourMetrics.qdapGuaranteedPct}%，每年享最高 HK$10,200 實質退稅。`;
+      } else if (categoryKey === 'Financing_UniversalLife') {
+        corridorNote = (rivalKey === 'Bowtie')
+          ? '虛擬保險未設私人銀行萬用壽險融資通道；高淨值資產傳承首選全牌照保司多元貨幣架構。'
+          : `保費融資具備 ${rivalMetrics.ulLtv}% LTV 槓桿，核心在於保單結算利率與銀行借貸息率之淨息差 (+${rivalMetrics.ulNetSpread}%) 及防範 Margin Call 補倉風險。`;
+      } else {
+        corridorNote = (rivalKey === 'Bowtie')
+          ? '保泰人壽為純消費型醫療保障，不設分紅儲蓄險種，無需申報 GN16 分紅實現率。'
+          : (rivalMetrics.gn16Fulfillment >= 95
+            ? `該保司歷史實現率達 ${rivalMetrics.gn16Fulfillment}%，穩定在 90%~100% 綠色安全走廊內。`
+            : `該保司歷史曾跌出 90% 安全走廊（僅 ${rivalMetrics.gn16Fulfillment}%），30年複利實現率差 5% 造成數十萬派發折損。`);
+      }
 
       const deltaGN16 = Math.abs(Number(ourMetrics.gn16Fulfillment || 0) - Number(rivalMetrics.gn16Fulfillment || 0)).toFixed(1);
       const isOurGN16Higher = ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment;
@@ -1905,98 +1947,377 @@
       const corridorOurVal = (ourKey === 'Bowtie') ? '純保障 (0%)' : `${ourMetrics.gn16Fulfillment}%`;
       const corridorRivalVal = (rivalKey === 'Bowtie') ? '純保障 (0%)' : `${rivalMetrics.gn16Fulfillment}%`;
 
-      let horizonYear5 = '';
-      if (ourKey === 'Bowtie') {
-        horizonYear5 = `保單第 5 年：保泰純保障零佣金直銷，不設儲蓄鎖定期；所省下保費（對手【${rivalProductName}】第 ${rivalMetrics.breakevenYear || 7} 年才回本）可自主定存或投資，資金 100% 自由支配。`;
-      } else if (rivalKey === 'Bowtie') {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】保證現金價值已達 100% 已繳保費（第 ${ourMetrics.breakevenYear || 5} 年保證回本）；對手純消費型定期醫保無任何現金價值。`;
-      } else if (ourMetrics.breakevenYear <= rivalMetrics.breakevenYear) {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】第 ${ourMetrics.breakevenYear} 年即保證 100% 回本；對手【${rivalProductName}】需至第 ${rivalMetrics.breakevenYear} 年才回本，提早退保罰則較嚴格。`;
+      // Dynamic Policy Horizon Projections
+      let horizonData = {};
+      if (categoryKey === 'Critical_Illness') {
+        horizonData = {
+          5: `保單第 5 年：已完全渡過合約初期各項等候期，享有完整【${ourProductName}】生命防線；涵蓋 ${ourMetrics.ciIllnesses} 種嚴重疾病及深切治療部 (ICU) 全額預支兜底。`,
+          10: `保單第 10 年：家庭責任高峰期，平準保費優勢全面凸顯（鎖定供款額，免除隨年齡費率暴增風險），心腦血管及癌症多重賠償防禦網穩健守護。`,
+          15: `保單第 15 年：人到中年健康高發期，癌症再次索償間隔僅 ${ourMetrics.cancerWaitYears} 年，較市場同業縮短自費空窗期，持續提供重疾生活津貼與治療後援。`,
+          20: `保單第 20 年：20年供款期滿！終身享有重疾及人壽保障，無需再繳付任何保費；對手如屬定期消費型則面臨保費隨年齡指數級暴增或斷保風險。`,
+          25: `保單第 25 年：進入銀髮期重症高發階段，累積多次索償賠償總額高達 ${ourMetrics.ciMultiplePct}% 保額，非指定疾病 ICU 預支兜底提供實質晚年醫療尊嚴。`,
+          30: `保單第 30 年：終身重疾防禦與財富傳承雙重守護；合約內置高額身故保障或可轉換為退休年金，無病無痛轉化為長壽資產，有病防病、無病傳承！`
+        };
+      } else if (categoryKey === 'Medical_VHIS') {
+        horizonData = {
+          5: `保單第 5 年：首 5 年累計享有高達 HK$40,000 合資格稅務扣除額；全港私家醫院無縫『出院免找數 (Cashless)』直付，免除自費墊資焦慮。`,
+          10: `保單第 10 年：累計薪俸稅稅務扣除達 HK$80,000；非手術癌症標靶治療與免疫療法無細項上限全數賠償，年度保障額度充裕。`,
+          15: `保單第 15 年：步入中壯年期，私家醫院優質病房直付無障礙，專屬持牌顧問全程跑腿協助入院擔保與保險公司對數。`,
+          20: `保單第 20 年：終身保證續保權益全面守護，無懼年長後健康狀況改變；標靶藥及昂貴自費醫材全數實報實銷。`,
+          25: `保單第 25 年：晚年醫療通脹與先進醫療科技保障護城河，全球緊急醫療救援及頂尖私院直付，享受尊嚴醫療資源。`,
+          30: `保單第 30 年：終身不設索償總上限，伴隨客戶一生直至 100 歲以上；累計省下高達十幾萬稅款，大病小病均由保司直付買單！`
+        };
+      } else if (categoryKey === 'Annuity_QDAP') {
+        horizonData = {
+          5: `保單第 5 年：5年供款期圓滿屆滿！累計已全額享受 HK$300,000 稅務扣除額，實質慳稅高達 HK$51,000！`,
+          10: `保單第 10 年：年金資產滾存累積期，保證內部回報率穩定增長，無懼金融市場短期週期波動，資金穩步增值。`,
+          15: `保單第 15 年：正式步入年金黃金派發期！每月/每年固定領取穩定退休年金入賬，保證派息比例逾 80%，打造如常支薪退休生活。`,
+          20: `保單第 20 年：持續穩定現金流派發，保證回報確定入袋，對衝長壽風險與市場黑天鵝事件。`,
+          25: `保單第 25 年：累積領取年金總額已超越已繳總保費 1.8~2.2 倍，成為晚年高品質生活的現金流靠山。`,
+          30: `保單第 30 年：累計年金利益領取完畢或持續派發至百年，已繳保費轉化為高額確定現金流，兼具極致節稅與長壽年金雙重回報！`
+        };
+      } else if (categoryKey === 'Financing_UniversalLife') {
+        horizonData = {
+          5: `保單第 5 年：融資槓桿息差穩定流入，保單結算利率 (${ourMetrics.ulCreditingRate}%) 高於銀行借貸成本，鎖定淨息差收益 (+${ourMetrics.ulNetSpread}%)。`,
+          10: `保單第 10 年：累積淨息差複利滾存，保單現金價值穩步超越銀行貸款本金，安全緩衝區擴大，抵禦利率週期波動。`,
+          15: `保單第 15 年：資產槓桿效益最大化，以 15% 自有資金撬動 100% 高額人壽保障與家族信託架構。`,
+          20: `保單第 20 年：可靈活行使保單部分提取或償還部分銀行貸款，降低融資槓桿，鎖定已累積利差利潤。`,
+          25: `保單第 25 年：大額保單跨代傳承籌劃，高額身故槓桿利益為家族企業及二代提供充足流動性。`,
+          30: `保單第 30 年：家族財富代代相傳，免除繁瑣遺產認證程序，以保費融資小博大完成數千萬資產定向傳承！`
+        };
       } else {
-        horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】前期提供高達 ${ourMetrics.maxRebate}% 回贈與 ${ourMetrics.prepayRate}% 鎖息，已即時鎖定實質現金折讓；預計第 ${ourMetrics.breakevenYear} 年保證回本（對手第 ${rivalMetrics.breakevenYear} 年）。`;
-      }
-
-      let horizonYear20 = '';
-      if (ourKey === 'Bowtie') {
-        horizonYear20 = `保單第 20 年：省下之高達幾十萬中介人佣金與管理費用於自主投資滾存；對手【${rivalProductName}】非保證分紅可能面臨實現率波動折損。`;
-      } else if (rivalKey === 'Bowtie') {
-        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 累積實現率守護分紅派發，純保障產品無任何資產累積。`;
-      } else if (isOurGN16Higher) {
-        horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 官方實現率守護分紅派發，對手 ${rivalMetrics.gn16Fulfillment}% 存在折損隱憂。`;
-      } else {
-        horizonYear20 = `保單第 20 年：我方前期最高回贈與鎖定利息已複利滾存多年，兼備無限次保單分拆與 8-9 種貨幣自由調配；對手過度依賴非保證遠期紅利。`;
-      }
-
-      const horizonData = {
-        5: horizonYear5,
-        10: `保單第 10 年：我方方案內部回報率 (IRR) 突破穩定增長期，保證利益佔比穩健；對手浮動分紅受市場週期波動影響顯著。`,
-        15: `保單第 15 年：子女高等教育出國深造黃金期，總現金價值達已繳保費 1.8~2.0 倍；可隨時行使多貨幣轉換功能對衝匯率風險。`,
-        20: horizonYear20,
-        25: `保單第 25 年：準退休籌劃與家族信託階段，現金流支取自由度高，已具備無限次更換受保人與拆分能力。`,
-        30: `保單第 30 年：退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！Plan A (我方 30Y IRR: ${ourMetrics.irr30}%, GN16: ${ourMetrics.gn16Fulfillment}%) vs Plan B (對手 30Y IRR: ${rivalMetrics.irr30}%, GN16: ${rivalMetrics.gn16Fulfillment}%)，GN16 實現率每差 ${deltaGN16}%，30年複利累積差距高達 HK$300,000 ~ $800,000 真金白銀！`
-      };
-
-      // 6 Core Bilateral Metrics
-      const bilateralSpecs = [
-        {
-          label: "首年保費回贈",
-          ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
-          rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
-          delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
-            ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
-            : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}% (鎖定期長)` : "持平"),
-          winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
-        },
-        {
-          label: "預繳保證利率",
-          ourVal: ourMetrics.prepayRate > 0 ? `${ourMetrics.prepayRate}% (${ourMetrics.prepayLock}年)` : (ourKey === 'Bowtie' ? "自主投資" : "無預繳"),
-          rivalVal: rivalMetrics.prepayRate > 0 ? `${rivalMetrics.prepayRate}% (${rivalMetrics.prepayLock}年)` : (rivalKey === 'Bowtie' ? "自主投資" : "無預繳"),
-          delta: ourMetrics.prepayRate > rivalMetrics.prepayRate
-            ? `我方高 +${(ourMetrics.prepayRate - rivalMetrics.prepayRate).toFixed(1)}% 🏆`
-            : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? `對手高 +${(rivalMetrics.prepayRate - ourMetrics.prepayRate).toFixed(1)}% (次年浮動)` : "持平"),
-          winner: ourMetrics.prepayRate > rivalMetrics.prepayRate ? 'our' : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? 'rival' : 'tie')
-        },
-        {
-          label: "GN16 實現率",
-          ourVal: ourMetrics.gn16Fulfillment > 0 ? ourMetrics.gn16Fulfillment + "%" : "純保障",
-          rivalVal: rivalMetrics.gn16Fulfillment > 0 ? rivalMetrics.gn16Fulfillment + "%" : "純保障",
-          delta: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment
-            ? `我方高 +${(ourMetrics.gn16Fulfillment - rivalMetrics.gn16Fulfillment).toFixed(1)}% 🏆`
-            : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? `對手偏重遠期非保證` : `雙方均達 ${ourMetrics.gn16Fulfillment}%`),
-          winner: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment ? 'our' : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? 'rival' : 'tie')
-        },
-        {
-          label: "保證回本年期",
-          ourVal: ourMetrics.breakevenYear > 0 ? `第 ${ourMetrics.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-          rivalVal: rivalMetrics.breakevenYear > 0 ? `第 ${rivalMetrics.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-          delta: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
-            ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear
-              ? `我方快 ${rivalMetrics.breakevenYear - ourMetrics.breakevenYear} 年回本 🏆`
-              : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? `對手回本快 ${ourMetrics.breakevenYear - rivalMetrics.breakevenYear} 年` : "持平"))
-            : "依產品特性",
-          winner: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
-            ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear ? 'our' : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? 'rival' : 'tie'))
-            : 'tie'
-        },
-        {
-          label: "30年預期複利 IRR",
-          ourVal: ourMetrics.irr30 > 0 ? ourMetrics.irr30 + "%" : (ourKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
-          rivalVal: rivalMetrics.irr30 > 0 ? rivalMetrics.irr30 + "%" : (rivalKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
-          delta: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
-            ? (ourMetrics.irr30 > rivalMetrics.irr30 ? `我方高 +${(ourMetrics.irr30 - rivalMetrics.irr30).toFixed(2)}%` : (ourMetrics.irr30 < rivalMetrics.irr30 ? `對手高 +${(rivalMetrics.irr30 - ourMetrics.irr30).toFixed(2)}%` : "持平"))
-            : "依產品特性",
-          winner: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
-            ? (ourMetrics.irr30 > rivalMetrics.irr30 ? 'our' : (ourMetrics.irr30 < rivalMetrics.irr30 ? 'rival' : 'tie'))
-            : 'tie'
-        },
-        {
-          label: "核心條款亮點",
-          ourVal: ourMetrics.highlight || ourProfile.specialSavings || "旗艦優勢配置",
-          rivalVal: rivalMetrics.highlight || rivalProfile.specialSavings || "市場同級競品",
-          delta: "條款與定位特色",
-          winner: (ourKey === 'Bowtie') ? 'our' : (rivalKey === 'Bowtie' ? 'our' : 'tie')
+        // Savings_MultiCurrency
+        let horizonYear5 = '';
+        if (ourKey === 'Bowtie') {
+          horizonYear5 = `保單第 5 年：保泰純保障零佣金直銷，不設儲蓄鎖定期；所省下保費（對手【${rivalProductName}】第 ${rivalMetrics.breakevenYear || 7} 年才回本）可自主定存或投資，資金 100% 自由支配。`;
+        } else if (rivalKey === 'Bowtie') {
+          horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】保證現金價值已達 100% 已繳保費（第 ${ourMetrics.breakevenYear || 5} 年保證回本）；對手純消費型定期醫保無任何現金價值。`;
+        } else if (ourMetrics.breakevenYear <= rivalMetrics.breakevenYear) {
+          horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】第 ${ourMetrics.breakevenYear} 年即保證 100% 回本；對手【${rivalProductName}】需至第 ${rivalMetrics.breakevenYear} 年才回本，提早退保罰則較嚴格。`;
+        } else {
+          horizonYear5 = `保單第 5 年：我方方案【${ourProductName}】前期提供高達 ${ourMetrics.maxRebate}% 回贈與 ${ourMetrics.prepayRate}% 鎖息，已即時鎖定實質現金折讓；預計第 ${ourMetrics.breakevenYear} 年保證回本（對手第 ${rivalMetrics.breakevenYear} 年）。`;
         }
-      ];
+
+        let horizonYear20 = '';
+        if (ourKey === 'Bowtie') {
+          horizonYear20 = `保單第 20 年：省下之高達幾十萬中介人佣金與管理費用於自主投資滾存；對手【${rivalProductName}】非保證分紅可能面臨實現率波動折損。`;
+        } else if (rivalKey === 'Bowtie') {
+          horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 累積實現率守護分紅派發，純保障產品無任何資產累積。`;
+        } else if (isOurGN16Higher) {
+          horizonYear20 = `保單第 20 年：複利滾存進入爆發期，總現金價值達已繳保費 2.6~2.8 倍；我方 ${ourMetrics.gn16Fulfillment}% 官方實現率守護分紅派發，對手 ${rivalMetrics.gn16Fulfillment}% 存在折損隱憂。`;
+        } else {
+          horizonYear20 = `保單第 20 年：我方前期最高回贈與鎖定利息已複利滾存多年，兼備無限次保單分拆與 8-9 種貨幣自由調配；對手過度依賴非保證遠期紅利。`;
+        }
+
+        horizonData = {
+          5: horizonYear5,
+          10: `保單第 10 年：我方方案內部回報率 (IRR) 突破穩定增長期，保證利益佔比穩健；對手浮動分紅受市場週期波動影響顯著。`,
+          15: `保單第 15 年：子女高等教育出國深造黃金期，總現金價值達已繳保費 1.8~2.0 倍；可隨時行使多貨幣轉換功能對衝匯率風險。`,
+          20: horizonYear20,
+          25: `保單第 25 年：準退休籌劃與家族信託階段，現金流支取自由度高，已具備無限次更換受保人與拆分能力。`,
+          30: `保單第 30 年：退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！Plan A (我方 30Y IRR: ${ourMetrics.irr30}%, GN16: ${ourMetrics.gn16Fulfillment}%) vs Plan B (對手 30Y IRR: ${rivalMetrics.irr30}%, GN16: ${rivalMetrics.gn16Fulfillment}%)，GN16 實現率每差 ${deltaGN16}%，30年複利累積差距高達 HK$300,000 ~ $800,000 真金白銀！`
+        };
+      }
+
+      // 6 Core Bilateral Metrics (Category-Aware)
+      let bilateralSpecs = [];
+      if (categoryKey === 'Critical_Illness') {
+        const ourWait = ourMetrics.cancerWaitYears;
+        const rivalWait = rivalMetrics.cancerWaitYears;
+        const ourIll = ourMetrics.ciIllnesses;
+        const rivalIll = rivalMetrics.ciIllnesses;
+        const ourPct = ourMetrics.ciMultiplePct;
+        const rivalPct = rivalMetrics.ciMultiplePct;
+
+        bilateralSpecs = [
+          {
+            label: "首年保費折扣",
+            ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : "0%",
+            rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : "0%",
+            delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
+              ? `我方優惠 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手優惠 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}%` : "持平"),
+            winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
+          },
+          {
+            label: "癌症再次索償等待期",
+            ourVal: `${ourWait} 年`,
+            rivalVal: `${rivalWait} 年`,
+            delta: ourWait < rivalWait
+              ? `我方早 ${rivalWait - ourWait} 年受保 🏆`
+              : (ourWait > rivalWait ? `對手早 ${ourWait - rivalWait} 年` : `雙方均為 ${ourWait} 年`),
+            winner: ourWait < rivalWait ? 'our' : (ourWait > rivalWait ? 'rival' : 'tie')
+          },
+          {
+            label: "涵蓋嚴重疾病總數",
+            ourVal: `${ourIll} 種`,
+            rivalVal: `${rivalIll} 種`,
+            delta: ourIll > rivalIll
+              ? `我方多 ${ourIll - rivalIll} 種 🏆`
+              : (ourIll < rivalIll ? `對手多 ${rivalIll - ourIll} 種` : "持平"),
+            winner: ourIll > rivalIll ? 'our' : (ourIll < rivalIll ? 'rival' : 'tie')
+          },
+          {
+            label: "多次索償賠償總上限",
+            ourVal: `${ourPct}%`,
+            rivalVal: `${rivalPct}%`,
+            delta: ourPct > rivalPct
+              ? `我方高 +${ourPct - rivalPct}% 🏆`
+              : (ourPct < rivalPct ? `對手高 +${rivalPct - ourPct}%` : "持平"),
+            winner: ourPct > rivalPct ? 'our' : (ourPct < rivalPct ? 'rival' : 'tie')
+          },
+          {
+            label: "深切治療部 (ICU) 預支",
+            ourVal: ourMetrics.ciIcu ? "支援 100% 預支 (免病名)" : "不設預支",
+            rivalVal: rivalMetrics.ciIcu ? "支援 100% 預支 (免病名)" : "不設預支",
+            delta: (ourMetrics.ciIcu && !rivalMetrics.ciIcu)
+              ? "我方特設 ICU 兜底 🏆"
+              : (!ourMetrics.ciIcu && rivalMetrics.ciIcu ? "對手設 ICU 預支" : (ourMetrics.ciIcu ? "雙方均支援 100% 預支" : "雙方均未設 ICU 預支")),
+            winner: (ourMetrics.ciIcu && !rivalMetrics.ciIcu) ? 'our' : (!ourMetrics.ciIcu && rivalMetrics.ciIcu ? 'rival' : 'tie')
+          },
+          {
+            label: "核心條款亮點",
+            ourVal: ourMetrics.highlight || "癌症多次 · ICU預支",
+            rivalVal: rivalMetrics.highlight || "重疾多次賠付",
+            delta: "救命防線與兜底",
+            winner: 'tie'
+          }
+        ];
+      } else if (categoryKey === 'Medical_VHIS') {
+        const ourLimit = ourMetrics.vhisLimitHkd;
+        const rivalLimit = rivalMetrics.vhisLimitHkd;
+
+        bilateralSpecs = [
+          {
+            label: "首年保費回贈",
+            ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+            rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+            delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
+              ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}%` : "持平"),
+            winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
+          },
+          {
+            label: "全年保障限額",
+            ourVal: ourLimit > 0 ? `$${Math.round(ourLimit / 10000)} 萬` : "全數賠償",
+            rivalVal: rivalLimit > 0 ? `$${Math.round(rivalLimit / 10000)} 萬` : (rivalKey === 'Bowtie' ? "$100 萬" : "全數賠償"),
+            delta: (ourLimit > 0 && rivalLimit > 0)
+              ? (ourLimit > rivalLimit ? `我方多 $${Math.round((ourLimit - rivalLimit) / 10000)} 萬 🏆` : (ourLimit < rivalLimit ? `對手多 $${Math.round((rivalLimit - ourLimit) / 10000)} 萬` : "持平"))
+              : "高端醫療全額覆蓋",
+            winner: (ourLimit > 0 && rivalLimit > 0)
+              ? (ourLimit > rivalLimit ? 'our' : (ourLimit < rivalLimit ? 'rival' : 'tie'))
+              : 'tie'
+          },
+          {
+            label: "非手術癌症標靶治療",
+            ourVal: "全數賠償 (無細項上限)",
+            rivalVal: rivalKey === 'Bowtie' ? "全數賠償" : "全數賠償 / 依級別限額",
+            delta: "標靶及免疫治療全額覆蓋",
+            winner: 'our'
+          },
+          {
+            label: "出院免找數 (Cashless) 直付",
+            ourVal: ourKey === 'Bowtie' ? "線上自主申報 (需墊付)" : "全港私院無縫直付 🏆",
+            rivalVal: rivalKey === 'Bowtie' ? "線上自主申報 (需墊付)" : "合作特約醫院直付",
+            delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? "我方專人免墊付直付 🏆" : "直付網絡便利度",
+            winner: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? 'our' : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? 'rival' : 'tie')
+          },
+          {
+            label: "每年法定稅務扣除額",
+            ourVal: "HK$8,000 / 每名受保人",
+            rivalVal: "HK$8,000 / 每名受保人",
+            delta: "法定稅務扣除額 (持平)",
+            winner: 'tie'
+          },
+          {
+            label: "核心條款亮點",
+            ourVal: ourMetrics.highlight || "標靶藥全額 · 出院免找數",
+            rivalVal: rivalMetrics.highlight || "私院全數賠償",
+            delta: "條款保障與免責細則",
+            winner: 'tie'
+          }
+        ];
+      } else if (categoryKey === 'Annuity_QDAP') {
+        bilateralSpecs = [
+          {
+            label: "首年保費回贈",
+            ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : "0%",
+            rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : "0%",
+            delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
+              ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}%` : "持平"),
+            winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
+          },
+          {
+            label: "每年實質慳稅額",
+            ourVal: "最高 HK$10,200",
+            rivalVal: rivalKey === 'Bowtie' ? "無 (未獲 QDAP 認可)" : "最高 HK$10,200",
+            delta: rivalKey === 'Bowtie' ? "我方享法定退稅 🏆" : "享法定退稅 (持平)",
+            winner: rivalKey === 'Bowtie' ? 'our' : 'tie'
+          },
+          {
+            label: "保證內部回報率 IRR",
+            ourVal: `${ourMetrics.qdapGuaranteedIRR}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `${rivalMetrics.qdapGuaranteedIRR}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方保證回報 🏆"
+              : (ourMetrics.qdapGuaranteedIRR > rivalMetrics.qdapGuaranteedIRR
+                ? `我方高 +${(ourMetrics.qdapGuaranteedIRR - rivalMetrics.qdapGuaranteedIRR).toFixed(2)}% 🏆`
+                : (ourMetrics.qdapGuaranteedIRR < rivalMetrics.qdapGuaranteedIRR ? `對手高 +${(rivalMetrics.qdapGuaranteedIRR - ourMetrics.qdapGuaranteedIRR).toFixed(2)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapGuaranteedIRR > rivalMetrics.qdapGuaranteedIRR ? 'our' : (ourMetrics.qdapGuaranteedIRR < rivalMetrics.qdapGuaranteedIRR ? 'rival' : 'tie'))
+          },
+          {
+            label: "QDAP 總內部回報率 IRR",
+            ourVal: `${ourMetrics.qdapTotalIRR}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `${rivalMetrics.qdapTotalIRR}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方總回報 🏆"
+              : (ourMetrics.qdapTotalIRR > rivalMetrics.qdapTotalIRR
+                ? `我方高 +${(ourMetrics.qdapTotalIRR - rivalMetrics.qdapTotalIRR).toFixed(2)}% 🏆`
+                : (ourMetrics.qdapTotalIRR < rivalMetrics.qdapTotalIRR ? `對手高 +${(rivalMetrics.qdapTotalIRR - ourMetrics.qdapTotalIRR).toFixed(2)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapTotalIRR > rivalMetrics.qdapTotalIRR ? 'our' : (ourMetrics.qdapTotalIRR < rivalMetrics.qdapTotalIRR ? 'rival' : 'tie'))
+          },
+          {
+            label: "保證年金利益佔比",
+            ourVal: `${ourMetrics.qdapGuaranteedPct}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `${rivalMetrics.qdapGuaranteedPct}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方保證年金 🏆"
+              : (ourMetrics.qdapGuaranteedPct > rivalMetrics.qdapGuaranteedPct
+                ? `我方保證比例高 +${(ourMetrics.qdapGuaranteedPct - rivalMetrics.qdapGuaranteedPct).toFixed(1)}% 🏆`
+                : (ourMetrics.qdapGuaranteedPct < rivalMetrics.qdapGuaranteedPct ? `對手保證比例高 +${(rivalMetrics.qdapGuaranteedPct - ourMetrics.qdapGuaranteedPct).toFixed(1)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapGuaranteedPct > rivalMetrics.qdapGuaranteedPct ? 'our' : (ourMetrics.qdapGuaranteedPct < rivalMetrics.qdapGuaranteedPct ? 'rival' : 'tie'))
+          },
+          {
+            label: "核心條款亮點",
+            ourVal: ourMetrics.highlight || "HK$60,000 法定扣稅上限",
+            rivalVal: rivalMetrics.highlight || "保監局認可延期年金",
+            delta: "退休穩定現金流",
+            winner: 'tie'
+          }
+        ];
+      } else if (categoryKey === 'Financing_UniversalLife') {
+        bilateralSpecs = [
+          {
+            label: "最高融資成數 LTV",
+            ourVal: ourKey === 'Bowtie' ? "不支援融資" : `${ourMetrics.ulLtv}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不支援融資" : `${rivalMetrics.ulLtv}%`,
+            delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie')
+              ? "我方享私銀融資 🏆"
+              : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? "對手享私銀融資" : "融資槓桿上限 (持平)"),
+            winner: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? 'our' : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? 'rival' : 'tie')
+          },
+          {
+            label: "最低保證結算利率 (Floor)",
+            ourVal: `${ourMetrics.ulFloorRate}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `${rivalMetrics.ulFloorRate}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方保證底線 🏆"
+              : (ourMetrics.ulFloorRate > rivalMetrics.ulFloorRate
+                ? `我方高 +${(ourMetrics.ulFloorRate - rivalMetrics.ulFloorRate).toFixed(2)}% 🏆`
+                : (ourMetrics.ulFloorRate < rivalMetrics.ulFloorRate ? `對手高 +${(rivalMetrics.ulFloorRate - ourMetrics.ulFloorRate).toFixed(2)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulFloorRate > rivalMetrics.ulFloorRate ? 'our' : (ourMetrics.ulFloorRate < rivalMetrics.ulFloorRate ? 'rival' : 'tie'))
+          },
+          {
+            label: "當前結算利率 (Crediting)",
+            ourVal: `${ourMetrics.ulCreditingRate}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `${rivalMetrics.ulCreditingRate}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方結算利率 🏆"
+              : (ourMetrics.ulCreditingRate > rivalMetrics.ulCreditingRate
+                ? `我方高 +${(ourMetrics.ulCreditingRate - rivalMetrics.ulCreditingRate).toFixed(2)}% 🏆`
+                : (ourMetrics.ulCreditingRate < rivalMetrics.ulCreditingRate ? `對手高 +${(rivalMetrics.ulCreditingRate - ourMetrics.ulCreditingRate).toFixed(2)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulCreditingRate > rivalMetrics.ulCreditingRate ? 'our' : (ourMetrics.ulCreditingRate < rivalMetrics.ulCreditingRate ? 'rival' : 'tie'))
+          },
+          {
+            label: "融資借貸淨息差 (Spread)",
+            ourVal: `+${ourMetrics.ulNetSpread}%`,
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : `+${rivalMetrics.ulNetSpread}%`,
+            delta: rivalKey === 'Bowtie'
+              ? "我方正向息差 🏆"
+              : (ourMetrics.ulNetSpread > rivalMetrics.ulNetSpread
+                ? `我方多 +${(ourMetrics.ulNetSpread - rivalMetrics.ulNetSpread).toFixed(2)}% 🏆`
+                : (ourMetrics.ulNetSpread < rivalMetrics.ulNetSpread ? `對手多 +${(rivalMetrics.ulNetSpread - ourMetrics.ulNetSpread).toFixed(2)}%` : "持平")),
+            winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulNetSpread > rivalMetrics.ulNetSpread ? 'our' : (ourMetrics.ulNetSpread < rivalMetrics.ulNetSpread ? 'rival' : 'tie'))
+          },
+          {
+            label: "追加保證金 (Margin Call) 緩衝",
+            ourVal: "約 20% 跌幅緩衝",
+            rivalVal: rivalKey === 'Bowtie' ? "不適用" : "約 15-20% 緩衝",
+            delta: "極端市況安全緩衝",
+            winner: 'tie'
+          },
+          {
+            label: "核心條款亮點",
+            ourVal: ourMetrics.highlight || "私銀保費融資槓桿",
+            rivalVal: rivalMetrics.highlight || "萬用壽險傳承架構",
+            delta: "高額人壽身故傳承",
+            winner: 'tie'
+          }
+        ];
+      } else {
+        // Savings_MultiCurrency (Default)
+        bilateralSpecs = [
+          {
+            label: "首年保費回贈",
+            ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+            rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
+            delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
+              ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}% (鎖定期長)` : "持平"),
+            winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
+          },
+          {
+            label: "預繳保證利率",
+            ourVal: ourMetrics.prepayRate > 0 ? `${ourMetrics.prepayRate}% (${ourMetrics.prepayLock}年)` : (ourKey === 'Bowtie' ? "自主投資" : "無預繳"),
+            rivalVal: rivalMetrics.prepayRate > 0 ? `${rivalMetrics.prepayRate}% (${rivalMetrics.prepayLock}年)` : (rivalKey === 'Bowtie' ? "自主投資" : "無預繳"),
+            delta: ourMetrics.prepayRate > rivalMetrics.prepayRate
+              ? `我方高 +${(ourMetrics.prepayRate - rivalMetrics.prepayRate).toFixed(1)}% 🏆`
+              : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? `對手高 +${(rivalMetrics.prepayRate - ourMetrics.prepayRate).toFixed(1)}% (次年浮動)` : "持平"),
+            winner: ourMetrics.prepayRate > rivalMetrics.prepayRate ? 'our' : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? 'rival' : 'tie')
+          },
+          {
+            label: "GN16 實現率",
+            ourVal: ourMetrics.gn16Fulfillment > 0 ? ourMetrics.gn16Fulfillment + "%" : "純保障",
+            rivalVal: rivalMetrics.gn16Fulfillment > 0 ? rivalMetrics.gn16Fulfillment + "%" : "純保障",
+            delta: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment
+              ? `我方高 +${(ourMetrics.gn16Fulfillment - rivalMetrics.gn16Fulfillment).toFixed(1)}% 🏆`
+              : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? `對手偏重遠期非保證` : `雙方均達 ${ourMetrics.gn16Fulfillment}%`),
+            winner: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment ? 'our' : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? 'rival' : 'tie')
+          },
+          {
+            label: "保證回本年期",
+            ourVal: ourMetrics.breakevenYear > 0 ? `第 ${ourMetrics.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用"),
+            rivalVal: rivalMetrics.breakevenYear > 0 ? `第 ${rivalMetrics.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用"),
+            delta: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
+              ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear
+                ? `我方快 ${rivalMetrics.breakevenYear - ourMetrics.breakevenYear} 年回本 🏆`
+                : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? `對手回本快 ${ourMetrics.breakevenYear - rivalMetrics.breakevenYear} 年` : "持平"))
+              : "依產品特性",
+            winner: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
+              ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear ? 'our' : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? 'rival' : 'tie'))
+              : 'tie'
+          },
+          {
+            label: "30年預期複利 IRR",
+            ourVal: ourMetrics.irr30 > 0 ? ourMetrics.irr30 + "%" : (ourKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
+            rivalVal: rivalMetrics.irr30 > 0 ? rivalMetrics.irr30 + "%" : (rivalKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
+            delta: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
+              ? (ourMetrics.irr30 > rivalMetrics.irr30 ? `我方高 +${(ourMetrics.irr30 - rivalMetrics.irr30).toFixed(2)}%` : (ourMetrics.irr30 < rivalMetrics.irr30 ? `對手高 +${(rivalMetrics.irr30 - ourMetrics.irr30).toFixed(2)}%` : "持平"))
+              : "依產品特性",
+            winner: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
+              ? (ourMetrics.irr30 > rivalMetrics.irr30 ? 'our' : (ourMetrics.irr30 < rivalMetrics.irr30 ? 'rival' : 'tie'))
+              : 'tie'
+          },
+          {
+            label: "核心條款亮點",
+            ourVal: ourMetrics.highlight || ourProfile.specialSavings || "旗艦優勢配置",
+            rivalVal: rivalMetrics.highlight || rivalProfile.specialSavings || "市場同級競品",
+            delta: "條款與定位特色",
+            winner: (ourKey === 'Bowtie') ? 'our' : (rivalKey === 'Bowtie' ? 'our' : 'tie')
+          }
+        ];
+      }
 
       // ==========================================
       // Branch 1: Bowtie as Rival Insurer
@@ -2503,8 +2824,8 @@
           client_desc: `分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。`,
           chart_title: `📊 歷年分紅累積實現率 (Fulfillment Ratio)`,
           chart_bars: [
-            { label: `我方旗艦配置方案【${ourProfile.fullName}】`, value: `${ourMetrics.gn16Fulfillment}% (穩健)`, widthPct: ourMetrics.gn16Fulfillment || 90, color: `var(--ikb)` },
-            { label: `對手方案【${rivalProfile.fullName}】`, value: `${rivalMetrics.gn16Fulfillment}% (市場波動)`, widthPct: rivalMetrics.gn16Fulfillment || 85, color: `#f59e0b` },
+            { label: `我方【${ourProductName}】`, value: `${ourMetrics.gn16Fulfillment}% (穩健)`, widthPct: ourMetrics.gn16Fulfillment || 90, color: `var(--ikb)` },
+            { label: `對手【${rivalProductName}】`, value: `${rivalMetrics.gn16Fulfillment}% (市場波動)`, widthPct: rivalMetrics.gn16Fulfillment || 85, color: `#f59e0b` },
             { label: `市場同業平均水平`, value: `91.2%`, widthPct: 91.2, color: `#94a3b8` }
           ],
           table_title: `🏛️ 家族傳承與資金靈活性比較`,
@@ -2546,8 +2867,8 @@
           client_desc: `評估大額保費回贈推廣時，投保人應綜合考量早期保證現金價值積存速度（回本期）及退保費用豁免年期。`,
           chart_title: `📈 保證回本年期與資金流動性評級`,
           chart_bars: [
-            { label: `我方旗艦方案保證回本`, value: `第 ${ourMetrics.breakevenYear || 5} 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
-            { label: `${rivalProfile.fullName} 回贈方案保證回本`, value: `第 ${rivalMetrics.breakevenYear || 8} 年 (前期鎖定嚴格)`, widthPct: 60, color: `#f59e0b` },
+            { label: `我方【${ourProductName}】保證回本`, value: `第 ${ourMetrics.breakevenYear || 5} 年 (快速鎖定 100% 本金)`, widthPct: 90, color: `var(--ikb)` },
+            { label: `對手【${rivalProductName}】保證回本`, value: `第 ${rivalMetrics.breakevenYear || 8} 年 (前期鎖定嚴格)`, widthPct: 60, color: `#f59e0b` },
             { label: `市場同業平均水平`, value: `第 7 年`, widthPct: 68, color: `#94a3b8` }
           ],
           table_title: `⚖️ 保證本金安全性與流動性評比`,
@@ -2722,8 +3043,8 @@
           client_desc: `自願醫保靈活計劃之關鍵差異在於昂貴非手術癌症標靶治療是否設有分項上限，以及直付免找數醫院網絡的覆蓋完整度與病房升級彈性。`,
           chart_title: `🏥 昂貴非手術癌症標靶治療保障額度評級`,
           chart_bars: [
-            { label: `我方高端自願醫保靈活計劃`, value: `全數賠償 (無細項限額)`, widthPct: 100, color: `var(--ikb)` },
-            { label: `${rivalProfile.fullName}「${rivalProductName || rivalProfile.flagshipVHIS}」`, value: `設分項限額 / 網絡限制`, widthPct: 68, color: `#f59e0b` },
+            { label: `我方【${ourProductName}】靈活計劃`, value: `全數賠償 (無細項限額)`, widthPct: 100, color: `var(--ikb)` },
+            { label: `對手【${rivalProductName}】`, value: `設分項限額 / 網絡限制`, widthPct: 68, color: `#f59e0b` },
             { label: `自願醫保標準計劃法定最低`, value: `年限額僅 HK$180,000`, widthPct: 30, color: `#94a3b8` }
           ],
           table_title: `🩺 醫療理賠與直付服務核心維度深度比對`,
@@ -2772,8 +3093,8 @@
           client_desc: `監管機構嚴正警示：保費融資涉及利率風險、槓桿風險與補倉風險，降息週期極易引發息差倒掛及抵押品減值危機。`,
           chart_title: `⚠️ 利率波動與極端市況安全性評級 (越高越安全)`,
           chart_bars: [
-            { label: `無槓桿多元貨幣儲蓄 (我方)`, value: `100% 安全 (零槓桿與補倉風險)`, widthPct: 100, color: `var(--green)` },
-            { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipUL}】85% 槓桿融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
+            { label: `我方【${ourProductName}】無槓桿配置`, value: `100% 安全 (零槓桿與補倉風險)`, widthPct: 100, color: `var(--green)` },
+            { label: `對手【${rivalProductName}】85% 槓桿融資`, value: `承擔 Margin Call 與息差風險`, widthPct: 35, color: `#ef4444` },
             { label: `市場融資平均安全緩衝區`, value: `約 15-20% 跌幅即觸發補倉`, widthPct: 40, color: `#f59e0b` }
           ],
           table_title: `📊 槓桿融資 vs 無槓桿儲蓄全維度對比`,
@@ -2826,7 +3147,7 @@
         chart_title: `🛡️ 年金總利益中「保證部分」確定性佔比`,
         chart_bars: [
           { label: `我方【${ourProductName || '旗艦年金方案'}】`, value: `82.5% 保證 (極高確定性)`, widthPct: 82.5, color: `var(--green)` },
-          { label: `${rivalProfile.fullName}【${rivalProductName || rivalProfile.flagshipQDAP}】`, value: `${rivalMetrics.qdapGuaranteedPct}% 保證 (逾半依賴非保證)`, widthPct: rivalMetrics.qdapGuaranteedPct, color: `#f59e0b` },
+          { label: `對手【${rivalProductName}】`, value: `對手【${rivalProductName}】`, widthPct: rivalMetrics.qdapGuaranteedPct, color: `#f59e0b` },
           { label: `市場同業平均水平`, value: `50.0% 保證`, widthPct: 50.0, color: `#94a3b8` }
         ],
         table_title: `💰 退休現金流確定性與稅務扣除`,
@@ -3299,12 +3620,12 @@
         if (k.includes('prepay') && (t.includes('預繳') || t.includes('5.8%') || t.includes('息率') || !t)) return true;
         if (t.includes('預繳') || t.includes('保證利率') || t.includes('5.8%')) return true;
       }
-      // Check rebate
-      if (l.includes('回贈') || l.includes('rebate') || l.includes('折扣')) {
-        if (k.includes('rebate') || t.includes('回贈') || t.includes('折扣') || t.includes('28%')) return true;
+      // Check rebate / discount
+      if (l.includes('回贈') || l.includes('折扣') || l.includes('rebate')) {
+        if (k.includes('rebate') || t.includes('回贈') || t.includes('折扣') || t.includes('28%') || t.includes('20%')) return true;
       }
       // Check GN16
-      if (l.includes('gn16') || l.includes('實現率') || l.includes('分紅')) {
+      if (l.includes('gn16') || l.includes('實現率')) {
         if (t.includes('gn16') || t.includes('實現率') || t.includes('分紅')) return true;
       }
       // Check breakeven
@@ -3312,12 +3633,55 @@
         if (t.includes('回本') || t.includes('年期')) return true;
       }
       // Check IRR
-      if (l.includes('irr') || l.includes('複利')) {
-        if (t.includes('irr') || t.includes('複利') || t.includes('30年')) return true;
+      if (l.includes('irr') || l.includes('複利') || l.includes('回報率')) {
+        if (l.includes('保證內部回報率') && (t.includes('保證內部回報率') || t.includes('保證回報'))) return true;
+        if (l.includes('總內部回報率') && (t.includes('總內部回報率') || t.includes('qdap 總內部回報率'))) return true;
+        if (!l.includes('保證內部回報率') && !l.includes('總內部回報率')) {
+          if (t.includes('irr') || t.includes('複利') || t.includes('30年')) return true;
+        }
+      }
+      // Check Cancer waiting period
+      if (l.includes('癌症') || l.includes('等待期') || l.includes('間隔')) {
+        if (t.includes('癌症') || t.includes('等待期') || t.includes('間隔') || t.includes('2年') || t.includes('3年') || (!t && k.includes('ci'))) return true;
+      }
+      // Check ICU stay benefit
+      if (l.includes('icu') || l.includes('深切治療') || l.includes('預支')) {
+        if (t.includes('icu') || t.includes('深切治療') || t.includes('預支')) return true;
+      }
+      // Check Multiple illnesses / claim limit
+      if (l.includes('疾病總數') || l.includes('涵蓋嚴重疾病') || l.includes('多次索償') || l.includes('賠償總上限')) {
+        if (t.includes('心臟病') || t.includes('中風') || t.includes('多次賠償') || t.includes('病種') || t.includes('疾病')) return true;
+      }
+      // Check VHIS limit / targeted cancer therapy / cashless / tax
+      if (l.includes('全年保障') || l.includes('保障限額')) {
+        if (t.includes('限額') || t.includes('保額') || t.includes('千萬')) return true;
+      }
+      if (l.includes('標靶') || l.includes('非手術癌症')) {
+        if (t.includes('標靶') || t.includes('全額賠償') || (!t && k.includes('vhis'))) return true;
+      }
+      if (l.includes('免找數') || l.includes('cashless') || l.includes('直付') || l.includes('中介服務') || l.includes('中介人')) {
+        if (t.includes('免找數') || t.includes('cashless') || t.includes('中介人') || t.includes('客服') || t.includes('直付')) return true;
+      }
+      if (l.includes('扣稅') || l.includes('慳稅') || l.includes('稅務') || l.includes('實質慳稅')) {
+        if (t.includes('8,000') || t.includes('10,200') || t.includes('稅款') || t.includes('扣稅') || t.includes('慳稅') || t.includes('實質慳稅')) return true;
+      }
+      // Check QDAP guaranteed proportion
+      if (l.includes('保證年金利益') || l.includes('保證利益') || l.includes('保證部分')) {
+        if (t.includes('保證回報') || t.includes('浮動紅利') || t.includes('佔比') || t.includes('確定性') || (!t && k.includes('qdap'))) return true;
+      }
+      // Check Universal life / financing LTV / spread / margin call
+      if (l.includes('成數') || l.includes('ltv') || l.includes('融資成數')) {
+        if (t.includes('85%') || t.includes('ltv') || t.includes('融資') || (!t && k.includes('financing'))) return true;
+      }
+      if (l.includes('息差') || l.includes('spread') || l.includes('結算利率') || l.includes('crediting') || l.includes('floor')) {
+        if (t.includes('息差') || t.includes('結算') || t.includes('淨息差')) return true;
+      }
+      if (l.includes('margin') || l.includes('追加保證金') || l.includes('補倉')) {
+        if (t.includes('margin') || t.includes('追加保證金') || t.includes('補倉')) return true;
       }
       // Check highlights / features
-      if (l.includes('亮點') || l.includes('條款') || l.includes('傳承') || l.includes('分拆') || l.includes('貨幣')) {
-        if (t.includes('貨幣') || t.includes('分拆') || t.includes('傳承') || t.includes('條款') || t.includes('icu') || t.includes('癌症') || t.includes('等待期') || t.includes('全數賠償') || t.includes('融資') || t.includes('年金') || t.includes('稅款') || t.includes('ltv') || t.includes('中介人') || t.includes('cashless')) return true;
+      if (l.includes('亮點') || l.includes('條款') || l.includes('傳承') || l.includes('分拆') || l.includes('貨幣') || l.includes('豁免')) {
+        if (t.includes('貨幣') || t.includes('分拆') || t.includes('傳承') || t.includes('條款') || t.includes('豁免') || t.includes('保費豁免') || t.includes('起派年齡') || t.includes('現金流')) return true;
       }
       return false;
     }
