@@ -28,6 +28,7 @@ import {
   YoungFamilyBudgetAgent,
   RetirementTaxAgent,
   InstantCommsSynthesizerAgent,
+  CashlessMedicalAgent,
   OfflineResilienceAgent,
   ScenarioAgentHub
 } from '../src/engine/scenario_agents.js';
@@ -259,6 +260,33 @@ suite('1. Pure TypeScript Core Scenario Agents Logic & Boundary Resilience', () 
     assert.ok(offlineStatus.healthStatusText.includes('離線模式'));
   });
 
+  test('CashlessMedicalAgent: Pre-approval direct billing, estimated costs, deductible calculation & workflow', () => {
+    const agent = new CashlessMedicalAgent();
+
+    // HK Sanatorium + Cancer Targeted Therapy + HK$ 0 deductible
+    const resCancer = agent.checkCashlessDirectBilling({
+      hospital: '香港養和醫院 (Hong Kong Sanatorium & Hospital)',
+      treatment: '癌症非手術標靶治療 (Targeted Cancer Therapy)',
+      deductibleHKD: 0
+    });
+    assert.strictEqual(resCancer.scenario, 'cashless_medical');
+    assert.strictEqual(resCancer.estimatedCostHKD, 680000);
+    assert.strictEqual(resCancer.clientOutOfPocketHKD, 0);
+    assert.strictEqual(resCancer.coverageHKD, 680000);
+    assert.strictEqual(resCancer.isCashlessApproved, true);
+    assert.ok(resCancer.workflowSteps.length >= 4);
+
+    // Gleneagles + Heart Angioplasty + HK$ 25,000 deductible
+    const resHeart = agent.checkCashlessDirectBilling({
+      hospital: '港怡醫院 (Gleneagles Hospital Hong Kong)',
+      treatment: '心臟冠狀動脈通波仔手術 (Coronary Angioplasty / Stent)',
+      deductibleHKD: 25000
+    });
+    assert.strictEqual(resHeart.estimatedCostHKD, 380000);
+    assert.strictEqual(resHeart.clientOutOfPocketHKD, 25000);
+    assert.strictEqual(resHeart.coverageHKD, 355000);
+  });
+
   test('ScenarioAgentHub: Accurately routes to each specialized agent', () => {
     const hub = new ScenarioAgentHub();
     assert.ok(hub.getAgentForScenario('cafe_rapid') instanceof CafeRapidPitchAgent);
@@ -266,6 +294,7 @@ suite('1. Pure TypeScript Core Scenario Agents Logic & Boundary Resilience', () 
     assert.ok(hub.getAgentForScenario('young_family') instanceof YoungFamilyBudgetAgent);
     assert.ok(hub.getAgentForScenario('retirement_tax') instanceof RetirementTaxAgent);
     assert.ok(hub.getAgentForScenario('instant_comms') instanceof InstantCommsSynthesizerAgent);
+    assert.ok(hub.getAgentForScenario('cashless_medical') instanceof CashlessMedicalAgent);
     assert.ok(hub.getAgentForScenario('offline_resilience') instanceof OfflineResilienceAgent);
   });
 });
@@ -362,6 +391,7 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
             { getAttribute: (attr: string) => 'young_family', classList: makeMockElement().classList },
             { getAttribute: (attr: string) => 'retirement_tax', classList: makeMockElement().classList },
             { getAttribute: (attr: string) => 'instant_comms', classList: makeMockElement().classList },
+            { getAttribute: (attr: string) => 'cashless_medical', classList: makeMockElement().classList },
             { getAttribute: (attr: string) => 'offline_resilience', classList: makeMockElement().classList }
           ];
         }
@@ -466,6 +496,17 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     assert.ok(updatedHtml.includes('HK$ 3,200'), '40% of 8,000 must equal HK$ 3,200');
     assert.ok(updatedHtml.includes('5,000,000'), 'Mortgage balance must be rendered');
 
+    // Real-World Bug Verification: High Mortgage (99,999,999) and Scale-up Budget (HK$ 7,500)
+    mockWindow.onFamilyBudgetChange(7500);
+    mockWindow.onMortgageChange(99999999);
+    const scaledHtml = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(scaledHtml.includes('HK$ 4,500'), '60% protection must equal HK$ 4,500');
+    assert.ok(scaledHtml.includes('HK$ 3,000'), '40% savings must equal HK$ 3,000');
+    assert.ok(scaledHtml.includes('99,999,999'), 'Mortgage 99,999,999 must be rendered');
+    assert.ok(scaledHtml.includes('10,189萬') || scaledHtml.includes('10189萬'), 'Life cover must dynamically cover 99.99M mortgage + 5x expenses');
+    assert.ok(scaledHtml.includes('180萬'), 'CI cover must dynamically scale to 180萬 for 7500 budget');
+    assert.ok(scaledHtml.includes('110.8萬'), '18-year education fund compounding at 5.5% must equal 110.8萬');
+
     // Edge Case: 0 mortgage debt
     mockWindow.onMortgageChange(0);
     const zeroMortgageHtml = domElements['scenario-agent-panel'].innerHTML;
@@ -525,6 +566,36 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     mockWindow.onCommsPlatformSelect('wechat');
     const wcText = mockWindow.generateInstantMessage('wechat', 'mcv_vip');
     assert.ok(wcText.includes('三甲醫院直付') || wcText.includes('多幣種跨國配置'), 'MCV VIP tone must highlight cross-border perks');
+  });
+
+  test('Scenario Agent 7: 💼 Cashless Medical Pre-Approval & Hospital Direct Billing renders hospital and treatment cards', () => {
+    const { mockWindow, domElements } = createMockDOMSandbox();
+    mockWindow.selectScenarioAgent('cashless_medical');
+
+    const panelHtml = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(panelHtml.includes('高端醫療 / 私家醫院出院免找數直付速查'), 'Panel must include cashless medical title');
+    assert.ok(panelHtml.includes('medical-hospital-select'), 'Panel must have hospital selector');
+    assert.ok(panelHtml.includes('medical-treatment-select'), 'Panel must have treatment selector');
+    assert.ok(panelHtml.includes('medical-result-card'), 'Panel must have result card');
+    assert.ok(panelHtml.includes('Letter of Guarantee'), 'Panel must include Letter of Guarantee simulation');
+    assert.ok(panelHtml.includes('4步極速出院直付申請流程'), 'Panel must include 4-step workflow guide');
+
+    // Test changing treatment and deductible
+    mockWindow.onMedicalTreatmentSelect('心臟冠狀動脈通波仔手術 (Coronary Angioplasty / Stent)');
+    mockWindow.onMedicalDeductibleSelect(25000);
+    const updatedHtml = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(updatedHtml.includes('38萬'), 'Heart surgery cost should be 38萬');
+    assert.ok(updatedHtml.includes('25,000'), 'Deductible should show 25,000');
+
+    // Test calculation function directly
+    const calcRes = mockWindow.checkCashlessDirectBilling(
+      '香港養和醫院 (Hong Kong Sanatorium & Hospital)',
+      '癌症非手術標靶治療 (Targeted Cancer Therapy)',
+      0
+    );
+    assert.strictEqual(calcRes.estimatedCost, 680000);
+    assert.strictEqual(calcRes.clientOutOfPocket, 0);
+    assert.strictEqual(calcRes.coverage, 680000);
   });
 
   test('Scenario Agent 6: 📴 Offline Resilience Agent displays local catalog count, storage footprint & simulated offline toggle', () => {

@@ -309,7 +309,22 @@ export type ScenarioAgentType =
   | "young_family"      // 👨‍👩‍👧 家庭預算與高槓桿保障
   | "retirement_tax"    // 👴 退休年金與稅務優化 (QDAP)
   | "instant_comms"     // 💬 微信/WhatsApp 極速追客速遞
+  | "cashless_medical"  // 💼 高端醫療 / 出院免找數直付速查
   | "offline_resilience"; // 📴 無網/地庫離線彈性韌性
+
+export interface CashlessMedicalOutput {
+  scenario: "cashless_medical";
+  hospitalName: string;
+  treatmentName: string;
+  deductibleHKD: number;
+  estimatedCostHKD: number;
+  coverageHKD: number;
+  clientOutOfPocketHKD: number;
+  isCashlessApproved: boolean;
+  preApprovalDaysNotice: number;
+  directBillingHotline: string;
+  workflowSteps: string[];
+}
 
 export interface CafePitchOutput {
   scenario: "cafe_rapid";
@@ -348,6 +363,10 @@ export interface FamilyBudgetOutput {
   recommendedSavingsBudgetHKD: number;    // 40%
   recommendedLifeCICoverageHKD: number;   // 7-10x income
   mortgageDeficitGapHKD: number;
+  projectedEduFundHKD?: number;
+  totalSavingsDepositedHKD?: number;
+  projectedCompoundGainHKD?: number;
+  termMonthlyPremEstHKD?: number;
   bundlingStrategy: {
     termLifeCoverageHKD: number;
     ciMultipleCoverageHKD: number;

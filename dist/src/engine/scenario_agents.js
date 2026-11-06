@@ -11,7 +11,7 @@
  * 6. OfflineResilienceAgent: 100% zero-network client-side resilience, cache monitoring, simulated offline modes.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScenarioAgentHub = exports.OfflineResilienceAgent = exports.InstantCommsSynthesizerAgent = exports.RetirementTaxAgent = exports.YoungFamilyBudgetAgent = exports.OffshoreMCVAgent = exports.CafeRapidPitchAgent = void 0;
+exports.ScenarioAgentHub = exports.CashlessMedicalAgent = exports.OfflineResilienceAgent = exports.InstantCommsSynthesizerAgent = exports.RetirementTaxAgent = exports.YoungFamilyBudgetAgent = exports.OffshoreMCVAgent = exports.CafeRapidPitchAgent = void 0;
 // ============================================================================
 // AGENT 1: ☕ Café 30-Second Rapid Pitch Mode
 // ============================================================================
@@ -175,27 +175,43 @@ exports.OffshoreMCVAgent = OffshoreMCVAgent;
 class YoungFamilyBudgetAgent {
     /**
      * 60/40 rule: 60% Protection (Term, CI, VHIS), 40% Wealth/Savings
-     * Coverage rule: 7-10x annual income + outstanding mortgage balance
+     * Coverage rule: Mortgage balance + 5x annual living expenses
+     * CI Coverage: dynamically scaled by budget amount
      */
     optimizeBudgetAndCoverage(monthlyBudgetHKD = 3000, annualIncomeHKD = 480000, mortgageBalanceHKD = 3000000) {
         const safeMonthlyBudget = Math.max(500, monthlyBudgetHKD);
         const protectionBudget = Math.round(safeMonthlyBudget * 0.6);
         const savingsBudget = safeMonthlyBudget - protectionBudget;
-        const recommendedLifeCICoverage = Math.round(annualIncomeHKD * 8);
-        const estimatedTermLifeCoverage = Math.max(recommendedLifeCICoverage, mortgageBalanceHKD);
-        const mortgageDeficitGap = Math.max(0, mortgageBalanceHKD - (estimatedTermLifeCoverage * 0.7));
+        const safeMortgage = Math.max(0, mortgageBalanceHKD);
+        const annualExpenses = Math.round(annualIncomeHKD * 0.6);
+        // Life cover: Mortgage + 5x annual expenses (scaled dynamically)
+        const termLifeCoverage = safeMortgage + Math.round(annualExpenses * 5);
+        const recommendedLifeCICoverage = Math.max(termLifeCoverage, Math.round(annualIncomeHKD * 8));
+        const mortgageDeficitGap = Math.max(0, safeMortgage - Math.round(termLifeCoverage * 0.7));
+        // CI cover: dynamically scaled by protection budget and annual income
+        const ciCoverage = Math.max(Math.round(annualIncomeHKD * 2.5), Math.round(protectionBudget * 400));
+        const r = 0.055 / 12;
+        const n = 18 * 12;
+        const projectedEduFund = Math.round(savingsBudget * ((Math.pow(1 + r, n) - 1) / r) * (1 + r));
+        const totalSavingsDeposited = savingsBudget * n;
+        const projectedCompoundGain = projectedEduFund - totalSavingsDeposited;
+        const termMonthlyPremEst = Math.max(80, Math.round((termLifeCoverage / 1000000) * 85));
         return {
             scenario: "young_family",
             monthlyBudgetHKD: safeMonthlyBudget,
             annualIncomeHKD,
-            mortgageBalanceHKD,
+            mortgageBalanceHKD: safeMortgage,
             recommendedProtectionBudgetHKD: protectionBudget,
             recommendedSavingsBudgetHKD: savingsBudget,
             recommendedLifeCICoverageHKD: recommendedLifeCICoverage,
             mortgageDeficitGapHKD: Math.round(mortgageDeficitGap),
+            projectedEduFundHKD: projectedEduFund,
+            totalSavingsDepositedHKD: totalSavingsDeposited,
+            projectedCompoundGainHKD: projectedCompoundGain,
+            termMonthlyPremEstHKD: termMonthlyPremEst,
             bundlingStrategy: {
-                termLifeCoverageHKD: estimatedTermLifeCoverage,
-                ciMultipleCoverageHKD: Math.min(2000000, Math.round(annualIncomeHKD * 3)),
+                termLifeCoverageHKD: termLifeCoverage,
+                ciMultipleCoverageHKD: ciCoverage,
                 vhisPlanType: "自願醫保靈活計劃（半私家病房，全數賠償）",
                 monthlyPremiumEstimateHKD: protectionBudget
             }
@@ -400,6 +416,48 @@ class OfflineResilienceAgent {
 }
 exports.OfflineResilienceAgent = OfflineResilienceAgent;
 // ============================================================================
+// AGENT 7: 💼 Cashless Medical & Hospital Pre-Approval Agent
+// ============================================================================
+class CashlessMedicalAgent {
+    checkCashlessDirectBilling(params) {
+        const hospital = params.hospital || "香港養和醫院 (Hong Kong Sanatorium & Hospital)";
+        const treatment = params.treatment || "癌症非手術標靶治療 (Targeted Cancer Therapy)";
+        const deductible = typeof params.deductibleHKD === "number" ? params.deductibleHKD : 0;
+        let estimatedCost = 500000;
+        if (treatment.includes("癌症") || treatment.includes("標靶"))
+            estimatedCost = 680000;
+        else if (treatment.includes("心臟") || treatment.includes("通波仔"))
+            estimatedCost = 380000;
+        else if (treatment.includes("骨科") || treatment.includes("關節"))
+            estimatedCost = 280000;
+        else if (treatment.includes("達芬奇") || treatment.includes("機械人"))
+            estimatedCost = 450000;
+        else if (treatment.includes("白內障") || treatment.includes("日間"))
+            estimatedCost = 65000;
+        const clientPay = Math.min(deductible, estimatedCost);
+        const covered = estimatedCost - clientPay;
+        return {
+            scenario: "cashless_medical",
+            hospitalName: hospital,
+            treatmentName: treatment,
+            deductibleHKD: deductible,
+            estimatedCostHKD: estimatedCost,
+            coverageHKD: covered,
+            clientOutOfPocketHKD: clientPay,
+            isCashlessApproved: true,
+            preApprovalDaysNotice: 3,
+            directBillingHotline: "+852 2232 8888",
+            workflowSteps: [
+                "入院前 3-5 個工作天向保司提交由主治醫生填寫之「預先批核申請表」",
+                "保司精算理賠部審核通過後，直接向指定私家醫院發出「付款擔保書 (Letter of Guarantee)」",
+                "入院登記出示醫療直付卡與身份證明文件，免收大額住院按金",
+                "出院結算由保險公司直接與醫院全額對賬支付，客戶簽名即可安心出院"
+            ]
+        };
+    }
+}
+exports.CashlessMedicalAgent = CashlessMedicalAgent;
+// ============================================================================
 // SCENARIO AGENT HUB
 // ============================================================================
 class ScenarioAgentHub {
@@ -408,6 +466,7 @@ class ScenarioAgentHub {
     youngFamily = new YoungFamilyBudgetAgent();
     retirementTax = new RetirementTaxAgent();
     instantComms = new InstantCommsSynthesizerAgent();
+    cashlessMedical = new CashlessMedicalAgent();
     offlineResilience = new OfflineResilienceAgent();
     getAgentForScenario(type) {
         switch (type) {
@@ -416,6 +475,7 @@ class ScenarioAgentHub {
             case "young_family": return this.youngFamily;
             case "retirement_tax": return this.retirementTax;
             case "instant_comms": return this.instantComms;
+            case "cashless_medical": return this.cashlessMedical;
             case "offline_resilience": return this.offlineResilience;
         }
     }
