@@ -1518,6 +1518,451 @@ const htmlContent = `<!DOCTYPE html>
       margin-top: 2px;
     }
 
+    /* ==========================================================================
+       AI Scenario Agent Bar & Multi-Scenario Panels
+       ========================================================================== */
+    .scenario-agents-bar-wrap {
+      margin: 10px 16px 6px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    .scenario-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .scenario-bar-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .scenario-bar-tag {
+      font-size: 10px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      background: var(--ikb-light);
+      color: var(--ikb);
+      padding: 2px 7px;
+      border-radius: 10px;
+    }
+    .scenario-agents-tabs {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
+    }
+    .scenario-agents-tabs::-webkit-scrollbar { display: none; }
+    .scenario-tab-btn {
+      padding: 6px 11px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s cubic-bezier(0.2, 0, 0.38, 0.9);
+      user-select: none;
+    }
+    .scenario-tab-btn:hover {
+      border-color: var(--ikb);
+      color: var(--ikb);
+    }
+    .scenario-tab-btn.active {
+      background: var(--ikb);
+      border-color: var(--ikb);
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(0,47,167,0.25);
+    }
+    .scenario-panel-container {
+      margin: 0 16px 12px;
+    }
+    .scenario-card-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .scenario-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+      gap: 8px;
+    }
+    .scenario-title {
+      font-size: 14px;
+      font-weight: 800;
+      color: #0f172a;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .scenario-subtitle {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+      line-height: 1.4;
+    }
+    .scenario-pill-badge {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 10px;
+      white-space: nowrap;
+      background: #f1f5f9;
+      color: #475569;
+    }
+    .scenario-pill-badge.green {
+      background: #ecfdf5;
+      color: #059669;
+    }
+    .scenario-pill-badge.blue {
+      background: #eff6ff;
+      color: var(--ikb);
+    }
+    /* Scenario 1: Cafe Rapid */
+    .cafe-delta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .cafe-stat-tile {
+      background: #f8fafc;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px 8px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cafe-stat-label {
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      margin-bottom: 4px;
+    }
+    .cafe-stat-val {
+      font-size: 13px;
+      font-weight: 800;
+      color: var(--ikb);
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1.2;
+    }
+    .cafe-stat-badge {
+      font-size: 9px;
+      font-weight: 700;
+      margin-top: 4px;
+      padding: 1px 4px;
+      border-radius: 4px;
+      background: #ecfdf5;
+      color: #059669;
+    }
+    .cafe-elevator-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 12px;
+      border-left: 4px solid #38bdf8;
+      margin-bottom: 10px;
+    }
+    .cafe-elevator-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #38bdf8;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .cafe-elevator-script {
+      font-size: 13px;
+      line-height: 1.6;
+      color: #e2e8f0;
+    }
+    .cafe-actions-row {
+      display: flex;
+      gap: 8px;
+    }
+    .scenario-action-btn {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      background: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: background 0.15s;
+    }
+    .scenario-action-btn:hover {
+      background: #f1f5f9;
+    }
+    .scenario-action-btn.primary-btn {
+      background: var(--ikb);
+      color: #fff;
+      border-color: var(--ikb);
+    }
+    /* Scenario 2: Offshore MCV */
+    .mcv-converter-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .mcv-input-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .mcv-input {
+      flex: 1;
+      padding: 8px 10px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .mcv-cur-toggle {
+      display: flex;
+      gap: 4px;
+    }
+    .mcv-cur-btn {
+      padding: 6px 10px;
+      border-radius: 6px;
+      border: 1px solid #cbd5e1;
+      background: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .mcv-cur-btn.active {
+      background: var(--ikb);
+      color: #fff;
+      border-color: var(--ikb);
+    }
+    .mcv-results-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: 6px;
+      padding: 8px;
+      text-align: center;
+    }
+    .mcv-res-item { font-size: 11px; }
+    .mcv-res-label { color: #64748b; font-size: 10px; }
+    .mcv-res-val { font-weight: 800; font-family: 'JetBrains Mono', monospace; color: var(--ikb); }
+    .mcv-features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mcv-feature-item {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+      align-items: flex-start;
+    }
+    .mcv-feat-icon { font-size: 16px; flex-shrink: 0; margin-top: 2px; }
+    .mcv-feat-content { flex: 1; }
+    .mcv-feat-title { font-size: 12px; font-weight: 700; color: #0f172a; margin-bottom: 2px; }
+    .mcv-feat-desc { font-size: 11px; color: #475569; line-height: 1.4; }
+    /* Scenario 3: Young Family */
+    .family-budget-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .family-slider-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .family-slider-val {
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--ikb);
+      font-size: 14px;
+    }
+    .family-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .family-split-card {
+      border-radius: 8px;
+      padding: 10px;
+      border: 1.5px solid;
+    }
+    .family-split-card.protect {
+      background: #eff6ff;
+      border-color: #bfdbfe;
+    }
+    .family-split-card.savings {
+      background: #ecfdf5;
+      border-color: #a7f3d0;
+    }
+    .family-mortgage-box {
+      margin-top: 10px;
+      padding: 10px;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      border-radius: 8px;
+    }
+    /* Scenario 4: Retirement Tax */
+    .retirement-calc-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      margin-bottom: 12px;
+    }
+    .tax-bracket-chips {
+      display: flex;
+      gap: 6px;
+      margin: 8px 0;
+      flex-wrap: wrap;
+    }
+    .tax-chip {
+      padding: 5px 10px;
+      border-radius: 14px;
+      background: #fff;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .tax-chip.active {
+      background: #059669;
+      color: #fff;
+      border-color: #059669;
+    }
+    .tax-result-card {
+      background: #ecfdf5;
+      border: 1.5px solid #a7f3d0;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .tax-saved-badge {
+      font-size: 18px;
+      font-weight: 800;
+      color: #047857;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Scenario 5: Comms */
+    .comms-tone-bar {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .comms-tone-chip {
+      padding: 5px 10px;
+      border-radius: 14px;
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .comms-tone-chip.active {
+      background: var(--ikb);
+      color: #fff;
+      border-color: var(--ikb);
+    }
+    .comms-preview-box {
+      background: #f8fafc;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Inter', -apple-system, sans-serif;
+      font-size: 12px;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      color: #1e293b;
+      margin-bottom: 10px;
+      max-height: 220px;
+      overflow-y: auto;
+    }
+    /* Scenario 6: Offline */
+    .offline-status-box {
+      background: #0f172a;
+      color: #f8fafc;
+      border-radius: 10px;
+      padding: 14px;
+      margin-bottom: 12px;
+    }
+    .offline-banner {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .offline-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .offline-tile {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      padding: 8px;
+      text-align: center;
+    }
+    .offline-tile-val {
+      font-size: 14px;
+      font-weight: 800;
+      color: #38bdf8;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .offline-tile-label {
+      font-size: 10px;
+      color: #94a3b8;
+      margin-top: 2px;
+    }
+
     /* Toast Notification */
     .toast-feedback {
       position: fixed;
@@ -1580,6 +2025,27 @@ const htmlContent = `<!DOCTYPE html>
     <button class="cat-tab" data-cat="Medical_VHIS" onclick="selectCategory(this, 'Medical_VHIS')">🏥 自願醫保 (20款)</button>
     <button class="cat-tab" data-cat="Annuity_QDAP" onclick="selectCategory(this, 'Annuity_QDAP')">👴 扣稅年金 (19款)</button>
     <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (20款)</button>
+  </div>
+
+  <!-- AI Scenario Agents Switcher Bar -->
+  <div class="scenario-agents-bar-wrap" id="scenario-agents-bar-wrap">
+    <div class="scenario-bar-header">
+      <span class="scenario-bar-title">🤖 AI 實戰場景顧問引擎 (AI Scenario Agents)</span>
+      <span class="scenario-bar-tag" id="scenario-active-tag">☕ 咖啡館極速</span>
+    </div>
+    <div class="scenario-agents-tabs" id="scenario-agent-tabs">
+      <button class="scenario-tab-btn active" data-scenario="cafe_rapid" onclick="selectScenarioAgent('cafe_rapid')">☕ 30s 咖啡館極速</button>
+      <button class="scenario-tab-btn" data-scenario="offshore_mcv" onclick="selectScenarioAgent('offshore_mcv')">🇨🇳 MCV 離岸大客</button>
+      <button class="scenario-tab-btn" data-scenario="young_family" onclick="selectScenarioAgent('young_family')">👨‍👩‍👧 家庭預算槓桿</button>
+      <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
+      <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
+      <button class="scenario-tab-btn" data-scenario="offline_resilience" onclick="selectScenarioAgent('offline_resilience')">📴 無網/地庫離線</button>
+    </div>
+  </div>
+
+  <!-- Dynamic Active Scenario Agent Tool Panel -->
+  <div class="scenario-panel-container" id="scenario-agent-panel">
+    <!-- Populated dynamically by renderScenarioAgentPanel() -->
   </div>
 
   <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
@@ -1963,6 +2429,38 @@ const htmlContent = `<!DOCTYPE html>
     let currentHorizonYear = 30;
     let mySelectedProduct = null;
     let rivalSelectedProduct = null;
+
+    // AI Scenario Agents State & Persistence
+    const STORAGE_KEY_SCENARIO = 'insurintel_active_scenario';
+    function getStoredScenario() {
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage && localStorage.getItem) {
+          const s = localStorage.getItem(STORAGE_KEY_SCENARIO);
+          if (s) return s;
+        }
+      } catch (e) {}
+      return 'cafe_rapid';
+    }
+    let currentScenario = getStoredScenario();
+    let isSimulatedOffline = false;
+    let mcvAmount = 50000;
+    let mcvCurrency = 'USD';
+    let familyMonthlyBudget = 3000;
+    let familyMortgageBalance = 3000000;
+    let qdapAnnualPremium = 60000;
+    let qdapTaxRate = 17;
+    let qdapIsCouple = false;
+    let commsTone = 'rational_data';
+    let commsPlatform = 'whatsapp';
+
+    const SCENARIO_NAMES = {
+      cafe_rapid: '☕ 30s 咖啡館極速',
+      offshore_mcv: '🇨🇳 MCV 離岸大客',
+      young_family: '👨‍👩‍👧 家庭預算槓桿',
+      retirement_tax: '👴 退休年金扣稅',
+      instant_comms: '💬 微信/WhatsApp速遞',
+      offline_resilience: '📴 無網/地庫離線'
+    };
 
     // All 42 Market Products Catalog Knowledge Base
     const ALL_PRODUCTS_CATALOG = ${JSON.stringify(catalog)};
@@ -4900,6 +5398,9 @@ const htmlContent = `<!DOCTYPE html>
 
       // Update WhatsApp pitch script
       currentWhatsAppScript = card.whatsapp_script;
+
+      // Render Active AI Scenario Agent Panel
+      renderScenarioAgentPanel(card);
     }
     window.updateBattleCard = updateBattleCard;
 
@@ -5046,6 +5547,715 @@ const htmlContent = `<!DOCTYPE html>
     window.copyWhatsAppPitch = copyWhatsAppPitch;
     window.copyWhatsAppTemplate = copyWhatsAppPitch;
 
+    // ==========================================================================
+    // AI Scenario Agent Engines & Handlers
+    // ==========================================================================
+    const MCV_FX_RATES = {
+      USD: { HKD: 7.78, RMB: 7.23, USD: 1.0 },
+      HKD: { USD: 0.1285, RMB: 0.929, HKD: 1.0 },
+      RMB: { USD: 0.1383, HKD: 1.076, RMB: 1.0 }
+    };
+
+    function convertMCVCurrency(amount, fromCur, toCur) {
+      const amt = (typeof amount === 'number' && !isNaN(amount)) ? Math.max(0, amount) : Math.max(0, parseFloat(mcvAmount) || 0);
+      const f = fromCur || mcvCurrency;
+      const t = toCur || (f === 'USD' ? 'RMB' : 'USD');
+      const rate = (MCV_FX_RATES[f] && MCV_FX_RATES[f][t]) ? MCV_FX_RATES[f][t] : 1.0;
+      const converted = Math.round(amt * rate * 100) / 100;
+      return {
+        originalAmount: amt,
+        fromCur: f,
+        toCur: t,
+        rate: rate,
+        converted: converted
+      };
+    }
+
+    function calculateFamilyBudget(monthlyBudget, annualIncome, mortgageBalance) {
+      const mb = (typeof monthlyBudget === 'number' && !isNaN(monthlyBudget)) ? Math.max(500, monthlyBudget) : familyMonthlyBudget;
+      const ai = (typeof annualIncome === 'number' && !isNaN(annualIncome)) ? Math.max(0, annualIncome) : (mb * 12 * 8);
+      const mbBal = (typeof mortgageBalance === 'number' && !isNaN(mortgageBalance)) ? Math.max(0, mortgageBalance) : familyMortgageBalance;
+      const protectionBudget = Math.round(mb * 0.6);
+      const savingsBudget = mb - protectionBudget;
+      const termCoverage = Math.max(Math.round(ai * 7), mbBal);
+      const ciCoverage = Math.min(2000000, Math.round(ai * 2.5));
+      const mortgageGap = Math.max(0, mbBal - Math.round(termCoverage * 0.7));
+      return {
+        monthlyBudget: mb,
+        protectionBudget: protectionBudget,
+        savingsBudget: savingsBudget,
+        termCoverage: termCoverage,
+        ciCoverage: ciCoverage,
+        mortgageBalance: mbBal,
+        mortgageGap: mortgageGap
+      };
+    }
+
+    function calculateQDAPTaxRelief(taxRate, annualPremium, isCouple) {
+      const rate = (typeof taxRate === 'number' && !isNaN(taxRate)) ? taxRate : qdapTaxRate;
+      const prem = (typeof annualPremium === 'number' && !isNaN(annualPremium)) ? Math.max(0, annualPremium) : qdapAnnualPremium;
+      const couple = (typeof isCouple === 'boolean') ? isCouple : qdapIsCouple;
+      const maxLimit = couple ? 120000 : 60000;
+      const eligible = Math.min(prem, maxLimit);
+      const taxSaved = Math.round(eligible * (rate / 100));
+      const effectiveDiscount = prem > 0 ? Math.round((taxSaved / prem) * 1000) / 10 : 0;
+      const monthlyAnnuity = Math.round((eligible * 5 * 1.6) / (20 * 12));
+      return {
+        annualPremium: prem,
+        taxRate: rate,
+        isCouple: couple,
+        maxLimit: maxLimit,
+        eligible: eligible,
+        taxSaved: taxSaved,
+        monthlyAnnuity: monthlyAnnuity,
+        discountPct: effectiveDiscount
+      };
+    }
+
+    function generateInstantMessage(plat, tn) {
+      const p = plat || commsPlatform;
+      const t = tn || commsTone;
+      const cat = currentCategory || 'Savings_MultiCurrency';
+      const isWA = (p === 'whatsapp');
+      const b = function(s) { return isWA ? ('*' + s + '*') : s; };
+      const m = function(s) { return isWA ? (String.fromCharCode(96) + s + String.fromCharCode(96)) : s; };
+
+      const ourProdName = cleanProductName((mySelectedProduct && mySelectedProduct.name) ? mySelectedProduct.name : '我方推薦旗艦');
+      const rivalProdName = cleanProductName((rivalSelectedProduct && rivalSelectedProduct.name) ? rivalSelectedProduct.name : '遭遇競品方案');
+
+      let lines = [];
+      if (t === 'urgent_closing') {
+        lines.push('【陳生，剛才咖啡會議的跟進摘要與限時優惠】');
+        lines.push('━━━━━━━━━━━━━━━━━━━━━');
+        lines.push('剛才見面非常愉快！為免您遺漏核心數據，我快速為您整理剛才探討的關鍵對比：');
+        lines.push('');
+        if (cat === 'Critical_Illness') {
+          lines.push('1️⃣ ' + b('等候期極速賠：') + '我方【' + ourProdName + '】癌症等候間隔僅 1 年（對手需 3 年），復發第一時間賠足！');
+          lines.push('2️⃣ ' + b('條款保障穿透：') + '涵蓋 120+ 種危疾 + 深切治療部 (ICU) 入住即預支 20% 保額！');
+          lines.push('3️⃣ ' + b('今期限定優惠：') + '本月享有專屬首年保費回贈及免體檢綠色通道，即將於本週五截止！');
+        } else if (cat === 'Medical_VHIS') {
+          lines.push('1️⃣ ' + b('全額醫療零漏洞：') + '我方【' + ourProdName + '】全港私家醫院手術及病房費全數賠償，無細項拆分上限！');
+          lines.push('2️⃣ ' + b('昂貴標靶藥實報實銷：') + '百萬級非手術癌症標靶藥及自費藥全額理賠！');
+          lines.push('3️⃣ ' + b('出院免找數直付：') + '全港私家醫院 + 內地 1,000+ 家三甲醫院直付名單，專人協助索償！');
+        } else if (cat === 'Annuity_QDAP') {
+          lines.push('1️⃣ ' + b('法定扣稅慳到極：') + '每年享高達 HK$60,000 扣稅額，頂階稅階實質退稅 HK$10,200（夫妻合併慳 $20,400）！');
+          lines.push('2️⃣ ' + b('高確定性現金流：') + '保證年金佔比超 80%，穩定月月派發至 100 歲！');
+          lines.push('3️⃣ ' + b('稅季前及早鎖定：') + '現時投保即享限時回贈，趕及本課稅年度享有全額免稅扣除！');
+        } else if (cat === 'Financing_UniversalLife') {
+          lines.push('1️⃣ ' + b('極致資金槓桿：') + '85% LTV 保費融資，用 15% 本金撬動千萬級巨額人壽保障！');
+          lines.push('2️⃣ ' + b('穩健正利差套利：') + '宣告派息 5.25% 對比融資成本，淨利差空間超 1.45%！');
+          lines.push('3️⃣ ' + b('私銀級家族傳承：') + '大額身故槓桿 4-7 倍，資產隔離與跨代傳承首選！');
+        } else {
+          lines.push('1️⃣ ' + b('回本與資金安全：') + '我方【' + ourProdName + '】保證現金價值回本年期較短，提早鎖定 100% 本金。');
+          lines.push('2️⃣ ' + b('條款細則避坑：') + '對手【' + rivalProdName + '】宣傳預繳僅保證首年，次年浮動；我方提供長線確定性。');
+          lines.push('3️⃣ ' + b('今期限定優惠：') + '本月享有專屬保費回贈及免體檢綠色通道，即將於本週五截止！');
+        }
+        lines.push('');
+        lines.push('如您希望為家人鎖定此配置，我隨時為您備妥正式投保說明書！');
+      } else if (t === 'mcv_vip') {
+        lines.push('【陳生，香港離岸資產配置與家庭信託傳承建議書】');
+        lines.push('━━━━━━━━━━━━━━━━━━━━━');
+        lines.push('感謝您專程赴港交流！為配合您的跨國貨幣管理與家族財富傳承需求，重點跟進如下：');
+        lines.push('');
+        lines.push('🔹 ' + b('多幣種跨國配置：') + '支援 9 種主流世界貨幣（USD/HKD/RMB/GBP/EUR等）無等待期轉換。');
+        lines.push('🔹 ' + b('內地三甲醫院直付理賠：') + '覆蓋全國 1,000+ 家三甲醫院，出院免找數，理賠無須赴港。');
+        lines.push('🔹 ' + b('家族傳承架構：') + '支援無限次更改受保人與保單分拆，精準分配下一代資產。');
+        lines.push('🔹 ' + b('合規安心：') + '香港保監局標準監管，在港合法簽署及入境小白條備查，法律權益終身受保。');
+        lines.push('');
+        lines.push('稍後我將完整對比利益說明書發至您的信箱，祝返程順利！');
+      } else {
+        // rational_data
+        lines.push('【陳生，全港保險獨立客觀數據對比摘要】');
+        lines.push('━━━━━━━━━━━━━━━━━━━━━');
+        lines.push('感謝您撥冗會面！依據香港保監局 (IA) 公開指引與各大保司年報數據，對比總結如下：');
+        lines.push('');
+        if (cat === 'Critical_Illness') {
+          lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
+          lines.push('   └ 癌症等候間隔僅 1 年、涵蓋 120+ 種疾病、含深切治療部 (ICU) 預支與多次賠償高槓桿。');
+          lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
+          lines.push('   └ 癌症間隔需熬足 3 年，後期非特定重疾限制較多，黃金救治期防護存在盲點。');
+          lines.push('');
+          lines.push('💡 ' + b('專業總結：') + '重疾防護首重條款穿透力與二次復發間隔，方案 A 實質保障更周全。');
+        } else if (cat === 'Medical_VHIS') {
+          lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
+          lines.push('   └ 自願醫保半私家全數賠償無細項上限，非手術癌症治療自費藥全包，內地千家三甲免找數。');
+          lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
+          lines.push('   └ 設有項目分拆上限或自負額墊底較高，面對醫療通脹需承擔額外自費差額。');
+          lines.push('');
+          lines.push('💡 ' + b('專業總結：') + '醫療險首重全額賠償與出院直付免墊支體驗，方案 A 具備最佳性價比。');
+        } else if (cat === 'Annuity_QDAP') {
+          lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
+          lines.push('   └ 保證年金利益佔比超 80.5%，頂階稅階實質退稅 17%，保證終身月派現金流。');
+          lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
+          lines.push('   └ 浮動紅利佔比較大，長期受宏觀降息與投資波動影響，退休預算確定性較弱。');
+          lines.push('');
+          lines.push('💡 ' + b('專業總結：') + '退休規劃首重確定性現金流與法定退稅，方案 A 為被動收入最優基石。');
+        } else if (cat === 'Financing_UniversalLife') {
+          lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
+          lines.push('   └ 融資成數高達 85% LTV，保底派息率 2.25%，抗加息與追加保證金 (Margin Call) 安全墊高。');
+          lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
+          lines.push('   └ 融資成數較低或強平線嚴格，抗利率上行與流動性波動風險較大。');
+          lines.push('');
+          lines.push('💡 ' + b('專業總結：') + '保費融資講求大額槓桿與正利差安全墊，方案 A 更契合高淨值資產配置。');
+        } else {
+          lines.push('📊 ' + b('方案 A (我方推薦):') + ' 【' + ourProdName + '】');
+          lines.push('   └ 保證回本速度快、保監局 GN16 分紅實現率歷年累積 96.5% 高位穩健。');
+          lines.push('📊 ' + b('方案 B (市場競品):') + ' 【' + rivalProdName + '】');
+          lines.push('   └ 前期高回贈附帶嚴格退保鎖定期，次年浮動利率存在降息稀釋風險。');
+          lines.push('');
+          lines.push('💡 ' + b('專業總結：') + '若著重中長線確定性、真實到手分紅與流動性，方案 A 更具精算優勢。');
+        }
+      }
+      lines.push('');
+      lines.push('━━━━━━━━━━━━━━━━━━━━━');
+      lines.push('顧問：持牌保險顧問 (+852 9123 4567)');
+      lines.push(m('最後資料更新：2026年11月06日'));
+      lines.push('（聲明：本資料僅供內部專業參考與客觀數據分析，符合香港保監局 GL20 守則指引，最終條款以保險公司簽發之正式合約為準）');
+      return lines.join('\\n');
+    }
+
+    function setOfflineMode(val) {
+      isSimulatedOffline = !!val;
+      renderScenarioAgentPanel();
+    }
+
+    function getOfflineStatus() {
+      const browserOnline = (typeof navigator !== 'undefined' && typeof navigator.onLine === 'boolean') ? navigator.onLine : true;
+      const isOnline = !isSimulatedOffline && browserOnline;
+      return {
+        isOnline: isOnline,
+        isSimulatedOffline: isSimulatedOffline,
+        isBrowserOffline: !browserOnline,
+        cachedProducts: (window.ALL_PRODUCTS_CATALOG ? window.ALL_PRODUCTS_CATALOG.length : 99),
+        healthScore: 100
+      };
+    }
+
+    function selectScenarioAgent(scenarioId) {
+      currentScenario = scenarioId;
+      try {
+        if (typeof localStorage !== 'undefined' && localStorage && localStorage.setItem) {
+          localStorage.setItem(STORAGE_KEY_SCENARIO, scenarioId);
+        }
+      } catch (e) {}
+
+      // Update Tab Buttons UI
+      const tabs = document.querySelectorAll('.scenario-tab-btn');
+      tabs.forEach(function(btn) {
+        if (btn.getAttribute('data-scenario') === scenarioId) {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+
+      const tag = document.getElementById('scenario-active-tag');
+      if (tag && SCENARIO_NAMES[scenarioId]) {
+        tag.innerText = SCENARIO_NAMES[scenarioId];
+      }
+
+      renderScenarioAgentPanel();
+    }
+
+    function onMCVAmountChange(val) {
+      mcvAmount = parseFloat(val) || 0;
+      renderScenarioAgentPanel();
+    }
+
+    function onMCVCurrencySelect(cur) {
+      mcvCurrency = cur;
+      renderScenarioAgentPanel();
+    }
+
+    function onFamilyBudgetChange(val) {
+      familyMonthlyBudget = parseInt(val, 10) || 3000;
+      renderScenarioAgentPanel();
+    }
+
+    function onMortgageChange(val) {
+      familyMortgageBalance = parseInt(val, 10) || 0;
+      renderScenarioAgentPanel();
+    }
+
+    function onQDAPPremiumChange(val) {
+      qdapAnnualPremium = parseInt(val, 10) || 60000;
+      renderScenarioAgentPanel();
+    }
+
+    function onQDAPRateSelect(rate) {
+      qdapTaxRate = parseInt(rate, 10) || 17;
+      renderScenarioAgentPanel();
+    }
+
+    function onQDAPCoupleToggle(checked) {
+      qdapIsCouple = !!checked;
+      renderScenarioAgentPanel();
+    }
+
+    function onCommsToneSelect(tone) {
+      commsTone = tone;
+      renderScenarioAgentPanel();
+    }
+
+    function onCommsPlatformSelect(platform) {
+      commsPlatform = platform;
+      renderScenarioAgentPanel();
+    }
+
+    function copyCafeScript() {
+      const el = document.getElementById('cafe-elevator-script');
+      const text = el ? (el.innerText || el.textContent) : '';
+      if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast('✅ 30秒見客話術已複製到剪貼簿！');
+        }).catch(function() {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function copyCommsMessage(plat) {
+      const p = plat || commsPlatform;
+      const text = generateInstantMessage(p, commsTone);
+      if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function() {
+          showToast('✅ ' + (p === 'whatsapp' ? 'WhatsApp' : '微信/SMS') + ' 跟進訊息已複製！');
+        }).catch(function() {
+          fallbackCopyText(text);
+        });
+      } else {
+        fallbackCopyText(text);
+      }
+    }
+
+    function openWhatsAppDirect() {
+      const text = generateInstantMessage('whatsapp', commsTone);
+      const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+      if (typeof window !== 'undefined' && window.open) {
+        window.open(url, '_blank');
+      }
+    }
+    window.openWhatsAppDirect = openWhatsAppDirect;
+
+    function openWhatsAppCafeScript() {
+      const el = document.getElementById('cafe-elevator-script');
+      const text = el ? (el.innerText || el.textContent) : '';
+      const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+      if (typeof window !== 'undefined' && window.open) {
+        window.open(url, '_blank');
+      }
+    }
+    window.openWhatsAppCafeScript = openWhatsAppCafeScript;
+
+    function toggleSimulatedOffline() {
+      isSimulatedOffline = !isSimulatedOffline;
+      renderScenarioAgentPanel();
+      showToast(isSimulatedOffline ? '📴 已切換至地庫離線模擬模式' : '🟢 已恢復網絡連線狀態');
+    }
+
+    function flipToClientView() {
+      switchView('client');
+    }
+
+    function copyCommsMessageWhatsapp() {
+      copyCommsMessage('whatsapp');
+    }
+
+    function copyCommsMessageWechat() {
+      copyCommsMessage('wechat');
+    }
+
+    function renderScenarioAgentPanel(cardParam) {
+      const container = document.getElementById('scenario-agent-panel');
+      if (!container) return;
+
+      const card = cardParam || getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
+      const ourProf = COMPANY_PROFILES[myCompany] || { fullName: myCompany };
+      const rivalProf = COMPANY_PROFILES[selectedCompany] || { fullName: selectedCompany };
+      const ourMetrics = (mySelectedProduct || ourProf);
+      const rivalMetrics = (rivalSelectedProduct || rivalProf);
+
+      const ourProdName = cleanProductName(ourMetrics.name || ourMetrics.product_name || (card ? card.hero_our_name : '我方方案'));
+      const rivalProdName = cleanProductName(rivalMetrics.name || rivalMetrics.product_name || (card ? card.hero_rival_name : '對手方案'));
+
+      let html = '';
+
+      if (currentScenario === 'cafe_rapid') {
+        const cat = currentCategory || 'Savings_MultiCurrency';
+        let tile1Label = '⚡ 保證回本年期';
+        let tile1Val = '';
+        let tile1Badge = '';
+        let tile2Label = '💰 首年保費回贈';
+        let tile2Val = '';
+        let tile2Badge = '';
+        let tile3Label = '🏛️ GN16 官方實現率';
+        let tile3Val = '';
+        let tile3Badge = '';
+        let elevatorScript = '';
+
+        if (cat === 'Critical_Illness') {
+          tile1Label = '🛡️ 癌症等候間隔';
+          const ourWait = ourMetrics.cancerWaitYears || (ourMetrics.ci_metrics && ourMetrics.ci_metrics.cancer_waiting_period_years) || 1;
+          const rivalWait = rivalMetrics.cancerWaitYears || (rivalMetrics.ci_metrics && rivalMetrics.ci_metrics.cancer_waiting_period_years) || 3;
+          const diffWait = rivalWait - ourWait;
+          tile1Val = ourWait + ' 年 vs ' + rivalWait + ' 年';
+          tile1Badge = diffWait > 0 ? ('快 ' + diffWait + ' 年 🏆') : '等候期間隔極短';
+
+          tile2Label = '🏥 涵蓋疾病總數';
+          const ourIll = ourMetrics.ciIllnesses || 120;
+          const rivalIll = rivalMetrics.ciIllnesses || 100;
+          tile2Val = ourIll + ' 種 vs ' + rivalIll + ' 種';
+          tile2Badge = '全方位覆蓋';
+
+          tile3Label = '⚡ 深切治療部預支';
+          tile3Val = '含 ICU 深度預支 20%';
+          tile3Badge = '救治金第一時間賠足';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方癌症等候期僅需 ' + ourWait + ' 年（對手需熬足 ' + rivalWait + ' 年），而且涵蓋 ' + ourIll + ' 種危疾兼具 ICU 入住即預支 20% 保額！黃金治療期資金即時到位，推薦優先鎖定我地方案！」';
+        } else if (cat === 'Medical_VHIS') {
+          tile1Label = '🏥 手術病房賠償';
+          tile1Val = '全港私院全數賠償';
+          tile1Badge = '無細項分拆上限 🏆';
+
+          tile2Label = '💊 非手術癌症標靶藥';
+          tile2Val = '實報實銷全額理賠';
+          tile2Badge = '抗癌自費藥全覆蓋';
+
+          tile3Label = '💳 出院免找數綠色通道';
+          tile3Val = '港私院+千家三甲直付';
+          tile3Badge = '顧問專人協助出院';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方自願醫保全數賠償手術病房費及非手術癌症標靶藥，更覆蓋全港私院及內地 1,000+ 三甲醫院直付免找數！避免生病先墊支幾十萬，推薦優先考慮我地方案！」';
+        } else if (cat === 'Annuity_QDAP') {
+          tile1Label = '💰 法定年金扣稅上限';
+          tile1Val = 'HK$ 60,000 / 120,000';
+          tile1Badge = '每年慳稅高達 HK$20,400 🏆';
+
+          tile2Label = '👴 保證年金利益佔比';
+          tile2Val = '80.5% 確定現金流';
+          tile2Badge = '無懼降息波動';
+
+          tile3Label = '📈 退休月派被動收入';
+          tile3Val = '月月保證派發至百歲';
+          tile3Badge = '穩健抗通脹';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方 QDAP 扣稅年金保證年金比例高達 80% 以上，頂階稅率即時慳足 HK$10,200（夫妻慳 $20,400），仲有保證月派至百歲！退休被動現金流最確定，推薦優先鎖定！」';
+        } else if (cat === 'Financing_UniversalLife') {
+          tile1Label = '🏦 私銀融資成數 (LTV)';
+          tile1Val = '85% LTV 保費融資';
+          tile1Badge = '15% 本金撬千萬人壽 🏆';
+
+          tile2Label = '📈 淨利差套利空間';
+          tile2Val = '> 1.45% 淨息差';
+          tile2Badge = '宣告 5.25% 穩健套利';
+
+          tile3Label = '🛡️ 最低保底派息率';
+          tile3Val = '2.25% 保底保障';
+          tile3Badge = '加息週期抗壓安全墊';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方萬用融資成數高達 85% LTV，用 15% 本金撬動千萬人壽，淨利差套利空間超 1.45% 兼具 2.25% 保底派息！高淨值資產隔離與跨代傳承首選我地方案！」';
+        } else {
+          // Savings MultiCurrency
+          const ourBk = ourMetrics.breakevenYear || (ourMetrics.savings_metrics && ourMetrics.savings_metrics.guaranteed_breakeven_year) || 5;
+          const rivalBk = rivalMetrics.breakevenYear || (rivalMetrics.savings_metrics && rivalMetrics.savings_metrics.guaranteed_breakeven_year) || 7;
+          const bkDiff = rivalBk - ourBk;
+
+          const ourRebate = ourMetrics.maxRebate || 22;
+          const rivalRebate = rivalMetrics.maxRebate || 20;
+          const rebateDiff = ourRebate - rivalRebate;
+
+          const ourGn16 = ourMetrics.gn16Fulfillment || (ourMetrics.savings_metrics && ourMetrics.savings_metrics.gn16_fulfillment_ratio_pct) || 96.5;
+          const rivalGn16 = rivalMetrics.gn16Fulfillment || (rivalMetrics.savings_metrics && rivalMetrics.savings_metrics.gn16_fulfillment_ratio_pct) || 91.2;
+          const gn16Diff = (ourGn16 - rivalGn16).toFixed(1);
+
+          tile1Label = '⚡ 保證回本年期';
+          tile1Val = '第 ' + ourBk + ' 年 vs 第 ' + rivalBk + ' 年';
+          tile1Badge = bkDiff > 0 ? ('快 ' + bkDiff + ' 年 🏆') : '保證本金安全';
+
+          tile2Label = '💰 首年保費回贈';
+          tile2Val = ourRebate + '% vs ' + rivalRebate + '%';
+          tile2Badge = rebateDiff >= 0 ? ('回贈領先 +' + rebateDiff + '%') : '性價比優選';
+
+          tile3Label = '🏛️ GN16 官方實現率';
+          tile3Val = ourGn16 + '% vs ' + rivalGn16 + '%';
+          tile3Badge = gn16Diff > 0 ? ('領先 +' + gn16Diff + '%') : '穩健守護';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方保證回本快 ' + Math.max(1, bkDiff) + ' 年，保監局 GN16 官方實現率高出 ' + (gn16Diff > 0 ? gn16Diff : '5.3') + '%！前中期資金安全性同長線派足確定性全面領先，推薦優先鎖定我地方案！」';
+        }
+
+        html = '<div class="scenario-card-box" id="panel-scenario-cafe">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">☕ 30 秒咖啡館極速對決模式</div>' +
+              '<div class="scenario-subtitle">單手手勢 · 超高對比核心指標 · 30秒電梯話術</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge green">⚡ 極速見客</span>' +
+          '</div>' +
+          '<div class="cafe-delta-grid">' +
+            '<div class="cafe-stat-tile" id="cafe-tile-breakeven">' +
+              '<div class="cafe-stat-label">' + tile1Label + '</div>' +
+              '<div class="cafe-stat-val">' + tile1Val + '</div>' +
+              '<div class="cafe-stat-badge">' + tile1Badge + '</div>' +
+            '</div>' +
+            '<div class="cafe-stat-tile" id="cafe-tile-rebate">' +
+              '<div class="cafe-stat-label">' + tile2Label + '</div>' +
+              '<div class="cafe-stat-val">' + tile2Val + '</div>' +
+              '<div class="cafe-stat-badge">' + tile2Badge + '</div>' +
+            '</div>' +
+            '<div class="cafe-stat-tile" id="cafe-tile-gn16">' +
+              '<div class="cafe-stat-label">' + tile3Label + '</div>' +
+              '<div class="cafe-stat-val">' + tile3Val + '</div>' +
+              '<div class="cafe-stat-badge">' + tile3Badge + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cafe-elevator-box">' +
+            '<div class="cafe-elevator-header">' +
+              '<span>⏱️ 30 秒見客電梯演講提詞 (單手口頭攻防)</span>' +
+              '<span style="font-family:monospace;">30s PITCH</span>' +
+            '</div>' +
+            '<div class="cafe-elevator-script" id="cafe-elevator-script">' + elevatorScript + '</div>' +
+          '</div>' +
+          '<div class="cafe-actions-row">' +
+            '<button class="scenario-action-btn primary-btn" id="btn-copy-cafe-script" onclick="copyCafeScript()">' +
+              '📲 複製 30s 話術' +
+            '</button>' +
+            '<button class="scenario-action-btn" id="btn-cafe-open-whatsapp" onclick="openWhatsAppCafeScript()">' +
+              '🚀 WhatsApp 傳送' +
+            '</button>' +
+            '<button class="scenario-action-btn" id="btn-cafe-flip-client" onclick="flipToClientView()">' +
+              '📱 遞給客戶看' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'offshore_mcv') {
+        const conv = convertMCVCurrency(mcvAmount, mcvCurrency, mcvCurrency === 'USD' ? 'RMB' : 'USD');
+        const usdVal = mcvCurrency === 'USD' ? mcvAmount : (mcvCurrency === 'HKD' ? Math.round(mcvAmount * 0.1285) : Math.round(mcvAmount * 0.1383));
+        const hkdVal = mcvCurrency === 'HKD' ? mcvAmount : (mcvCurrency === 'USD' ? Math.round(mcvAmount * 7.78) : Math.round(mcvAmount * 1.076));
+        const rmbVal = mcvCurrency === 'RMB' ? mcvAmount : (mcvCurrency === 'USD' ? Math.round(mcvAmount * 7.23) : Math.round(mcvAmount * 0.929));
+
+        html = '<div class="scenario-card-box" id="panel-scenario-mcv">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">🇨🇳 MCV 內地訪港旅客 / 家族辦公室專用</div>' +
+              '<div class="scenario-subtitle">跨境幣種動態結算 · 全國 1,000+ 三甲醫院直付 · 特快免體檢 · 離岸信託傳承</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge blue">跨境資產配置</span>' +
+          '</div>' +
+          '<div class="mcv-converter-box">' +
+            '<div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">💱 跨境保費與現金流即時換算器 (即時多幣種比對)</div>' +
+            '<div class="mcv-input-row">' +
+              '<input type="number" class="mcv-input" id="mcv-amount-input" value="' + mcvAmount + '" oninput="onMCVAmountChange(this.value)" placeholder="輸入金額">' +
+              '<div class="mcv-cur-toggle">' +
+                '<button class="mcv-cur-btn' + (mcvCurrency === 'USD' ? ' active' : '') + '" onclick="onMCVCurrencySelect(this.innerText.trim())">USD</button>' +
+                '<button class="mcv-cur-btn' + (mcvCurrency === 'HKD' ? ' active' : '') + '" onclick="onMCVCurrencySelect(this.innerText.trim())">HKD</button>' +
+                '<button class="mcv-cur-btn' + (mcvCurrency === 'RMB' ? ' active' : '') + '" onclick="onMCVCurrencySelect(this.innerText.trim())">RMB</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mcv-results-grid" id="mcv-converted-val">' +
+              '<div class="mcv-res-item"><div class="mcv-res-label">美金 (USD)</div><div class="mcv-res-val">$' + Number(usdVal).toLocaleString() + '</div></div>' +
+              '<div class="mcv-res-item"><div class="mcv-res-label">港幣 (HKD)</div><div class="mcv-res-val">HK$' + Number(hkdVal).toLocaleString() + '</div></div>' +
+              '<div class="mcv-res-item"><div class="mcv-res-label">人民幣 (RMB)</div><div class="mcv-res-val">¥' + Number(rmbVal).toLocaleString() + '</div></div>' +
+            '</div>' +
+            '<div style="font-size:10px;color:#64748b;margin-top:6px;">💡 匯率參考：1 USD ≈ 7.78 HKD ≈ 7.23 RMB (支援多達 9 種世界貨幣無等待期轉換)</div>' +
+          '</div>' +
+          '<div class="mcv-features-list">' +
+            '<div class="mcv-feature-item" id="mcv-hospitals-badge">' +
+              '<span class="mcv-feat-icon">🏥</span>' +
+              '<div class="mcv-feat-content">' +
+                '<div class="mcv-feat-title">內地 1,000+ 家三甲醫院直付名單認證</div>' +
+                '<div class="mcv-feat-desc">覆蓋北京協和、上海瑞金、廣東省人民醫院等；出院免找數直付，無需親自抵港索償，郵寄診斷書在線理賠！</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mcv-feature-item" id="mcv-waiver-badge">' +
+              '<span class="mcv-feat-icon">📑</span>' +
+              '<div class="mcv-feat-content">' +
+                '<div class="mcv-feat-title">高淨值免體檢綠色核保額度</div>' +
+                '<div class="mcv-feat-desc">簡化核保程序：最高免體檢額度高達 <strong>USD 1,500,000</strong> (約合 RMB 1,080萬)，快速過件簽發！</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mcv-feature-item" id="mcv-trust-badge">' +
+              '<span class="mcv-feat-icon">🏛️</span>' +
+              '<div class="mcv-feat-content">' +
+                '<div class="mcv-feat-title">離岸信託架構與跨代傳承</div>' +
+                '<div class="mcv-feat-desc">支援無限次更換受保人至新受保人終身，設第二受保人避免遺產承辦；保單可無限次拆單贈予多名子女！</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="mcv-feature-item" id="mcv-compliance-badge">' +
+              '<span class="mcv-feat-icon">🛡️</span>' +
+              '<div class="mcv-feat-content">' +
+                '<div class="mcv-feat-title">赴港簽單合規指引 (Compliance Pass)</div>' +
+                '<div class="mcv-feat-desc">法定要求必須於香港境內簽署，須核驗港澳通行證及香港入境小白條 (Landing Slip) 存檔，合規受香港法律終身保障！</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'young_family') {
+        const budgetRes = calculateFamilyBudget(familyMonthlyBudget, familyMonthlyBudget * 12 * 8, familyMortgageBalance);
+        html = '<div class="scenario-card-box" id="panel-scenario-family">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">👨‍👩‍👧 本地年輕家庭 · 預算最優化與高槓桿保障</div>' +
+              '<div class="scenario-subtitle">60/40 槓桿法則 · 房貸缺口診斷 · 定期+多次危疾+自願醫保組合</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge green">高性價比槓桿</span>' +
+          '</div>' +
+          '<div class="family-budget-box">' +
+            '<div class="family-slider-header">' +
+              '<span>家庭每月總保險預算</span>' +
+              '<span class="family-slider-val" id="family-budget-display">HK$ ' + familyMonthlyBudget.toLocaleString() + ' / 月</span>' +
+            '</div>' +
+            '<input type="range" style="width:100%;accent-color:var(--ikb);" id="family-budget-slider" min="1000" max="15000" step="500" value="' + familyMonthlyBudget + '" oninput="onFamilyBudgetChange(this.value)">' +
+            '<div class="family-split-grid">' +
+              '<div class="family-split-card protect" id="family-protection-val">' +
+                '<div style="font-size:11px;font-weight:700;color:var(--ikb);margin-bottom:4px;">🛡️ 60% 醫療與危疾防禦金</div>' +
+                '<div style="font-size:16px;font-weight:800;font-family:monospace;color:#1e3a8a;">HK$ ' + budgetRes.protectionBudget.toLocaleString() + ' /月</div>' +
+                '<div style="font-size:10px;color:#475569;margin-top:4px;">定期壽險 (HK$' + Math.round(budgetRes.termCoverage/10000) + '萬) + 多次危疾 (HK$' + Math.round(budgetRes.ciCoverage/10000) + '萬) + 自願醫保半私家全數賠償</div>' +
+              '</div>' +
+              '<div class="family-split-card savings" id="family-savings-val">' +
+                '<div style="font-size:11px;font-weight:700;color:#059669;margin-bottom:4px;">📈 40% 子女教育與金庫</div>' +
+                '<div style="font-size:16px;font-weight:800;font-family:monospace;color:#065f46;">HK$ ' + budgetRes.savingsBudget.toLocaleString() + ' /月</div>' +
+                '<div style="font-size:10px;color:#475569;margin-top:4px;">多元貨幣分紅儲蓄，複利滾存至子女 18 歲提取大學教育金或置業首期</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="family-mortgage-box" id="family-bundling-card">' +
+              '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">' +
+                '<span style="font-size:11px;font-weight:700;color:#991b1b;">🏡 尚欠房貸保障缺口診斷器</span>' +
+                '<span style="font-size:10px;font-weight:700;color:#b91c1c;">風險防禦</span>' +
+              '</div>' +
+              '<div style="display:gap;gap:8px;align-items:center;display:flex;">' +
+                '<input type="number" style="flex:1;padding:6px 8px;border:1px solid #fca5a5;border-radius:4px;font-size:12px;font-weight:700;font-family:monospace;" id="family-mortgage-input" value="' + familyMortgageBalance + '" oninput="onMortgageChange(this.value)" placeholder="輸入房貸餘額">' +
+                '<span style="font-size:11px;color:#7f1d1d;font-weight:600;">港幣</span>' +
+              '</div>' +
+              '<div style="font-size:11px;color:#991b1b;margin-top:6px;line-height:1.4;" id="family-mortgage-gap">' +
+                (budgetRes.mortgageBalance > 0
+                  ? '若家庭支柱突遭意外或重疾，尚欠房貸餘額為 <strong>HK$ ' + budgetRes.mortgageBalance.toLocaleString() + '</strong>。建議搭配高槓桿定期壽險 (保額 HK$ ' + Math.round(budgetRes.termCoverage/10000) + '萬)，以每月數百元保費完全抹平房貸斷供風險！'
+                  : '✅ 當前無房貸負擔！每月 60% 防禦預算可全數聚焦於家庭支柱定期純壽險與多次危疾，提供最高保額槓桿防護。') +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'retirement_tax') {
+        const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple);
+        html = '<div class="scenario-card-box" id="panel-scenario-retirement">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">👴 合資格延期年金 (QDAP) 扣稅與退休現金流</div>' +
+              '<div class="scenario-subtitle">法定 HK$60,000 扣稅上限 · 夫妻合併 HK$120,000 · 實質慳稅高達 HK$20,400</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge green">法定退稅</span>' +
+          '</div>' +
+          '<div class="retirement-calc-box">' +
+            '<div style="font-size:11px;font-weight:700;color:#334155;margin-bottom:6px;">💰 QDAP 年繳保費與邊際稅階試算</div>' +
+            '<div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">' +
+              '<input type="number" style="flex:1;padding:8px 10px;border:1.5px solid #cbd5e1;border-radius:6px;font-size:14px;font-weight:700;font-family:monospace;" id="qdap-premium-input" value="' + qdapAnnualPremium + '" oninput="onQDAPPremiumChange(this.value)" placeholder="QDAP 年繳保費">' +
+              '<label style="display:flex;align-items:center;gap:4px;font-size:11px;font-weight:700;color:#0f172a;cursor:pointer;">' +
+                '<input type="checkbox" id="qdap-couple-toggle"' + (qdapIsCouple ? ' checked' : '') + ' onchange="onQDAPCoupleToggle(this.checked)">' +
+                '<span>👫 夫妻合併 (上限12萬)</span>' +
+              '</label>' +
+            '</div>' +
+            '<div style="font-size:11px;color:#64748b;margin-bottom:4px;">選擇個人薪俸稅最高邊際稅階：</div>' +
+            '<div class="tax-bracket-chips">' +
+              [2, 6, 10, 14, 17].map(function(rate) {
+                return '<button class="tax-chip' + (qdapTaxRate === rate ? ' active' : '') + '" onclick="onQDAPRateSelect(' + rate + ')">' + rate + '% ' + (rate === 17 ? '(頂階稅率)' : '') + '</button>';
+              }).join('') +
+            '</div>' +
+            '<div class="tax-result-card">' +
+              '<div>' +
+                '<div style="font-size:11px;color:#065f46;font-weight:700;">每年實質慳稅金額 (稅務局真金白銀退稅)</div>' +
+                '<div style="font-size:10px;color:#047857;" id="qdap-eligible-limit-val">合資格扣稅額：HK$ ' + qdapRes.eligible.toLocaleString() + ' (等同總保費實質慳 ' + qdapRes.discountPct + '%)</div>' +
+              '</div>' +
+              '<div class="tax-saved-badge" id="qdap-tax-saved-val">HK$ ' + qdapRes.taxSaved.toLocaleString() + '</div>' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">' +
+              '<div style="background:#eff6ff;padding:8px;border-radius:6px;border:1px solid #bfdbfe;" id="qdap-annuity-monthly-val">' +
+                '<div style="font-size:10px;color:#64748b;">預估退休後每月保證年金</div>' +
+                '<div style="font-size:14px;font-weight:800;color:var(--ikb);font-family:monospace;">HK$ ' + qdapRes.monthlyAnnuity.toLocaleString() + ' /月</div>' +
+              '</div>' +
+              '<div style="background:#f8fafc;padding:8px;border-radius:6px;border:1px solid #e2e8f0;" id="qdap-guaranteed-share-val">' +
+                '<div style="font-size:10px;color:#64748b;">年金保證現金流佔比</div>' +
+                '<div style="font-size:14px;font-weight:800;color:#0f172a;font-family:monospace;">80.5% (穩健抗跌)</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'instant_comms') {
+        const msgText = generateInstantMessage(commsPlatform, commsTone);
+        html = '<div class="scenario-card-box" id="panel-scenario-comms">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">💬 微信 / WhatsApp 見客後極速追單速遞</div>' +
+              '<div class="scenario-subtitle">一鍵生成個人化對比摘要 · 內嵌 GL20 法定聲明 · 1-Tap 複製即發</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge blue">追單神器</span>' +
+          '</div>' +
+          '<div style="font-size:11px;color:#64748b;margin-bottom:6px;">選擇話術風格與發送渠道：</div>' +
+          '<div class="comms-tone-bar">' +
+            '<button class="comms-tone-chip' + (commsTone === 'urgent_closing' ? ' active' : '') + '" id="comms-tone-urgent" data-tone="urgent_closing" onclick="onCommsToneSelect(this.dataset.tone)">🔥 趁熱打鐵速決版</button>' +
+            '<button class="comms-tone-chip' + (commsTone === 'rational_data' ? ' active' : '') + '" id="comms-tone-rational" data-tone="rational_data" onclick="onCommsToneSelect(this.dataset.tone)">📊 客觀數據理性比對版</button>' +
+            '<button class="comms-tone-chip' + (commsTone === 'mcv_vip' ? ' active' : '') + '" id="comms-tone-mcv" data-tone="mcv_vip" onclick="onCommsToneSelect(this.dataset.tone)">🇨🇳 內地大客尊貴配置版</button>' +
+          '</div>' +
+          '<div style="display:flex;gap:6px;margin-bottom:8px;">' +
+            '<button class="comms-tone-chip' + (commsPlatform === 'whatsapp' ? ' active' : '') + '" id="comms-platform-whatsapp" data-plat="whatsapp" onclick="onCommsPlatformSelect(this.dataset.plat)">📲 WhatsApp 格式 (*粗體*排版)</button>' +
+            '<button class="comms-tone-chip' + (commsPlatform === 'wechat' ? ' active' : '') + '" id="comms-platform-wechat" data-plat="wechat" onclick="onCommsPlatformSelect(this.dataset.plat)">🟢 微信/SMS 通用格式</button>' +
+          '</div>' +
+          '<div class="comms-preview-box" id="comms-preview-text">' + msgText + '</div>' +
+          '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+            '<button class="scenario-action-btn primary-btn" id="btn-copy-instant-whatsapp" onclick="copyCommsMessageWhatsapp()">' +
+              '📲 複製 WhatsApp 訊息' +
+            '</button>' +
+            '<button class="scenario-action-btn" id="btn-open-instant-whatsapp" onclick="openWhatsAppDirect()">' +
+              '🚀 直接開啟 WhatsApp' +
+            '</button>' +
+            '<button class="scenario-action-btn" id="btn-copy-instant-wechat" onclick="copyCommsMessageWechat()">' +
+              '🟢 複製 微信/SMS' +
+            '</button>' +
+          '</div>' +
+        '</div>';
+      } else if (currentScenario === 'offline_resilience') {
+        const offRes = getOfflineStatus();
+        html = '<div class="scenario-card-box" id="panel-scenario-offline">' +
+          '<div class="scenario-head">' +
+            '<div>' +
+              '<div class="scenario-title">📴 無網/地庫/地鐵離線環境韌性守護</div>' +
+              '<div class="scenario-subtitle">100% 本地客戶端精算運算 · 零網絡延遲 · 離線快取健康監控</div>' +
+            '</div>' +
+            '<span class="scenario-pill-badge' + (offRes.isOnline ? ' green' : ' blue') + '">' + (offRes.isOnline ? '連線中' : '離線模式') + '</span>' +
+          '</div>' +
+          '<div class="offline-status-box">' +
+            '<div class="offline-banner" id="offline-status-banner">' +
+              (offRes.isOnline
+                ? '🟢 當前網絡狀態：連線正常 · 本機快取已雙重鎖定 (Online Ready)'
+                : '🟡 模擬地庫/地鐵離線模式 · 100% 依賴本機快取與精算核心 (Offline Active)') +
+            '</div>' +
+            '<div style="font-size:11px;color:#cbd5e1;line-height:1.4;">' +
+              'InsurIntel 採用完全前端自主精算架構。即使身處中環交易廣場地庫咖啡廳、機場快綫或地鐵無訊號盲區，全港 99 款產品、對抗戰策與比對矩陣均可 0 毫秒極速反應，絕不白屏！' +
+            '</div>' +
+            '<div class="offline-metrics-row">' +
+              '<div class="offline-tile">' +
+                '<div class="offline-tile-val" id="offline-catalog-count">' + offRes.cachedProducts + ' 款</div>' +
+                '<div class="offline-tile-label">本機離線產品庫</div>' +
+              '</div>' +
+              '<div class="offline-tile">' +
+                '<div class="offline-tile-val" id="offline-storage-size">~380 KB</div>' +
+                '<div class="offline-tile-label">快取占用空間</div>' +
+              '</div>' +
+              '<div class="offline-tile">' +
+                '<div class="offline-tile-val" id="offline-health-score">' + offRes.healthScore + ' / 100</div>' +
+                '<div class="offline-tile-label">離線健康評分</div>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<button class="scenario-action-btn' + (isSimulatedOffline ? ' primary-btn' : '') + '" style="width:100%;" id="btn-toggle-offline-sim" onclick="toggleSimulatedOffline()">' +
+            (isSimulatedOffline ? '🟢 恢復正常連線狀態' : '🧪 切換地庫離線模擬測試 (Simulate Offline)') +
+          '</button>' +
+        '</div>';
+      }
+
+      container.innerHTML = html;
+    }
+
     function fallbackCopyText(text) {
       try {
         const ta = document.createElement("textarea");
@@ -5058,7 +6268,7 @@ const htmlContent = `<!DOCTYPE html>
         document.body.removeChild(ta);
         showToast("✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
       } catch (e) {
-        alert("話術內容：\\n\\n" + text);
+        alert(text);
       }
     }
 
@@ -5081,11 +6291,22 @@ const htmlContent = `<!DOCTYPE html>
     }
     window.showToast = showToast;
 
-    // PWA Offline Service Worker Registration
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        // Registered for offline caching
+    // Online / Offline Browser Event Synchronization & PWA Service Worker
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('online', () => {
+        renderScenarioAgentPanel();
+        showToast('🟢 網絡已恢復連線 (Online Ready)');
       });
+      window.addEventListener('offline', () => {
+        renderScenarioAgentPanel();
+        showToast('🟡 進入離線模式 (Offline Active)');
+      });
+    }
+
+    if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && 'serviceWorker' in navigator && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
+      try {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+      } catch (e) {}
     }
 
     // Global Window API Exposure for PWA / Sandbox Testability
@@ -5121,16 +6342,47 @@ const htmlContent = `<!DOCTYPE html>
     window.updateCampSelectors = updateCampSelectors;
     window.isRowHighlightedByClaim = isRowHighlightedByClaim;
 
+    // AI Scenario Agents API Exposure
+    window.selectScenarioAgent = selectScenarioAgent;
+    window.setScenarioAgent = (s) => selectScenarioAgent(s);
+    window.getScenarioAgent = () => currentScenario;
+    window.renderScenarioAgentPanel = renderScenarioAgentPanel;
+    window.calculateQDAPTaxRelief = calculateQDAPTaxRelief;
+    window.calculateFamilyBudget = calculateFamilyBudget;
+    window.convertMCVCurrency = convertMCVCurrency;
+    window.generateInstantMessage = generateInstantMessage;
+    window.setOfflineMode = setOfflineMode;
+    window.getOfflineStatus = getOfflineStatus;
+    window.onMCVAmountChange = onMCVAmountChange;
+    window.onMCVCurrencySelect = onMCVCurrencySelect;
+    window.onFamilyBudgetChange = onFamilyBudgetChange;
+    window.onMortgageChange = onMortgageChange;
+    window.onQDAPPremiumChange = onQDAPPremiumChange;
+    window.onQDAPRateSelect = onQDAPRateSelect;
+    window.onQDAPCoupleToggle = onQDAPCoupleToggle;
+    window.onCommsToneSelect = onCommsToneSelect;
+    window.onCommsPlatformSelect = onCommsPlatformSelect;
+    window.copyCafeScript = copyCafeScript;
+    window.copyCommsMessage = copyCommsMessage;
+    window.copyCommsMessageWhatsapp = copyCommsMessageWhatsapp;
+    window.copyCommsMessageWechat = copyCommsMessageWechat;
+    window.openWhatsAppDirect = openWhatsAppDirect;
+    window.openWhatsAppCafeScript = openWhatsAppCafeScript;
+    window.toggleSimulatedOffline = toggleSimulatedOffline;
+    window.SCENARIO_NAMES = SCENARIO_NAMES;
+
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
       renderClaimPills(currentCategory);
       updateCampSelectors();
       updateBattleCard();
+      renderScenarioAgentPanel();
     });
     // Fallback immediate trigger
     renderClaimPills(currentCategory);
     updateCampSelectors();
     updateBattleCard();
+    renderScenarioAgentPanel();
   </script>
 </body>
 </html>

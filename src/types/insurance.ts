@@ -300,3 +300,92 @@ export interface AgentBrandingConfig {
 
 export type AgentProfileStamp = AgentBrandingConfig;
 
+/**
+ * 6 大 AI 實戰場景顧問類型
+ */
+export type ScenarioAgentType =
+  | "cafe_rapid"        // ☕ 30秒咖啡館極速
+  | "offshore_mcv"      // 🇨🇳 MCV 離岸大客 / 家族辦公室
+  | "young_family"      // 👨‍👩‍👧 家庭預算與高槓桿保障
+  | "retirement_tax"    // 👴 退休年金與稅務優化 (QDAP)
+  | "instant_comms"     // 💬 微信/WhatsApp 極速追客速遞
+  | "offline_resilience"; // 📴 無網/地庫離線彈性韌性
+
+export interface CafePitchOutput {
+  scenario: "cafe_rapid";
+  headline: string;
+  elevatorScript30s: string;
+  punchlineBullets: string[];
+  deltaBadges: {
+    breakevenDelta: string;
+    rebateDelta: string;
+    gn16Delta: string;
+    statusTag: string;
+  };
+  highContrastColor: string;
+}
+
+export interface MCVConversionOutput {
+  scenario: "offshore_mcv";
+  originalAmount: number;
+  fromCurrency: Currency;
+  toCurrency: Currency;
+  convertedAmount: number;
+  exchangeRate: number;
+  rateNotes: string;
+  mainland3AHospitalCovered: boolean;
+  simplifiedUnderwritingUSD: number;
+  trustSuccessionSummary: string;
+  complianceGuidelines: string[];
+}
+
+export interface FamilyBudgetOutput {
+  scenario: "young_family";
+  monthlyBudgetHKD: number;
+  annualIncomeHKD: number;
+  mortgageBalanceHKD: number;
+  recommendedProtectionBudgetHKD: number; // 60%
+  recommendedSavingsBudgetHKD: number;    // 40%
+  recommendedLifeCICoverageHKD: number;   // 7-10x income
+  mortgageDeficitGapHKD: number;
+  bundlingStrategy: {
+    termLifeCoverageHKD: number;
+    ciMultipleCoverageHKD: number;
+    vhisPlanType: string;
+    monthlyPremiumEstimateHKD: number;
+  };
+}
+
+export interface QDAPTaxOutput {
+  scenario: "retirement_tax";
+  annualPremiumHKD: number;
+  taxBracketPct: number;
+  isCouple: boolean;
+  maxDeductibleLimitHKD: number;
+  eligibleDeductionHKD: number;
+  taxReliefSavedHKD: number;
+  effectiveDiscountPct: number;
+  monthlyAnnuityEstimateHKD: number;
+  guaranteedCashflowSharePct: number;
+}
+
+export interface InstantMessageOutput {
+  scenario: "instant_comms";
+  platform: "whatsapp" | "wechat" | "sms";
+  tone: "urgent_closing" | "rational_data" | "mcv_vip";
+  category?: string;
+  formattedText: string;
+  characterCount: number;
+  hasGL20Disclaimer: boolean;
+}
+
+export interface OfflineStatusOutput {
+  scenario: "offline_resilience";
+  isOnline: boolean;
+  isSimulatedOffline: boolean;
+  cachedProductsCount: number;
+  offlineReadyScore: number;
+  healthStatusText: string;
+  localStoreKeys: string[];
+}
+
