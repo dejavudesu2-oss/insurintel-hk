@@ -2544,6 +2544,11 @@
       font-size: 13px !important;
     }
 
+    /* Accessibility & Localization: Simplified Chinese Mode */
+    body.lang-hans {
+      font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif !important;
+    }
+
     /* Header Nav Toolbar Buttons */
     .header-nav-toolbar .lang-btn,
     .header-nav-toolbar .font-btn,
@@ -8820,6 +8825,11 @@ return {
 
       // Sync AI Context Preview
       renderAiContextPreview();
+
+      // Sync Client PDF Report Preview
+      if (typeof renderClientPdfPreview === 'function') {
+        renderClientPdfPreview();
+      }
     }
     window.updateBattleCard = updateBattleCard;
 
@@ -10563,9 +10573,14 @@ return {
               '</div>' +
             '</div>' +
             (ulRes.isNegativeSpread
-              ? '<div class="stress-warning-banner" id="ul-stress-warning">' +
-                  '⚠️ <strong>利差倒掛警告 (Negative Carry Alert)！</strong> 當前銀行借貸成本 (' + ulRes.borrowingRate + ') 已高於保單派息率 (' + ulRes.creditingRate + ')，淨利差為負 (' + ulRes.netSpread + ')，客戶每年需額外自掏腰包補貼利差損約 USD $' + Math.abs(Math.round(ulRes.netCashflow)).toLocaleString() + '！' +
-                '</div>'
+              ? (ulRes.netCashflow < 0
+                  ? '<div class="stress-warning-banner" id="ul-stress-warning">' +
+                      '⚠️ <strong>利差倒掛警告 (Negative Carry Alert)！</strong> 當前銀行借貸成本 (' + ulRes.borrowingRate + ') 已高於保單派息率 (' + ulRes.creditingRate + ')，淨利差為負 (' + ulRes.netSpread + ')，保單全盤現金流轉為負值，客戶每年需自掏腰包補貼利差損約 USD $' + Math.abs(Math.round(ulRes.netCashflow)).toLocaleString() + '！' +
+                    '</div>'
+                  : '<div class="stress-warning-banner" id="ul-stress-warning">' +
+                      '⚠️ <strong>融資利差倒掛預警！</strong> 銀行借貸利率 (' + ulRes.borrowingRate + ') 超過保單結算利率 (' + ulRes.creditingRate + ')，融資貸款部分年損息約 USD $' + Math.abs(Math.round(ulRes.loanAmount * (Math.abs(ulRes.netSpreadPct) / 100))).toLocaleString() + '。雖然憑藉自有本金收益整體現金流仍維持正向 (+$' + Math.round(ulRes.netCashflow).toLocaleString() + ')，但利差安全墊已被侵蝕，需密切關注加息及 Margin Call 追繳風險！' +
+                    '</div>'
+                )
               : '<div style="background:#ecfdf5;border:1px solid #86efac;border-radius:8px;padding:8px 12px;font-size:11.5px;color:#065f46;margin-top:10px;" id="ul-stress-safe">' +
                   '✅ <strong>利差安全墊充裕：</strong> 當前淨利差 ' + ulRes.netSpread + '，在當前加息情景下仍可維持每年約 USD $' + Math.round(ulRes.netCashflow).toLocaleString() + ' 穩定正向現金流。' +
                 '</div>') +
@@ -10592,9 +10607,10 @@ return {
                 return '<button class="group-preset-chip' + (groupMedicalLimit === lim ? ' active' : '') + '" onclick="setGroupMedicalLimit(' + lim + ')">' + (lim === 0 ? '無團險' : ('HK$ ' + (lim/1000) + 'K (' + (lim === 50000 ? '外企常見' : (lim === 80000 ? '高管方案' : '普通中小企')) + ')')) + '</button>';
               }).join('') +
             '</div>' +
-            '<div style="display:flex;gap:8px;align-items:center;margin:8px 0 12px;">' +
+            '<div style="display:flex;gap:8px;align-items:center;margin:8px 0 12px;flex-wrap:wrap;">' +
               '<span style="font-size:11px;color:#64748b;">自訂團險額度 (HK$)：</span>' +
-              '<input type="number" id="input-group-limit" value="' + groupMedicalLimit + '" oninput="setGroupMedicalLimit(this.value)" style="width:130px;padding:4px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
+              '<input type="range" id="slider-group-limit" min="0" max="100000" step="5000" value="' + groupMedicalLimit + '" oninput="setGroupMedicalLimit(this.value)" style="flex:1;min-width:140px;cursor:pointer;">' +
+              '<input type="number" id="input-group-limit" value="' + groupMedicalLimit + '" oninput="setGroupMedicalLimit(this.value)" style="width:110px;padding:4px 8px;border:1.5px solid #cbd5e1;border-radius:6px;font-weight:700;font-family:monospace;">' +
             '</div>' +
             '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:12px;margin-bottom:10px;">' +
               '<div style="font-size:11px;color:#1e3a8a;font-weight:700;margin-bottom:4px;">🎯 精算推薦最優自願醫保 (VHIS) 搭配方案：</div>' +
@@ -10697,15 +10713,19 @@ return {
         ta.value = text;
         ta.style.position = "fixed";
         ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand("copy");
-        document.body.removeChild(ta);
+        if (document.body && typeof document.body.appendChild === 'function') document.body.appendChild(ta);
+        if (typeof ta.select === 'function') ta.select();
+        if (typeof document.execCommand === 'function') document.execCommand("copy");
+        if (document.body && typeof document.body.removeChild === 'function') document.body.removeChild(ta);
         if (fallbackMsg !== false) {
           showToast(fallbackMsg || "✅ 見客 WhatsApp 話術模板已複製到剪貼簿！");
         }
       } catch (e) {
-        alert(text);
+        if (typeof alert === 'function') {
+          alert(text);
+        } else if (typeof console !== 'undefined' && console.log) {
+          console.log(text);
+        }
       }
     }
 
@@ -10973,6 +10993,21 @@ return {
     }
     window.setThirdProduct = setThirdProduct;
 
+    function pickWinner(vA, vB, vC, lowerIsBetter) {
+      if (vA === vB && vB === vC) return 'draw';
+      if (lowerIsBetter) {
+        if (vA < vB && vA < vC) return 'our';
+        if (vB < vA && vB <= vC) return 'rival';
+        if (vC < vA && vC < vB) return 'third';
+        return 'draw';
+      } else {
+        if (vA > vB && vA > vC) return 'our';
+        if (vB > vA && vB >= vC) return 'rival';
+        if (vC > vA && vC > vB) return 'third';
+        return 'draw';
+      }
+    }
+
     function compute3WaySpecs(ourComp, rivalComp, thirdComp, cat, ourProd, rivalProd, thirdProd) {
       const allProds = window.ALL_PRODUCTS_CATALOG || [];
       const getP = function(comp, prod) {
@@ -10986,61 +11021,97 @@ return {
       const pC = getP(thirdComp, thirdProd);
 
       if (cat === 'Critical_Illness') {
-        const wA = pA.cancerWaitYears || 1, wB = pB.cancerWaitYears || 3, wC = pC.cancerWaitYears || 3;
-        const iA = pA.ciIllnesses || 128, iB = pB.ciIllnesses || 118, iC = pC.ciIllnesses || 115;
-        const mA = pA.ciMultiplePct || 900, mB = pB.ciMultiplePct || 800, mC = pC.ciMultiplePct || 850;
-        const icuA = pA.ciIcu ? '有 (20%預支)' : '無', icuB = pB.ciIcu ? '有 (20%預支)' : '無', icuC = pC.ciIcu ? '有 (20%預支)' : '無';
+        const wA = (typeof pA.cancerWaitYears === 'number' ? pA.cancerWaitYears : 1);
+        const wB = (typeof pB.cancerWaitYears === 'number' ? pB.cancerWaitYears : 3);
+        const wC = (typeof pC.cancerWaitYears === 'number' ? pC.cancerWaitYears : 3);
+        const iA = (typeof pA.ciIllnesses === 'number' ? pA.ciIllnesses : 128);
+        const iB = (typeof pB.ciIllnesses === 'number' ? pB.ciIllnesses : 118);
+        const iC = (typeof pC.ciIllnesses === 'number' ? pC.ciIllnesses : 115);
+        const mA = (typeof pA.ciMultiplePct === 'number' ? pA.ciMultiplePct : 900);
+        const mB = (typeof pB.ciMultiplePct === 'number' ? pB.ciMultiplePct : 800);
+        const mC = (typeof pC.ciMultiplePct === 'number' ? pC.ciMultiplePct : 850);
+        const icuA = pA.ciIcu ? '有 (20%預支)' : '無';
+        const icuB = pB.ciIcu ? '有 (20%預支)' : '無';
+        const icuC = pC.ciIcu ? '有 (20%預支)' : '無';
         return [
-          { label: '癌症再次索償等候期', ourVal: wA + ' 年', rivalVal: wB + ' 年', thirdVal: wC + ' 年', winner: (wA <= wB && wA <= wC ? 'our' : (wB < wA && wB <= wC ? 'rival' : 'third')), summary: '我方 1 年間隔最短，早復發早賠' },
-          { label: '涵蓋嚴重危疾總數', ourVal: iA + ' 種', rivalVal: iB + ' 種', thirdVal: iC + ' 種', winner: (iA >= iB && iA >= iC ? 'our' : (iB > iA && iB >= iC ? 'rival' : 'third')), summary: '我方覆蓋 ' + iA + ' 種最齊全' },
-          { label: '終身多次賠償上限', ourVal: mA + '%', rivalVal: mB + '%', thirdVal: mC + '%', winner: (mA >= mB && mA >= mC ? 'our' : (mB > mA && mB >= mC ? 'rival' : 'third')), summary: '我方多次賠償槓桿 ' + mA + '% 領先' },
-          { label: '深切治療部 (ICU) 預支', ourVal: icuA, rivalVal: icuB, thirdVal: icuC, winner: pA.ciIcu ? 'our' : 'draw', summary: '非指定重疾住 ICU 預支保障' }
+          { label: '癌症再次索償等候期', ourVal: wA + ' 年', rivalVal: wB + ' 年', thirdVal: wC + ' 年', winner: pickWinner(wA, wB, wC, true), summary: (wA <= wB && wA <= wC ? '我方 1 年間隔最短，早復發早賠' : '癌症間隔等候期比對') },
+          { label: '涵蓋嚴重危疾總數', ourVal: iA + ' 種', rivalVal: iB + ' 種', thirdVal: iC + ' 種', winner: pickWinner(iA, iB, iC, false), summary: (iA >= iB && iA >= iC ? '我方覆蓋 ' + iA + ' 種最齊全' : '嚴重疾病保障範圍') },
+          { label: '終身多次賠償上限', ourVal: mA + '%', rivalVal: mB + '%', thirdVal: mC + '%', winner: pickWinner(mA, mB, mC, false), summary: (mA >= mB && mA >= mC ? '我方多次賠償槓桿 ' + mA + '% 領先' : '多次重疾賠償槓桿') },
+          { label: '深切治療部 (ICU) 預支', ourVal: icuA, rivalVal: icuB, thirdVal: icuC, winner: (icuA === icuB && icuB === icuC ? 'draw' : (icuA !== '無' ? 'our' : 'draw')), summary: '非指定重疾住 ICU 預支保障' }
         ];
       } else if (cat === 'Medical_VHIS') {
-        const lA = Math.round((pA.vhisLimitHkd || 25000000)/10000), lB = Math.round((pB.vhisLimitHkd || 20000000)/10000), lC = Math.round((pC.vhisLimitHkd || 20000000)/10000);
+        const lA = Math.round(((typeof pA.vhisLimitHkd === 'number' ? pA.vhisLimitHkd : 25000000))/10000);
+        const lB = Math.round(((typeof pB.vhisLimitHkd === 'number' ? pB.vhisLimitHkd : 20000000))/10000);
+        const lC = Math.round(((typeof pC.vhisLimitHkd === 'number' ? pC.vhisLimitHkd : 20000000))/10000);
         const ltA = pA.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pA.vhisLifetimeLimitHkd || 0)/10000) + '萬');
         const ltB = pB.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pB.vhisLifetimeLimitHkd || 0)/10000) + '萬');
         const ltC = pC.vhisLifetimeLimitHkd === 0 ? '無終身上限' : ('HK$ ' + Math.round((pC.vhisLifetimeLimitHkd || 0)/10000) + '萬');
         return [
-          { label: '年度醫療保障總額度', ourVal: 'HK$ ' + lA + '萬', rivalVal: 'HK$ ' + lB + '萬', thirdVal: 'HK$ ' + lC + '萬', winner: (lA >= lB && lA >= lC ? 'our' : (lB > lA && lB >= lC ? 'rival' : 'third')), summary: '每年實報實銷無分項上限' },
-          { label: '終身醫療保障額度', ourVal: ltA, rivalVal: ltB, thirdVal: ltC, winner: (ltA === '無終身上限' ? 'our' : 'draw'), summary: '終身醫療通脹防護' },
+          { label: '年度醫療保障總額度', ourVal: 'HK$ ' + lA + '萬', rivalVal: 'HK$ ' + lB + '萬', thirdVal: 'HK$ ' + lC + '萬', winner: pickWinner(lA, lB, lC, false), summary: '每年實報實銷無分項上限' },
+          { label: '終身醫療保障額度', ourVal: ltA, rivalVal: ltB, thirdVal: ltC, winner: (ltA === '無終身上限' && ltB === '無終身上限' && ltC === '無終身上限' ? 'draw' : (ltA === '無終身上限' ? 'our' : 'draw')), summary: '終身醫療通脹防護' },
           { label: '13家私院出院免找數', ourVal: '100% 全額代付 (LOG)', rivalVal: '指定醫院直付', thirdVal: '指定醫院直付', winner: 'our', summary: '養和/港怡特快出函免按金' },
           { label: '癌症標靶藥全額理賠', ourVal: '全額全數理賠', rivalVal: '全數/分項上限', thirdVal: '全數/分項上限', winner: 'our', summary: '百萬級標靶藥零自付' }
         ];
       } else if (cat === 'Annuity_QDAP') {
-        const gA = pA.qdapGuaranteedIRR || 2.80, gB = pB.qdapGuaranteedIRR || 2.45, gC = pC.qdapGuaranteedIRR || 2.50;
-        const tA = pA.qdapTotalIRR || 4.65, tB = pB.qdapTotalIRR || 4.30, tC = pC.qdapTotalIRR || 4.20;
-        const rA = pA.qdapGuaranteedPct || 82.5, rB = pB.qdapGuaranteedPct || 70.0, rC = pC.qdapGuaranteedPct || 72.0;
+        const gA = (typeof pA.qdapGuaranteedIRR === 'number' ? pA.qdapGuaranteedIRR : 2.80);
+        const gB = (typeof pB.qdapGuaranteedIRR === 'number' ? pB.qdapGuaranteedIRR : 2.45);
+        const gC = (typeof pC.qdapGuaranteedIRR === 'number' ? pC.qdapGuaranteedIRR : 2.50);
+        const tA = (typeof pA.qdapTotalIRR === 'number' ? pA.qdapTotalIRR : 4.65);
+        const tB = (typeof pB.qdapTotalIRR === 'number' ? pB.qdapTotalIRR : 4.30);
+        const tC = (typeof pC.qdapTotalIRR === 'number' ? pC.qdapTotalIRR : 4.20);
+        const rA = (typeof pA.qdapGuaranteedPct === 'number' ? pA.qdapGuaranteedPct : 82.5);
+        const rB = (typeof pB.qdapGuaranteedPct === 'number' ? pB.qdapGuaranteedPct : 70.0);
+        const rC = (typeof pC.qdapGuaranteedPct === 'number' ? pC.qdapGuaranteedPct : 72.0);
         return [
           { label: '法定個人/夫婦扣稅上限', ourVal: '$60,000 / $120,000', rivalVal: '同等法定額度', thirdVal: '同等法定額度', winner: 'draw', summary: '夫妻合併申報最高慳稅 $20,400' },
-          { label: '保證內部回報率 (IRR)', ourVal: gA + '%', rivalVal: gB + '%', thirdVal: gC + '%', winner: (gA >= gB && gA >= gC ? 'our' : (gB > gA && gB >= gC ? 'rival' : 'third')), summary: '保證利益落袋為安' },
-          { label: '總預期內部回報率 (IRR)', ourVal: tA + '%', rivalVal: tB + '%', thirdVal: tC + '%', winner: (tA >= tB && tA >= tC ? 'our' : (tB > tA && tB >= tC ? 'rival' : 'third')), summary: '我方預期收益率 ' + tA + '% 居首' },
-          { label: '保證年金現金流佔比', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: (rA >= rB && rA >= rC ? 'our' : (rB > rA && rB >= rC ? 'rival' : 'third')), summary: '退休防禦確定性最高' }
+          { label: '保證內部回報率 (IRR)', ourVal: gA + '%', rivalVal: gB + '%', thirdVal: gC + '%', winner: pickWinner(gA, gB, gC, false), summary: (gA >= gB && gA >= gC ? '我方保證利益落袋為安' : '保證利益穩定性') },
+          { label: '總預期內部回報率 (IRR)', ourVal: tA + '%', rivalVal: tB + '%', thirdVal: tC + '%', winner: pickWinner(tA, tB, tC, false), summary: (tA >= tB && tA >= tC ? '我方預期收益率 ' + tA + '% 居首' : '預期綜合收益率') },
+          { label: '保證年金現金流佔比', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: pickWinner(rA, rB, rC, false), summary: (rA >= rB && rA >= rC ? '我方退休防禦確定性最高' : '年金防禦確定性') }
         ];
       } else if (cat === 'Financing_UniversalLife') {
-        const cA = pA.ulCreditingRate || 5.25, cB = pB.ulCreditingRate || 5.15, cC = pC.ulCreditingRate || 5.10;
-        const fA = pA.ulFloorRate || 2.25, fB = pB.ulFloorRate || 2.00, fC = pC.ulFloorRate || 2.00;
-        const sA = pA.ulNetSpread || 1.45, sB = pB.ulNetSpread || 1.15, sC = pC.ulNetSpread || 1.10;
-        const lA = pA.ulLtv || 85, lB = pB.ulLtv || 80, lC = pC.ulLtv || 80;
+        const cA = (typeof pA.ulCreditingRate === 'number' ? pA.ulCreditingRate : 5.25);
+        const cB = (typeof pB.ulCreditingRate === 'number' ? pB.ulCreditingRate : 5.15);
+        const cC = (typeof pC.ulCreditingRate === 'number' ? pC.ulCreditingRate : 5.10);
+        const fA = (typeof pA.ulFloorRate === 'number' ? pA.ulFloorRate : 2.25);
+        const fB = (typeof pB.ulFloorRate === 'number' ? pB.ulFloorRate : 2.00);
+        const fC = (typeof pC.ulFloorRate === 'number' ? pC.ulFloorRate : 2.00);
+        const sA = (typeof pA.ulNetSpread === 'number' ? pA.ulNetSpread : 1.45);
+        const sB = (typeof pB.ulNetSpread === 'number' ? pB.ulNetSpread : 1.15);
+        const sC = (typeof pC.ulNetSpread === 'number' ? pC.ulNetSpread : 1.10);
+        const lA = (typeof pA.ulLtv === 'number' ? pA.ulLtv : 85);
+        const lB = (typeof pB.ulLtv === 'number' ? pB.ulLtv : 80);
+        const lC = (typeof pC.ulLtv === 'number' ? pC.ulLtv : 80);
         return [
-          { label: '保單現行結算利率', ourVal: cA + '%', rivalVal: cB + '%', thirdVal: cC + '%', winner: (cA >= cB && cA >= cC ? 'our' : (cB > cA && cB >= cC ? 'rival' : 'third')), summary: '高結算利率擴大利差空間' },
-          { label: '保單最低保證派息率', ourVal: fA + '%', rivalVal: fB + '%', thirdVal: fC + '%', winner: (fA >= fB && fA >= fC ? 'our' : (fB > fA && fB >= fC ? 'rival' : 'third')), summary: '極端降息抗風險底線' },
-          { label: '淨息差 (Carry Spread)', ourVal: sA + '%', rivalVal: sB + '%', thirdVal: sC + '%', winner: (sA >= sB && sA >= sC ? 'our' : (sB > sA && sB >= sC ? 'rival' : 'third')), summary: '每年淨息差套利安全墊' },
-          { label: '最高保費融資成數 (LTV)', ourVal: lA + '%', rivalVal: lB + '%', thirdVal: lC + '%', winner: (lA >= lB && lA >= lC ? 'our' : (lB > lA && lB >= lC ? 'rival' : 'third')), summary: '極致資金槓桿效益' }
+          { label: '保單現行結算利率', ourVal: cA + '%', rivalVal: cB + '%', thirdVal: cC + '%', winner: pickWinner(cA, cB, cC, false), summary: (cA >= cB && cA >= cC ? '高結算利率擴大利差空間' : '現行派息收益水準') },
+          { label: '保單最低保證派息率', ourVal: fA + '%', rivalVal: fB + '%', thirdVal: fC + '%', winner: pickWinner(fA, fB, fC, false), summary: (fA >= fB && fA >= fC ? '極端降息抗風險底線' : '最低收益保證底線') },
+          { label: '淨息差 (Carry Spread)', ourVal: sA + '%', rivalVal: sB + '%', thirdVal: sC + '%', winner: pickWinner(sA, sB, sC, false), summary: (sA >= sB && sA >= sC ? '每年淨息差套利安全墊' : '融資淨套利息差') },
+          { label: '最高保費融資成數 (LTV)', ourVal: lA + '%', rivalVal: lB + '%', thirdVal: lC + '%', winner: pickWinner(lA, lB, lC, false), summary: (lA >= lB && lA >= lC ? '極致資金槓桿效益' : '銀行最高授信成數') }
         ];
       } else {
-        const rA = pA.maxRebate || 22, rB = pB.maxRebate || 28, rC = pC.maxRebate || 15;
-        const pRateA = pA.prepayRate || 5.0, pRateB = pB.prepayRate || 5.5, pRateC = pC.prepayRate || 4.5;
-        const pLockA = pA.prepayLock || 1, pLockB = pB.prepayLock || 1, pLockC = pC.prepayLock || 1;
-        const gnA = pA.gn16Fulfillment || 96.5, gnB = pB.gn16Fulfillment || 90.0, gnC = pC.gn16Fulfillment || 92.0;
-        const bA = pA.breakevenYear || 5, bB = pB.breakevenYear || 7, bC = pC.breakevenYear || 8;
-        const irrA = pA.irr30 || 6.62, irrB = pB.irr30 || 6.55, irrC = pC.irr30 || 6.40;
+        const rA = (typeof pA.maxRebate === 'number' ? pA.maxRebate : 22);
+        const rB = (typeof pB.maxRebate === 'number' ? pB.maxRebate : 28);
+        const rC = (typeof pC.maxRebate === 'number' ? pC.maxRebate : 15);
+        const pRateA = (typeof pA.prepayRate === 'number' ? pA.prepayRate : 5.0);
+        const pRateB = (typeof pB.prepayRate === 'number' ? pB.prepayRate : 5.5);
+        const pRateC = (typeof pC.prepayRate === 'number' ? pC.prepayRate : 4.5);
+        const pLockA = (typeof pA.prepayLock === 'number' ? pA.prepayLock : 1);
+        const pLockB = (typeof pB.prepayLock === 'number' ? pB.prepayLock : 1);
+        const pLockC = (typeof pC.prepayLock === 'number' ? pC.prepayLock : 1);
+        const gnA = (typeof pA.gn16Fulfillment === 'number' && pA.gn16Fulfillment > 0 ? pA.gn16Fulfillment : (COMPANY_PROFILES[ourComp]?.gn16Fulfillment || 96.5));
+        const gnB = (typeof pB.gn16Fulfillment === 'number' && pB.gn16Fulfillment > 0 ? pB.gn16Fulfillment : (COMPANY_PROFILES[rivalComp]?.gn16Fulfillment || 90.0));
+        const gnC = (typeof pC.gn16Fulfillment === 'number' && pC.gn16Fulfillment > 0 ? pC.gn16Fulfillment : (COMPANY_PROFILES[thirdComp]?.gn16Fulfillment || 92.0));
+        const bA = (typeof pA.breakevenYear === 'number' && pA.breakevenYear > 0 ? pA.breakevenYear : 5);
+        const bB = (typeof pB.breakevenYear === 'number' && pB.breakevenYear > 0 ? pB.breakevenYear : 7);
+        const bC = (typeof pC.breakevenYear === 'number' && pC.breakevenYear > 0 ? pC.breakevenYear : 8);
+        const irrA = (typeof pA.irr30 === 'number' && pA.irr30 > 0 ? pA.irr30 : 6.62);
+        const irrB = (typeof pB.irr30 === 'number' && pB.irr30 > 0 ? pB.irr30 : 6.55);
+        const irrC = (typeof pC.irr30 === 'number' && pC.irr30 > 0 ? pC.irr30 : 6.40);
         return [
-          { label: '首年保費最高回贈', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: (rA >= rB && rA >= rC ? 'our' : (rB > rA && rB >= rC ? 'rival' : 'third')), summary: '首年投保折扣回贈' },
-          { label: '預繳保證利率與年期', ourVal: pRateA + '% (' + pLockA + '年)', rivalVal: pRateB + '% (' + pLockB + '年)', thirdVal: pRateC + '% (' + pLockC + '年)', winner: (pRateA >= pRateB && pRateA >= pRateC ? 'our' : (pRateB > pRateA && pRateB >= pRateC ? 'rival' : 'third')), summary: '保證高息鎖定無懼降息' },
-          { label: '保監局 GN16 分紅實現率', ourVal: gnA + '%', rivalVal: gnB + '%', thirdVal: gnC + '%', winner: (gnA >= gnB && gnA >= gnC ? 'our' : (gnB > gnA && gnB >= gnC ? 'rival' : 'third')), summary: '我方實現率高達 ' + gnA + '% 極穩健' },
-          { label: '保證本金回本年期', ourVal: '第 ' + bA + ' 年', rivalVal: '第 ' + bB + ' 年', thirdVal: '第 ' + bC + ' 年', winner: (bA <= bB && bA <= bC ? 'our' : (bB < bA && bB <= bC ? 'rival' : 'third')), summary: '我方第 ' + bA + ' 年保證回本速度最快' },
-          { label: '第30年預期內部回報率', ourVal: irrA + '%', rivalVal: irrB + '%', thirdVal: irrC + '%', winner: (irrA >= irrB && irrA >= irrC ? 'our' : (irrB > irrA && irrB >= irrC ? 'rival' : 'third')), summary: '中長線複利滾存收益' }
+          { label: '首年保費最高回贈', ourVal: rA + '%', rivalVal: rB + '%', thirdVal: rC + '%', winner: pickWinner(rA, rB, rC, false), summary: '首年投保折扣回贈' },
+          { label: '預繳保證利率與年期', ourVal: pRateA + '% (' + pLockA + '年)', rivalVal: pRateB + '% (' + pLockB + '年)', thirdVal: pRateC + '% (' + pLockC + '年)', winner: pickWinner(pRateA, pRateB, pRateC, false), summary: '保證高息鎖定無懼降息' },
+          { label: '保監局 GN16 分紅實現率', ourVal: gnA + '%', rivalVal: gnB + '%', thirdVal: gnC + '%', winner: pickWinner(gnA, gnB, gnC, false), summary: '歷年累積實現率官方權威備案' },
+          { label: '保證本金回本年期', ourVal: '第 ' + bA + ' 年', rivalVal: '第 ' + bB + ' 年', thirdVal: '第 ' + bC + ' 年', winner: pickWinner(bA, bB, bC, true), summary: '保證現值回本年期' },
+          { label: '第30年預期內部回報率', ourVal: irrA + '%', rivalVal: irrB + '%', thirdVal: irrC + '%', winner: pickWinner(irrA, irrB, irrC, false), summary: '中長線複利滾存收益' }
         ];
       }
     }
@@ -11048,20 +11119,20 @@ return {
 
     // 2. UL Premium Financing Interest Rate Stress Calculator Engine
     function calculateULStress(capital, policyTotal, creditingRate, borrowingRate, hikeBps) {
-      capital = Math.max(1, Number(capital) || 1000000);
-      policyTotal = Math.max(capital, Number(policyTotal) || 3000000);
-      creditingRate = Number(creditingRate) || 5.25;
-      borrowingRate = Number(borrowingRate) || 4.25;
-      hikeBps = Number(hikeBps) || 0;
+      capital = Math.max(1, (capital !== undefined && capital !== null && !isNaN(Number(capital))) ? Number(capital) : 1000000);
+      policyTotal = Math.max(capital, (policyTotal !== undefined && policyTotal !== null && !isNaN(Number(policyTotal))) ? Number(policyTotal) : 3000000);
+      creditingRate = (creditingRate !== undefined && creditingRate !== null && !isNaN(Number(creditingRate))) ? Number(creditingRate) : 5.25;
+      borrowingRate = (borrowingRate !== undefined && borrowingRate !== null && !isNaN(Number(borrowingRate))) ? Number(borrowingRate) : 4.25;
+      hikeBps = (hikeBps !== undefined && hikeBps !== null && !isNaN(Number(hikeBps))) ? Number(hikeBps) : 0;
 
       const loan = Math.max(0, policyTotal - capital);
       const leverage = policyTotal / capital;
       const effectiveBorrowingRate = borrowingRate + (hikeBps / 100);
       const netSpread = creditingRate - effectiveBorrowingRate;
 
-      const annualCreditingIncome = policyTotal * (creditingRate / 100);
-      const annualBorrowingCost = loan * (effectiveBorrowingRate / 100);
-      const netCashflow = annualCreditingIncome - annualBorrowingCost;
+      const annualCreditingIncome = Math.round(policyTotal * (creditingRate / 100) * 100) / 100;
+      const annualBorrowingCost = Math.round(loan * (effectiveBorrowingRate / 100) * 100) / 100;
+      const netCashflow = Math.round((annualCreditingIncome - annualBorrowingCost) * 100) / 100;
       const roe = (netCashflow / capital) * 100;
 
       const isNegativeSpread = netSpread < 0;
@@ -11083,7 +11154,9 @@ return {
         netSpreadPct: Number(netSpread.toFixed(2)),
         netSpreadNum: netSpread,
         annualCreditingIncome,
+        annualCreditingInterest: annualCreditingIncome,
         annualBorrowingCost,
+        annualBorrowingInterest: annualBorrowingCost,
         annualCarryGainHKD: netCashflow,
         netCashflow,
         roe: roe.toFixed(2) + '%',
@@ -11132,7 +11205,7 @@ return {
 
     // 3. Group Medical + High-End VHIS Deductible Optimizer Engine
     function optimizeGroupMedicalVHIS(groupLimit, age) {
-      groupLimit = Number(groupLimit) || 0;
+      groupLimit = Math.max(0, Number(groupLimit) || 0);
       let recommendedDeductible = 0;
       let premiumSavingsPct = 0;
       let premiumSavingsHKD = 0;
@@ -11181,7 +11254,7 @@ return {
     window.optimizeGroupMedicalVHIS = optimizeGroupMedicalVHIS;
 
     function setGroupMedicalLimit(limit) {
-      groupMedicalLimit = Number(limit) || 0;
+      groupMedicalLimit = Math.max(0, Number(limit) || 0);
       renderScenarioAgentPanel();
     }
     window.setGroupMedicalLimit = setGroupMedicalLimit;
@@ -11206,9 +11279,9 @@ return {
         durationYears = arg4;
       }
       mode = (mode === 'single') ? 'single' : 'couple';
-      premium = Number(premium) || (mode === 'couple' ? 120000 : 60000);
-      bracketPct = Number(bracketPct) || 17;
-      durationYears = Number(durationYears) || 20;
+      premium = (premium !== undefined && premium !== null && !isNaN(Number(premium))) ? Math.max(0, Number(premium)) : (mode === 'couple' ? 120000 : 60000);
+      bracketPct = (bracketPct !== undefined && bracketPct !== null && !isNaN(Number(bracketPct))) ? Number(bracketPct) : 17;
+      durationYears = (durationYears !== undefined && durationYears !== null && !isNaN(Number(durationYears))) ? Number(durationYears) : 20;
 
       const cap = mode === 'couple' ? 120000 : 60000;
       const eligibleDeduction = Math.min(premium, cap);
@@ -11217,6 +11290,16 @@ return {
 
       const monthlyPayout = mode === 'couple' ? Math.round(premium * 0.09) : Math.round(premium * 0.1);
       const totalPayout = monthlyPayout * 12 * durationYears;
+
+      const schedule = [];
+      for (let y = 1; y <= durationYears; y++) {
+        schedule.push({
+          year: y,
+          age: 64 + y,
+          annualPayout: monthlyPayout * 12,
+          cumulativePayout: monthlyPayout * 12 * y
+        });
+      }
 
       return {
         mode,
@@ -11229,7 +11312,9 @@ return {
         monthlyPayout,
         estimatedMonthlyAnnuity: monthlyPayout,
         totalPayout,
-        durationYears
+        durationYears,
+        schedule,
+        payoutSchedule: schedule
       };
     }
     window.calculateQDAPFamilyTax = calculateQDAPFamilyTax;
@@ -11257,12 +11342,14 @@ return {
     }
     window.getAdvisorProfile = getAdvisorProfile;
 
-    function saveAdvisorProfile(p) {
+    function saveAdvisorProfile(p, silent) {
       try {
         const cur = getAdvisorProfile();
         const updated = Object.assign({}, cur, p);
         localStorage.setItem('insurintel_advisor_profile', JSON.stringify(updated));
-        showToast('💾 顧問個人名片已儲存！');
+        if (silent !== true) {
+          showToast('💾 顧問個人名片已儲存！');
+        }
         renderClientPdfPreview();
       } catch(e){}
     }
@@ -11297,6 +11384,7 @@ return {
     window.closeClientPdfModal = closeClientPdfModal;
 
     function printClientReport() {
+      renderClientPdfPreview();
       if (typeof window !== 'undefined' && window.print) {
         window.print();
       }
@@ -11354,6 +11442,10 @@ return {
           '本對比簡報所載數據均提取自各保險公司官方公開建議書、產品手冊及保監局 GN16 歷史分紅實現率公開檔案，僅供授權持牌人士與客戶進行客觀財務諮詢與保單條款分析之用，不構成任何要約或誘使。非保證紅利受保險公司實際投資回報及市場波動影響，過往實現率並不代表未來表現。' +
         '</div>' +
       '</div>';
+
+      if (currentLang === 'zh-CN') {
+        convertDomTreeLang(container, true);
+      }
     }
     window.renderClientPdfPreview = renderClientPdfPreview;
 
@@ -11361,13 +11453,28 @@ return {
       const adv = getAdvisorProfile();
       const ourName = cleanProductName(mySelectedProduct?.name || '我方推薦旗艦');
       const rivalName = cleanProductName(rivalSelectedProduct?.name || '市場競品方案');
+      const thirdName = cleanProductName(thirdSelectedProduct?.name || '第三方旗艦方案');
       const cat = currentCategory || 'Savings_MultiCurrency';
 
       let text = '【InsurIntel 專業保險對比簡報 · 客戶專屬】\n';
       text += '━━━━━━━━━━━━━━━━━━━━━\n';
-      text += '📌 *方案對比*：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\n';
+      if (arenaMode === '3way') {
+        text += '📌 *三方旗艦橫向對決 (3-Way PK)*：\n';
+        text += '  • Plan A (我方)：' + ourName + '\n';
+        text += '  • Plan B (競品)：' + rivalName + '\n';
+        text += '  • Plan C (第三方)：' + thirdName + '\n';
+      } else {
+        text += '📌 *方案對比*：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\n';
+      }
       text += '📂 *業務類別*：' + (CATEGORY_TAGS[cat] || cat) + '\n';
       text += '📊 *官方數據*：香港保監局 GN16 權威備案 + 全港 13 家私院出院免找數 (LOG)\n';
+      if (arenaMode === '3way') {
+        const s3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, cat, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+        text += '🔍 *核心指標快覽*：\n';
+        s3.slice(0, 3).forEach(function(r) {
+          text += '  • ' + r.label + '：' + r.ourVal + ' (A) / ' + r.rivalVal + ' (B) / ' + r.thirdVal + ' (C)\n';
+        });
+      }
       text += '━━━━━━━━━━━━━━━━━━━━━\n';
       text += '💼 *您的專屬理財顧問*：' + adv.name + ' (' + adv.title + ')\n';
       text += '🏢 *所屬團隊*：' + adv.team + ' | ' + adv.license + '\n';
@@ -11375,21 +11482,62 @@ return {
       text += '━━━━━━━━━━━━━━━━━━━━━\n';
       text += '🛡️【香港保監局 GL20 合規聲明】：資料源自官方建議書及保監局備案，供客觀諮詢與條款分析，不構成要約。非保證紅利受市場波動影響，過往實現率不代表未來表現。';
 
-      fallbackCopyText(text, '✅ 客戶專用 WhatsApp 促成卡片已複製！');
+      if (currentLang === 'zh-CN') {
+        text = toHans(text);
+      }
+
+      if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+        showToast('✅ 客戶專用 WhatsApp 促成卡片已複製！');
+      } else {
+        fallbackCopyText(text, '✅ 客戶專用 WhatsApp 促成卡片已複製！');
+      }
+      return text;
     }
     window.copyReportWhatsApp = copyReportWhatsApp;
+
+    function openReportWhatsAppDirect() {
+      const adv = getAdvisorProfile();
+      const ourName = cleanProductName(mySelectedProduct?.name || '我方推薦旗艦');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || '市場競品方案');
+      const cat = currentCategory || 'Savings_MultiCurrency';
+      let text = '【InsurIntel 專業保險對比簡報 · 客戶專屬】\n' +
+        '📌 方案對比：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\n' +
+        '📂 業務類別：' + (CATEGORY_TAGS[cat] || cat) + '\n' +
+        '💼 顧問：' + adv.name + ' (' + adv.phone + ')\n' +
+        '🛡️ 香港保監局 GL20 合規客觀對比';
+      if (currentLang === 'zh-CN') text = toHans(text);
+      const url = 'https://wa.me/?text=' + encodeURIComponent(text);
+      if (typeof window !== 'undefined') window.open(url, '_blank');
+    }
+    window.openReportWhatsAppDirect = openReportWhatsAppDirect;
 
     function copyReportWechat() {
       const adv = getAdvisorProfile();
       const ourName = cleanProductName(mySelectedProduct?.name || '我方推薦旗艦');
       const rivalName = cleanProductName(rivalSelectedProduct?.name || '市場競品方案');
+      const thirdName = cleanProductName(thirdSelectedProduct?.name || '第三方旗艦方案');
       const cat = currentCategory || 'Savings_MultiCurrency';
 
       let text = '【InsurIntel 專業保險對比簡報 · 客戶專屬】\n';
       text += '----------------------------------------\n';
-      text += '方案對比：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\n';
+      if (arenaMode === '3way') {
+        text += '三方旗艦橫向對決 (3-Way PK)：\n';
+        text += '  • Plan A (我方)：' + ourName + '\n';
+        text += '  • Plan B (競品)：' + rivalName + '\n';
+        text += '  • Plan C (第三方)：' + thirdName + '\n';
+      } else {
+        text += '方案對比：' + ourName + ' (Plan A) vs ' + rivalName + ' (Plan B)\n';
+      }
       text += '業務類別：' + (CATEGORY_TAGS[cat] || cat) + '\n';
       text += '官方數據：香港保監局 GN16 備案 + 全港 13 家私院出院免找數 (LOG)\n';
+      if (arenaMode === '3way') {
+        const s3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, cat, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+        text += '核心指標快覽：\n';
+        s3.slice(0, 3).forEach(function(r) {
+          text += '  • ' + r.label + '：' + r.ourVal + ' (A) / ' + r.rivalVal + ' (B) / ' + r.thirdVal + ' (C)\n';
+        });
+      }
       text += '----------------------------------------\n';
       text += '您的專屬理財顧問：' + adv.name + ' (' + adv.title + ')\n';
       text += '所屬團隊：' + adv.team + ' | ' + adv.license + '\n';
@@ -11397,11 +11545,66 @@ return {
       text += '----------------------------------------\n';
       text += '【保監局 GL20 合規聲明】：資料源自官方建議書，供客觀條款分析，不構成要約。非保證收益受市場波動影響，過往實現率不代表未來表現。';
 
-      fallbackCopyText(text, '✅ 客戶專用 微信/SMS 促成卡片已複製！');
+      if (currentLang === 'zh-CN') {
+        text = toHans(text);
+      }
+
+      if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text);
+        showToast('✅ 客戶專用 微信/SMS 促成卡片已複製！');
+      } else {
+        fallbackCopyText(text, '✅ 客戶專用 微信/SMS 促成卡片已複製！');
+      }
+      return text;
     }
     window.copyReportWechat = copyReportWechat;
 
-    // 6. Accessibility & Localization Handlers
+    // 6. Accessibility & Localization Handlers (Real zh-HK <-> zh-CN Engine)
+    const ZH_T_CHARS = '萬億壽險劃寶誠友邦宏利醫保儲蓄扣稅年金融資總監顧問審查評看板報告點數據規則條款額度現金流複雜實現率實際產品買賣兩開關閉業務類別測試計算機預繳息差槓桿壓力優化獲得賠償擔保函私家醫院內窺鏡腸胃質子標靶藥聯動證書備案換匯幣種轉換獨立曲線認為說明結算結構體檢質押借款貸款繼承遺產稅節慳減輕症原位癌腫瘤豁免殘疾兒童懷孕異議腳本攻防戰策擊虛避實導航晨會演講操守指引絕對化違規審計鏈痕跡網絡綠色通道協同矩陣穿透障礙雙屏橫豎螢幕搜尋引擎滑動勢歷史退休支柱房貸赴港訪簽署票照上傳續期費渠道帳戶銀聯雲閃付滑點凍結簡報畫質圖轉發評級弱載緩存肖像頭銜稱謂專屬二維碼追蹤閱讀語音合成粵語普通話播聽取冠狀動脈條查詢舊框調增強軟肋權威促成難贏輸虧損補貼衝擊降跌緩衝充裕僱主階梯累計歸責監管局操守聲明確定性樂觀悲觀走勢廊穿透柱狀折線圓環雷達標籤懸浮導航抽屜模態框遮罩關閉打開切換滾動頂部底部橫幅標題副標題卡片徽章按鈕輸入欄選擇器彈出提示覆蓋隱私遮蔽塗黑密碼授權認證專業顧問團隊總監牌照電話郵箱官網說明書單張通函公開資料庫備份還原備忘錄歷史紀錄日誌審批核准預估測算試算結果差異比較橫向縱向雙邊陣營攻守對壘挑戰破局話術抗拒拆解步驟共情點破盲點數據絕殺促成簽單遞交複製黏貼轉寄分享導出列印存檔下載離線快取儲存本地緩衝熔斷監控異常攔截回滾自愈重試隊列死信標籤警報提醒遵守規定條例法律免責聲明設備處理診所專科門隨身應該讓與為隻點廣州深圳陸豐誠藍衛廳區階段後來看電話網絡預約發現變更轉移購買價格標準體質結果額外給付賠償認證聲明確認輸出導入編號查看隱藏顯示點擊選項類型總計算數量額度費率折扣回贈禮品權益服務顧客員工經理總裁董事局處長委員會投資策略風險規避損失賠本賺取贏得競爭優勢劣勢強項弱點死穴破綻陷阱避坑警示提醒通知訊息消息宣傳單張廣告介紹說明解釋闡述詳細清楚明確嚴謹專業權威官方備案認可批准審批規範標準要求符合達標超額提前延後滿期終止解除取消變更換人繼續繳費停繳緩繳墊繳借款還款清償利息本金複利單利投報率實現率達成率履約率兌現給付撥付賠付理賠申請索償拒賠爭議投訴仲裁訴訟法律規定條例指引守則監管機構保監局金管局證監會稅務局醫管局養和港怡嘉諾撒聖保祿浸會仁安荃灣港安中大寶血明德播道間數著這個別哋樣過時會對後從經動條來問題產學車機電門頭現見場面國華東西南北長難師專視角網站頁碼話語說課請讀寫記認證設評試詩誠誤談誕誘資賊賂賄賅賑賒賓贈贊贍贏贖買賣費貸貿賀賈賬賭賠賴賺購賽走趕起超趨躍路踐跌跑跟跡跨跳車軍軒軟轉輪輯輸轄辭辦迎運近返還進遠違連遲選遺邊釋里重野量金針釣銘銀鋪鏈鎖鏡鐘鐵開關閉閱闊隊階際障隨險隱隻雙雜雞難雲電靈青靚面革響頁頂頃項順須頑顧頓頗領頻顆題額顏願類風飛飽飾餃餅養館首香馬馳駐駕驗駿騎騙骨體高髮鬧鬱魚魯鮮鳥鳳鳴鴻鶴鷹鹿麗麥麵麻黃齊齒齡龍';
+    const ZH_S_CHARS = '万亿寿险划宝诚友邦宏利医保储蓄扣税年金融资总监顾问审查评看板报告点数据规则条款额度现金流复杂实现率实际产品买卖两开关闭业务类别测试计算机预缴息差杠杆压力优化获得赔偿担保函私家医院内窥镜肠胃质子标靶药联动证书备案换汇币种转换独立曲线认为说明结算结构体检质押借款贷款继承遗产税节省减轻症原位癌肿瘤豁免残疾儿童怀孕异议脚本攻防战策击虚避实导航晨会演讲操守指引绝对化违规审计链痕迹网络绿色通道协同矩阵穿透障碍双屏横竖屏幕搜索引擎滑动势历史退休支柱房贷赴港访签署票照上传续期费渠道账户银联云闪付滑点冻结简报画质图转发评级弱载缓存肖像头衔称谓专属二维码追踪阅读语音合成粤语普通话播听取冠状动脉条查询旧框调增强软肋权威促成难赢输亏损补贴冲击降跌缓冲充裕雇主阶梯累计归责监管局操守声明确定性乐观悲观走势廊穿透柱状折线圆环雷达标签悬浮导航抽屉模态框遮罩关闭打开切换滚动顶部底部横幅标题副标题卡片徽章按钮输入栏选择器弹出提示覆盖隐私遮蔽涂黑密码授权认证专业顾问团队总监牌照电话邮箱官网说明书单张通函公开资料库备份还原备忘录历史纪录日志审批核准预估测算试算结果差异比较横向纵向双边阵营攻守对垒挑战破局话术抗拒拆解步骤共情点破盲点数据绝杀促成签单递交复制粘贴转寄分享导出打印存档下载离线快取储存本地缓冲熔断监控异常拦截回滚自愈重试队列死信标签警报提醒遵守规定条例法律免责声明设备处理诊所专科门随身应该让与为只点广州深圳陆丰诚蓝卫厅区阶段后来看电话网络预约发现变更转移购买价格标准体质结果额外给付赔偿认证声明确认输出导入编号查看隐藏显示点击选项类型总计算数量额度费率折扣回赠礼品权益服务顾客员工经理总裁董事局处长委员会投资策略风险规避损失赔本赚取赢得竞争优势劣势强项弱点死穴破绽陷阱避坑警示提醒通知讯息消息宣传单张广告介绍说明解释阐述详细清楚明确严谨专业权威官方备案认可批准审批规范标准要求符合达标超额提前延后满期终止解除取消变更换人继续缴费停缴缓缴垫缴借款还款清偿利息本金复利单利投报率实现率达成率履约率兑现给付拨付赔付理赔申请索偿拒赔争议投诉仲裁诉讼法律规定条例指引守则监管机构保监局金管局证监会税务局医管局养和港怡嘉诺撒圣保禄浸会仁安荃湾港安中大宝血明德播道间数着这个别地样过时会对后从经动条来问题产学车机电门头现见场面国华东西南北长难师专视角网站页码话语说课请读写记认证设评试诗诚误谈诞诱资贼赂贿赅赈赊宾赠赞赡赢赎买卖费贷贸贺贾账赌赔赖赚购赛走赶起超趋跃路践跌跑跟迹跨跳车军轩软转轮辑输辖辞办迎运近返还进远违连迟选遗边释里重野量金针钓铭银铺链锁镜钟铁开关闭阅阔队阶际障随险隐只双杂鸡难云电灵青靓面革响页顶顷项顺须顽顾顿颇领频颗题额颜愿类风飞饱饰饺饼养馆首香马驰驻驾验骏骑骗骨体高发闹郁鱼鲁鲜鸟凤鸣鸿鹤鹰鹿丽麦面麻黄齐齿龄龙';
+
+    const T2S_MAP = {};
+    const S2T_MAP = {};
+    for (let i = 0; i < ZH_T_CHARS.length; i++) {
+      T2S_MAP[ZH_T_CHARS[i]] = ZH_S_CHARS[i];
+      S2T_MAP[ZH_S_CHARS[i]] = ZH_T_CHARS[i];
+    }
+
+    function toHans(str) {
+      if (typeof str !== 'string') return str;
+      return str.replace(/./g, function(c) { return T2S_MAP[c] || c; });
+    }
+    window.toHans = toHans;
+    window.convertZhToHans = toHans;
+
+    function toHant(str) {
+      if (typeof str !== 'string') return str;
+      return str.replace(/./g, function(c) { return S2T_MAP[c] || c; });
+    }
+    window.toHant = toHant;
+    window.convertZhToHant = toHant;
+
+    function convertDomTreeLang(node, isHans) {
+      if (!node) return;
+      if (node.nodeType === 3) {
+        const txt = node.nodeValue;
+        if (txt && txt.trim().length > 0) {
+          node.nodeValue = isHans ? toHans(txt) : toHant(txt);
+        }
+      } else if (node.nodeType === 1) {
+        const tag = (node.tagName || '').toUpperCase();
+        if (tag === 'SCRIPT' || tag === 'STYLE') return;
+        if (node.placeholder) node.placeholder = isHans ? toHans(node.placeholder) : toHant(node.placeholder);
+        if (node.title) node.title = isHans ? toHans(node.title) : toHant(node.title);
+        const children = node.childNodes;
+        if (children) {
+          for (let i = 0; i < children.length; i++) {
+            convertDomTreeLang(children[i], isHans);
+          }
+        }
+      }
+    }
+
     function toggleLangZh() {
       setLangZh(currentLang === 'zh-HK' ? 'zh-CN' : 'zh-HK');
     }
@@ -11418,6 +11621,7 @@ return {
         } else {
           document.body.classList.remove('lang-hans');
         }
+        convertDomTreeLang(document.body, currentLang === 'zh-CN');
       }
       try { localStorage.setItem('insurintel_lang', currentLang); } catch(e){}
       showToast(currentLang === 'zh-CN' ? '🌐 已切換為簡體中文' : '🌐 已切換為繁體中文');
@@ -11453,11 +11657,13 @@ return {
         const btn100 = document.getElementById('audit-scope-100');
         const pills30 = document.getElementById('audit-30-filter-pills') || document.querySelector('.audit-filter-pills');
         const pills100 = document.getElementById('audit-100-filter-pills');
+        const badge = document.getElementById('audit-header-badge');
 
         if (btn30) btn30.classList.toggle('active', auditScope === '30');
         if (btn100) btn100.classList.toggle('active', auditScope === '100');
         if (pills30) pills30.style.display = (auditScope === '30') ? 'flex' : 'none';
         if (pills100) pills100.style.display = (auditScope === '100') ? 'flex' : 'none';
+        if (badge) badge.innerText = (auditScope === '100') ? '100/100 Resolved' : '30/30 Verified';
       }
       if (auditScope === '100') renderAudit100Cards('all');
       else renderAudit30Cards('all');
@@ -11574,23 +11780,23 @@ return {
         <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(130px, 1fr));gap:8px;">
           <div>
             <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">顧問姓名</label>
-            <input type="text" id="report-agent-name" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="陳志強 Alex Chan" oninput="saveAdvisorProfile({name:this.value})">
+            <input type="text" id="report-agent-name" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="陳志強 Alex Chan" oninput="saveAdvisorProfile({name:this.value}, true)">
           </div>
           <div>
             <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">職銜 / 榮譽</label>
-            <input type="text" id="report-agent-title" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="資深財富管理總監 · MDRT COT" oninput="saveAdvisorProfile({title:this.value})">
+            <input type="text" id="report-agent-title" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="資深財富管理總監 · MDRT COT" oninput="saveAdvisorProfile({title:this.value}, true)">
           </div>
           <div>
             <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">牌照號碼</label>
-            <input type="text" id="report-agent-license" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="IA982341" oninput="saveAdvisorProfile({license:this.value})">
+            <input type="text" id="report-agent-license" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="IA982341" oninput="saveAdvisorProfile({license:this.value}, true)">
           </div>
           <div>
             <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">所屬團隊 / 區域</label>
-            <input type="text" id="report-agent-team" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="卓越家族辦公室團隊" oninput="saveAdvisorProfile({team:this.value})">
+            <input type="text" id="report-agent-team" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="卓越家族辦公室團隊" oninput="saveAdvisorProfile({team:this.value}, true)">
           </div>
           <div>
             <label style="font-size:10.5px;color:#64748b;display:block;margin-bottom:2px;">電話 / WhatsApp</label>
-            <input type="text" id="report-agent-phone" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="+852 9123 4567" oninput="saveAdvisorProfile({phone:this.value})">
+            <input type="text" id="report-agent-phone" style="width:100%;padding:5px 8px;font-size:11px;border:1px solid #cbd5e1;border-radius:4px;" placeholder="+852 9123 4567" oninput="saveAdvisorProfile({phone:this.value}, true)">
           </div>
         </div>
       </div>

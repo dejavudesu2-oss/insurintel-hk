@@ -87,6 +87,7 @@ function createSandbox() {
     children: [] as any[],
     appendChild(c: any) { this.children.push(c); },
     removeChild(c: any) {},
+    select() {},
     closest(sel: string) { return null; },
     querySelector(sel: string) { return null; },
     querySelectorAll(sel: string) { return []; }
@@ -110,7 +111,7 @@ function createSandbox() {
     'bilateral-spec-table',
     // Audit Drawer
     'audit-30-drawer', 'audit-30-backdrop', 'audit-scope-bar', 'audit-scope-30', 'audit-scope-100',
-    'audit-30-filter-pills', 'audit-100-filter-pills', 'audit-cards-list',
+    'audit-30-filter-pills', 'audit-100-filter-pills', 'audit-cards-list', 'audit-header-badge',
     'audit-chip-all', 'audit-chip-client', 'audit-chip-agent',
     'audit-100-chip-all', 'audit-100-chip-client', 'audit-100-chip-agent',
     // Scenarios
@@ -125,6 +126,7 @@ function createSandbox() {
   const localStorageStore: Record<string, string> = {};
 
   let printed = false;
+  let lastCopiedText = '';
 
   const mockWindow: any = {
     document: {
@@ -141,7 +143,9 @@ function createSandbox() {
             else if (this.classes.has(c)) this.classes.delete(c);
             else this.classes.add(c);
           }
-        }
+        },
+        appendChild(c: any) {},
+        removeChild(c: any) {}
       },
       getElementById(id: string) {
         if (!dom[id]) dom[id] = makeEl(id);
@@ -152,11 +156,15 @@ function createSandbox() {
         return null;
       },
       querySelectorAll() { return []; },
-      createElement(tag: string) { return makeEl('', tag); }
+      createElement(tag: string) { return makeEl('', tag); },
+      execCommand: () => true
     },
     navigator: {
       clipboard: {
-        writeText: async (t: string) => Promise.resolve()
+        writeText: async (t: string) => {
+          lastCopiedText = t;
+          return Promise.resolve();
+        }
       }
     },
     localStorage: {
@@ -164,6 +172,7 @@ function createSandbox() {
       setItem: (k: string, v: string) => { localStorageStore[k] = String(v); }
     },
     print: () => { printed = true; },
+    alert: () => {},
     setTimeout: (fn: Function) => fn(),
     clearTimeout: () => {},
     addEventListener: () => {}
@@ -172,7 +181,7 @@ function createSandbox() {
 
   const ctx = vm.createContext(mockWindow);
   vm.runInContext(scriptCode, ctx);
-  return { ctx, dom, mockWindow, localStorageStore, getPrinted: () => printed };
+  return { ctx, dom, mockWindow, localStorageStore, getPrinted: () => printed, getLastCopiedText: () => lastCopiedText };
 }
 
 // ============================================================================
@@ -232,6 +241,27 @@ test('Print function invokes window.print() and export buttons trigger formatted
   assert.strictEqual(getPrinted(), true, 'printClientReport must invoke window.print()');
 });
 
+test('copyReportWhatsApp in 3-way mode produces comprehensive 3-plan comparison card', () => {
+  const { ctx, getLastCopiedText } = createSandbox();
+  ctx.setArenaMode('3way');
+  ctx.copyReportWhatsApp();
+  const text = getLastCopiedText();
+  assert.ok(text.includes('【InsurIntel 專業保險對比簡報 · 客戶專屬】'), 'Card must have title');
+  assert.ok(text.includes('三方旗艦橫向對決') || text.includes('3-Way PK'), 'Card must state 3-way mode');
+  assert.ok(text.includes('Plan A (我方)'), 'Card must include Plan A');
+  assert.ok(text.includes('Plan B (競品)'), 'Card must include Plan B');
+  assert.ok(text.includes('Plan C (第三方)'), 'Card must include Plan C');
+  assert.ok(text.includes('GL20'), 'Card must include GL20 disclaimer');
+});
+
+test('saveAdvisorProfile with silent=true saves to localStorage without toast notification spam', () => {
+  const { ctx, dom, localStorageStore } = createSandbox();
+  dom['toast'].className = '';
+  ctx.saveAdvisorProfile({ name: '張三豐' }, true);
+  assert.strictEqual(JSON.parse(localStorageStore['insurintel_advisor_profile']).name, '張三豐');
+  assert.ok(!dom['toast'].classList.contains('show'), 'Toast should not be shown when silent=true');
+});
+
 // ============================================================================
 // SUITE 2: Universal Life (UL) Premium Financing Stress Calculator
 // ============================================================================
@@ -269,6 +299,22 @@ test('calculateULStress under +200bps rate hike triggers negative spread and mar
   assert.strictEqual(hike200.netSpreadPct, -0.55); // 5.25 - 5.80 = -0.55%
   assert.strictEqual(hike200.isNegativeSpread, true);
   assert.ok(hike200.status.includes('警戒') || hike200.status.includes('追繳保證金風險'), 'Status must flag margin call / stress risk');
+});
+
+test('calculateULStress maintains positive net cashflow when total policy yield exceeds loan loss in +200bps hike', () => {
+  const { ctx } = createSandbox();
+  // Capital: $1,000,000, Policy: $3,000,000, Loan: $2,000,000
+  // Crediting rate: 5.25%, Borrowing: 3.80% + 2.00% = 5.80%
+  // Policy annual return: 3,000,000 * 5.25% = 157,500
+  // Loan annual interest: 2,000,000 * 5.80% = 116,000
+  // Net cashflow: 157,500 - 116,000 = +41,500
+  // Loan spread loss: 2,000,000 * (-0.55%) = -$11,000
+  const hike200 = ctx.calculateULStress(1000000, 3000000, 5.25, 3.80, 200);
+  assert.strictEqual(hike200.netSpreadPct, -0.55);
+  assert.strictEqual(hike200.isNegativeSpread, true);
+  assert.strictEqual(hike200.netCashflow, 41500, 'Overall cashflow remains positive despite negative loan spread');
+  assert.strictEqual(hike200.annualBorrowingInterest, 116000);
+  assert.strictEqual(hike200.annualCreditingInterest, 157500);
 });
 
 // ============================================================================
@@ -332,6 +378,22 @@ test('calculateQDAPFamilyTax validates single HK$60k vs joint HK$120k caps and 1
 
   // Monthly annuity payout schedule
   assert.ok(couple1.estimatedMonthlyAnnuity > 0, 'Must compute dynamic monthly retirement annuity');
+});
+
+test('calculateQDAPFamilyTax handles zero contribution boundary and generates detailed payout schedule', () => {
+  const { ctx } = createSandbox();
+  const zeroResult = ctx.calculateQDAPFamilyTax(0, 17, false);
+  assert.strictEqual(zeroResult.eligibleDeduction, 0, 'Zero contribution must give 0 eligible deduction');
+  assert.strictEqual(zeroResult.annualTaxSavings, 0, 'Zero contribution must give 0 tax savings');
+  assert.strictEqual(zeroResult.estimatedMonthlyAnnuity, 0, 'Zero contribution gives 0 monthly annuity');
+  assert.ok(Array.isArray(zeroResult.schedule), 'Must generate structured schedule array');
+  assert.strictEqual(zeroResult.schedule.length, 20, 'Default schedule duration is 20 years');
+  assert.strictEqual(zeroResult.schedule[0].annualPayout, 0);
+
+  const activeResult = ctx.calculateQDAPFamilyTax(60000, 17, false, 10);
+  assert.strictEqual(activeResult.schedule.length, 10);
+  assert.ok(activeResult.schedule[0].annualPayout > 0);
+  assert.strictEqual(activeResult.schedule[0].age, 65);
 });
 
 // ============================================================================
@@ -407,6 +469,19 @@ test('Font size toggle activates large-font-mode and persists', () => {
   assert.strictEqual(localStorageStore['insurintel_large_font'], '0');
 });
 
+test('Traditional to Simplified Chinese dictionary converts core industry terminology accurately', () => {
+  const { ctx } = createSandbox();
+  assert.strictEqual(typeof ctx.toHans, 'function');
+  assert.strictEqual(typeof ctx.toHant, 'function');
+
+  const tradSample = '香港保險業監管局GN16官方實現率及13間私家醫院免找數擔保';
+  const simpResult = ctx.toHans(tradSample);
+  assert.strictEqual(simpResult, '香港保险业监管局GN16官方实现率及13间私家医院免找数担保');
+
+  const backTrad = ctx.toHant(simpResult);
+  assert.strictEqual(backTrad, tradSample);
+});
+
 // ============================================================================
 // SUITE 7: Expand Review Board to All 100 Comments (50 Client + 50 Agent)
 // ============================================================================
@@ -439,6 +514,7 @@ test('Audit Drawer Scope Switching (30 vs 100) and 100-filter functionality', ()
   // Switch to 100 scope
   ctx.setAuditScope('100');
   assert.strictEqual(ctx.auditScope, '100');
+  assert.strictEqual(dom['audit-header-badge'].innerText, '100/100 Resolved');
   assert.ok(dom['audit-cards-list'].innerHTML.includes('[C01]') || dom['audit-cards-list'].innerHTML.includes('[C1]'));
   assert.ok(dom['audit-cards-list'].innerHTML.includes('[A50]'));
 
@@ -455,6 +531,7 @@ test('Audit Drawer Scope Switching (30 vs 100) and 100-filter functionality', ()
   // Switch back to 30 scope
   ctx.setAuditScope('30');
   assert.strictEqual(ctx.auditScope, '30');
+  assert.strictEqual(dom['audit-header-badge'].innerText, '30/30 Verified');
   assert.ok(dom['audit-cards-list'].innerHTML.includes('[A30]'));
 });
 
