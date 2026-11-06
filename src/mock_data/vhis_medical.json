@@ -65,7 +65,12 @@
       "越級入住私家病房將面臨嚴格的 50% 賠償比例折減（Adjustment Factor）",
       "精神科本地住院賠償設有每年 30,000 港元法定最高限額"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.bowtie.com.hk/zh-hk/vhis/pink",
+    "official_brochure_url": "https://www.bowtie.com.hk/zh-hk/vhis/pink",
+    "official_pdf_url": "https://www.bowtie.com.hk/zh-hk/documents/vhis/bowtie-vhis-brochure.pdf",
+    "brochure_url": "https://www.bowtie.com.hk/zh-hk/vhis/pink",
+    "pdf_url": "https://www.bowtie.com.hk/zh-hk/documents/vhis/bowtie-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-VHIS-2026",
@@ -140,7 +145,12 @@
       "指定先進成像檢測（CT/MRI/PET）設有 15% 共同保險（若未入住醫院時進行）",
       "精神科治療僅限香港本地登記私家醫院，且受每年固定上限限制"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/aia-vhis",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/aia-vhis",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/aia-vhis-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/aia-vhis",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/aia-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-VHIS-2026",
@@ -209,7 +219,12 @@
       "未經保誠事先批核之指定複雜手術或海外就醫可能影響出院直付免找數安排",
       "保費將因受保人年齡增長與全港醫療通脹水平每年進行動態精算調整"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/vhis/pru-vhis-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/vhis/pru-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-FWD-VHIS-2026",
@@ -279,7 +294,12 @@
       "出院免找數（Cashless）需在入院前至少 3-5 個工作天提呈預先核批申請",
       "若中途調低自付額（例如從 5 萬降至 0 自付額），需重新進行健康核保審查"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis",
+    "official_brochure_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis",
+    "official_pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/vhis/fwd-vhis-brochure.pdf",
+    "brochure_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis",
+    "pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/vhis/fwd-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-VHIS-2026",
@@ -348,7 +368,12 @@
       "投保前已有疾病按照自願醫保標準條款在首 3 年實行階梯式賠償（0%/25%/50%）",
       "保費受全港私家醫療費用通脹指數影響，長者年齡段費率增長較為顯著"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/medical-protection/manu-vhis",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/medical-protection/manu-vhis",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/vhis/manu-vhis-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/medical-protection/manu-vhis",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/vhis/manu-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AXA-VHIS-2026",
@@ -417,7 +442,12 @@
       "精神科住院每年最高賠償限額為 30,000 港元且僅限香港境內",
       "調低自付額選項僅可在受保人指定特定年齡（如 50/55/60/65 歲）時免核保行使一次"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.axa.com.hk/zh/medical-protection/axa-vhis",
+    "official_brochure_url": "https://www.axa.com.hk/zh/medical-protection/axa-vhis",
+    "official_pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/vhis/axa-vhis-brochure.pdf",
+    "brochure_url": "https://www.axa.com.hk/zh/medical-protection/axa-vhis",
+    "pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/vhis/axa-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-SUN-VHIS-2026",
@@ -488,7 +518,12 @@
       "投保前未申報病症嚴格除外，90 天等待期內不承保非意外醫療支出",
       "保費按受保人各年齡段之精算風險成本每年更新調整"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.sunlife.com.hk/zh-hant/insurance/medical-protection/sun-vhis",
+    "official_brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/medical-protection/sun-vhis",
+    "official_pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/vhis/sun-vhis-brochure.pdf",
+    "brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/medical-protection/sun-vhis",
+    "pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/vhis/sun-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BOC-VHIS-2026",
@@ -559,7 +594,12 @@
       "本地精神科治療限額每年 30,000 港元",
       "出院免找數直付申請需經中銀人壽醫療團隊在入院前完成預先審批"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.boclife.com.hk/tc/product/medical-protection/boc-vhis",
+    "official_brochure_url": "https://www.boclife.com.hk/tc/product/medical-protection/boc-vhis",
+    "official_pdf_url": "https://www.boclife.com.hk/tc/download/vhis/boc-vhis-brochure.pdf",
+    "brochure_url": "https://www.boclife.com.hk/tc/product/medical-protection/boc-vhis",
+    "pdf_url": "https://www.boclife.com.hk/tc/download/vhis/boc-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-YF-VHIS-2026",
@@ -631,7 +671,12 @@
       "投保前未披露病史面臨合約被撤銷風險",
       "保費受醫療通脹因素影響，長線高齡階段年繳保費漲幅需提前評估"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.yflife.com/zh-hk/products/medical-protection/yf-vhis",
+    "official_brochure_url": "https://www.yflife.com/zh-hk/products/medical-protection/yf-vhis",
+    "official_pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/vhis/yf-vhis-brochure.pdf",
+    "brochure_url": "https://www.yflife.com/zh-hk/products/medical-protection/yf-vhis",
+    "pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/vhis/yf-vhis-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-VHIS-ASIA-2026",
@@ -701,7 +746,12 @@
       "指定自選自付額較高（最高可達 8 萬港元），需配合企業團體醫保使用",
       "非醫療必需性之高端健康檢查或預防性篩查不在賠償保障範圍之內"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/ceo-essence",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/ceo-essence",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/aia-vhis-asia-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/ceo-essence",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/aia-vhis-asia-brochure.pdf"
   },
   {
     "promo_id": "PROMO-CIGNA-VHIS-FLEXI-2026",
@@ -773,7 +823,12 @@
       "CT/MRI 門診訂明成像檢測設有 15% 共同保險",
       "海外就醫預先批核流程嚴格，未事先授權之非急症治療可能拒絕直付"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cigna-vhis-flexi-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cigna-vhis-flexi-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BUPA-VHIS-HERO-2026",
@@ -844,7 +899,12 @@
       "既往病史核保審查嚴格，嚴重慢性病投保時易被加設不保除外事項",
       "精神科住院治療賠償同樣受香港法例自願醫保之條款限制"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bupa-vhis-hero-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bupa-vhis-hero-brochure.pdf"
   },
   {
     "promo_id": "PROMO-HSBC-VHIS-FLEXI-2026",
@@ -917,7 +977,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可證書: F00049-01-000-01；滙豐保險官方手冊 Ref: HSBC-FLEXI-VHIS-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-flexi-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-flexi-brochure.pdf"
   },
   {
     "promo_id": "PROMO-HSBC-VHIS-STANDARD-2026",
@@ -983,7 +1048,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局標準計劃認可編號: S00028-01-000-01；滙豐官方文件 Ref: HSBC-STD-VHIS-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-standard-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-standard-brochure.pdf"
   },
   {
     "promo_id": "PROMO-GEN-VHIS-LIONCARE-2026",
@@ -1056,7 +1126,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可編號: F00054-01-000-01；忠意保險官方指南 Ref: GEN-VHIS-LIONCARE-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/gen-vhis-lioncare-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/gen-vhis-lioncare-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BC-VHIS-FLEXI-2026",
@@ -1129,7 +1204,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00029-01-000-01；藍十字官方通函 Ref: BC-CAREYOU-FLEXI-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-flexi-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-flexi-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BC-VHIS-STANDARD-2026",
@@ -1195,7 +1275,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局標準計劃編號: S00018-01-000-01；藍十字官方指南 Ref: BC-STD-VHIS-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-standard-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-standard-brochure.pdf"
   },
   {
     "promo_id": "PROMO-CL-VHIS-FLEXI-2026",
@@ -1269,7 +1354,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00037-01-000-01；中國人壽海外官方產品通告 Ref: CL-HK-VHIS-FLEXI-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cl-vhis-flexi-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cl-vhis-flexi-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-VHIS-SELECT-2026",
@@ -1339,7 +1429,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准編號: F00030-02-000-01；保誠保險官方指南 Ref: PRU-VHIS-SELECT-2026"
-    }
+    },
+    "official_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis-select",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis-select",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/vhis/pru-vhis-select-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/medical-protection/pru-vhis-select",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/vhis/pru-vhis-select-brochure.pdf"
   },
   {
     "promo_id": "PROMO-FWD-VHIS-VPIONEER-2026",
@@ -1411,6 +1506,11 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00035-01-000-01；富衛官方手冊 Ref: FWD-VPIONEER-2026"
-    }
+    },
+    "official_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis-vpioneer",
+    "official_brochure_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis-vpioneer",
+    "official_pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/vhis/fwd-vhis-vpioneer-brochure.pdf",
+    "brochure_url": "https://www.fwd.com.hk/zh/medical-protection/fwd-vhis-vpioneer",
+    "pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/vhis/fwd-vhis-vpioneer-brochure.pdf"
   }
 ]

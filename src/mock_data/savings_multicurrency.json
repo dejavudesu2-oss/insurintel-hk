@@ -95,7 +95,12 @@
       "貨幣轉換每年限行使一次，且受保險公司當時適用的匯率及行政規則約束",
       "預繳利息僅保證首年 5.0%，提早提取預繳款項將被扣除利息並收取手續費"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/global-power-multi-currency-plan-3",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/global-power-multi-currency-plan-3",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/global-power-multi-currency-plan-3",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-SAV-2026-Q4",
@@ -189,7 +194,12 @@
       "分紅實現率（GN16）歷史數據曾有波動，客戶須審視長期實現率穩定性",
       "更換受保人要求受保人年齡小於現任受保人，且需通過行政審批"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.prudential.com.hk/zh-hk/savings-and-life-insurance/savings-insurance/everwealth/",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/savings-and-life-insurance/savings-insurance/everwealth/",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/savings/pru-sav-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/savings-and-life-insurance/savings-insurance/everwealth/",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/savings/pru-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-SAV-2026-Q4",
@@ -283,7 +293,12 @@
       "若轉換為終生年金，已轉換部分將不可逆轉重新變更為一筆過現金",
       "保費預繳優惠額度有限，僅適用於指定投保額度及特定貨幣賬戶"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manuglobal-saver.html",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manuglobal-saver.html",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/savings/manu-sav-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manuglobal-saver.html",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/savings/manu-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-SUN-SAV-2026-Q4",
@@ -370,7 +385,12 @@
       "首年退保現金價值通常低於已繳保費之 15%",
       "預繳利率 5.1% 僅適用於首年，次年自動轉為非保證積存利率"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.sunlife.com.hk/zh-hant/insurance/savings/sun-sav",
+    "official_brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/savings/sun-sav",
+    "official_pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/savings/sun-sav-brochure.pdf",
+    "brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/savings/sun-sav",
+    "pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/savings/sun-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-FWD-SAV-2026-Q4",
@@ -458,7 +478,12 @@
       "前 2 年保單提早終止將損失絕大部分本金",
       "保單分拆需於第 3 個保單週年後方可生效，每次分拆有名額與最低名義價值限制"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.fwd.com.hk/zh/savings/fwd-sav",
+    "official_brochure_url": "https://www.fwd.com.hk/zh/savings/fwd-sav",
+    "official_pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/savings/fwd-sav-brochure.pdf",
+    "brochure_url": "https://www.fwd.com.hk/zh/savings/fwd-sav",
+    "pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/savings/fwd-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AXA-SAV-2026-Q4",
@@ -547,7 +572,12 @@
       "預繳保費提早提領需收取相等於已派利息 100% 之補償扣除費",
       "保單分拆申請不可撤銷，一經批准即按新保單各自獨立運作"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.axa.com.hk/zh/savings/axa-sav",
+    "official_brochure_url": "https://www.axa.com.hk/zh/savings/axa-sav",
+    "official_pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/savings/axa-sav-brochure.pdf",
+    "brochure_url": "https://www.axa.com.hk/zh/savings/axa-sav",
+    "pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/savings/axa-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BOC-SAV-2026-Q4",
@@ -635,7 +665,12 @@
       "大額預繳需於指定中銀香港賬戶扣款方可享預繳利息優惠",
       "早期退保罰則較重，第 2 年退保保證現金價值僅約已繳保費 25%"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.boclife.com.hk/tc/product/savings/boc-sav",
+    "official_brochure_url": "https://www.boclife.com.hk/tc/product/savings/boc-sav",
+    "official_pdf_url": "https://www.boclife.com.hk/tc/download/savings/boc-sav-brochure.pdf",
+    "brochure_url": "https://www.boclife.com.hk/tc/product/savings/boc-sav",
+    "pdf_url": "https://www.boclife.com.hk/tc/download/savings/boc-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-YF-SAV-2026-Q4",
@@ -724,7 +759,12 @@
       "年金轉換權利行使後不可還原，且年金率將按行使時當時之預期壽命精算表釐定",
       "轉換至非主流外幣（如澳元、加元）需承擔較高外幣匯兌買賣差價"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.yflife.com/zh-hk/products/savings/yf-sav",
+    "official_brochure_url": "https://www.yflife.com/zh-hk/products/savings/yf-sav",
+    "official_pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/savings/yf-sav-brochure.pdf",
+    "brochure_url": "https://www.yflife.com/zh-hk/products/savings/yf-sav",
+    "pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/savings/yf-sav-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-SAV-SLE5-2026",
@@ -811,7 +851,12 @@
       "提早於前 5 年退保將蒙受顯著保證本金折損",
       "非保證紅利依賴傳統分紅基金投資表現，派發金額非保證"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-sle5",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-sle5",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-sle5-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-sle5",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-sle5-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-SAV-EGSP2-2026",
@@ -897,7 +942,12 @@
       "緩衝機制可能導致在資本市場大牛市期間分紅上調步伐滯後",
       "更改受保人設有嚴格血緣與利益關係審核，手續相對繁複"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.prudential.com.hk/zh-hk/savings/pru-sav-egsp2",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/savings/pru-sav-egsp2",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/savings/pru-sav-egsp2-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/savings/pru-sav-egsp2",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/savings/pru-sav-egsp2-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-SAV-CENTURY-2026",
@@ -986,7 +1036,12 @@
       "終期紅利派發受宏利分紅資產組合之環球房地產與私募股權項目估值影響",
       "若行使保費延繳寬限期，保單非保證分紅可能被下調或暫停派發"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manu-sav-century",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manu-sav-century",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/savings/manu-sav-century-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/savings/manu-sav-century",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/savings/manu-sav-century-brochure.pdf"
   },
   {
     "promo_id": "PROMO-FWD-SAV-MAXACC-2026",
@@ -1073,7 +1128,12 @@
       "提早提取現金價值將削減後續終期紅利之複利基數",
       "保證回本年期為 16 年，前 3 年退保仍有較大本金折損"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.fwd.com.hk/zh/savings/fwd-sav-maxacc",
+    "official_brochure_url": "https://www.fwd.com.hk/zh/savings/fwd-sav-maxacc",
+    "official_pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/savings/fwd-sav-maxacc-brochure.pdf",
+    "brochure_url": "https://www.fwd.com.hk/zh/savings/fwd-sav-maxacc",
+    "pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/savings/fwd-sav-maxacc-brochure.pdf"
   },
   {
     "promo_id": "PROMO-HSBC-SAV-WEALTHGOAL-2026",
@@ -1171,7 +1231,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "滙豐保險官方通函 Ref: HSBC-LIFE-2026-WG-Q4；保監局認可編號: POL-HSBC-WG-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-wealthgoal",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-wealthgoal",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/hsbc-sav-wealthgoal-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-wealthgoal",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/hsbc-sav-wealthgoal-brochure.pdf"
   },
   {
     "promo_id": "PROMO-HSBC-SAV-GOLDEN-2026",
@@ -1257,7 +1322,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "滙豐保險產品規格書 Ref: HSBC-GJ-2026-CIRC；保監局登記備案: IA-HSBC-GJ-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-golden",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-golden",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/hsbc-sav-golden-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/hsbc-sav-golden",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/hsbc-sav-golden-brochure.pdf"
   },
   {
     "promo_id": "PROMO-GEN-SAV-LIONGLOBAL-2026",
@@ -1356,7 +1426,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "忠意保險官方通函 Ref: GEN-HK-2026-LG-CIRC；保監局備案登記: IA-GEN-LG-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionglobal",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionglobal",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/gen-sav-lionglobal-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionglobal",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/gen-sav-lionglobal-brochure.pdf"
   },
   {
     "promo_id": "PROMO-GEN-SAV-LIONWEALTH-2026",
@@ -1441,7 +1516,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "忠意人壽經紀產品備忘 Ref: GEN-LIONWEALTH-2026；保監局核准: POL-GEN-LW-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionwealth",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionwealth",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/gen-sav-lionwealth-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/gen-sav-lionwealth",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/gen-sav-lionwealth-brochure.pdf"
   },
   {
     "promo_id": "PROMO-CL-SAV-MULTIWEALTH-2026",
@@ -1540,7 +1620,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "中國人壽海外官方通告 Ref: CL-HK-2026-MW-CIRC；保監局註冊備案: POL-CL-SAV-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-multiwealth",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-multiwealth",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/cl-sav-multiwealth-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-multiwealth",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/cl-sav-multiwealth-brochure.pdf"
   },
   {
     "promo_id": "PROMO-CL-SAV-TREASURE-2026",
@@ -1626,7 +1711,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "中國人壽海外產品通函 Ref: CL-HK-TREASURE-2026；保監局檔案: IA-CL-TB-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-treasure",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-treasure",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/cl-sav-treasure-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/cl-sav-treasure",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/cl-sav-treasure-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BC-SAV-FORTUNE-2026",
@@ -1714,7 +1804,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "藍十字官方經紀業務通告 Ref: BC-SF-2026-CIRC；保監局備案登記: IA-BC-SAV-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/bc-sav-fortune",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/bc-sav-fortune",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/bc-sav-fortune-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/bc-sav-fortune",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/bc-sav-fortune-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-SAV-BONUSVANTAGE-2026",
@@ -1798,6 +1893,11 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "友邦官方產品指南 Ref: AIA-BPV-2026-CIRC；保監局檔案號: IA-AIA-BPV-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-bonusvantage",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-bonusvantage",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-bonusvantage-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/savings/aia-sav-bonusvantage",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/savings/aia-sav-bonusvantage-brochure.pdf"
   }
 ]

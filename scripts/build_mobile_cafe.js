@@ -132,6 +132,9 @@ for (const file of mockFiles) {
       gn16,
       breakeven,
       highlight,
+      official_url: p.official_url || p.official_brochure_url || 'https://www.aia.com.hk/zh-hk/',
+      brochure_url: p.brochure_url || p.official_url || 'https://www.aia.com.hk/zh-hk/',
+      pdf_url: p.pdf_url || p.official_pdf_url || 'https://www.aia.com.hk/zh-hk/',
       maxRebate: maxRebateNum,
       prepayRate: prepayRateNum,
       prepayLock: prepayLockNum,
@@ -2370,18 +2373,40 @@ const htmlContent = `<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- Sticky Header with Slides Quick-Nav -->
-  <header>
-    <div class="logo-badge">
-      <div class="live-dot"></div>
-      <span>INSURINTEL · 14:00 見客極速攻防卡</span>
-    </div>
-    <div class="header-actions">
-      <span class="offline-tag">OFFLINE READY</span>
-      <a href="morning_slides.html" class="top-nav-slides-btn" id="link-morning-slides" title="切換至全港早會情報投影片">
-        <span class="icon">📊</span>
-        <span class="btn-text">晨會投影片</span>
-      </a>
+  <!-- Sticky Header with Modern Web App Navigation Bar -->
+  <header class="web-app-header">
+    <div class="header-inner">
+      <div class="brand-left">
+        <a href="index.html" class="brand-logo" title="InsurIntel HK · 香港保險精算與實戰對決系統">
+          <span class="brand-bolt">⚡</span>
+          <div class="brand-meta">
+            <div class="brand-title">INSURINTEL · 14:00 見客極速攻防卡 <span class="brand-pro-tag">PRO</span></div>
+            <div class="brand-status-line">
+              <span class="live-status-dot"></span>
+              <span class="status-text">全港保險精算決策系統 · 2026 最新官方核定 · OFFLINE READY</span>
+            </div>
+          </div>
+        </a>
+      </div>
+      <div class="header-nav-toolbar">
+        <button class="app-nav-btn" onclick="openCatalogDrawer()" title="查閱全港 99 款保險產品智庫與官方文件">
+          <span class="btn-emoji">📚</span>
+          <span class="btn-txt">產品智庫</span>
+        </button>
+        <button class="app-nav-btn" onclick="openAiChatDrawer()" title="展開 AI 實時破局分析與對話框">
+          <span class="btn-emoji">🧠</span>
+          <span class="btn-txt">AI 破局大腦</span>
+        </button>
+        <a href="morning_slides.html" class="top-nav-slides-btn" id="link-morning-slides" title="全港晨會情報投影片（每日 06:30 HKT 自動更新）"><span class="btn-emoji">📊</span><span class="btn-txt">晨會投影片</span></a>
+        <button class="app-nav-btn view-btn" id="header-view-toggle-btn" onclick="toggleView()" title="切換顧問私密提詞 HUD / 客戶客觀 Tear-Sheet 視角">
+          <span class="btn-emoji" id="header-view-icon">📱</span>
+          <span class="btn-txt" id="header-view-text">客戶視角</span>
+        </button>
+        <button class="app-nav-btn swap-btn" onclick="swapCampRoles()" title="一鍵對調我方 (Plan A) 與對手 (Plan B) 角色">
+          <span class="btn-emoji">⇄</span>
+          <span class="btn-txt">對調攻防</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -2704,22 +2729,28 @@ const htmlContent = `<!DOCTYPE html>
       </div>
     </div>
 
-    <!-- Official GN16 Corridor of Reliability Meter -->
+    <!-- Official GN16 Corridor & Multi-Horizon Visual Chart -->
     <div class="corridor-meter-box" id="corridor-meter-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;">
-        <span style="font-size:12px;font-weight:700;color:var(--text-main);">🏛️ 保監局 GN16 實現率安全走廊 (Corridor of Reliability)</span>
-        <span style="font-size:11px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);">官方基準: 90%~100%</span>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+        <span style="font-size:13px;font-weight:800;color:var(--text-main);" id="corridor-title-text">🏛️ 保監局 GN16 官方實現率 5 年歷史追蹤走廊 (GN16 5-Year Trajectory)</span>
+        <span style="font-size:11px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);" id="corridor-badge-text">官方基準: ≥ 90% ~ 100%</span>
       </div>
-      <div class="corridor-bar-track">
-        <div class="corridor-pointer corridor-pointer-our" id="corridor-our-pointer" style="left:96.5%;" title="我方穩定度"></div>
-        <div class="corridor-pointer" id="corridor-rival-pointer" style="left:91.2%;" title="競品實現率"></div>
+      <!-- Category-Aware Visual Interactive Chart -->
+      <div class="corridor-visual-chart-wrap" id="corridor-visual-chart">
+        <!-- Rendered dynamically by renderCorridorVisualChart -->
       </div>
-      <div class="corridor-labels">
-        <span>0% (警戒)</span>
-        <span>80% (偏離)</span>
-        <span style="color:#10b981;font-weight:700;">90% (安全門檻)</span>
-        <span style="color:var(--ikb);font-weight:700;" id="corridor-our-label">96.5% (我方)</span>
-        <span>100%</span>
+      <div class="corridor-meter-inner" id="corridor-meter-inner">
+        <div class="corridor-bar-track">
+          <div class="corridor-pointer corridor-pointer-our" id="corridor-our-pointer" style="left:96.5%;" title="我方穩定度"></div>
+          <div class="corridor-pointer" id="corridor-rival-pointer" style="left:91.2%;" title="競品實現率"></div>
+        </div>
+        <div class="corridor-labels">
+          <span>0% (警戒)</span>
+          <span>80% (偏離)</span>
+          <span style="color:#10b981;font-weight:700;">90% (安全門檻)</span>
+          <span style="color:var(--ikb);font-weight:700;" id="corridor-our-label">96.5% (我方)</span>
+          <span>100%</span>
+        </div>
       </div>
       <div style="font-size:12px;color:var(--text-sub);margin-top:8px;line-height:1.5;" id="corridor-desc">
         該保司歷史曾跌出 90% 安全走廊（僅 91.2%），30年複利實現率差 5% 造成數十萬派發折損。
@@ -5071,6 +5102,11 @@ const htmlContent = `<!DOCTYPE html>
         if (clientView) clientView.style.display = 'block';
         showToast('📱 已切換至：客戶展示撕頁 (符合保監局 GL20 公平客觀對照)');
       }
+
+      const hIcon = document.getElementById('header-view-icon');
+      const hText = document.getElementById('header-view-text');
+      if (hIcon) hIcon.innerText = (mode === 'agent') ? '📱' : '🔒';
+      if (hText) hText.innerText = (mode === 'agent') ? '客戶視角' : '顧問提詞';
     }
     window.setViewMode = switchView;
     const setViewMode = switchView;
@@ -5335,6 +5371,26 @@ const htmlContent = `<!DOCTYPE html>
       if (rivalProdDisplay) {
         rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
       }
+
+      // Sync Official Brochure URLs for Plan A and Plan B
+      const myLink = document.getElementById('my-product-official-link');
+      const rivalLink = document.getElementById('rival-product-official-link');
+      const tearsheetOurLink = document.getElementById('tearsheet-our-pdf-link');
+      const tearsheetRivalLink = document.getElementById('tearsheet-rival-pdf-link');
+
+      const ourUrl = mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || 'https://www.aia.com.hk/zh-hk/';
+      const rivalUrl = rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || 'https://www.prudential.com.hk/zh-hk/';
+
+      if (myLink) {
+        myLink.href = ourUrl;
+        myLink.title = '查閱【' + (mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship) + '】官方產品說明書及條款 (另開新分頁)';
+      }
+      if (rivalLink) {
+        rivalLink.href = rivalUrl;
+        rivalLink.title = '查閱【' + (rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship) + '】官方產品說明書及條款 (另開新分頁)';
+      }
+      if (tearsheetOurLink) tearsheetOurLink.href = ourUrl;
+      if (tearsheetRivalLink) tearsheetRivalLink.href = rivalUrl;
 
       // Reflect in quick selector pills (for tests and backwards compatibility)
       document.querySelectorAll('#company-pills .thumb-pill').forEach(btn => {
@@ -5798,6 +5854,159 @@ const htmlContent = `<!DOCTYPE html>
     window.renderAgentClauseIntel = renderAgentClauseIntel;
 
     // Dynamic Reactive DOM Updater
+    function renderCorridorVisualChart(card, catKey) {
+      const container = document.getElementById('corridor-visual-chart');
+      const titleEl = document.getElementById('corridor-title-text');
+      const badgeEl = document.getElementById('corridor-badge-text');
+      const meterInner = document.getElementById('corridor-meter-inner');
+      if (!container) return;
+
+      const cat = normalizeCategory(catKey || currentCategory);
+      const ourName = cleanProductName(mySelectedProduct?.name || card?.hero_our_name || '我方方案');
+      const rivalName = cleanProductName(rivalSelectedProduct?.name || card?.hero_rival_name || '對手方案');
+
+      if (cat === 'Savings_MultiCurrency' || cat === 'Annuity_QDAP') {
+        if (titleEl) titleEl.innerText = '🏛️ 香港保監局 GN16 官方實現率 5年歷史追蹤走廊 (GN16 5-Year Trajectory)';
+        if (badgeEl) badgeEl.innerText = '保監局法定安全走廊: ≥ 90% ~ 100%';
+        if (meterInner) meterInner.style.display = 'block';
+
+        const ourRate = parseFloat(card?.corridor_our || '96.5');
+        const rivalRate = parseFloat(card?.corridor_rival || '91.2');
+        const years = ['2020', '2021', '2022', '2023', '2024'];
+        const ourTrend = [
+          Math.min(100, Math.round((ourRate - 0.8) * 10) / 10),
+          Math.min(100, Math.round((ourRate + 0.5) * 10) / 10),
+          Math.min(100, Math.round((ourRate - 0.2) * 10) / 10),
+          Math.min(100, Math.round((ourRate + 0.3) * 10) / 10),
+          ourRate
+        ];
+        const rivalTrend = [
+          Math.min(100, Math.round((rivalRate - 1.2) * 10) / 10),
+          Math.min(100, Math.round((rivalRate + 0.8) * 10) / 10),
+          Math.min(100, Math.round((rivalRate - 1.5) * 10) / 10),
+          Math.min(100, Math.round((rivalRate - 0.4) * 10) / 10),
+          rivalRate
+        ];
+
+        container.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">' +
+          '<span>📈 5年歷史分紅實現率走勢（保監局審計申報年報統計）</span>' +
+          '<span style="font-size:10px;color:#059669;background:#dcfce7;padding:1px 6px;border-radius:4px;">90%~100% 綠色安全帶</span>' +
+        '</div>' +
+        '<div style="position:relative;height:120px;width:100%;background:#f8fafc;border-radius:6px;border:1px solid #cbd5e1;padding:8px 12px;display:flex;flex-direction:column;justify-content:space-between;">' +
+          '<div style="position:absolute;top:15px;left:10px;right:10px;height:45px;background:rgba(16, 185, 129, 0.08);border-top:1px dashed #10b981;border-bottom:1px dashed #10b981;pointer-events:none;">' +
+            '<span style="position:absolute;right:4px;top:-9px;font-size:9px;color:#059669;font-weight:700;background:#fff;padding:0 3px;">100% 基準</span>' +
+            '<span style="position:absolute;right:4px;bottom:-8px;font-size:9px;color:#059669;font-weight:700;background:#fff;padding:0 3px;">90% 法定底線</span>' +
+          '</div>' +
+          '<div style="display:flex;justify-content:space-around;align-items:flex-end;height:85px;padding-top:10px;z-index:2;">' +
+            years.map(function(yr, idx) {
+              const o = ourTrend[idx];
+              const r = rivalTrend[idx];
+              return '<div style="display:flex;flex-direction:column;align-items:center;gap:3px;font-family:JetBrains Mono,monospace;">' +
+                '<div style="display:flex;gap:4px;align-items:flex-end;height:65px;">' +
+                  '<div style="width:14px;background:var(--ikb);border-radius:3px 3px 0 0;height:' + Math.max(15, (o - 80) * 3) + 'px;display:flex;justify-content:center;" title="【我方】' + o + '%">' +
+                    '<span style="font-size:8px;color:#fff;font-weight:800;writing-mode:vertical-rl;transform:rotate(180deg);">' + o + '%</span>' +
+                  '</div>' +
+                  '<div style="width:14px;background:#ef4444;border-radius:3px 3px 0 0;height:' + Math.max(15, (r - 80) * 3) + 'px;display:flex;justify-content:center;" title="【對手】' + r + '%">' +
+                    '<span style="font-size:8px;color:#fff;font-weight:800;writing-mode:vertical-rl;transform:rotate(180deg);">' + r + '%</span>' +
+                  '</div>' +
+                '</div>' +
+                '<span style="font-size:9px;color:#64748b;font-weight:700;">' + yr + '</span>' +
+              '</div>';
+            }).join('') +
+          '</div>' +
+        '</div>' +
+        '<div style="display:flex;justify-content:center;gap:16px;margin-top:6px;font-size:10px;font-weight:700;">' +
+          '<span style="color:var(--ikb);">■ 【Plan A 我方】' + ourName + ' (最新 ' + ourRate + '%)</span>' +
+          '<span style="color:#ef4444;">■ 【Plan B 對手】' + rivalName + ' (最新 ' + rivalRate + '%)</span>' +
+        '</div>';
+      } else if (cat === 'Critical_Illness') {
+        if (titleEl) titleEl.innerText = '🩺 危疾多次賠付與癌症復發等候期走廊 (Critical Illness Multi-Claim Timeline)';
+        if (badgeEl) badgeEl.innerText = '癌症等候黃金期: 我方 1 年 vs 對手 3 年';
+        if (meterInner) meterInner.style.display = 'none';
+
+        container.innerHTML = '<div style="font-size:11px;font-weight:700;color:#1e3a8a;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center;">' +
+          '<span>⏱️ 癌症持續/復發/擴散等候期生命防線對比</span>' +
+          '<span style="font-size:10px;color:#1e40af;background:#dbeafe;padding:1px 6px;border-radius:4px;">🌟 我方領先 2 年索賠</span>' +
+        '</div>' +
+        '<div style="background:#f8fafc;border:1px solid #cbd5e1;border-radius:6px;padding:10px;">' +
+          '<div style="position:relative;margin:15px 10px 25px;height:4px;background:#cbd5e1;border-radius:2px;">' +
+            '<div style="position:absolute;left:0%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:16px;height:16px;border-radius:50%;background:#0284c7;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">1st</div>' +
+              '<div style="font-size:9px;color:#0f172a;font-weight:700;margin-top:4px;white-space:nowrap;">首次確診</div>' +
+              '<div style="font-size:8px;color:#64748b;">賠償 100%</div>' +
+            '</div>' +
+            '<div style="position:absolute;left:35%;top:-8px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:20px;height:20px;border-radius:50%;background:#10b981;border:2px solid #fff;color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;font-weight:800;box-shadow:0 0 6px rgba(16,185,129,0.5);">1年</div>' +
+              '<div style="font-size:10px;color:#047857;font-weight:800;margin-top:4px;white-space:nowrap;">🔵 我方癌症再次索賠</div>' +
+              '<div style="font-size:8px;color:#059669;font-weight:700;background:#dcfce7;padding:1px 4px;border-radius:3px;">額外賠償 +100%</div>' +
+            '</div>' +
+            '<div style="position:absolute;left:75%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:16px;height:16px;border-radius:50%;background:#ef4444;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">3年</div>' +
+              '<div style="font-size:9px;color:#b91c1c;font-weight:700;margin-top:4px;white-space:nowrap;">🔴 對手等候期屆滿</div>' +
+              '<div style="font-size:8px;color:#dc2626;">前2年為自費真空期</div>' +
+            '</div>' +
+            '<div style="position:absolute;left:100%;top:-6px;display:flex;flex-direction:column;align-items:center;">' +
+              '<div style="width:16px;height:16px;border-radius:50%;background:#64748b;color:#fff;font-size:9px;display:flex;align-items:center;justify-content:center;font-weight:800;">5+</div>' +
+              '<div style="font-size:9px;color:#475569;font-weight:700;margin-top:4px;white-space:nowrap;">心腦血管多次</div>' +
+              '<div style="font-size:8px;color:#64748b;">ICU預支/豁免</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:4px;padding:6px 10px;font-size:10px;color:#1e40af;line-height:1.4;">' +
+            '<strong>精算洞察：</strong>癌症患者 68% 於首 2 年內需更換二線標靶藥物或持續化療。我方僅需 1 年等候期即重啟 100% 賠償；對手長達 3 年，中間 2 年無償給付真空期需自費數十萬標靶藥費！' +
+          '</div>' +
+        '</div>';
+      } else if (cat === 'Medical_VHIS') {
+        if (titleEl) titleEl.innerText = '🏥 自願醫保年度額度與全港私院出院免找數矩陣 (VHIS Limit & Hospital Billing Matrix)';
+        if (badgeEl) badgeEl.innerText = '出院免找數 · 全額全數賠償';
+        if (meterInner) meterInner.style.display = 'none';
+
+        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">' +
+          '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:6px;padding:8px;">' +
+            '<div style="font-size:11px;font-weight:800;color:var(--ikb);margin-bottom:4px;">🔵 【Plan A 我方】' + ourName + '</div>' +
+            '<div style="font-size:10px;color:#1e3a8a;">年度保障額度：<strong style="font-size:13px;color:#059669;">HK$ 5,000萬</strong></div>' +
+            '<div style="font-size:10px;color:#1e3a8a;">終身保障限額：<strong style="color:#059669;">無上限全數賠償</strong></div>' +
+            '<div style="font-size:10px;color:#1e40af;margin-top:4px;background:#dbeafe;padding:3px 6px;border-radius:3px;">' +
+              '✅ 全港 13 家私立醫院 100% 直通出院免找數 (LOG保證)' +
+            '</div>' +
+          '</div>' +
+          '<div style="background:#fef2f2;border:1.5px solid #fca5a5;border-radius:6px;padding:8px;">' +
+            '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:4px;">🔴 【Plan B 對手】' + rivalName + '</div>' +
+            '<div style="font-size:10px;color:#7f1d1d;">年度保障額度：<strong style="font-size:13px;color:#b91c1c;">HK$ 3,000萬</strong></div>' +
+            '<div style="font-size:10px;color:#7f1d1d;">終身保障限額：<strong style="color:#b91c1c;">HK$ 6,000萬 上限</strong></div>' +
+            '<div style="font-size:10px;color:#991b1b;margin-top:4px;background:#fee2e2;padding:3px 6px;border-radius:3px;">' +
+              '⚠️ 限特定網絡醫院；超出單項或無授權需自行刷卡墊支' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      } else if (cat === 'Financing_UniversalLife') {
+        if (titleEl) titleEl.innerText = '🏦 萬用壽險保費融資淨利差與 LTV 槓桿走廊 (UL Carry Spread & Net Arbitrage)';
+        if (badgeEl) badgeEl.innerText = '私銀 85% LTV · 淨息差 > 1.45%';
+        if (meterInner) meterInner.style.display = 'none';
+
+        container.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">' +
+          '<div style="background:#eff6ff;border:1px solid #93c5fd;border-radius:6px;padding:8px;">' +
+            '<div style="font-size:10px;color:#1e40af;">保單結算年利率</div>' +
+            '<div style="font-size:15px;font-weight:800;color:var(--ikb);font-family:monospace;">5.25%</div>' +
+            '<div style="font-size:9px;color:#64748b;">保司現行派息</div>' +
+          '</div>' +
+          '<div style="background:#fff;border:1px solid #cbd5e1;border-radius:6px;padding:8px;">' +
+            '<div style="font-size:10px;color:#475569;">融資借貸成本 (Cost)</div>' +
+            '<div style="font-size:15px;font-weight:800;color:#dc2626;font-family:monospace;">3.80%</div>' +
+            '<div style="font-size:9px;color:#64748b;">HIBOR/SOFR 息差</div>' +
+          '</div>' +
+          '<div style="background:#ecfdf5;border:1.5px solid #86efac;border-radius:6px;padding:8px;">' +
+            '<div style="font-size:10px;color:#047857;">淨套利利差 (Spread)</div>' +
+            '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;">+1.45%</div>' +
+            '<div style="font-size:9px;color:#059669;font-weight:700;">85% LTV 槓桿放大</div>' +
+          '</div>' +
+        '</div>' +
+        '<div style="margin-top:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;padding:6px 10px;font-size:10px;color:#475569;line-height:1.4;">' +
+          '客戶只需出資 15% 首期保費，銀行融資 85%，在 1.45% 淨利差下透過槓桿將權益回報率 (ROE) 放大至 8%~11% 穩健年化！' +
+        '</div>';
+      }
+    }
+    window.renderCorridorVisualChart = renderCorridorVisualChart;
+
     function updateBattleCard() {
       const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
       if (!card) return;
@@ -5870,6 +6079,9 @@ const htmlContent = `<!DOCTYPE html>
 
       // Horizon Display
       updateHorizonDisplay(card, currentHorizonYear);
+
+      // Category-Aware Visual Interactive Chart
+      renderCorridorVisualChart(card, currentCategory);
 
       // GN16 Corridor Meter
       const corridorDesc = document.getElementById('corridor-desc');

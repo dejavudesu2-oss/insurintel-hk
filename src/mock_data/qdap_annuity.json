@@ -57,7 +57,12 @@
       "非保證年金部分取決於永明分紅實現率，實際每月到手金額或有浮動",
       "法定年金領取年齡不得早於 50 歲，資金鎖定期較長"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap",
+    "official_brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap",
+    "official_pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/qdap/sun-qdap-brochure.pdf",
+    "brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap",
+    "pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/qdap/sun-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BOC-QDAP-2026",
@@ -120,7 +125,12 @@
       "年金領取年齡鎖定，提早領取需承受高額行政折讓費用",
       "主要以港幣及美元結算，不支援多種外幣中途轉換"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap",
+    "official_brochure_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap",
+    "official_pdf_url": "https://www.boclife.com.hk/tc/download/qdap/boc-qdap-brochure.pdf",
+    "brochure_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap",
+    "pdf_url": "https://www.boclife.com.hk/tc/download/qdap/boc-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-QDAP-2026",
@@ -182,7 +192,12 @@
       "提早終止合約將觸發稅務局扣稅撤回條款（Tax Clawback）",
       "年金領取年齡最低為 50 歲，不適宜有短期提款需求之投資者"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/qdap/pru-qdap-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/qdap/pru-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-QDAP-2026",
@@ -244,7 +259,12 @@
       "年金領取年期一旦選定，在年金開始領取後不可更改或提前折現",
       "非吸煙體質標準審查，若未如實申報吸煙習慣可能影響日後派發"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/aia-qdap-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/aia-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-QDAP-2026",
@@ -307,7 +327,12 @@
       "法定最低領取年齡限制（50 歲），提早領取將失去合資格延期年金資格",
       "受保人若在領取前身故，身故賠償通常等同已繳保費或保證價值之較高者"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-FWD-QDAP-2026",
@@ -372,7 +397,12 @@
       "若退保將喪失此前已申報之薪俸稅寬免優惠，可能被稅務局追溯差額",
       "年金開始領取年齡受限於合約條款，不可任意提前提取本金"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.fwd.com.hk/zh/annuity/fwd-qdap",
+    "official_brochure_url": "https://www.fwd.com.hk/zh/annuity/fwd-qdap",
+    "official_pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/qdap/fwd-qdap-brochure.pdf",
+    "brochure_url": "https://www.fwd.com.hk/zh/annuity/fwd-qdap",
+    "pdf_url": "https://www.fwd.com.hk/assets/dam/fwd/hk/zh/pdf/qdap/fwd-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AXA-QDAP-2026",
@@ -437,7 +467,12 @@
       "年金期內每月入息不可提前一次性借貸或抵押折現",
       "稅務寬免需按香港稅務局最終評稅通知書（Notice of Assessment）為準"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.axa.com.hk/zh/annuity/axa-qdap",
+    "official_brochure_url": "https://www.axa.com.hk/zh/annuity/axa-qdap",
+    "official_pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/qdap/axa-qdap-brochure.pdf",
+    "brochure_url": "https://www.axa.com.hk/zh/annuity/axa-qdap",
+    "pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/qdap/axa-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-YF-QDAP-2026",
@@ -503,7 +538,12 @@
       "非保證分紅受萬通投資資產表現影響，歷史實現率存有市場週期波動",
       "年金領取年齡法定不得早於 50 歲"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.yflife.com/zh-hk/products/annuity/yf-qdap",
+    "official_brochure_url": "https://www.yflife.com/zh-hk/products/annuity/yf-qdap",
+    "official_pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/qdap/yf-qdap-brochure.pdf",
+    "brochure_url": "https://www.yflife.com/zh-hk/products/annuity/yf-qdap",
+    "pdf_url": "https://www.yflife.com/content/dam/yflife/pdf/qdap/yf-qdap-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-QDAP-DELIGHT-2026",
@@ -566,7 +606,12 @@
       "非保證年金部分可能隨宏利分紅資產組合浮動調整",
       "年金開始後若中途退保需按當時退保精算折現值計算，手續費較高"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-delight",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-delight",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-delight-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-delight",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-delight-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BOC-QDAP-FIXED-2026",
@@ -630,7 +675,12 @@
       "固定 10 年領取期屆滿後保單終止，無法提供覆蓋百歲之終身現金流",
       "不可提前申請部分提取保單價值，所有入息需按既定月度指令派發"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap-fixed",
+    "official_brochure_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap-fixed",
+    "official_pdf_url": "https://www.boclife.com.hk/tc/download/qdap/boc-qdap-fixed-brochure.pdf",
+    "brochure_url": "https://www.boclife.com.hk/tc/product/annuity/boc-qdap-fixed",
+    "pdf_url": "https://www.boclife.com.hk/tc/download/qdap/boc-qdap-fixed-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AIA-QDAP-RETIRE-2026",
@@ -694,7 +744,12 @@
       "非保證入息部分取決於友邦分紅實現率，實際到手入息或高於或低於預期",
       "退保或斷供將失去合資格年金資格並被稅務局追回稅務減免"
     ],
-    "last_updated": "2026-11-06"
+    "last_updated": "2026-11-06",
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap-retire",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap-retire",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/aia-qdap-retire-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/aia-qdap-retire",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/aia-qdap-retire-brochure.pdf"
   },
   {
     "promo_id": "PROMO-HSBC-QDAP-RETIREMENT-2026",
@@ -764,7 +819,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核准清冊編號: QDAP-HSBC-2026-01；滙豐保險官方通告 Ref: HSBC-QDAP-CIRC-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/hsbc-qdap-retirement",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/hsbc-qdap-retirement",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/hsbc-qdap-retirement-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/hsbc-qdap-retirement",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/hsbc-qdap-retirement-brochure.pdf"
   },
   {
     "promo_id": "PROMO-GEN-QDAP-LIONANNUITY-2026",
@@ -829,7 +889,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核備編號: QDAP-GEN-2026-02；忠意保險官方備忘 Ref: GEN-QDAP-LION-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/gen-qdap-lionannuity",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/gen-qdap-lionannuity",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/gen-qdap-lionannuity-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/gen-qdap-lionannuity",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/gen-qdap-lionannuity-brochure.pdf"
   },
   {
     "promo_id": "PROMO-CL-QDAP-GOLDEN-2026",
@@ -900,7 +965,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核准名冊編號: QDAP-CL-2026-03；中國人壽海外官方通告 Ref: CL-QDAP-GOLDEN-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/cl-qdap-golden",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/cl-qdap-golden",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/cl-qdap-golden-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/cl-qdap-golden",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/cl-qdap-golden-brochure.pdf"
   },
   {
     "promo_id": "PROMO-BC-QDAP-SECURE-2026",
@@ -965,7 +1035,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核准標籤: QDAP-BC-2026-04；藍十字官方產品手冊 Ref: BC-QDAP-SECURE-2026"
-    }
+    },
+    "official_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/bc-qdap-secure",
+    "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/bc-qdap-secure",
+    "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/bc-qdap-secure-brochure.pdf",
+    "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/annuity/bc-qdap-secure",
+    "pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/qdap/bc-qdap-secure-brochure.pdf"
   },
   {
     "promo_id": "PROMO-PRU-QDAP-WEALTHPLUS-2026",
@@ -1035,7 +1110,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核備編號: QDAP-PRU-2026-05；保誠保險官方指南 Ref: PRU-QDAP-WEALTHPLUS-2026"
-    }
+    },
+    "official_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap-wealthplus",
+    "official_brochure_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap-wealthplus",
+    "official_pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/qdap/pru-qdap-wealthplus-brochure.pdf",
+    "brochure_url": "https://www.prudential.com.hk/zh-hk/annuity/pru-qdap-wealthplus",
+    "pdf_url": "https://www.prudential.com.hk/content/dam/prudential/hk/zh-hk/pdf/qdap/pru-qdap-wealthplus-brochure.pdf"
   },
   {
     "promo_id": "PROMO-MANU-QDAP-PREMIER-2026",
@@ -1105,7 +1185,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核准清單編號: QDAP-MANU-2026-06；宏利人壽官方指南 Ref: MANU-QDAP-ENRICH-2026"
-    }
+    },
+    "official_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-premier",
+    "official_brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-premier",
+    "official_pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-premier-brochure.pdf",
+    "brochure_url": "https://www.manulife.com.hk/zh-hk/individual/products/annuity/manu-qdap-premier",
+    "pdf_url": "https://www.manulife.com.hk/content/dam/insurance/hk/zh-hk/documents/qdap/manu-qdap-premier-brochure.pdf"
   },
   {
     "promo_id": "PROMO-AXA-QDAP-JOYFUL-2026",
@@ -1175,7 +1260,12 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核准證書: QDAP-AXA-2026-08；安盛保險官方文件 Ref: AXA-QDAP-INCOME-2026"
-    }
+    },
+    "official_url": "https://www.axa.com.hk/zh/annuity/axa-qdap-joyful",
+    "official_brochure_url": "https://www.axa.com.hk/zh/annuity/axa-qdap-joyful",
+    "official_pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/qdap/axa-qdap-joyful-brochure.pdf",
+    "brochure_url": "https://www.axa.com.hk/zh/annuity/axa-qdap-joyful",
+    "pdf_url": "https://www.axa.com.hk/content/dam/axa-hong-kong/pdf/qdap/axa-qdap-joyful-brochure.pdf"
   },
   {
     "promo_id": "PROMO-SUN-QDAP-HARVEST-2026",
@@ -1240,6 +1330,11 @@
       "verified_by_editor": true,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "保監局 QDAP 核備編號: QDAP-SUN-2026-09；永明金融官方手冊 Ref: SUN-QDAP-HARVEST-2026"
-    }
+    },
+    "official_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap-harvest",
+    "official_brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap-harvest",
+    "official_pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/qdap/sun-qdap-harvest-brochure.pdf",
+    "brochure_url": "https://www.sunlife.com.hk/zh-hant/insurance/annuity/sun-qdap-harvest",
+    "pdf_url": "https://www.sunlife.com.hk/content/dam/sunlife/regional/hong-kong/documents/qdap/sun-qdap-harvest-brochure.pdf"
   }
 ]
