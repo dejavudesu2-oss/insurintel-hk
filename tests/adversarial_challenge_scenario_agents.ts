@@ -454,6 +454,15 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     assert.ok(panelHtml.includes('保證回本年期'), 'Panel must include breakeven metric');
     assert.ok(panelHtml.includes('GN16 官方實現率'), 'Panel must include GN16 metric');
     assert.strictEqual(typeof mockWindow.openWhatsAppCafeScript, 'function');
+
+    // Dynamic pitch metrics across categories (e.g. Medical VHIS)
+    mockWindow.selectCategory('Medical_VHIS');
+    mockWindow.selectScenarioAgent('cafe_rapid');
+    const vhisPanel = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(vhisPanel.includes('年度賠償上限'), 'VHIS tile 1 must show 年度賠償上限');
+    assert.ok(vhisPanel.includes('終身保障限額'), 'VHIS tile 2 must show 終身保障限額');
+    assert.ok(vhisPanel.includes('出院免找數直付覆蓋'), 'VHIS tile 3 must show 出院免找數直付覆蓋');
+    assert.ok(vhisPanel.includes('2,500萬') || vhisPanel.includes('1,600萬') || vhisPanel.includes('無上限'), 'Dynamic limits must be shown in VHIS pitch');
   });
 
   test('Scenario Agent 2: 🇨🇳 Offshore MCV / HNW renders multi-currency conversion, 3A hospital list & waiver limit', () => {
@@ -507,6 +516,17 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     assert.ok(scaledHtml.includes('180萬'), 'CI cover must dynamically scale to 180萬 for 7500 budget');
     assert.ok(scaledHtml.includes('110.8萬'), '18-year education fund compounding at 5.5% must equal 110.8萬');
 
+    // Real-World User Request: Budget scale-up to HK$ 100,000 / month with quick chips
+    assert.ok(panelHtml.includes('max="100000"'), 'Budget slider max must equal 100,000');
+    assert.ok(panelHtml.includes('onFamilyBudgetChange(100000)'), 'Must include 100k preset quick chip');
+    assert.ok(panelHtml.includes('onFamilyBudgetChange(50000)'), 'Must include 50k preset quick chip');
+    mockWindow.onFamilyBudgetChange(100000);
+    const maxBudgetHtml = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(maxBudgetHtml.includes('HK$ 60,000'), '60% of 100,000 must equal HK$ 60,000');
+    assert.ok(maxBudgetHtml.includes('HK$ 40,000'), '40% of 100,000 must equal HK$ 40,000');
+    assert.ok(maxBudgetHtml.includes('2,400萬'), 'CI coverage scales to 2,400萬 for 100k budget');
+    assert.ok(maxBudgetHtml.includes('1,477.4萬') || maxBudgetHtml.includes('1477.4萬'), '18-year education compounding scales to 1,477.4萬');
+
     // Edge Case: 0 mortgage debt
     mockWindow.onMortgageChange(0);
     const zeroMortgageHtml = domElements['scenario-agent-panel'].innerHTML;
@@ -539,6 +559,13 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     // Test single person contributing excess HK$120,000: effective discount is 8.5% (HK$10,200 / HK$120,000)
     mockWindow.onQDAPCoupleToggle(false);
     assert.ok(domElements['scenario-agent-panel'].innerHTML.includes('8.5%'), 'Effective discount on capped premium must equal 8.5%');
+
+    // Real-World User Bug Fix: Large QDAP premium (e.g. 6,000,013) must scale monthly annuity dynamically without freezing at 2,000
+    mockWindow.onQDAPPremiumChange(6000013);
+    const highPremHtml = domElements['scenario-agent-panel'].innerHTML;
+    assert.ok(highPremHtml.includes('HK$ 200,000') && highPremHtml.includes('/月'), 'Monthly annuity must dynamically scale to ~HK$ 200,000 /月 for 6M premium');
+    assert.ok(!highPremHtml.includes('HK$ 2,000 /月') && !highPremHtml.includes('HK$ 2,000 / 月'), 'Monthly annuity must NOT freeze at HK$ 2,000 / 月 for 6M premium');
+    assert.strictEqual(typeof mockWindow.updateQDAPUI, 'function', 'updateQDAPUI must be exposed for live in-place update');
   });
 
   test('Scenario Agent 5: 💬 Instant Comms Synthesizer renders WhatsApp / WeChat 1-tap closing scripts', () => {
@@ -579,6 +606,11 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     assert.ok(panelHtml.includes('medical-result-card'), 'Panel must have result card');
     assert.ok(panelHtml.includes('Letter of Guarantee'), 'Panel must include Letter of Guarantee simulation');
     assert.ok(panelHtml.includes('4步極速出院直付申請流程'), 'Panel must include 4-step workflow guide');
+    assert.ok(panelHtml.includes('🔵 我方 (Plan A)'), 'Panel must render Plan A direct billing card');
+    assert.ok(panelHtml.includes('🔴 對手 (Plan B)'), 'Panel must render Plan B direct billing card');
+    assert.ok(panelHtml.includes('保司直接代付 (LOG擔保)'), 'Panel must show LOG guarantee amount');
+    assert.ok(panelHtml.includes('香港中文大學醫院'), 'Panel must include CUHK Medical Centre option');
+    assert.ok(panelHtml.includes('達芬奇機械人微創手術'), 'Panel must include Da Vinci Robotic Surgery option');
 
     // Test changing treatment and deductible
     mockWindow.onMedicalTreatmentSelect('心臟冠狀動脈通波仔手術 (Coronary Angioplasty / Stent)');
@@ -809,6 +841,29 @@ suite('4. Byte-for-Byte SHA-256 Template Parity Check', () => {
     const s3 = fs.statSync(distCafePath).size;
     assert.strictEqual(s1, s2, `Template size (${s1}) must match dist/index.html size (${s2})`);
     assert.strictEqual(s1, s3, `Template size (${s1}) must match dist/cafe.html size (${s3})`);
+  });
+
+  test('Layout ordering: Bilateral Arena Box is placed directly below Category Tabs, and Client Explainer Banner is removed', () => {
+    const rawHtml = fs.readFileSync(templatesPath, 'utf-8');
+    const catIdx = rawHtml.indexOf('id="category-tabs"');
+    const arenaIdx = rawHtml.indexOf('id="bilateral-arena-box"');
+    const aiBannerIdx = rawHtml.indexOf('id="ai-quick-trigger-banner"');
+    const scenarioWrapIdx = rawHtml.indexOf('id="scenario-agents-bar-wrap"');
+    const claimPillsIdx = rawHtml.indexOf('id="claim-pills"');
+
+    assert.ok(catIdx !== -1, 'category-tabs must exist');
+    assert.ok(arenaIdx !== -1, 'bilateral-arena-box must exist');
+    assert.ok(aiBannerIdx !== -1, 'ai-quick-trigger-banner must exist');
+    assert.ok(scenarioWrapIdx !== -1, 'scenario-agents-bar-wrap must exist');
+    assert.ok(claimPillsIdx !== -1, 'claim-pills must exist');
+
+    assert.ok(catIdx < arenaIdx, 'category-tabs must come before bilateral-arena-box');
+    assert.ok(arenaIdx < aiBannerIdx, 'bilateral-arena-box must come before ai-quick-trigger-banner');
+    assert.ok(aiBannerIdx < scenarioWrapIdx, 'ai-quick-trigger-banner must come before scenario-agents-bar-wrap');
+    assert.ok(scenarioWrapIdx < claimPillsIdx, 'scenario-agents-bar-wrap must come before claim-pills');
+
+    assert.ok(!rawHtml.includes('client-mode-explainer-banner'), 'client-mode-explainer-banner must be removed');
+    assert.ok(!rawHtml.includes('適合直接把手機/iPad遞給客戶看'), 'Awkward client handoff text must be removed');
   });
 });
 

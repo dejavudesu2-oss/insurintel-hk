@@ -41,35 +41,57 @@ class CafeRapidPitchAgent {
             ];
         }
         else if (category === "Medical_VHIS") {
-            breakevenDelta = "全港私家醫院全數賠償";
-            rebateDelta = "出院免找數 (直付名單)";
-            gn16Delta = "標靶藥全額無細項上限";
+            const ourAnnual = ourProduct?.vhisLimitHkd || ourProduct?.vhis_metrics?.annual_limit_hkd || 25000000;
+            const rivalAnnual = rivalProduct?.vhisLimitHkd || rivalProduct?.vhis_metrics?.annual_limit_hkd || 20000000;
+            const ourAnnualWan = Math.round(ourAnnual / 10000);
+            const rivalAnnualWan = Math.round(rivalAnnual / 10000);
+            const diffAnnual = ourAnnualWan - rivalAnnualWan;
+            const ourLifetime = (ourProduct?.vhisLifetimeLimitHkd !== undefined ? ourProduct?.vhisLifetimeLimitHkd : ourProduct?.vhis_metrics?.lifetime_limit_hkd) ?? 0;
+            const rivalLifetime = (rivalProduct?.vhisLifetimeLimitHkd !== undefined ? rivalProduct?.vhisLifetimeLimitHkd : rivalProduct?.vhis_metrics?.lifetime_limit_hkd) ?? 0;
+            const ourLifeStr = ourLifetime === 0 ? "終身無上限" : `HK$ ${Math.round(ourLifetime / 10000)}萬`;
+            const rivalLifeStr = rivalLifetime === 0 ? "終身無上限" : `HK$ ${Math.round(rivalLifetime / 10000)}萬`;
+            breakevenDelta = diffAnnual > 0 ? `年限額高 +${diffAnnual}萬 (${ourAnnualWan}萬 vs ${rivalAnnualWan}萬)` : `年度額度 HK$${ourAnnualWan}萬`;
+            rebateDelta = `終身限額 ${ourLifeStr} vs ${rivalLifeStr}`;
+            gn16Delta = "全港私院及千家三甲免找數直付";
             statusTag = "🏥 醫保全數賠償";
             punchlines = [
-                `【全額醫療零漏洞】我方【${ourName}】全數賠償手術費及病房費，打破傳統逐項分拆賠償上限！`,
-                `【癌症昂貴標靶藥】實報實銷非手術癌症治療，百萬級標靶藥自費藥全額理賠！`,
-                `【出院免找數綠色通道】全港私家醫院 + 內地 1,000+ 家三甲醫院直付，顧問全程協助索償！`
+                `【每年賠償上限】我方【${ourName}】每年高達 HK$ ${ourAnnualWan}萬（對手【${rivalName}】為 HK$ ${rivalAnnualWan}萬）！`,
+                `【終身保障總額】我方提供【${ourLifeStr}】（對手為【${rivalLifeStr}】），無懼醫療通脹！`,
+                `【出院免找數直付】全港頂尖私家醫院 + 內地 1,000+ 家三甲醫院付款擔保 (LOG) 直付通道，零墊支安心出院！`
             ];
         }
         else if (category === "Annuity_QDAP") {
-            breakevenDelta = "HK$60,000 扣稅上限";
-            rebateDelta = "每年慳稅高達 HK$10,200";
-            gn16Delta = "保證月派 IRR 3.0%+";
+            const ourGIRR = ourProduct?.qdapGuaranteedIRR || ourProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.80;
+            const rivalGIRR = rivalProduct?.qdapGuaranteedIRR || rivalProduct?.qdap_metrics?.guaranteed_internal_rate_pct || 2.50;
+            const ourTIRR = ourProduct?.qdapTotalIRR || ourProduct?.qdap_metrics?.total_internal_rate_pct || 4.65;
+            const rivalTIRR = rivalProduct?.qdapTotalIRR || rivalProduct?.qdap_metrics?.total_internal_rate_pct || 4.20;
+            const ourRatio = ourProduct?.qdapGuaranteedPct || ourProduct?.qdap_metrics?.guaranteed_cashflow_ratio_pct || (Math.round((ourGIRR / ourTIRR) * 100 * 10) / 10);
+            const rivalRatio = rivalProduct?.qdapGuaranteedPct || rivalProduct?.qdap_metrics?.guaranteed_cashflow_ratio_pct || (Math.round((rivalGIRR / rivalTIRR) * 100 * 10) / 10);
+            const diffGIRR = (ourGIRR - rivalGIRR).toFixed(2);
+            breakevenDelta = parseFloat(diffGIRR) > 0 ? `保證回報高出 +${diffGIRR}% (${ourGIRR}% vs ${rivalGIRR}%)` : `保證內部回報率 IRR ${ourGIRR}%`;
+            rebateDelta = `保證現金流佔比 ${ourRatio}% vs ${rivalRatio}%`;
+            gn16Delta = "每人每年 HK$60,000 法定扣稅";
             statusTag = "👴 退休現金流鎖定";
             punchlines = [
                 `【法定扣稅慳到極】每位納稅人每年享受高達 HK$60,000 扣稅額，頂階稅率慳足 HK$10,200（夫妻慳 $20,400）！`,
-                `【高比例保證現金流】保證年金比例高達 80% 以上，確定月月派發至 100 歲，無懼市場風浪！`,
-                `【通脹防禦鎖定】內部回報率 (IRR) 超越定期，退休生活自帶被動收入！`
+                `【保證內部回報率】我方保證 IRR 達 ${ourGIRR}%（對手 ${rivalGIRR}%），總預期 IRR 達 ${ourTIRR}%！`,
+                `【高比例保證現金流】保證年金比例高達 ${ourRatio}%，月月保證派發至百歲，退休生活自帶被動收入！`
             ];
         }
         else if (category === "Financing_UniversalLife") {
-            breakevenDelta = "85% LTV 私銀保費融資";
-            rebateDelta = "淨利差套利 > 1.45%";
-            gn16Delta = "保底派息率 2.25%";
+            const ourLtv = ourProduct?.ulLtv || ourProduct?.ul_metrics?.max_ltv_pct || 85;
+            const rivalLtv = rivalProduct?.ulLtv || rivalProduct?.ul_metrics?.max_ltv_pct || 80;
+            const ourRate = ourProduct?.ulCreditingRate || ourProduct?.ul_metrics?.crediting_rate_current_pct || 5.25;
+            const rivalRate = rivalProduct?.ulCreditingRate || rivalProduct?.ul_metrics?.crediting_rate_current_pct || 5.0;
+            const ourNetSpread = ourProduct?.ulNetSpread || ourProduct?.ul_metrics?.net_carry_spread_pct || 1.45;
+            const rivalNetSpread = rivalProduct?.ulNetSpread || rivalProduct?.ul_metrics?.net_carry_spread_pct || 1.20;
+            breakevenDelta = `融資成數 ${ourLtv}% LTV vs ${rivalLtv}% LTV`;
+            rebateDelta = `淨息差空間 > ${ourNetSpread}% vs ${rivalNetSpread}%`;
+            gn16Delta = `宣告派息率 ${ourRate}% vs ${rivalRate}%`;
             statusTag = "🏦 萬用保費融資槓桿";
             punchlines = [
-                `【極致資金槓桿】85% LTV 保費融資，用 15% 本金撬動 100% 巨額千萬壽險保障！`,
-                `【正利差穩定套利】當前宣告派息 5.25% 對比融資成本，淨利差套利空間超 1.45%！`,
+                `【極致資金槓桿】我方提供 ${ourLtv}% LTV 保費融資（對手 ${rivalLtv}% LTV），用更少本金撬動千萬巨額保障！`,
+                `【穩健正利差套利】當前宣告派息 ${ourRate}%，淨利差套利空間超 ${ourNetSpread}%！`,
                 `【私銀級資產傳承】身故槓桿高達 4-7 倍，高淨值資產隔離與跨代傳承首選！`
             ];
         }
@@ -78,14 +100,19 @@ class CafeRapidPitchAgent {
             const ourBk = ourProduct?.breakevenYear || ourProduct?.savings_metrics?.breakeven_guaranteed_year || 5;
             const rivalBk = rivalProduct?.breakevenYear || rivalProduct?.savings_metrics?.breakeven_guaranteed_year || 8;
             const bkDiff = rivalBk - ourBk;
-            breakevenDelta = bkDiff > 0 ? `保證回本快 ${bkDiff} 年` : `第 ${ourBk} 年回本`;
-            rebateDelta = `預繳保證息差 +0.8%`;
-            gn16Delta = `GN16 實現率領先 5.3%`;
+            const ourRebate = ourProduct?.maxRebate ?? 22;
+            const rivalRebate = rivalProduct?.maxRebate ?? 18;
+            const ourGn16 = ourProduct?.gn16Fulfillment || ourProduct?.savings_metrics?.gn16_fulfillment_ratio_pct || 96.5;
+            const rivalGn16 = rivalProduct?.gn16Fulfillment || rivalProduct?.savings_metrics?.gn16_fulfillment_ratio_pct || 91.2;
+            const gn16Diff = (ourGn16 - rivalGn16).toFixed(1);
+            breakevenDelta = bkDiff > 0 ? `保證回本快 ${bkDiff} 年 (第${ourBk}年 vs 第${rivalBk}年)` : `第 ${ourBk} 年回本`;
+            rebateDelta = `首年回贈 ${ourRebate}% vs ${rivalRebate}%`;
+            gn16Delta = parseFloat(gn16Diff) > 0 ? `GN16 實現率領先 +${gn16Diff}% (${ourGn16}% vs ${rivalGn16}%)` : `GN16 實現率 ${ourGn16}%`;
             statusTag = "📈 儲蓄分紅確定性壓制";
             punchlines = [
                 `【回本速度完勝】我方【${ourName}】第 ${ourBk} 年已實現保證回本，比【${rivalName}】早足 ${Math.max(1, bkDiff)} 年鎖定安全！`,
-                `【GN16 官方實現率】保監局官方數據：我方分紅累積實現率高達 96.5%，無懼長線市場降息波動！`,
-                `【靈活家族傳承】支援 9 種主流貨幣無限次轉換與保單無限次拆單，一張保單富過三代！`
+                `【GN16 官方實現率】保監局官方數據：我方分紅累積實現率高達 ${ourGn16}%（對手 ${rivalGn16}%），無懼長線市場降息波動！`,
+                `【靈活家族傳承】支援主流貨幣轉換與保單拆單，一張保單富過三代！`
             ];
         }
         let categoryClosing = "如果想兼顧本金安全與長線收益，推薦優先鎖定我地方案！";
@@ -236,8 +263,8 @@ class RetirementTaxAgent {
         const eligible = Math.min(annualPremiumHKD, maxLimit);
         const taxSaved = Math.round(eligible * (taxBracketPct / 100));
         const effectiveDiscount = eligible > 0 ? Math.round((taxSaved / eligible) * 1000) / 10 : 0;
-        // Projected annuity income: 5-year premium gives ~15-20 years payout with ~3.2% IRR
-        const totalEstAnnualPayout = Math.round((eligible * 5 * 1.6) / 20);
+        // Projected annuity income: 5-year premium gives ~15-20 years payout with ~3.2% IRR (scaled by annualPremiumHKD)
+        const totalEstAnnualPayout = Math.round((annualPremiumHKD * 5 * 1.6) / 20);
         const monthlyAnnuity = Math.round(totalEstAnnualPayout / 12);
         return {
             scenario: "retirement_tax",

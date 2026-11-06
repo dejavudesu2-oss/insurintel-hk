@@ -107,6 +107,8 @@ for (const file of mockFiles) {
     const ciMultiplePctNum = (p.ci_metrics && typeof p.ci_metrics.multiple_claim_limit_pct === 'number') ? p.ci_metrics.multiple_claim_limit_pct : 900;
     const ciIcuBool = !!(p.ci_metrics && p.ci_metrics.icu_stay_benefit_covered);
     const vhisLimitHkdNum = (p.vhis_metrics && typeof p.vhis_metrics.annual_limit_hkd === 'number') ? p.vhis_metrics.annual_limit_hkd : 0;
+    const vhisLifetimeLimitHkdNum = (p.vhis_metrics && typeof p.vhis_metrics.lifetime_limit_hkd === 'number') ? p.vhis_metrics.lifetime_limit_hkd : 0;
+    const vhisDeductiblesArr = (p.vhis_metrics && Array.isArray(p.vhis_metrics.deductible_options_hkd)) ? p.vhis_metrics.deductible_options_hkd : [0, 16000, 25000, 50000];
     const qdapGuaranteedIRRNum = (p.qdap_metrics && typeof p.qdap_metrics.guaranteed_internal_rate_pct === 'number') ? p.qdap_metrics.guaranteed_internal_rate_pct : 0;
     const qdapTotalIRRNum = (p.qdap_metrics && typeof p.qdap_metrics.total_internal_rate_pct === 'number') ? p.qdap_metrics.total_internal_rate_pct : 0;
     const qdapGuaranteedPctNum = (p.qdap_metrics && p.qdap_metrics.guaranteed_internal_rate_pct && p.qdap_metrics.total_internal_rate_pct)
@@ -142,6 +144,8 @@ for (const file of mockFiles) {
       ciMultiplePct: ciMultiplePctNum,
       ciIcu: ciIcuBool,
       vhisLimitHkd: vhisLimitHkdNum,
+      vhisLifetimeLimitHkd: vhisLifetimeLimitHkdNum,
+      vhisDeductibles: vhisDeductiblesArr,
       qdapGuaranteedIRR: qdapGuaranteedIRRNum,
       qdapTotalIRR: qdapTotalIRRNum,
       qdapGuaranteedPct: qdapGuaranteedPctNum,
@@ -353,14 +357,6 @@ const htmlContent = `<!DOCTYPE html>
       padding: 10px 12px;
       margin-bottom: 12px;
     }
-    .client-mode-explainer-banner {
-      background: #f0f7ff;
-      border: 1.5px solid var(--ikb);
-      box-shadow: 0 2px 8px rgba(0, 47, 167, 0.08);
-      border-radius: 10px;
-      padding: 10px 12px;
-      margin-bottom: 14px;
-    }
     .mode-explainer-header {
       display: flex;
       justify-content: space-between;
@@ -399,7 +395,6 @@ const htmlContent = `<!DOCTYPE html>
       font-weight: 600;
     }
     .agent-mode-explainer-banner .mode-explainer-desc { color: #cbd5e1; }
-    .client-mode-explainer-banner .mode-explainer-desc { color: #1e3a8a; }
 
     /* 5 Categories Navigation Tabs Bar */
     .category-tabs-bar {
@@ -2416,33 +2411,6 @@ const htmlContent = `<!DOCTYPE html>
     <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (20款)</button>
   </div>
 
-  <!-- AI Scenario Agents Switcher Bar -->
-  <div class="scenario-agents-bar-wrap" id="scenario-agents-bar-wrap">
-    <div class="scenario-bar-header">
-      <span class="scenario-bar-title">🤖 AI 實戰場景顧問引擎 (AI Scenario Agents)</span>
-      <span class="scenario-bar-tag" id="scenario-active-tag">☕ 咖啡館極速</span>
-    </div>
-    <div class="scenario-agents-tabs" id="scenario-agent-tabs">
-      <button class="scenario-tab-btn active" data-scenario="cafe_rapid" onclick="selectScenarioAgent('cafe_rapid')">☕ 30s 咖啡館極速</button>
-      <button class="scenario-tab-btn" data-scenario="offshore_mcv" onclick="selectScenarioAgent('offshore_mcv')">🇨🇳 MCV 離岸大客</button>
-      <button class="scenario-tab-btn" data-scenario="young_family" onclick="selectScenarioAgent('young_family')">👨‍👩‍👧 家庭預算槓桿</button>
-      <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
-      <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
-      <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
-    </div>
-  </div>
-
-  <!-- Dynamic Active Scenario Agent Tool Panel -->
-  <div class="scenario-panel-container" id="scenario-agent-panel">
-    <!-- Populated dynamically by renderScenarioAgentPanel() -->
-  </div>
-
-  <!-- AI Quick Strategy Trigger Banner -->
-  <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
-    <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
-    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AIA Copilot</span>
-  </div>
-
   <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
   <div class="bilateral-arena-box" id="bilateral-arena-box">
     <!-- Plan A: 我方陣營 -->
@@ -2520,6 +2488,33 @@ const htmlContent = `<!DOCTYPE html>
       </div>
       <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
     </div>
+  </div>
+
+  <!-- AI Quick Strategy Trigger Banner -->
+  <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
+    <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
+    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AIA Copilot</span>
+  </div>
+
+  <!-- AI Scenario Agents Switcher Bar -->
+  <div class="scenario-agents-bar-wrap" id="scenario-agents-bar-wrap">
+    <div class="scenario-bar-header">
+      <span class="scenario-bar-title">🤖 AI 實戰場景顧問引擎 (AI Scenario Agents)</span>
+      <span class="scenario-bar-tag" id="scenario-active-tag">☕ 咖啡館極速</span>
+    </div>
+    <div class="scenario-agents-tabs" id="scenario-agent-tabs">
+      <button class="scenario-tab-btn active" data-scenario="cafe_rapid" onclick="selectScenarioAgent('cafe_rapid')">☕ 30s 咖啡館極速</button>
+      <button class="scenario-tab-btn" data-scenario="offshore_mcv" onclick="selectScenarioAgent('offshore_mcv')">🇨🇳 MCV 離岸大客</button>
+      <button class="scenario-tab-btn" data-scenario="young_family" onclick="selectScenarioAgent('young_family')">👨‍👩‍👧 家庭預算槓桿</button>
+      <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
+      <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
+      <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
+    </div>
+  </div>
+
+  <!-- Dynamic Active Scenario Agent Tool Panel -->
+  <div class="scenario-panel-container" id="scenario-agent-panel">
+    <!-- Populated dynamically by renderScenarioAgentPanel() -->
   </div>
 
   <!-- 3-Second Quick Match Selector -->
@@ -2643,16 +2638,6 @@ const htmlContent = `<!DOCTYPE html>
 
   <!-- Client Facing View (Light, Clean, Objective, IA Compliant Tear-Sheet) -->
   <div id="client-view" class="main-card" style="display:none;">
-    <div class="client-mode-explainer-banner" id="client-mode-explainer-banner">
-      <div class="mode-explainer-header">
-        <span class="mode-explainer-tag tag-client">📱 客戶客觀展示撕頁 (Client Tear-Sheet)</span>
-        <span class="mode-explainer-pill pill-success">🛡️ 100% 符合保監局 GL20 守則</span>
-      </div>
-      <div class="mode-explainer-desc">
-        【客戶客觀展示撕頁 (Tear-Sheet)】100%符合保監局GL20公平客觀比較，包含1v1精算擂台、五維記分卡與條款客觀對照，適合直接把手機/iPad遞給客戶看
-      </div>
-    </div>
-
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:4px;">
       <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK TEAR-SHEET</span>
       <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GN16 公開報告 · 最後資料更新日期：2026年11月06日</span>
@@ -5221,6 +5206,7 @@ const htmlContent = `<!DOCTYPE html>
 
       updateCampSelectors();
       updateBattleCard();
+      renderScenarioAgentPanel();
     }
     window.setMyProduct = setMyProduct;
 
@@ -5250,6 +5236,7 @@ const htmlContent = `<!DOCTYPE html>
 
       updateCampSelectors();
       updateBattleCard();
+      renderScenarioAgentPanel();
     }
     window.setRivalProduct = setRivalProduct;
 
@@ -6602,7 +6589,8 @@ const htmlContent = `<!DOCTYPE html>
       const eligible = Math.min(prem, maxLimit);
       const taxSaved = Math.round(eligible * (rate / 100));
       const effectiveDiscount = prem > 0 ? Math.round((taxSaved / prem) * 1000) / 10 : 0;
-      const monthlyAnnuity = Math.round((eligible * 5 * 1.6) / (20 * 12));
+      // Monthly annuity payout scales proportionally with actual entered premium (prem)
+      const monthlyAnnuity = Math.round((prem * 5 * 1.6) / (20 * 12));
       return {
         annualPremium: prem,
         taxRate: rate,
@@ -6809,6 +6797,12 @@ const htmlContent = `<!DOCTYPE html>
           : '✅ 當前無房貸負擔！每月 60% 防禦預算可全數聚焦於家庭支柱定期純壽險與多次危疾，提供最高保額槓桿防護。');
       }
 
+      const chips = document.querySelectorAll('.family-preset-chips .tax-chip');
+      chips.forEach(chip => {
+        const chipVal = parseInt(chip.innerText.replace(/[^0-9]/g, ''), 10) * (chip.innerText.includes('k') ? 1000 : 1);
+        chip.classList.toggle('active', chipVal === familyMonthlyBudget);
+      });
+
       const panel = document.getElementById('panel-scenario-family');
       if (!panel || (typeof document !== 'undefined' && !document.activeElement)) {
         renderScenarioAgentPanel();
@@ -6826,19 +6820,62 @@ const htmlContent = `<!DOCTYPE html>
       updateFamilyBudgetUI();
     }
 
+    function updateQDAPUI() {
+      const ourProd = mySelectedProduct || {};
+      const gIrr = ourProd.qdapGuaranteedIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
+      const tIrr = ourProd.qdapTotalIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.total_internal_rate_pct) || 4.65;
+      const gRatio = ourProd.qdapGuaranteedPct || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((gIrr / tIrr) * 100 * 1.3 * 10) / 10)));
+
+      const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple);
+
+      const eligibleEl = document.getElementById('qdap-eligible-limit-val');
+      if (eligibleEl) {
+        eligibleEl.innerHTML = '合資格扣稅額：HK$ ' + qdapRes.eligible.toLocaleString() + ' (等同總保費實質慳 ' + qdapRes.discountPct + '%)';
+      }
+
+      const taxSavedEl = document.getElementById('qdap-tax-saved-val');
+      if (taxSavedEl) {
+        taxSavedEl.innerText = 'HK$ ' + qdapRes.taxSaved.toLocaleString();
+      }
+
+      const monthlyEl = document.getElementById('qdap-annuity-monthly-val');
+      if (monthlyEl) {
+        monthlyEl.innerHTML = '<div style="font-size:10px;color:#64748b;">預估退休後每月保證年金</div>' +
+          '<div style="font-size:14px;font-weight:800;color:var(--ikb);font-family:monospace;" id="qdap-annuity-monthly-num">HK$ ' + qdapRes.monthlyAnnuity.toLocaleString() + ' /月</div>';
+      }
+
+      const shareEl = document.getElementById('qdap-guaranteed-share-val');
+      if (shareEl) {
+        shareEl.innerHTML = '<div style="font-size:10px;color:#64748b;">年金保證現金流佔比</div>' +
+          '<div style="font-size:14px;font-weight:800;color:#0f172a;font-family:monospace;" id="qdap-guaranteed-share-num">' + gRatio + '% (保證IRR ' + gIrr + '%)</div>';
+      }
+
+      const panel = document.getElementById('panel-scenario-retirement');
+      if (!panel || (typeof document !== 'undefined' && !document.activeElement)) {
+        renderScenarioAgentPanel();
+      }
+    }
+    window.updateQDAPUI = updateQDAPUI;
+
     function onQDAPPremiumChange(val) {
-      qdapAnnualPremium = parseInt(val, 10) || 60000;
-      renderScenarioAgentPanel();
+      const clean = String(val).replace(/[^0-9]/g, '');
+      qdapAnnualPremium = clean === '' ? 0 : (parseInt(clean, 10) || 0);
+      updateQDAPUI();
     }
 
     function onQDAPRateSelect(rate) {
       qdapTaxRate = parseInt(rate, 10) || 17;
-      renderScenarioAgentPanel();
+      const chips = document.querySelectorAll('.tax-bracket-chips .tax-chip');
+      chips.forEach(chip => {
+        const isThis = chip.innerText.startsWith(String(qdapTaxRate) + '%');
+        chip.classList.toggle('active', isThis);
+      });
+      updateQDAPUI();
     }
 
     function onQDAPCoupleToggle(checked) {
       qdapIsCouple = !!checked;
-      renderScenarioAgentPanel();
+      updateQDAPUI();
     }
 
     function onCommsToneSelect(tone) {
@@ -6961,58 +6998,89 @@ const htmlContent = `<!DOCTYPE html>
           tile1Badge = diffWait > 0 ? ('快 ' + diffWait + ' 年 🏆') : '等候期間隔極短';
 
           tile2Label = '🏥 涵蓋疾病總數';
-          const ourIll = ourMetrics.ciIllnesses || 120;
-          const rivalIll = rivalMetrics.ciIllnesses || 100;
+          const ourIll = ourMetrics.ciIllnesses || (ourMetrics.ci_metrics && ourMetrics.ci_metrics.total_illnesses_covered) || 120;
+          const rivalIll = rivalMetrics.ciIllnesses || (rivalMetrics.ci_metrics && rivalMetrics.ci_metrics.total_illnesses_covered) || 100;
+          const illDiff = ourIll - rivalIll;
           tile2Val = ourIll + ' 種 vs ' + rivalIll + ' 種';
-          tile2Badge = '全方位覆蓋';
+          tile2Badge = illDiff > 0 ? ('多涵蓋 ' + illDiff + ' 種 🏆') : '全方位覆蓋';
 
-          tile3Label = '⚡ 深切治療部預支';
-          tile3Val = '含 ICU 深度預支 20%';
-          tile3Badge = '救治金第一時間賠足';
+          tile3Label = '⚡ 多次索償賠付上限';
+          const ourMult = ourMetrics.ciMultiplePct || (ourMetrics.ci_metrics && ourMetrics.ci_metrics.multiple_claim_limit_pct) || 900;
+          const rivalMult = rivalMetrics.ciMultiplePct || (rivalMetrics.ci_metrics && rivalMetrics.ci_metrics.multiple_claim_limit_pct) || 800;
+          const multDiff = ourMult - rivalMult;
+          tile3Val = ourMult + '% vs ' + rivalMult + '%';
+          tile3Badge = multDiff > 0 ? ('槓桿多 +' + multDiff + '% 🏆') : (ourMetrics.ciIcu ? '含 ICU 深度預支' : '多次高額守護');
 
-          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方癌症等候期僅需 ' + ourWait + ' 年（對手需熬足 ' + rivalWait + ' 年），而且涵蓋 ' + ourIll + ' 種危疾兼具 ICU 入住即預支 20% 保額！黃金治療期資金即時到位，推薦優先鎖定我地方案！」';
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方癌症等候期僅需 ' + ourWait + ' 年（對手需熬足 ' + rivalWait + ' 年' + (diffWait > 0 ? '，我方快 ' + diffWait + ' 年理賠' : '') + '），而且涵蓋 ' + ourIll + ' 種危疾（對手 ' + rivalIll + ' 種），多次索償總額高達 ' + ourMult + '%！黃金治療期資金即時到位，推薦優先鎖定我地方案！」';
         } else if (cat === 'Medical_VHIS') {
-          tile1Label = '🏥 手術病房賠償';
-          tile1Val = '全港私院全數賠償';
-          tile1Badge = '無細項分拆上限 🏆';
+          const ourAnnual = (ourMetrics.vhisLimitHkd || (ourMetrics.vhis_metrics && ourMetrics.vhis_metrics.annual_limit_hkd)) || 25000000;
+          const rivalAnnual = (rivalMetrics.vhisLimitHkd || (rivalMetrics.vhis_metrics && rivalMetrics.vhis_metrics.annual_limit_hkd)) || 20000000;
+          const ourAnnualWan = Math.round(ourAnnual / 10000);
+          const rivalAnnualWan = Math.round(rivalAnnual / 10000);
+          const annualDiff = ourAnnualWan - rivalAnnualWan;
 
-          tile2Label = '💊 非手術癌症標靶藥';
-          tile2Val = '實報實銷全額理賠';
-          tile2Badge = '抗癌自費藥全覆蓋';
+          const ourLifetime = (ourMetrics.vhisLifetimeLimitHkd !== undefined ? ourMetrics.vhisLifetimeLimitHkd : (ourMetrics.vhis_metrics && ourMetrics.vhis_metrics.lifetime_limit_hkd)) ?? 0;
+          const rivalLifetime = (rivalMetrics.vhisLifetimeLimitHkd !== undefined ? rivalMetrics.vhisLifetimeLimitHkd : (rivalMetrics.vhis_metrics && rivalMetrics.vhis_metrics.lifetime_limit_hkd)) ?? 0;
+          const ourLifeText = ourLifetime === 0 ? '無上限' : ('HK$ ' + Math.round(ourLifetime / 10000) + '萬');
+          const rivalLifeText = rivalLifetime === 0 ? '無上限' : ('HK$ ' + Math.round(rivalLifetime / 10000) + '萬');
 
-          tile3Label = '💳 出院免找數綠色通道';
-          tile3Val = '港私院+千家三甲直付';
-          tile3Badge = '顧問專人協助出院';
+          tile1Label = '🏥 年度賠償上限';
+          tile1Val = 'HK$ ' + ourAnnualWan + '萬 vs ' + rivalAnnualWan + '萬';
+          tile1Badge = annualDiff > 0 ? ('+' + annualDiff + '萬額度 🏆') : (annualDiff === 0 ? '全額頂級配置' : '實報實銷無細項');
 
-          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方自願醫保全數賠償手術病房費及非手術癌症標靶藥，更覆蓋全港私院及內地 1,000+ 三甲醫院直付免找數！避免生病先墊支幾十萬，推薦優先考慮我地方案！」';
+          tile2Label = '🛡️ 終身保障限額';
+          tile2Val = ourLifeText + ' vs ' + rivalLifeText;
+          tile2Badge = (ourLifetime === 0 && rivalLifetime > 0) ? '終身無上限完勝 🏆' : '抗通脹高額保障';
+
+          tile3Label = '💳 出院免找數直付覆蓋';
+          tile3Val = '全港私院 + 1,000+ 三甲';
+          tile3Badge = 'LOG擔保 · 0墊支 🏆';
+
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：在核心自願醫保額度上，我方每年賠償上限高達 HK$ ' + ourAnnualWan + '萬（對手為 HK$ ' + rivalAnnualWan + '萬' + (annualDiff > 0 ? '，我方足足多出 ' + annualDiff + '萬額度' : '') + '），終身限額為【' + ourLifeText + '】！更享有全港頂尖私家醫院及內地 1,000+ 家三甲醫院出院免找數付款擔保 (LOG)，避免生病住院自掏腰包先墊支幾十萬。醫療保障首選我地方案！」';
         } else if (cat === 'Annuity_QDAP') {
+          const ourGIRR = ourMetrics.qdapGuaranteedIRR || (ourMetrics.qdap_metrics && ourMetrics.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
+          const rivalGIRR = rivalMetrics.qdapGuaranteedIRR || (rivalMetrics.qdap_metrics && rivalMetrics.qdap_metrics.guaranteed_internal_rate_pct) || 2.50;
+          const ourTIRR = ourMetrics.qdapTotalIRR || (ourMetrics.qdap_metrics && ourMetrics.qdap_metrics.total_internal_rate_pct) || 4.65;
+          const rivalTIRR = rivalMetrics.qdapTotalIRR || (rivalMetrics.qdap_metrics && rivalMetrics.qdap_metrics.total_internal_rate_pct) || 4.20;
+          const ourRatio = ourMetrics.qdapGuaranteedPct || (ourMetrics.qdap_metrics && ourMetrics.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((ourGIRR / ourTIRR) * 100 * 1.3 * 10) / 10)));
+          const rivalRatio = rivalMetrics.qdapGuaranteedPct || (rivalMetrics.qdap_metrics && rivalMetrics.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((rivalGIRR / rivalTIRR) * 100 * 1.3 * 10) / 10)));
+          const irrDiff = (ourGIRR - rivalGIRR).toFixed(2);
+          const ratioDiff = (ourRatio - rivalRatio).toFixed(1);
+
           tile1Label = '💰 法定年金扣稅上限';
           tile1Val = 'HK$ 60,000 / 120,000';
           tile1Badge = '每年慳稅高達 HK$20,400 🏆';
 
-          tile2Label = '👴 保證年金利益佔比';
-          tile2Val = '80.5% 確定現金流';
-          tile2Badge = '無懼降息波動';
+          tile2Label = '📈 保證內部回報率 (IRR)';
+          tile2Val = ourGIRR + '% vs ' + rivalGIRR + '%';
+          tile2Badge = parseFloat(irrDiff) > 0 ? ('保證息差 +' + irrDiff + '% 🏆') : '穩健保證現金流';
 
-          tile3Label = '📈 退休月派被動收入';
-          tile3Val = '月月保證派發至百歲';
-          tile3Badge = '穩健抗通脹';
+          tile3Label = '👴 保證年金現金流佔比';
+          tile3Val = ourRatio + '% vs ' + rivalRatio + '%';
+          tile3Badge = parseFloat(ratioDiff) > 0 ? ('確定性領先 +' + ratioDiff + '% 🏆') : '無懼降息波動';
 
-          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方 QDAP 扣稅年金保證年金比例高達 80% 以上，頂階稅率即時慳足 HK$10,200（夫妻慳 $20,400），仲有保證月派至百歲！退休被動現金流最確定，推薦優先鎖定！」';
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方 QDAP 扣稅年金保證內部回報率達 ' + ourGIRR + '%（對手 ' + rivalGIRR + '%），保證年金現金流佔比高達 ' + ourRatio + '%！頂階稅階每人每年慳足 HK$10,200（夫妻慳 $20,400），月月保證派發至百歲，退休被動現金流最確定！」';
         } else if (cat === 'Financing_UniversalLife') {
+          const ourLtv = ourMetrics.ulLtv || (ourMetrics.ul_metrics && ourMetrics.ul_metrics.max_ltv_pct) || 85;
+          const rivalLtv = rivalMetrics.ulLtv || (rivalMetrics.ul_metrics && rivalMetrics.ul_metrics.max_ltv_pct) || 80;
+          const ourCrediting = ourMetrics.ulCreditingRate || (ourMetrics.ul_metrics && ourMetrics.ul_metrics.crediting_rate_current_pct) || 5.25;
+          const rivalCrediting = rivalMetrics.ulCreditingRate || (rivalMetrics.ul_metrics && rivalMetrics.ul_metrics.crediting_rate_current_pct) || 5.0;
+          const ourNetSpread = ourMetrics.ulNetSpread || (ourMetrics.ul_metrics && ourMetrics.ul_metrics.net_carry_spread_pct) || 1.45;
+          const rivalNetSpread = rivalMetrics.ulNetSpread || (rivalMetrics.ul_metrics && rivalMetrics.ul_metrics.net_carry_spread_pct) || 1.20;
+
           tile1Label = '🏦 私銀融資成數 (LTV)';
-          tile1Val = '85% LTV 保費融資';
-          tile1Badge = '15% 本金撬千萬人壽 🏆';
+          tile1Val = ourLtv + '% vs ' + rivalLtv + '% LTV';
+          tile1Badge = (ourLtv - rivalLtv) > 0 ? ('LTV 領先 +' + (ourLtv - rivalLtv) + '% 🏆') : '15%本金撬千萬人壽';
 
-          tile2Label = '📈 淨利差套利空間';
-          tile2Val = '> 1.45% 淨息差';
-          tile2Badge = '宣告 5.25% 穩健套利';
+          tile2Label = '📈 當前宣告派息率';
+          tile2Val = ourCrediting + '% vs ' + rivalCrediting + '%';
+          tile2Badge = (ourCrediting - rivalCrediting) > 0 ? ('派息領先 +' + (ourCrediting - rivalCrediting).toFixed(2) + '% 🏆') : '穩健正利差套利';
 
-          tile3Label = '🛡️ 最低保底派息率';
-          tile3Val = '2.25% 保底保障';
-          tile3Badge = '加息週期抗壓安全墊';
+          tile3Label = '🛡️ 淨利差套利空間';
+          tile3Val = '> ' + ourNetSpread + '% vs ' + rivalNetSpread + '%';
+          tile3Badge = '加息抗壓安全墊 🏆';
 
-          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方萬用融資成數高達 85% LTV，用 15% 本金撬動千萬人壽，淨利差套利空間超 1.45% 兼具 2.25% 保底派息！高淨值資產隔離與跨代傳承首選我地方案！」';
+          elevatorScript = '「陳生，30秒快速對比【' + ourProdName + '】同【' + rivalProdName + '】：我方萬用融資成數達 ' + ourLtv + '% LTV（對手 ' + rivalLtv + '%），宣告派息達 ' + ourCrediting + '%，淨利差套利空間超 ' + ourNetSpread + '%！用更少本金撬動更大千萬壽險保障，高淨值資產隔離與跨代傳承首選我地方案！」';
         } else {
           // Savings MultiCurrency
           const ourBk = ourMetrics.breakevenYear || (ourMetrics.savings_metrics && ourMetrics.savings_metrics.guaranteed_breakeven_year) || 5;
@@ -7172,7 +7240,12 @@ const htmlContent = `<!DOCTYPE html>
               '<span>家庭每月總保險預算</span>' +
               '<span class="family-slider-val" id="family-budget-display">HK$ ' + familyMonthlyBudget.toLocaleString() + ' / 月</span>' +
             '</div>' +
-            '<input type="range" style="width:100%;accent-color:var(--ikb);" id="family-budget-slider" min="1000" max="15000" step="500" value="' + familyMonthlyBudget + '" oninput="onFamilyBudgetChange(this.value)">' +
+            '<input type="range" style="width:100%;accent-color:var(--ikb);" id="family-budget-slider" min="1000" max="100000" step="1000" value="' + familyMonthlyBudget + '" oninput="onFamilyBudgetChange(this.value)">' +
+            '<div class="family-preset-chips" style="display:flex;gap:6px;margin:6px 0 10px;flex-wrap:wrap;">' +
+              [5000, 10000, 20000, 50000, 100000].map(function(amt) {
+                return '<button class="tax-chip' + (familyMonthlyBudget === amt ? ' active' : '') + '" onclick="onFamilyBudgetChange(' + amt + ')">HK$ ' + (amt >= 1000 ? (amt/1000) + 'k' : amt) + '</button>';
+              }).join('') +
+            '</div>' +
             '<div class="family-split-grid">' +
               '<div class="family-split-card protect" id="family-protection-val">' +
                 '<div style="font-size:11px;font-weight:700;color:var(--ikb);margin-bottom:4px;">🛡️ 60% 醫療與危疾防禦金</div>' +
@@ -7204,6 +7277,11 @@ const htmlContent = `<!DOCTYPE html>
         '</div>';
       } else if (currentScenario === 'retirement_tax') {
         const qdapRes = calculateQDAPTaxRelief(qdapTaxRate, qdapAnnualPremium, qdapIsCouple);
+        const ourProd = mySelectedProduct || {};
+        const gIrr = ourProd.qdapGuaranteedIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_internal_rate_pct) || 2.80;
+        const tIrr = ourProd.qdapTotalIRR || (ourProd.qdap_metrics && ourProd.qdap_metrics.total_internal_rate_pct) || 4.65;
+        const gRatio = ourProd.qdapGuaranteedPct || (ourProd.qdap_metrics && ourProd.qdap_metrics.guaranteed_cashflow_ratio_pct) || (Math.min(95, Math.max(60, Math.round((gIrr / tIrr) * 100 * 1.3 * 10) / 10)));
+
         html = '<div class="scenario-card-box" id="panel-scenario-retirement">' +
           '<div class="scenario-head">' +
             '<div>' +
@@ -7237,11 +7315,11 @@ const htmlContent = `<!DOCTYPE html>
             '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;">' +
               '<div style="background:#eff6ff;padding:8px;border-radius:6px;border:1px solid #bfdbfe;" id="qdap-annuity-monthly-val">' +
                 '<div style="font-size:10px;color:#64748b;">預估退休後每月保證年金</div>' +
-                '<div style="font-size:14px;font-weight:800;color:var(--ikb);font-family:monospace;">HK$ ' + qdapRes.monthlyAnnuity.toLocaleString() + ' /月</div>' +
+                '<div style="font-size:14px;font-weight:800;color:var(--ikb);font-family:monospace;" id="qdap-annuity-monthly-num">HK$ ' + qdapRes.monthlyAnnuity.toLocaleString() + ' /月</div>' +
               '</div>' +
               '<div style="background:#f8fafc;padding:8px;border-radius:6px;border:1px solid #e2e8f0;" id="qdap-guaranteed-share-val">' +
                 '<div style="font-size:10px;color:#64748b;">年金保證現金流佔比</div>' +
-                '<div style="font-size:14px;font-weight:800;color:#0f172a;font-family:monospace;">80.5% (穩健抗跌)</div>' +
+                '<div style="font-size:14px;font-weight:800;color:#0f172a;font-family:monospace;" id="qdap-guaranteed-share-num">' + gRatio + '% (保證IRR ' + gIrr + '%)</div>' +
               '</div>' +
             '</div>' +
           '</div>' +
@@ -7299,6 +7377,19 @@ const htmlContent = `<!DOCTYPE html>
         const outOfPocket = Math.min(medicalDeductible, estCost);
         const coveredAmt = estCost - outOfPocket;
 
+        // Dynamic deductible tiers from selected product or standard options
+        const ourDeds = (ourMetrics.vhisDeductibles || (ourMetrics.vhis_metrics && ourMetrics.vhis_metrics.deductible_options_hkd)) || [0, 16000, 25000, 50000];
+        const dedTiers = Array.from(new Set([...ourDeds, 0, 16000, 25000, 50000, 80000])).sort((a,b) => a - b);
+
+        const rivalAnnual = (rivalMetrics.vhisLimitHkd || (rivalMetrics.vhis_metrics && rivalMetrics.vhis_metrics.annual_limit_hkd)) || 20000000;
+        const rivalAnnualWan = Math.round(rivalAnnual / 10000);
+        const rivalCompName = rivalMetrics.insurerName || rivalMetrics.insurer || selectedCompany;
+        const ourCompName = ourMetrics.insurerName || ourMetrics.insurer || myCompany;
+
+        const rivalLimitation = (rivalMetrics.insurer === 'Bowtie' || selectedCompany === 'Bowtie')
+          ? '純網上自願醫保，無 Agent 實體跟進出院直付；需全在線自主遞交申請，越級病房設 50% 折減'
+          : '【' + rivalCompName + '】年度限額 HK$ ' + rivalAnnualWan + '萬；傳統直付批核需 5-7 工作天，超出限額或自負額需先自行墊支';
+
         html = '<div class="scenario-card-box" id="panel-scenario-medical">' +
           '<div class="scenario-head">' +
             '<div>' +
@@ -7320,17 +7411,36 @@ const htmlContent = `<!DOCTYPE html>
                 return '<option value="' + t.name + '"' + (medicalTreatment === t.name ? ' selected' : '') + '>' + t.name + ' (預估 HK$ ' + (t.est/10000) + '萬)</option>';
               }).join('') +
             '</select>' +
-            '<div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">自負額 (Deductible) 方案：</div>' +
+            '<div style="font-size:11px;font-weight:700;color:#334155;margin-top:4px;">自負額 (Deductible) 方案（動態對接選取方案階梯）：</div>' +
             '<div style="display:flex;gap:6px;flex-wrap:wrap;">' +
-              [0, 16000, 25000, 50000].map(function(ded) {
+              dedTiers.map(function(ded) {
                 return '<button class="tax-chip' + (medicalDeductible === ded ? ' active' : '') + '" onclick="onMedicalDeductibleSelect(' + ded + ')">HK$ ' + ded.toLocaleString() + (ded === 0 ? ' (全額無自負)' : '') + '</button>';
               }).join('') +
             '</div>' +
           '</div>' +
           '<div class="medical-result-card" id="medical-result-card">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">' +
-              '<span style="font-size:12px;font-weight:800;color:var(--ikb);">🟢 保險公司付款擔保 (Letter of Guarantee) 模擬</span>' +
+              '<span style="font-size:12px;font-weight:800;color:var(--ikb);">🟢 保險公司付款擔保 (Letter of Guarantee) 雙邊模擬對照</span>' +
               '<span style="font-size:10px;font-weight:700;color:#059669;background:#dcfce7;padding:2px 6px;border-radius:4px;">已獲預先批核</span>' +
+            '</div>' +
+            '<div style="background:#f1f5f9;border-radius:6px;padding:8px;margin-bottom:8px;font-size:11px;color:#334155;">' +
+              '🏥 <strong>目標醫院：</strong>' + medicalHospital + '<br>' +
+              '🩺 <strong>手術治療：</strong>' + curTreatmentObj.name + ' (預估總額 HK$ ' + (estCost/10000) + '萬)' +
+            '</div>' +
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px;">' +
+              '<div style="background:#eff6ff;padding:8px;border-radius:8px;border:1.5px solid #93c5fd;">' +
+                '<div style="font-size:11px;font-weight:800;color:var(--ikb);margin-bottom:4px;">🔵 我方 (Plan A): ' + ourProdName + '</div>' +
+                '<div style="font-size:10px;color:#1e3a8a;">保司直接代付 (LOG擔保)：</div>' +
+                '<div style="font-size:15px;font-weight:800;color:#059669;font-family:monospace;">HK$ ' + (coveredAmt/10000).toFixed(1) + '萬</div>' +
+                '<div style="font-size:10px;color:#64748b;margin-top:2px;">客戶自負額：<strong style="color:' + (outOfPocket > 0 ? '#b91c1c' : '#059669') + ';">HK$ ' + outOfPocket.toLocaleString() + '</strong></div>' +
+                '<div style="font-size:10px;color:#1e40af;margin-top:4px;">✅ 【' + ourCompName + '】專屬醫療顧問直通，全額保證代付，入院免收大額按金！</div>' +
+              '</div>' +
+              '<div style="background:#fef2f2;padding:8px;border-radius:8px;border:1.5px solid #fca5a5;">' +
+                '<div style="font-size:11px;font-weight:800;color:#991b1b;margin-bottom:4px;">🔴 對手 (Plan B): ' + rivalProdName + '</div>' +
+                '<div style="font-size:10px;color:#7f1d1d;">競品直付覆蓋與限制：</div>' +
+                '<div style="font-size:12px;font-weight:700;color:#991b1b;line-height:1.4;margin-top:3px;">' + rivalLimitation + '</div>' +
+                '<div style="font-size:10px;color:#64748b;margin-top:4px;">⚠️ 若超出單項限額或非認可醫院，客戶需出院時自行刷卡墊付差額！</div>' +
+              '</div>' +
             '</div>' +
             '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;text-align:center;">' +
               '<div style="background:#fff;padding:6px;border-radius:6px;border:1px solid #cbd5e1;">' +

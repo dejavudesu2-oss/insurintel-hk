@@ -392,6 +392,14 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
         node_assert_1.default.ok(panelHtml.includes('保證回本年期'), 'Panel must include breakeven metric');
         node_assert_1.default.ok(panelHtml.includes('GN16 官方實現率'), 'Panel must include GN16 metric');
         node_assert_1.default.strictEqual(typeof mockWindow.openWhatsAppCafeScript, 'function');
+        // Dynamic pitch metrics across categories (e.g. Medical VHIS)
+        mockWindow.selectCategory('Medical_VHIS');
+        mockWindow.selectScenarioAgent('cafe_rapid');
+        const vhisPanel = domElements['scenario-agent-panel'].innerHTML;
+        node_assert_1.default.ok(vhisPanel.includes('年度賠償上限'), 'VHIS tile 1 must show 年度賠償上限');
+        node_assert_1.default.ok(vhisPanel.includes('終身保障限額'), 'VHIS tile 2 must show 終身保障限額');
+        node_assert_1.default.ok(vhisPanel.includes('出院免找數直付覆蓋'), 'VHIS tile 3 must show 出院免找數直付覆蓋');
+        node_assert_1.default.ok(vhisPanel.includes('2,500萬') || vhisPanel.includes('1,600萬') || vhisPanel.includes('無上限'), 'Dynamic limits must be shown in VHIS pitch');
     });
     test('Scenario Agent 2: 🇨🇳 Offshore MCV / HNW renders multi-currency conversion, 3A hospital list & waiver limit', () => {
         const { mockWindow, domElements } = createMockDOMSandbox();
@@ -437,6 +445,16 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
         node_assert_1.default.ok(scaledHtml.includes('10,189萬') || scaledHtml.includes('10189萬'), 'Life cover must dynamically cover 99.99M mortgage + 5x expenses');
         node_assert_1.default.ok(scaledHtml.includes('180萬'), 'CI cover must dynamically scale to 180萬 for 7500 budget');
         node_assert_1.default.ok(scaledHtml.includes('110.8萬'), '18-year education fund compounding at 5.5% must equal 110.8萬');
+        // Real-World User Request: Budget scale-up to HK$ 100,000 / month with quick chips
+        node_assert_1.default.ok(panelHtml.includes('max="100000"'), 'Budget slider max must equal 100,000');
+        node_assert_1.default.ok(panelHtml.includes('onFamilyBudgetChange(100000)'), 'Must include 100k preset quick chip');
+        node_assert_1.default.ok(panelHtml.includes('onFamilyBudgetChange(50000)'), 'Must include 50k preset quick chip');
+        mockWindow.onFamilyBudgetChange(100000);
+        const maxBudgetHtml = domElements['scenario-agent-panel'].innerHTML;
+        node_assert_1.default.ok(maxBudgetHtml.includes('HK$ 60,000'), '60% of 100,000 must equal HK$ 60,000');
+        node_assert_1.default.ok(maxBudgetHtml.includes('HK$ 40,000'), '40% of 100,000 must equal HK$ 40,000');
+        node_assert_1.default.ok(maxBudgetHtml.includes('2,400萬'), 'CI coverage scales to 2,400萬 for 100k budget');
+        node_assert_1.default.ok(maxBudgetHtml.includes('1,477.4萬') || maxBudgetHtml.includes('1477.4萬'), '18-year education compounding scales to 1,477.4萬');
         // Edge Case: 0 mortgage debt
         mockWindow.onMortgageChange(0);
         const zeroMortgageHtml = domElements['scenario-agent-panel'].innerHTML;
@@ -464,6 +482,12 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
         // Test single person contributing excess HK$120,000: effective discount is 8.5% (HK$10,200 / HK$120,000)
         mockWindow.onQDAPCoupleToggle(false);
         node_assert_1.default.ok(domElements['scenario-agent-panel'].innerHTML.includes('8.5%'), 'Effective discount on capped premium must equal 8.5%');
+        // Real-World User Bug Fix: Large QDAP premium (e.g. 6,000,013) must scale monthly annuity dynamically without freezing at 2,000
+        mockWindow.onQDAPPremiumChange(6000013);
+        const highPremHtml = domElements['scenario-agent-panel'].innerHTML;
+        node_assert_1.default.ok(highPremHtml.includes('HK$ 200,000') && highPremHtml.includes('/月'), 'Monthly annuity must dynamically scale to ~HK$ 200,000 /月 for 6M premium');
+        node_assert_1.default.ok(!highPremHtml.includes('HK$ 2,000 /月') && !highPremHtml.includes('HK$ 2,000 / 月'), 'Monthly annuity must NOT freeze at HK$ 2,000 / 月 for 6M premium');
+        node_assert_1.default.strictEqual(typeof mockWindow.updateQDAPUI, 'function', 'updateQDAPUI must be exposed for live in-place update');
     });
     test('Scenario Agent 5: 💬 Instant Comms Synthesizer renders WhatsApp / WeChat 1-tap closing scripts', () => {
         const { mockWindow, domElements } = createMockDOMSandbox();
@@ -498,6 +522,11 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
         node_assert_1.default.ok(panelHtml.includes('medical-result-card'), 'Panel must have result card');
         node_assert_1.default.ok(panelHtml.includes('Letter of Guarantee'), 'Panel must include Letter of Guarantee simulation');
         node_assert_1.default.ok(panelHtml.includes('4步極速出院直付申請流程'), 'Panel must include 4-step workflow guide');
+        node_assert_1.default.ok(panelHtml.includes('🔵 我方 (Plan A)'), 'Panel must render Plan A direct billing card');
+        node_assert_1.default.ok(panelHtml.includes('🔴 對手 (Plan B)'), 'Panel must render Plan B direct billing card');
+        node_assert_1.default.ok(panelHtml.includes('保司直接代付 (LOG擔保)'), 'Panel must show LOG guarantee amount');
+        node_assert_1.default.ok(panelHtml.includes('香港中文大學醫院'), 'Panel must include CUHK Medical Centre option');
+        node_assert_1.default.ok(panelHtml.includes('達芬奇機械人微創手術'), 'Panel must include Da Vinci Robotic Surgery option');
         // Test changing treatment and deductible
         mockWindow.onMedicalTreatmentSelect('心臟冠狀動脈通波仔手術 (Coronary Angioplasty / Stent)');
         mockWindow.onMedicalDeductibleSelect(25000);
@@ -702,6 +731,25 @@ suite('4. Byte-for-Byte SHA-256 Template Parity Check', () => {
         const s3 = fs_1.default.statSync(distCafePath).size;
         node_assert_1.default.strictEqual(s1, s2, `Template size (${s1}) must match dist/index.html size (${s2})`);
         node_assert_1.default.strictEqual(s1, s3, `Template size (${s1}) must match dist/cafe.html size (${s3})`);
+    });
+    test('Layout ordering: Bilateral Arena Box is placed directly below Category Tabs, and Client Explainer Banner is removed', () => {
+        const rawHtml = fs_1.default.readFileSync(templatesPath, 'utf-8');
+        const catIdx = rawHtml.indexOf('id="category-tabs"');
+        const arenaIdx = rawHtml.indexOf('id="bilateral-arena-box"');
+        const aiBannerIdx = rawHtml.indexOf('id="ai-quick-trigger-banner"');
+        const scenarioWrapIdx = rawHtml.indexOf('id="scenario-agents-bar-wrap"');
+        const claimPillsIdx = rawHtml.indexOf('id="claim-pills"');
+        node_assert_1.default.ok(catIdx !== -1, 'category-tabs must exist');
+        node_assert_1.default.ok(arenaIdx !== -1, 'bilateral-arena-box must exist');
+        node_assert_1.default.ok(aiBannerIdx !== -1, 'ai-quick-trigger-banner must exist');
+        node_assert_1.default.ok(scenarioWrapIdx !== -1, 'scenario-agents-bar-wrap must exist');
+        node_assert_1.default.ok(claimPillsIdx !== -1, 'claim-pills must exist');
+        node_assert_1.default.ok(catIdx < arenaIdx, 'category-tabs must come before bilateral-arena-box');
+        node_assert_1.default.ok(arenaIdx < aiBannerIdx, 'bilateral-arena-box must come before ai-quick-trigger-banner');
+        node_assert_1.default.ok(aiBannerIdx < scenarioWrapIdx, 'ai-quick-trigger-banner must come before scenario-agents-bar-wrap');
+        node_assert_1.default.ok(scenarioWrapIdx < claimPillsIdx, 'scenario-agents-bar-wrap must come before claim-pills');
+        node_assert_1.default.ok(!rawHtml.includes('client-mode-explainer-banner'), 'client-mode-explainer-banner must be removed');
+        node_assert_1.default.ok(!rawHtml.includes('適合直接把手機/iPad遞給客戶看'), 'Awkward client handoff text must be removed');
     });
 });
 // ============================================================================
