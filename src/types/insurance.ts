@@ -22,6 +22,11 @@ export type InsurerCode =
   | "Bowtie"
   | "Bupa"
   | "Cigna"
+  | "HSBC"
+  | "HSBC_Life"
+  | "Generali"
+  | "BlueCross"
+  | "ChinaLife"
   | string;
 
 export type Currency = "USD" | "HKD" | "RMB" | "GBP" | "EUR" | "AUD" | "CAD" | "SGD";
@@ -165,11 +170,16 @@ export interface InsurancePromoComprehensive {
     special_waiver_notes?: string;
   };
 
+  clause_highlights?: string[];
+  clause_pitfalls?: string[];
+  last_updated?: string;
+
   audit_metadata: {
     source_type: "Official_Circular" | "Broker_Notice" | "Social_Media" | "Crowd_Upload";
     confidence_level: "Verified" | "Provisional" | "Under_Review";
     verified_by_editor: boolean;
     created_at: string;
+    official_source_attribution?: string;
   };
 }
 

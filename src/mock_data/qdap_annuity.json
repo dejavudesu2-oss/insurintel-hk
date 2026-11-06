@@ -3,10 +3,18 @@
     "promo_id": "PROMO-SUN-QDAP-2026",
     "insurer": "Sun_Life",
     "product_name": "萬年延期年金 (Stellar QDAP)",
-    "product_aliases": ["永明年金", "萬年年金"],
+    "product_aliases": [
+      "永明年金",
+      "萬年年金"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -15,14 +23,14 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 10.0
+        "discount_rate_pct": 10
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
       "guaranteed_internal_rate_pct": 2.85,
-      "total_internal_rate_pct": 4.60,
+      "total_internal_rate_pct": 4.6,
       "annuity_start_age": 55
     },
     "underwriting_concessions": {
@@ -34,17 +42,41 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-22T08:00:00Z"
-    }
+      "created_at": "2026-10-22T08:00:00Z",
+      "official_source_attribution": "保監局合資格延期年金名冊編號: QDAP-SUN-2026-01；永明金融官方指南 Ref: SUN-QDAP-STELLAR-2026"
+    },
+    "clause_highlights": [
+      "保監局認可合資格延期年金（QDAP），每位合資格納稅人每年最高可享 60,000 港元薪俸稅扣稅額",
+      "保證內部回報率達 2.85%，總預期內部回報率達 4.60%，收益確定性高",
+      "提供靈活年金領取期（可選 10 年或 20 年），每月定期直存指定銀行專戶",
+      "全期保證免體檢，投保手續簡便，次健康人士無加費風險"
+    ],
+    "clause_pitfalls": [
+      "若在保單首幾年提早退保將面臨嚴重本金折損，退保價值遠低於已繳保費",
+      "提前退保可能引致香港稅務局追繳以往年度已享受之薪俸稅寬免稅款",
+      "非保證年金部分取決於永明分紅實現率，實際每月到手金額或有浮動",
+      "法定年金領取年齡不得早於 50 歲，資金鎖定期較長"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-BOC-QDAP-2026",
     "insurer": "BOC_Life",
     "product_name": "延期年金計劃 (BOC Life Deferred Annuity Plan)",
-    "product_aliases": ["中銀年金", "中銀延期年金", "BOC QDAP"],
+    "product_aliases": [
+      "中銀年金",
+      "中銀延期年金",
+      "BOC QDAP"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD", "RMB"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "HKD",
+      "USD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -53,14 +85,14 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 12.0,
-        "extra_family_bonus_pct": 2.0
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 2
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
-      "guaranteed_internal_rate_pct": 3.10,
+      "guaranteed_internal_rate_pct": 3.1,
       "total_internal_rate_pct": 4.45,
       "annuity_start_age": 50
     },
@@ -73,17 +105,41 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-23T11:00:00Z"
-    }
+      "created_at": "2026-10-23T11:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准標識: QDAP-BOCL-2026-02；中銀人壽官方產品手冊 Ref: BOCL-QDAP-2026"
+    },
+    "clause_highlights": [
+      "中銀人壽旗艦 QDAP，保證回報成分高達 3.10%，市場確定性最高的年金之一",
+      "可直接綁定中銀香港「私人財富」專戶自動派發年金，退休生活無縫銜接",
+      "每年享有最高 60,000 港元法定薪俸稅扣除額，最高省稅可達 10,200 港元",
+      "特設身故保證賠償額，若受保人於領取期內身故，餘下未付年金將全數轉付受益人"
+    ],
+    "clause_pitfalls": [
+      "總預期內部回報率（約 4.35%）受限於高保證投資策略，長線爆發力相對平緩",
+      "供款期內斷供將導致保單自動失效，並被收取嚴格之保單退保扣除手續費",
+      "年金領取年齡鎖定，提早領取需承受高額行政折讓費用",
+      "主要以港幣及美元結算，不支援多種外幣中途轉換"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-PRU-QDAP-2026",
     "insurer": "Prudential",
     "product_name": "雋逸年金計劃 (Evergreen Deferred Annuity QDAP)",
-    "product_aliases": ["雋逸年金", "保誠年金", "PRU QDAP"],
+    "product_aliases": [
+      "雋逸年金",
+      "保誠年金",
+      "PRU QDAP"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5, 10],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
     "validity": {
       "start_date": "2026-10-15",
       "end_date": "2026-12-31",
@@ -92,13 +148,13 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 14.0
+        "discount_rate_pct": 14
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
-      "guaranteed_internal_rate_pct": 2.90,
+      "guaranteed_internal_rate_pct": 2.9,
       "total_internal_rate_pct": 4.75,
       "annuity_start_age": 55
     },
@@ -111,17 +167,40 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-23T17:00:00Z"
-    }
+      "created_at": "2026-10-23T17:00:00Z",
+      "official_source_attribution": "保監局認可 QDAP 檔案: QDAP-PRU-2026-03；保誠保險官方代理通函 Ref: PRU-QDAP-EVERGREEN-2026"
+    },
+    "clause_highlights": [
+      "保誠雋逸年金，結合保誠百年英式分紅優勢，總內部回報率高達 4.75%",
+      "保證內部回報率達 2.65%，兼備穩定退休現金流與非保證分紅增長潛力",
+      "全額符合法定最高 60,000 港元薪俸稅扣除額，夫婦二人合併扣除額高達 120,000 港元",
+      "特設失業保費延繳保障期，減輕短期職場變動引發之斷供壓力"
+    ],
+    "clause_pitfalls": [
+      "前 5 年退保保證現金價值較低，流動性完全鎖死於合約期內",
+      "若非保證分紅實現率受資本市場衝擊下調，總回報將偏向保證回報區間",
+      "提早終止合約將觸發稅務局扣稅撤回條款（Tax Clawback）",
+      "年金領取年齡最低為 50 歲，不適宜有短期提款需求之投資者"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AIA-QDAP-2026",
     "insurer": "AIA",
     "product_name": "延期年金計劃 (AIA Deferred Annuity Plan)",
-    "product_aliases": ["友邦年金", "AIA延期年金", "友邦QDAP"],
+    "product_aliases": [
+      "友邦年金",
+      "AIA延期年金",
+      "友邦QDAP"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -130,14 +209,14 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 10.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 10,
+        "extra_family_bonus_pct": 3
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
-      "guaranteed_internal_rate_pct": 2.80,
+      "guaranteed_internal_rate_pct": 2.8,
       "total_internal_rate_pct": 4.65,
       "annuity_start_age": 55
     },
@@ -150,17 +229,41 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-24T09:30:00Z"
-    }
+      "created_at": "2026-10-24T09:30:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-AIA-2026-04；友邦官方產品指南 Ref: AIA-QDAP-PLAN-2026"
+    },
+    "clause_highlights": [
+      "友邦延期年金計劃，結合 AIA Vitality 會員尊屬保費回贈，總回報極具競爭力",
+      "保證年金入息逐年遞增，有效對沖退休後日常生活醫療通脹壓力",
+      "每名納稅人每年最高可扣稅 60,000 港元，最高節省 17% 邊際稅率稅金",
+      "支援「身故賠償多樣化支付」，可選擇全額一筆過或按月定期給付後代"
+    ],
+    "clause_pitfalls": [
+      "保證內部回報率為 2.55%，總預期 4.65% 中有約 45% 取決於非保證分紅",
+      "早期退保保證現金價值虧損高達 50%-80%，嚴禁中途退保",
+      "年金領取年期一旦選定，在年金開始領取後不可更改或提前折現",
+      "非吸煙體質標準審查，若未如實申報吸煙習慣可能影響日後派發"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-MANU-QDAP-2026",
     "insurer": "Manulife",
     "product_name": "悠然延期年金計劃 (ManuRetire QDAP Plan)",
-    "product_aliases": ["悠然年金", "宏利年金", "ManuRetire"],
+    "product_aliases": [
+      "悠然年金",
+      "宏利年金",
+      "ManuRetire"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5, 10],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -169,15 +272,15 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 12.0,
-        "extra_family_bonus_pct": 2.0
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 2
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
       "guaranteed_internal_rate_pct": 2.95,
-      "total_internal_rate_pct": 4.80,
+      "total_internal_rate_pct": 4.8,
       "annuity_start_age": 55
     },
     "underwriting_concessions": {
@@ -189,8 +292,22 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-24T16:00:00Z"
-    }
+      "created_at": "2026-10-24T16:00:00Z",
+      "official_source_attribution": "保監局官方認可編號: QDAP-MANU-2026-05；宏利官方通告 Ref: MANU-QDAP-RETIRE-2026"
+    },
+    "clause_highlights": [
+      "宏利悠然延期年金，強積金（MPF）市場龍頭宏利資產管理團隊親自操盤",
+      "提供業界最長之年金領取期（可選擇定期領取至 100 歲），長壽風險全覆蓋",
+      "符合香港稅務條例第 112 章規定，每年最高可扣除 60,000 港元薪俸稅",
+      "首年投保尊享高達 10% 保費折扣，支援信用卡免息分期付款"
+    ],
+    "clause_pitfalls": [
+      "前 4 年退保現金價值折減嚴苛，退保金額顯著低於累計已繳保費",
+      "非保證年金部分隨宏利分紅資產組合投資回報調整，並非固定收益",
+      "法定最低領取年齡限制（50 歲），提早領取將失去合資格延期年金資格",
+      "受保人若在領取前身故，身故賠償通常等同已繳保費或保證價值之較高者"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-FWD-QDAP-2026",
@@ -205,8 +322,13 @@
       "Supreme QDAP"
     ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -215,15 +337,15 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 12.0,
-        "extra_family_bonus_pct": 2.0
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 2
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
       "guaranteed_internal_rate_pct": 2.92,
-      "total_internal_rate_pct": 4.70,
+      "total_internal_rate_pct": 4.7,
       "annuity_start_age": 55
     },
     "underwriting_concessions": {
@@ -235,8 +357,22 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T15:30:00Z"
-    }
+      "created_at": "2026-10-25T15:30:00Z",
+      "official_source_attribution": "保監局 QDAP 註冊號: QDAP-FWD-2026-06；富衛官方產品說明書 Ref: FWD-QDAP-SUPREME-2026"
+    },
+    "clause_highlights": [
+      "富衛智尊延期年金，主打快速回本與業界頂級預期總內部回報率（4.72%）",
+      "年金領取期長達 20 年，保證入息與浮動年金雙軌派發",
+      "全額符合法定 60,000 港元扣稅限額，夫妻合併報稅最高可扣 120,000 港元",
+      "特設特別身故保障及全期免體檢簡易投保程序"
+    ],
+    "clause_pitfalls": [
+      "保證回報率為 2.70%，高預期回報高度依賴非保證紅利實現水平",
+      "提早退保本金虧損較大，前 3 年現金價值極低",
+      "若退保將喪失此前已申報之薪俸稅寬免優惠，可能被稅務局追溯差額",
+      "年金開始領取年齡受限於合約條款，不可任意提前提取本金"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AXA-QDAP-2026",
@@ -251,8 +387,14 @@
       "Joyful QDAP"
     ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5, 10],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -261,7 +403,7 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 15.0
+        "discount_rate_pct": 15
       }
     ],
     "qdap_metrics": {
@@ -280,8 +422,22 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T16:00:00Z"
-    }
+      "created_at": "2026-10-25T16:00:00Z",
+      "official_source_attribution": "保監局認可 QDAP 檔案號: QDAP-AXA-2026-07；安盛保險官方通告 Ref: AXA-QDAP-JOYFUL-2026"
+    },
+    "clause_highlights": [
+      "安盛盛滿延期年金，由安盛投資管理（AXA IM）環球優質固收資產配置",
+      "總預期回報率達 4.68%，保證回報率 2.80%，風險收益結構平衡",
+      "全期保證免體檢，年繳保費直接申報每年最高 60,000 港元薪俸稅扣稅額",
+      "特設「保費假期（Premium Holiday）」選項，面臨財務突發困境時可申請暫停供款"
+    ],
+    "clause_pitfalls": [
+      "行使保費假期將相應延後年金開始領取時間並影響最終非保證分紅額度",
+      "首 5 年退保保證現金價值折讓高達 60% 以上",
+      "年金期內每月入息不可提前一次性借貸或抵押折現",
+      "稅務寬免需按香港稅務局最終評稅通知書（Notice of Assessment）為準"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-YF-QDAP-2026",
@@ -296,8 +452,14 @@
       "MY Deferred Annuity"
     ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5, 10],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
     "validity": {
       "start_date": "2026-10-10",
       "end_date": "2026-12-31",
@@ -306,8 +468,8 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 14.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 14,
+        "extra_family_bonus_pct": 3
       }
     ],
     "qdap_metrics": {
@@ -326,17 +488,41 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T16:30:00Z"
-    }
+      "created_at": "2026-10-25T16:30:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-YFL-2026-08；萬通保險官方手冊 Ref: YFL-QDAP-MYANNUITY-2026"
+    },
+    "clause_highlights": [
+      "萬通年金專利品牌背書，全港首創「年金通」可轉換多達 8 種終身年金形式",
+      "總內部回報率達 4.70%，保證回報達 2.90%，確定性回報居市場頂尖梯隊",
+      "合資格延期年金法定扣稅額每年 60,000 港元，節省最高 10,200 港元稅款",
+      "支援保單傳承延續選項，可將未付年金指定轉入下一代年金專戶"
+    ],
+    "clause_pitfalls": [
+      "早期退保損失嚴重，前 3 年保證退保價值低於已繳保費之 40%",
+      "轉換為終身年金形式後合約不可逆轉，無法重新變更為一筆過現金",
+      "非保證分紅受萬通投資資產表現影響，歷史實現率存有市場週期波動",
+      "年金領取年齡法定不得早於 50 歲"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-MANU-QDAP-DELIGHT-2026",
     "insurer": "Manulife",
     "product_name": "智優延期年金計劃 (ManuDelight QDAP Plan)",
-    "product_aliases": ["智優延期年金", "智優年金", "ManuDelight QDAP", "宏利智優"],
+    "product_aliases": [
+      "智優延期年金",
+      "智優年金",
+      "ManuDelight QDAP",
+      "宏利智優"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -345,8 +531,8 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 14.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 14,
+        "extra_family_bonus_pct": 3
       }
     ],
     "qdap_metrics": {
@@ -365,17 +551,42 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T16:00:00Z"
-    }
+      "created_at": "2026-10-26T16:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准標籤: QDAP-MANU-2026-09；宏利官方指南 Ref: MANU-QDAP-DELIGHT-2026"
+    },
+    "clause_highlights": [
+      "宏利智優延期年金，專為即將退休人士度身訂造，短至 5 年供款期",
+      "年金領取期靈活可選 10 年或 15 年，每月入息確定充裕",
+      "依法享有每人每年 60,000 港元扣稅額度，夫妻合併可扣 120,000 港元",
+      "大額年繳尊享額外 8% 保費回贈，支援綠色快速投保審批通道"
+    ],
+    "clause_pitfalls": [
+      "保證 IRR 約 2.60%，總 IRR 約 4.45%，總回報受短供款期精算限制略平緩",
+      "提前退保本金折減嚴重，需確保供款期內具備持續穩定薪俸收入",
+      "非保證年金部分可能隨宏利分紅資產組合浮動調整",
+      "年金開始後若中途退保需按當時退保精算折現值計算，手續費較高"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-BOC-QDAP-FIXED-2026",
     "insurer": "BOC_Life",
     "product_name": "延期年金計劃（固定年期）(BOC Life Fixed Term QDAP Plan)",
-    "product_aliases": ["中銀固定年期年金", "中銀固定年金", "中銀固定QDAP", "BOC Fixed QDAP"],
+    "product_aliases": [
+      "中銀固定年期年金",
+      "中銀固定年金",
+      "中銀固定QDAP",
+      "BOC Fixed QDAP"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD", "RMB"],
-    "payment_period_years": [5],
+    "currency_supported": [
+      "HKD",
+      "USD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      5
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -384,15 +595,15 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 12.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 3
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
       "guaranteed_internal_rate_pct": 3.18,
-      "total_internal_rate_pct": 4.50,
+      "total_internal_rate_pct": 4.5,
       "annuity_start_age": 50
     },
     "underwriting_concessions": {
@@ -404,17 +615,42 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T16:30:00Z"
-    }
+      "created_at": "2026-10-26T16:30:00Z",
+      "official_source_attribution": "保監局認證證書: QDAP-BOCL-2026-10；中銀人壽官方檔案 Ref: BOCL-QDAP-FIXED-2026"
+    },
+    "clause_highlights": [
+      "中銀人壽固定年期年金，保證內部回報率高達 3.20%，保證成分極其扎實",
+      "10 年固定年金領取期，每月派息分毫不差，零市場波動風險",
+      "全額符合法定最高 60,000 港元延期年金扣稅額，中銀網銀在線一鍵投保",
+      "中銀尊榮理財客戶專享投保額外保費折扣優惠"
+    ],
+    "clause_pitfalls": [
+      "總預期回報率（約 4.20%）較少浮動分紅收益，通脹抵禦力相對受限",
+      "嚴格資金鎖定期，供款期內提前退保保證價值折損幅度巨大",
+      "固定 10 年領取期屆滿後保單終止，無法提供覆蓋百歲之終身現金流",
+      "不可提前申請部分提取保單價值，所有入息需按既定月度指令派發"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AIA-QDAP-RETIRE-2026",
     "insurer": "AIA",
     "product_name": "欣悅延期年金計劃 (AIA Joyful Annuity QDAP Plan)",
-    "product_aliases": ["欣悅延期年金", "欣悅年金", "AIA欣悅", "Joyful QDAP AIA"],
+    "product_aliases": [
+      "欣悅延期年金",
+      "欣悅年金",
+      "AIA欣悅",
+      "Joyful QDAP AIA"
+    ],
     "category": "Annuity_QDAP",
-    "currency_supported": ["HKD", "USD"],
-    "payment_period_years": [5, 10],
+    "currency_supported": [
+      "HKD",
+      "USD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -423,15 +659,15 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 12.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 3
       }
     ],
     "qdap_metrics": {
       "tax_deduction_eligible_cap_hkd": 60000,
       "annuity_payment_period_years": 10,
       "guaranteed_internal_rate_pct": 2.85,
-      "total_internal_rate_pct": 4.70,
+      "total_internal_rate_pct": 4.7,
       "annuity_start_age": 55
     },
     "underwriting_concessions": {
@@ -443,8 +679,567 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T17:00:00Z"
+      "created_at": "2026-10-26T17:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-AIA-2026-11；友邦官方產品指南 Ref: AIA-QDAP-JOYFUL-2026"
+    },
+    "clause_highlights": [
+      "友邦欣悅延期年金，結合退休長壽照護，特設嚴重失智（阿茲海默）年金雙倍派發",
+      "每年享有最高 60,000 港元薪俸稅扣稅額，節省高達 10,200 港元稅款",
+      "總內部回報率達 4.62%，保證內部回報率達 2.70%，平衡收益與防守",
+      "支援 AIA Vitality 健康積分抵扣保費，投保全期保證免體檢"
+    ],
+    "clause_pitfalls": [
+      "嚴重失智雙倍派發需經持牌專科醫生確診且受日常生活能力（ADL）指標嚴格約束",
+      "首 5 年退保現金價值虧損幅度較大，嚴禁以短期投機資金投保",
+      "非保證入息部分取決於友邦分紅實現率，實際到手入息或高於或低於預期",
+      "退保或斷供將失去合資格年金資格並被稅務局追回稅務減免"
+    ],
+    "last_updated": "2026-11-06"
+  },
+  {
+    "promo_id": "PROMO-HSBC-QDAP-RETIREMENT-2026",
+    "insurer": "HSBC",
+    "product_name": "滙豐合資格延期年金計劃 (HSBC Life Deferred Annuity Plan QDAP)",
+    "product_aliases": [
+      "滙豐延期年金",
+      "滙豐QDAP",
+      "HSBC Life QDAP",
+      "滙豐年金"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5,
+      8
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 10
+      },
+      {
+        "min_annual_premium_usd": 12000,
+        "discount_rate_pct": 16,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.92,
+      "total_internal_rate_pct": 4.65,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 600000,
+      "special_waiver_notes": "全期免體檢，滙豐個人網銀及手機 App 可一鍵投保，合資格香港納稅人即享稅務扣除"
+    },
+    "clause_highlights": [
+      "保監局認可合資格延期年金（QDAP），每位納稅人每年最高可申報 60,000 港元薪俸稅扣稅額",
+      "保證內部回報率達 2.92%，總預期內部回報率達 4.65%，滙豐穩健資產池支撐",
+      "提供 10 年或 20 年年金領取期，年金可自動直接入賬滙豐個人理財戶口",
+      "首年保費折扣最高 16%（二人同行享 18%），全期手續免體檢"
+    ],
+    "clause_pitfalls": [
+      "保單首 5 年退保保證現金價值折減嚴苛，提早退保將面臨嚴重本金損失",
+      "提早退保將觸發稅務局追溯收回已享用之薪俸稅寬免扣除額",
+      "非保證年金入息取決於滙豐分紅基金實現率，市場低迷時入息或受影響",
+      "法定年金領取年齡不得早於 50 歲，資金流動性受限於退休領取合約"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准清冊編號: QDAP-HSBC-2026-01；滙豐保險官方通告 Ref: HSBC-QDAP-CIRC-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-GEN-QDAP-LIONANNUITY-2026",
+    "insurer": "Generali",
+    "product_name": "忠意「頤養年年」合資格延期年金計劃 (Generali LionAnnuity QDAP Plan)",
+    "product_aliases": [
+      "忠意延期年金",
+      "忠意QDAP",
+      "Generali LionAnnuity QDAP",
+      "忠意年金"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-20",
+      "channel": "Broker"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 3
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 15,
+      "guaranteed_internal_rate_pct": 2.8,
+      "total_internal_rate_pct": 4.72,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "全期免體檢，經紀渠道專屬投保綠色通道"
+    },
+    "clause_highlights": [
+      "歐洲第一大保險巨頭忠意精算設計，總內部回報率高達 4.72%，市場年金收益前列",
+      "全額符合香港法定每年最高 60,000 港元薪俸稅扣稅上限，最高節省 10,200 港元稅款",
+      "長達 15 年穩定年金派發期，每月定期派息，抗長壽風險能力強",
+      "特設特別身故保障條款，領取期內身故全額保證將剩餘未領年金折現轉付受益人"
+    ],
+    "clause_pitfalls": [
+      "提早退保將面臨嚴重現金價值折損，前 4 年退保損失高達 60% 以上",
+      "中途退保可能引致稅務局撤銷已抵扣之薪俸稅稅務優惠",
+      "浮動年金收益受歐洲央行及環球資本市場利率影響，存在非保證波動風險",
+      "年金領取年齡法定不低於 50 歲，且不得任意提早折現提取本金"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-GEN-2026-02；忠意保險官方備忘 Ref: GEN-QDAP-LION-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-CL-QDAP-GOLDEN-2026",
+    "insurer": "ChinaLife",
+    "product_name": "國壽海外「頤富」合資格延期年金保險計劃 (China Life Golden Age QDAP Plan)",
+    "product_aliases": [
+      "國壽延期年金",
+      "國壽QDAP",
+      "China Life Golden Age QDAP",
+      "國壽年金"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 12000,
+        "discount_rate_pct": 18,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 3.05,
+      "total_internal_rate_pct": 4.58,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 550000,
+      "special_waiver_notes": "央企信譽保障，全期免體檢，大灣區納稅人專屬綠色申報通道"
+    },
+    "clause_highlights": [
+      "保證內部回報率高達 3.05%，保證收益成分在市場主流 QDAP 中名列前茅",
+      "支援人民幣、美元及港元三種貨幣繳費及領取年金，跨境退休養老最佳配置",
+      "受保監局官方認可，每位香港納稅人每年最高可享 60,000 港元薪俸稅扣稅額",
+      "提供身故信託提取機制，身故保險金可指定按月分期付予在港或內地受益人"
+    ],
+    "clause_pitfalls": [
+      "前 5 年退保保證現金價值折讓顯著，早期提早退保將造成本金重大虧損",
+      "若未達法定年金期提早退保，需向香港稅務局補繳已扣除之稅款",
+      "總預期內部回報率（約 4.58%）因高保證策略使得長線進取收益相對平緩",
+      "年金開始領取年齡受法定嚴格限制，中途無法變更為一筆過現金贖回"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准名冊編號: QDAP-CL-2026-03；中國人壽海外官方通告 Ref: CL-QDAP-GOLDEN-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-BC-QDAP-SECURE-2026",
+    "insurer": "BlueCross",
+    "product_name": "藍十字「安享退」合資格延期年金計劃 (Blue Cross SecureRetire QDAP Plan)",
+    "product_aliases": [
+      "藍十字延期年金",
+      "藍十字QDAP",
+      "Blue Cross SecureRetire QDAP",
+      "藍十字年金"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 3
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.85,
+      "total_internal_rate_pct": 4.6,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "東亞銀行客戶專享網銀直投免體檢通道"
+    },
+    "clause_highlights": [
+      "東亞銀行旗下藍十字品牌背書，保監局認可合資格延期年金（QDAP）",
+      "法定每年最高 60,000 港元薪俸稅扣稅額，夫妻同行最高可扣除 120,000 港元",
+      "保證回報率 2.85%，總預期回報率 4.60%，入息穩定有保障",
+      "特設醫療專案對接權益，年金入息可按指令直付抵扣藍十字自願醫保保費"
+    ],
+    "clause_pitfalls": [
+      "前 4 年退保現金價值折損較大，合約期內缺乏短期流動性",
+      "提前退保需承擔稅務局補繳稅款處罰風險",
+      "非保證分紅受藍十字投資收益池影響，實際總入息存在浮動可能",
+      "法定最低領取年齡為 50 歲，且領取年期不得少於 10 年"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准標籤: QDAP-BC-2026-04；藍十字官方產品手冊 Ref: BC-QDAP-SECURE-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-PRU-QDAP-WEALTHPLUS-2026",
+    "insurer": "Prudential",
+    "product_name": "保誠「雋逸安享」延期年金計劃 (Prudential WealthPlus Deferred Annuity QDAP)",
+    "product_aliases": [
+      "保誠雋逸安享",
+      "雋逸安享QDAP",
+      "Prudential WealthPlus QDAP",
+      "雋逸安享"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "Agency"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 15000,
+        "discount_rate_pct": 18,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 20,
+      "guaranteed_internal_rate_pct": 2.75,
+      "total_internal_rate_pct": 4.8,
+      "annuity_start_age": 50
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "全期免體檢，大額扣稅首選方案"
+    },
+    "clause_highlights": [
+      "長達 20 年超長年金派發期，總預期內部回報率高達 4.80%，冠絕同儕",
+      "保證回報率達 2.75%，以英式分紅平滑機制穩健抗擊環球通脹",
+      "法定每年最高 60,000 港元薪俸稅扣稅額，年金領取年齡最低可自 50 歲起步",
+      "支援「年金延續選項」，受保人身故後配偶可免審批接續領取剩餘年金"
+    ],
+    "clause_pitfalls": [
+      "前 5 年退保現金價值折減嚴苛，嚴格禁止中途提早解約",
+      "提早退保可能被香港稅務局追討歷年享有之稅務寬減",
+      "終期紅利派發依賴保誠分紅基金長線投資成果，具市場波動性",
+      "年金開始領取後無法逆轉為一筆過退保本金"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-PRU-2026-05；保誠保險官方指南 Ref: PRU-QDAP-WEALTHPLUS-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-MANU-QDAP-PREMIER-2026",
+    "insurer": "Manulife",
+    "product_name": "宏利富度延期年金計劃 (Manulife Enrich Premier QDAP Plan)",
+    "product_aliases": [
+      "宏利富度",
+      "富度延期年金",
+      "Manulife Enrich Premier QDAP",
+      "富度QDAP"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5,
+      8
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 10
+      },
+      {
+        "min_annual_premium_usd": 12000,
+        "discount_rate_pct": 16,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 15,
+      "guaranteed_internal_rate_pct": 2.7,
+      "total_internal_rate_pct": 4.65,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "全期免體檢，大額年繳尊享綠色審批通道"
+    },
+    "clause_highlights": [
+      "宏利資產管理專業團隊操盤，提供長達 15 年確定月度年金入息",
+      "全額符合法定每年 60,000 港元薪俸稅扣減上限，最高節省 10,200 港元稅款",
+      "特設「保費延繳保證寬限期」，應對突發失業或重大事故引起的現金流中斷",
+      "身故保障明確，未領取年金餘額全數保證歸屬保單指定受益人"
+    ],
+    "clause_pitfalls": [
+      "首 5 年退保現金價值較低，提前退保需承擔本金較大折讓",
+      "中途退保觸發稅務局稅款追繳條款",
+      "非保證年金入息取決於分紅實現率，或因資本市場低迷調低派息預期",
+      "法定年金領取年齡不得低於 50 歲"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准清單編號: QDAP-MANU-2026-06；宏利人壽官方指南 Ref: MANU-QDAP-ENRICH-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-AXA-QDAP-JOYFUL-2026",
+    "insurer": "AXA",
+    "product_name": "安盛年年賞合資格延期年金計劃 (AXA Joyful Income QDAP Plan)",
+    "product_aliases": [
+      "安盛年年賞",
+      "年年賞QDAP",
+      "AXA Joyful Income QDAP",
+      "安盛年金"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5,
+      10
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 12000,
+        "discount_rate_pct": 16,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 10,
+      "guaranteed_internal_rate_pct": 2.82,
+      "total_internal_rate_pct": 4.62,
+      "annuity_start_age": 55
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "簡易申報免體檢，大額扣稅首選方案"
+    },
+    "clause_highlights": [
+      "安盛頂尖環球固定收益組合配置，總內部回報率 4.62%，保證內部回報率 2.82%",
+      "每名納稅人每年最高可申報 60,000 港元薪俸稅扣稅額，稅務優惠直接抵扣",
+      "定期 10 年或 20 年年金派發期，可自選按月或按年入賬指定香港銀行戶口",
+      "特設特別身故賠償機制，保障年金期內未領取年金權益全部傳承至受益人"
+    ],
+    "clause_pitfalls": [
+      "前 4 年退保保證現金價值較低，提早解約損失顯著",
+      "提前退保需向香港稅務局補繳過往已享受之稅務寬減款項",
+      "非保證年金收益受資本市場週期波動影響",
+      "年金領取年齡法定不低於 50 歲，合約期內缺乏短期資金流動性"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核准證書: QDAP-AXA-2026-08；安盛保險官方文件 Ref: AXA-QDAP-INCOME-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-SUN-QDAP-HARVEST-2026",
+    "insurer": "Sun_Life",
+    "product_name": "永明豐盛延期年金計劃 (Sun Life SunHarvest QDAP Plan)",
+    "product_aliases": [
+      "永明豐盛年金",
+      "豐盛延期年金",
+      "Sun Life SunHarvest QDAP",
+      "永明豐盛"
+    ],
+    "category": "Annuity_QDAP",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      5
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 12,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "qdap_metrics": {
+      "tax_deduction_eligible_cap_hkd": 60000,
+      "annuity_payment_period_years": 12,
+      "guaranteed_internal_rate_pct": 2.78,
+      "total_internal_rate_pct": 4.68,
+      "annuity_start_age": 50
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 500000,
+      "special_waiver_notes": "全期免體檢，提供電子投保快速審核通道"
+    },
+    "clause_highlights": [
+      "永明加拿大資產管理百年穩健支持，總內部回報率達 4.68%，保證回報 2.78%",
+      "年金領取年齡早至 50 歲即可開始，靈活滿足提早退休人士現金流需求",
+      "全額符合法定每年 60,000 港元薪俸稅扣稅額，最高可節省 10,200 港元稅款",
+      "提供身故入息保證支付選項，未領取年金全數由指定受益人繼續領取"
+    ],
+    "clause_pitfalls": [
+      "前 5 年退保保證現金價值折讓較大，不適宜短期資金周轉",
+      "若中途退保將面臨香港稅務局追討已享薪俸稅扣除額之風險",
+      "非保證入息受永明分紅基金投資表現影響，長遠總入息為預期估值",
+      "年金開始領取後無法逆轉為單筆退保金"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "保監局 QDAP 核備編號: QDAP-SUN-2026-09；永明金融官方手冊 Ref: SUN-QDAP-HARVEST-2026"
     }
   }
 ]
-

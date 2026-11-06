@@ -197,23 +197,23 @@ function loadPromos() {
 (0, node_test_1.default)("10. Feature F1, F2, F3: Universal Life & Expanded Catalog Dynamic Loader", () => {
     const allPromos = (0, loader_js_1.loadAllMockPromos)();
     node_assert_1.default.ok(allPromos.length >= 40, "Should load 40+ mock products across all 9 HK insurers");
-    node_assert_1.default.strictEqual(allPromos.length, 60, "Should load all 60 mock products");
+    node_assert_1.default.strictEqual(allPromos.length, 99, "Should load all 99 mock products");
     const insurers = new Set(allPromos.map(p => p.insurer));
-    node_assert_1.default.strictEqual(insurers.size, 11, "Should cover all 11 Hong Kong insurers");
-    const expectedInsurers = ["AIA", "Prudential", "Manulife", "Sun_Life", "FWD", "AXA", "Bowtie", "BOC_Life", "YF_Life", "Cigna", "Bupa"];
+    node_assert_1.default.strictEqual(insurers.size, 15, "Should cover all 15 Hong Kong insurers");
+    const expectedInsurers = ["AIA", "Prudential", "Manulife", "Sun_Life", "FWD", "AXA", "Bowtie", "BOC_Life", "YF_Life", "Cigna", "Bupa", "HSBC", "Generali", "BlueCross", "ChinaLife"];
     for (const ins of expectedInsurers) {
         node_assert_1.default.ok(insurers.has(ins), `Should cover insurer ${ins}`);
     }
     const savings = (0, loader_js_1.loadPromosByCategory)("Savings_MultiCurrency");
-    node_assert_1.default.strictEqual(savings.length, 12, "Should have 12 savings products");
+    node_assert_1.default.strictEqual(savings.length, 20, "Should have 20 savings products");
     const ci = (0, loader_js_1.loadPromosByCategory)("Critical_Illness");
-    node_assert_1.default.strictEqual(ci.length, 13, "Should have 13 critical illness products");
+    node_assert_1.default.strictEqual(ci.length, 20, "Should have 20 critical illness products");
     const vhis = (0, loader_js_1.loadPromosByCategory)("Medical_VHIS");
-    node_assert_1.default.strictEqual(vhis.length, 12, "Should have 12 VHIS products");
+    node_assert_1.default.strictEqual(vhis.length, 20, "Should have 20 VHIS products");
     const qdap = (0, loader_js_1.loadPromosByCategory)("Annuity_QDAP");
-    node_assert_1.default.strictEqual(qdap.length, 11, "Should have 11 QDAP products");
+    node_assert_1.default.strictEqual(qdap.length, 19, "Should have 19 QDAP products");
     const ul = (0, loader_js_1.loadPromosByCategory)("Financing_UniversalLife");
-    node_assert_1.default.strictEqual(ul.length, 12, "Should have 12 Universal Life products");
+    node_assert_1.default.strictEqual(ul.length, 20, "Should have 20 Universal Life products");
     // Verify Universal Life domain metrics schema
     for (const p of ul) {
         node_assert_1.default.ok(p.ul_metrics, `Product ${p.promo_id} must have ul_metrics`);
@@ -227,9 +227,9 @@ function loadPromos() {
     }
     // Verify loadPromosByInsurer
     const aiaPromos = (0, loader_js_1.loadPromosByInsurer)("AIA");
-    node_assert_1.default.strictEqual(aiaPromos.length, 10, "AIA should have 10 products across categories");
+    node_assert_1.default.strictEqual(aiaPromos.length, 11, "AIA should have 11 products across categories");
     const pruPromos = (0, loader_js_1.loadPromosByInsurer)("Prudential");
-    node_assert_1.default.strictEqual(pruPromos.length, 8, "Prudential should have 8 products across categories");
+    node_assert_1.default.strictEqual(pruPromos.length, 10, "Prudential should have 10 products across categories");
 });
 (0, node_test_1.default)("11. Feature F4: Multimodal Extractor SDK & Offline Fallback across 9 Insurers & 5 Categories", async () => {
     const extractor = new gemini_pipeline_js_1.GeminiIntelligenceExtractor(); // Offline mode (no API key in test runner)

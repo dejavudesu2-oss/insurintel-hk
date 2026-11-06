@@ -1,0 +1,702 @@
+// Savings data expansion and enrichment definitions
+
+export const existingSavingsEnrichment = {
+  "PROMO-AIA-SAV-2026-Q4": {
+    clause_highlights: [
+      "支援 7 種主流環球貨幣（美元、港元、人民幣、英鎊、歐元、澳元、加元）自由轉換，捕捉全球貨幣週期",
+      "特設保單分拆選項，第3個保單週年起可無限次分拆保單予不同受益人",
+      "支援無限次更換受保人及第二受保人安排，真正落實跨代財富傳承",
+      "提供身故賠償信託式提取功能，可選擇全數領取或按月/年定期領取"
+    ],
+    clause_pitfalls: [
+      "前 3 年保證現金價值為零，提早退保將面臨極高本金損失風險",
+      "保證回本期長達 18 年，高預期回報高度依賴非保證復歸紅利與終期分紅之市場表現",
+      "貨幣轉換每年限行使一次，且受保險公司當時適用的匯率及行政規則約束",
+      "預繳利息僅保證首年 5.0%，提早提取預繳款項將被扣除利息並收取手續費"
+    ],
+    official_source_attribution: "友邦保險官方產品通函 Ref: AIA-CIRC-2026-GP3-Q4；保監局備案編號: IA-AIA-SAV-2026"
+  },
+  "PROMO-PRU-SAV-2026-Q4": {
+    clause_highlights: [
+      "市場領先的 5.8% 首年保證預繳利率，鎖定超高無風險短期回報",
+      "支援多達 6 種貨幣隨心轉換，配合英式分紅（British Style）滾存長遠潛在增值",
+      "特設「保單延續選項」，可指定後續保單持有人及第二受保人",
+      "首年保費回贈最高達 28%，大額投保優惠力度冠絕市場主流保司"
+    ],
+    clause_pitfalls: [
+      "保證回本年期為 19 年，退保價值中非保證終期紅利比率在第 20 年超過 68%",
+      "預繳保費必須全數存放於保單預繳戶口，中途提領罰則嚴格，利息將歸零計算",
+      "分紅實現率（GN16）歷史數據曾有波動，客戶須審視長期實現率穩定性",
+      "更換受保人要求受保人年齡小於現任受保人，且需通過行政審批"
+    ],
+    official_source_attribution: "保誠保險官方代理人通函 Ref: PRU-CIR-2026-EG-10；GN16 公佈核准記錄: PRU-GN16-2026"
+  },
+  "PROMO-MANU-SAV-2026-Q4": {
+    clause_highlights: [
+      "業界首創提供 2 年期保證 5.5% 預繳利率，更長鎖定期平抑降息週期風險",
+      "特設終生年金轉換權，保單持有人可將現金價值轉化為定期退休年金",
+      "提供市場罕見之「智選傳承」功能，靈活分段指定傳承百分比",
+      "多元貨幣組合隨心切換，並設有鎖定紅利功能以鎖定已實現回報"
+    ],
+    clause_pitfalls: [
+      "第 5 年前退保扣減率極高，第 6 年預期回本仍有部分依賴非保證紅利",
+      "紅利鎖定選項設有每年最高百分比上限（通常每年不超過 50% 終期紅利）",
+      "若轉換為終生年金，已轉換部分將不可逆轉重新變更為一筆過現金",
+      "保費預繳優惠額度有限，僅適用於指定投保額度及特定貨幣賬戶"
+    ],
+    official_source_attribution: "宏利人壽官方經紀通告 Ref: MANU-BROKER-2026-MGS；保險業監管局備案: IA-MANU-2026"
+  },
+  "PROMO-SUN-SAV-2026-Q4": {
+    clause_highlights: [
+      "永明加拿大百年母公司資產管理支持，固定收益與ESG可持續投資配置比例穩健",
+      "支援無限次分拆與更改受保人，特設「雙重傳承」靈活指定機制",
+      "提供紅利鎖定及隨時解鎖提取功能，兼顧資產流動性與防守性",
+      "保單首年高達 20% 保費回贈，二人同行更享額外加碼"
+    ],
+    clause_pitfalls: [
+      "保證回本年期為 18 年，預期回本第 6 年，非保證紅利佔比隨年期顯著遞增",
+      "貨幣轉換涉及外幣兌換差價風險，且每年僅可在保單週年日前 30 天內申請",
+      "首年退保現金價值通常低於已繳保費之 15%",
+      "預繳利率 5.1% 僅適用於首年，次年自動轉為非保證積存利率"
+    ],
+    official_source_attribution: "香港永明金融官方通告 Ref: SUN-HK-2026-STELLAR；保監局備案標識: IA-SUN-SAV-09"
+  },
+  "PROMO-FWD-SAV-2026-Q4": {
+    clause_highlights: [
+      "預期回本年期僅需 5 年，市場回本速度最快的旗艦儲蓄之一",
+      "特設「保單價值保障鎖定權益」，應對環球市場震盪，提早鎖定回報",
+      "全面支援 8 種貨幣互換，包含罕見的瑞士法郎及新加坡元選項",
+      "最高回贈高達 24%，家庭成員共同投保享額外 3% 回贈"
+    ],
+    clause_pitfalls: [
+      "保證現金價值比重較低，保證回本期為 17 年",
+      "價值保障鎖定行使後，被鎖定金額將轉移至積存生息賬戶，不再享有後續投資超額收益",
+      "前 2 年保單提早終止將損失絕大部分本金",
+      "保單分拆需於第 3 個保單週年後方可生效，每次分拆有名額與最低名義價值限制"
+    ],
+    official_source_attribution: "富衛人壽官方產品手冊 Ref: FWD-CIR-2026-MF8；保險業監管局核准: POL-FWD-SAV-2026"
+  },
+  "PROMO-AXA-SAV-2026-Q4": {
+    clause_highlights: [
+      "由安盛投資管理（AXA IM）操盤，全球主權債與優質企業債比例扎實",
+      "首創「彈性提取及保單貨幣雙轉換雙鎖定」，傳承架構嚴謹",
+      "特設學業卓越獎勵金，惠及受保子女之國際認可學術成果",
+      "免體檢限額高達 450 萬美元，適合超高淨值客戶一站式資產配置"
+    ],
+    clause_pitfalls: [
+      "保證回本年期需 18 年，第 20 年預期 IRR 約 5.75%，略低於部分進取型競品",
+      "若選擇提取部分現金價值，往後之保證及非保證利益將按比例永久減少",
+      "預繳保費提早提領需收取相等於已派利息 100% 之補償扣除費",
+      "保單分拆申請不可撤銷，一經批准即按新保單各自獨立運作"
+    ],
+    official_source_attribution: "安盛保險官方通函 Ref: AXA-HK-2026-DYN-01；保監局檔案號: IA-AXA-2026-SAV"
+  },
+  "PROMO-BOC-SAV-2026-Q4": {
+    clause_highlights: [
+      "中銀香港強大母行網絡支持，人民幣與離岸港幣雙幣種清算結算效率卓越",
+      "歷史分紅實現率 GN16 達 97.2%，以風格穩健審慎著稱",
+      "特設保單終身定期年金轉換權，無縫對接中銀退休理財專戶",
+      "高保額專屬綠色投保通道，無需常規財務審查"
+    ],
+    clause_pitfalls: [
+      "保證回本需 19 年，保單投資組合偏重固定收益債券，第 30 年總 IRR 上限受限（約 6.42%）",
+      "貨幣轉換僅支援 USD、HKD、RMB 三種主流貨幣，不支援歐元或英鎊",
+      "大額預繳需於指定中銀香港賬戶扣款方可享預繳利息優惠",
+      "早期退保罰則較重，第 2 年退保保證現金價值僅約已繳保費 25%"
+    ],
+    official_source_attribution: "中銀人壽官方產品通告 Ref: BOCL-CIRC-2026-GEN-04；保監局登記編號: IA-BOCL-SAV-2026"
+  },
+  "PROMO-YF-SAV-2026-Q4": {
+    clause_highlights: [
+      "市場首創多達 9 種貨幣自由轉換，更換貨幣不設次數上限",
+      "特設「終身年金權益選項」，可轉換為 8 種不同形式之終身年金",
+      "市場唯一支援保單拆分後個別設立不同年金領取人之架構",
+      "預期第 30 年 IRR 高達 6.75%，長線增值潛力優異"
+    ],
+    clause_pitfalls: [
+      "保證回本年期長達 20 年，早期資金流動性受限",
+      "非保證終期紅利波動較大，歷年 GN16 實現率約 92.5%，需留意市場週期變動",
+      "年金轉換權利行使後不可還原，且年金率將按行使時當時之預期壽命精算表釐定",
+      "轉換至非主流外幣（如澳元、加元）需承擔較高外幣匯兌買賣差價"
+    ],
+    official_source_attribution: "萬通保險官方通告 Ref: YFL-CIR-2026-INF-08；保監局核准編號: POL-YFL-SAV-2026"
+  },
+  "PROMO-AIA-SAV-SLE5-2026": {
+    clause_highlights: [
+      "專為偏好高保證回報客戶設計，保證現金價值增長曲線相對陡峭",
+      "提供第 10 年起之穩定現金流提取選項，自製長青被動收入",
+      "設有家庭成員額外保障加乘及簡易健康核保選項",
+      "傳承延續選項清晰，可指定第二受益人以信託方式分期支付身故金"
+    ],
+    clause_pitfalls: [
+      "長線總預期 IRR（約 5.95%）顯著低於多元貨幣旗艦 GP3 系列",
+      "不支援多元貨幣轉換功能，貨幣種類於投保時鎖定不可更改",
+      "提早於前 5 年退保將蒙受顯著保證本金折損",
+      "非保證紅利依賴傳統分紅基金投資表現，派發金額非保證"
+    ],
+    official_source_attribution: "友邦官方產品指南 Ref: AIA-PROD-SLE5-2026；保監局核備號: IA-AIA-SLE5"
+  },
+  "PROMO-PRU-SAV-EGSP2-2026": {
+    clause_highlights: [
+      "保誠歷史最悠久、分紅數據累積最深厚之「雋陞」經典升級系列",
+      "採用保誠獨家「緩衝基金（Smoothing Mechanism）」平滑各年度紅利派發波動",
+      "第 8 年起提供靈活提款功能，支援自定年度提取比例",
+      "身故賠償設有保證最低金額保障，不受短期金融危機下行衝擊"
+    ],
+    clause_pitfalls: [
+      "不具備現代多元貨幣切換功能，僅限單一投保貨幣（通常為美元或港元）",
+      "保證回本年期為 18 年，回本前退保價值遠低於總繳保費",
+      "緩衝機制可能導致在資本市場大牛市期間分紅上調步伐滯後",
+      "更改受保人設有嚴格血緣與利益關係審核，手續相對繁複"
+    ],
+    official_source_attribution: "保誠特級雋陞產品條款手冊 Ref: PRU-EGSP2-POL-2026；保監局備案編號: GN16-PRU-EGSP"
+  },
+  "PROMO-MANU-SAV-CENTURY-2026": {
+    clause_highlights: [
+      "百年宏利家族傳承旗艦，專門針對家族辦公室跨代資產託管需求打造",
+      "支援後續保單持有人及多受益人按百分比精確分割",
+      "設有保單延期繳付保費寬限期（可長達 365 天），應對短期周轉危機",
+      "保費預繳享優惠利率，且支援多種國際貨幣計價"
+    ],
+    clause_pitfalls: [
+      "進場最低保費門檻相對較高，專注於中高資產客群",
+      "前 8 年現金價值增長緩慢，資金鎖定期較長",
+      "終期紅利派發受宏利分紅資產組合之環球房地產與私募股權項目估值影響",
+      "若行使保費延繳寬限期，保單非保證分紅可能被下調或暫停派發"
+    ],
+    official_source_attribution: "宏利世紀傳承產品規格書 Ref: MANU-CENTURY-LEGACY-2026；保監局檔案: POL-MANU-CS-2026"
+  },
+  "PROMO-FWD-SAV-MAXACC-2026": {
+    clause_highlights: [
+      "短期 5 年預期快速回本，適合注重資金週轉靈活度之企業主與高淨值投資者",
+      "結合財富積累與靈活提款，第 6 年起可申請預先設定之自動年度提款指令",
+      "特設特別身故保障，若受保人不幸於指定年期內身故享額外保證賠償",
+      "投保程序極其簡便，全期免體檢，大額免常規資產證明"
+    ],
+    clause_pitfalls: [
+      "第 30 年長遠預期 IRR（約 6.35%）略遜於純長線傳承型多元貨幣產品",
+      "貨幣轉換選擇較旗艦 MaxFortune 略少，不包含部分小眾貨幣",
+      "提早提取現金價值將削減後續終期紅利之複利基數",
+      "保證回本年期為 16 年，前 3 年退保仍有較大本金折損"
+    ],
+    official_source_attribution: "富衛盈聚天下官方通函 Ref: FWD-MAXACC-CIR-2026；保監局核准: IA-FWD-SAV-MAX"
+  }
+};
+
+export const newSavingsProducts = [
+  {
+    promo_id: "PROMO-HSBC-SAV-WEALTHGOAL-2026",
+    insurer: "HSBC",
+    product_name: "滙豐智豐多元貨幣保險計劃 (HSBC Wealth Goal Plus Multi-Currency Plan)",
+    product_aliases: ["滙豐智豐", "智豐多元", "HSBC Wealth Goal Plus", "滙豐多元貨幣"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "RMB", "GBP", "EUR", "AUD", "CAD", "SGD"],
+    payment_period_years: [3, 5],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 5000, max_annual_premium_usd: 20000, discount_rate_pct: 12.0 },
+      { min_annual_premium_usd: 20000, max_annual_premium_usd: 50000, discount_rate_pct: 18.0, extra_family_bonus_pct: 3.0 },
+      { min_annual_premium_usd: 50000, discount_rate_pct: 23.0, extra_family_bonus_pct: 4.0, extra_bundling_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 5.2,
+      lock_period_years: 1,
+      currency_restriction: ["USD"],
+      withdrawal_penalty: "提早提取預繳保費，扣除已派發之全數利息並收取 2% 行政手續費"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 18,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.88,
+      expected_irr_year_30: 6.65,
+      gn16_fulfillment_ratio_pct: 96.8,
+      policy_split_options: true,
+      currency_switch_options: true,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 4500000,
+      special_waiver_notes: "滙豐卓越理財客戶享綠色通道免體檢，大額保單免財務背景審核"
+    },
+    clause_highlights: [
+      "支援業界最豐富之 9 種世界主流貨幣轉換（包含日圓 JPY 與新加坡元 SGD）",
+      "滙豐全球銀行網絡無縫跨境結算，派息可直入全球任一滙豐個人賬戶",
+      "自第 3 個保單週年起可無限次分拆保單，並可指定分拆後保單之獨立受益人",
+      "特設「保單價值鎖定選項」及「精神無行為能力代理人指定」，保障失智時資產安全"
+    ],
+    clause_pitfalls: [
+      "保證回本需 18 年，保單成立首 2 年退保保證現金價值為零",
+      "貨幣轉換每年限行使一次，日圓等低息貨幣轉換或需依據當時利率精算重估未來紅利",
+      "預繳利息 5.2% 僅保證首年，次年按滙豐人壽浮動息率結算",
+      "大額折扣需符合指定供款年期及最低年繳保費門檻"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "滙豐保險官方通函 Ref: HSBC-LIFE-2026-WG-Q4；保監局認可編號: POL-HSBC-WG-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-HSBC-SAV-GOLDEN-2026",
+    insurer: "HSBC",
+    product_name: "滙豐金禧儲蓄保險計劃 (HSBC Golden Jubilee Endowment Plan)",
+    product_aliases: ["滙豐金禧", "金禧儲蓄", "HSBC Golden Jubilee", "滙豐金禧回報"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "RMB"],
+    payment_period_years: [2, 5],
+    validity: {
+      start_date: "2026-10-15",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-10",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 10000, discount_rate_pct: 10.0 },
+      { min_annual_premium_usd: 30000, discount_rate_pct: 16.0, extra_family_bonus_pct: 2.5 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 4.8,
+      lock_period_years: 1,
+      currency_restriction: ["USD", "HKD"],
+      withdrawal_penalty: "中途提取預繳金額將按已存放日數以活期息率扣減補償金結算"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 15,
+      breakeven_expected_year: 5,
+      expected_irr_year_20: 5.62,
+      expected_irr_year_30: 6.38,
+      gn16_fulfillment_ratio_pct: 98.1,
+      policy_split_options: false,
+      currency_switch_options: false,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 3000000,
+      special_waiver_notes: "全期免體檢，投保人只需簽署簡易健康聲明即可獲批"
+    },
+    clause_highlights: [
+      "保證成分佔比較高，保證回本年期縮短至 15 年，風格審慎安全",
+      "GN16 歷史分紅實現率高達 98.1%，連續多年派息達成率穩定居市場前列",
+      "提供 2 年短期供款選項，快速完成儲蓄資本累積",
+      "期滿保證回報明確，特設身故信託提取機制守護後代"
+    ],
+    clause_pitfalls: [
+      "不支援保單分拆與多元貨幣自由轉換功能，貨幣不可中途變更",
+      "長線總預期 IRR（約 6.38%）較純浮動投資型多元貨幣產品保守",
+      "2 年期保單退保扣減在首年高達 65%",
+      "保單若轉讓給第三方須受限於滙豐反洗錢及受讓資格審查"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "滙豐保險產品規格書 Ref: HSBC-GJ-2026-CIRC；保監局登記備案: IA-HSBC-GJ-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-GEN-SAV-LIONGLOBAL-2026",
+    insurer: "Generali",
+    product_name: "忠意「世譽傳承」多元貨幣儲蓄計劃 (Generali LionGlobal Multi-Currency Plan)",
+    product_aliases: ["忠意世譽傳承", "世譽傳承", "LionGlobal", "忠意多元貨幣"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "EUR", "GBP", "RMB", "SGD", "AUD", "CAD"],
+    payment_period_years: [2, 5],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-20",
+      channel: "Broker"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 5000, max_annual_premium_usd: 25000, discount_rate_pct: 14.0 },
+      { min_annual_premium_usd: 25000, max_annual_premium_usd: 60000, discount_rate_pct: 20.0, extra_family_bonus_pct: 3.0 },
+      { min_annual_premium_usd: 60000, discount_rate_pct: 26.0, extra_family_bonus_pct: 4.0, extra_bundling_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 5.3,
+      lock_period_years: 1,
+      currency_restriction: ["USD", "EUR"],
+      withdrawal_penalty: "提前提領預繳款項將收取 3% 手續費且該年利息按 0% 結算"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 18,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.92,
+      expected_irr_year_30: 6.72,
+      gn16_fulfillment_ratio_pct: 95.3,
+      policy_split_options: true,
+      currency_switch_options: true,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 4000000,
+      special_waiver_notes: "獨立經紀人經理人綠色通道，特許免核保及資產證明"
+    },
+    clause_highlights: [
+      "歐洲第一大保險巨頭忠意集團（成立於1831年）資產配置，歐元及英鎊投資池歷史底蘊雄厚",
+      "第 30 年總預期 IRR 高達 6.72%，市場頂尖長跑型儲蓄回報水平",
+      "支援保單無限次分拆與多幣種自由轉換，並特設跨代財富傳承信託機制",
+      "最高保費回贈高達 26%（加碼同行最高達 30%），經紀通道優惠極具競爭力"
+    ],
+    clause_pitfalls: [
+      "保證回本年期為 18 年，前 3 年保單現金價值較低",
+      "忠意在香港之服務據點相對傳統英美保司較少，理賠與變更申請以數碼經紀通道為主",
+      "非保證終期分紅隨歐洲及全球央行利率政策波動，長線派發比率存有市場風險",
+      "貨幣轉換手續需在指定工作日內申請，兌換匯率含適度買賣差價"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "忠意保險官方通函 Ref: GEN-HK-2026-LG-CIRC；保監局備案登記: IA-GEN-LG-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-GEN-SAV-LIONWEALTH-2026",
+    insurer: "Generali",
+    product_name: "忠意「忠盛」財富傳承儲蓄保險 (Generali LionWealth Heritage Saver)",
+    product_aliases: ["忠盛財富", "忠意忠盛", "LionWealth", "忠盛傳承"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "EUR"],
+    payment_period_years: [5, 10],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-20",
+      channel: "Broker"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 4000, discount_rate_pct: 12.0 },
+      { min_annual_premium_usd: 15000, discount_rate_pct: 18.0, extra_family_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 4.9,
+      lock_period_years: 1,
+      currency_restriction: ["USD"],
+      withdrawal_penalty: "提前提款收取提取額之 2.5% 行政費用"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 17,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.75,
+      expected_irr_year_30: 6.55,
+      gn16_fulfillment_ratio_pct: 96.0,
+      policy_split_options: true,
+      currency_switch_options: true,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 3500000,
+      special_waiver_notes: "全期免體檢，投保流程全在線電子化完成"
+    },
+    clause_highlights: [
+      "專注於中長線穩健增值與家族代際傳承架構設計",
+      "歐元/美元資產配置平衡，有效對沖單一美元資產地緣政治風險",
+      "特設「保單價值鎖定與解鎖機制」，兼顧資金彈性與風險防範",
+      "支援無上限次數更換受保人，確保家族基業常青"
+    ],
+    clause_pitfalls: [
+      "貨幣種類僅限美元、港元及歐元，不支援澳元或加元等商品貨幣",
+      "保證回本年期為 17 年，前幾年退保金折損嚴重",
+      "預期回本第 6 年高度依賴首 5 年之累積歸原紅利",
+      "保單分拆需於保單生效滿 3 年後方可行使"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "忠意人壽經紀產品備忘 Ref: GEN-LIONWEALTH-2026；保監局核准: POL-GEN-LW-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-CL-SAV-MULTIWEALTH-2026",
+    insurer: "ChinaLife",
+    product_name: "裕饒多元貨幣儲蓄保險計劃 (China Life Multi-Wealth Multi-Currency Plan)",
+    product_aliases: ["國壽裕饒", "裕饒多元", "China Life Multi-Wealth", "中壽裕饒"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "RMB", "GBP", "EUR", "AUD", "CAD", "SGD"],
+    payment_period_years: [2, 5],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 5000, max_annual_premium_usd: 20000, discount_rate_pct: 12.0 },
+      { min_annual_premium_usd: 20000, max_annual_premium_usd: 50000, discount_rate_pct: 18.0, extra_family_bonus_pct: 2.0 },
+      { min_annual_premium_usd: 50000, discount_rate_pct: 22.0, extra_family_bonus_pct: 3.0, extra_bundling_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 5.5,
+      lock_period_years: 1,
+      currency_restriction: ["USD", "RMB"],
+      withdrawal_penalty: "中途提領預繳款項，利息將按 0% 重新計算並收取 2% 行政手續費"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 17,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.82,
+      expected_irr_year_30: 6.60,
+      gn16_fulfillment_ratio_pct: 97.5,
+      policy_split_options: true,
+      currency_switch_options: true,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 5000000,
+      special_waiver_notes: "央企信譽保障，全期免體檢額度高達500萬美元，內地訪港客專享快速核保"
+    },
+    clause_highlights: [
+      "中國最大人壽保險央企海外旗艦，資產規模宏大，主權信用實力雄厚",
+      "人民幣及美元預繳保費保證年利率高達 5.5%，短期資金停泊鎖息優勢顯著",
+      "全面覆蓋 8 種環球貨幣，離岸人民幣出海與國際傳承首選架構",
+      "GN16 分紅實現率連續多年超過 97%，以精準履約及分紅審慎著稱"
+    ],
+    clause_pitfalls: [
+      "保證回本年期為 17 年，早期現金價值偏低，第 3 年前退保本金折損達 70%",
+      "分紅資產配置以國有主權債及高評級金融債為主，牛市行情下長線超額收益爆發力稍遜",
+      "保單貨幣轉換需按公司公佈之匯率計算，人民幣換算受外匯額度政策影響",
+      "非保證終期紅利派發設有市場價值調整條款（MVA）"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "中國人壽海外官方通告 Ref: CL-HK-2026-MW-CIRC；保監局註冊備案: POL-CL-SAV-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-CL-SAV-TREASURE-2026",
+    insurer: "ChinaLife",
+    product_name: "盈豐寶儲蓄保險計劃 (China Life Wealth Treasure Savings Plan)",
+    product_aliases: ["國壽盈豐寶", "盈豐寶", "China Life Wealth Treasure", "中壽盈豐寶"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "RMB"],
+    payment_period_years: [3, 5],
+    validity: {
+      start_date: "2026-10-10",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-10",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 6000, discount_rate_pct: 10.0 },
+      { min_annual_premium_usd: 20000, discount_rate_pct: 15.0, extra_family_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 5.0,
+      lock_period_years: 1,
+      currency_restriction: ["USD", "RMB"],
+      withdrawal_penalty: "提前提領按活期息率扣除已繳費用結算"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 16,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.68,
+      expected_irr_year_30: 6.45,
+      gn16_fulfillment_ratio_pct: 98.0,
+      policy_split_options: false,
+      currency_switch_options: false,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 3500000,
+      special_waiver_notes: "簡易申報，無需提供繁複財務證明"
+    },
+    clause_highlights: [
+      "主打保證現金價值與確定性回報，適合極度厭惡風險之守門型投資者",
+      "人民幣儲蓄收益穩健，兼具兩地通關跨境結算便利",
+      "提供第 5 年起之保證年金提取權益，自製每月穩定養老金",
+      "支援身故賠償多樣化支付方式（一次性或分期 10/20/30 年付清）"
+    ],
+    clause_pitfalls: [
+      "不支援保單分拆與貨幣轉換功能，投保後無法調整幣種",
+      "預期 IRR（第30年 6.45%）較進取型多元貨幣產品平緩",
+      "提前退保費用在首 3 年較高，流動性需求客戶宜謹慎規劃",
+      "預繳優惠僅限首期繳付全數保費之保單"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "中國人壽海外產品通函 Ref: CL-HK-TREASURE-2026；保監局檔案: IA-CL-TB-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-BC-SAV-FORTUNE-2026",
+    insurer: "BlueCross",
+    product_name: "藍十字智逸多元儲蓄保障計劃 (Blue Cross SmartFortune Multi-Currency Plan)",
+    product_aliases: ["藍十字智逸", "智逸儲蓄", "Blue Cross SmartFortune", "藍十字儲蓄"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD", "RMB", "AUD", "CAD", "GBP"],
+    payment_period_years: [2, 5],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "Broker"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 5000, discount_rate_pct: 12.0 },
+      { min_annual_premium_usd: 20000, discount_rate_pct: 18.0, extra_family_bonus_pct: 3.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 5.1,
+      lock_period_years: 1,
+      currency_restriction: ["USD"],
+      withdrawal_penalty: "提前提款收取提取額之 2% 手續費"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 17,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.78,
+      expected_irr_year_30: 6.56,
+      gn16_fulfillment_ratio_pct: 95.8,
+      policy_split_options: true,
+      currency_switch_options: true,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 3000000,
+      special_waiver_notes: "東亞銀行/藍十字集團旗下客戶享免體檢快速通道"
+    },
+    clause_highlights: [
+      "東亞銀行旗下藍十字品牌背書，兼具本地醫療保險龍頭與儲蓄綜合生態圈優勢",
+      "支援 6 種貨幣自由轉換及保單無限次分拆傳承",
+      "特設「醫療保障銜接選項」，可將儲蓄分紅免核保直充藍十字高端自願醫保保費",
+      "首年折扣配合預繳 5.1% 利率，適合中產家庭穩健累積子女教育金"
+    ],
+    clause_pitfalls: [
+      "保證回本年期為 17 年，早退保保證價值折損較高",
+      "多元貨幣轉換行使設有通知期與行政工作日約束",
+      "藍十字儲蓄業務規模較大型人壽巨頭（AIA/保誠）略小，分紅基金資產池規模相對集中",
+      "紅利派發受環球資本市場週期波動影響，長線 IRR 為非保證估算"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "藍十字官方經紀業務通告 Ref: BC-SF-2026-CIRC；保監局備案登記: IA-BC-SAV-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-AIA-SAV-BONUSVANTAGE-2026",
+    insurer: "AIA",
+    product_name: "充裕未來·盈尚儲蓄保險 (AIA Bonus Power Vantage)",
+    product_aliases: ["充裕未來", "充裕未來盈尚", "Bonus Power Vantage", "BPV"],
+    category: "Savings_MultiCurrency",
+    currency_supported: ["USD", "HKD"],
+    payment_period_years: [5, 10],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "Agency"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 5000, discount_rate_pct: 10.0 },
+      { min_annual_premium_usd: 20000, discount_rate_pct: 16.0, extra_family_bonus_pct: 2.0 }
+    ],
+    prepayment_scheme: {
+      is_available: true,
+      guaranteed_rate_pct: 4.8,
+      lock_period_years: 1,
+      currency_restriction: ["USD"],
+      withdrawal_penalty: "提取預繳保費將喪失該年度預繳利息"
+    },
+    savings_metrics: {
+      breakeven_guaranteed_year: 18,
+      breakeven_expected_year: 6,
+      expected_irr_year_20: 5.70,
+      expected_irr_year_30: 6.48,
+      gn16_fulfillment_ratio_pct: 96.0,
+      policy_split_options: false,
+      currency_switch_options: false,
+      change_insured_unlimited: true,
+      secondary_insured: true,
+      death_benefit_trust_settlement: true
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      max_non_medical_limit_usd: 3500000,
+      special_waiver_notes: "常規免體檢，支援綠色審批通道"
+    },
+    clause_highlights: [
+      "友邦經典「充裕未來」升級旗艦，分紅往績長達近十年，市場認知度極高",
+      "著重穩健資本增值與確定性傳承，兼顧退休年金轉化功能",
+      "支援更改受保人及第二受保人指定，保單權益世代流傳",
+      "身故賠償設有保證最低結算比例，防範早期極端市場波動"
+    ],
+    clause_pitfalls: [
+      "單一貨幣運作，不具備最新多元貨幣轉換及保單無限次拆分功能",
+      "保證回本年期需 18 年，前 5 年退保現金價值折減顯著",
+      "預期 IRR（約 6.48%）略低於多幣種盈御 3 系列",
+      "非保證終期分紅隨友邦股票投資組合回報浮動"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "友邦官方產品指南 Ref: AIA-BPV-2026-CIRC；保監局檔案號: IA-AIA-BPV-2026"
+    }
+  }
+];

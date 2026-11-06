@@ -229,29 +229,29 @@ test("9. Agent 8: Semantic Cache & Dead-Letter Queue (DLQ)", () => {
 test("10. Feature F1, F2, F3: Universal Life & Expanded Catalog Dynamic Loader", () => {
   const allPromos = loadAllMockPromos();
   assert.ok(allPromos.length >= 40, "Should load 40+ mock products across all 9 HK insurers");
-  assert.strictEqual(allPromos.length, 60, "Should load all 60 mock products");
+  assert.strictEqual(allPromos.length, 99, "Should load all 99 mock products");
 
   const insurers = new Set(allPromos.map(p => p.insurer));
-  assert.strictEqual(insurers.size, 11, "Should cover all 11 Hong Kong insurers");
-  const expectedInsurers = ["AIA", "Prudential", "Manulife", "Sun_Life", "FWD", "AXA", "Bowtie", "BOC_Life", "YF_Life", "Cigna", "Bupa"];
+  assert.strictEqual(insurers.size, 15, "Should cover all 15 Hong Kong insurers");
+  const expectedInsurers = ["AIA", "Prudential", "Manulife", "Sun_Life", "FWD", "AXA", "Bowtie", "BOC_Life", "YF_Life", "Cigna", "Bupa", "HSBC", "Generali", "BlueCross", "ChinaLife"];
   for (const ins of expectedInsurers) {
     assert.ok(insurers.has(ins), `Should cover insurer ${ins}`);
   }
 
   const savings = loadPromosByCategory("Savings_MultiCurrency");
-  assert.strictEqual(savings.length, 12, "Should have 12 savings products");
+  assert.strictEqual(savings.length, 20, "Should have 20 savings products");
 
   const ci = loadPromosByCategory("Critical_Illness");
-  assert.strictEqual(ci.length, 13, "Should have 13 critical illness products");
+  assert.strictEqual(ci.length, 20, "Should have 20 critical illness products");
 
   const vhis = loadPromosByCategory("Medical_VHIS");
-  assert.strictEqual(vhis.length, 12, "Should have 12 VHIS products");
+  assert.strictEqual(vhis.length, 20, "Should have 20 VHIS products");
 
   const qdap = loadPromosByCategory("Annuity_QDAP");
-  assert.strictEqual(qdap.length, 11, "Should have 11 QDAP products");
+  assert.strictEqual(qdap.length, 19, "Should have 19 QDAP products");
 
   const ul = loadPromosByCategory("Financing_UniversalLife");
-  assert.strictEqual(ul.length, 12, "Should have 12 Universal Life products");
+  assert.strictEqual(ul.length, 20, "Should have 20 Universal Life products");
 
   // Verify Universal Life domain metrics schema
   for (const p of ul) {
@@ -267,9 +267,9 @@ test("10. Feature F1, F2, F3: Universal Life & Expanded Catalog Dynamic Loader",
 
   // Verify loadPromosByInsurer
   const aiaPromos = loadPromosByInsurer("AIA");
-  assert.strictEqual(aiaPromos.length, 10, "AIA should have 10 products across categories");
+  assert.strictEqual(aiaPromos.length, 11, "AIA should have 11 products across categories");
   const pruPromos = loadPromosByInsurer("Prudential");
-  assert.strictEqual(pruPromos.length, 8, "Prudential should have 8 products across categories");
+  assert.strictEqual(pruPromos.length, 10, "Prudential should have 10 products across categories");
 });
 
 test("11. Feature F4: Multimodal Extractor SDK & Offline Fallback across 9 Insurers & 5 Categories", async () => {

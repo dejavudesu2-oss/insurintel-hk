@@ -1,0 +1,617 @@
+// Medical VHIS data expansion and enrichment definitions
+
+export const existingVhisEnrichment = {
+  "PROMO-BOWTIE-VHIS-2026": {
+    clause_highlights: [
+      "全港首間純虛擬保險自願醫保靈活旗艦，零中介佣金，保費較傳統保司低約 20%-35%",
+      "半私家房全數賠償（無細項分項限額），每年賠償限額高達 2,000 萬港元，終身無上限",
+      "全額賠償非手術癌症治療（標靶治療、化療、放療、免疫治療）",
+      "在線即時審批核保，支援 BowtieGo 醫療網絡門診尊享折扣"
+    ],
+    clause_pitfalls: [
+      "純消費型保單，無儲蓄分紅價值，保費隨年齡階梯式調升",
+      "需全在線自主遞交理賠申請，無專屬 Agent 實體跟進出院及醫院爭議調解",
+      "越級入住私家病房將面臨嚴格的 50% 賠償比例折減（Adjustment Factor）",
+      "精神科本地住院賠償設有每年 30,000 港元法定最高限額"
+    ],
+    official_source_attribution: "醫務衞生局自願醫保認可編號: F00045-01-000-01；Bowtie 官方核保指南 Ref: BOWTIE-PINK-2026"
+  },
+  "PROMO-AIA-VHIS-2026": {
+    clause_highlights: [
+      "友邦尊裕靈活醫保旗艦，每年賠償限額高達 3,000 萬港元，終身限額高達 1 億港元",
+      "全額賠償環球半私家病房合資格住院、手術及先進診斷成像檢測費用",
+      "特設 AIA Vitality 健康程式，每年享高達 15% 保費折扣",
+      "尊享全港所有私家醫院「出院免找數」直付服務及全球專屬醫療個案管理"
+    ],
+    clause_pitfalls: [
+      "高端醫療保費水平較高，且 50 歲後續保費率受醫療通脹影響增長較快",
+      "非急症情況下自行越級入住私家病房，賠償金額將被按比例大幅折算扣減",
+      "指定先進成像檢測（CT/MRI/PET）設有 15% 共同保險（若未入住醫院時進行）",
+      "精神科治療僅限香港本地登記私家醫院，且受每年固定上限限制"
+    ],
+    official_source_attribution: "醫務衞生局 VHIS 核准編號: F00032-01-000-01；友邦保險官方產品條款 Ref: POL-AIA-VHIS-CEO-2026"
+  },
+  "PROMO-PRU-VHIS-2026": {
+    clause_highlights: [
+      "保誠摯為您靈活計劃，每年賠償高達 2,500 萬港元，終身無限制賠償額",
+      "全額涵蓋所有非手術癌症治療，包含免疫治療及新一代基因靶向藥物",
+      "特設「安心醫」國際醫療專家第二意見網絡，預約全球名醫指導治療",
+      "自選自付額多樣化（0 / 20,000 / 50,000 / 80,000 HKD），適配公司團險無縫銜接"
+    ],
+    clause_pitfalls: [
+      "非半私家病房越級入住將扣減賠償比例達 50%",
+      "投保前未申報的已知病症將被永久除外，需嚴格遵守最高誠信原則",
+      "未經保誠事先批核之指定複雜手術或海外就醫可能影響出院直付免找數安排",
+      "保費將因受保人年齡增長與全港醫療通脹水平每年進行動態精算調整"
+    ],
+    official_source_attribution: "醫務衞生局自願醫保證書: F00030-01-000-01；保誠保險官方產品備忘 Ref: PRU-VHIS-PRIV-2026"
+  },
+  "PROMO-FWD-VHIS-2026": {
+    clause_highlights: [
+      "富衛至臻保（vPrime），全港性價比最高的半私家房全數賠償靈活醫保之一",
+      "每年賠償限額高達 2,500 萬港元，全數賠償住院、手術、標靶及術後康復護理",
+      "特設無索償保費折扣（No Claim Discount），連續無索償最高享 15% 保費減免",
+      "覆蓋中風康復專業物理治療及中醫針灸調理專屬津貼"
+    ],
+    clause_pitfalls: [
+      "病房等級限制嚴格，自願入住私家單人房將引發高達 50% 的分攤折減",
+      "精神科住院治療賠償設有每年 30,000 港元固定上限",
+      "出院免找數（Cashless）需在入院前至少 3-5 個工作天提呈預先核批申請",
+      "若中途調低自付額（例如從 5 萬降至 0 自付額），需重新進行健康核保審查"
+    ],
+    official_source_attribution: "醫務衞生局認可證書編號: F00035-02-000-01；富衛官方條款書 Ref: FWD-VPRIME-POL-2026"
+  },
+  "PROMO-MANU-VHIS-2026": {
+    clause_highlights: [
+      "宏利宏達醫療靈活計劃，每年賠償上限 2,000 萬港元，保證續保至 100 歲",
+      "全額保障非手術癌症治療，涵蓋質子治療及荷爾蒙荷爾蒙靶向治療",
+      "特設「住院現金津貼」及指定微創日間手術專屬現金回贈獎勵",
+      "提供宏利專屬醫療網絡免找數直付，覆蓋全港所有私家醫院及日間醫療中心"
+    ],
+    clause_pitfalls: [
+      "病房級別限制於半私家房，越級住院將被實施 50% 折扣賠償調整",
+      "指定訂明診斷成像檢測（如 MRI/CT）需支付 15% 共同保險",
+      "投保前已有疾病按照自願醫保標準條款在首 3 年實行階梯式賠償（0%/25%/50%）",
+      "保費受全港私家醫療費用通脹指數影響，長者年齡段費率增長較為顯著"
+    ],
+    official_source_attribution: "醫務衞生局自願醫保編號: F00031-01-000-01；宏利人壽產品指南 Ref: POL-MANU-VHIS-MASTER"
+  },
+  "PROMO-AXA-VHIS-2026": {
+    clause_highlights: [
+      "安盛智尊守慧醫療計劃，每年賠償限額高達 2,500 萬港元，終身無上限",
+      "由安盛全球醫療援助團隊支持，提供跨國轉院及緊急醫療包機服務",
+      "全額涵蓋腎透析（洗腎）及非手術癌症治療，特設器官移植專屬保額",
+      "免找數出院服務覆蓋港澳地區及內地指定優質私立醫療機構"
+    ],
+    clause_pitfalls: [
+      "半私家房升級至私家房將面臨嚴格之 50% 越級分攤系數扣減",
+      "訂明診斷檢測共同保險為 15%，且需具備主診專科醫生之書面轉介信",
+      "精神科住院每年最高賠償限額為 30,000 港元且僅限香港境內",
+      "調低自付額選項僅可在受保人指定特定年齡（如 50/55/60/65 歲）時免核保行使一次"
+    ],
+    official_source_attribution: "醫務衞生局核准編號: F00033-01-000-01；安盛保險官方產品備忘 Ref: AXA-VHIS-SMART-2026"
+  },
+  "PROMO-SUN-VHIS-2026": {
+    clause_highlights: [
+      "永明港悅自願醫保，每年賠償限額高達 2,000 萬港元，終身保障無上限",
+      "全額賠償非手術癌症治療及先進微創手術（如達芬奇機器人手術）",
+      "特設妊娠併發症保障及初生嬰兒醫療護理專屬額度",
+      "連續無索償可享高達 15% 保費折扣，減輕家庭長期持保負擔"
+    ],
+    clause_pitfalls: [
+      "病房限制為半私家房，未經授權入住私家房將被扣減 50% 賠付金額",
+      "門診手術及日間微創手術若在非指定醫療中心進行需遵循標準限額表",
+      "投保前未申報病症嚴格除外，90 天等待期內不承保非意外醫療支出",
+      "保費按受保人各年齡段之精算風險成本每年更新調整"
+    ],
+    official_source_attribution: "醫務衞生局自願醫保認可標籤: F00038-01-000-01；永明金融官方手冊 Ref: SUN-VHIS-MEDIPRO-2026"
+  },
+  "PROMO-BOC-VHIS-2026": {
+    clause_highlights: [
+      "中銀卓越自願醫保，每年賠償上限 2,000 萬港元，終身無上限",
+      "中銀香港尊貴客戶尊享出院免找數擔保與專屬跨境醫療諮詢",
+      "全額賠償標靶藥物、免疫治療及各類先進腫瘤放化療支出",
+      "保證續保至受保人 100 歲，不因個別索償歷史加收額外保費"
+    ],
+    clause_pitfalls: [
+      "半私家房嚴格等級劃分，若住入私家單人房需自付 50% 越級差額",
+      "非急症先進影像診斷（MRI/PET）需承擔 15% 共同保險",
+      "本地精神科治療限額每年 30,000 港元",
+      "出院免找數直付申請需經中銀人壽醫療團隊在入院前完成預先審批"
+    ],
+    official_source_attribution: "醫務衞生局核准檔案: F00041-01-000-01；中銀人壽官方備案 Ref: BOCL-VHIS-PRESTIGE-2026"
+  },
+  "PROMO-YF-VHIS-2026": {
+    clause_highlights: [
+      "萬通萬全自願醫保靈活計劃，每年賠償額高達 2,200 萬港元",
+      "特設「自負額減免權益」，投保滿指定年期後無索償可逐步降低自負額",
+      "全面賠償癌症非手術治療、標靶藥物及全套術後日間康復物理治療",
+      "覆蓋全港所有主要私家醫院出院免找數信用卡預授權擔保"
+    ],
+    clause_pitfalls: [
+      "病房等級設有嚴格劃分，越級至私家單人房賠償比率按 50% 折算",
+      "日間手術前門診諮詢限次數與天數限制（通常入院前 30 天內）",
+      "投保前未披露病史面臨合約被撤銷風險",
+      "保費受醫療通脹因素影響，長線高齡階段年繳保費漲幅需提前評估"
+    ],
+    official_source_attribution: "醫務衞生局自願醫保證書: F00044-01-000-01；萬通保險官方通告 Ref: YFL-VHIS-EXTRA-2026"
+  },
+  "PROMO-AIA-VHIS-ASIA-2026": {
+    clause_highlights: [
+      "友邦「亞洲至尊明珠」，每年賠償限額高達 4,000 萬港元，全亞洲範圍內全數賠償",
+      "全面覆蓋亞洲所有頂級私家醫院（包括日本、新加坡、韓國頂級醫療中心）",
+      "私家單人病房（Private Room）全數賠償，尊享最高規格私隱與醫療資源",
+      "提供全球 24 小時專屬醫療禮賓秘書與海外專機醫療轉運"
+    ],
+    clause_pitfalls: [
+      "保費為超高規格定價，顯著高於半私家房標準靈活計劃",
+      "亞洲以外地區（如美國、歐洲）醫療賠償僅限於緊急醫療且設有限額",
+      "指定自選自付額較高（最高可達 8 萬港元），需配合企業團體醫保使用",
+      "非醫療必需性之高端健康檢查或預防性篩查不在賠償保障範圍之內"
+    ],
+    official_source_attribution: "醫務衞生局認可證書: F00032-02-000-01；友邦保險亞洲至尊條款手冊 Ref: POL-AIA-ASIA-CEO"
+  },
+  "PROMO-CIGNA-VHIS-FLEXI-2026": {
+    clause_highlights: [
+      "信諾國際醫療百年背景，專為跨國高管及本地家庭打造之靈活醫保方案",
+      "每年賠償限額 2,000 萬港元，終身無上限，全球主要私家醫院直付結算網絡強大",
+      "特設信諾專屬遠程心理諮詢熱線及癌症個案專屬跟進護士",
+      "家庭成員二人同行尊享高達 10% 終身續保保費折扣"
+    ],
+    clause_pitfalls: [
+      "病房級別限制於半私家房，越級住院將受到 50% 賠付比例調整",
+      "精神科住院限香港本地醫院，最高年賠償額為 30,000 港元",
+      "CT/MRI 門診訂明成像檢測設有 15% 共同保險",
+      "海外就醫預先批核流程嚴格，未事先授權之非急症治療可能拒絕直付"
+    ],
+    official_source_attribution: "醫務衞生局核准編號: F00025-01-000-01；信諾環球官方手冊 Ref: CIGNA-VHIS-FLEXI-2026"
+  },
+  "PROMO-BUPA-VHIS-HERO-2026": {
+    clause_highlights: [
+      "保柏英雄（Bupa Hero）靈活醫保，全港公認醫療直付網絡最為成熟的品牌之一",
+      "每年賠償上限高達 3,500 萬港元，全數賠償私家單人房住院及手術費用",
+      "出示保柏醫療卡（Bupa Card）在全港各大私家醫院真正做到零繁瑣免找數",
+      "全額涵蓋先進標靶藥物、基因檢測及術後各項高階物理復健治療"
+    ],
+    clause_pitfalls: [
+      "保費費率屬於頂級水平，且隨醫療通脹年化調整幅度相對敏感",
+      "自選自付額選擇嚴格，非在網絡名冊內之個別特定醫生收費可能需自付超額差價",
+      "既往病史核保審查嚴格，嚴重慢性病投保時易被加設不保除外事項",
+      "精神科住院治療賠償同樣受香港法例自願醫保之條款限制"
+    ],
+    official_source_attribution: "醫務衞生局認可標籤: F00028-01-000-01；保柏官方條款 Ref: BUPA-HERO-VHIS-2026"
+  }
+};
+
+export const newVhisProducts = [
+  {
+    promo_id: "PROMO-HSBC-VHIS-FLEXI-2026",
+    insurer: "HSBC",
+    product_name: "滙豐靈活自願醫保計劃 (HSBC Life Flexi VHIS Plan)",
+    product_aliases: ["滙豐靈活醫保", "滙豐自願醫保", "HSBC Flexi VHIS", "滙豐醫保"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 800, discount_rate_pct: 12.0, extra_family_bonus_pct: 3.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00049-01-000-01",
+      ward_class: "Semi_Private",
+      annual_limit_hkd: 25000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 20000, 50000, 80000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 2000000,
+      special_waiver_notes: "滙豐卓越理財客戶專屬出院免找數綠色通道，全港私家醫院即時擔保"
+    },
+    clause_highlights: [
+      "醫務衞生局官方認證靈活自願醫保計劃，每年賠償上限高達 2,500 萬港元，終身無上限",
+      "全數賠償半私家房住院、手術、先進非手術癌症治療（標靶/質子/免疫治療）",
+      "尊享全港私家醫院「出院免找數」直付服務，全程由滙豐醫療專員協調",
+      "每名受保人每年可獲最高 8,000 港元法定薪俸稅稅務扣除額"
+    ],
+    clause_pitfalls: [
+      "嚴格限制半私家病房級別，越級入住私家單人房將面臨高達 50% 的分攤折減",
+      "訂明診斷成像檢測（CT/MRI/PET）設有 15% 共同保險（Co-insurance）",
+      "本地精神科治療設有每年 30,000 港元固定賠償上限",
+      "保費將因年齡增長及全港醫療成本通脹每年進行精算調整"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保認可證書: F00049-01-000-01；滙豐保險官方手冊 Ref: HSBC-FLEXI-VHIS-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-HSBC-VHIS-STANDARD-2026",
+    insurer: "HSBC",
+    product_name: "滙豐標準自願醫保計劃 (HSBC Life Standard VHIS Plan)",
+    product_aliases: ["滙豐標準醫保", "滙豐標準自願醫保", "HSBC Standard VHIS"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 400, discount_rate_pct: 10.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Standard",
+      vhis_certification_number: "S00028-01-000-01",
+      ward_class: "General",
+      annual_limit_hkd: 420000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: false,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      special_waiver_notes: "標準保障，全在線簡易問卷即批"
+    },
+    clause_highlights: [
+      "醫務衞生局標準自願醫保計劃，每年賠償上限 420,000 港元，保證續保至 100 歲",
+      "零自付額，受保人每年可申報最高 8,000 港元薪俸稅扣稅額",
+      "涵蓋投保前未知的已有疾病（第1年不保、第2年25%、第3年50%、第4年起100%）",
+      "大眾化親民保費，適合初入職場年輕人或長者基礎醫療防護"
+    ],
+    clause_pitfalls: [
+      "各項住院及手術費用均設有固定分項限額（Itemized Sub-limits），非全數賠償",
+      "病房級別嚴格限制為普通房（General Ward），入住半私家房自負差額較大",
+      "先進癌症標靶藥物未納入全數賠償，僅享有標準化療及放療固定限額",
+      "不提供出院免找數信用擔保服務，需出院後自行填表憑收據理賠"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局標準計劃認可編號: S00028-01-000-01；滙豐官方文件 Ref: HSBC-STD-VHIS-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-GEN-VHIS-LIONCARE-2026",
+    insurer: "Generali",
+    product_name: "忠意「忠心保」靈活自願醫保計劃 (Generali LionCare Flexi VHIS Plan)",
+    product_aliases: ["忠意自願醫保", "忠心保醫保", "Generali LionCare VHIS", "忠意靈活醫保"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-20",
+      channel: "Broker"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 600, discount_rate_pct: 15.0, extra_family_bonus_pct: 5.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00054-01-000-01",
+      ward_class: "Semi_Private",
+      annual_limit_hkd: 20000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 16000, 40000, 80000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 1500000,
+      special_waiver_notes: "經紀渠道推廣期專享核保寬免，次健康人士專屬加費限額鎖定"
+    },
+    clause_highlights: [
+      "歐洲第一大保險品牌忠意自願醫保，每年賠償高達 2,000 萬港元，終身無上限",
+      "全額賠償非手術癌症治療、標靶藥物及先進基因檢測治療方案",
+      "半私家房全數賠償，提供香港及歐洲跨國第二醫療意見服務",
+      "家庭成員二人同行尊享高達 20% 保費折扣，合資格稅務扣除每人每年高達 8,000 港元"
+    ],
+    clause_pitfalls: [
+      "自願越級入住私家房將被執行 50% 賠付比例調整",
+      "訂明診斷成像檢測設有 15% 共同保險",
+      "本地精神科治療設有每年 30,000 港元法定上限",
+      "索償主要通過經紀及在線遞交，出院免找數需提前向忠意醫療部申請預先核准"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保認可編號: F00054-01-000-01；忠意保險官方指南 Ref: GEN-VHIS-LIONCARE-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-BC-VHIS-FLEXI-2026",
+    insurer: "BlueCross",
+    product_name: "藍十字摰顧您自願醫保計劃（靈活計劃）(Blue Cross CareYou Flexi VHIS Plan)",
+    product_aliases: ["藍十字自願醫保", "藍十字摰顧您", "Blue Cross CareYou Flexi", "藍十字靈活醫保"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 500, discount_rate_pct: 18.0, extra_family_bonus_pct: 4.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00029-01-000-01",
+      ward_class: "Semi_Private",
+      annual_limit_hkd: 20000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 20000, 40000, 80000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 1800000,
+      special_waiver_notes: "東亞銀行客戶專享藍十字出院免找數即時信用卡預授權"
+    },
+    clause_highlights: [
+      "東亞銀行旗下藍十字品牌旗艦，本港醫療網絡與私家醫院理賠覆蓋度極高",
+      "每年賠償上限 2,000 萬港元，全數賠償半私家房各項合資格住院及手術花費",
+      "全額賠償非手術癌症治療（包括標靶、放療、化療及荷爾蒙治療）",
+      "推廣期首年保費折扣高達 18%（加家庭同行最高 22%），性價比卓越"
+    ],
+    clause_pitfalls: [
+      "越級入住私家單人房將面臨 50% 的分攤折減條款約束",
+      "訂明診斷成像檢測（CT/MRI/PET）設有 15% 共同保險",
+      "精神科住院賠償限額每年 30,000 港元",
+      "若選擇較高自負額（如 8 萬港元），低額門診微創手術需先由自負額承擔"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保核准號: F00029-01-000-01；藍十字官方通函 Ref: BC-CAREYOU-FLEXI-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-BC-VHIS-STANDARD-2026",
+    insurer: "BlueCross",
+    product_name: "藍十字標準自願醫保計劃 (Blue Cross Standard VHIS Plan)",
+    product_aliases: ["藍十字標準醫保", "藍十字標準自願醫保", "Blue Cross Standard VHIS"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 350, discount_rate_pct: 12.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Standard",
+      vhis_certification_number: "S00018-01-000-01",
+      ward_class: "General",
+      annual_limit_hkd: 420000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: false,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: true,
+      special_waiver_notes: "標準保障，全在線簡易核保"
+    },
+    clause_highlights: [
+      "醫務衞生局認可標準自願醫保，每年賠償上限 420,000 港元，保證續保至 100 歲",
+      "零自付額，保費相宜，受保人每年可享高達 8,000 港元薪俸稅扣稅額",
+      "涵蓋投保前未知的已有疾病（第1年不保、第2年25%、第3年50%、第4年起100%）",
+      "東亞銀行網銀及手機 App 可一鍵直投，極速批核出單"
+    ],
+    clause_pitfalls: [
+      "住院、手術及雜費均設有固定細項上限，超額部分需受保人全額自付",
+      "病房級別限制於普通病房，非全數賠償架構",
+      "標靶藥物等先進非手術癌症療法無全額保障，僅限標準放化療津貼",
+      "無出院免找數擔保服務，需出院後憑收據傳統索償"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局標準計劃編號: S00018-01-000-01；藍十字官方指南 Ref: BC-STD-VHIS-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-CL-VHIS-FLEXI-2026",
+    insurer: "ChinaLife",
+    product_name: "國壽海外靈活自願醫保計劃 (China Life Flexi VHIS Plan)",
+    product_aliases: ["國壽自願醫保", "國壽海外靈活醫保", "China Life Flexi VHIS", "國壽靈活醫保"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD", "RMB"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 500, discount_rate_pct: 15.0, extra_family_bonus_pct: 3.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00037-01-000-01",
+      ward_class: "Semi_Private",
+      annual_limit_hkd: 25000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 20000, 50000, 80000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 2000000,
+      special_waiver_notes: "央企信譽保障，全面認可內地數百家三甲醫院住院手術，兩地跨境無縫理賠"
+    },
+    clause_highlights: [
+      "醫務衞生局認可靈活自願醫保，每年賠償限額高達 2,500 萬港元，終身無上限",
+      "全額賠償非手術癌症治療（標靶治療、免疫治療、質子治療及化療）",
+      "特設兩地醫療互認綠色通道，全面覆蓋內地公立三級甲等醫院及香港私家醫院",
+      "支援人民幣、港元及美元三幣種保費結算，便利經常往返大灣區居民"
+    ],
+    clause_pitfalls: [
+      "半私家病房限制，若自願越級入住私家單人房需按 50% 比率折算賠償",
+      "訂明診斷成像檢測（如 CT/MRI）需承擔 15% 共同保險",
+      "精神科住院治療僅限香港本地註冊醫院，每年上限 30,000 港元",
+      "部分內地非公立三甲或私立醫療機構不在直接認可理賠範圍"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保核准號: F00037-01-000-01；中國人壽海外官方產品通告 Ref: CL-HK-VHIS-FLEXI-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-PRU-VHIS-SELECT-2026",
+    insurer: "Prudential",
+    product_name: "保誠精選自願醫保計劃 (Prudential Select VHIS Plan)",
+    product_aliases: ["保誠精選醫保", "保誠精選自願醫保", "Prudential Select VHIS"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "Agency"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 500, discount_rate_pct: 12.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00030-02-000-01",
+      ward_class: "General",
+      annual_limit_hkd: 8000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 10000, 20000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 1500000,
+      special_waiver_notes: "保誠精選靈活保障，尊享全港私家醫院出院免找數信用擔保"
+    },
+    clause_highlights: [
+      "醫務衞生局認可靈活計劃，每年賠償上限 800 萬港元，保證續保至 100 歲",
+      "全額賠償非手術癌症治療（包括標靶、放療、化療及免疫治療）",
+      "相宜保費獲享普通房靈活升級保障，每年最高享 8,000 港元薪俸稅扣稅額",
+      "尊享保誠全港私家醫院出院免找數信用擔保與安心醫專屬諮詢"
+    ],
+    clause_pitfalls: [
+      "病房等級為普通房，若自願越級至半私家房需按比例調整賠付額度",
+      "每年 800 萬港元限額低於半私家尊尚醫保計劃（2,500 萬港元）",
+      "訂明診斷成像檢測（CT/MRI/PET）設有 15% 共同保險",
+      "精神科本地治療受每年 30,000 港元法定最高賠償額限制"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保核准編號: F00030-02-000-01；保誠保險官方指南 Ref: PRU-VHIS-SELECT-2026"
+    }
+  },
+  {
+    promo_id: "PROMO-FWD-VHIS-VPIONEER-2026",
+    insurer: "FWD",
+    product_name: "易衛您醫療計劃 (vPioneer VHIS Plan)",
+    product_aliases: ["富衛易衛您", "易衛您", "FWD vPioneer", "富衛自願醫保易衛您"],
+    category: "Medical_VHIS",
+    currency_supported: ["HKD", "USD"],
+    payment_period_years: [1],
+    validity: {
+      start_date: "2026-10-01",
+      end_date: "2026-12-31",
+      submission_deadline: "2026-12-31",
+      payment_deadline: "2027-01-15",
+      channel: "All"
+    },
+    premium_discounts: [
+      { min_annual_premium_usd: 450, discount_rate_pct: 15.0, extra_family_bonus_pct: 3.0 }
+    ],
+    vhis_metrics: {
+      vhis_scheme_type: "Flexi",
+      vhis_certification_number: "F00035-01-000-01",
+      ward_class: "General",
+      annual_limit_hkd: 5000000,
+      lifetime_limit_hkd: 0,
+      full_cover_non_surgical_cancer: true,
+      psychiatric_treatment_covered: true,
+      deductible_options_hkd: [0, 10000, 25000]
+    },
+    underwriting_concessions: {
+      simplified_health_declaration: false,
+      max_non_medical_limit_usd: 1200000,
+      special_waiver_notes: "經濟實惠型靈活計劃，富衛手機 App 快速智能核保"
+    },
+    clause_highlights: [
+      "醫務衞生局認可靈活計劃，每年賠償上限 500 萬港元，保證續保至 100 歲",
+      "全數賠償非手術癌症治療（放療、化療、標靶治療、免疫治療）",
+      "突破標準計劃限額，以相宜保費享受升級醫療保障及薪俸稅每年最高 8,000 港元扣稅額",
+      "支援無索償保費折扣（No Claim Discount），最高享 15% 續保折扣"
+    ],
+    clause_pitfalls: [
+      "基準病房級別為普通病房（General Ward），入住半私家房需按比例調整賠償額",
+      "每年 500 萬港元賠償限額低於半私家高端醫保（2,000 萬+）",
+      "訂明診斷成像檢測（CT/MRI/PET）設有 15% 共同保險",
+      "精神科本地治療受每年 30,000 港元法定最高限額約束"
+    ],
+    last_updated: "2026-11-06",
+    audit_metadata: {
+      source_type: "Official_Circular",
+      confidence_level: "Verified",
+      verified_by_editor: true,
+      created_at: "2026-11-06T00:00:00Z",
+      official_source_attribution: "醫務衞生局自願醫保核准號: F00035-01-000-01；富衛官方手冊 Ref: FWD-VPIONEER-2026"
+    }
+  }
+];

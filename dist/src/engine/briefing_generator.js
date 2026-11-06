@@ -24,7 +24,12 @@ const INSURER_DISPLAY_NAMES = {
     YF_Life: "萬通保險 (YF Life)",
     Bowtie: "保泰 (Bowtie)",
     Cigna: "信諾 (Cigna)",
-    Bupa: "保柏 (Bupa)"
+    Bupa: "保柏 (Bupa)",
+    HSBC: "滙豐保險 (HSBC Life)",
+    HSBC_Life: "滙豐保險 (HSBC Life)",
+    Generali: "忠意保險 (Generali)",
+    BlueCross: "藍十字 (Blue Cross)",
+    ChinaLife: "中國人壽海外 (China Life Overseas)"
 };
 class MorningBriefingGenerator {
     /**

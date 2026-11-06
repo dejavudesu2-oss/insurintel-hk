@@ -253,6 +253,18 @@ class GeminiIntelligenceExtractor {
         else if (text.includes("BUPA") || text.includes("保柏")) {
             detectedInsurer = "Bupa";
         }
+        else if (text.includes("HSBC") || text.includes("滙豐") || text.includes("汇丰")) {
+            detectedInsurer = "HSBC";
+        }
+        else if (text.includes("GENERALI") || text.includes("忠意")) {
+            detectedInsurer = "Generali";
+        }
+        else if (text.includes("BLUE CROSS") || text.includes("BLUECROSS") || text.includes("藍十字") || text.includes("蓝十字")) {
+            detectedInsurer = "BlueCross";
+        }
+        else if (text.includes("CHINA LIFE") || text.includes("CHINALIFE") || text.includes("中國人壽") || text.includes("中国人寿") || text.includes("國壽海外") || text.includes("国寿海外")) {
+            detectedInsurer = "ChinaLife";
+        }
         else if (text.includes("AIA") || text.includes("友邦") || text.includes("盈御")) {
             detectedInsurer = "AIA";
         }

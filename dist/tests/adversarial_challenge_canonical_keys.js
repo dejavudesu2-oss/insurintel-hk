@@ -129,7 +129,10 @@ function createSandbox() {
         "catalog-cards-list",
         "catalog-search-input",
         "toast",
-        "link-morning-slides"
+        "link-morning-slides",
+        "bilateral-radar-scorecard",
+        "bilateral-clause-comparison",
+        "agent-clause-intel"
     ];
     for (const id of registeredIds) {
         domElements[id] = makeMockElement(id, id.includes("btn") ? "button" : id.includes("table") ? "table" : id.includes("select") ? "select" : "div");
@@ -552,10 +555,10 @@ recordTest("Suite 5: Malformed Inputs Resiliency", "Verify malformed and exotic 
         }, `Failed on malformed input: ${JSON.stringify(bad)}`);
     }
 });
-recordTest("Suite 6: 60-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 60 products and no corrupted HK,000 strings", () => {
+recordTest("Suite 6: 99-Product Market Catalog in Mobile Battle Card", "Verify window.ALL_PRODUCTS_CATALOG has exactly 99 products and no corrupted HK,000 strings", () => {
     const catalog = sandbox.ALL_PRODUCTS_CATALOG || sandbox.window.ALL_PRODUCTS_CATALOG;
     node_assert_1.default.ok(Array.isArray(catalog), "ALL_PRODUCTS_CATALOG must be an array");
-    node_assert_1.default.strictEqual(catalog.length, 60, "ALL_PRODUCTS_CATALOG must contain exactly 60 products");
+    node_assert_1.default.strictEqual(catalog.length, 99, "ALL_PRODUCTS_CATALOG must contain exactly 99 products");
     const catCounts = {};
     for (const item of catalog) {
         catCounts[item.category] = (catCounts[item.category] || 0) + 1;
@@ -565,11 +568,11 @@ recordTest("Suite 6: 60-Product Market Catalog in Mobile Battle Card", "Verify w
         node_assert_1.default.ok(item.highlight, "Product must have a highlight");
         node_assert_1.default.ok(!item.highlight.includes("HK,000"), `Corrupted 'HK,000' found in product ${item.id}: ${item.highlight}`);
     }
-    node_assert_1.default.strictEqual(catCounts["Savings_MultiCurrency"], 12, "Expected 12 Savings products");
-    node_assert_1.default.strictEqual(catCounts["Critical_Illness"], 13, "Expected 13 CI products");
-    node_assert_1.default.strictEqual(catCounts["Medical_VHIS"], 12, "Expected 12 VHIS products");
-    node_assert_1.default.strictEqual(catCounts["Annuity_QDAP"], 11, "Expected 11 QDAP products");
-    node_assert_1.default.strictEqual(catCounts["Financing_UniversalLife"], 12, "Expected 12 UL products");
+    node_assert_1.default.strictEqual(catCounts["Savings_MultiCurrency"], 20, "Expected 20 Savings products");
+    node_assert_1.default.strictEqual(catCounts["Critical_Illness"], 20, "Expected 20 CI products");
+    node_assert_1.default.strictEqual(catCounts["Medical_VHIS"], 20, "Expected 20 VHIS products");
+    node_assert_1.default.strictEqual(catCounts["Annuity_QDAP"], 19, "Expected 19 QDAP products");
+    node_assert_1.default.strictEqual(catCounts["Financing_UniversalLife"], 20, "Expected 20 UL products");
     const qdapItems = catalog.filter((x) => x.category === "Annuity_QDAP");
     for (const q of qdapItems) {
         node_assert_1.default.ok(q.highlight.includes("HK$60,000"), `QDAP highlight must contain HK$60,000. Got: ${q.highlight}`);
@@ -753,7 +756,7 @@ recordTest("Suite 13: Rapid Role Swap & Category Interleaving", "Simulate rapid 
     }
 });
 recordTest("Suite 13: Exotic & Uncanonical Insurer Injections", "Verify setMyCompany and selectCompany gracefully normalize exotic/unknown insurer strings", () => {
-    const exoticInputs = ["Zurich Life", "Generali International", "Bupa Overseas", "  ", "", null, undefined];
+    const exoticInputs = ["Zurich Life", "Allianz Global", "PingAn Overseas", "  ", "", null, undefined];
     for (const input of exoticInputs) {
         // Should never throw
         node_assert_1.default.doesNotThrow(() => {
@@ -761,13 +764,13 @@ recordTest("Suite 13: Exotic & Uncanonical Insurer Injections", "Verify setMyCom
         }, `setMyCompany('${input}') must not throw`);
         const myComp = sandbox.getMyCompany();
         node_assert_1.default.strictEqual(typeof myComp, "string", "myCompany must always be a string");
-        node_assert_1.default.ok(ALL_INSURERS.includes(myComp), `Normalized myCompany '${myComp}' must be one of the canonical 9 insurers`);
+        node_assert_1.default.ok(ALL_INSURERS.includes(myComp) || ["HSBC", "Generali", "BlueCross", "ChinaLife", "Bupa", "Cigna"].includes(myComp), `Normalized myCompany '${myComp}' must be one of the canonical insurers`);
         node_assert_1.default.doesNotThrow(() => {
             sandbox.selectCompany(input);
         }, `selectCompany('${input}') must not throw`);
         const rivalComp = sandbox.getRivalCompany();
         node_assert_1.default.strictEqual(typeof rivalComp, "string", "rivalCompany must always be a string");
-        node_assert_1.default.ok(ALL_INSURERS.includes(rivalComp), `Normalized rivalCompany '${rivalComp}' must be one of the canonical 9 insurers`);
+        node_assert_1.default.ok(ALL_INSURERS.includes(rivalComp) || ["HSBC", "Generali", "BlueCross", "ChinaLife", "Bupa", "Cigna"].includes(rivalComp), `Normalized rivalCompany '${rivalComp}' must be one of the canonical insurers`);
     }
     // Restore clean state
     sandbox.setMyCompany("AIA");

@@ -129,6 +129,9 @@ function createSandbox() {
         "catalog-drawer-backdrop",
         "catalog-cards-list",
         "catalog-search-input",
+        "bilateral-radar-scorecard",
+        "bilateral-clause-comparison",
+        "agent-clause-intel",
         "toast",
         "link-morning-slides"
     ];
@@ -445,9 +448,9 @@ recordTest("Suite 7: Gap Categories Handling", "Bowtie in Savings shows gap warn
     node_assert_1.default.ok(dom["agent-title"].innerHTML.includes("危疾") || dom["agent-title"].innerHTML.includes("癌症"));
 });
 // -----------------------------------------------------------------------------
-// Suite 8: Exhaustive Cross-Category Matrix (5 Categories x 60 Products)
+// Suite 8: Exhaustive Cross-Category Matrix (5 Categories x 99 Products)
 // -----------------------------------------------------------------------------
-recordTest("Suite 8: Exhaustive Cross-Category Matrix", "Exhaustively verify all 60 products across all 5 initial categories (300 pairs) for Plan A & Plan B", () => {
+recordTest("Suite 8: Exhaustive Cross-Category Matrix", "Exhaustively verify all 99 products across all 5 initial categories for Plan A & Plan B", () => {
     const { sandbox, tabs } = createSandbox();
     const allCategories = [
         "Savings_MultiCurrency",
@@ -457,7 +460,7 @@ recordTest("Suite 8: Exhaustive Cross-Category Matrix", "Exhaustively verify all
         "Financing_UniversalLife"
     ];
     const catalog = sandbox.ALL_PRODUCTS_CATALOG;
-    node_assert_1.default.strictEqual(catalog.length, 60, "Catalog must contain exactly 60 products");
+    node_assert_1.default.strictEqual(catalog.length, 99, "Catalog must contain exactly 99 products");
     for (const startCat of allCategories) {
         for (const p of catalog) {
             const comp = sandbox.normalizeCompany(p.insurer);
@@ -691,19 +694,19 @@ recordTest("Suite 20: Catalog Drawer Filter Normalization", "renderCatalog filte
     // Filter with alias 'ci' (Critical_Illness has 13 products in 60-product catalog)
     sandbox.renderCatalog("", "ci");
     const ciCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
-    node_assert_1.default.strictEqual(ciCards, 13, `renderCatalog with alias 'ci' must return 13 products, got ${ciCards}`);
+    node_assert_1.default.strictEqual(ciCards, 20, `renderCatalog with alias 'ci' must return 20 products, got ${ciCards}`);
     // Filter with alias 'vhis' (Medical_VHIS has 12 products in 60-product catalog)
     sandbox.renderCatalog("", "vhis");
     const vhisCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
-    node_assert_1.default.strictEqual(vhisCards, 12, `renderCatalog with alias 'vhis' must return 12 products, got ${vhisCards}`);
+    node_assert_1.default.strictEqual(vhisCards, 20, `renderCatalog with alias 'vhis' must return 20 products, got ${vhisCards}`);
     // Filter with alias 'qdap' (Annuity_QDAP has 11 products in 60-product catalog)
     sandbox.renderCatalog("", "qdap");
     const qdapCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
-    node_assert_1.default.strictEqual(qdapCards, 11, `renderCatalog with alias 'qdap' must return 11 products, got ${qdapCards}`);
+    node_assert_1.default.strictEqual(qdapCards, 19, `renderCatalog with alias 'qdap' must return 19 products, got ${qdapCards}`);
     // Filter with alias 'ul' (Financing_UniversalLife has 12 products in 60-product catalog)
     sandbox.renderCatalog("", "ul");
     const ulCards = (dom["catalog-cards-list"].innerHTML.match(/drawer-product-card/g) || []).length;
-    node_assert_1.default.strictEqual(ulCards, 12, `renderCatalog with alias 'ul' must return 12 products, got ${ulCards}`);
+    node_assert_1.default.strictEqual(ulCards, 20, `renderCatalog with alias 'ul' must return 20 products, got ${ulCards}`);
 });
 console.log("================================================================================");
 console.log("PRODUCT DROPDOWN & CROSS-CATEGORY LINKAGE VERIFICATION SUMMARY");

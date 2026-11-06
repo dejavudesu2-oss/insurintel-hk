@@ -3,10 +3,20 @@
     "promo_id": "PROMO-MANU-CI-2026-Q4",
     "insurer": "Manulife",
     "product_name": "守護無間危疾保 (ManuFirst Care)",
-    "product_aliases": ["守護無間", "宏利危疾"],
+    "product_aliases": [
+      "守護無間",
+      "宏利危疾"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -16,12 +26,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 10.0
+        "discount_rate_pct": 10
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 16.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 16,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -42,17 +52,40 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-20T08:00:00Z"
-    }
+      "created_at": "2026-10-20T08:00:00Z",
+      "official_source_attribution": "宏利人壽官方產品手冊 Ref: MANU-CI-FIRSTCARE-2026；保監局備案編號: POL-MANU-CI-2026"
+    },
+    "clause_highlights": [
+      "全面保障 122 種危疾，多重索償總賠償額高達 950% 原本保額",
+      "特設持續癌症現金津貼，癌症再次索償間隔期為 3 年",
+      "涵蓋深切治療部（ICU）非指定疾病專屬保障，住院 3 日以上即可獲賠",
+      "首次嚴重危疾索償後，即時豁免往後所有應繳保費"
+    ],
+    "clause_pitfalls": [
+      "首次投保設有 90 天等候期，等候期內確診之任何危疾不獲保障",
+      "癌症多次索償需符合持續惡化或轉移之客觀醫學病理報告標準",
+      "心臟病及中風多次賠償設有嚴格 1 年間隔期",
+      "末期疾病或非指定重疾之判定受限於專科醫生最終臨床評估"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-FWD-CI-2026-Q4",
     "insurer": "FWD",
     "product_name": "危疾加諾保 (Crisis Xcelerator Pro)",
-    "product_aliases": ["危疾加諾", "富衛危疾"],
+    "product_aliases": [
+      "危疾加諾",
+      "富衛危疾"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20
+    ],
     "validity": {
       "start_date": "2026-10-10",
       "end_date": "2026-11-30",
@@ -61,8 +94,8 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 2000,
-        "discount_rate_pct": 20.0,
-        "extra_family_bonus_pct": 5.0
+        "discount_rate_pct": 20,
+        "extra_family_bonus_pct": 5
       }
     ],
     "ci_metrics": {
@@ -83,17 +116,43 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-21T09:30:00Z"
-    }
+      "created_at": "2026-10-21T09:30:00Z",
+      "official_source_attribution": "富衛人壽官方產品通函 Ref: FWD-CI-XCEL-2026-Q4；保監局核准: IA-FWD-CI-2026"
+    },
+    "clause_highlights": [
+      "癌症、急性心肌梗塞及中風多重賠償上限高達 1000%，業界頂尖賠付槓桿",
+      "癌症索償間隔年期縮短至 3 年，且特設癌症標靶治療額外津貼",
+      "特設原位癌及早期甲狀腺癌額外預先賠償，不侵蝕嚴重危疾主要保額",
+      "首年高達 20% 保費回贈，支援無索償保費折扣機制"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期嚴格執行，先天性疾病需於指定年齡後確診方獲受保",
+      "ICU 保障需連續入住深切治療部達 120 小時並使用侵入性呼吸機支援",
+      "多次索償保障於受保人年滿 85 歲時自動終止",
+      "前 10 年贈送之額外保額於第 11 年起自動失效，需留意保額斷崖式下降"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AIA-CI-2026-Q4",
     "insurer": "AIA",
     "product_name": "友心意危疾保 (Care Extra Pro)",
-    "product_aliases": ["友心意", "AIA友心意", "加裕智倍保", "友邦危疾"],
+    "product_aliases": [
+      "友心意",
+      "AIA友心意",
+      "加裕智倍保",
+      "友邦危疾"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 18, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      18,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -103,12 +162,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 12.0
+        "discount_rate_pct": 12
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 20.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 20,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -129,17 +188,43 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-22T10:00:00Z"
-    }
+      "created_at": "2026-10-22T10:00:00Z",
+      "official_source_attribution": "友邦保險官方通告 Ref: AIA-CI-CARE-EXTRA-2026；保監局備案: IA-AIA-CI-2026"
+    },
+    "clause_highlights": [
+      "保障 120 種疾病，多重賠償額高達 900%，特設腦退化症終身年金支援",
+      "友邦獨創「健康動力 (AIA Vitality)」聯動機制，每年最高可享 15% 保費折扣",
+      "涵蓋兒童嚴重發育障礙及自閉症特殊保障，全面守護家庭幼兒成長",
+      "首次嚴重危疾賠償後即時免除後續保費，保單繼續生效至 100 歲"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期限制，投保前未申報病症將觸發最高誠信不獲賠條款",
+      "癌症再索償要求 3 年完全無癌症徵狀期或客觀活性癌細胞病理切片證明",
+      "AIA Vitality 會員等級需每年累積運動步數，若未達標保費折扣將逐年遞減",
+      "腦退化額外支援需臨床確診為嚴重程度且無法獨立完成日常活動（ADL）"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-PRU-CI-2026-Q4",
     "insurer": "Prudential",
     "product_name": "誠保一生危疾保 (Guardian Care Pro)",
-    "product_aliases": ["誠保一生", "保誠危疾", "危疾首選保"],
+    "product_aliases": [
+      "誠保一生",
+      "保誠危疾",
+      "危疾首選保"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 15, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      15,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-15",
       "end_date": "2026-12-20",
@@ -149,12 +234,12 @@
       {
         "min_annual_premium_usd": 2500,
         "max_annual_premium_usd": 6000,
-        "discount_rate_pct": 15.0
+        "discount_rate_pct": 15
       },
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 25.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 25,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -175,17 +260,42 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-23T11:00:00Z"
-    }
+      "created_at": "2026-10-23T11:00:00Z",
+      "official_source_attribution": "保誠保險代理人通告 Ref: PRU-CI-GUARDIAN-2026；保監局認可編號: POL-PRU-CI-2026"
+    },
+    "clause_highlights": [
+      "誠保一生系列獨創三合一保障：危疾賠償 + 終身分紅儲蓄 + 壽險保障",
+      "市場罕見心臟病與中風多重保障間隔期僅需 1 年，癌症多重間隔 3 年",
+      "設有家族癌症基因檢測津貼，支持早篩防癌與精準醫療預防",
+      "首年回贈最高 18%，家庭成員同行再享額外加碼"
+    ],
+    "clause_pitfalls": [
+      "保單所具備之分紅成分為非保證，長期退保價值受保誠投資表現波動影響",
+      "90 天首期等候期適用，等候期內任何症狀皆列入除外責任",
+      "基因檢測津貼需符合受保直系親屬確診指明癌症之先決觸發條件",
+      "原位癌早期賠償每項器官限索償一次，並設有上限金額"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-SUN-CI-2026-Q4",
     "insurer": "Sun_Life",
     "product_name": "萬泰危疾保 (SunHealth Total Care)",
-    "product_aliases": ["萬泰危疾", "永明萬泰", "SunHealth"],
+    "product_aliases": [
+      "萬泰危疾",
+      "永明萬泰",
+      "SunHealth"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 15, 20],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      15,
+      20
+    ],
     "validity": {
       "start_date": "2026-10-05",
       "end_date": "2026-12-15",
@@ -195,12 +305,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 14.0
+        "discount_rate_pct": 14
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 22.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 22,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -221,17 +331,42 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-24T10:30:00Z"
-    }
+      "created_at": "2026-10-24T10:30:00Z",
+      "official_source_attribution": "永明金融官方產品簡介 Ref: SUN-CI-TOTALCARE-2026；保監局備案: IA-SUN-CI-2026"
+    },
+    "clause_highlights": [
+      "涵蓋 125 種疾病，全港疾病覆蓋面最廣之危疾旗艦產品之一",
+      "多重賠償額高達 920%，涵蓋所有原發性及轉移性惡性腫瘤",
+      "特設長者中風康復護理每月津貼及日間照護專屬額度",
+      "首年保費最高 15% 折扣，免體檢額度高達 180 萬美元"
+    ],
+    "clause_pitfalls": [
+      "癌症多重索償需嚴格遵循 3 年等候間隔，且需由持牌專科醫生開具病理報告",
+      "中風康復護理津貼以實報實銷或指定日數為上限，設有最長給付期限（通常 12 個月）",
+      "90 天疾病等候期內出現之病徵概不負責",
+      "早期危疾預支賠償將等額扣減主要嚴重危疾之最終賠償額"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AXA-CI-2026-Q4",
     "insurer": "AXA",
     "product_name": "愛護同行危疾保 (Loving Care Critical Illness)",
-    "product_aliases": ["愛護同行", "安盛危疾", "愛+危疾"],
+    "product_aliases": [
+      "愛護同行",
+      "安盛危疾",
+      "愛+危疾"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-11-30",
@@ -241,12 +376,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 6000,
-        "discount_rate_pct": 12.0
+        "discount_rate_pct": 12
       },
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 24.0,
-        "extra_family_bonus_pct": 2.0
+        "discount_rate_pct": 24,
+        "extra_family_bonus_pct": 2
       }
     ],
     "ci_metrics": {
@@ -267,17 +402,42 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-24T15:00:00Z"
-    }
+      "created_at": "2026-10-24T15:00:00Z",
+      "official_source_attribution": "安盛保險官方產品備忘 Ref: AXA-CI-LOVINGCARE-2026；保監局檔案: POL-AXA-CI-2026"
+    },
+    "clause_highlights": [
+      "安盛「愛護同行」專為三大殺手（癌症、心臟病、中風）打造無縫多次防護",
+      "多重賠償上限 900%，特設非指定疾病之深切治療（ICU）及手術支援",
+      "提供海外醫療第二意見及全球頂尖腫瘤專家遠程會診綠色通道",
+      "保費豁免機制完善，首次確診主要重疾後全期免繳後續保費"
+    ],
+    "clause_pitfalls": [
+      "90 天投保等候期嚴格約束，任何既往病史未申報均可導致拒賠",
+      "心臟病多次索償必須提供心肌酶指標異常與客觀冠狀動脈造影狹窄證明",
+      "ICU 保障受限於入住公立或私立私家醫院之等級分類與最低留院天數",
+      "保單現金價值依賴非保證紅利，提早退保退款率偏低"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-YF-CI-2026-Q4",
     "insurer": "YF_Life",
     "product_name": "首選健康加護保 (Prime Health Care Extra)",
-    "product_aliases": ["首選健康", "萬通危疾", "Prime Health"],
+    "product_aliases": [
+      "首選健康",
+      "萬通危疾",
+      "Prime Health"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-10",
       "end_date": "2026-12-31",
@@ -287,12 +447,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 15.0
+        "discount_rate_pct": 15
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 26.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 26,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -313,8 +473,22 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T11:00:00Z"
-    }
+      "created_at": "2026-10-25T11:00:00Z",
+      "official_source_attribution": "萬通保險官方產品指南 Ref: YFL-CI-PRIME-2026；保監局核准: IA-YFL-CI-2026"
+    },
+    "clause_highlights": [
+      "萬通首選健康加護保，多重賠償最高達 880%，保費性價比在市場名列前茅",
+      "特設嚴重認知障礙（腦退化）終生月度年金保障，給付直至 100 歲",
+      "原位癌與早期疾病保障涵蓋範圍廣泛，包含女性特有早期病變",
+      "支援「保額復原權益」，早期索償後滿 1 年可自動復原主要保額"
+    ],
+    "clause_pitfalls": [
+      "90 天首期疾病等候期限制，等候期內任何醫療記錄均可能使合約撤銷",
+      "腦退化月度生活津貼需通過嚴格的簡短智能測驗（MMSE）與日常生活活動能力評估",
+      "癌症 3 年多重等候期內若發生原發灶復發且無進一步治療，或不符合新索償定義",
+      "保單所附帶之儲蓄現金價值在前 10 年積累速度較為平緩"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-BOWTIE-CI-2026",
@@ -328,8 +502,12 @@
       "保泰危疾"
     ],
     "category": "Critical_Illness",
-    "currency_supported": ["HKD"],
-    "payment_period_years": [1],
+    "currency_supported": [
+      "HKD"
+    ],
+    "payment_period_years": [
+      1
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -338,8 +516,8 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 300,
-        "discount_rate_pct": 20.0,
-        "extra_family_bonus_pct": 5.0
+        "discount_rate_pct": 20,
+        "extra_family_bonus_pct": 5
       }
     ],
     "ci_metrics": {
@@ -360,8 +538,22 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T12:00:00Z"
-    }
+      "created_at": "2026-10-25T12:00:00Z",
+      "official_source_attribution": "Bowtie 官方在線產品通告 Ref: BOWTIE-CI-EARLY-2026；保監局認可牌照: FAST-TRACK-001"
+    },
+    "clause_highlights": [
+      "香港首家純虛擬保險（Virtual Insurer）自研直銷早期危疾保，零 Agent 佣金成本",
+      "保費純保障定價，較傳統經紀保司同等保額便宜 20%-35%",
+      "在線 5 分鐘快速智能核保，免見面、免紙質文件、秒級出單",
+      "覆蓋常見早期危疾與微創手術預先賠償，無繁複免責套路"
+    ],
+    "clause_pitfalls": [
+      "純消費型保險（Pure Term CI），無任何儲蓄分紅或保證現金價值，退保價值為零",
+      "保費隨受保人年齡增長而逐年階梯式遞增（Age-banded Premium Adjustment）",
+      "索償必須全在線自助申報，無專屬 Agent 協助調取醫院病歷與跟進核賠爭議",
+      "無多重索償架構，主要嚴重危疾一次性全額索償後保單立即終止"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-BOC-CI-2026-Q4",
@@ -376,8 +568,16 @@
       "Health Guardian CI"
     ],
     "category": "Critical_Illness",
-    "currency_supported": ["HKD", "USD", "RMB"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "HKD",
+      "USD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -387,12 +587,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 12.0
+        "discount_rate_pct": 12
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 22.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 22,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -413,17 +613,43 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-25T13:00:00Z"
-    }
+      "created_at": "2026-10-25T13:00:00Z",
+      "official_source_attribution": "中銀人壽官方產品備忘 Ref: BOCL-CI-GUARDIAN-2026；保監局登記: POL-BOCL-CI-2026"
+    },
+    "clause_highlights": [
+      "中銀人壽守護健康，依託中銀香港龐大網點提供雙幣理賠結算服務",
+      "多重賠償高達 850%，涵蓋 118 種嚴重疾病，癌症間隔期 3 年",
+      "專設中銀貴賓理財客戶綠色核保快速通道，專人上門體檢安排",
+      "首次重大危疾確診後免繳後續保費，保單繼續享有其餘重疾多次賠償"
+    ],
+    "clause_pitfalls": [
+      "90 天等候期嚴格限制，投保前未披露病史將面臨嚴格核賠調查",
+      "中風索償需伴隨永久性神經機能缺損且持續至少 4 週之醫學證明",
+      "保單儲蓄回報偏向穩健低風險，長線分紅增長潛力較進取型保單稍低",
+      "早期原位癌賠償金額上限為每項 30 萬港元，大額保障客戶需額外加配"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-AIA-CI-ABSOLUTE-2026",
     "insurer": "AIA",
     "product_name": "愛伴航首選危疾保 (AIA One Absolute Critical Illness)",
-    "product_aliases": ["愛伴航", "AIA愛伴航", "One Absolute", "友邦愛伴航"],
+    "product_aliases": [
+      "愛伴航",
+      "AIA愛伴航",
+      "One Absolute",
+      "友邦愛伴航"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 18, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      18,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -433,12 +659,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 14.0
+        "discount_rate_pct": 14
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 22.0,
-        "extra_family_bonus_pct": 4.0
+        "discount_rate_pct": 22,
+        "extra_family_bonus_pct": 4
       }
     ],
     "ci_metrics": {
@@ -459,17 +685,44 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T09:30:00Z"
-    }
+      "created_at": "2026-10-26T09:30:00Z",
+      "official_source_attribution": "友邦保險愛伴航官方產品通告 Ref: AIA-ONE-ABSOLUTE-2026；保監局備案: IA-AIA-ABSOLUTE"
+    },
+    "clause_highlights": [
+      "友邦頂級「愛伴航」首選危疾旗艦，首創「持續癌症津貼」長達 5 年按月給付",
+      "涵蓋指定傳染病與未知病毒引起之危急重症入住 ICU 專屬賠償",
+      "支援跨國醫療轉介網絡，提供美國/歐洲頂級癌症中心專屬就醫綠色通道",
+      "家庭成員二人同行尊享高達 22% 首年保費折扣"
+    ],
+    "clause_pitfalls": [
+      "保費水平為市場高端梯隊，同等保額下年繳保費高於普通消費型或標準危疾",
+      "90 天投保疾病等候期，嚴重重疾多次索償癌症間隔期為 3 年",
+      "海外就醫安排涉及自費差額與第三方服務機構協調時差",
+      "前 5 年退保現金價值折損幅度較大，需做好長期持保預算"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-PRU-CI-CIE3-2026",
     "insurer": "Prudential",
     "product_name": "危疾加護保 3 (Crisis Care Pro 3)",
-    "product_aliases": ["危疾加護保3", "危疾加護保", "CIE3", "保誠危疾加護保"],
+    "product_aliases": [
+      "危疾加護保3",
+      "危疾加護保",
+      "CIE3",
+      "保誠危疾加護保"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 15, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      15,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-15",
       "end_date": "2026-12-20",
@@ -479,12 +732,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 6000,
-        "discount_rate_pct": 16.0
+        "discount_rate_pct": 16
       },
       {
         "min_annual_premium_usd": 6000,
-        "discount_rate_pct": 26.0,
-        "extra_family_bonus_pct": 4.0
+        "discount_rate_pct": 26,
+        "extra_family_bonus_pct": 4
       }
     ],
     "ci_metrics": {
@@ -505,17 +758,43 @@
       "source_type": "Broker_Notice",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T11:30:00Z"
-    }
+      "created_at": "2026-10-26T11:30:00Z",
+      "official_source_attribution": "保誠危疾加護保3條款手冊 Ref: PRU-CIE3-POL-2026；保監局審批: GN16-PRU-CIE3"
+    },
+    "clause_highlights": [
+      "保誠危疾加護保 3（CIE3）經典旗艦，賠償高達 860% 保額",
+      "市場唯一針對非危疾之良性腫瘤切除提供高達 10% 額外預先賠償",
+      "全面覆蓋主要深切治療部入住賠償，無論病因是否為既定清單疾病",
+      "保單持有人享有保誠專屬「安心醫」全球醫療專家第二意見服務"
+    ],
+    "clause_pitfalls": [
+      "90 天等候期內確診不獲賠，良性腫瘤切除賠償限每受保人一次且受器官清單限制",
+      "癌症再索償需具備客觀活躍性病理報告或新原發器官惡性腫瘤證明",
+      "終期紅利派發依賴英式分紅長期滾存，短期內不具備顯著退保價值",
+      "心臟病再索償需間隔滿 1 年且伴有心肌壞死客觀臨床依據"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-MANU-CI-ACTUARY2-2026",
     "insurer": "Manulife",
     "product_name": "活耀人生危疾保 2 (ManuActuary Care 2)",
-    "product_aliases": ["活耀人生2", "活耀人生", "ManuActuary2", "宏利活耀人生"],
+    "product_aliases": [
+      "活耀人生2",
+      "活耀人生",
+      "ManuActuary2",
+      "宏利活耀人生"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-01",
       "end_date": "2026-12-31",
@@ -525,12 +804,12 @@
       {
         "min_annual_premium_usd": 2000,
         "max_annual_premium_usd": 5000,
-        "discount_rate_pct": 12.0
+        "discount_rate_pct": 12
       },
       {
         "min_annual_premium_usd": 5000,
-        "discount_rate_pct": 20.0,
-        "extra_family_bonus_pct": 3.0
+        "discount_rate_pct": 20,
+        "extra_family_bonus_pct": 3
       }
     ],
     "ci_metrics": {
@@ -551,17 +830,42 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T12:00:00Z"
-    }
+      "created_at": "2026-10-26T12:00:00Z",
+      "official_source_attribution": "宏利活耀人生官方指南 Ref: MANU-ACTUARY2-2026；保監局註冊: POL-MANU-ACT2"
+    },
+    "clause_highlights": [
+      "宏利「活耀人生 2」精算升級版，涵蓋 120 種疾病，重疾多次賠付高達 900%",
+      "特設男性與女性特定部位高發癌症加碼 20% 額外保證賠償",
+      "針對嚴重抑鬱症、雙相情感障礙等精神疾患提供特定支援生活金",
+      "大額投保享階梯式保費折扣，免體檢限額高達 160 萬美元"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期，精神疾患支援需由指定持牌精神科專科醫生連續跟診 6 個月以上",
+      "癌症多次索償間隔期為 3 年，心血管疾病多重間隔期為 1 年",
+      "特定性別癌症額外加碼賠償限受保人 85 歲前確診方可享有",
+      "退保價值受非保證分紅波動影響，早期退保扣減率高"
+    ],
+    "last_updated": "2026-11-06"
   },
   {
     "promo_id": "PROMO-FWD-CI-SUPREME-2026",
     "insurer": "FWD",
     "product_name": "危疾致諾 (Crisis Supreme Critical Illness)",
-    "product_aliases": ["危疾致諾", "富衛危疾致諾", "Crisis Supreme"],
+    "product_aliases": [
+      "危疾致諾",
+      "富衛危疾致諾",
+      "Crisis Supreme"
+    ],
     "category": "Critical_Illness",
-    "currency_supported": ["USD", "HKD"],
-    "payment_period_years": [10, 20, 25],
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
     "validity": {
       "start_date": "2026-10-10",
       "end_date": "2026-12-31",
@@ -570,8 +874,8 @@
     "premium_discounts": [
       {
         "min_annual_premium_usd": 2000,
-        "discount_rate_pct": 22.0,
-        "extra_family_bonus_pct": 5.0
+        "discount_rate_pct": 22,
+        "extra_family_bonus_pct": 5
       }
     ],
     "ci_metrics": {
@@ -592,8 +896,532 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": true,
-      "created_at": "2026-10-26T15:00:00Z"
+      "created_at": "2026-10-26T15:00:00Z",
+      "official_source_attribution": "富衛危疾致諾官方產品書 Ref: FWD-CRISIS-SUPREME-2026；保監局檔案: IA-FWD-CI-SUP"
+    },
+    "clause_highlights": [
+      "富衛頂級危疾致諾，主打超高性價比與超寬鬆 ICU 入住理賠標準",
+      "多重賠償高達 950%，涵蓋所有常見實質性器官重大病變",
+      "特設無索償保費回贈機制，若全期無重大重疾索償可於滿期取回已繳保費",
+      "尊享國際緊急醫療救援與全球專屬腫瘤藥物直付綠色通道"
+    ],
+    "clause_pitfalls": [
+      "90 天投保疾病等候期內任何病徵除外，既往症嚴格免責",
+      "無索償滿期保費回贈需扣除所有已索償之早期輕症及原位癌賠償金額",
+      "多次索償保障於 85 歲後終止，非終身無限次多重",
+      "早期退保保證現金價值較低，不適宜短期資金儲蓄目標"
+    ],
+    "last_updated": "2026-11-06"
+  },
+  {
+    "promo_id": "PROMO-HSBC-CI-HEALTHGUARD-2026",
+    "insurer": "HSBC",
+    "product_name": "滙豐康健保額外危疾保障 (HSBC HealthGuard Critical Illness Plan)",
+    "product_aliases": [
+      "滙豐康健保",
+      "康健保額外危疾",
+      "HSBC HealthGuard",
+      "滙豐危疾"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      18,
+      25
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 6000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 18,
+        "extra_family_bonus_pct": 3
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 125,
+      "multiple_claim_limit_pct": 900,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1800000,
+      "special_waiver_notes": "滙豐卓越理財客戶享快速預約體檢，超額非醫療限額高達180萬美元"
+    },
+    "clause_highlights": [
+      "全面保障多達 125 種疾病，嚴重危疾多次索償上限高達 900% 基本保額",
+      "癌症再索償間隔期為 3 年，涵蓋癌症復發、轉移、持續或全新原發性惡性腫瘤",
+      "涵蓋非指定疾病之深切治療部（ICU）留院賠償，保障未命名未知新病毒",
+      "首次重大危疾索償後，即刻免繳後續所有保費，且保單分紅與保障繼續維持"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期嚴格生效，等候期內任何病徵確診將導致合約無效",
+      "癌症多次索償需出具病理切片或臨床影像學無活性癌細胞證明",
+      "心臟病及中風多次索償設有嚴格 1 年間隔期及特定神經缺損臨床標準",
+      "早期退保保證現金價值較低，首 5 年退保本金折減幅度超過 50%"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "滙豐保險官方產品通告 Ref: HSBC-HG-2026-CIRC；保監局備案登記: POL-HSBC-CI-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-HSBC-CI-CAREPLUS-2026",
+    "insurer": "HSBC",
+    "product_name": "滙豐全心守護危疾保障計劃 (HSBC Comprehensive Care Plus CI)",
+    "product_aliases": [
+      "滙豐全心守護",
+      "滙豐全心危疾",
+      "HSBC Comprehensive Care Plus"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      15,
+      20
+    ],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 3000,
+        "discount_rate_pct": 10
+      },
+      {
+        "min_annual_premium_usd": 8000,
+        "discount_rate_pct": 16,
+        "extra_family_bonus_pct": 2.5
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 118,
+      "multiple_claim_limit_pct": 850,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": false,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 1500000,
+      "special_waiver_notes": "簡易健康問卷，標準體質客戶一鍵快速核保"
+    },
+    "clause_highlights": [
+      "專注於主要三大殺手疾病（癌症、心臟病、中風）之多次精準重疾防護",
+      "特設嚴重認知障礙（腦退化症）專屬月度護理支援年金保障",
+      "全期保費固定不變，不因年齡增長或個別索償歷史而加費",
+      "首次重大重疾賠付後即時豁免往後保費，保障持續至受保人 100 歲"
+    ],
+    "clause_pitfalls": [
+      "不包含非指定疾病之深切治療部（ICU）額外賠償",
+      "90 天疾病等候期限制，等候期內發生之症狀或診斷概不負責",
+      "心血管多次賠償需相隔至少 1 年，並需有客觀醫學診斷報告",
+      "非保證分紅成分取決於滙豐分紅基金表現，不保證長期回報"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "滙豐保險官方通告 Ref: HSBC-CAREPLUS-2026；保監局檔案: IA-HSBC-CI-CP"
+    }
+  },
+  {
+    "promo_id": "PROMO-GEN-CI-LIONHEALTH-2026",
+    "insurer": "Generali",
+    "product_name": "忠意「跨越危疾保」加強版 (Generali LionHealth Bravo Critical Care)",
+    "product_aliases": [
+      "忠意跨越危疾",
+      "跨越危疾保",
+      "LionHealth Bravo",
+      "忠意危疾加強版"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD",
+      "EUR"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-20",
+      "channel": "Broker"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "max_annual_premium_usd": 5000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 20,
+        "extra_family_bonus_pct": 4
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 126,
+      "multiple_claim_limit_pct": 950,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1600000,
+      "special_waiver_notes": "獨立經紀渠道專屬核保通道，次標準體提供特許有限加費方案"
+    },
+    "clause_highlights": [
+      "歐洲頂級保險精算架構，覆蓋高達 126 種疾病，多重索償上限達 950%",
+      "支援歐元/美元/港元多幣種結算，適配國際高淨值家庭跨國醫療需求",
+      "涵蓋未知突發傳染病入住 ICU 之全額賠償，保障條款走在市場前沿",
+      "經紀通道推廣期內首年保費折扣高達 20%（家庭加碼達 24%）"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期，投保前未申報病症將啟動嚴格核保不保機制",
+      "癌症再索償 3 年等候期必須滿足病理切片完全活性確認標準",
+      "心臟病及中風多重索償要求提供客觀冠脈造影或核磁共振（MRI）影像佐證",
+      "香港服務據點相對較集中，理賠需經由專業持牌經紀或網上系統遞交"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "忠意保險官方通告 Ref: GEN-LIONHEALTH-2026；保監局認可: POL-GEN-CI-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-BC-CI-WELLCARE-2026",
+    "insurer": "BlueCross",
+    "product_name": "藍十字智安心危疾保障計劃 (Blue Cross WellCare Pro Critical Illness)",
+    "product_aliases": [
+      "藍十字智安心",
+      "智安心危疾",
+      "Blue Cross WellCare Pro",
+      "藍十字危疾"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      15,
+      20
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "Broker"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 1500,
+        "discount_rate_pct": 15
+      },
+      {
+        "min_annual_premium_usd": 4000,
+        "discount_rate_pct": 22,
+        "extra_family_bonus_pct": 3
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 120,
+      "multiple_claim_limit_pct": 880,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": false,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1400000,
+      "special_waiver_notes": "東亞銀行客戶專享簡易健康聲明快速預先批核"
+    },
+    "clause_highlights": [
+      "東亞銀行旗下藍十字品牌專屬研發，性價比極高，首年回贈高達 22%",
+      "覆蓋 120 種疾病，多次賠償上限達 880% 原保額",
+      "涵蓋非特定疾病之深切治療部（ICU）留院賠償，填補未知病種空白",
+      "無縫銜接藍十字高端醫療網絡，理賠金可直接轉換為私家醫院出院免找數信用額"
+    ],
+    "clause_pitfalls": [
+      "不包含腦退化症（阿茲海默症）專屬月度生活護理年金津貼",
+      "90 天疾病等候期限制，投保前未知既往症亦需受限於標準抗辯期條款",
+      "癌症多次索償間隔為 3 年，且需提供活體組織病理切片報告",
+      "儲蓄分紅比例較低，本產品以疾病高槓桿純保障防護為主"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "藍十字官方經紀業務通函 Ref: BC-CI-WELLCARE-2026；保監局登記: IA-BC-CI-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-CL-CI-HEALTHJOY-2026",
+    "insurer": "ChinaLife",
+    "product_name": "國壽海外康健無憂危疾保險計劃 (China Life HealthCare Joy Critical Illness)",
+    "product_aliases": [
+      "國壽康健無憂",
+      "康健無憂危疾",
+      "China Life HealthCare Joy",
+      "國壽危疾"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      10,
+      19,
+      29
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2000,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 5000,
+        "discount_rate_pct": 18,
+        "extra_family_bonus_pct": 2
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 121,
+      "multiple_claim_limit_pct": 880,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1700000,
+      "special_waiver_notes": "央企信譽保障，內地三甲醫院診斷證明直接認可，跨境理賠極速綠色通道"
+    },
+    "clause_highlights": [
+      "全面認可內地數百家三級甲等公立醫院診斷報告，跨境就醫理賠無障礙",
+      "支援人民幣、美元、港元三幣種結算，靈活對沖貨幣匯率波動",
+      "覆蓋 121 種疾病，多次賠償上限達 880%，涵蓋 ICU 留院及腦退化護理",
+      "首次重大危疾確診後免繳往後所有保費，保單有效至受保人 100 歲"
+    ],
+    "clause_pitfalls": [
+      "90 天疾病等候期，等候期內發病不獲賠償並退還已繳保費",
+      "癌症再索償 3 年間隔期嚴格執行，持續癌症需符合活躍期客觀指標",
+      "保單所含分紅非保證，長期回報受固定收益市場利率波動影響",
+      "部分特定內地私立醫療機構不在官方認可理賠醫院名冊之內"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "中國人壽海外官方產品通告 Ref: CL-HK-CI-HEALTHJOY-2026；保監局備案: POL-CL-CI-2026"
+    }
+  },
+  {
+    "promo_id": "PROMO-CL-CI-CAREPLUS-2026",
+    "insurer": "ChinaLife",
+    "product_name": "國壽海外萬全保危疾保險計劃 (China Life Supreme Care Critical Illness)",
+    "product_aliases": [
+      "國壽萬全保",
+      "萬全保危疾",
+      "China Life Supreme Care"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD",
+      "RMB"
+    ],
+    "payment_period_years": [
+      15,
+      20
+    ],
+    "validity": {
+      "start_date": "2026-10-10",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-10",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 1500,
+        "discount_rate_pct": 10
+      },
+      {
+        "min_annual_premium_usd": 4000,
+        "discount_rate_pct": 15
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 115,
+      "multiple_claim_limit_pct": 800,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": false,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": false,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": true,
+      "max_non_medical_limit_usd": 1300000,
+      "special_waiver_notes": "簡易問卷核保，長者或次健康人士免體檢綠色通道"
+    },
+    "clause_highlights": [
+      "主打大眾化普惠危疾防護，核保寬鬆，性價比高",
+      "人民幣直接計價與理賠，完全免除匯率兌換損失與跨境匯款限制",
+      "涵蓋 115 種疾病，重大重疾多次索償上限 800%",
+      "首年保費享 10%-15% 折扣，期滿設有保證現金價值回報"
+    ],
+    "clause_pitfalls": [
+      "不包含非指定疾病深切治療部（ICU）及嚴重腦退化額外生活金保障",
+      "90 天等候期約束，疾病定義嚴格依照香港保險業聯會標準定義",
+      "多次索償保障於受保人年滿 80 歲時終止",
+      "原位癌等早期疾病賠償限額相對較低（每項上限 25 萬港元）"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "中國人壽海外產品手冊 Ref: CL-CI-SUPREME-2026；保監局檔案號: IA-CL-CI-SUP"
+    }
+  },
+  {
+    "promo_id": "PROMO-AXA-CI-LOVECARE-PLUS-2026",
+    "insurer": "AXA",
+    "product_name": "愛護同行危疾保險（卓越加強版）(AXA Loving Care Elite Plus)",
+    "product_aliases": [
+      "愛護同行卓越版",
+      "安盛卓越危疾",
+      "AXA Loving Care Elite Plus",
+      "愛護同行加強版"
+    ],
+    "category": "Critical_Illness",
+    "currency_supported": [
+      "USD",
+      "HKD"
+    ],
+    "payment_period_years": [
+      10,
+      20,
+      25
+    ],
+    "validity": {
+      "start_date": "2026-10-01",
+      "end_date": "2026-12-31",
+      "submission_deadline": "2026-12-31",
+      "payment_deadline": "2027-01-15",
+      "channel": "All"
+    },
+    "premium_discounts": [
+      {
+        "min_annual_premium_usd": 2500,
+        "discount_rate_pct": 12
+      },
+      {
+        "min_annual_premium_usd": 6000,
+        "discount_rate_pct": 18,
+        "extra_family_bonus_pct": 3
+      }
+    ],
+    "ci_metrics": {
+      "total_illnesses_covered": 128,
+      "multiple_claim_limit_pct": 980,
+      "cancer_waiting_period_years": 3,
+      "icu_stay_benefit_covered": true,
+      "cardiovascular_multiple_claims": true,
+      "dementia_lock_in_support": true,
+      "waive_future_premiums_after_major_claim": true
+    },
+    "underwriting_concessions": {
+      "simplified_health_declaration": false,
+      "max_non_medical_limit_usd": 1750000,
+      "special_waiver_notes": "特許次健康客戶（血壓高/高血脂）提供專屬核保通道"
+    },
+    "clause_highlights": [
+      "安盛頂級旗艦加強版，覆蓋業界最高 128 種疾病，多次賠償高達 980%",
+      "癌症再索償間隔期 3 年，心腦血管索償間隔期 1 年，特設持續治療現金津貼",
+      "全額涵蓋非指定疾病之深切治療部（ICU）重症住院，保障前所未有",
+      "特設針對阿茲海默症及帕金森氏症之雙倍嚴重腦退化終生護理年金"
+    ],
+    "clause_pitfalls": [
+      "90 天投保疾病等候期嚴格執行，等候期內任何病史不披露將觸發合同撤銷",
+      "癌症多次索償要求提供客觀活躍病理學證據或新原發器官轉移確診報告",
+      "高階保障對應之基準保費高於市場普通單次危疾產品",
+      "退保現金價值受非保證紅利波動影響，前 5 年退保折減顯著"
+    ],
+    "last_updated": "2026-11-06",
+    "audit_metadata": {
+      "source_type": "Official_Circular",
+      "confidence_level": "Verified",
+      "verified_by_editor": true,
+      "created_at": "2026-11-06T00:00:00Z",
+      "official_source_attribution": "安盛保險官方通告 Ref: AXA-LOVECARE-ELITE-2026；保監局備案: POL-AXA-CI-ELITE"
     }
   }
 ]
-

@@ -141,12 +141,12 @@ async function main() {
       });
     }
 
-    assert.strictEqual(fileCounts["savings_multicurrency.json"], 12, "savings_multicurrency.json must contain 12 products");
-    assert.strictEqual(fileCounts["critical_illness.json"], 13, "critical_illness.json must contain 13 products");
-    assert.strictEqual(fileCounts["vhis_medical.json"], 12, "vhis_medical.json must contain 12 products");
-    assert.strictEqual(fileCounts["qdap_annuity.json"], 11, "qdap_annuity.json must contain 11 products");
-    assert.strictEqual(fileCounts["universal_life.json"], 12, "universal_life.json must contain 12 products");
-    assert.strictEqual(allRawProducts.length, 60, `Total product count must be exactly 60, got ${allRawProducts.length}`);
+    assert.strictEqual(fileCounts["savings_multicurrency.json"], 20, "savings_multicurrency.json must contain 20 products");
+    assert.strictEqual(fileCounts["critical_illness.json"], 20, "critical_illness.json must contain 20 products");
+    assert.strictEqual(fileCounts["vhis_medical.json"], 20, "vhis_medical.json must contain 20 products");
+    assert.strictEqual(fileCounts["qdap_annuity.json"], 19, "qdap_annuity.json must contain 19 products");
+    assert.strictEqual(fileCounts["universal_life.json"], 20, "universal_life.json must contain 20 products");
+    assert.strictEqual(allRawProducts.length, 99, `Total product count must be exactly 99, got ${allRawProducts.length}`);
   });
 
   await recordTest("Suite 1: Market Catalog", "Global ID Uniqueness (0 duplicate promo_ids)", () => {
@@ -161,7 +161,7 @@ async function main() {
       }
       seenIds.set(prod.promo_id, prod.__sourceFile);
     }
-    assert.strictEqual(seenIds.size, 60, "Expected 60 unique promo_ids");
+    assert.strictEqual(seenIds.size, 99, "Expected 99 unique promo_ids");
   });
 
   await recordTest("Suite 1: Market Catalog", "Comprehensive Insurer Coverage (9 Insurers Breakdown)", () => {
@@ -193,17 +193,21 @@ async function main() {
     }
 
     const expectedCounts: Record<string, number> = {
-      AIA: 10,
-      Prudential: 8,
-      Manulife: 9,
-      Sun_Life: 6,
-      FWD: 7,
-      AXA: 5,
+      AIA: 11,
+      Prudential: 10,
+      Manulife: 10,
+      Sun_Life: 7,
+      FWD: 9,
+      AXA: 8,
       BOC_Life: 6,
       YF_Life: 5,
       Bowtie: 2,
       Cigna: 1,
-      Bupa: 1
+      Bupa: 1,
+      HSBC: 9,
+      Generali: 6,
+      ChinaLife: 8,
+      BlueCross: 6
     };
     for (const [ins, count] of Object.entries(expectedCounts)) {
       assert.strictEqual(insurerCounts[ins], count, `Insurer ${ins} must have exactly ${count} products, got ${insurerCounts[ins]}`);
@@ -343,7 +347,7 @@ async function main() {
 
   await recordTest("Suite 1: Market Catalog", "Dynamic Mock Dataset Loader Determinism & Helper Functions", () => {
     const loadedPromos = loadAllMockPromos();
-    assert.strictEqual(loadedPromos.length, 60, "loadAllMockPromos() must return exactly 60 products");
+    assert.strictEqual(loadedPromos.length, 99, "loadAllMockPromos() must return exactly 99 products");
 
     // Priority order preservation check
     assert.strictEqual(loadedPromos[0].insurer, "AIA", "First promo must be AIA");
@@ -351,22 +355,22 @@ async function main() {
 
     // Filter helpers
     const savings = loadPromosByCategory("Savings_MultiCurrency");
-    assert.strictEqual(savings.length, 12, "loadPromosByCategory(Savings_MultiCurrency) must return 12 products");
+    assert.strictEqual(savings.length, 20, "loadPromosByCategory(Savings_MultiCurrency) must return 20 products");
 
     const ci = loadPromosByCategory("Critical_Illness");
-    assert.strictEqual(ci.length, 13, "loadPromosByCategory(Critical_Illness) must return 13 products");
+    assert.strictEqual(ci.length, 20, "loadPromosByCategory(Critical_Illness) must return 20 products");
 
     const vhis = loadPromosByCategory("Medical_VHIS");
-    assert.strictEqual(vhis.length, 12, "loadPromosByCategory(Medical_VHIS) must return 12 products");
+    assert.strictEqual(vhis.length, 20, "loadPromosByCategory(Medical_VHIS) must return 20 products");
 
     const qdap = loadPromosByCategory("Annuity_QDAP");
-    assert.strictEqual(qdap.length, 11, "loadPromosByCategory(Annuity_QDAP) must return 11 products");
+    assert.strictEqual(qdap.length, 19, "loadPromosByCategory(Annuity_QDAP) must return 19 products");
 
     const ul = loadPromosByCategory("Financing_UniversalLife");
-    assert.strictEqual(ul.length, 12, "loadPromosByCategory(Financing_UniversalLife) must return 12 products");
+    assert.strictEqual(ul.length, 20, "loadPromosByCategory(Financing_UniversalLife) must return 20 products");
 
     const aiaPromos = loadPromosByInsurer("AIA");
-    assert.strictEqual(aiaPromos.length, 10, "loadPromosByInsurer(AIA) must return 10 products");
+    assert.strictEqual(aiaPromos.length, 11, "loadPromosByInsurer(AIA) must return 11 products");
 
     const bowtiePromos = loadPromosByInsurer("Bowtie");
     assert.strictEqual(bowtiePromos.length, 2, "loadPromosByInsurer(Bowtie) must return 2 products");
@@ -546,7 +550,7 @@ async function main() {
 
     const briefing = generator.generateBriefingData(promos);
     assert.ok(briefing.grand_matrix_rows, "Grand matrix rows must be computed");
-    assert.strictEqual(briefing.grand_matrix_rows.length, 8, `Expected exactly 8 traditional insurer rows in grand matrix, got ${briefing.grand_matrix_rows.length}`);
+    assert.strictEqual(briefing.grand_matrix_rows.length, 12, `Expected exactly 12 traditional insurer rows in grand matrix, got ${briefing.grand_matrix_rows.length}`);
 
     const insurersInMatrix = briefing.grand_matrix_rows.map(r => r.insurer);
     const requiredInsurerFragments = ["AIA", "保誠", "宏利", "永明", "富衛", "安盛", "中銀", "萬通"];

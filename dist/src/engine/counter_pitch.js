@@ -108,7 +108,12 @@ class CounterPitchEngine {
             BOC_Life: ["中銀人壽", "中銀", "boc life", "boc"],
             Bowtie: ["保泰", "bowtie"],
             Cigna: ["信諾", "cigna"],
-            Bupa: ["保柏", "bupa"]
+            Bupa: ["保柏", "bupa"],
+            HSBC: ["滙豐", "hsbc", "hsbc life"],
+            HSBC_Life: ["滙豐", "hsbc", "hsbc life"],
+            Generali: ["忠意", "generali"],
+            BlueCross: ["藍十字", "blue cross", "bluecross"],
+            ChinaLife: ["中國人壽海外", "國壽海外", "china life", "chinalife"]
         };
         for (const [insurer, aliases] of Object.entries(insurerAliases)) {
             const mentionsInsurer = aliases.some(a => cleanId.includes(a));
