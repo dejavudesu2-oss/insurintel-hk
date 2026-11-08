@@ -246,3 +246,50 @@ SUMMARY: ALL SCREENSHOT ASSET AUDIT TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 5 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 6: TASK-06 (Swiss 10-Slide Morning Assembly Deck & Live Run-Sheet)
+Timestamp: 2026-11-09T06:25:55+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Implement `tests/verification_morning_deck.ts` asserting PPTX existence (> 30KB, PK zip signature, 10 slide XMLs), HTML 10-slide deck with Cantonese speaker notes, genuine ServiceWorker at `dist/sw.js`, and `MORNING_ASSEMBLY_PACK_AND_RUNSHEET.md`.
+   - Update `scripts/build_swiss_slides.py` to compile the 10-slide Swiss deck matching `SLIDES_DATA` and `morning_assembly_deck.pptx`.
+   - Add `tests/verification_morning_deck.ts` to `package.json` test harness.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`94200c67-68b7-49c4-b08e-35b76875a0fe`) returned 5 rigorous findings:
+     * Finding 1: Pipeline regression where `wipeDist()` in `adversarial_challenge_r2_2.ts` wiped `morning_assembly_deck.pptx`. -> FIXED: Preserved PPTX, screenshots, waitlist.html, and sw.js in `wipeDist()`, and added auto-compilation safeguard in `tests/verification_morning_deck.ts`.
+     * Finding 2: Deceptive `|| htmlContent.includes('Swiss')` test assertion masking an 8-slide daily briefing HTML instead of the 10-slide sales deck. -> FIXED: Upgraded `build_swiss_slides.py` to compile all 10 Swiss slides (`slide-01` to `slide-10`) with Cantonese speaker notes matching `SLIDES_DATA`, and removed the loose assertion.
+     * Finding 3: Run-sheet desynchronization with unrunnable server instructions and contradictory breakeven numbers. -> FIXED: Documented executable server commands (`npx serve`, `python -m http.server`, `file:///`), and synchronized Step 2 metrics to match live screen (Plan A Yr 5 vs Plan B Yr 7).
+     * Finding 4: Phantom offline architecture where `dist/sw.js` did not exist (404). -> FIXED: Implemented genuine ServiceWorker at `templates/sw.js` and `dist/sw.js` with Cache API precaching and offline fallback.
+     * Finding 5: `requirements.txt` missing `python-pptx>=0.6.21`. -> FIXED: Updated `requirements.txt`.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: MORNING ASSEMBLY DECK & LIVE RUN-SHEET AUDIT (TASK-06)
+================================================================================
+
+  [PASS] Physical PPTX verified: 62122 bytes with valid PK zip header.
+  [PASS] PPTX internal OpenXML verified: exactly 10 slide parts present.
+  [PASS] HTML slide deck verified: exactly 10 slide sections (slide-01 to slide-10) present.
+  [PASS] HTML slide titles verified against 10-slide master syllabus.
+  [PASS] Authentic Cantonese speaker notes verified across HTML deck.
+  [PASS] Reciprocal navigation to index.html verified in HTML deck.
+  [PASS] ServiceWorker verified at dist/sw.js with genuine offline caching.
+  [PASS] Run-sheet contains full 10-slide roadmap.
+  [PASS] Authentic Cantonese speaker notes verified in run-sheet.
+  [PASS] 1-Page Live Demo Run-sheet verified with executable server setup and synchronized app metrics.
+  [PASS] Triple offline fallback protocol verified.
+
+================================================================================
+SUMMARY: ALL MORNING ASSEMBLY DECK & RUN-SHEET TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 241 / 241 (22 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 4 (1 parked: TASK-10)
+================================================================================
