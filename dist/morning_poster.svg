@@ -18,7 +18,7 @@
   <text x="50" y="55" fill="rgba(255,255,255,0.7)" font-size="14" letter-spacing="3" class="mono">INSURINTEL HK · DAILY INTELLIGENCE</text>
   <text x="50" y="105" fill="#ffffff" font-size="34" class="bold">全港保險早會市場情報速遞</text>
   <text x="50" y="145" fill="rgba(255,255,255,0.9)" font-size="16" class="light">5 大行儲蓄險矩陣 · 預繳保證利率 · GN16 官方實現率對比</text>
-  <text x="750" y="55" text-anchor="end" fill="rgba(255,255,255,0.6)" font-size="14" class="mono">2026-11-06</text>
+  <text x="750" y="55" text-anchor="end" fill="rgba(255,255,255,0.6)" font-size="14" class="mono">2026-11-08</text>
 
   <!-- Big Hero Stat Card -->
   <rect x="50" y="260" width="700" height="180" fill="#ffffff" stroke="#e0e0e0" stroke-width="1"/>

@@ -39,7 +39,7 @@ const templatesPath = path_1.default.join(process.cwd(), 'templates', 'mobile_ca
 const distIndexPath = path_1.default.join(process.cwd(), 'dist', 'index.html');
 const distCafePath = path_1.default.join(process.cwd(), 'dist', 'cafe.html');
 node_assert_1.default.ok(fs_1.default.existsSync(templatesPath), 'mobile_cafe_app.html must exist');
-const htmlSource = fs_1.default.readFileSync(templatesPath, 'utf8');
+const htmlSource = fs_1.default.readFileSync(templatesPath, 'utf8').replace(/\r\n/g, '\n');
 function createSandbox() {
     const dom = {};
     const makeEl = (id = '', tag = 'div') => ({

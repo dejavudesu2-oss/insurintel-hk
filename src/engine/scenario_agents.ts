@@ -21,6 +21,13 @@ import {
   CashlessMedicalOutput,
   Currency
 } from "../types/insurance.js";
+import {
+  DailyScenariosSimulationEngine,
+  DailyScenario,
+  ScenarioDomain,
+  CommercialTier,
+  FullSimulationResult
+} from "./daily_100_scenarios_simulation.js";
 
 export {
   ScenarioAgentType,
@@ -30,7 +37,12 @@ export {
   QDAPTaxOutput,
   InstantMessageOutput,
   OfflineStatusOutput,
-  CashlessMedicalOutput
+  CashlessMedicalOutput,
+  DailyScenariosSimulationEngine,
+  DailyScenario,
+  ScenarioDomain,
+  CommercialTier,
+  FullSimulationResult
 };
 
 // ============================================================================
@@ -779,6 +791,7 @@ export class ScenarioAgentHub {
   public instantComms = new InstantCommsSynthesizerAgent();
   public cashlessMedical = new CashlessMedicalAgent();
   public offlineResilience = new OfflineResilienceAgent();
+  public simulation100 = new DailyScenariosSimulationEngine();
 
   public getAgentForScenario(type: ScenarioAgentType) {
     switch (type) {
@@ -789,6 +802,7 @@ export class ScenarioAgentHub {
       case "instant_comms": return this.instantComms;
       case "cashless_medical": return this.cashlessMedical;
       case "offline_resilience": return this.offlineResilience;
+      case "simulation_100": return this.simulation100;
     }
   }
 }

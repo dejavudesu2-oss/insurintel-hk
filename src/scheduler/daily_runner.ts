@@ -108,6 +108,10 @@ export class DailyIntelligenceRunner {
     if (fs.existsSync(cafeSource)) {
       fs.copyFileSync(cafeSource, indexPath);
       fs.copyFileSync(cafeSource, cafeDist);
+    const gn16Source = path.join(process.cwd(), 'templates', 'gn16_tracker.html');
+    if (fs.existsSync(gn16Source)) {
+      fs.copyFileSync(gn16Source, path.join(outDir, 'gn16_tracker.html'));
+    }
     }
 
     // Agent 7: Generate viral morning poster SVG

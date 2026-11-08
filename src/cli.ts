@@ -10,6 +10,7 @@ import { CounterPitchEngine } from "./engine/counter_pitch.js";
 import { MorningBriefingGenerator } from "./engine/briefing_generator.js";
 import { InsurancePromoComprehensive } from "./types/insurance.js";
 import { loadAllMockPromos } from "./mock_data/loader.js";
+import { DailyScenariosSimulationEngine } from "./engine/daily_100_scenarios_simulation.js";
 
 async function main() {
   const args = process.argv.slice(2);
@@ -57,6 +58,10 @@ async function main() {
     if (fs.existsSync(cafeSource)) {
       fs.copyFileSync(cafeSource, indexPath);
       fs.copyFileSync(cafeSource, cafePath);
+      const gn16Source = path.join(process.cwd(), 'templates', 'gn16_tracker.html');
+      if (fs.existsSync(gn16Source)) {
+        fs.copyFileSync(gn16Source, path.join(outDir, 'gn16_tracker.html'));
+      }
     }
 
     console.log(`\n[InsurIntel] 早會投影片已導出至: ${slidesPath}`);
@@ -117,8 +122,100 @@ async function main() {
     console.log(`【對抗戰策】：${vhisPitch.matchup_title}`);
     console.log(`Point: ${vhisPitch.attack_points[1].title}`);
     console.log(`  🗣️ 話術: ${vhisPitch.attack_points[1].counter_pitch_script}`);
+  } else if (command === "simulation") {
+    console.log("\n=======================================================");
+    console.log("   InsurIntel HK - 100場真實展業場景多維AI代理模擬引擎");
+    console.log("=======================================================\n");
+
+    const engine = new DailyScenariosSimulationEngine();
+    const total = engine.getScenarioCount();
+
+    const idArgIdx = args.findIndex((a) => a === "--id");
+    const domainArgIdx = args.findIndex((a) => a === "--domain");
+    const isPricing = args.includes("--pricing");
+    const isReport = args.includes("--report");
+
+    if (idArgIdx !== -1 && args[idArgIdx + 1]) {
+      const targetId = args[idArgIdx + 1];
+      const sc = engine.getScenarioById(targetId);
+      if (!sc) {
+        console.error(`[Simulation] 找不到場景編號: ${targetId}`);
+        return;
+      }
+      console.log(`【場景 ${sc.id}】: ${sc.title}`);
+      console.log(`- 業務領域: ${sc.domainZh} (${sc.domain})`);
+      console.log(`- 會面地點: ${sc.location}`);
+      console.log(`- 客戶畫像: ${sc.clientPersona}`);
+      console.log(`- 涉及保司: ${sc.involvedInsurers.join(", ")}`);
+      console.log(`- 產品對決: ${sc.involvedProducts.join(" vs ")}`);
+      console.log(`- 業務情境: ${sc.contextDescription}`);
+      console.log(`- 核心抗辯: ${sc.coreConfrontationOrChallenge}`);
+      console.log(`- 商業梯隊: ${sc.commercialTierRelevance} (目標價: HK$${sc.targetTierPriceHKD})`);
+      console.log("\n--- 六大 AI 代理評審反饋 ---");
+      console.log(`1. ⚖️ ${sc.comments.actuaryAuditor.agentPersonaZh} (${sc.comments.actuaryAuditor.scoreOutOf10}/10): ${sc.comments.actuaryAuditor.critique}`);
+      console.log(`2. 🚀 ${sc.comments.topProducer.agentPersonaZh} (${sc.comments.topProducer.scoreOutOf10}/10, 付費意願: ${sc.comments.topProducer.willingnessToPay}): ${sc.comments.topProducer.critique}`);
+      console.log(`3. 👔 ${sc.comments.districtDirector.agentPersonaZh} (${sc.comments.districtDirector.scoreOutOf10}/10): ${sc.comments.districtDirector.critique}`);
+      console.log(`4. 🛡️ ${sc.comments.policyholder.agentPersonaZh} (${sc.comments.policyholder.scoreOutOf10}/10, 信任分: ${sc.comments.policyholder.trustScore}/10): ${sc.comments.policyholder.critique}`);
+      console.log(`5. 📜 ${sc.comments.complianceOfficer.agentPersonaZh} (${sc.comments.complianceOfficer.scoreOutOf10}/10, 風險: ${sc.comments.complianceOfficer.complianceRiskLevel}): ${sc.comments.complianceOfficer.critique}`);
+      console.log(`6. 💡 ${sc.comments.pricingPM.agentPersonaZh} (${sc.comments.pricingPM.scoreOutOf10}/10, 推薦階梯: ${sc.comments.pricingPM.recommendedTier}): ${sc.comments.pricingPM.critique}`);
+      console.log(`\n【共識結論】: 平均分 ${sc.consensusVerdict.averageScore}/10 (${sc.consensusVerdict.overallViability})`);
+      console.log(`- 異議化解策略: ${sc.consensusVerdict.primaryObjection}`);
+      return;
+    }
+
+    if (domainArgIdx !== -1 && args[domainArgIdx + 1]) {
+      const targetDomain = args[domainArgIdx + 1];
+      const scList = engine.getScenariosByDomain(targetDomain);
+      console.log(`【領域檢索】: ${targetDomain} (共 ${scList.length} 個場景)`);
+      scList.forEach((s) => {
+        console.log(`  - [${s.id}] ${s.title} | 均分: ${s.consensusVerdict.averageScore}/10 | 階梯: ${s.commercialTierRelevance}`);
+      });
+      return;
+    }
+
+    const sim = engine.runFullSimulation();
+
+    if (isPricing) {
+      console.log("--- 商業化四階收費梯隊與單元經濟學 (Unit Economics) ---");
+      sim.commercialTierSummaries.forEach((t) => {
+        console.log(`\n▶ [${t.tier}] 收費: HK$${t.monthlyPriceHKD.toLocaleString()} / 月`);
+        console.log(`  目標客群: ${t.targetAudience}`);
+        console.log(`  涵蓋場景: ${t.scenarioCount} 個 | 評審均分: ${t.averageScore}/10 | 付費意願: ${t.estimatedWillingnessToPay}`);
+        console.log(`  預估 ARR 跑道: HK$${t.annualRunRatePotentialHKD.toLocaleString()}`);
+        console.log(`  核心價值主張: ${t.keyValueProposition}`);
+      });
+      return;
+    }
+
+    if (isReport) {
+      const reportMd = engine.generateMarkdownReport();
+      const reportPath = path.join(process.cwd(), "docs", "SIMULATION_100_DAILY_SCENARIOS_REPORT.md");
+      fs.writeFileSync(reportPath, reportMd, "utf8");
+      console.log(`[Simulation] 報告已成功生成至: ${reportPath} (${(fs.statSync(reportPath).size / 1024).toFixed(1)} KB)`);
+      return;
+    }
+
+    console.log(`[Simulation] 已成功加載並模擬 ${sim.totalScenarios} 個香港保險真實日常場景。`);
+    console.log(`[Simulation] 六大 AI 代理綜合評分: ${sim.overallAverageScore} / 10 (${sim.overallAverageScore >= 8.5 ? "卓越 (Outstanding)" : "強勁 (Strong)"})`);
+
+    console.log("\n▶ 十大業務領域分佈:");
+    sim.domainSummaries.forEach((d, i) => {
+      console.log(`  ${String(i + 1).padStart(2, "0")}. [${d.domain}] ${d.domainZh}: ${d.scenarioCount}場 | 均分 ${d.averageScore} | 主導定價: ${d.dominantTier}`);
+    });
+
+    console.log("\n▶ 六大 AI 代理評審計分卡:");
+    sim.personaSummaries.forEach((p) => {
+      console.log(`  - ${p.agentRole} (${p.agentPersonaZh}): 均分 ${p.averageScore}/10 | 正向: ${p.sentimentCounts.Positive || 0} | 建設性: ${p.sentimentCounts.Constructive || 0}`);
+    });
+
+    console.log("\n▶ 四大商業定價梯隊 ARR 跑道預測:");
+    sim.commercialTierSummaries.forEach((t) => {
+      console.log(`  - ${t.tier} (HK$${t.monthlyPriceHKD}/月): 覆蓋 ${t.scenarioCount}場景 | 付費意願: ${t.estimatedWillingnessToPay} | 潛在ARR: HK$${t.annualRunRatePotentialHKD.toLocaleString()}`);
+    });
+
+    console.log("\n💡 提示: 可使用 --id <SC001>、--domain <領域名>、--pricing 或 --report 查看詳細內容。");
   } else {
-    console.log(`未知指令: ${command}。可用指令: briefing | pitch`);
+    console.log(`未知指令: ${command}。可用指令: briefing | pitch | simulation | search`);
   }
 }
 

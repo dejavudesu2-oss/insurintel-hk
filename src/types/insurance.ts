@@ -315,7 +315,8 @@ export type ScenarioAgentType =
   | "retirement_tax"    // 👴 退休年金與稅務優化 (QDAP)
   | "instant_comms"     // 💬 微信/WhatsApp 極速追客速遞
   | "cashless_medical"  // 💼 高端醫療 / 出院免找數直付速查
-  | "offline_resilience"; // 📴 無網/地庫離線彈性韌性
+  | "offline_resilience" // 📴 無網/地庫離線彈性韌性
+  | "simulation_100";   // 💯 100場真實日常展業多維AI代理模擬
 
 export interface CashlessMedicalOutput {
   scenario: "cashless_medical";
@@ -418,3 +419,104 @@ export interface OfflineStatusOutput {
   localStoreKeys: string[];
 }
 
+
+
+/**
+ * GN16 分紅實現率 (Fulfillment Ratio) 歷史點數據
+ */
+export interface GN16YearlyPoint {
+  policyYear: number;
+  calendarYear: number;
+  illustratedAnnualDividendUSD: number;
+  actualAnnualDividendUSD: number;
+  annualFulfillmentRatioPct: number;
+  illustratedTerminalBonusUSD: number;
+  actualTerminalBonusUSD: number;
+  terminalFulfillmentRatioPct: number;
+  illustratedTotalCashValueUSD: number;
+  actualTotalCashValueUSD: number;
+  totalFulfillmentRatioPct: number;
+}
+
+/**
+ * 某個投保年份對應的歷史紅利達成記錄
+ */
+export interface GN16HistoricalInceptionData {
+  inceptionYear: number;
+  currency: Currency;
+  annualPremiumUSD: number;
+  paymentPeriodYears: number;
+  overallAverageFulfillmentPct: number;
+  cumulativeIllustratedDividendUSD: number;
+  cumulativeActualDividendUSD: number;
+  cumulativeVarianceUSD: number;
+  dataPoints: GN16YearlyPoint[];
+}
+
+/**
+ * 旗艦儲蓄險產品 GN16 檔案
+ */
+export interface GN16ProductRecord {
+  productId: string;
+  productNameZh: string;
+  productNameEn: string;
+  insurerCode: InsurerCode;
+  insurerNameZh: string;
+  category: "Savings_MultiCurrency" | "WholeLife_Participating";
+  officialGN16Url: string;
+  supportedInceptionYears: number[];
+  seoKeywords: string[];
+  inceptionRecords: Record<number, GN16HistoricalInceptionData>;
+  smoothingMechanismDescription: string;
+  underlyingAssetAllocation: {
+    fixedIncomePct: number;
+    equitiesAndRealEstatePct: number;
+  };
+}
+
+export interface GN16DatabaseRoot {
+  lastUpdated: string;
+  source: string;
+  totalProductsCount: number;
+  totalInsurersCount: number;
+  insurers: Record<string, {
+    insurerCode: string;
+    insurerNameZh: string;
+    officialDisclosurePdfUrl: string;
+    gn16RegulatoryYear: number;
+  }>;
+  products: GN16ProductRecord[];
+}
+
+export interface GN16ReconciliationQuery {
+  insurerCode: string;
+  productId: string;
+  inceptionYear: number;
+  customAnnualPremiumUSD?: number;
+  tier: "retail_49" | "agent_199";
+  agentProfile?: {
+    name: string;
+    title: string;
+    licenseNumber: string;
+    agencyTeam: string;
+    phoneNumber: string;
+    avatarUrl?: string;
+  };
+}
+
+export interface GN16ReconciliationResult {
+  query: GN16ReconciliationQuery;
+  product: GN16ProductRecord;
+  data: GN16HistoricalInceptionData;
+  scaleFactor: number;
+  adjustedCumulativeIllustratedUSD: number;
+  adjustedCumulativeActualUSD: number;
+  adjustedCumulativeVarianceUSD: number;
+  averageFulfillmentRatioPct: number;
+  hasMetOrExceeded100Pct: boolean;
+  watermarkText: string;
+  canAttachAgentCard: boolean;
+  agentCardHtml?: string;
+  seoMatchedKeyword?: string;
+  summaryVerdict: string;
+}
