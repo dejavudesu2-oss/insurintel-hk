@@ -1,0 +1,16 @@
+# InsurIntel HK: Autonomous Loop Task Queue
+## BACKLOG.md
+
+| Task_ID | Priority | Category | Task Description | Machine-Checkable "Done-When" Condition | Status |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **TASK-01** | P0 | Data Provenance | Data Provenance Coverage & Automated Integrity Verification Suite | `npx tsx tests/verification_data_provenance.ts` exits with code 0 and verifies 130 records in `DATA_PROVENANCE.csv` with official URLs and dates. | OPEN |
+| **TASK-02** | P0 | Actuarial Engine | Independent IRR & Breakeven Recomputation Script & Discrepancy Audit | `node scripts/independent_irr_recomputation.js` exits with code 0 and verifies cash flow tables within 0.05% tolerance. | OPEN |
+| **TASK-03** | P0 | Compliance | Client Neutral-Wording & Twisting Prevention Guardrails Audit | `node scripts/verify_neutral_wording.js` exits with code 0 proving 0 aggressive tokens in `#client-view` and statutory disclaimers present. | OPEN |
+| **TASK-04** | P0 | UI / Demo Mode | Demo Mode with Fictional Data ("Insurer A / Insurer B") & URL Parameter Support | `node -e "const html = fs.readFileSync('dist/index.html','utf8'); assert(html.includes('保司 A (虛擬示範)')); assert(html.includes('checkPhaseBUrlParams'));"` exits with code 0. | OPEN |
+| **TASK-05** | P1 | Visual Verification | Headless Chrome High-Resolution Screenshot Pipeline & Asset Parity | `node -e "const fs = require('fs'); const shots = ['01_client_neutral_view.png','02_agent_cockpit.png','03_gn16_chart.png','04_scanner_pii_scrub.png','05_offline_mode.png','06_pricing_modal.png']; shots.forEach(s => assert(fs.statSync('dist/screenshots/' + s).size > 100000));"` exits with code 0. | OPEN |
+| **TASK-06** | P1 | Sales Assets | Swiss 10-Slide Morning Assembly Deck (.pptx & HTML) & Live Run-Sheet | `node -e "const fs = require('fs'); assert(fs.statSync('dist/morning_assembly_deck.pptx').size > 30000); assert(fs.existsSync('dist/morning_slides.html'));"` exits with code 0. | OPEN |
+| **TASK-07** | P1 | Market Validation | Single-HTML Fake-Door Waitlist Landing Page (`dist/waitlist.html`) with Pricing & Storage | `node -e "const fs = require('fs'); const html = fs.readFileSync('dist/waitlist.html','utf8'); assert(html.includes('HK$ 199')); assert(html.includes('HK$ 2,480')); assert(html.includes('handleWaitlistSubmit'));"` exits with code 0. | OPEN |
+| **TASK-08** | P1 | Customer Research | 10-Agent Past-Behavior Interview Guide & Quantified Validation Thresholds | File `VALIDATION_PLAN_AND_INTERVIEW_SCRIPT.md` exists and contains TH-01 through TH-04 thresholds and 4 interview modules. | OPEN |
+| **TASK-09** | P1 | Regulatory Legal | Legal Instructions Brief for HK Compliance Counsel on Cap. 41 & PDPO | File `LEGAL_BRIEF_HK_COMPLIANCE.md` exists and contains all 6 statutory questions for counsel. | OPEN |
+| **TASK-10** | P1 | Golden Testing | Golden Tests Reproducing 5 Official Benefit Illustrations | Owner provides 5 official insurer benefit illustration PDFs. | PARKED |
+| **TASK-11** | P0 | Regression | Full Test Suite Regression (16 Suites) & SHA-256 Parity Across Three HTML Apps | `npm test` exits with code 0 and confirms identical SHA-256 hashes across `templates/mobile_cafe_app.html`, `dist/index.html`, and `dist/cafe.html`. | OPEN |
