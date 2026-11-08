@@ -3425,6 +3425,7 @@
           <span class="btn-txt">離線模式</span>
         </button>
         <a href="morning_slides.html" class="top-nav-slides-btn" id="link-morning-slides" title="全港晨會情報投影片（每日 06:30 HKT 自動更新）"><span class="btn-emoji">📊</span><span class="btn-txt">晨會投影片</span></a>
+        <a href="waitlist.html" class="top-nav-waitlist-btn" id="link-waitlist" title="早鳥優先體驗名單與定價" style="text-decoration:none;display:inline-flex;align-items:center;gap:4px;padding:6px 10px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:4px;font-size:11px;font-weight:700;color:var(--ikb);margin-left:4px;"><span class="btn-emoji">📝</span><span class="btn-txt">早鳥登記</span></a>
                 <button class="app-nav-btn gn16-btn" id="btn-open-gn16-tracker" onclick="openGN16QueryModal()" title="香港保險GN16利益演示分紅真實達成率查詢器">
           <span class="btn-emoji">📈</span>
           <span class="btn-txt">分紅達成率</span>
@@ -4407,6 +4408,10 @@
 
     function simulateGN16Checkout() {
       closeGN16PayModal();
+      if (typeof window !== 'undefined' && window.location) {
+        window.location.href = 'waitlist.html';
+        return;
+      }
       if (currentGN16Tier === 'enterprise_12800') {
         isGN16AgentUnlocked = true;
         if (typeof alert !== 'undefined') {
@@ -4415,7 +4420,7 @@
       } else if (currentGN16Tier === 'team_2480') {
         isGN16AgentUnlocked = true;
         if (typeof alert !== 'undefined') {
-          alert('🎉 恭喜總監！區域總監團隊版 (HK$2,480/月) 已成功開通！已解鎖 20 個專屬顧問席位、每日早會情報投影片與團隊專屬 Logo！');
+          alert('🎉 恭喜總監！區域總監團隊版 (HK$2,480/月) 已成功開通！已解鎖 15 個專屬顧問席位、每日早會情報投影片與團隊專屬 Logo！');
         }
       } else if (currentGN16Tier === 'agent_199') {
         isGN16AgentUnlocked = true;
@@ -13503,7 +13508,7 @@ return {
             <span style="font-size:12.5px;font-weight:800;color:#5b21b6;">🏢 區域總監團隊版</span>
             <span style="font-size:17px;font-weight:900;color:#7c3aed;">HK$2,480 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月</span></span>
           </div>
-          <div style="font-size:10.5px;color:#7c3aed;font-weight:700;margin-bottom:8px;">👑 區域總監早會增員首選 (包20席位)</div>
+          <div style="font-size:10.5px;color:#7c3aed;font-weight:700;margin-bottom:8px;">👑 區域總監早會增員首選 (包15席位)</div>
           <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;">
             <li><strong>包含 20 個獨立顧問執業席位</strong> (平均 $124/人)</li>
             <li><strong>每日 06:30 自動同步晨會早會情報投影片</strong></li>

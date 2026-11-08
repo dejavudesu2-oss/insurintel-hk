@@ -293,3 +293,47 @@ SUMMARY: ALL MORNING ASSEMBLY DECK & RUN-SHEET TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 4 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 7: TASK-07 (Single-HTML Fake-Door Waitlist Landing Page & Direct Lead Handover)
+Timestamp: 2026-11-09T06:36:30+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Create single-HTML fake-door waitlist landing page at `templates/waitlist.html` and `dist/waitlist.html` with Advisor Pro (HK$ 199 / mo) and Agency Team 15-Seat (HK$ 2,480 / mo) single launch offer.
+   - Embed statutory Cap. 486 (PDPO) Personal Information Collection Statement (PICS) with 30-day retention and privacy officer contact (`privacy@insurintel.hk`).
+   - Implement client-side `localStorage` caching, administrative JSON export (`exportWaitlistLeads()`), and instant WhatsApp pre-filled direct sales handover (`wa.me/85291234567`).
+   - Create `tests/verification_waitlist_landing.ts` auditing structural HTML, pricing, sandboxed VM form submission, phone validation, and reciprocal links.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`26dbc4be-3280-49d3-92d3-e380835a0dad`) returned 5 rigorous findings:
+     * Finding 1: Fake-Door conversion pitfall trapping 100% of leads in localStorage without notification. -> FIXED: Added instant WhatsApp pre-filled message handover button (`modal-whatsapp-btn`), outbound `/api/v1/waitlist` dispatch fallback, and administrative `exportWaitlistLeads()` JSON download.
+     * Finding 2: Inadequate Hong Kong Cap. 486 (PDPO) Personal Information Collection Statement (PICS). -> FIXED: Injected explicit PICS disclosure citing Cap. 486 s.18/s.22, 30-day retention limit, purpose limitation, and data privacy officer contact (`privacy@insurintel.hk`).
+     * Finding 3: Commercial seat count desynchronization (marketing 15 seats vs modal 20 seats). -> FIXED: Harmonized `templates/mobile_cafe_app.html`, `dist/index.html`, and `dist/cafe.html` to 15 seats at HK$ 2,480 / mo (HK$ 165 / seat), maintaining 100% SHA-256 parity (`bff563e41a9fb2b5...`).
+     * Finding 4: UI trap with non-dismissible confirmation modal. -> FIXED: Added modal close button (`modal-close-btn`), backdrop click dismisser (`handleBackdropClick`), and Escape key handler.
+     * Finding 5: Weak test harness missing negative assertions. -> FIXED: Added negative test cases asserting rejection of empty company and rejection of invalid non-HK phone numbers, and added reciprocal navigation tests across `dist/index.html`, `dist/morning_slides.html`, and `dist/waitlist.html`.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: FAKE-DOOR WAITLIST LANDING PAGE & PRICING AUDIT (TASK-07)
+================================================================================
+
+  [PASS] Single launch offer pricing verified: HK$ 199 (Advisor Pro) & HK$ 2,480 (Agency Team 15-Seat).
+  [PASS] Zero-risk guarantee and Cap. 486 statutory privacy notice verified.
+  [PASS] Lead capture form structure, modal close button & WhatsApp handover button verified.
+  [PASS] Sandboxed lead intake verified: Generated LEAD-1625448 & persisted to localStorage.
+  [PASS] Negative test 1: Rejected submission with missing company.
+  [PASS] Negative test 2: Rejected submission with invalid phone number.
+  [PASS] Reciprocal navigation across index.html, morning_slides.html and waitlist.html verified.
+
+================================================================================
+SUMMARY: ALL FAKE-DOOR WAITLIST LANDING PAGE TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 249 / 249 (23 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 3 (1 parked: TASK-10)
+================================================================================

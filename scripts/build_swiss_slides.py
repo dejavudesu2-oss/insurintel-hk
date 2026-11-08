@@ -378,6 +378,7 @@ def compile_swiss_slides(base_html: str, target_title: str) -> str:
     # Inject toolbar with ppt-hint-link and window.print()
     toolbar_html = """<div class="toolbar" id="toolbar" style="display:flex;gap:12px;align-items:center;padding:8px 16px;background:var(--paper);border-bottom:1px solid var(--border-subtle)">
   <a href="index.html" class="top-nav-battlecard-btn" style="text-decoration:none;color:var(--accent);font-weight:700;font-size:12px;">📱 見客攻防卡</a>
+  <a href="waitlist.html" class="top-nav-waitlist-btn" style="text-decoration:none;color:#525252;font-weight:600;font-size:12px;">📝 早鳥登記</a>
   <a href="#" class="ppt-hint-link" style="display:none;" title="快捷鍵提示">快捷鍵提示</a>
   <button class="top-nav-print-btn" onclick="window.print()" style="cursor:pointer;padding:4px 8px;border-radius:4px;border:1px solid var(--border-subtle);background:#fff;font-size:11px;">🖨️ 列印 PDF</button>
 </div>"""

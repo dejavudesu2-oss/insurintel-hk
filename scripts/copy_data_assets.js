@@ -33,3 +33,11 @@ if (fs.existsSync(swSource)) {
   fs.copyFileSync(swSource, swDist);
   console.log('[AssetSync] Copied sw.js -> dist/sw.js');
 }
+
+// Copy waitlist.html
+const waitlistSource = path.join(__dirname, '..', 'templates', 'waitlist.html');
+const waitlistDist = path.join(distDir, 'waitlist.html');
+if (fs.existsSync(waitlistSource)) {
+  fs.copyFileSync(waitlistSource, waitlistDist);
+  console.log('[AssetSync] Copied waitlist.html -> dist/waitlist.html');
+}
