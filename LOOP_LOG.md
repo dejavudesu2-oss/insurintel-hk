@@ -337,3 +337,45 @@ SUMMARY: ALL FAKE-DOOR WAITLIST LANDING PAGE TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 3 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 8: TASK-08 (10-Agent Past-Behavior Interview Guide & Quantified Validation Thresholds)
+Timestamp: 2026-11-09T06:41:50+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Synchronize `VALIDATION_PLAN_AND_INTERVIEW_SCRIPT.md` to repository root with The Mom Test methodology, 4 Cantonese past-behavior interview modules, and TH-01 to TH-04 thresholds.
+   - Implement `tests/verification_validation_plan.ts` with negative assertions against speculative sales patterns, regulatory verification (GL27/GN16/Cap. 41), and executable scenario evaluator.
+   - Wire into `package.json` test harness and verify 100% pass across all 24 test suites.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`9ecbccf6-49e5-4dfa-9077-048c997840e2`) returned 4 rigorous findings:
+     * Finding 1: Blatant hypothetical pitching in Question 4.2 ("如果市面上有一個工具...你會唔會用") and leading bias in Question 4.1. -> FIXED: Purged speculative questions; replaced with retrospective spend probes and real currency pre-commitment at interview close (HK$50 FPS/PayMe deposit).
+     * Finding 2: Regulatory hallucination citing GL20 (Cybersecurity) for policy replacement/disclosures, and ignoring Tied Agent compliance restrictions. -> FIXED: Corrected citations to GL27 (Long Term Policy Replacement), GN16/GL16 (Dividend Fulfillment), and Cap. 41 Part X Code of Conduct. Bifurcated Tied Agent personal study tool positioning vs Broker/IFA multi-quote comparison.
+     * Finding 3: TH-01 cheap-talk loophole ("即場確認首月付費") and TH-03 decision dead zone (< 4 in flowchart vs >= 7 in table). -> FIXED: Mandated actual FPS deposit or verified IA intermediary license number; synchronized flowchart failure branch to `< 7人` eliminating the dead zone.
+     * Finding 4: Tautological substring-only test harness. -> FIXED: Upgraded `tests/verification_validation_plan.ts` with negative regex assertions against speculative phrasing, regulatory consistency checks, and an executable evaluator testing multiple scenario distributions.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: CUSTOMER RESEARCH INTERVIEW SCRIPT & VALIDATION PLAN (TASK-08 - HARDENED)
+================================================================================
+
+  [PASS] File verified at root: 5514 characters.
+  [PASS] Negative test passed: 0 speculative pitching patterns in interview questions.
+  [PASS] Regulatory accuracy verified: Proper citation of GL27 & GN16; zero GL20 twisting hallucinations.
+  [PASS] All 4 authentic Cantonese past-behavior interview modules verified.
+  [PASS] Success thresholds TH-01 through TH-04 verified with non-cheap-talk targets.
+  [PASS] Decision tree verified: Zero logic dead zones between TH-03 threshold and failure pivot.
+  [PASS] Executable validation evaluator passed all scenario distributions and edge conditions.
+
+================================================================================
+SUMMARY: ALL HARDENED VALIDATION PLAN TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 256 / 256 (24 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 2 (1 parked: TASK-10)
+================================================================================
