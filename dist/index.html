@@ -3458,6 +3458,16 @@
     <span>📅 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日 · 香港保監局 GN16 / 各保司官方通函及說明書核定</span>
   </div>
 
+  <!-- Demo Mode Active Indicator Banner -->
+  <div id="demo-mode-banner" class="demo-mode-banner" style="display:none;background:#fef3c7;border-bottom:1.5px solid #f59e0b;padding:8px 16px;font-size:12px;color:#92400e;text-align:center;font-weight:700;z-index:90;">
+    🧪 虛擬演示模式生效中 · 當前展示虛構方案「保司 A」vs「保司 B」，全數為合成示範數據，無真實客戶個資及真實保司名稱
+  </div>
+
+  <!-- Offline Mode Active Indicator Banner -->
+  <div id="offline-mode-banner" class="offline-mode-banner" style="display:none;background:#ecfdf5;border-bottom:1.5px solid #10b981;padding:8px 16px;font-size:12px;color:#065f46;text-align:center;font-weight:700;z-index:90;">
+    ⚡ 離線模式生效中 · 本機快取 99 款產品數據庫與精算引擎正常運作 (無須聯網)
+  </div>
+
   <!-- GN16 Fulfillment Ratio Tracker Hero Callout Bar -->
   <div class="gn16-hero-callout-bar" id="gn16-hero-callout-bar" onclick="openGN16QueryModal()">
     <div class="gn16-callout-left">
@@ -4672,10 +4682,10 @@
       }
 
       var sanitized = text
-        .replace(new RegExp('[A-Z][0-9]{6}\([0-9A-Za-z]\)', 'g'), '[HKID_PROTECTED]')
-        .replace(new RegExp('(\+852\s*)?[569][0-9]{3}\s*[0-9]{4}', 'g'), '[PHONE_PROTECTED]')
-        .replace(new RegExp('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}', 'g'), '[EMAIL_PROTECTED]')
-        .replace(new RegExp('POL-[0-9]{8}-[A-Za-z0-9]', 'g'), '[POLICY_NO_PROTECTED]')
+        .replace(/[A-Z]{1,2}[0-9]{6}\([0-9A-Za-z]\)/g, '[HKID_PROTECTED]')
+        .replace(/(?:\+852\s*)?[569][0-9]{3}\s*[0-9]{4}/g, '[PHONE_PROTECTED]')
+        .replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, '[EMAIL_PROTECTED]')
+        .replace(/POL-[0-9]{8}-[A-Za-z0-9]/g, '[POLICY_NO_PROTECTED]')
         .replace(/陳大文/g, '[CLIENT_NAME_PROTECTED]')
         .replace(/Chan Tai Man/gi, '[CLIENT_NAME_PROTECTED]');
 
@@ -4708,9 +4718,12 @@
     function checkPhaseBUrlParams() {
       try {
         if (typeof window === 'undefined' || !window.location || !window.location.search) return;
+        if (window._hasCheckedPhaseBUrlParams) return;
+        window._hasCheckedPhaseBUrlParams = true;
+
         var params = new URLSearchParams(window.location.search);
         
-        if (params.get('mode') === 'demo') {
+        if (params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true') {
           enableDemoMode();
         }
         if (params.get('view') === 'client') {
@@ -4728,7 +4741,7 @@
           openGN16QueryModal();
         }
         if (params.get('offline') === 'true') {
-          toggleOfflineMode();
+          if (!isOfflineSimulationActive) toggleOfflineMode();
         }
       } catch(e) {}
     }
@@ -9004,12 +9017,22 @@ return {
       }
 
       if (tearsheetOurLink) {
-        tearsheetOurLink.href = ourUrl;
-        tearsheetOurLink.innerHTML = '<span>📄 我方【' + ourCleanName + '】官方手冊原件 ↗</span>';
+        if (isDemoModeActive) {
+          tearsheetOurLink.href = 'javascript:void(0)';
+          tearsheetOurLink.innerHTML = '<span>📄 虛擬方案 A 示範說明書 (示範用) ↗</span>';
+        } else {
+          tearsheetOurLink.href = ourUrl;
+          tearsheetOurLink.innerHTML = '<span>📄 我方【' + ourCleanName + '】官方手冊原件 ↗</span>';
+        }
       }
       if (tearsheetRivalLink) {
-        tearsheetRivalLink.href = rivalUrl;
-        tearsheetRivalLink.innerHTML = '<span>📄 競品【' + rivalCleanName + '】官方手冊原件 ↗</span>';
+        if (isDemoModeActive) {
+          tearsheetRivalLink.href = 'javascript:void(0)';
+          tearsheetRivalLink.innerHTML = '<span>📄 虛擬方案 B 示範說明書 (示範用) ↗</span>';
+        } else {
+          tearsheetRivalLink.href = rivalUrl;
+          tearsheetRivalLink.innerHTML = '<span>📄 競品【' + rivalCleanName + '】官方手冊原件 ↗</span>';
+        }
       }
       if (tearsheetThirdLink) {
         tearsheetThirdLink.href = thirdUrl;
@@ -10000,8 +10023,8 @@ return {
       // 1v1 Battle Card Header
       const heroOur = document.getElementById('hero-our-name');
       const heroRival = document.getElementById('hero-rival-name');
-      if (heroOur) heroOur.innerText = card.hero_our_name;
-      if (heroRival) heroRival.innerText = card.hero_rival_name;
+      if (heroOur) heroOur.innerText = isDemoModeActive ? '保司 A (虛擬示範) · 旗艦多幣方案' : card.hero_our_name;
+      if (heroRival) heroRival.innerText = isDemoModeActive ? '保司 B (虛擬示範) · 環球多幣方案' : card.hero_rival_name;
 
       // 1v1 / 3-Way Spec Table Update
       if (bilateralSpecTable) {

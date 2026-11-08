@@ -160,3 +160,46 @@ Audit report stored to dist/neutral_wording_audit_report.json
    - Unverified remaining: 0
    - Backlog P0/P1 open: 7 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 4: TASK-04 (Demo Mode with Fictional Data & URL Parameter Support)
+Timestamp: 2026-11-09T05:58:45+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Implement `tests/verification_demo_mode.ts` verifying that `dist/index.html`, `dist/cafe.html`, and `templates/mobile_cafe_app.html` have `checkPhaseBUrlParams()`, fictional demo proposals for "保司 A (虛擬示範)" vs "保司 B (虛擬示範)", and simulated demo mode switcher.
+   - Verify sandboxed execution of `checkPhaseBUrlParams()` with `?mode=demo` simulating fictional proposal parsing.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`a9ef1481-a6b9-45e8-86e9-e8397c6790f5`) returned 6 rigorous findings:
+     * Finding 1: Fatal SyntaxError in `runPIIScrubber()` regex string construction (`new RegExp('(\\+852\\s*)?...')`) -> FIXED: Converted to regex literals `/(?:\\+852\\s*)?[569][0-9]{3}\\s*[0-9]{4}/g` and bracketed HKID pattern `/[A-Z]{1,2}[0-9]{6}\\([0-9A-Za-z]\\)/g`.
+     * Finding 2: Trademark leakage on interaction (reverting to real names on click) -> FIXED: Guarded `updateBattleCard()` and `updateCampSelectors()` with `isDemoModeActive`.
+     * Finding 3: Phantom DOM nodes (`#demo-mode-banner` & `#offline-mode-banner`) -> FIXED: Injected persistent banner markup directly under `.top-date-banner`.
+     * Finding 4: Documented parameter `?demo=1` unhandled & double toggle cancellation -> FIXED: Added `?demo=1` / `?demo=true` support and idempotency guard flag `window._hasCheckedPhaseBUrlParams`.
+     * Finding 5: Test coverage gaps -> FIXED: Hardened `tests/verification_demo_mode.ts` to execute `runPIIScrubber()`, verify 100% entity masking, assert HTML DOM presence of banner, and test dynamic interaction.
+     * Finding 6: Pseudocryptographic hash labeling -> FIXED: Honestly labeled checksum.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: DEMO MODE & FICTIONAL PROPOSAL DATA AUDIT (TASK-04 - HARDENED)
+================================================================================
+
+  [PASS] mobile_cafe_app.html verified for fictional demo labels, banners & helper functions.
+  [PASS] index.html verified for fictional demo labels, banners & helper functions.
+  [PASS] cafe.html verified for fictional demo labels, banners & helper functions.
+  [PASS] 100% SHA-256 parity verified across all 3 HTML targets (1e859213ce7b1596...)
+  [PASS] runPIIScrubber() executed cleanly with 100% regex masking across all PII entities.
+  [PASS] checkPhaseBUrlParams(?demo=1) activated demo mode and displayed banner.
+  [PASS] updateBattleCard() preserved demo anonymization without leaking competitor trademarks.
+
+================================================================================
+SUMMARY: ALL DEMO MODE & FICTIONAL PROPOSAL TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 226 / 226 (20 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 6 (1 parked: TASK-10)
+================================================================================
