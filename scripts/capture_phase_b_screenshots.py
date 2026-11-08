@@ -1,40 +1,72 @@
 """
 scripts/capture_phase_b_screenshots.py
-Python script to capture the 6 required screenshots using Headless Chrome
+Python script to capture the 6 required screenshots using Headless Chrome with virtual time budget
 """
 import os
 import sys
 import time
+import socket
 import subprocess
 import shutil
 import http.server
 import socketserver
 import threading
 
-PORT = 3333
-CHROME_PATH = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
 REPO_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 DIST_DIR = os.path.join(REPO_ROOT, "dist")
 SCREENSHOTS_DIR = os.path.join(DIST_DIR, "screenshots")
-ARTIFACTS_SCREENSHOTS_DIR = r"C:\Users\rain2\.gemini\antigravity\brain\1b870b1c-62ef-43c1-aaaf-3caf86d37e28\screenshots"
-TEMP_USER_DATA = r"C:\Users\rain2\AppData\Local\Temp\chrome_shot_data"
+ARTIFACTS_SCREENSHOTS_DIR = os.environ.get(
+    "ARTIFACTS_DIR",
+    r"C:\Users\rain2\.gemini\antigravity\brain\1b870b1c-62ef-43c1-aaaf-3caf86d37e28\screenshots"
+)
+TEMP_USER_DATA = os.path.join(os.environ.get("TEMP", r"C:\Users\rain2\AppData\Local\Temp"), "chrome_shot_data")
 
 os.makedirs(SCREENSHOTS_DIR, exist_ok=True)
-os.makedirs(ARTIFACTS_SCREENSHOTS_DIR, exist_ok=True)
+if os.path.exists(os.path.dirname(ARTIFACTS_SCREENSHOTS_DIR)):
+    os.makedirs(ARTIFACTS_SCREENSHOTS_DIR, exist_ok=True)
 os.makedirs(TEMP_USER_DATA, exist_ok=True)
+
+# Find an available port
+def find_available_port(start_port=3333):
+    port = start_port
+    while port < 3400:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            if s.connect_ex(('localhost', port)) != 0:
+                return port
+        port += 1
+    return 3333
+
+PORT = find_available_port(3333)
+
+# Find Chrome executable
+def find_chrome_binary():
+    candidates = [
+        r"C:\Program Files\Google\Chrome\Application\chrome.exe",
+        r"C:\Program Files (x86)\Google\Chrome\Application\chrome.exe",
+        os.path.expanduser(r"~\AppData\Local\Google\Chrome\Application\chrome.exe"),
+        shutil.which("google-chrome"),
+        shutil.which("chrome"),
+        shutil.which("chromium")
+    ]
+    for c in candidates:
+        if c and os.path.exists(c):
+            return c
+    raise FileNotFoundError("Google Chrome executable not found on host.")
+
+CHROME_PATH = find_chrome_binary()
 
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=DIST_DIR, **kwargs)
+    def log_message(self, format, *args):
+        pass # Silence server logs
 
-def start_server():
+def start_server(port):
     socketserver.TCPServer.allow_reuse_address = True
-    with socketserver.TCPServer(("", PORT), Handler) as httpd:
-        print(f"[Server] Serving {DIST_DIR} on http://localhost:{PORT}")
+    with socketserver.TCPServer(("", port), Handler) as httpd:
         httpd.serve_forever()
 
-# Start background server
-t = threading.Thread(target=start_server, daemon=True)
+t = threading.Thread(target=start_server, args=(PORT,), daemon=True)
 t.start()
 time.sleep(1)
 
@@ -71,7 +103,7 @@ TARGET_VIEWS = [
     }
 ]
 
-print(f"\n[InsurIntel Screenshot Engine] Capturing {len(TARGET_VIEWS)} high-resolution screenshots...\n")
+print(f"\n[InsurIntel Screenshot Engine] Capturing {len(TARGET_VIEWS)} high-resolution screenshots via Chrome at {CHROME_PATH} (Port: {PORT})...\n")
 
 for item in TARGET_VIEWS:
     out_file = os.path.join(SCREENSHOTS_DIR, item["name"])
@@ -84,7 +116,8 @@ for item in TARGET_VIEWS:
         "--disable-gpu",
         "--no-sandbox",
         f"--user-data-dir={TEMP_USER_DATA}",
-        "--window-size=1280,900",
+        "--window-size=1280,1100",
+        "--virtual-time-budget=3000",
         f"--screenshot={out_file}",
         item["url"]
     ]
@@ -92,10 +125,11 @@ for item in TARGET_VIEWS:
     if os.path.exists(out_file) and os.path.getsize(out_file) > 1000:
         size_kb = os.path.getsize(out_file) / 1024
         print(f"  [SUCCESS] {item['name']} ({size_kb:.1f} KB) -> {item['desc']}")
-        # Copy to artifacts directory
-        artifact_copy = os.path.join(ARTIFACTS_SCREENSHOTS_DIR, item["name"])
-        shutil.copyfile(out_file, artifact_copy)
+        # Copy to artifacts directory if exists
+        if os.path.exists(ARTIFACTS_SCREENSHOTS_DIR):
+            artifact_copy = os.path.join(ARTIFACTS_SCREENSHOTS_DIR, item["name"])
+            shutil.copyfile(out_file, artifact_copy)
     else:
         print(f"  [ERROR] Failed to capture {item['name']}. stderr: {p.stderr}")
 
-print(f"\n[InsurIntel Screenshot Engine] All screenshots saved to {SCREENSHOTS_DIR} and {ARTIFACTS_SCREENSHOTS_DIR}!")
+print(f"\n[InsurIntel Screenshot Engine] All screenshots successfully saved to {SCREENSHOTS_DIR}!")

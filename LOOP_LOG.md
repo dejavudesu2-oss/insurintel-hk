@@ -203,3 +203,46 @@ SUMMARY: ALL DEMO MODE & FICTIONAL PROPOSAL TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 6 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 5: TASK-05 (Headless Chrome High-Resolution Screenshot Pipeline & Asset Parity)
+Timestamp: 2026-11-09T06:08:45+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Implement `tests/verification_screenshots.ts` validating all 6 PNG files exist in `dist/screenshots/`, size > 100KB, PNG magic bytes, IHDR width >= 1200px and height >= 600px.
+   - Run automated verification with `npx tsx tests/verification_screenshots.ts`.
+   - Wire `"screenshots:capture"` script in `package.json`.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`99e59b30-1626-488d-8824-8af8f9ae0091`) returned 4 critical/high findings:
+     * Finding 1: Visual artifacts were broken/blank before capture: `04_scanner_pii_scrub.png` had unrendered scrubber, `05_offline_mode.png` had online toast, and `01_client_neutral_view.png` leaked trademarks in dropdowns. -> FIXED: Added `updateCampSelectors()` demo mode options (`DEMO_A` / `DEMO_B`), updated `loadSampleProposalText()` and `runPIIScrubber()` execution, and re-captured all 6 screenshots.
+     * Finding 2: Chrome headless race condition took screenshots before JS execution. -> FIXED: Added `--virtual-time-budget=3000`, `--window-size=1280,1100`, dynamic port scanning, and Chrome binary fallback locator.
+     * Finding 3: Non-portable hardcoded ephemeral conversation UUID in `tests/verification_screenshots.ts`. -> FIXED: Replaced with `process.env.ARTIFACTS_DIR` fallback and added visual diversity hash assertion.
+     * Finding 4: Heuristic blind spot & pipeline decoupling. -> FIXED: Added assertion ensuring all 6 screenshots produce distinct SHA-256 hashes (`hashes.size === shots.length`) and added `"screenshots:capture"` to `package.json`.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: HEADLESS CHROME SCREENSHOT PIPELINE & ASSET AUDIT (TASK-05)
+================================================================================
+
+  [PASS] Screenshot [1/6] 01_client_neutral_view.png: 372015 bytes | Resolution: 1280x1100 | Hash: 2d6d4f03a9... | PNG Valid
+  [PASS] Screenshot [2/6] 02_agent_cockpit.png: 373960 bytes | Resolution: 1280x1100 | Hash: 86c8a5d335... | PNG Valid
+  [PASS] Screenshot [3/6] 03_gn16_chart.png: 373960 bytes | Resolution: 1280x1100 | Hash: 84ae85c038... | PNG Valid
+  [PASS] Screenshot [4/6] 04_scanner_pii_scrub.png: 373957 bytes | Resolution: 1280x1100 | Hash: 793253368b... | PNG Valid
+  [PASS] Screenshot [5/6] 05_offline_mode.png: 369141 bytes | Resolution: 1280x1100 | Hash: bca60a2a28... | PNG Valid
+  [PASS] Screenshot [6/6] 06_pricing_modal.png: 373959 bytes | Resolution: 1280x1100 | Hash: 814767d106... | PNG Valid
+
+  [PASS] Visual Diversity Audit: All 6 screenshots have distinct SHA-256 signatures.
+
+================================================================================
+SUMMARY: ALL SCREENSHOT ASSET AUDIT TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 234 / 234 (21 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 5 (1 parked: TASK-10)
+================================================================================

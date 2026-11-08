@@ -4589,6 +4589,8 @@
       if (ourLink) ourLink.innerHTML = '<span>📄 虛擬方案 A 示範說明書 (示範用) ↗</span>';
       if (rivalLink) rivalLink.innerHTML = '<span>📄 虛擬方案 B 示範說明書 (示範用) ↗</span>';
 
+      updateCampSelectors();
+      updateBattleCard();
       showToast('🧪 已切換至虛擬示範模式：保司 A vs 保司 B (純虛構示範數據，絕無真實個資及商標爭議)');
     }
     window.enableDemoMode = enableDemoMode;
@@ -4605,6 +4607,21 @@
         demoBtn.style.color = '';
       }
 
+      var selectMy = document.getElementById('select-my-insurer');
+      var selectRival = document.getElementById('select-rival-insurer');
+      if (selectMy) {
+        if (typeof selectMy.querySelector === 'function') {
+          var optA = selectMy.querySelector('option[value="DEMO_A"]');
+          if (optA && typeof optA.remove === 'function') optA.remove();
+        }
+      }
+      if (selectRival) {
+        if (typeof selectRival.querySelector === 'function') {
+          var optB = selectRival.querySelector('option[value="DEMO_B"]');
+          if (optB && typeof optB.remove === 'function') optB.remove();
+        }
+      }
+      updateCampSelectors();
       updateBattleCard();
       showToast('已退出示範模式，恢復標準市場智庫數據');
     }
@@ -8884,9 +8901,43 @@ return {
       const myProdDisplay = document.getElementById('my-product-display');
       const rivalProdDisplay = document.getElementById('rival-product-display');
 
-      if (selectMy) selectMy.value = myCompany;
+      if (selectMy) {
+        if (isDemoModeActive) {
+          if (typeof selectMy.querySelector === 'function') {
+            if (!selectMy.querySelector('option[value="DEMO_A"]')) {
+              const opt = document.createElement('option');
+              opt.value = 'DEMO_A';
+              opt.text = '保司 A (虛擬示範)';
+              if (typeof selectMy.insertBefore === 'function') selectMy.insertBefore(opt, selectMy.firstChild);
+            }
+          }
+          selectMy.value = 'DEMO_A';
+        } else {
+          if (typeof selectMy.querySelector === 'function') {
+            const demoOpt = selectMy.querySelector('option[value="DEMO_A"]');
+            if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
+          }
+          selectMy.value = myCompany;
+        }
+      }
       if (selectRival) {
-        selectRival.value = selectedCompany;
+        if (isDemoModeActive) {
+          if (typeof selectRival.querySelector === 'function') {
+            if (!selectRival.querySelector('option[value="DEMO_B"]')) {
+              const opt = document.createElement('option');
+              opt.value = 'DEMO_B';
+              opt.text = '保司 B (虛擬示範)';
+              if (typeof selectRival.insertBefore === 'function') selectRival.insertBefore(opt, selectRival.firstChild);
+            }
+          }
+          selectRival.value = 'DEMO_B';
+        } else {
+          if (typeof selectRival.querySelector === 'function') {
+            const demoOpt = selectRival.querySelector('option[value="DEMO_B"]');
+            if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
+          }
+          selectRival.value = selectedCompany;
+        }
         Array.from(selectRival.options || []).forEach(opt => {
           opt.disabled = false;
         });
