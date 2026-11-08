@@ -100,3 +100,63 @@ SUMMARY: ALL INDEPENDENT ACTUARIAL RECOMPUTATION TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 8 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 3: TASK-03 (Client Neutral-Wording & Twisting Prevention Guardrails Audit)
+Timestamp: 2026-11-09T05:48:00+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Implement `scripts/verify_neutral_wording.js` and `tests/verification_neutral_wording.ts`.
+   - Audit `#client-view` and client exports for zero aggressive tokens and mandatory statutory disclaimers (HKIA GL20, GL27, Cap. 41).
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`7e9d95dc-4a86-471c-a3ba-1c78d1a93052`) returned 6 critical findings:
+     * Finding 1: Runtime DOM Overwrite: `updateBattleCard()` dynamically overwrote `#client-disclaimer` with unpatched legacy text. -> FIXED: Updated `getBattleCard()` disclaimer in JS runtime to full GL20/GL27 statutory disclaimer.
+     * Finding 2: Verification Scoping Flaw: Global regex bypass. -> FIXED: Hardened script to strictly scope DOM checks to `#client-view`, `#client-disclaimer`, `getBattleCard()`, and PDF/WhatsApp outputs.
+     * Finding 3: Statutory warnings missing from PDF preview & WhatsApp sharing. -> FIXED: Injected complete anti-twisting & unverified data notices into `renderClientPdfPreview()` and `copyReportWhatsApp()`.
+     * Finding 4: Twisting coaching in Bowtie comparisons (`何時能無損退保`, `零退保折損`). -> FIXED: Replaced with neutral actuarial phrasing (`何時能達到保證回本平衡點`, `按月續保 (無長期鎖定期)`).
+     * Finding 5: Combat vocabulary (`死穴`, `絕殺`, `跳水`, `噱頭`, `陷阱警示`) in client-facing text. -> FIXED: Replaced with objective comparative terminology (`客觀對比優勢`, `條款細節`, `市場浮動利率`, `重要條款提醒`).
+     * Finding 6: Conflicting dates. -> FIXED: Synchronized temporal anchors to 2026-11-09.
+
+3. Raw Verification Output:
+================================================================================
+CLIENT NEUTRAL-WORDING & TWISTING PREVENTION GUARDRAILS AUDIT (TASK-03 - HARDENED)
+Compliance Benchmarks: HKIA GL20, GL27, Cap. 41 Insurance Authority Guidelines
+================================================================================
+
+Auditing file: mobile_cafe_app.html...
+  [PASS] mobile_cafe_app.html #client-disclaimer static markup verified.
+  [PASS] mobile_cafe_app.html getBattleCard() dynamic runtime disclaimer verified.
+  [PASS] mobile_cafe_app.html client PDF report export footer verified.
+  [PASS] mobile_cafe_app.html WhatsApp sharing card anti-twisting warning verified.
+  [PASS] mobile_cafe_app.html passed all neutral-wording & anti-twisting guardrail checks.
+
+Auditing file: index.html...
+  [PASS] index.html #client-disclaimer static markup verified.
+  [PASS] index.html getBattleCard() dynamic runtime disclaimer verified.
+  [PASS] index.html client PDF report export footer verified.
+  [PASS] index.html WhatsApp sharing card anti-twisting warning verified.
+  [PASS] index.html passed all neutral-wording & anti-twisting guardrail checks.
+
+Auditing file: cafe.html...
+  [PASS] cafe.html #client-disclaimer static markup verified.
+  [PASS] cafe.html getBattleCard() dynamic runtime disclaimer verified.
+  [PASS] cafe.html client PDF report export footer verified.
+  [PASS] cafe.html WhatsApp sharing card anti-twisting warning verified.
+  [PASS] cafe.html passed all neutral-wording & anti-twisting guardrail checks.
+
+[PASS] SHA-256 parity confirmed across all 3 HTML files (c1b3aa669671e83e...)
+
+================================================================================
+AUDIT RESULT: 100% PASSED (0 Compliance Violations Across All 3 Apps & Runtime)
+Audit report stored to dist/neutral_wording_audit_report.json
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 221 / 221 (19 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 7 (1 parked: TASK-10)
+================================================================================

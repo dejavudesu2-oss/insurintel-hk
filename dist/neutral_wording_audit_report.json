@@ -1,0 +1,13 @@
+{
+  "timestamp": "2026-11-08T21:47:40.755Z",
+  "targetFiles": [
+    "mobile_cafe_app.html",
+    "index.html",
+    "cafe.html"
+  ],
+  "prohibitedAggressiveTokensAudited": 14,
+  "prohibitedTwistingTokensAudited": 8,
+  "mandatoryDisclaimersAudited": 5,
+  "totalViolations": 0,
+  "status": "PASSED"
+}
