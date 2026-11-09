@@ -89,6 +89,28 @@ assert.strictEqual(
 );
 console.log(`  [PASS] Grep across ${activeDocFiles.length} active docs/ files (excluding archive/ and EVIDENCE_TABLE.md) returned 0 hits.`);
 
+// 5. Verify U5 Clutter Removal & README.md <= 60 lines
+const forbiddenClutter = [
+  path.join(PATHS.REPO_ROOT, 'tmp'),
+  path.join(PATHS.REPO_ROOT, 'diff_mobile.txt'),
+  path.join(PATHS.REPO_ROOT, 'scripts', '__pycache__'),
+  path.join(PATHS.REPO_ROOT, 'INTAKE', 'fulfilment', 'PRU_EvergreenGrand_fulfillment.csv')
+];
+for (const clutterPath of forbiddenClutter) {
+  assert.ok(!fs.existsSync(clutterPath), `Clutter path must not exist: ${clutterPath}`);
+}
+const readmeContent = fs.readFileSync(PATHS.README, 'utf8');
+const readmeLines = readmeContent.trimEnd().split(/\r?\n/);
+assert.ok(
+  readmeLines.length <= 60,
+  `Root README.md must be <= 60 lines, found ${readmeLines.length} lines`
+);
+assert.ok(readmeContent.includes('npm run build:app'), 'README.md must include npm run build:app');
+assert.ok(readmeContent.includes('npm test'), 'README.md must include npm test');
+assert.ok(readmeContent.includes('https://dejavudesu2-oss.github.io/insurintel-hk/'), 'README.md must include live URL');
+assert.ok(readmeContent.includes('HANDOFF.md'), 'README.md must link to HANDOFF.md');
+console.log(`  [PASS] U5 Cleanup & README verified: 0 clutter files; README.md is ${readmeLines.length} lines (<= 60 cap).`);
+
 console.log('\n================================================================================');
-console.log('SUMMARY: ALL REPO MAP & SUPERSEDED DOCS ASSERTIONS PASSED (100% GREEN)');
+console.log('SUMMARY: ALL REPO MAP, SUPERSEDED DOCS & CLEANUP ASSERTIONS PASSED (100% GREEN)');
 console.log('================================================================================\n');

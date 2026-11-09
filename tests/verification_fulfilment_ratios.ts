@@ -18,11 +18,15 @@ const fulfilmentDir = path.join(__dirname, '..', 'INTAKE', 'fulfilment');
 // 1. Verify all 5 product templates exist
 const expectedTemplates = [
   'AIA_GlobalPower3_fulfillment.csv',
-  'PRU_EvergreenGrand_fulfillment.csv',
+  'PRU_Evergrowing_fulfillment.csv',
   'MANU_ManuGlobal_fulfillment.csv',
   'SUN_SunJoy_fulfillment.csv',
   'FWD_MaxFocus_fulfillment.csv'
 ];
+assert.ok(
+  !fs.existsSync(path.join(fulfilmentDir, 'PRU_EvergreenGrand_fulfillment.csv')),
+  'Duplicate PRU_EvergreenGrand_fulfillment.csv must be removed (keeping PRU_Evergrowing_fulfillment.csv)'
+);
 
 expectedTemplates.forEach(t => {
   const p = path.join(fulfilmentDir, t);

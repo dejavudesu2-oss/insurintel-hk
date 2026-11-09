@@ -36,7 +36,7 @@ if (!fs.existsSync(fulfilmentDir)) {
 
 const requiredFiles = [
   'AIA_GlobalPower3_fulfillment.csv',
-  'PRU_EvergreenGrand_fulfillment.csv',
+  'PRU_Evergrowing_fulfillment.csv',
   'MANU_ManuGlobal_fulfillment.csv',
   'SUN_SunJoy_fulfillment.csv',
   'FWD_MaxFocus_fulfillment.csv'

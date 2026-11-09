@@ -1205,3 +1205,23 @@ Status: COMPLETED (Verified Code 0)
    - Run 2 `npm run build:app`: `dist/index.html SHA-256 : 5aebdf6e3f88292a9e832353d1e8afa343976a9137532c350fba1b865c0702ab`
    - `[PASS] U4 Deterministic Build: 21 legacy scripts isolated in scripts/legacy/; two consecutive builds yielded identical SHA-256 (5aebdf6e3f88292a9e832353d1e8afa343976a9137532c350fba1b865c0702ab).`
 ================================================================================
+
+================================================================================
+RUN 5 - CYCLE 5: TASK-R5-05 (U5 REPO CLUTTER CLEANUP & 1-SCREEN README)
+Timestamp: 2026-11-10T03:35:35+08:00
+Git Branch: loop/run-5
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Remove `tmp/`, `diff_mobile.txt`, `scripts/__pycache__`, and duplicate `INTAKE/fulfilment/PRU_EvergreenGrand_fulfillment.csv` (keeping canonical `INTAKE/fulfilment/PRU_Evergrowing_fulfillment.csv`).
+   - Update `scripts/verify_fulfilment_ratios.js`, `tests/verification_fulfilment_ratios.ts`, and `INTAKE/fulfilment/README.md` to reference `PRU_Evergrowing_fulfillment.csv`.
+   - Verify 1-screen `README.md` (<= 60 lines) includes the 5-part folder map, `npm run build:app`, `npm test`, live URL (`https://dejavudesu2-oss.github.io/insurintel-hk/`), and link to `HANDOFF.md`.
+
+2. Adversarial Review Check:
+   - Added automated U5 assertions in `tests/verification_superseded_docs.ts` and `tests/verification_fulfilment_ratios.ts` enforcing that none of the clutter files or duplicate PRU CSV exist and that `README.md` stays <= 60 lines (42 lines).
+
+3. Raw Verification Output:
+   - `[PASS] Audited PRU_Evergrowing_fulfillment.csv: Header valid, 5 rows tracked.`
+   - `[PASS] Root directory hygiene verified: 12 files (<= 15 cap).`
+   - `[PASS] U5 Cleanup & README verified: 0 clutter files; README.md is 42 lines (<= 60 cap).`
+================================================================================

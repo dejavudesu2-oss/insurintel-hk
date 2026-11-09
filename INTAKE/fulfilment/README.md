@@ -28,7 +28,7 @@
 
 請將核對後的官方比率填入對應的 CSV 檔案（位於 `INTAKE/fulfilment/`）：
 * `AIA_GlobalPower3_fulfillment.csv`
-* `PRU_EvergreenGrand_fulfillment.csv`
+* `PRU_Evergrowing_fulfillment.csv`
 * `MANU_ManuGlobal_fulfillment.csv`
 * `SUN_SunJoy_fulfillment.csv`
 * `FWD_MaxFocus_fulfillment.csv`
