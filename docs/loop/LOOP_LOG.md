@@ -1154,3 +1154,33 @@ Status: COMPLETED (Verified Code 0)
    - `[PASS] All 12 docs in docs/archive/superseded/ contain the mandatory SUPERSEDED banner.`
    - `[PASS] Grep across 18 active docs/ files (excluding archive/ and EVIDENCE_TABLE.md) returned 0 hits.`
 ================================================================================
+
+================================================================================
+RUN 5 - CYCLE 3: TASK-R5-03 (U3 ONE APP SHELL & REDIRECT STUB)
+Timestamp: 2026-11-10T03:26:30+08:00
+Git Branch: loop/run-5
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Unify `templates/mobile_cafe_app.html` (`dist/index.html` and `dist/cafe.html`) with persistent top navigation bar `#unified-app-nav`: `見客攻防 | GL16 實現率 | 晨會簡報 | 掃描器 | 方案與等候名單`.
+   - Convert `templates/gn16_tracker.html` and `dist/gn16_tracker.html` from a 1.85 MB duplicate copy into a 2,163-byte (< 5 KB) SEO redirect stub to `index.html#gl16`. (Note: `dist/cafe.html` retains byte-parity with `dist/index.html` to preserve the SHA-256 parity invariant enforced across 21 existing test suites while cutting total `dist/*.html` size by 1.82 MB.)
+   - Update `templates/sw.js` and `dist/sw.js` to precache all unified views (`index.html#battlecard`, `index.html#gl16`, `index.html#briefing`, `index.html#scanner`, `index.html#pricing`, `morning_slides.html`, `waitlist.html`).
+   - Add headless Chrome DOM verification (`tests/verification_unified_app_shell.ts`) and wire into `npm test`.
+
+2. Adversarial Review Check:
+   - Positioned all secondary view modals (`#gn16-query-modal`, `#unified-briefing-modal`, `#proposal-scanner-modal`, `#gn16-pay-modal`) at `top: 56%; max-height: 78vh;` and elevated `#top-date-banner`, `#demo-mode-banner`, and `#unified-app-nav` to `z-index: 100020` so persistent navigation and External Mode Lock banners remain visible and clickable across all 5 views.
+   - Added explicit compliance headers (`External Mode Lock`, `Illustrative - not from an official illustration`, `Data as of: 2026-11-09`) inside all 4 secondary view modals in addition to the persistent top banners.
+   - Added `document.readyState === 'complete'` polling in `tests/verification_unified_app_shell.ts` to eliminate load-event race conditions during full test suite execution.
+
+3. Raw Verification Output:
+   - Before U3 `dist/*.html` sizes: `index.html` (1,879,068) + `cafe.html` (1,879,068) + `gn16_tracker.html` (1,848,667) + `morning_slides.html` (206,450) + `waitlist.html` (31,986) = 5,845,239 bytes.
+   - After U3 `dist/*.html` sizes: `index.html` (1,891,235) + `cafe.html` (1,891,235) + `gn16_tracker.html` (2,163) + `morning_slides.html` (206,438) + `waitlist.html` (31,986) = 4,023,057 bytes (-1,822,182 bytes).
+   - `[PASS] dist/gn16_tracker.html is a 2163-byte (< 5 KB) redirect stub to index.html#gl16.`
+   - `[PASS] Total dist/*.html bytes decreased from 5845239 to 4023057 (-1822182 bytes).`
+   - `[PASS] View "Battlecard" (#battlecard) reachable in 1 click via #nav-tab-battlecard; panel #agent-view visible; External Mode Lock + Illustrative banner + Data as of verified.`
+   - `[PASS] View "GL16" (#gl16) reachable in 1 click via #nav-tab-gl16; panel #gn16-query-modal visible; External Mode Lock + Illustrative banner + Data as of verified.`
+   - `[PASS] View "Briefing" (#briefing) reachable in 1 click via #nav-tab-briefing; panel #unified-briefing-modal visible; External Mode Lock + Illustrative banner + Data as of verified.`
+   - `[PASS] View "Scanner" (#scanner) reachable in 1 click via #nav-tab-scanner; panel #proposal-scanner-modal visible; External Mode Lock + Illustrative banner + Data as of verified.`
+   - `[PASS] View "Pricing" (#pricing) reachable in 1 click via #nav-tab-pricing; panel #gn16-pay-modal visible; External Mode Lock + Illustrative banner + Data as of verified.`
+   - `npm test`: Exit Code 0 (41 / 41 suites passing)
+================================================================================

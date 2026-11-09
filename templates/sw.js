@@ -4,15 +4,22 @@
  * Cache-First Strategy for Offline High-Availability & Coffee-Shop Meetings
  */
 
-const CACHE_NAME = 'insurintel-cache-v1';
+const CACHE_NAME = 'insurintel-cache-v5-unified';
+const UNIFIED_VIEWS = ['#battlecard', '#gl16', '#briefing', '#scanner', '#pricing'];
 const PRECACHE_URLS = [
   './',
   './index.html',
   './cafe.html',
+  './gn16_tracker.html',
   './morning_slides.html',
   './waitlist.html',
   './index.html?mode=demo',
-  './cafe.html?mode=demo'
+  './cafe.html?mode=demo',
+  './index.html#battlecard',
+  './index.html#gl16',
+  './index.html#briefing',
+  './index.html#scanner',
+  './index.html#pricing'
 ];
 
 self.addEventListener('install', (event) => {

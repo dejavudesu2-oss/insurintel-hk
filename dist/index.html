@@ -2940,12 +2940,12 @@
     .gn16-query-backdrop.open { display: block; }
     .gn16-query-modal {
       position: fixed;
-      top: 50%;
+      top: 56%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.95);
       width: 95%;
       max-width: 820px;
-      max-height: 90vh;
+      max-height: 78vh;
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
@@ -3086,11 +3086,12 @@
     .gn16-pay-backdrop.open { display: block; }
     .gn16-pay-modal {
       position: fixed;
-      top: 50%;
+      top: 56%;
       left: 50%;
       transform: translate(-50%, -50%) scale(0.95);
       width: 92%;
       max-width: 650px;
+      max-height: 78vh;
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
@@ -3455,19 +3456,28 @@
   </header>
 
   <!-- Top App Sub-Bar / Prominent Audit Stamp -->
-  <div class="top-date-banner" id="top-date-banner">
-    <span>📅 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日 · 香港保監局 GL16 (GN16) / 各保司官方通函及說明書核定</span>
+  <div class="top-date-banner" id="top-date-banner" style="position:relative;z-index:100020;">
+    <span>📅 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日 (Data as of: 2026-11-09) · 香港保監局 GL16 (GN16) / 各保司官方通函及說明書核定 · Illustrative - not from an official illustration</span>
   </div>
 
   <!-- Demo Mode Active Indicator Banner -->
-  <div id="demo-mode-banner" class="demo-mode-banner" style="display:none;background:#fef3c7;border-bottom:1.5px solid #f59e0b;padding:8px 16px;font-size:12px;color:#92400e;text-align:center;font-weight:700;z-index:90;">
-    🧪 虛擬演示模式生效中 · 當前展示虛構方案「保司 A」vs「保司 B」，全數為合成示範數據，無真實客戶個資及真實保司名稱
+  <div id="demo-mode-banner" class="demo-mode-banner" style="display:none;background:#fef3c7;border-bottom:1.5px solid #f59e0b;padding:8px 16px;font-size:12px;color:#92400e;text-align:center;font-weight:700;position:relative;z-index:100020;">
+    🧪 虛擬演示模式生效中 (External Mode Lock) · 當前展示虛構方案「保司 A」vs「保司 B」，全數為合成示範數據，無真實客戶個資及真實保司名稱 · Illustrative - not from an official illustration · Data as of: 2026-11-09
   </div>
 
   <!-- Offline Mode Active Indicator Banner -->
-  <div id="offline-mode-banner" class="offline-mode-banner" style="display:none;background:#ecfdf5;border-bottom:1.5px solid #10b981;padding:8px 16px;font-size:12px;color:#065f46;text-align:center;font-weight:700;z-index:90;">
+  <div id="offline-mode-banner" class="offline-mode-banner" style="display:none;background:#ecfdf5;border-bottom:1.5px solid #10b981;padding:8px 16px;font-size:12px;color:#065f46;text-align:center;font-weight:700;position:relative;z-index:100020;">
     ⚡ 離線模式生效中 · 本機快取 99 款產品數據庫與精算引擎正常運作 (無須聯網)
   </div>
+
+  <!-- Unified App Shell 5-View Persistent Navigation Bar -->
+  <nav id="unified-app-nav" class="unified-app-nav" role="navigation" aria-label="Unified App Views" style="position:sticky;top:0;z-index:100020;background:#ffffff;border-bottom:2px solid #cbd5e1;padding:6px 12px;display:flex;gap:6px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,47,167,0.08);">
+    <button type="button" id="nav-tab-battlecard" class="unified-nav-tab active" data-view="battlecard" onclick="switchUnifiedView('battlecard')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #002FA7;background:#002FA7;color:#ffffff;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">⚔️ 見客攻防</button>
+    <button type="button" id="nav-tab-gl16" class="unified-nav-tab" data-view="gl16" onclick="switchUnifiedView('gl16')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">📊 GL16 實現率</button>
+    <button type="button" id="nav-tab-briefing" class="unified-nav-tab" data-view="briefing" onclick="switchUnifiedView('briefing')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">🌅 晨會簡報</button>
+    <button type="button" id="nav-tab-scanner" class="unified-nav-tab" data-view="scanner" onclick="switchUnifiedView('scanner')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">📄 掃描器</button>
+    <button type="button" id="nav-tab-pricing" class="unified-nav-tab" data-view="pricing" onclick="switchUnifiedView('pricing')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">💎 方案與等候名單</button>
+  </nav>
 
   <!-- GN16 Fulfillment Ratio Tracker Hero Callout Bar -->
   <div class="gn16-hero-callout-bar" id="gn16-hero-callout-bar" onclick="openGN16QueryModal()">
@@ -13527,6 +13537,98 @@ return {
       } catch(e){}
     }
 
+    function openUnifiedBriefingModal() {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('unified-briefing-modal');
+      const backdrop = document.getElementById('unified-briefing-backdrop');
+      if (modal && modal.style) {
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+      }
+      if (backdrop && backdrop.style) {
+        backdrop.style.display = 'block';
+      }
+    }
+    window.openUnifiedBriefingModal = openUnifiedBriefingModal;
+
+    function closeUnifiedBriefingModal() {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('unified-briefing-modal');
+      const backdrop = document.getElementById('unified-briefing-backdrop');
+      if (modal && modal.style) {
+        modal.style.display = 'none';
+      }
+      if (backdrop && backdrop.style) {
+        backdrop.style.display = 'none';
+      }
+    }
+    window.closeUnifiedBriefingModal = closeUnifiedBriefingModal;
+
+    function switchUnifiedView(view, skipHashUpdate) {
+      try {
+        const validViews = ['battlecard', 'gl16', 'briefing', 'scanner', 'pricing'];
+        const v = validViews.includes(view) ? view : 'battlecard';
+        if (typeof document !== 'undefined') {
+          validViews.forEach(function(tabKey) {
+            const btn = document.getElementById('nav-tab-' + tabKey);
+            if (btn) {
+              const isActive = (tabKey === v);
+              if (btn.classList) btn.classList.toggle('active', isActive);
+              if (btn.setAttribute) btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+              if (btn.style) {
+                btn.style.background = isActive ? '#002FA7' : '#f8fafc';
+                btn.style.color = isActive ? '#ffffff' : '#1e293b';
+                btn.style.borderColor = isActive ? '#002FA7' : '#cbd5e1';
+              }
+            }
+          });
+        }
+        // Close all secondary view modals first
+        closeGN16QueryModal();
+        closeUnifiedBriefingModal();
+        closeProposalScannerModal();
+        closeGN16PayModal();
+
+        if (v === 'gl16') {
+          openGN16QueryModal();
+        } else if (v === 'briefing') {
+          openUnifiedBriefingModal();
+        } else if (v === 'scanner') {
+          openProposalScannerModal();
+          loadSampleProposalText();
+          runPIIScrubber();
+        } else if (v === 'pricing') {
+          openGN16PayModal();
+        }
+        if (!skipHashUpdate && typeof window !== 'undefined' && window.history && window.history.replaceState) {
+          try {
+            window.history.replaceState(null, '', '#' + v);
+          } catch (e) {}
+        }
+      } catch (e) {}
+    }
+    window.switchUnifiedView = switchUnifiedView;
+
+    function handleUnifiedHashRoute() {
+      try {
+        if (typeof window === 'undefined' || !window.location) return;
+        const rawHash = String(window.location.hash || '').replace(/^#/, '').trim().toLowerCase();
+        if (!rawHash) return;
+        if (rawHash === 'gl16' || rawHash === 'gn16') {
+          switchUnifiedView('gl16', true);
+        } else if (rawHash === 'briefing' || rawHash === 'morning' || rawHash === 'slides') {
+          switchUnifiedView('briefing', true);
+        } else if (rawHash === 'scanner') {
+          switchUnifiedView('scanner', true);
+        } else if (rawHash === 'pricing' || rawHash === 'waitlist') {
+          switchUnifiedView('pricing', true);
+        } else if (rawHash === 'battlecard' || rawHash === 'cafe') {
+          switchUnifiedView('battlecard', true);
+        }
+      } catch (e) {}
+    }
+    window.handleUnifiedHashRoute = handleUnifiedHashRoute;
+
     // Initial Trigger on load
     window.addEventListener('DOMContentLoaded', () => {
       initCompatibility();
@@ -13538,6 +13640,7 @@ return {
       initGN16Controls();
       checkGN16UrlParams();
       checkPhaseBUrlParams();
+      handleUnifiedHashRoute();
     });
     // Fallback immediate trigger
     initCompatibility();
@@ -13549,6 +13652,7 @@ return {
     initGN16Controls();
     checkGN16UrlParams();
     checkPhaseBUrlParams();
+    handleUnifiedHashRoute();
   </script>
 
   <!-- Client-Facing PDF Report & WhatsApp/WeChat Pitch Card Modal -->
@@ -13637,7 +13741,7 @@ return {
       <button class="drawer-close-btn" onclick="closeGN16QueryModal()" aria-label="關閉對賬器">✕</button>
     </div>
     <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
-      <span>⚠️ 示範數據提示：實現率摘自保監局歷史通函存檔，本模擬試算非官方利益說明書認證</span>
+      <span>⚠️ 示範數據提示 (External Mode Lock)：實現率摘自保監局歷史通函存檔，本模擬試算非官方利益說明書認證 · Data as of: 2026-11-09</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
     </div>
     <div class="gn16-query-body">
@@ -13735,6 +13839,42 @@ return {
     </div>
   </div>
 
+  <!-- Unified Briefing View Modal (#briefing) -->
+  <div id="unified-briefing-backdrop" onclick="closeUnifiedBriefingModal()" style="display:none;position:fixed;inset:0;background:rgba(15,23,42,0.65);z-index:10000;backdrop-filter:blur(4px);"></div>
+  <div id="unified-briefing-modal" role="dialog" aria-modal="true" aria-labelledby="unified-briefing-heading" style="display:none;position:fixed;top:56%;left:50%;transform:translate(-50%,-50%);width:94%;max-width:860px;max-height:78vh;background:#ffffff;border-radius:16px;box-shadow:0 25px 50px rgba(0,0,0,0.3);z-index:10001;overflow:hidden;flex-direction:column;border:1px solid #cbd5e1;">
+    <div style="padding:14px 20px;background:linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:15px;font-weight:800;" id="unified-briefing-heading">🌅 07:00 HKT 區域總監晨會情報簡報 (Morning Briefing Deck)</div>
+        <div style="font-size:11px;opacity:0.9;margin-top:2px;">每日 06:30 HKT 完成編譯 · 07:00 HKT 自動同步晨會投影片 · 覆蓋 GL16 實現率走廊與 GL27 操守指引</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeUnifiedBriefingModal()" aria-label="關閉晨會簡報">✕</button>
+    </div>
+    <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+      <span>🔒 External Mode Lock · 虛擬示範模式生效中 (保司 A vs 保司 B) · Data as of: 2026-11-09</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
+    </div>
+    <div style="padding:18px 20px;overflow-y:auto;background:#f8fafc;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:12px;margin-bottom:14px;">
+        <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;">
+          <div style="font-size:11px;font-weight:800;color:#002FA7;margin-bottom:4px;">📊 焦點 1：GL16 (GN16) 紅利實現率走廊</div>
+          <div style="font-size:11.5px;color:#334155;line-height:1.5;">晨會拆解各分紅系列復歸紅利與終期紅利歷史實現率走廊，區分合約保證現金價值回本與預期非保證回本。</div>
+        </div>
+        <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;">
+          <div style="font-size:11px;font-weight:800;color:#059669;margin-bottom:4px;">🏛️ 焦點 2：《稅務條例》Cap. 112 扣稅基準</div>
+          <div style="font-size:11.5px;color:#334155;line-height:1.5;">合資格延期年金 (QDAP) 法定每年最高稅務扣除額 HK$60,000（按 17% 邊際稅率最高實質節稅 HK$10,200）。</div>
+        </div>
+        <div style="background:#ffffff;border:1px solid #e2e8f0;border-radius:10px;padding:12px;">
+          <div style="font-size:11px;font-weight:800;color:#b45309;margin-bottom:4px;">⚖️ 焦點 3：HKIA 操守守則與 GL27 反轉保提示</div>
+          <div style="font-size:11.5px;color:#334155;line-height:1.5;">嚴格遵守《持牌保險中介人操守守則》及 GL27 轉保風險提示，外部展示鎖定虛構示範方案（保司 A vs 保司 B）。</div>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:12px 16px;">
+        <div style="font-size:12px;color:#1e3a8a;font-weight:700;">📽️ 完整 10 頁橫向大屏晨會投影片 (16:9 Swiss Grid Deck) 已就緒</div>
+        <a href="morning_slides.html" id="briefing-open-slides-link" style="padding:8px 16px;background:#002FA7;color:#ffffff;border-radius:8px;font-size:12px;font-weight:800;text-decoration:none;display:inline-flex;align-items:center;gap:6px;">📊 開啟全屏晨會投影片 (morning_slides.html) ➔</a>
+      </div>
+    </div>
+  </div>
+
   <!-- GN16 Monetization / Pay Modal ($49 vs $199) -->
   <div class="gn16-pay-backdrop" id="gn16-pay-backdrop" onclick="closeGN16PayModal()"></div>
   <div class="gn16-pay-modal" id="gn16-pay-modal" role="dialog" aria-modal="true" aria-labelledby="gn16-pay-heading">
@@ -13745,7 +13885,11 @@ return {
       </div>
       <button class="drawer-close-btn" onclick="closeGN16PayModal()">✕</button>
     </div>
-    <div style="padding:20px;overflow-y:auto;max-height:80vh;">
+    <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+      <span>🔒 External Mode Lock · 商業定價假設與等候名單 · Data as of: 2026-11-09</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
+    </div>
+    <div style="padding:20px;overflow-y:auto;max-height:72vh;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
         <!-- Option 1: HK$49 Retail -->
         <div class="gn16-tier-card" id="gn16-tier-retail" onclick="selectGN16Tier('retail_49')">
@@ -13834,7 +13978,10 @@ return {
       <button onclick="simulateGN16Checkout()" style="width:100%;padding:12px;background:#002FA7;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,47,167,0.25);">
         💳 模擬安全支付並立即生效
       </button>
-      <div style="text-align:center;font-size:10.5px;color:#94a3b8;margin-top:8px;">
+      <div style="text-align:center;margin-top:8px;">
+        <a href="waitlist.html" id="pricing-open-waitlist-link" style="font-size:11.5px;color:#002FA7;font-weight:800;text-decoration:underline;">📝 前往完整早鳥優先體驗等候名單 (waitlist.html) ➔</a>
+      </div>
+      <div style="text-align:center;font-size:10.5px;color:#94a3b8;margin-top:6px;">
         支援 Apple Pay · Google Pay · 轉數快 (FPS) · 信用卡 · 即時開通
       </div>
     </div>
@@ -13931,7 +14078,7 @@ return {
 
   <!-- Proposal Scanner & Client-Side PII Scrubber Modal (PDPO Cap. 486 & GL26) -->
   <div class="proposal-scanner-backdrop" id="proposal-scanner-backdrop" onclick="closeProposalScannerModal()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.65);z-index:10000;backdrop-filter:blur(3px);"></div>
-  <div class="proposal-scanner-modal" id="proposal-scanner-modal" role="dialog" aria-modal="true" aria-labelledby="scanner-modal-heading" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:960px;max-height:90vh;background:#ffffff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.35);z-index:10001;overflow:hidden;flex-direction:column;border:1px solid #cbd5e1;">
+  <div class="proposal-scanner-modal" id="proposal-scanner-modal" role="dialog" aria-modal="true" aria-labelledby="scanner-modal-heading" style="display:none;position:fixed;top:56%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:960px;max-height:78vh;background:#ffffff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.35);z-index:10001;overflow:hidden;flex-direction:column;border:1px solid #cbd5e1;">
     <div style="padding:16px 20px;background:linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;">
       <div>
         <div style="font-size:15px;font-weight:900;" id="scanner-modal-heading">📄 AI 計劃書智能掃描解析器 · 客戶端個資脫敏 (Client-Side PII Scrubber)</div>
@@ -13939,7 +14086,11 @@ return {
       </div>
       <button onclick="closeProposalScannerModal()" style="color:#ffffff;background:rgba(255,255,255,0.2);border:none;border-radius:6px;padding:4px 8px;cursor:pointer;">✕</button>
     </div>
-    <div style="padding:18px;overflow-y:auto;max-height:calc(90vh - 65px);">
+    <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+      <span>🔒 External Mode Lock · 前端本地正則掩碼示範 · Data as of: 2026-11-09</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
+    </div>
+    <div style="padding:18px;overflow-y:auto;max-height:calc(78vh - 95px);">
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button onclick="loadSampleProposalText()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#002FA7;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">📋 載入虛構示範計劃書樣本 (含敏感資料)</button>
         <button onclick="runPIIScrubber()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#10b981;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">🛡️ 執行客戶端即時脫敏 (Client-Side Deterministic Scrub)</button>
@@ -14002,7 +14153,7 @@ return {
   </div>
 
   <script>
-    // Ensure Phase B and GN16 URL params are evaluated after all modal DOM nodes are parsed
+    // Ensure Phase B, GN16 URL params, and Unified Hash Routes are evaluated after all modal DOM nodes are parsed
     try {
       if (typeof checkPhaseBUrlParams === 'function') {
         checkPhaseBUrlParams();
@@ -14010,12 +14161,21 @@ return {
       if (typeof checkGN16UrlParams === 'function') {
         checkGN16UrlParams();
       }
+      if (typeof handleUnifiedHashRoute === 'function') {
+        handleUnifiedHashRoute();
+      }
     } catch (e) {}
     if (typeof window !== 'undefined' && window.addEventListener) {
       window.addEventListener('load', function() {
         try {
           if (typeof checkPhaseBUrlParams === 'function') checkPhaseBUrlParams();
           if (typeof checkGN16UrlParams === 'function') checkGN16UrlParams();
+          if (typeof handleUnifiedHashRoute === 'function') handleUnifiedHashRoute();
+        } catch(e) {}
+      });
+      window.addEventListener('hashchange', function() {
+        try {
+          if (typeof handleUnifiedHashRoute === 'function') handleUnifiedHashRoute();
         } catch(e) {}
       });
     }
