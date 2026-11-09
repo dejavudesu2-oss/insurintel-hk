@@ -14,7 +14,7 @@ export const existingCiEnrichment = {
       "心臟病及中風多次賠償設有嚴格 1 年間隔期",
       "末期疾病或非指定重疾之判定受限於專科醫生最終臨床評估"
     ],
-    official_source_attribution: "宏利人壽官方產品手冊 Ref: MANU-CI-FIRSTCARE-2026；保監局備案編號: POL-MANU-CI-2026"
+    official_source_attribution: "宏利人壽官方產品手冊 Ref: MANU-CI-FIRSTCARE-2026；[示範虛擬編號]"
   },
   "PROMO-FWD-CI-2026-Q4": {
     clause_highlights: [
@@ -29,7 +29,7 @@ export const existingCiEnrichment = {
       "多次索償保障於受保人年滿 85 歲時自動終止",
       "前 10 年贈送之額外保額於第 11 年起自動失效，需留意保額斷崖式下降"
     ],
-    official_source_attribution: "富衛人壽官方產品通函 Ref: FWD-CI-XCEL-2026-Q4；保監局核准: IA-FWD-CI-2026"
+    official_source_attribution: "富衛人壽官方產品通函 Ref: FWD-CI-XCEL-2026-Q4；[示範虛擬編號]"
   },
   "PROMO-AIA-CI-2026-Q4": {
     clause_highlights: [
@@ -44,7 +44,7 @@ export const existingCiEnrichment = {
       "AIA Vitality 會員等級需每年累積運動步數，若未達標保費折扣將逐年遞減",
       "腦退化額外支援需臨床確診為嚴重程度且無法獨立完成日常活動（ADL）"
     ],
-    official_source_attribution: "友邦保險官方通告 Ref: AIA-CI-CARE-EXTRA-2026；保監局備案: IA-AIA-CI-2026"
+    official_source_attribution: "友邦保險官方通告 Ref: AIA-CI-CARE-EXTRA-2026；[示範虛擬編號]"
   },
   "PROMO-PRU-CI-2026-Q4": {
     clause_highlights: [
@@ -59,7 +59,7 @@ export const existingCiEnrichment = {
       "基因檢測津貼需符合受保直系親屬確診指明癌症之先決觸發條件",
       "原位癌早期賠償每項器官限索償一次，並設有上限金額"
     ],
-    official_source_attribution: "保誠保險代理人通告 Ref: PRU-CI-GUARDIAN-2026；保監局認可編號: POL-PRU-CI-2026"
+    official_source_attribution: "保誠保險代理人通告 Ref: PRU-CI-GUARDIAN-2026；[示範虛擬編號]"
   },
   "PROMO-SUN-CI-2026-Q4": {
     clause_highlights: [
@@ -74,7 +74,7 @@ export const existingCiEnrichment = {
       "90 天疾病等候期內出現之病徵概不負責",
       "早期危疾預支賠償將等額扣減主要嚴重危疾之最終賠償額"
     ],
-    official_source_attribution: "永明金融官方產品簡介 Ref: SUN-CI-TOTALCARE-2026；保監局備案: IA-SUN-CI-2026"
+    official_source_attribution: "永明金融官方產品簡介 Ref: SUN-CI-TOTALCARE-2026；[示範虛擬編號]"
   },
   "PROMO-AXA-CI-2026-Q4": {
     clause_highlights: [
@@ -89,7 +89,7 @@ export const existingCiEnrichment = {
       "ICU 保障受限於入住公立或私立私家醫院之等級分類與最低留院天數",
       "保單現金價值依賴非保證紅利，提早退保退款率偏低"
     ],
-    official_source_attribution: "安盛保險官方產品備忘 Ref: AXA-CI-LOVINGCARE-2026；保監局檔案: POL-AXA-CI-2026"
+    official_source_attribution: "安盛保險官方產品備忘 Ref: AXA-CI-LOVINGCARE-2026；[示範虛擬編號]"
   },
   "PROMO-YF-CI-2026-Q4": {
     clause_highlights: [
@@ -104,7 +104,7 @@ export const existingCiEnrichment = {
       "癌症 3 年多重等候期內若發生原發灶復發且無進一步治療，或不符合新索償定義",
       "保單所附帶之儲蓄現金價值在前 10 年積累速度較為平緩"
     ],
-    official_source_attribution: "萬通保險官方產品指南 Ref: YFL-CI-PRIME-2026；保監局核准: IA-YFL-CI-2026"
+    official_source_attribution: "萬通保險官方產品指南 Ref: YFL-CI-PRIME-2026；[示範虛擬編號]"
   },
   "PROMO-BOWTIE-CI-2026": {
     clause_highlights: [
@@ -119,7 +119,7 @@ export const existingCiEnrichment = {
       "索償必須全在線自助申報，無專屬 Agent 協助調取醫院病歷與跟進核賠爭議",
       "無多重索償架構，主要嚴重危疾一次性全額索償後保單立即終止"
     ],
-    official_source_attribution: "Bowtie 官方在線產品通告 Ref: BOWTIE-CI-EARLY-2026；保監局認可牌照: FAST-TRACK-001"
+    official_source_attribution: "Bowtie 官方在線產品通告 Ref: BOWTIE-CI-EARLY-2026；[示範虛擬編號]"
   },
   "PROMO-BOC-CI-2026-Q4": {
     clause_highlights: [
@@ -134,7 +134,7 @@ export const existingCiEnrichment = {
       "保單儲蓄回報偏向穩健低風險，長線分紅增長潛力較進取型保單稍低",
       "早期原位癌賠償金額上限為每項 30 萬港元，大額保障客戶需額外加配"
     ],
-    official_source_attribution: "中銀人壽官方產品備忘 Ref: BOCL-CI-GUARDIAN-2026；保監局登記: POL-BOCL-CI-2026"
+    official_source_attribution: "中銀人壽官方產品備忘 Ref: BOCL-CI-GUARDIAN-2026；[示範虛擬編號]"
   },
   "PROMO-AIA-CI-ABSOLUTE-2026": {
     clause_highlights: [
@@ -149,7 +149,7 @@ export const existingCiEnrichment = {
       "海外就醫安排涉及自費差額與第三方服務機構協調時差",
       "前 5 年退保現金價值折損幅度較大，需做好長期持保預算"
     ],
-    official_source_attribution: "友邦保險愛伴航官方產品通告 Ref: AIA-ONE-ABSOLUTE-2026；保監局備案: IA-AIA-ABSOLUTE"
+    official_source_attribution: "友邦保險愛伴航官方產品通告 Ref: AIA-ONE-ABSOLUTE-2026；[示範虛擬編號]"
   },
   "PROMO-PRU-CI-CIE3-2026": {
     clause_highlights: [
@@ -164,7 +164,7 @@ export const existingCiEnrichment = {
       "終期紅利派發依賴英式分紅長期滾存，短期內不具備顯著退保價值",
       "心臟病再索償需間隔滿 1 年且伴有心肌壞死客觀臨床依據"
     ],
-    official_source_attribution: "保誠危疾加護保3條款手冊 Ref: PRU-CIE3-POL-2026；保監局審批: GN16-PRU-CIE3"
+    official_source_attribution: "保誠危疾加護保3條款手冊 Ref: PRU-CIE3-POL-2026；[示範虛擬編號]"
   },
   "PROMO-MANU-CI-ACTUARY2-2026": {
     clause_highlights: [
@@ -179,7 +179,7 @@ export const existingCiEnrichment = {
       "特定性別癌症額外加碼賠償限受保人 85 歲前確診方可享有",
       "退保價值受非保證分紅波動影響，早期退保扣減率高"
     ],
-    official_source_attribution: "宏利活耀人生官方指南 Ref: MANU-ACTUARY2-2026；保監局註冊: POL-MANU-ACT2"
+    official_source_attribution: "宏利活耀人生官方指南 Ref: MANU-ACTUARY2-2026；[示範虛擬編號]"
   },
   "PROMO-FWD-CI-SUPREME-2026": {
     clause_highlights: [
@@ -194,7 +194,7 @@ export const existingCiEnrichment = {
       "多次索償保障於 85 歲後終止，非終身無限次多重",
       "早期退保保證現金價值較低，不適宜短期資金儲蓄目標"
     ],
-    official_source_attribution: "富衛危疾致諾官方產品書 Ref: FWD-CRISIS-SUPREME-2026；保監局檔案: IA-FWD-CI-SUP"
+    official_source_attribution: "富衛危疾致諾官方產品書 Ref: FWD-CRISIS-SUPREME-2026；[示範虛擬編號]"
   }
 };
 
@@ -250,7 +250,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險官方產品通告 Ref: HSBC-HG-2026-CIRC；保監局備案登記: POL-HSBC-CI-2026"
+      official_source_attribution: "滙豐保險官方產品通告 Ref: HSBC-HG-2026-CIRC；[示範虛擬編號]"
     }
   },
   {
@@ -304,7 +304,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險官方通告 Ref: HSBC-CAREPLUS-2026；保監局檔案: IA-HSBC-CI-CP"
+      official_source_attribution: "滙豐保險官方通告 Ref: HSBC-CAREPLUS-2026；[示範虛擬編號]"
     }
   },
   {
@@ -358,7 +358,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "忠意保險官方通告 Ref: GEN-LIONHEALTH-2026；保監局認可: POL-GEN-CI-2026"
+      official_source_attribution: "忠意保險官方通告 Ref: GEN-LIONHEALTH-2026；[示範虛擬編號]"
     }
   },
   {
@@ -412,7 +412,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "藍十字官方經紀業務通函 Ref: BC-CI-WELLCARE-2026；保監局登記: IA-BC-CI-2026"
+      official_source_attribution: "藍十字官方經紀業務通函 Ref: BC-CI-WELLCARE-2026；[示範虛擬編號]"
     }
   },
   {
@@ -466,7 +466,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外官方產品通告 Ref: CL-HK-CI-HEALTHJOY-2026；保監局備案: POL-CL-CI-2026"
+      official_source_attribution: "中國人壽海外官方產品通告 Ref: CL-HK-CI-HEALTHJOY-2026；[示範虛擬編號]"
     }
   },
   {
@@ -520,7 +520,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外產品手冊 Ref: CL-CI-SUPREME-2026；保監局檔案號: IA-CL-CI-SUP"
+      official_source_attribution: "中國人壽海外產品手冊 Ref: CL-CI-SUPREME-2026；[示範虛擬編號]"
     }
   },
   {
@@ -574,7 +574,7 @@ export const newCiProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "安盛保險官方通告 Ref: AXA-LOVECARE-ELITE-2026；保監局備案: POL-AXA-CI-ELITE"
+      official_source_attribution: "安盛保險官方通告 Ref: AXA-LOVECARE-ELITE-2026；[示範虛擬編號]"
     }
   }
 ];

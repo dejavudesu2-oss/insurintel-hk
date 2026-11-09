@@ -51,10 +51,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T10:00:00Z",
-      "official_source_attribution": "友邦保險高淨值業務官方通函 Ref: AIA-PB-UL-2026-01；保監局備案登記: IA-AIA-UL-2026"
+      "official_source_attribution": "友邦保險高淨值業務官方通函 Ref: AIA-PB-UL-2026-01；[示範虛擬編號]"
     },
     "clause_highlights": [
       "現行派息率高達 5.35%，保證最低派息率（Floor Rate）達 2.25%，鎖定長期安全底線",
@@ -121,10 +121,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T14:00:00Z",
-      "official_source_attribution": "宏利人壽高淨值部通告 Ref: MANU-HNW-UL-2026；保監局審核編號: POL-MANU-UL-2026"
+      "official_source_attribution": "宏利人壽高淨值部通告 Ref: MANU-HNW-UL-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "宏裕傳承萬用壽險，現行結算利率高達 5.40%，保證利率 2.00%",
@@ -191,10 +191,10 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T15:30:00Z",
-      "official_source_attribution": "永明金融高資產客戶部指南 Ref: SUN-LEGACY-UL-2026；保監局備案: IA-SUN-UL-2026"
+      "official_source_attribution": "永明金融高資產客戶部指南 Ref: SUN-LEGACY-UL-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "永明百年穩健資產管理操盤，保證最低派息率高達 2.50%，為市場最高保證底線之一",
@@ -261,10 +261,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T16:00:00Z",
-      "official_source_attribution": "富衛人壽官方高淨值通函 Ref: FWD-UL-APEX-2026；保監局核准: POL-FWD-UL-2026"
+      "official_source_attribution": "富衛人壽官方高淨值通函 Ref: FWD-UL-APEX-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "富逸傳家萬用壽險，現行派息率高達 5.45%，保證最低派息率 2.25%",
@@ -331,10 +331,10 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T17:00:00Z",
-      "official_source_attribution": "萬通保險產品手冊 Ref: YFL-UL-MASSFORTUNE-2026；保監局備案: IA-YFL-UL-2026"
+      "official_source_attribution": "萬通保險產品手冊 Ref: YFL-UL-MASSFORTUNE-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "萬通富貴萬用壽險，現行派息率 5.30%，保證最低派息率 2.20%",
@@ -405,10 +405,10 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T17:00:00Z",
-      "official_source_attribution": "保誠保險高資產部官方指南 Ref: PRU-UL-GRANDEUR-2026；保監局認可: POL-PRU-UL-2026"
+      "official_source_attribution": "保誠保險高資產部官方指南 Ref: PRU-UL-GRANDEUR-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "保誠富傳萬用壽險，現行派息率 5.35%，融資成數 82% LTV",
@@ -480,10 +480,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T17:30:00Z",
-      "official_source_attribution": "安盛保險官方通告 Ref: AXA-UL-GRANDFORTUNE-2026；保監局檔案: IA-AXA-UL-2026"
+      "official_source_attribution": "安盛保險官方通告 Ref: AXA-UL-GRANDFORTUNE-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "安盛盛世傳承萬用壽險，現行派息率 5.30%，融資成數 80% LTV",
@@ -554,10 +554,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T18:00:00Z",
-      "official_source_attribution": "中銀人壽官方備忘 Ref: BOCL-UL-GOLDENERA-2026；保監局註冊號: POL-BOCL-UL-2026"
+      "official_source_attribution": "中銀人壽官方備忘 Ref: BOCL-UL-GOLDENERA-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "中銀人壽盛世萬用壽險，依托中銀香港及中銀私人銀行，全流程一站式融資質押",
@@ -625,10 +625,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T17:30:00Z",
-      "official_source_attribution": "友邦保險高端客戶官方指南 Ref: AIA-UL-FORTUNE-ELITE-2026；保監局登記: IA-AIA-FE-2026"
+      "official_source_attribution": "友邦保險高端客戶官方指南 Ref: AIA-UL-FORTUNE-ELITE-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "友邦財富恒裕萬用壽險（Fortune Elite），頂級旗艦現行派息率達 5.45%",
@@ -696,10 +696,10 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T18:00:00Z",
-      "official_source_attribution": "保誠保險官方產品備忘 Ref: PRU-UL-PRESTIGE-2026；保監局認證: POL-PRU-PRESTIGE-2026"
+      "official_source_attribution": "保誠保險官方產品備忘 Ref: PRU-UL-PRESTIGE-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "保誠尊富萬用壽險（Prestige UL），現行派息率 5.35%，保證最低派息率 2.20%",
@@ -767,10 +767,10 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T18:30:00Z",
-      "official_source_attribution": "永明金融高淨值專屬手冊 Ref: SUN-UL-PINNACLE-2026；保監局備案: IA-SUN-PINNACLE-2026"
+      "official_source_attribution": "永明金融高淨值專屬手冊 Ref: SUN-UL-PINNACLE-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "永明耀世傳承萬用壽險（Pinnacle UL），保證最低派息率高達 2.50%，居市場天花板",
@@ -838,10 +838,10 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T19:00:00Z",
-      "official_source_attribution": "宏利人壽官方指數產品手冊 Ref: MANU-INDEX-UL-2026；保監局檔案: POL-MANU-INDEX-2026"
+      "official_source_attribution": "宏利人壽官方指數產品手冊 Ref: MANU-INDEX-UL-2026；[示範虛擬編號]"
     },
     "clause_highlights": [
       "宏利宏耀指數萬用壽險（Indexed UL），現行派息率高達 5.50%，市場頂級回報水平",
@@ -929,12 +929,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "滙豐保險官方高淨值通告 Ref: HSBC-UL-PREMIER-2026；保監局備案登記: POL-HSBC-UL-2026"
+      "official_source_attribution": "滙豐保險官方高淨值通告 Ref: HSBC-UL-PREMIER-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-premier",
+    "official_url": "https://www.hsbc.com.hk/zh-hk/insurance/products/universal-life/hsbc-premier-universal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-premier",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/hsbc-ul-premier-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-premier",
@@ -1001,12 +1001,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "滙豐保險私銀通告 Ref: HSBC-UL-PRIVILEGE-2026；保監局檔案: IA-HSBC-UL-PRIV"
+      "official_source_attribution": "滙豐保險私銀通告 Ref: HSBC-UL-PRIVILEGE-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-privilege",
+    "official_url": "https://www.hsbc.com.hk/zh-hk/insurance/products/universal-life/hsbc-privilege-universal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-privilege",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/hsbc-ul-privilege-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/hsbc-ul-privilege",
@@ -1079,12 +1079,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "忠意保險官方通告 Ref: GEN-LION-UL-2026；保監局備案登記: POL-GEN-UL-2026"
+      "official_source_attribution": "忠意保險官方通告 Ref: GEN-LION-UL-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/gen-ul-lionuniversal",
+    "official_url": "https://www.generali.com.hk/zh-hk/our-products/universal-life/generali-lionuniversal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/gen-ul-lionuniversal",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/gen-ul-lionuniversal-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/gen-ul-lionuniversal",
@@ -1157,12 +1157,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "中國人壽海外官方產品通告 Ref: CL-UL-SUPREME-2026；保監局備案: POL-CL-UL-2026"
+      "official_source_attribution": "中國人壽海外官方產品通告 Ref: CL-UL-SUPREME-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-supreme",
+    "official_url": "https://www.chinalife.com.hk/zh-hk/products/universal-life/china-life-supreme-wealth-universal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-supreme",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/cl-ul-supreme-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-supreme",
@@ -1233,12 +1233,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "中國人壽海外產品通函 Ref: CL-UL-GRANDEUR-2026；保監局登記: IA-CL-UL-GRAN"
+      "official_source_attribution": "中國人壽海外產品通函 Ref: CL-UL-GRANDEUR-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-grandeur",
+    "official_url": "https://www.chinalife.com.hk/zh-hk/products/universal-life/china-life-grandeur-universal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-grandeur",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/cl-ul-grandeur-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/cl-ul-grandeur",
@@ -1310,12 +1310,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "藍十字官方經紀業務通告 Ref: BC-UL-SOVEREIGN-2026；保監局登記: POL-BC-UL-2026"
+      "official_source_attribution": "藍十字官方經紀業務通告 Ref: BC-UL-SOVEREIGN-2026；[示範虛擬編號]"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/bc-ul-sovereign",
+    "official_url": "https://www.bluecross.com.hk/zh-hk/products/universal-life/blue-cross-sovereign-universal-life",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/bc-ul-sovereign",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/universal-life/bc-ul-sovereign-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/universal-life/bc-ul-sovereign",
@@ -1387,10 +1387,10 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "富衛人壽高淨值業務備忘 Ref: FWD-PINNACLE-UL-2026；保監局檔案: IA-FWD-UL-PIN"
+      "official_source_attribution": "富衛人壽高淨值業務備忘 Ref: FWD-PINNACLE-UL-2026；[示範虛擬編號]"
     },
     "official_url": "https://www.fwd.com.hk/zh/universal-life/fwd-ul-pinnacle",
     "official_brochure_url": "https://www.fwd.com.hk/zh/universal-life/fwd-ul-pinnacle",
@@ -1464,10 +1464,10 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
-      "official_source_attribution": "安盛保險官方通函 Ref: AXA-SOVEREIGN-UL-2026；保監局檔案: POL-AXA-UL-SOV"
+      "official_source_attribution": "安盛保險官方通函 Ref: AXA-SOVEREIGN-UL-2026；[示範虛擬編號]"
     },
     "official_url": "https://www.axa.com.hk/zh/universal-life/axa-ul-sovereign",
     "official_brochure_url": "https://www.axa.com.hk/zh/universal-life/axa-ul-sovereign",

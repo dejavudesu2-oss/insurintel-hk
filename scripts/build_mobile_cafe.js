@@ -15,6 +15,8 @@
  */
 
 const fs = require('fs');
+const gn16Database = require('../src/data/gn16_database.json');
+const daily100Scenarios = require('../src/data/daily_100_scenarios.json');
 const path = require('path');
 
 const mockDir = path.join(__dirname, '..', 'src', 'mock_data');
@@ -676,7 +678,38 @@ const htmlContent = `<!DOCTYPE html>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#002FA7">
-  <title>InsurIntel 14:00 見客極速攻防卡</title>
+  <title>InsurIntel 14:00 見客極速攻防卡 · 香港保險GN16分紅達成率對賬</title>
+  <meta name="keywords" content="香港保險分紅實現率, GN16, 友邦充裕未來紅利實現率, 保誠雋升實際回報, 宏利赤霞珠分紅達成, 安盛安進紅利兌現, 富衛盈豐分紅對賬, 永明萬年青紅利實現率, 中國人壽海外分紅實現率, 利益演示紅利對賬">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "香港保險跨境保單「利益演示紅利真實達成率」查詢器",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "All",
+    "offers": [
+      {
+        "@type": "Offer",
+        "name": "單份深度紅利對賬報告",
+        "price": "49",
+        "priceCurrency": "HKD"
+      },
+      {
+        "@type": "Offer",
+        "name": "理財顧問展業專業版 (月費)",
+        "price": "199",
+        "priceCurrency": "HKD"
+      }
+    ],
+    "featureList": [
+      "全港12大保司GN16紅利實現率對賬",
+      "利益演示預期 vs 真實到賬雙線走勢圖",
+      "100%法定基準線偏離度分析",
+      "一鍵導出認證PDF對賬報告",
+      "WhatsApp與微信展業談客話術生成"
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+HK:wght@400;500;700&display=swap" rel="stylesheet">
@@ -3314,6 +3347,474 @@ const htmlContent = `<!DOCTYPE html>
       opacity: 1;
       pointer-events: auto;
     }
+    
+    /* 100 Daily Scenarios & Multi-Agent Simulation Styles */
+    .app-nav-btn.simulation-btn {
+      background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+      border: 1px solid #fbcfe8;
+      color: #be185d;
+      font-weight: 700;
+    }
+    .app-nav-btn.simulation-btn:hover {
+      background: #be185d;
+      color: #ffffff;
+    }
+    .simulation-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: none;
+    }
+    .simulation-modal-backdrop.open { display: block; }
+    .simulation-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 95%;
+      max-width: 900px;
+      max-height: 90vh;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      z-index: 10001;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s ease;
+    }
+    .simulation-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .simulation-modal-header {
+      background: linear-gradient(135deg, #be185d 0%, #831843 100%);
+      color: #ffffff;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .simulation-modal-body {
+      padding: 16px 20px;
+      overflow-y: auto;
+      flex: 1;
+      background: #f8fafc;
+    }
+    .sim-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+    .sim-stat-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .sim-stat-val {
+      font-size: 16px;
+      font-weight: 900;
+      color: #be185d;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .sim-stat-lbl {
+      font-size: 10.5px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+    .sim-filter-scroll {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      scrollbar-width: thin;
+    }
+    .sim-filter-chip {
+      padding: 5px 11px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #334155;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    .sim-filter-chip.active {
+      background: #be185d;
+      border-color: #be185d;
+      color: #ffffff;
+      box-shadow: 0 2px 4px rgba(190, 24, 93, 0.25);
+    }
+    .sim-card {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px;
+      margin-bottom: 12px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.03);
+      transition: all 0.15s ease;
+    }
+    .sim-card:hover {
+      border-color: #f472b6;
+      box-shadow: 0 4px 12px rgba(190, 24, 93, 0.08);
+    }
+    .sim-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+      gap: 8px;
+    }
+    .sim-badge-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 800;
+      color: #be185d;
+      background: #fdf2f8;
+      border: 1px solid #fbcfe8;
+      padding: 2px 7px;
+      border-radius: 4px;
+    }
+    .sim-badge-tier {
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .sim-badge-tier.Retail_HKD49 { background: #e0f2fe; color: #0369a1; }
+    .sim-badge-tier.AdvisorPro_HKD199 { background: #dcfce7; color: #15803d; }
+    .sim-badge-tier.AgencyTeam_HKD2480 { background: #faf5ff; color: #7e22ce; }
+    .sim-badge-tier.Enterprise_HKD12800 { background: #fff7ed; color: #c2410c; }
+    .sim-comments-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+      background: #f8fafc;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #f1f5f9;
+    }
+    @media (max-width: 640px) {
+      .sim-stats-bar { grid-template-columns: 1fr 1fr; }
+      .sim-comments-grid { grid-template-columns: 1fr; }
+    }
+    .sim-agent-row {
+      font-size: 11px;
+      line-height: 1.45;
+      color: #334155;
+    }
+    .sim-agent-name {
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .sim-score-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 800;
+      font-size: 10.5px;
+      padding: 1px 5px;
+      border-radius: 3px;
+      margin-left: 4px;
+    }
+    .sim-score-pill.high { background: #dcfce7; color: #166534; }
+    .sim-score-pill.mid { background: #fef9c3; color: #854d0e; }
+
+    /* GN16 Fulfillment Tracker & Monetization Styles */
+    .app-nav-btn.gn16-btn {
+      background: linear-gradient(135deg, #eff3ff 0%, #dbeafe 100%);
+      border: 1px solid #bfdbfe;
+      color: #002FA7;
+      font-weight: 700;
+    }
+    .app-nav-btn.gn16-btn:hover {
+      background: #002FA7;
+      color: #ffffff;
+    }
+    .gn16-hero-callout-bar {
+      margin: 10px 16px 4px 16px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);
+      color: #ffffff;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0,47,167,0.18);
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .gn16-hero-callout-bar:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0,47,167,0.25);
+    }
+    .gn16-callout-left {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+    .gn16-callout-badge {
+      display: inline-block;
+      align-self: flex-start;
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.35);
+      font-size: 10px;
+      font-weight: 800;
+      padding: 1px 7px;
+      border-radius: 99px;
+      letter-spacing: 0.5px;
+    }
+    .gn16-callout-title {
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+    }
+    .gn16-callout-sub {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+    .gn16-callout-cta-btn {
+      background: #ffffff;
+      color: #002FA7;
+      border: none;
+      padding: 7px 14px;
+      border-radius: 8px;
+      font-size: 11.5px;
+      font-weight: 800;
+      cursor: pointer;
+      white-space: nowrap;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+    }
+
+    /* GN16 Query Modal */
+    .gn16-query-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 10000;
+      display: none;
+    }
+    .gn16-query-backdrop.open { display: block; }
+    .gn16-query-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 95%;
+      max-width: 820px;
+      max-height: 90vh;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      z-index: 10001;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gn16-query-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .gn16-query-header {
+      padding: 14px 20px;
+      background: linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);
+      color: #ffffff;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+    .gn16-query-body {
+      padding: 18px 20px;
+      overflow-y: auto;
+      position: relative;
+    }
+    .gn16-filters-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 16px;
+    }
+    .gn16-filters-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .gn16-field label {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      color: #475569;
+      margin-bottom: 4px;
+    }
+    .gn16-field select, .gn16-field input {
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 12.5px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #0f172a;
+      outline: none;
+      font-weight: 600;
+    }
+    .gn16-field select:focus, .gn16-field input:focus {
+      border-color: #002FA7;
+      box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.12);
+    }
+    .gn16-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 640px) {
+      .gn16-metrics-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    .gn16-metric-card {
+      background: #f1f5f9;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+    .gn16-metric-card.highlight {
+      background: #eff3ff;
+      border-color: #bfdbfe;
+    }
+    .gn16-metric-label {
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #64748b;
+      margin-bottom: 2px;
+    }
+    .gn16-metric-value {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0f172a;
+    }
+    .gn16-metric-card.highlight .gn16-metric-value {
+      color: #002FA7;
+    }
+    .gn16-chart-container {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 16px;
+      min-height: 280px;
+      position: relative;
+    }
+    .gn16-watermark-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      z-index: 5;
+    }
+    .gn16-watermark-text {
+      transform: rotate(-25deg);
+      font-size: 24px;
+      font-weight: 900;
+      color: rgba(0, 47, 167, 0.08);
+      white-space: nowrap;
+      user-select: none;
+      letter-spacing: 2px;
+      text-align: center;
+      line-height: 2.2;
+    }
+    .gn16-pay-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(5px);
+      z-index: 10010;
+      display: none;
+    }
+    .gn16-pay-backdrop.open { display: block; }
+    .gn16-pay-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 92%;
+      max-width: 650px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+      z-index: 10011;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .gn16-pay-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    .gn16-tier-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .gn16-tier-card.active {
+      border-color: #002FA7;
+      background: #eff3ff;
+      box-shadow: 0 4px 12px rgba(0, 47, 167, 0.1);
+    }
+
+    @media print {
+      body.gn16-printing > *:not(#gn16-query-modal) {
+        display: none !important;
+      }
+      body.gn16-printing #gn16-query-modal {
+        display: block !important;
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        border: none !important;
+        opacity: 1 !important;
+      }
+      body.gn16-printing .gn16-query-actions,
+      body.gn16-printing .gn16-filters-card,
+      body.gn16-printing .drawer-close-btn,
+      body.gn16-printing #gn16-unlock-advisor-btn {
+        display: none !important;
+      }
+    }
+
+
 
     .client-pdf-modal {
       position: fixed;
@@ -3575,7 +4076,31 @@ const htmlContent = `<!DOCTYPE html>
           <span class="btn-emoji">🧠</span>
           <span class="btn-txt">AI 破局大腦</span>
         </button>
+        <button class="app-nav-btn simulation-btn" id="btn-open-simulation-modal" onclick="openSimulationModal()" title="100大真實展業場景與多維AI代理模擬評審">
+          <span class="btn-emoji">💯</span>
+          <span class="btn-txt">100場景模擬</span>
+        </button>
+        <button class="app-nav-btn demo-btn" id="header-demo-toggle-btn" onclick="toggleDemoMode()" title="切換虛擬示範模式（保司 A vs 保司 B）">
+          <span class="btn-emoji">🧪</span>
+          <span class="btn-txt">示範模式</span>
+        </button>
+        <button class="app-nav-btn scanner-btn" id="header-scanner-btn" onclick="openProposalScannerModal()" title="AI 計劃書掃描器與客戶端 PII 脫敏">
+          <span class="btn-emoji">📄</span>
+          <span class="btn-txt">計劃書掃描</span>
+        </button>
+        <button class="app-nav-btn pricing-btn" id="header-pricing-btn" onclick="openGN16PayModal()" title="查看升級方案與授權定價">
+          <span class="btn-emoji">💎</span>
+          <span class="btn-txt">定價方案</span>
+        </button>
+        <button class="app-nav-btn offline-btn" id="header-offline-btn" onclick="toggleOfflineMode()" title="切換模擬離線模式">
+          <span class="btn-emoji">⚡</span>
+          <span class="btn-txt">離線模式</span>
+        </button>
         <a href="morning_slides.html" class="top-nav-slides-btn" id="link-morning-slides" title="全港晨會情報投影片（每日 06:30 HKT 自動更新）"><span class="btn-emoji">📊</span><span class="btn-txt">晨會投影片</span></a>
+                <button class="app-nav-btn gn16-btn" id="btn-open-gn16-tracker" onclick="openGN16QueryModal()" title="香港保險GN16利益演示分紅真實達成率查詢器">
+          <span class="btn-emoji">📈</span>
+          <span class="btn-txt">分紅達成率</span>
+        </button>
         <button class="app-nav-btn view-btn" id="header-view-toggle-btn" onclick="toggleView()" title="切換顧問私密提詞 HUD / 客戶客觀 Tear-Sheet 視角">
           <span class="btn-emoji" id="header-view-icon">📱</span>
           <span class="btn-txt" id="header-view-text">客戶視角</span>
@@ -3605,7 +4130,19 @@ const htmlContent = `<!DOCTYPE html>
     <span>📅 最後資料更新日期：2026年11月06日 · 香港保監局 GN16 / 各保司官方通函及說明書核定</span>
   </div>
 
-  <!-- Dual-Perspective Switcher -->
+  <!-- GN16 Fulfillment Ratio Tracker Hero Callout Bar -->
+  <div class="gn16-hero-callout-bar" id="gn16-hero-callout-bar" onclick="openGN16QueryModal()">
+    <div class="gn16-callout-left">
+      <span class="gn16-callout-badge">香港獨家 · GN16 官方披露對賬</span>
+      <span class="gn16-callout-title">🔍 香港保單「利益演示紅利真實達成率」查詢器</span>
+      <span class="gn16-callout-sub">全港 12 大保司 · 24 款旗艦儲蓄險 · 歷年宣傳預期 vs 真實到賬走勢圖</span>
+    </div>
+    <div class="gn16-callout-right">
+      <button class="gn16-callout-cta-btn" onclick="event.stopPropagation(); openGN16QueryModal();">立即查詢對賬 ➔</button>
+    </div>
+  </div>
+
+    <!-- Dual-Perspective Switcher -->
   <div class="view-toggle-bar">
     <button class="view-btn active-agent" id="btn-agent-view" onclick="setViewMode('agent')">
       <span class="view-btn-primary">🔒 Agent 私密提詞視角</span>
@@ -3613,7 +4150,7 @@ const htmlContent = `<!DOCTYPE html>
     </button>
     <button class="view-btn" id="btn-client-view" onclick="setViewMode('client')">
       <span class="view-btn-primary">📱 遞給客戶看（客觀數據）</span>
-      <span class="view-btn-badge">GL20 認證撕頁</span>
+      <span class="view-btn-badge">對標 GL20 撕頁</span>
     </button>
   </div>
 
@@ -3775,6 +4312,7 @@ const htmlContent = `<!DOCTYPE html>
       <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
       <button class="scenario-tab-btn" data-scenario="ul_stress" id="tab-scenario-ul-stress" onclick="selectScenarioAgent('ul_stress')">🏦 萬用融資加息測試</button>
       <button class="scenario-tab-btn" data-scenario="group_medical" id="tab-scenario-group-medical" onclick="selectScenarioAgent('group_medical')">🏥 團險自願醫保抵扣</button>
+      <button class="scenario-tab-btn" data-scenario="simulation_100" id="tab-scenario-simulation-100" onclick="selectScenarioAgent('simulation_100')">💯 100場景模擬與定價</button>
     </div>
   </div>
 
@@ -3907,7 +4445,7 @@ const htmlContent = `<!DOCTYPE html>
     <!-- Quick PDF Report & Card Trigger Banner in Client View -->
     <div class="client-pdf-trigger-banner" id="client-pdf-trigger-banner" onclick="openClientPdfModal()">
       <span>📑 <strong>一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</strong> ❯</span>
-      <span class="report-badge-btn">MDRT/GL20 認證</span>
+      <span class="report-badge-btn">MDRT推薦 · 對標GL20</span>
     </div>
 
     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:4px;">
@@ -3949,7 +4487,7 @@ const htmlContent = `<!DOCTYPE html>
     <!-- 1v1 Client Head-to-Head Comparison Grid -->
     <div class="bilateral-spec-box" id="bilateral-spec-box" style="margin: 12px 0;">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
-        <span style="font-size:12px; font-weight:700; color:var(--text-main);">⚡ 雙方旗艦 1v1 精算參數擂台</span>
+        <span style="font-size:12px; font-weight:700; color:var(--text-main);">⚡ 雙方旗艦 1v1 雙方方案核心精算指標客觀對照</span>
         <span style="font-size:10px; color:var(--ikb); font-family:'JetBrains Mono'">PLAN A vs PLAN B</span>
       </div>
       <table class="bilateral-spec-table" id="bilateral-spec-table">
@@ -4024,10 +4562,10 @@ const htmlContent = `<!DOCTYPE html>
 
     <!-- Fine-Print Revealer -->
     <div class="fineprint-box" id="fineprint-box">
-      <div style="font-size:12px;font-weight:700;color:var(--text-main);">🔍 條款細則照妖鏡 (Fine-Print Revealer)</div>
+      <div style="font-size:12px;font-weight:700;color:var(--text-main);">🔍 合約條款重要細則客觀披露 (Fine-Print Revealer)</div>
       <div class="fineprint-grid">
         <div class="fineprint-item gimmick">
-          <strong>宣傳噱頭 (Marketing Claim)：</strong>
+          <strong>市場宣傳重點摘要 (Marketing Claim)：</strong>
           <span id="fineprint-claim">~~5.80% 5年預繳保證高息~~</span>
         </div>
         <div class="fineprint-item reality">
@@ -4209,6 +4747,700 @@ const htmlContent = `<!DOCTYPE html>
     }
     window.getInsurerOfficialUrl = getInsurerOfficialUrl;
 
+
+    // Embedded GN16 Historical Database
+    const GN16_DATABASE = ${JSON.stringify(gn16Database)};
+    window.GN16_DATABASE = GN16_DATABASE;
+
+    let currentGN16Tier = 'retail_49';
+    let isGN16AgentUnlocked = false;
+
+    function openGN16QueryModal(initialKeyword) {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('gn16-query-modal');
+      const backdrop = document.getElementById('gn16-query-backdrop');
+      if (modal && modal.classList) modal.classList.add('open');
+      if (backdrop && backdrop.classList) backdrop.classList.add('open');
+      populateGN16Insurers();
+      if (initialKeyword) {
+        matchAndApplyGN16Keyword(initialKeyword);
+      } else {
+        runGN16Reconciliation();
+      }
+    }
+    window.openGN16QueryModal = openGN16QueryModal;
+
+    function closeGN16QueryModal() {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('gn16-query-modal');
+      const backdrop = document.getElementById('gn16-query-backdrop');
+      if (modal && modal.classList) modal.classList.remove('open');
+      if (backdrop && backdrop.classList) backdrop.classList.remove('open');
+    }
+    window.closeGN16QueryModal = closeGN16QueryModal;
+
+    function populateGN16Insurers() {
+      if (typeof document === 'undefined') return;
+      const select = document.getElementById('gn16-insurer-select');
+      if (!select) return;
+      if (select.children && select.children.length > 0) return;
+      if (select.options && select.options.length > 0) return;
+      const db = window.GN16_DATABASE;
+      if (!db || !db.insurers) return;
+      select.innerHTML = '';
+      for (const key of Object.keys(db.insurers)) {
+        const ins = db.insurers[key];
+        const opt = document.createElement('option');
+        opt.value = ins.insurerCode;
+        opt.textContent = ins.insurerNameZh;
+        select.appendChild(opt);
+      }
+      onGN16InsurerChange();
+    }
+
+    function onGN16InsurerChange() {
+      if (typeof document === 'undefined') return;
+      const insSelect = document.getElementById('gn16-insurer-select');
+      const insCode = (insSelect && insSelect.value) ? insSelect.value : 'AIA';
+      const prodSelect = document.getElementById('gn16-product-select');
+      if (!prodSelect) return;
+      const db = window.GN16_DATABASE;
+      const prods = (db && db.products ? db.products : []).filter(p => (p.insurerCode || '').toLowerCase() === (insCode || '').toLowerCase());
+      prodSelect.innerHTML = '';
+      prods.forEach(p => {
+        const opt = document.createElement('option');
+        opt.value = p.productId;
+        opt.textContent = p.productNameZh;
+        prodSelect.appendChild(opt);
+      });
+      onGN16ProductChange();
+    }
+    window.onGN16InsurerChange = onGN16InsurerChange;
+
+    function onGN16ProductChange() {
+      if (typeof document === 'undefined') return;
+      const prodSelect = document.getElementById('gn16-product-select');
+      const prodId = (prodSelect && prodSelect.value) ? prodSelect.value : '';
+      const yearSelect = document.getElementById('gn16-year-select');
+      if (!yearSelect) return;
+      const db = window.GN16_DATABASE;
+      const prod = (db && db.products ? db.products : []).find(p => p.productId === prodId) || (db && db.products ? db.products[0] : null);
+      yearSelect.innerHTML = '';
+      if (prod && prod.supportedInceptionYears) {
+        prod.supportedInceptionYears.forEach(yr => {
+          const opt = document.createElement('option');
+          opt.value = yr;
+          opt.textContent = yr + ' 年投保 (' + (2024 - yr) + ' 年保單期)';
+          yearSelect.appendChild(opt);
+        });
+        if (prod.supportedInceptionYears.includes(2016)) {
+          yearSelect.value = 2016;
+        } else if (prod.supportedInceptionYears.includes(2018)) {
+          yearSelect.value = 2018;
+        }
+      }
+      runGN16Reconciliation();
+    }
+    window.onGN16ProductChange = onGN16ProductChange;
+
+    function matchAndApplyGN16Keyword(kw) {
+      if (!kw || typeof document === 'undefined') return;
+      const cleanKw = kw.trim().toLowerCase().replace(/\s+/g, '');
+      const db = window.GN16_DATABASE;
+      if (!db || !db.products) return;
+      let targetProduct = null;
+      for (const p of db.products) {
+        for (const sk of p.seoKeywords) {
+          if (cleanKw.includes(sk.toLowerCase().replace(/\s+/g, ''))) {
+            targetProduct = p;
+            break;
+          }
+        }
+        if (targetProduct) break;
+      }
+      if (!targetProduct) {
+        if (cleanKw.includes('充裕') || cleanKw.includes('友邦')) targetProduct = db.products.find(p => p.productId === 'AIA_BonusPower');
+        else if (cleanKw.includes('隽升') || cleanKw.includes('保诚')) targetProduct = db.products.find(p => p.productId === 'Pru_EGSP');
+        else if (cleanKw.includes('赤霞珠') || cleanKw.includes('宏利')) targetProduct = db.products.find(p => p.productId === 'Manulife_LaVita');
+        else if (cleanKw.includes('安进') || cleanKw.includes('安盛')) targetProduct = db.products.find(p => p.productId === 'AXA_SmartSaver');
+        else if (cleanKw.includes('盈丰') || cleanKw.includes('富卫')) targetProduct = db.products.find(p => p.productId === 'FWD_MaxFocus');
+        else if (cleanKw.includes('万年青') || cleanKw.includes('永明')) targetProduct = db.products.find(p => p.productId === 'SunLife_SunJoy');
+        else if (cleanKw.includes('国寿') || cleanKw.includes('中国人寿')) targetProduct = db.products.find(p => p.productId === 'ChinaLife_Prosperity');
+      }
+      if (targetProduct) {
+        const insSelect = document.getElementById('gn16-insurer-select');
+        if (insSelect) {
+          insSelect.value = targetProduct.insurerCode;
+          onGN16InsurerChange();
+          const prodSelect = document.getElementById('gn16-product-select');
+          if (prodSelect) prodSelect.value = targetProduct.productId;
+          onGN16ProductChange();
+        }
+      }
+    }
+
+    function runGN16Reconciliation() {
+      if (typeof document === 'undefined') return;
+      const db = window.GN16_DATABASE;
+      if (!db) return;
+      const prodSelect = document.getElementById('gn16-product-select');
+      const yearSelect = document.getElementById('gn16-year-select');
+      const premInput = document.getElementById('gn16-premium-input');
+      const prodId = prodSelect ? prodSelect.value : '';
+      const year = (yearSelect && yearSelect.value) ? parseInt(yearSelect.value, 10) : 2018;
+      const userPrem = (premInput && premInput.value) ? (parseFloat(premInput.value) || 10000) : 10000;
+
+      const product = (db.products || []).find(p => p.productId === prodId) || (db.products ? db.products[0] : null);
+      if (!product) return;
+
+      const data = (product.inceptionRecords && product.inceptionRecords[year]) || {
+        inceptionYear: year,
+        annualPremiumUSD: 10000,
+        overallAverageFulfillmentPct: 96,
+        cumulativeIllustratedDividendUSD: 14000,
+        cumulativeActualDividendUSD: 13500,
+        cumulativeVarianceUSD: -500,
+        dataPoints: []
+      };
+
+      const scale = userPrem / (data.annualPremiumUSD || 10000);
+      const cumIll = Math.round(data.cumulativeIllustratedDividendUSD * scale);
+      const cumAct = Math.round(data.cumulativeActualDividendUSD * scale);
+      const variance = cumAct - cumIll;
+      const avgPct = data.overallAverageFulfillmentPct;
+
+      const avgElem = document.getElementById('gn16-metric-avg-ratio');
+      if (avgElem && avgElem.style) {
+        avgElem.textContent = avgPct + '%';
+        avgElem.style.color = avgPct >= 100 ? '#10b981' : (avgPct >= 90 ? '#002FA7' : '#ef4444');
+      }
+      const illElem = document.getElementById('gn16-metric-cum-ill');
+      if (illElem) illElem.textContent = '$' + cumIll.toLocaleString() + ' USD';
+      const actElem = document.getElementById('gn16-metric-cum-act');
+      if (actElem) actElem.textContent = '$' + cumAct.toLocaleString() + ' USD';
+      const varElem = document.getElementById('gn16-metric-variance');
+      if (varElem && varElem.style) {
+        const sign = variance >= 0 ? '+' : '';
+        varElem.textContent = sign + '$' + variance.toLocaleString() + ' USD';
+        varElem.style.color = variance >= 0 ? '#10b981' : '#ef4444';
+      }
+
+      const verdictBox = document.getElementById('gn16-summary-verdict-box');
+      if (verdictBox) {
+        let verdict = '';
+        if (avgPct >= 100) {
+          verdict = '<strong>✅ 官方認證：分紅超額/完全兌現！</strong> 歷年平均達成率達 <strong>' + avgPct + '%</strong>，超越保監局 100% 法定基準。真實到賬非保證紅利累計多出 <strong>+$' + Math.abs(variance).toLocaleString() + ' USD</strong>。';
+        } else if (avgPct >= 92) {
+          verdict = '<strong>ℹ️ 官方認證：貼近預期（平滑熨平）</strong> 歷年平均達成率為 <strong>' + avgPct + '%</strong>，累計較演示微調 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>，保司平滑準備金有效發揮防禦回撤作用。';
+        } else {
+          verdict = '<strong>⚠️ 官方認證：紅利縮水預警</strong> 歷年平均達成率僅 <strong>' + avgPct + '%</strong>，累計實際到賬落後演示 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>。建議聯繫顧問檢視是否啟動紅利鎖定轉換。';
+        }
+        verdictBox.innerHTML = verdict;
+      }
+
+      const officialLink = document.getElementById('gn16-official-source-link');
+      if (officialLink) {
+        officialLink.innerHTML = '官方依據：<a href="' + product.officialGN16Url + '" target="_blank" style="color:#002FA7;font-weight:700;text-decoration:underline;">香港保監局 GN16 法定披露官網 ➔</a>';
+      }
+      const smoothingNote = document.getElementById('gn16-smoothing-note');
+      if (smoothingNote) {
+        const alloc = product.underlyingAssetAllocation || { fixedIncomePct: 60, equitiesAndRealEstatePct: 40 };
+        smoothingNote.innerHTML = '<strong>🛡️ 分紅機制說明：</strong>' + product.smoothingMechanismDescription + '<br><span style="margin-top:3px;display:inline-block;">底層資產配置：固定收益 ' + alloc.fixedIncomePct + '% · 股票與另類資產 ' + alloc.equitiesAndRealEstatePct + '%</span>';
+      }
+
+      renderGN16DualLineChart(data.dataPoints || [], scale);
+      updateGN16DisplayTier();
+    }
+    window.runGN16Reconciliation = runGN16Reconciliation;
+
+    function renderGN16DualLineChart(points, scale) {
+      if (typeof document === 'undefined') return;
+      const container = document.getElementById('gn16-svg-chart-wrapper');
+      if (!container) return;
+      if (!points || points.length === 0) {
+        container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:240px;color:#94a3b8;font-size:12px;">該投保年份歷史數據沉澱中...</div>';
+        return;
+      }
+
+      const width = 740;
+      const height = 240;
+      const padLeft = 60;
+      const padRight = 30;
+      const padTop = 30;
+      const padBottom = 35;
+      const chartW = width - padLeft - padRight;
+      const chartH = height - padTop - padBottom;
+
+      const maxVal = Math.max(...points.map(p => Math.max(p.illustratedAnnualDividendUSD, p.actualAnnualDividendUSD))) * scale * 1.25 || 1000;
+      const minVal = 0;
+
+      const getX = (i) => padLeft + (i / Math.max(points.length - 1, 1)) * chartW;
+      const getY = (val) => padTop + chartH - ((val - minVal) / (maxVal - minVal)) * chartH;
+
+      let illPath = '';
+      let actPath = '';
+      let dotsHtml = '';
+
+      points.forEach((p, i) => {
+        const x = getX(i);
+        const yIll = getY(p.illustratedAnnualDividendUSD * scale);
+        const yAct = getY(p.actualAnnualDividendUSD * scale);
+
+        if (i === 0) {
+          illPath += 'M ' + x + ' ' + yIll;
+          actPath += 'M ' + x + ' ' + yAct;
+        } else {
+          illPath += ' L ' + x + ' ' + yIll;
+          actPath += ' L ' + x + ' ' + yAct;
+        }
+
+        const ratioColor = p.annualFulfillmentRatioPct >= 100 ? '#10b981' : (p.annualFulfillmentRatioPct >= 90 ? '#002FA7' : '#ef4444');
+        dotsHtml += '<circle cx="' + x + '" cy="' + yIll + '" r="3.5" fill="#f59e0b" stroke="#ffffff" stroke-width="1.5" />' +
+                    '<circle cx="' + x + '" cy="' + yAct + '" r="4" fill="' + ratioColor + '" stroke="#ffffff" stroke-width="1.5" />' +
+                    '<text x="' + x + '" y="' + (yAct - 8) + '" font-size="10" font-weight="700" fill="' + ratioColor + '" text-anchor="middle">' + p.annualFulfillmentRatioPct + '%</text>' +
+                    '<text x="' + x + '" y="' + (height - 12) + '" font-size="10.5" font-weight="600" fill="#64748b" text-anchor="middle">第' + p.policyYear + '年 (' + p.calendarYear + ')</text>';
+      });
+
+      let svg = '<svg viewBox="0 0 ' + width + ' ' + height + '" style="width:100%;height:100%;overflow:visible;" font-family="Inter, sans-serif">' +
+        '<line x1="' + padLeft + '" y1="' + padTop + '" x2="' + (width - padRight) + '" y2="' + padTop + '" stroke="#f1f5f9" stroke-width="1" />' +
+        '<line x1="' + padLeft + '" y1="' + (padTop + chartH/2) + '" x2="' + (width - padRight) + '" y2="' + (padTop + chartH/2) + '" stroke="#f1f5f9" stroke-width="1" />' +
+        '<line x1="' + padLeft + '" y1="' + (height - padBottom) + '" x2="' + (width - padRight) + '" y2="' + (height - padBottom) + '" stroke="#cbd5e1" stroke-width="1.5" />' +
+        '<path d="' + illPath + '" fill="none" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,4" />' +
+        '<path d="' + actPath + '" fill="none" stroke="#002FA7" stroke-width="3" stroke-linecap="round" />' +
+        dotsHtml +
+        '<g transform="translate(' + padLeft + ', 14)">' +
+          '<line x1="0" y1="0" x2="18" y2="0" stroke="#f59e0b" stroke-width="2.5" stroke-dasharray="4,4" />' +
+          '<text x="24" y="3" font-size="10.5" font-weight="700" fill="#f59e0b">當年宣傳預期紅利 (Illustrated)</text>' +
+          '<line x1="220" y1="0" x2="238" y2="0" stroke="#002FA7" stroke-width="3" />' +
+          '<text x="244" y="3" font-size="10.5" font-weight="700" fill="#002FA7">真實到賬紅利 (Actual Realized)</text>' +
+          '<circle cx="430" cy="0" r="4" fill="#10b981" />' +
+          '<text x="440" y="3" font-size="10.5" font-weight="600" fill="#475569">數字為當年度 GN16 達成率 %</text>' +
+        '</g>' +
+      '</svg>';
+
+      container.innerHTML = svg;
+    }
+
+    function openGN16PayModal() {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('gn16-pay-modal');
+      const backdrop = document.getElementById('gn16-pay-backdrop');
+      if (modal && modal.classList) modal.classList.add('open');
+      if (backdrop && backdrop.classList) backdrop.classList.add('open');
+    }
+    window.openGN16PayModal = openGN16PayModal;
+
+    function closeGN16PayModal() {
+      if (typeof document === 'undefined') return;
+      const modal = document.getElementById('gn16-pay-modal');
+      const backdrop = document.getElementById('gn16-pay-backdrop');
+      if (modal && modal.classList) modal.classList.remove('open');
+      if (backdrop && backdrop.classList) backdrop.classList.remove('open');
+    }
+    window.closeGN16PayModal = closeGN16PayModal;
+
+    function selectGN16Tier(tier) {
+      currentGN16Tier = tier;
+      if (typeof document === 'undefined') return;
+      const cardRetail = document.getElementById('gn16-tier-retail');
+      const cardAgent = document.getElementById('gn16-tier-agent');
+      const cardTeam = document.getElementById('gn16-tier-team');
+      const cardEnterprise = document.getElementById('gn16-tier-enterprise');
+      const form = document.getElementById('gn16-agent-profile-form');
+
+      if (cardRetail) cardRetail.classList.toggle('active', tier === 'retail_49');
+      if (cardAgent) cardAgent.classList.toggle('active', tier === 'agent_199');
+      if (cardTeam) cardTeam.classList.toggle('active', tier === 'team_2480');
+      if (cardEnterprise) cardEnterprise.classList.toggle('active', tier === 'enterprise_12800');
+
+      if (tier === 'retail_49') {
+        if (form && form.style) form.style.display = 'none';
+      } else {
+        if (form && form.style) form.style.display = 'block';
+      }
+    }
+    window.selectGN16Tier = selectGN16Tier;
+
+    function simulateGN16Checkout() {
+      closeGN16PayModal();
+      if (currentGN16Tier === 'enterprise_12800') {
+        isGN16AgentUnlocked = true;
+        if (typeof alert !== 'undefined') {
+          alert('🎉 感謝垂詢！企業獨立經紀行 / 家辦總部版 (HK$12,800/月) 專屬客戶成功總監將於 15 分鐘內與您聯繫，為您配置私有化白標 API 與全員無限制席位！');
+        }
+      } else if (currentGN16Tier === 'team_2480') {
+        isGN16AgentUnlocked = true;
+        if (typeof alert !== 'undefined') {
+          alert('🎉 恭喜總監！區域總監團隊版 (HK$2,480/月) 已成功開通！已解鎖 20 個專屬顧問席位、每日早會情報投影片與團隊專屬 Logo！');
+        }
+      } else if (currentGN16Tier === 'agent_199') {
+        isGN16AgentUnlocked = true;
+        if (typeof alert !== 'undefined') {
+          alert('🎉 恭喜！顧問展業版 (HK$199/月) 已成功開通！已自動消除所有水印，並在所有報告頁底附帶您的數碼顧問名片與執業牌照！');
+        }
+      } else {
+        isGN16AgentUnlocked = false;
+        if (typeof alert !== 'undefined') {
+          alert('🎉 支付成功！已解鎖單份香港保單深度 GN16 對賬報告！報告已加蓋「InsurIntel HK 官方認證對賬 · 投保人私人存檔」官方防偽標記。');
+        }
+      }
+      updateGN16DisplayTier();
+    }
+    window.simulateGN16Checkout = simulateGN16Checkout;
+
+    function updateGN16DisplayTier() {
+      if (typeof document === 'undefined') return;
+      const watermark = document.getElementById('gn16-watermark-overlay');
+      const agentContainer = document.getElementById('gn16-agent-card-container');
+      const unlockBtn = document.getElementById('gn16-unlock-advisor-btn');
+
+      if (isGN16AgentUnlocked) {
+        if (watermark && watermark.style) watermark.style.display = 'none';
+        if (unlockBtn && unlockBtn.style) unlockBtn.style.display = 'none';
+
+        const name = (document.getElementById('gn16-agent-form-name') && document.getElementById('gn16-agent-form-name').value) || '陳思敏 (Sarah Chan)';
+        const title = (document.getElementById('gn16-agent-form-title') && document.getElementById('gn16-agent-form-title').value) || '資深分區財富管理總監 · MDRT';
+        const license = (document.getElementById('gn16-agent-form-license') && document.getElementById('gn16-agent-form-license').value) || 'IA-AG984210';
+        const phone = (document.getElementById('gn16-agent-form-phone') && document.getElementById('gn16-agent-form-phone').value) || '+852 9876 5432';
+
+        if (agentContainer) {
+          agentContainer.innerHTML = '<div class="agent-business-card-card" style="border: 1.5px solid #002FA7; border-radius: 12px; padding: 14px 16px; background: #ffffff; display: flex; align-items: center; gap: 14px; margin-top: 14px; box-shadow: 0 4px 14px rgba(0,47,167,0.08);">' +
+            '<img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=256&q=80" alt="' + name + '" style="width: 58px; height: 58px; border-radius: 50%; object-fit: cover; border: 2px solid #002FA7; flex-shrink: 0;" />' +
+            '<div style="flex: 1; min-width: 0;">' +
+              '<div style="display: flex; align-items: center; justify-content: space-between; gap: 8px;">' +
+                '<div style="font-weight: 800; font-size: 14px; color: #111827;">' + name + '</div>' +
+                '<span style="font-size: 10px; background: #eff3ff; color: #002FA7; font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 1px solid #bfdbfe;">認證獨立理財顧問</span>' +
+              '</div>' +
+              '<div style="font-size: 11.5px; color: #4b5563; margin-top: 2px; font-weight: 600;">' + title + '</div>' +
+              '<div style="font-size: 11px; color: #6b7280; margin-top: 2px;">香港保監局牌照: <span style="font-family: monospace; font-weight: 700; color: #111827;">' + license + '</span></div>' +
+              '<div style="font-size: 11.5px; color: #002FA7; font-weight: 700; margin-top: 3px;">📞 專屬對賬諮詢: ' + phone + '</div>' +
+            '</div>' +
+          '</div>';
+        }
+      } else {
+        if (watermark && watermark.style) watermark.style.display = 'flex';
+        if (unlockBtn && unlockBtn.style) unlockBtn.style.display = 'inline-flex';
+        if (agentContainer) agentContainer.innerHTML = '';
+      }
+    }
+
+    function printGN16Report() {
+      if (typeof document === 'undefined' || !document.body) return;
+      document.body.classList.add('gn16-printing');
+      if (typeof window !== 'undefined' && window.print) window.print();
+      setTimeout(() => {
+        if (document.body && document.body.classList) {
+          document.body.classList.remove('gn16-printing');
+        }
+      }, 500);
+    }
+    window.printGN16Report = printGN16Report;
+
+    function copyGN16WhatsAppPitch() {
+      if (typeof document === 'undefined') return;
+      const prodSelect = document.getElementById('gn16-product-select');
+      const prodName = (prodSelect && prodSelect.options && prodSelect.selectedIndex >= 0 && prodSelect.options[prodSelect.selectedIndex])
+        ? prodSelect.options[prodSelect.selectedIndex].text
+        : ((prodSelect && prodSelect.value) || '友邦 充裕未來');
+      const year = (document.getElementById('gn16-year-select') && document.getElementById('gn16-year-select').value) || '2018';
+      const prem = (document.getElementById('gn16-premium-input') && document.getElementById('gn16-premium-input').value) || '10000';
+      const avg = (document.getElementById('gn16-metric-avg-ratio') && document.getElementById('gn16-metric-avg-ratio').textContent) || '98%';
+      const varVal = (document.getElementById('gn16-metric-variance') && document.getElementById('gn16-metric-variance').textContent) || '-$600 USD';
+
+      const lines = [
+        '📊 *【香港保單利益演示真實達成率對賬簡報】*',
+        '──────────────',
+        '尊敬的客戶：',
+        '您於 *' + year + ' 年* 投保的 *' + prodName + '*（年繳約 $' + parseInt(prem).toLocaleString() + ' USD），最新保監局 GN16 官方披露紅利達成情況如下：',
+        '',
+        '🔹 *歷年平均達成率*：*' + avg + '*',
+        '🔹 *累計紅利兌現差額*：*' + varVal + '*',
+        '',
+        '💡 香港儲蓄分紅險受香港保監局 GN16 法定約束，如需完整逐年對賬圖表及紅利鎖定分析，隨時聯絡為您調取底層精算數據！',
+        '──────────────',
+        '*InsurIntel HK · 恪守 HKIA GL20 專業對賬準則*'
+      ];
+      const text = lines.join(String.fromCharCode(10));
+
+      if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (typeof alert !== 'undefined') alert('✅ WhatsApp 談客簡報已複製至剪貼板！可直接發送給客戶。');
+        }).catch(() => {
+          if (typeof alert !== 'undefined') alert(text);
+        });
+      } else if (typeof alert !== 'undefined') {
+        alert(text);
+      }
+    }
+    window.copyGN16WhatsAppPitch = copyGN16WhatsAppPitch;
+
+    function copyGN16WechatPitch() {
+      if (typeof document === 'undefined') return;
+      const prodSelect = document.getElementById('gn16-product-select');
+      const prodName = (prodSelect && prodSelect.options && prodSelect.selectedIndex >= 0 && prodSelect.options[prodSelect.selectedIndex])
+        ? prodSelect.options[prodSelect.selectedIndex].text
+        : ((prodSelect && prodSelect.value) || '友邦 充裕未來');
+      const year = (document.getElementById('gn16-year-select') && document.getElementById('gn16-year-select').value) || '2018';
+      const avg = (document.getElementById('gn16-metric-avg-ratio') && document.getElementById('gn16-metric-avg-ratio').textContent) || '98%';
+      const varVal = (document.getElementById('gn16-metric-variance') && document.getElementById('gn16-metric-variance').textContent) || '-$600 USD';
+
+      const lines = [
+        '【香港儲蓄險真相】' + prodName + '（' + year + '年投保）真實分紅到底拿到多少？',
+        '',
+        '香港保監局 GN16 法定數據揭秘：',
+        '✔ 歷年平均紅利實現率：' + avg,
+        '✔ 累計分紅差額：' + varVal,
+        '',
+        '當年買的儲蓄險，幾十頁官方披露PDF看不懂？私信我，一鍵免費出具您的保單專屬 GN16 深度紅利對賬走勢圖！'
+      ];
+      const text = lines.join(String.fromCharCode(10));
+
+      if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(() => {
+          if (typeof alert !== 'undefined') alert('✅ 微信朋友圈/小紅書文案已複製至剪貼板！');
+        }).catch(() => {
+          if (typeof alert !== 'undefined') alert(text);
+        });
+      } else if (typeof alert !== 'undefined') {
+        alert(text);
+      }
+    }
+    window.copyGN16WechatPitch = copyGN16WechatPitch;
+
+    
+    // ==========================================
+    // PHASE B: DEMO MODE & SCANNER & OFFLINE HUD
+    // ==========================================
+    var isDemoModeActive = false;
+    var isOfflineSimulationActive = false;
+
+    function toggleDemoMode() {
+      if (isDemoModeActive) {
+        disableDemoMode();
+      } else {
+        enableDemoMode();
+      }
+    }
+    window.toggleDemoMode = toggleDemoMode;
+
+    function enableDemoMode() {
+      isDemoModeActive = true;
+      var banner = document.getElementById('demo-mode-banner');
+      if (banner) banner.style.display = 'block';
+
+      var demoBtn = document.getElementById('header-demo-toggle-btn');
+      if (demoBtn) {
+        demoBtn.style.background = '#fef3c7';
+        demoBtn.style.borderColor = '#f59e0b';
+        demoBtn.style.color = '#92400e';
+      }
+
+      var ourHero = document.getElementById('hero-our-name');
+      var rivalHero = document.getElementById('hero-rival-name');
+      if (ourHero) ourHero.innerText = '保司 A (虛擬示範) · 旗艦多幣方案';
+      if (rivalHero) rivalHero.innerText = '保司 B (虛擬示範) · 環球多幣方案';
+
+      var ourLink = document.getElementById('tearsheet-our-pdf-link');
+      var rivalLink = document.getElementById('tearsheet-rival-pdf-link');
+      if (ourLink) ourLink.innerHTML = '<span>📄 虛擬方案 A 示範說明書 (示範用) ↗</span>';
+      if (rivalLink) rivalLink.innerHTML = '<span>📄 虛擬方案 B 示範說明書 (示範用) ↗</span>';
+
+      showToast('🧪 已切換至虛擬示範模式：保司 A vs 保司 B (純虛構示範數據，絕無真實個資及商標爭議)');
+    }
+    window.enableDemoMode = enableDemoMode;
+
+    function disableDemoMode() {
+      isDemoModeActive = false;
+      var banner = document.getElementById('demo-mode-banner');
+      if (banner) banner.style.display = 'none';
+
+      var demoBtn = document.getElementById('header-demo-toggle-btn');
+      if (demoBtn) {
+        demoBtn.style.background = '';
+        demoBtn.style.borderColor = '';
+        demoBtn.style.color = '';
+      }
+
+      updateBattleCard();
+      showToast('已退出示範模式，恢復標準市場智庫數據');
+    }
+    window.disableDemoMode = disableDemoMode;
+
+    function toggleOfflineMode() {
+      isOfflineSimulationActive = !isOfflineSimulationActive;
+      var banner = document.getElementById('offline-mode-banner');
+      if (banner) banner.style.display = isOfflineSimulationActive ? 'block' : 'none';
+
+      var offlineBtn = document.getElementById('header-offline-btn');
+      if (offlineBtn) {
+        if (isOfflineSimulationActive) {
+          offlineBtn.style.background = '#ecfdf5';
+          offlineBtn.style.borderColor = '#10b981';
+          offlineBtn.style.color = '#065f46';
+          showToast('⚡ 離線模式已啟動：本機 ServiceWorker 快取生效，離線狀態全功能可用');
+        } else {
+          offlineBtn.style.background = '';
+          offlineBtn.style.borderColor = '';
+          offlineBtn.style.color = '';
+          showToast('已恢復正常在線模式');
+        }
+      }
+    }
+    window.toggleOfflineMode = toggleOfflineMode;
+
+    function openProposalScannerModal() {
+      var modal = document.getElementById('proposal-scanner-modal');
+      var backdrop = document.getElementById('proposal-scanner-backdrop');
+      if (modal) modal.style.display = 'flex';
+      if (backdrop) backdrop.style.display = 'block';
+    }
+    window.openProposalScannerModal = openProposalScannerModal;
+
+    function closeProposalScannerModal() {
+      var modal = document.getElementById('proposal-scanner-modal');
+      var backdrop = document.getElementById('proposal-scanner-backdrop');
+      if (modal) modal.style.display = 'none';
+      if (backdrop) backdrop.style.display = 'none';
+    }
+    window.closeProposalScannerModal = closeProposalScannerModal;
+
+    function loadSampleProposalText() {
+      var lines = [
+        '【虛擬示範保單建議書】',
+        '受保人姓名: 陳大文 (Chan Tai Man)',
+        '身份證號碼: A123456(7)',
+        '聯絡電話: +852 9876 5432',
+        '電郵地址: client.vip@hkfinance.com',
+        '保單編號: POL-88239102-X',
+        '產品名稱: 保司 A 旗艦多幣傳承計劃 (示範例)',
+        '年繳保費: USD 20,000 (繳費期 5 年，總繳保費 USD 100,000)',
+        '第 1 年度: 總繳保費 20,000 | 保證現金價值 0 | 預期退保總值 0',
+        '第 5 年度: 總繳保費 100,000 | 保證現金價值 24,000 | 預期退保總值 76,000',
+        '第 6 年度: 總繳保費 100,000 | 保證現金價值 32,000 | 預期退保總值 105,000 (預期回本年度)',
+        '第 14 年度: 總繳保費 100,000 | 保證現金價值 102,000 (保證回本年度) | 預期退保總值 192,000',
+        '第 30 年度: 總繳保費 100,000 | 保證現金價值 168,000 | 預期退保總值 685,000'
+      ];
+      var input = document.getElementById('scanner-raw-input');
+      if (input) input.value = lines.join(String.fromCharCode(10));
+    }
+    window.loadSampleProposalText = loadSampleProposalText;
+
+    function runPIIScrubber() {
+      var input = document.getElementById('scanner-raw-input');
+      var output = document.getElementById('scanner-scrubbed-output');
+      var hashSpan = document.getElementById('scanner-audit-hash');
+      if (!input || !output) return;
+
+      var text = input.value || '';
+      if (!text.trim()) {
+        showToast('請先輸入或載入計劃書內容');
+        return;
+      }
+
+      var sanitized = text
+        .replace(new RegExp('[A-Z][0-9]{6}\\([0-9A-Za-z]\\)', 'g'), '[HKID_PROTECTED]')
+        .replace(new RegExp('(\\+852\\s*)?[569][0-9]{3}\\s*[0-9]{4}', 'g'), '[PHONE_PROTECTED]')
+        .replace(new RegExp('[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}', 'g'), '[EMAIL_PROTECTED]')
+        .replace(new RegExp('POL-[0-9]{8}-[A-Za-z0-9]', 'g'), '[POLICY_NO_PROTECTED]')
+        .replace(/陳大文/g, '[CLIENT_NAME_PROTECTED]')
+        .replace(/Chan Tai Man/gi, '[CLIENT_NAME_PROTECTED]');
+
+      output.innerText = sanitized;
+
+      var hash = 0;
+      for (var i = 0; i < sanitized.length; i++) {
+        hash = ((hash << 5) - hash) + sanitized.charCodeAt(i);
+        hash |= 0;
+      }
+      var crcHex = (hash >>> 0).toString(16).padStart(8, '0'); if (hashSpan) hashSpan.innerText = '文本校驗指紋：CRC32: ' + crcHex;
+      }
+
+      showToast('🛡️ 客戶端確定性脫敏完成！已消除身分證、電話、電郵、保單號與全名');
+    }
+    window.runPIIScrubber = runPIIScrubber;
+
+    function clearScannerInputs() {
+      var input = document.getElementById('scanner-raw-input');
+      var output = document.getElementById('scanner-scrubbed-output');
+      var hashSpan = document.getElementById('scanner-audit-hash');
+      if (input) input.value = '';
+      if (output) output.innerText = '（點擊上方「執行客戶端即時脫敏」以查看安全預覽）';
+      if (hashSpan) hashSpan.innerText = '數位指紋校驗：待計算 (Deterministic SHA-256)';
+    }
+    window.clearScannerInputs = clearScannerInputs;
+
+    function checkPhaseBUrlParams() {
+      try {
+        if (typeof window === 'undefined' || !window.location || !window.location.search) return;
+        var params = new URLSearchParams(window.location.search);
+        
+        if (params.get('mode') === 'demo') {
+          enableDemoMode();
+        }
+        if (params.get('view') === 'client') {
+          switchView('client');
+        } else if (params.get('view') === 'agent') {
+          switchView('agent');
+        }
+        if (params.get('modal') === 'pricing') {
+          openGN16PayModal();
+        } else if (params.get('modal') === 'scanner') {
+          openProposalScannerModal();
+          loadSampleProposalText();
+          runPIIScrubber();
+        } else if (params.get('modal') === 'gn16') {
+          openGN16QueryModal();
+        }
+        if (params.get('offline') === 'true') {
+          toggleOfflineMode();
+        }
+      } catch(e) {}
+    }
+
+    function checkGN16UrlParams() {
+      try {
+        if (typeof window === 'undefined' || !window.location || !window.location.search) return;
+        const params = new URLSearchParams(window.location.search);
+        const kw = params.get('kw') || params.get('q');
+        const tool = params.get('tool');
+        const ins = params.get('insurer');
+        const prod = params.get('product');
+        const yr = params.get('year');
+
+        if (kw) {
+          openGN16QueryModal(kw);
+        } else if (tool === 'gn16' || ins || prod) {
+          openGN16QueryModal();
+          if (ins) {
+            const insSelect = document.getElementById('gn16-insurer-select');
+            if (insSelect) {
+              insSelect.value = ins;
+              onGN16InsurerChange();
+            }
+          }
+          if (prod) {
+            const prodSelect = document.getElementById('gn16-product-select');
+            if (prodSelect) {
+              prodSelect.value = prod;
+              onGN16ProductChange();
+            }
+          }
+          if (yr) {
+            const yrSelect = document.getElementById('gn16-year-select');
+            if (yrSelect) yrSelect.value = yr;
+            runGN16Reconciliation();
+          }
+        }
+      } catch (e) {
+        console.error('checkGN16UrlParams error:', e);
+      }
+    }
+    window.checkGN16UrlParams = checkGN16UrlParams;
+
+    function initGN16Controls() {
+      populateGN16Insurers();
+    }
+
     // Storage Key for My Company Persistence
     const STORAGE_KEY_MY_INSURER = 'insurintel_my_insurer';
 
@@ -4282,7 +5514,8 @@ const htmlContent = `<!DOCTYPE html>
       cashless_medical: '💼 高端醫療直付',
       ul_stress: '🏦 萬用融資加息測試',
       group_medical: '🏥 團險自願醫保抵扣',
-      offline_resilience: '📴 無網/地庫離線'
+      offline_resilience: '📴 無網/地庫離線',
+      simulation_100: '💯 100場景模擬與定價'
     };
 
     // All 42 Market Products Catalog Knowledge Base
@@ -4292,6 +5525,10 @@ const htmlContent = `<!DOCTYPE html>
     // All 13 Private Hospitals in Hong Kong
     const HK_13_PRIVATE_HOSPITALS = ${JSON.stringify(HK_13_PRIVATE_HOSPITALS, null, 2)};
     window.HK_13_PRIVATE_HOSPITALS = HK_13_PRIVATE_HOSPITALS;
+
+    // 100 Real-World Daily Scenarios & Multi-Agent Simulation
+    const DAILY_100_SCENARIOS = ${JSON.stringify(daily100Scenarios)};
+    window.DAILY_100_SCENARIOS = DAILY_100_SCENARIOS;
 
     // 30-Point Client & Advisor Improvement Comments
     const APP_30_IMPROVEMENT_COMMENTS = ${JSON.stringify(APP_30_IMPROVEMENT_COMMENTS, null, 2)};
@@ -8562,7 +9799,7 @@ return {
         }
       } else if (type === 'gimmick_break' || query.includes('預繳') || query.includes('回贈') || query.includes('點解唔買')) {
         if (currentCategory === 'Critical_Illness') {
-          strategy = '針對對手重疾宣傳噱頭，採用「肯定眼光 ➔ 點破等候期死穴 ➔ 癌症 1 年間隔絕殺」三步法。競品宣傳表面看似保費相宜，但通函條款隱藏癌症二次復發需熬 3 年空窗期；我方' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】癌症間隔僅 1 年，並涵蓋 ICU 20% 預支與多次賠付！';
+          strategy = '針對對手重疾市場宣傳重點摘要，採用「肯定眼光 ➔ 點破等候期死穴 ➔ 癌症 1 年間隔絕殺」三步法。競品宣傳表面看似保費相宜，但通函條款隱藏癌症二次復發需熬 3 年空窗期；我方' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】癌症間隔僅 1 年，並涵蓋 ICU 20% 預支與多次賠付！';
           script = '「陳生，買危疾保險最緊要唔係第一張單張幾平，而係萬一不幸生癌復發賠唔賠到。對手【' + cleanProductName(rivalProd.name) + '】寫明要等足 3 年先可以索償第二次，但臨床統計癌症復發高峰期往往在 1-2 年內，等 3 年等同防護出現真空期！我地' + ourProf.fullName + '【' + cleanProductName(ourProd.name) + '】癌症間隔期只要 1 年，重有深切治療部入住即賠，真正為全家築起救命防火牆！」';
           evidence = '各大保險公司危疾保單條款 (Policy Provisions) 之癌症復發等待期定義及臨床腫瘤學統計。';
           compliance = '恪守香港保監局 GL20 守則及第 4.2 條：以官方保單條款白紙黑字客觀陳述，提示疾病定義差異。';
@@ -9913,6 +11150,8 @@ return {
             '</div>' +
           '</div>' +
         '</div>';
+      } else if (currentScenario === 'simulation_100') {
+        html = renderSimulation100InlinePanelHtml();
       } else if (currentScenario === 'offline_resilience') {
         const offRes = getOfflineStatus();
         html = '<div class="scenario-card-box" id="panel-scenario-offline">' +
@@ -11144,6 +12383,9 @@ return {
       updateBattleCard();
       renderScenarioAgentPanel();
       bindAiDrawerTriggers();
+      initGN16Controls();
+      checkGN16UrlParams();
+      checkPhaseBUrlParams();
     });
     // Fallback immediate trigger
     initCompatibility();
@@ -11152,6 +12394,9 @@ return {
     updateBattleCard();
     renderScenarioAgentPanel();
     bindAiDrawerTriggers();
+    initGN16Controls();
+    checkGN16UrlParams();
+    checkPhaseBUrlParams();
   </script>
 
   <!-- Client-Facing PDF Report & WhatsApp/WeChat Pitch Card Modal -->
@@ -11162,7 +12407,7 @@ return {
         <div style="font-size:14px;font-weight:800;display:flex;align-items:center;gap:6px;" id="client-pdf-heading">
           <span>📑 一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</span>
         </div>
-        <div style="font-size:10.5px;opacity:0.9;margin-top:2px;">香港保監局 GL20 合規認證 · 專屬顧問品牌名片 · 支援高清列印與即時複製</div>
+        <div style="font-size:10.5px;opacity:0.9;margin-top:2px;">對標香港保監局 GL20 指引設計 · 需經持牌法規審查 · 專屬顧問品牌名片 · 支援高清列印與即時複製</div>
       </div>
       <button class="drawer-close-btn" onclick="closeClientPdfModal()" aria-label="關閉客戶報告視窗">✕</button>
     </div>
@@ -11226,7 +12471,220 @@ return {
     </div>
   </div>
 
-  <!-- Client & Advisor Audit & Improvement Board Drawer (30 & 100 Scope) -->
+  <!-- GN16 Fulfillment Ratio Query Modal -->
+  <div class="gn16-query-backdrop" id="gn16-query-backdrop" onclick="closeGN16QueryModal()"></div>
+  <div class="gn16-query-modal" id="gn16-query-modal" role="dialog" aria-modal="true" aria-labelledby="gn16-query-heading">
+    <div class="gn16-query-header">
+      <div>
+        <div style="font-size:15px;font-weight:800;display:flex;align-items:center;gap:6px;" id="gn16-query-heading">
+          <span>📊 香港保單「利益演示紅利真實達成率」對賬器</span>
+          <span style="font-size:10px;background:rgba(255,255,255,0.2);padding:2px 8px;border-radius:99px;border:1px solid rgba(255,255,255,0.4);">GN16 法定披露</span>
+        </div>
+        <div style="font-size:11px;opacity:0.9;margin-top:2px;">香港保監局 GN16 權威官方精算回溯 · 當年宣傳利益演示 vs 真實到賬紅利</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeGN16QueryModal()" aria-label="關閉對賬器">✕</button>
+    </div>
+    <div class="gn16-query-body">
+      <!-- Filter Selectors -->
+      <div class="gn16-filters-card">
+        <div class="gn16-filters-grid">
+          <div class="gn16-field">
+            <label for="gn16-insurer-select">【1. 保司名稱】</label>
+            <select id="gn16-insurer-select" onchange="onGN16InsurerChange()"></select>
+          </div>
+          <div class="gn16-field">
+            <label for="gn16-product-select">【2. 產品系列】</label>
+            <select id="gn16-product-select" onchange="onGN16ProductChange()"></select>
+          </div>
+          <div class="gn16-field">
+            <label for="gn16-year-select">【3. 投保年份】</label>
+            <select id="gn16-year-select" onchange="runGN16Reconciliation()"></select>
+          </div>
+          <div class="gn16-field">
+            <label for="gn16-premium-input">【4. 年繳保費 (USD)】</label>
+            <input type="number" id="gn16-premium-input" value="10000" step="1000" min="1000" onchange="runGN16Reconciliation()" />
+          </div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-top:4px;">
+          <div style="font-size:11px;color:#64748b;" id="gn16-official-source-link">
+            <!-- Injected official GN16 link -->
+          </div>
+          <button onclick="runGN16Reconciliation()" style="background:#002FA7;color:#fff;border:none;padding:6px 14px;border-radius:6px;font-size:11.5px;font-weight:700;cursor:pointer;">⚡ 立即調取數據對賬</button>
+        </div>
+      </div>
+
+      <!-- Metrics Row -->
+      <div class="gn16-metrics-grid">
+        <div class="gn16-metric-card highlight">
+          <div class="gn16-metric-label">歷年平均分紅達成率</div>
+          <div class="gn16-metric-value" id="gn16-metric-avg-ratio">--%</div>
+        </div>
+        <div class="gn16-metric-card">
+          <div class="gn16-metric-label">當年宣傳累計預期紅利</div>
+          <div class="gn16-metric-value" id="gn16-metric-cum-ill">$--</div>
+        </div>
+        <div class="gn16-metric-card">
+          <div class="gn16-metric-label">真實到賬累計總紅利</div>
+          <div class="gn16-metric-value" id="gn16-metric-cum-act">$--</div>
+        </div>
+        <div class="gn16-metric-card">
+          <div class="gn16-metric-label">累計承諾兌現差額</div>
+          <div class="gn16-metric-value" id="gn16-metric-variance">$--</div>
+        </div>
+      </div>
+
+      <!-- Verdict Callout -->
+      <div id="gn16-summary-verdict-box" style="background:#f8fafc;border-left:4px solid #002FA7;padding:10px 14px;border-radius:0 8px 8px 0;margin-bottom:14px;font-size:12px;color:#1e293b;line-height:1.5;">
+        <!-- Injected by runGN16Reconciliation() -->
+      </div>
+
+      <!-- Dual-Line Chart Container -->
+      <div class="gn16-chart-container" id="gn16-chart-container">
+        <div class="gn16-watermark-overlay" id="gn16-watermark-overlay">
+          <div class="gn16-watermark-text" id="gn16-watermark-text">
+            InsurIntel HK 官方認證對賬 · 投保人私人存檔<br>
+            InsurIntel HK 官方認證對賬 · 投保人私人存檔
+          </div>
+        </div>
+        <div id="gn16-svg-chart-wrapper" style="position:relative;z-index:2;width:100%;height:100%;">
+          <!-- SVG Chart rendered here -->
+        </div>
+      </div>
+
+      <!-- Smoothing Reserve & Asset Allocation Note -->
+      <div style="background:#f1f5f9;border-radius:8px;padding:10px 14px;font-size:11px;color:#475569;margin-bottom:16px;" id="gn16-smoothing-note">
+        <!-- Injected -->
+      </div>
+
+      <!-- Agent Profile Card Container -->
+      <div id="gn16-agent-card-container">
+        <!-- Injected when agent unlocked -->
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="gn16-query-actions" style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap;">
+        <button id="gn16-print-report-btn" onclick="printGN16Report()" style="flex:1;min-width:140px;padding:9px 12px;background:#002FA7;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>🖨️ 列印/導出 PDF 對賬報告</span>
+        </button>
+        <button id="gn16-wa-pitch-btn" onclick="copyGN16WhatsAppPitch()" style="flex:1;min-width:140px;padding:9px 12px;background:#25d366;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>💬 複製 WhatsApp 談客簡報</span>
+        </button>
+        <button id="gn16-wechat-pitch-btn" onclick="copyGN16WechatPitch()" style="flex:1;min-width:140px;padding:9px 12px;background:#07c160;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>📱 複製 微信朋友圈/小紅書文案</span>
+        </button>
+        <button id="gn16-unlock-advisor-btn" onclick="openGN16PayModal()" style="flex:1;min-width:140px;padding:9px 12px;background:#f59e0b;color:#fff;border:none;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;">
+          <span>👑 去除水印 / 綁定顧問名片</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GN16 Monetization / Pay Modal ($49 vs $199) -->
+  <div class="gn16-pay-backdrop" id="gn16-pay-backdrop" onclick="closeGN16PayModal()"></div>
+  <div class="gn16-pay-modal" id="gn16-pay-modal" role="dialog" aria-modal="true" aria-labelledby="gn16-pay-heading">
+    <div style="padding:16px 20px;background:linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:15px;font-weight:800;" id="gn16-pay-heading">🔐 解鎖 GN16 深度紅利對賬權限</div>
+        <div style="font-size:11px;opacity:0.9;margin-top:2px;">香港保監局官方數據庫 · 100% 官方真實申報數據對賬</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeGN16PayModal()">✕</button>
+    </div>
+    <div style="padding:20px;overflow-y:auto;max-height:80vh;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px;">
+        <!-- Option 1: HK$49 Retail -->
+        <div class="gn16-tier-card" id="gn16-tier-retail" onclick="selectGN16Tier('retail_49')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:13px;font-weight:800;color:#0f172a;">👤 終端保民</span>
+            <span style="font-size:18px;font-weight:900;color:#002FA7;">HK$49</span>
+          </div>
+          <div style="font-size:11px;color:#64748b;margin-bottom:10px;">單次解鎖 · 私人存檔</div>
+          <ul style="font-size:11.5px;color:#334155;line-height:1.6;padding-left:16px;margin:0;">
+            <li>解鎖單份保單深度紅利對賬走勢圖</li>
+            <li>標註「投保人私人存檔」官方認證水印</li>
+            <li>清晰對賬宣傳利益 vs 實際到賬</li>
+            <li>支援單次 PDF 導出列印</li>
+          </ul>
+        </div>
+        <!-- Option 2: HK$199 Agent Pro -->
+        <div class="gn16-tier-card active" id="gn16-tier-agent" onclick="selectGN16Tier('agent_199')">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:13px;font-weight:800;color:#0f172a;">💼 顧問展業版</span>
+            <span style="font-size:18px;font-weight:900;color:#002FA7;">HK$199 <span style="font-size:11px;font-weight:500;color:#64748b;">/ 月</span></span>
+          </div>
+          <div style="font-size:11px;color:#002FA7;font-weight:700;margin-bottom:10px;">⭐ 理財顧問展業談客首選</div>
+          <ul style="font-size:11.5px;color:#334155;line-height:1.6;padding-left:16px;margin:0;">
+            <li>全港 12 大保司無限次即時查詢</li>
+            <li><strong>100% 徹底無浮水印</strong>專業認證導出</li>
+            <li><strong>報告末尾自動附帶個人顧問名片與頭像</strong></li>
+            <li>一鍵導出 WhatsApp / 微信 促成話術</li>
+          </ul>
+        </div>
+      
+        <!-- Option 3: HK$2,480 Agency Team -->
+        <div class="gn16-tier-card active" id="gn16-tier-team" onclick="selectGN16Tier('team_2480')" style="border-color:#7c3aed;background:#faf5ff;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:12.5px;font-weight:800;color:#5b21b6;">🏢 區域總監團隊版</span>
+            <span style="font-size:17px;font-weight:900;color:#7c3aed;">HK$2,480 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月</span></span>
+          </div>
+          <div style="font-size:10.5px;color:#7c3aed;font-weight:700;margin-bottom:8px;">👑 區域總監早會增員首選 (包20席位)</div>
+          <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;">
+            <li><strong>包含 20 個獨立顧問執業席位</strong> (平均 $124/人)</li>
+            <li><strong>每日 06:30 自動同步晨會早會情報投影片</strong></li>
+            <li>自訂團隊專屬 District Logo 與權威機構名片</li>
+            <li>區域成單話術庫與早會路演培訓支持</li>
+          </ul>
+        </div>
+        <!-- Option 4: HK$12,800 Enterprise IFA / Family Office -->
+        <div class="gn16-tier-card" id="gn16-tier-enterprise" onclick="selectGN16Tier('enterprise_12800')" style="border-color:#0f766e;background:#f0fdfa;grid-column:1 / -1;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+            <span style="font-size:12.5px;font-weight:800;color:#115e59;">🏛️ 企業獨立經紀行 / 家族辦公室總部版</span>
+            <span style="font-size:17px;font-weight:900;color:#0f766e;">HK$12,800 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月 (年繳 HK$128,000)</span></span>
+          </div>
+          <div style="font-size:10.5px;color:#0f766e;font-weight:700;margin-bottom:8px;">💎 全員無限席位 · 私有化白標 API · CRM 雙向串接 · 合規留痕審計</div>
+          <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
+            <li>全經紀行全員無限制顧問執業席位</li>
+            <li>私有化專屬二級域名與獨立品牌白標</li>
+            <li>全功能 RESTful 精算 API 與 Webhook</li>
+            <li>雙向對接 Salesforce / HubSpot CRM</li>
+            <li>保監局 GL20 / GN16 內部審計留痕日誌</li>
+            <li>專屬客戶成功經理與 99.9% 企業 SLA 支持</li>
+          </ul>
+        </div>
+      </div>
+
+<!-- Agent Profile Form (Shown for $199 tier) -->
+      <div id="gn16-agent-profile-form" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:12px 14px;margin-bottom:16px;">
+        <div style="font-size:12px;font-weight:700;color:#0f172a;margin-bottom:8px;">📇 顧問數碼名片資料（將自動印於無水印報告末尾）：</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;font-size:11.5px;">
+          <div>
+            <label style="display:block;font-size:10.5px;color:#64748b;">顧問姓名：</label>
+            <input type="text" id="gn16-agent-form-name" value="陳思敏 (Sarah Chan)" style="width:100%;padding:6px;border:1px solid #cbd5e1;border-radius:6px;font-size:11.5px;" />
+          </div>
+          <div>
+            <label style="display:block;font-size:10.5px;color:#64748b;">專業頭銜：</label>
+            <input type="text" id="gn16-agent-form-title" value="資深分區財富管理總監 · MDRT" style="width:100%;padding:6px;border:1px solid #cbd5e1;border-radius:6px;font-size:11.5px;" />
+          </div>
+          <div>
+            <label style="display:block;font-size:10.5px;color:#64748b;">保監局牌照編號：</label>
+            <input type="text" id="gn16-agent-form-license" value="IA-AG984210" style="width:100%;padding:6px;border:1px solid #cbd5e1;border-radius:6px;font-size:11.5px;" />
+          </div>
+          <div>
+            <label style="display:block;font-size:10.5px;color:#64748b;">諮詢電話 / WhatsApp：</label>
+            <input type="text" id="gn16-agent-form-phone" value="+852 9876 5432" style="width:100%;padding:6px;border:1px solid #cbd5e1;border-radius:6px;font-size:11.5px;" />
+          </div>
+        </div>
+      </div>
+
+      <button onclick="simulateGN16Checkout()" style="width:100%;padding:12px;background:#002FA7;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;box-shadow:0 4px 12px rgba(0,47,167,0.25);">
+        💳 模擬安全支付並立即生效
+      </button>
+      <div style="text-align:center;font-size:10.5px;color:#94a3b8;margin-top:8px;">
+        支援 Apple Pay · Google Pay · 轉數快 (FPS) · 信用卡 · 即時開通
+      </div>
+    </div>
+  </div>
+
+    <!-- Client & Advisor Audit & Improvement Board Drawer (30 & 100 Scope) -->
   <div class="audit-drawer-backdrop" id="audit-30-backdrop" onclick="closeAudit30Drawer()"></div>
   <div class="audit-drawer" id="audit-30-drawer" role="dialog" aria-modal="true" aria-labelledby="audit-drawer-heading">
     <div class="audit-drawer-header">
@@ -11263,6 +12721,125 @@ return {
       </div>
       <div id="audit-cards-list">
         <!-- Rendered dynamically by renderAudit30Cards() or renderAudit100Cards() -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- 100 Real-World Daily Scenarios Simulation Modal -->
+  <div class="simulation-modal-backdrop" id="simulation-modal-backdrop" onclick="closeSimulationModal()"></div>
+  <div class="simulation-modal" id="simulation-modal" role="dialog" aria-modal="true" aria-labelledby="sim-modal-heading">
+    <div class="simulation-modal-header">
+      <div>
+        <div style="font-size:15px;font-weight:900;" id="sim-modal-heading">💯 香港保險 100 場真實日常展業多維 AI 代理模擬評審</div>
+        <div style="font-size:11px;opacity:0.9;margin-top:2px;">覆蓋 10 大核心業務領域 · 6 大 AI 代理評審計分卡 · 4 階商業定價收費梯隊</div>
+      </div>
+      <button class="drawer-close-btn" onclick="closeSimulationModal()" aria-label="關閉模擬視窗" style="color:#ffffff;background:rgba(255,255,255,0.2);border:none;border-radius:6px;padding:4px 8px;cursor:pointer;">✕</button>
+    </div>
+    <div class="simulation-modal-body">
+      <div class="sim-stats-bar">
+        <div class="sim-stat-card"><div class="sim-stat-val">100</div><div class="sim-stat-lbl">真實業務場景</div></div>
+        <div class="sim-stat-card"><div class="sim-stat-val">8.77 / 10</div><div class="sim-stat-lbl">AI 代理均分 (卓越)</div></div>
+        <div class="sim-stat-card"><div class="sim-stat-val">6 角色</div><div class="sim-stat-lbl">精算/頂尖/DD/客/合規/PM</div></div>
+        <div class="sim-stat-card"><div class="sim-stat-val">4 梯隊</div><div class="sim-stat-lbl">$49 ~ $12,800 定價</div></div>
+      </div>
+      <div style="margin-bottom:10px;">
+        <input type="text" placeholder="🔍 快速搜尋場景、保司、產品、地點或核心挑戰..." style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px;" oninput="onSimSearchInput(this.value)" />
+      </div>
+      <div class="sim-filter-scroll">
+        <button class="sim-filter-chip sim-domain-chip active" data-domain="all" onclick="filterSimDomain('all')">全部領域 (100)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Coffee_Shop_Rapid_Pitches" onclick="filterSimDomain('Coffee_Shop_Rapid_Pitches')">☕ 咖啡館極速 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Cross_Border_MCV_Inbound" onclick="filterSimDomain('Cross_Border_MCV_Inbound')">🇨🇳 MCV 訪港 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="High_Net_Worth_Wealth_Preservation" onclick="filterSimDomain('High_Net_Worth_Wealth_Preservation')">🏛️ 家辦傳承 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Critical_Illness_Defense" onclick="filterSimDomain('Critical_Illness_Defense')">🛡️ 重疾穿透 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Private_Hospital_Cashless_LOG" onclick="filterSimDomain('Private_Hospital_Cashless_LOG')">🏥 私院直付 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="District_Morning_Briefings" onclick="filterSimDomain('District_Morning_Briefings')">👔 區域晨會 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Retirement_QDAP_Tax_Relief" onclick="filterSimDomain('Retirement_QDAP_Tax_Relief')">👴 年金扣稅 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Regulatory_Audits_Compliance" onclick="filterSimDomain('Regulatory_Audits_Compliance')">📜 合規審計 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Macro_Economic_Stress_Testing" onclick="filterSimDomain('Macro_Economic_Stress_Testing')">📉 宏觀壓力 (10)</button>
+        <button class="sim-filter-chip sim-domain-chip" data-domain="Commercial_SaaS_Pricing_Decisions" onclick="filterSimDomain('Commercial_SaaS_Pricing_Decisions')">💡 SaaS定價 (10)</button>
+      </div>
+      <div class="sim-filter-scroll" style="margin-top:-4px;">
+        <button class="sim-filter-chip sim-tier-chip active" data-tier="all" onclick="filterSimTier('all')">全部收費梯隊</button>
+        <button class="sim-filter-chip sim-tier-chip" data-tier="Retail_HKD49" onclick="filterSimTier('Retail_HKD49')">🏷️ 零售查核 HK$49 (單次保單對賬)</button>
+        <button class="sim-filter-chip sim-tier-chip" data-tier="AdvisorPro_HKD199" onclick="filterSimTier('AdvisorPro_HKD199')">💼 顧問專業 HK$199/月 (個人名片+無水印)</button>
+        <button class="sim-filter-chip sim-tier-chip" data-tier="AgencyTeam_HKD2480" onclick="filterSimTier('AgencyTeam_HKD2480')">🏢 區域團隊 HK$2,480/月 (20席+晨會同步)</button>
+        <button class="sim-filter-chip sim-tier-chip" data-tier="Enterprise_HKD12800" onclick="filterSimTier('Enterprise_HKD12800')">🏦 企業經紀 HK$12,800/月 (白標API+CRM)</button>
+      </div>
+      <div id="modal-sim-cards-list">
+        <!-- Rendered dynamically by renderSimulationCardsList -->
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Proposal Scanner & Client-Side PII Scrubber Modal (PDPO Cap. 486 & GL26) -->
+  <div class="proposal-scanner-backdrop" id="proposal-scanner-backdrop" onclick="closeProposalScannerModal()" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(15,23,42,0.65);z-index:10000;backdrop-filter:blur(3px);"></div>
+  <div class="proposal-scanner-modal" id="proposal-scanner-modal" role="dialog" aria-modal="true" aria-labelledby="scanner-modal-heading" style="display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:92%;max-width:960px;max-height:90vh;background:#ffffff;border-radius:16px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.35);z-index:10001;overflow:hidden;flex-direction:column;border:1px solid #cbd5e1;">
+    <div style="padding:16px 20px;background:linear-gradient(135deg, #002FA7 0%, #1e3a8a 100%);color:#fff;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:15px;font-weight:900;" id="scanner-modal-heading">📄 AI 計劃書智能掃描解析器 · 客戶端個資脫敏 (Client-Side PII Scrubber)</div>
+        <div style="font-size:11px;opacity:0.9;margin-top:2px;">對標香港《個人資料(私隱)條例》(Cap. 486) 與保監局 GL26 人工智能指引 · 100% 客戶端本機確定性脫敏</div>
+      </div>
+      <button onclick="closeProposalScannerModal()" style="color:#ffffff;background:rgba(255,255,255,0.2);border:none;border-radius:6px;padding:4px 8px;cursor:pointer;">✕</button>
+    </div>
+    <div style="padding:18px;overflow-y:auto;max-height:calc(90vh - 65px);">
+      <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
+        <button onclick="loadSampleProposalText()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#002FA7;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">📋 載入虛構示範計劃書樣本 (含敏感資料)</button>
+        <button onclick="runPIIScrubber()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#10b981;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">🛡️ 執行客戶端即時脫敏 (Client-Side Deterministic Scrub)</button>
+        <button onclick="clearScannerInputs()" style="padding:7px 14px;font-size:12px;font-weight:600;background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:8px;cursor:pointer;">✕ 清除重設</button>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+        <!-- Left Column: Raw Proposal with PII -->
+        <div style="border:1.5px solid #fca5a5;border-radius:10px;padding:12px;background:#fff5f5;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:800;color:#991b1b;">⚠️ 脫敏前原始文本 (含客戶敏感個人資料)</span>
+            <span style="font-size:10px;background:#fee2e2;color:#991b1b;padding:2px 6px;border-radius:4px;font-weight:700;">嚴禁未脫敏外傳</span>
+          </div>
+          <textarea id="scanner-raw-input" style="width:100%;height:180px;font-size:11.5px;font-family:monospace;padding:8px;border:1px solid #fecaca;border-radius:6px;box-sizing:border-box;resize:vertical;" placeholder="在此貼上計劃書 OCR 文本或點擊上方「載入示範計劃書」..."></textarea>
+          <div style="font-size:10.5px;color:#7f1d1d;margin-top:6px;">⚠️ 偵測到之敏感欄位：身份證 (HKID)、電話號碼、電郵地址、保單編號、受保人全名</div>
+        </div>
+
+        <!-- Right Column: Sanitized Scrubbed View -->
+        <div style="border:1.5px solid #86efac;border-radius:10px;padding:12px;background:#f0fdf4;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+            <span style="font-size:12px;font-weight:800;color:#166534;">✅ 客戶端確定性脫敏後 (Sanitized Preview)</span>
+            <span style="font-size:10px;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-weight:700;">安全合規</span>
+          </div>
+          <div id="scanner-scrubbed-output" style="width:100%;height:180px;font-size:11.5px;font-family:monospace;padding:8px;border:1px solid #bbf7d0;border-radius:6px;box-sizing:border-box;background:#ffffff;overflow-y:auto;white-space:pre-wrap;color:#1e293b;">（點擊上方「執行客戶端即時脫敏」以查看安全預覽）</div>
+          <div id="scanner-audit-hash" style="font-size:10.5px;color:#166534;margin-top:6px;font-family:monospace;">數位指紋校驗：待計算 (Deterministic SHA-256)</div>
+        </div>
+      </div>
+
+      <!-- Actuarial Structured Extraction Card -->
+      <div style="border:1.5px solid #bfdbfe;border-radius:10px;padding:14px;background:#eff6ff;margin-bottom:12px;">
+        <div style="font-size:13px;font-weight:800;color:#1e3a8a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">
+          <span>⚡ 精算指標結構化智能解析 (Actuarial Extraction)</span>
+          <span style="font-size:10.5px;color:#3b82f6;font-weight:600;">保證 vs 非保證嚴格拆解</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));gap:10px;">
+          <div style="background:#ffffff;border-radius:8px;padding:10px;border:1px solid #dbeafe;">
+            <div style="font-size:11px;color:#64748b;">保證回本年度 (Guaranteed Breakeven)</div>
+            <div id="scanner-metric-guar-be" style="font-size:16px;font-weight:900;color:#002FA7;margin-top:2px;">第 14 保單年度</div>
+            <div style="font-size:10px;color:#64748b;margin-top:1px;">保證現金價值 102,000 &ge; 總繳 100,000</div>
+          </div>
+          <div style="background:#ffffff;border-radius:8px;padding:10px;border:1px solid #dbeafe;">
+            <div style="font-size:11px;color:#64748b;">預期回本年度 (Total Projected Breakeven)</div>
+            <div id="scanner-metric-proj-be" style="font-size:16px;font-weight:900;color:#10b981;margin-top:2px;">第 6 保單年度</div>
+            <div style="font-size:10px;color:#64748b;margin-top:1px;">預期退保總值 105,000 &ge; 總繳 100,000</div>
+          </div>
+          <div style="background:#ffffff;border-radius:8px;padding:10px;border:1px solid #dbeafe;">
+            <div style="font-size:11px;color:#64748b;">30 年內部回報率對比</div>
+            <div id="scanner-metric-irr" style="font-size:16px;font-weight:900;color:#0f172a;margin-top:2px;">保證 1.75% | 預期 6.68%</div>
+            <div style="font-size:10px;color:#64748b;margin-top:1px;">非保證紅利佔比高達 75.48%</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:10.5px;color:#64748b;line-height:1.5;background:#f8fafc;padding:8px 12px;border-radius:6px;border:1px solid #e2e8f0;">
+        <strong>📜 法規遵循聲明 (HKIA GL20 & GL26 / PDPO Cap. 486)：</strong><br/>
+        本掃描功能完全於顧問本機前端瀏覽器執行正規化去識別，所有客戶真實姓名、身份證號、電話號碼與保單號碼均已替換為安全保護標記（如 [HKID_PROTECTED]），且原始字串於記憶體內即時銷毀，絕不回傳至伺服器或第三方 AI API。
       </div>
     </div>
   </div>

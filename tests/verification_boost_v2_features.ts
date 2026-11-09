@@ -374,8 +374,8 @@ suite('3. Bilateral Clause Highlights & Pitfalls Comparison', () => {
 
   test('Client View clause comparison contains statutory HKIA GL20 disclaimer', () => {
     const html = sb.__domElements['bilateral-clause-comparison'].innerHTML;
-    assert.ok(html.includes('香港保監局《操守準則》(GL20)'), 'Must cite HKIA GL20 code of conduct');
-    assert.ok(html.includes('雙邊客觀披露規範'), 'Must note bilateral objective disclosure standards');
+    assert.ok(html.includes('香港保監局《持牌保險中介人操守守則》') || html.includes('香港保監局《操守準則》'), 'Must cite HKIA Code of Conduct');
+    assert.ok(html.includes('客觀披露準則') || html.includes('雙邊客觀披露規範'), 'Must note objective disclosure standards');
   });
 
   test('Agent Private View (#agent-clause-intel) renders tactical attack points and trumps', () => {

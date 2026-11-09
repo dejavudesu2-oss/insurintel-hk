@@ -1,0 +1,65 @@
+{
+  "timestamp": "2026-11-09T18:27:25.741Z",
+  "ruleComparison": {
+    "oldRule": {
+      "definition": "CSV string matching includes(\"SOURCED\") without locator or figure verification",
+      "sourcedRows": 130,
+      "totalCsvRows": 130,
+      "reportedCoverage": "100.00%"
+    },
+    "newStrictRule": {
+      "definition": "URL + Retrieval Date + Section/Page Locator + Confirmed Document Read & App Figure Match (Excludes generic web pages)",
+      "strictSourcedRows": 1,
+      "strictUnverifiedRows": 129,
+      "totalCsvRows": 130,
+      "strictRowCoverage": "0.77%"
+    }
+  },
+  "trueDenominator": {
+    "allDisplayedNumbersCount": 9052,
+    "strictlySourcedDisplayedNumbersCount": 7,
+    "strictDisplayedCoveragePct": "0.08%",
+    "numberInventoryBreakdown": {
+      "productsScreen": {
+        "productCount": 99,
+        "totalProductNumbers": 2668
+      },
+      "gn16Screen": {
+        "productsTracked": 17,
+        "totalFulfillmentNumbers": 6280
+      },
+      "cashlessHospitalsScreen": {
+        "hospitalsTracked": 13,
+        "depositAmountsDisplayed": 39
+      },
+      "radarScorecard": 21,
+      "scenarioAgentPanels": 44
+    }
+  },
+  "productCountReconciliation": {
+    "claim_42_products": {
+      "figure": "42+ products",
+      "origin": "Legacy catalog specification from Phase 1 planning & app_100_comments.json.",
+      "status": "SUPERSEDED & PURGED: Replaced in UI and code with 99 products across 5 categories."
+    },
+    "claim_99_products": {
+      "figure": "99 products",
+      "origin": "ALL_PRODUCTS_CATALOG in templates/mobile_cafe_app.html and dist/index.html.",
+      "breakdown": {
+        "Savings_MultiCurrency": 20,
+        "Critical_Illness": 20,
+        "Medical_VHIS": 20,
+        "Annuity_QDAP": 19,
+        "Financing_UniversalLife": 20,
+        "total": 99
+      },
+      "status": "CURRENT CODEBASE REALITY: Exactly 99 products exist in the catalog."
+    },
+    "claim_130_records": {
+      "figure": "130 records in DATA_PROVENANCE.csv",
+      "origin": "Sum of 99 catalog products + 17 GN16 statutory disclosure plans + 13 private hospital LOG rows + 1 IRD tax statute row = 130 records.",
+      "entityNote": "The 17 GN16 records provide historical dividend tracking for products present within the 99-product catalog.",
+      "status": "ACCURATELY ACCOUNTED FOR."
+    }
+  }
+}

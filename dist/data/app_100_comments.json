@@ -1,0 +1,1002 @@
+[
+  {
+    "id": "C01",
+    "topic": "貨幣幣種分紅細分",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "香港保監局 GN16 歷史分紅實現率走勢圖，必須按不同保單貨幣（美元 USD vs 港元 HKD vs 人民幣 RMB）分開呈現。同一款儲蓄險美元與人民幣實現率可能相差 8%–15%，不能用單一綜合數字一筆帶過。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Multi-Currency Breakdown"
+  },
+  {
+    "id": "C02",
+    "topic": "收益分拆雙曲線",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "建議書（Illustration）總利益必須徹底拆解為兩條獨立曲線：「保證現值（Guaranteed）」與「非保證紅利（Non-guaranteed）」，嚴禁在圖表上默認堆疊誤導客戶。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C03",
+    "topic": "精準回本期標註",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "回本期（Break-even Year）應嚴格區分「保證回本年期（純保證現金價值 ≥ 總保費）」與「預期回本年期（含非保證紅利）」，讓注重安全感的客戶清楚何時能無損退保。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C04",
+    "topic": "金融海嘯極端壓力情景",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "增設「市場下行極端情景（Pessimistic Stress Test，如分紅連續 10 年按 70% 實現）」，明確告訴客戶若遇全球黑天鵝，保單在第 10/20 年到底能拿回多少真金白銀。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C05",
+    "topic": "萬用壽險利率倒掛警示",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "萬用壽險（UL）宣稱的高派息率往往在加息週期難以跑贏銀行保費融資成本（Hibor + 1.5%），希望系統動態警示淨利差倒掛風險，並提供斷頭平倉警戒線。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Universal Life Premium Financing Stress Calculator"
+  },
+  {
+    "id": "C06",
+    "topic": "歸原紅利 vs 終期紅利通俗說明",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "通俗解釋「歸原紅利（Reversionary，面值有保障但現金價值打折）」與「終期紅利（Terminal，僅在退保或身故時派發，波動劇烈）」的本質區別。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C07",
+    "topic": "預繳保費保證年期",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "各家保司高達 5.5%–5.8% 的預繳利息，到底保證幾年？（例如僅限首年，還是保證覆蓋 5 年繳費期？）需在醒目位置標明第二年起是否變為浮動利率。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C08",
+    "topic": "不保事項紅字警示",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "產品詳情中必須有「不保事項（Exclusions）」與「自殺免責年限（通常 1 年）」的醒目標籤，不要只誇大好處而隱瞞拒賠條款。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C09",
+    "topic": "換受保人限制",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "無限次更換受保人（Change of Insured）條款中，需清楚列出：新受保人年齡限制、是否需要提供可保性證明、保單期滿日是否重置為新受保人 138 歲。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C10",
+    "topic": "紅利鎖定靈活性",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "分紅鎖定選項（Bonus Lock-in Option）每年最高鎖定上限（如 10%–50%）、鎖定後存放在保司的積存利息是否保證、可否隨時提取到銀行。",
+    "pmReview": "項目經理審核：儲蓄分紅透明度與確定性訴求，需消除宣傳誇大，將承諾具象化為合同條款與官方 GN16 基準。",
+    "pdmDecision": "產品經理設計：在建議書利益展示中拆解保證/非保證雙曲線、分幣種實現率、鎖定期標註及保證回本年期。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Savings GN16 Breakdown & Corridor Meter"
+  },
+  {
+    "id": "C11",
+    "topic": "13 間私院按金免除機制",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "全港 13 間私家醫院的入院免按金保證（Deposit Waiver），到底是由保司全額出具信用保證函（LOG），還是仍需病患現場刷信用卡授權押金？",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C12",
+    "topic": "日間手術免住院全額賠",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "內窺鏡/胃鏡/結腸鏡（Endoscopy）等日間醫療中心手術，明確標明哪些保司免住院、免自付額即可 100% 直付免找數。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C13",
+    "topic": "團險 + 高端自願醫保抵扣計算器",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "很多受僱人士已有公司團體醫療險（Group Medical），希望輸入現有公司醫保門額後，系統能推薦最省保費的高自付額（Deductible 如 HK$50,000）自願醫保搭配方案。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Group Medical + High-End VHIS Deductible Optimizer"
+  },
+  {
+    "id": "C14",
+    "topic": "先進抗癌療法覆蓋範圍",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "針對自費標靶藥物（Targeted Therapy）、免疫療法（Immunotherapy）及質子治療（Proton Therapy），對比哪家保司能覆蓋香港養和質子中心以及海外（日本/新加坡/美國）指定醫院。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C15",
+    "topic": "LOG 擔保函逾期補償承諾",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "若保司在 48 小時內未能出具私院直付擔保函導致客戶需自掏腰包墊付，後續「急件理賠（Fast-track Claim）」的平均到賬天數是多少？",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C16",
+    "topic": "私院轉房級別懲罰系數",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "若投保半私家房（Semi-Private）計劃，因醫院滿房被迫升級到單人私家房（Standard Private），各家保司扣減理賠金的調整系數（Adjustment Factor，如扣減 30%–50%）到底有多嚴格？",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C17",
+    "topic": "精神專科保障限額",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "現代高壓人群心理問題激增，自願醫保對精神科住院與門診治療的年度限額（通常僅 HK$30,000）太低，希望橫向對比哪款旗艦限額最寬鬆。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C18",
+    "topic": "出院後中醫調理及物理治療",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "出院後的門診跟進診治（Post-hospitalisation）涵蓋天數（90 天 vs 180 天）以及中醫、針灸、物理治療的單次限額與次數上限對比。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C19",
+    "topic": "未未知已有疾病過渡期賠償",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "未未知已有病症（Unknown Pre-existing Conditions）在保單生效首 3 年的法定賠償比例（第1年0%、第2年25%、第3年50%、第4年起100%），需在所有對比表突出顯示。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C20",
+    "topic": "全球緊急醫療轉運限額",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "國際 SOS 緊急醫療救援運送（Evacuation & Repatriation）是否為實報實銷、有無終身上限、隨行親屬探訪與住宿津貼額度。",
+    "pmReview": "項目經理審核：私院醫療就診與免找數體驗，避免入院高額按金墊付焦慮，理順擔保函簽發及全額直付流程。",
+    "pdmDecision": "產品經理設計：覆蓋全港 13 家私院矩陣，明確 LOG 按金免除機制、自願醫保自付額扣減及日間手術全額直付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HK_13_PRIVATE_HOSPITALS & Cashless Direct Billing"
+  },
+  {
+    "id": "C21",
+    "topic": "癌症間隔期 1 年 vs 3 年",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "危疾險再次罹患癌症時，到底在什麼精確病理條件下可縮短為 1 年等候期？（例如：是新原發癌症、還是持續未緩解亦可？不同保司合同定義極其繁複）。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C22",
+    "topic": "三大重疾專屬保障天花板",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "90% 的重疾理賠集中在癌症、心臟病、中風。不要只宣傳保障 130+ 種疾病，應對比這三大核心重疾的專屬額外賠償（Extra Booster，如額外給付 50%）。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C23",
+    "topic": "腦退化/帕金森年金給付長度",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "嚴重認知障礙症（阿茲海默症）的每月終身照護年金，各家給付年限（至 85 歲 vs 終身）及是否豁免提交年審生存證明的要求。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C24",
+    "topic": "初生嬰兒與兒童先天性殘疾",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "兒童投保時，對尚未發現的先天性疾病（Congenital Conditions）及早產兒併發症，是否有投保後隱形觀察期。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C25",
+    "topic": "深切治療部 (ICU) 實質理賠門檻",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "ICU 救命保障條款是核保黑馬：住進 ICU 滿 120 小時並使用侵入性維生設備（Mechanical Ventilation）時，哪款產品能 100% 預支重疾保額？",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C26",
+    "topic": "分紅抗通脹加保權益",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "20 年後重疾保額受通脹侵蝕嚴重的問題，產品是否提供「免核保抗通脹加保權（Index-linked Inflation Rider）」？",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C27",
+    "topic": "早期輕症理賠後的主險扣減",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "原位癌（Carcinoma in situ）或早期甲狀腺癌預支 20% 保額後，剩餘 80% 主險的後續保費是否會等比例豁免，還是需按 100% 繼續交費？",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C28",
+    "topic": "良性腫瘤切除津貼額度",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "手術切除未演變為惡性的良性腫瘤（如乳腺纖維瘤、胃息肉），各家保司額外津貼（通常 HK$20,000–HK$50,000）的橫向對比。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C29",
+    "topic": "付款人全殘/身故豁免",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "父母為子女買保險，若付款人父母不幸全殘或身故，豁免保費（Payer Benefit）是否免體檢自動包含在主險內？",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C30",
+    "topic": "帶病核保（亞健康）簡易快查",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "有常見甲狀腺結節或乳腺增生微小鈣化的客戶，希望查閱過往各家保司「標準體承保 vs 除外承保」的核保寬鬆度經驗。",
+    "pmReview": "項目經理審核：重疾險癌症二次間隔、三大重疾專屬津貼及亞健康帶病投保透明化，消除文字隱藏門檻。",
+    "pdmDecision": "產品經理設計：重疾對決表動態呈現癌症 1年 vs 3年 間隔、多次索償限額%、ICU 預支與輕症保費豁免。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Critical Illness Dynamic Specs & Corridor"
+  },
+  {
+    "id": "C31",
+    "topic": "QDAP 夫妻合併申報省稅試算",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "合資格延期年金每年最高扣稅額度為每人 HK$60,000。夫妻合併申報可共享 HK$120,000 額度，最高節稅達 HK$20,400，希望提供一鍵家庭稅務計算器。",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C32",
+    "topic": "年金領取年齡的彈性調整",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "簽單時選定 65 歲開始領取年金，若未來提早至 58 歲退休或延後至 70 歲，各保司是否允許無手續費更改領取年齡？",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C33",
+    "topic": "未提取年金的積存生息利率",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "暫不提領的年金留在保單中「積存生息（Accumulation）」的利率（如 3.5%–4.5%）是否為合同保證？保司是否有權每年下調？",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C34",
+    "topic": "未領完年金的身故賠償繼承",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "若受保人在領取期前幾年不幸身故，剩餘保證年金是繼續分期派發給受益人，還是按貼現率一次過折現？哪種方式無利息損失？",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C35",
+    "topic": "年金 vs 銀色債券/定期存款收益對沖",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "提供延期年金與特區政府銀色債券（Silver Bond 4% 保證息）的長期現金流圖譜，展示年金「活得越久領得越多」的長壽對沖優勢。",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C36",
+    "topic": "跨境養老金內地賬戶直付",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "在內地（如大灣區）養老的長者，年金款項能否直接由香港保司跨境電匯至內地銀行個人結算賬戶，有無手續費或外匯申報阻礙？",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C37",
+    "topic": "退休現金流缺口動態測算",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "結合香港強積金（MPF）、個人儲蓄與年金保單，估算退休後每月現金流缺口，幫助客戶決定購買多少保額。",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C38",
+    "topic": "4% 提取法則下的保單壽命",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "在多元貨幣儲蓄保單中按每年 4%–5% 提領現金養老，在悲觀分紅假設下，保單能支撐到多少歲而不至於斷單失效？",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C39",
+    "topic": "保單應急借款（Policy Loan）利率",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "若退休途中突發資金周轉需求，保單質押借款的利率（通常 6%–8%）和最高借款成數（退保價值的 80%–90%）橫向對比。",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C40",
+    "topic": "終身 vs 定期壽險家庭房貸槓桿對比",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "年輕家庭支柱背負 800 萬房貸，純保障定期壽險（Term Life）每年僅數千元即可撬動 1000 萬保額，與終身壽險的槓桿對比應直觀展示。",
+    "pmReview": "項目經理審核：延期年金與退休終身現金流需求，需提供家庭合併申報節稅測算及長壽對沖保證現值展示。",
+    "pdmDecision": "產品經理設計：構建 QDAP 夫婦合併申報 HK,000 扣除與 HK,400 節稅計算器，動態輸出退休提領現金流。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "QDAP Family Tax Savings & Cashflow Calculator"
+  },
+  {
+    "id": "C41",
+    "topic": "內地客赴港投保合規核證流程",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "內地訪港旅客（MCV）必須在香港境內簽署核證、入境小票（Entry Slip）拍照上傳流程及體檢指定醫院名單清晰引導。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "C42",
+    "topic": "續期保費多渠道繳費指南",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "外匯管制下，第 2 年續期保費的交費渠道（香港本地賬戶、富途證券、Visa/Master、銀聯跨境雲閃付、海外電匯）費用與步驟指引。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "C43",
+    "topic": "多幣種轉換（Currency Swap）匯率滑點",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "更換保單貨幣時，是按照即時市場電匯牌價（TT Rate）還是保司內定匯率？每年是否有轉換次數限制與凍結期？",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "C44",
+    "topic": "長輩/大字體模式（Accessibility）",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "45 歲以上高淨值客戶使用手機查看對比時文字偏小，建議增加一鍵切換「大字體 / 高對比度閱讀模式」。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Large Font Accessibility Mode (Header Toggle)"
+  },
+  {
+    "id": "C45",
+    "topic": "一鍵匯出客戶專用 PDF 簡報",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "對比完成後，支持一鍵匯出排版精美的 PDF 分析報告，或生成高畫質長圖以便轉發給配偶或家庭成員審閱。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "One-Click Client PDF Report & WhatsApp Pitch Card"
+  },
+  {
+    "id": "C46",
+    "topic": "三家旗艦同台橫向對決（3-Way PK）",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "除了當前 1v1 對決外，支持同時選取 3 家主流公司（如友邦 vs 保誠 vs 宏利）的三欄同屏對比。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "3-Way Flagship Simultaneous Comparison (3-Way PK)"
+  },
+  {
+    "id": "C47",
+    "topic": "繁簡中文一鍵無損切換",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "跨境新移民與內地讀者更習慣規範簡體金融詞彙，提供繁簡即時切換開關。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Traditional & Simplified Chinese Toggle (Header Toggle)"
+  },
+  {
+    "id": "C48",
+    "topic": "離線環境條款與私院電話全覆蓋",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "在私家醫院地下室或機艙弱網環境下，確保 13 間醫院的急診電話、LOG 傳真號與保單條款完全可用。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "C49",
+    "topic": "隱私保護模式（Masking Mode）",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "在星巴克或公開場合見客時，一鍵隱藏具體投保金額、保費數字及個人姓名，以 `***` 遮罩保護隱私。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "C50",
+    "topic": "官方申訴投訴率與品牌信譽",
+    "sourceRole": "客戶 (Client)",
+    "commentText": "引入香港保險投訴局（ICB）發布的年度爭議投訴統計與索賠成功率指標，增強對比的第三方公信力。",
+    "pmReview": "項目經理審核：跨境客群投保核證、多幣種滑點、長輩大字體、繁簡切換及客戶專屬交付物報告導出。",
+    "pdmDecision": "產品經理設計：提供頂部 [繁/簡] 與 [標準/大字體] 開關、3-Way 三方對決、離線 PWA 本地緩存及一鍵 PDF 報告。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Client PDF Report, Localization & 3-Way Arena"
+  },
+  {
+    "id": "A01",
+    "topic": "30 秒致命破局一句話（Killer Hook）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "咖啡館見客模式中，每組產品對決需配備一句「一針見血」的破局切入句（例如：「對手標靶藥設有分項上限，第 3 年可能要自掏 30 萬現金」），幫助顧問在開場 30 秒迅速建立專業權威。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A02",
+    "topic": "三大經典抗拒結構化破解庫",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "系統需常駐三大客戶最常提出的抗拒點應對腳本：「我有公司團體醫保何必買 VHIS？」、「等香港再降息儲蓄險回報會不會更高？」、「重疾險買消費型定期就夠了何必買終身分紅？」。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A03",
+    "topic": "個人化品牌促成文案",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "一鍵複製的 WhatsApp/微信文案中，自動代入顧問的姓名、電話、所屬分區（Agency District）與 MDRT 稱謂，無需每次手動編輯。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "One-Click Client PDF Report & WhatsApp Pitch Card"
+  },
+  {
+    "id": "A04",
+    "topic": "合規客觀的「避實擊虛」導航",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "當對手產品在某一維度（如演示收益高 0.3%）暫時領先時，話術指南應引導顧問以客觀事實轉化焦點至底層風險（如：「對手演示利率雖高，但過去 5 年保監局實現率低於 90%」）。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A05",
+    "topic": "一分鐘速成投保計算機",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "現場輸入客戶年齡、性別、吸煙狀況與每年預算，5 秒內自動計算並配比出「重疾保額 + 高端醫療自付額 + 退休現金流」的黃金組合。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A06",
+    "topic": "友邦 vs 保誠 焦點攻防指南",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "針對市場最普遍的「友邦盈御 3 vs 保誠雋富」，提供「多元貨幣轉換時點靈活性 vs 預繳利息鎖定」的決定性攻防論據。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A07",
+    "topic": "舊保單體檢（Policy Audit）升級模式",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "允許顧問輸入客戶 5–10 年前購買的老舊重疾險條款（如不含良性腫瘤、心臟病無多次賠），一鍵生成新舊旗艦差距對比圖，促成升級換單。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A08",
+    "topic": "高淨值傳承架構圖解",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "針對資產超千萬的大客，提供「無限次更換受保人 + 保單分拆給多位子女」的財富架構圖解，直接展示三代無遺產稅傳承效果。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A09",
+    "topic": "保費融資槓桿試算與極端加息測試",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "高淨值客戶做保費融資（Premium Financing）時，提供 100 萬美元本金撬動 300 萬美元保單的真實淨槓桿回報率，並提供銀行貸款利率上升 1%–2% 時的敏感度分析表。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Universal Life Premium Financing Stress Calculator"
+  },
+  {
+    "id": "A10",
+    "topic": "晨會速報 PPTX 導出",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "目前的晨會速報 HTML 排版精良，若能一鍵匯出標準 PowerPoint (.pptx) 文件，方便主管在全區大早會上直接投屏演講。",
+    "pmReview": "項目經理審核：咖啡館 30 秒見客破局剛需，急需三段式抗拒破解話術、客觀軟肋拆解及個人品牌名片嵌入。",
+    "pdmDecision": "產品經理設計：配置 30 秒致命破局一句話、經典異議應對庫、顧問品牌名片及保費融資加息敏感度試算。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cafe 30s Rapid Pitch & Objection Library"
+  },
+  {
+    "id": "A11",
+    "topic": "保監局 GL20 絕對化用語自動過濾器",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "嚴格落實香港保監局《操守指引》（GL20），代碼層面全面封殺「全港第一」、「保證回報最高」、「毫無風險」等敏感詞，違者自動攔截並替換為合規中立表達。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Statutory Disclaimer & Guardrail"
+  },
+  {
+    "id": "A12",
+    "topic": "法定合規免責宣告（Statutory Disclaimer）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "所有攻防卡、對比表格及導出物底部，必須自動附帶標準免責聲明：標明資料基於保司官方公開單張及官網，僅供授權持牌人士專業培訓參考，不構成要約。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Statutory Disclaimer & Guardrail"
+  },
+  {
+    "id": "A13",
+    "topic": "分紅演示悲觀/樂觀雙情景標註",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "依據保監局 GN16 規定，在展示非保證紅利時，提示顧問必須同時呈交悲觀（如 3%）與樂觀（如 6%）情景，避免被監管部門判定為誤導銷售。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A14",
+    "topic": "促銷回贈優惠倒計時與過期警示",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "各家保司的保費折扣（Rebate）、預繳高息優惠均有明確截止日期。系統需在優惠到期前 7 天標記黃色預警，到期後自動標記失效，防止顧問給客戶承諾已作廢的政策。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A15",
+    "topic": "跨境 MCV 訪港核證境內合規警示",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "醒目標註內地客戶投保的紅線：嚴禁在內地境內簽署或支付、嚴禁任何形式的地下保單或違規返傭，保障顧問持牌牌照安全。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A16",
+    "topic": "轉保聲明（IFS-PR）審慎警示",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "當顧問進行產品對比並涉及退掉舊保單時，主動彈出《重要資料聲明書——轉保》（IFS-PR）審慎警示，提醒客戶面臨重置抗辯期、退保手續費及年齡加費風險。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A17",
+    "topic": "醫療險費率調整非保證宣告",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "自願醫保雖然「保證續保至 100 歲」，但條款允許保司因醫療通脹對全體費率表進行年度調整。話術中必須嚴格標明「保證續保不等於保證保費不變」。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A18",
+    "topic": "版本管理與合規審計日誌（Audit Trail）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "後台保留每次產品條款更新、促銷調價的不可篡改時間戳日誌，以便在遭遇客戶投訴或內部合規抽查時提供審計證據鏈。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A19",
+    "topic": "保費融資法定借貸警語",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "在保費融資和保單貸款板塊，按特區政府金融監管要求醒目載入「借定唔借？還得到先好借！」法定宣傳標語。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A20",
+    "topic": "早期疾病預支扣減如實告知",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "在危疾險輕症/早期給付話術中，強制加入「原位癌理賠將等額扣減身故與嚴重重疾保額」的如實說明條款。",
+    "pmReview": "項目經理審核：保監局 GL20 操守指引合規紅線，全面杜絕絕對化誇大，強制載入法定免責聲明與轉保審慎警示。",
+    "pdmDecision": "產品經理設計：代碼層攔截非客觀絕對詞，全輸出物強制附帶 GL20 法定免責，展示保費融資「還得到先好借」警語。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "HKIA GL20 Guardrail & Compliance Filter"
+  },
+  {
+    "id": "A21",
+    "topic": "產品庫補齊次級與新銳計劃",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "除 9 大巨頭外，盡快收錄永明（Sun Life）「萬滿金生/港運」、安盛（AXA）「盛利/愛護同行」、中銀人壽（BOC Life）熱門年金等二線但高回佣產品。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A22",
+    "topic": "每日通函自動爬蟲與調價監控",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "大型保司常在週五傍晚發布突發促銷或調整預繳利率，自動爬蟲需支持監控代理人門戶最新通函公告，實現次日清晨秒級同步。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A23",
+    "topic": "分紅實現率加權履約指數（Fulfillment Index）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "計算保司過去 3 年、5 年、10 年的綜合實現率加權評級，建立 AAA/AA/A/BBB 履約穩定度等級。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A24",
+    "topic": "VHIS 靈活計劃細分項逐級下鑽",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "將自願醫保靈活計劃的「日間手術現金津貼」、「深切治療陪床費」、「出院後護理」等細分項納入逐級可展開的高級視圖。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A25",
+    "topic": "多次重疾心臟病/中風理賠定義比對",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "心臟病（急性心肌梗塞）與中風二次理賠的醫學證明門檻（如心肌酶峰值、新神經功能障礙達 4 週）進行條款原文對比。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A26",
+    "topic": "萬用壽險收費架構（Cost of Insurance, COI）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "展示萬用壽險前 10 年按月扣除的風險保費（COI）、保單管理費與退保費用梯形表，幫助顧問判斷何時現金價值能真正爬升。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A27",
+    "topic": "傳承信託指令（Trust Instruction）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "比對不同公司對於「身故賠償信託式按月發放」的靈活性，例如受託人是否可以設置通脹遞增給付或特定結婚/畢業里程碑獎勵。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A28",
+    "topic": "精確至小數點後兩位的保證 IRR 矩陣",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "提供所有儲蓄與年金險在第 5、10、15、20、25、30 年的精確保證內部回報率（Guaranteed IRR），杜絕口頭四捨五入。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A29",
+    "topic": "身故賠償支付方式多維度對比",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "除一次過領取外，對比各保司分期領取（如分 10/20/30 年發放）、未領取金額留存保司的計息利率。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A30",
+    "topic": "醫療通脹率（8%–10%）對沖精算曲線",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "在醫保與危疾對比頁面疊加過去 20 年香港私家醫療費用指數，有力佐證客戶每年加保必要性。",
+    "pmReview": "項目經理審核：精算數據深度與產品庫覆蓋，提供精確至小數點保證 IRR、履約指數加權及通函調價秒級監控。",
+    "pdmDecision": "產品經理設計：全量收錄全港 42 款主流及高佣新銳計劃，構建五維精算計分卡與 Policy Horizon 投影引擎。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Actuarial Scorecard & 42-Product Catalog"
+  },
+  {
+    "id": "A31",
+    "topic": "13 間私家醫院免找數擔保函（LOG）簽發時效比對",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "橫向對比各家保司的擔保函審批效率（如：友邦在線即時出函 vs 保誠 4 小時 vs 宏利 2 個工作天），成為醫保競爭的殺手級王牌。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A32",
+    "topic": "名醫預約與綠色通道禮賓服務（Concierge）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "養和醫院、港怡醫院名醫雲集，對比哪些保司能為 VIP 客戶提供權威主治醫生專人預約安排。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A33",
+    "topic": "內地三甲醫院跨境直付網絡",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "內地客返內地就醫需求大，整理香港保司認可的近 4,000 間內地三甲醫院免找數直付名單（如港大深圳醫院、中山一院等）。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A34",
+    "topic": "次標準體（Sub-standard）核保預判字典",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "為顧問提供常見體況核保預判字典（如：甲狀腺結節 TI-RADS 3 級多數除外；乳腺結節無鈣化通常標準體承保），提升顧問收單把握。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A35",
+    "topic": "日間醫療中心（Day Care Centre）自付額豁免獎勵",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "有些保司規定在指定日間醫療中心做內窺鏡檢查可全免自付額（Deductible Waiver Incentive），需突出標記為亮點。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A36",
+    "topic": "私院雜費（Sundries）賠償天花板穿透",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "私家醫院開支中雜項（如高額進口敷料、特殊耗材）常被部分保司設置每年限額，標出哪些計劃真正做到「全數賠償無分項上限」。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A37",
+    "topic": "無索償折扣（No-claim Discount, NCD）晉升階梯",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "對比各保司自願醫保連續 3–5 年無索償後的保費折扣（如 10%–25%）及一旦索賠後的清零規則。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A38",
+    "topic": "重症標靶藥免審批直接撥付名冊",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "自願醫保針對昂貴抗癌標靶藥，哪些保司可以直接在出院時將藥費直接劃撥給醫院藥房，免除客戶數十萬墊資。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A39",
+    "topic": "電子醫療卡（Apple Wallet / Google Wallet）就診集成",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "各家保司客戶就診時出示的憑證便利度（是否支持將電子直付卡推送到手機錢包、醫院現場掃描即識別）。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A40",
+    "topic": "公立醫院私家病房（HA Private Ward）現金津貼轉換",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "若客戶選擇在瑪麗醫院或威爾斯親王醫院的私家病房就醫，各保司每日住院現金津貼的補償標准對比。",
+    "pmReview": "項目經理審核：醫療免找數核保與私家醫院直付運作，對比 LOG 擔保函審批時效、名醫預約及三甲醫院網絡。",
+    "pdmDecision": "產品經理設計：全港 13 家私院出院免找數時效矩陣，對比自願醫保日間醫療免自負額及重症標靶藥直接撥付。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Cashless LOG Logistics & Hospital Matrix"
+  },
+  {
+    "id": "A41",
+    "topic": "團隊主管攻防庫一鍵分發（Leader Distribution）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "資深總監或分區經理可將自己打磨好的客製化破局話術與對決案例，一鍵分發給全團隊 50–100 位組員。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A42",
+    "topic": "弱網與地下商場 0 秒加載（PWA Local Storage）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "咖啡廳地下層往往信號微弱，確保所有比對數據與圖表完全本地化緩存，滑動點擊毫無卡頓。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A43",
+    "topic": "名片與 IP 自定義生成器",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "攻防卡頂部可嵌入顧問個人肖像頭像、榮譽稱號（COT/TOT/MDRT）、公司分行地址與專屬二維碼。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A44",
+    "topic": "雙屏分流演示模式（Presenter vs Client View）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "顧問在自己手機上可見後台心理博弈指引與話術要點，投屏給客戶的平板或電視端只顯示極致簡約的大氣圖表。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A45",
+    "topic": "iPad Pro 橫屏（Landscape）適配",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "在平板橫向握持時自動排布為「雙側旗艦並列大圖譜」，適配咖啡館 iPad 促成習慣。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A46",
+    "topic": "發送客戶閱讀行為追蹤（Readiness Tracker）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "生成短鏈發送給客戶後，在符合隱私法前提下，後台提示顧問：「客戶已打開鏈接，在重疾等候期頁面停留了 3 分鐘」，輔助精準跟進。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A47",
+    "topic": "晨會講稿雙語語音合成（TTS 粵語/普通話）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "將每日晨會速報生成雙語語音播報音頻，新人顧問在搭乘港鐵或開車時可隨時聽取。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A48",
+    "topic": "疾病與條款模糊搜尋引擎（Fuzzy Search）",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "輸入「胃息肉」、「冠狀動脈通波仔」或「質子治療」，直接定位並高亮兩款產品對應條款與賠償額度。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A49",
+    "topic": "往期歷史版本產品庫回溯",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "老客戶諮詢 2021 年購買的「舊版盈御 1」與當前「盈御 3」的升級價值，可隨時調出已下架舊產品進行新舊同框對比。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  },
+  {
+    "id": "A50",
+    "topic": "手勢與雙指滑動快速切換",
+    "sourceRole": "保險顧問 (Insurance Agent)",
+    "commentText": "見客時雙指在螢幕上左右滑動即可流暢對調 Plan A 與 Plan B 的攻守身份，動效順滑，提升展業科技感。",
+    "pmReview": "項目經理審核：團隊主管攻防庫分發、移動弱網 0 秒加載、橫屏適配、疾病模糊搜尋及雙向手勢流暢對調。",
+    "pdmDecision": "產品經理設計：支援 3-Way 三欄同屏對決、一鍵對調攻防、離線 LocalStorage 本地化緩存及個人化 PDF/微信海報生成。",
+    "status": "✅ 已修復驗證",
+    "resolvedIn": "Team Distribution, 3-Way PK & Offline PWA"
+  }
+]

@@ -1,6 +1,6 @@
 [
   {
-    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794178796637-643",
+    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794248833451-897",
     "insurer": "Prudential",
     "product_name": "保誠 雋富多元貨幣計劃",
     "product_aliases": [
@@ -15,7 +15,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-11-08",
+      "start_date": "2026-11-09",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -35,11 +35,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-08T22:59:56.637Z"
+      "created_at": "2026-11-09T18:27:13.451Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-AIA-1794178796637-521",
+    "promo_id": "AUTO-CRAWL-AIA-1794248833451-2",
     "insurer": "AIA",
     "product_name": "友邦 盈御多元貨幣計劃 3",
     "product_aliases": [
@@ -54,7 +54,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-11-08",
+      "start_date": "2026-11-09",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -74,11 +74,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-08T22:59:56.637Z"
+      "created_at": "2026-11-09T18:27:13.451Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-MANULIFE-1794178796638-344",
+    "promo_id": "AUTO-CRAWL-MANULIFE-1794248833451-207",
     "insurer": "Manulife",
     "product_name": "宏利 宏摯多元儲蓄計劃",
     "product_aliases": [
@@ -93,7 +93,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-11-08",
+      "start_date": "2026-11-09",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -113,11 +113,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-08T22:59:56.638Z"
+      "created_at": "2026-11-09T18:27:13.451Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-FWD-1794178796638-488",
+    "promo_id": "AUTO-CRAWL-FWD-1794248833451-188",
     "insurer": "FWD",
     "product_name": "富衛 危疾加諾保",
     "product_aliases": [
@@ -132,7 +132,7 @@
       5
     ],
     "validity": {
-      "start_date": "2026-11-08",
+      "start_date": "2026-11-09",
       "end_date": "2026-11-30",
       "channel": "All"
     },
@@ -146,7 +146,7 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-08T22:59:56.638Z"
+      "created_at": "2026-11-09T18:27:13.451Z"
     }
   }
 ]

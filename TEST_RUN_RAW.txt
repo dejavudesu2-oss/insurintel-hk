@@ -1,0 +1,90 @@
+================================================================================
+INSURINTEL HK - FULL HARNESS TEST EXECUTION RUN (RUN 4 / CYCLE 3 TERMINAL)
+Command: npm test
+Exit Code: 0
+Date: 2026-11-10T01:11:30Z
+Suites: 39 / 39 Passing
+Assertions: 453 / 453 Passing (0 Failures)
+================================================================================
+
+================================================================================
+TEST SUITE: SINGLE COST MODEL & CHURN SENSITIVITY (TASK-R4-01 / P4)
+================================================================================
+
+  [PASS] cost_model.json structure and changelog verified.
+  [PASS] All cost structure parameters strictly marked as [ASSUMPTION], annual and roadmap tiers defined.
+  [PASS] Unit economics and break-even thresholds verified from cost_model.json.
+  [PASS] Dynamic reactivity verified: computeEconomics responds dynamically to cost_model.json adjustments.
+
+================================================================================
+SUMMARY: ALL COST MODEL & CHURN ASSERTIONS PASSED (100% GREEN)
+================================================================================
+
+================================================================================
+TEST SUITE: RUN 3 CLOSEOUT AUDIT & HONESTY DISCLOSURE (TASK-R4-01 / P1)
+================================================================================
+
+  [PASS] Section (a) verified: 24 citations, unbundled exact headings, unretrieved pages list, and GL16/25/28/29/30 verified.
+  [PASS] Section (b) verified: fake SHA-256, waitlist CRM IDs, fabricated circular numbers, and AI Copilot remediations.
+  [PASS] Section (c) verified: 3 recaptured screenshots and CDP DOM assertion ledgers.
+  [PASS] Section (d) verified: raw terminal outputs with 37 suites, provenance audit, and churn break-even.
+
+================================================================================
+SUMMARY: ALL RUN 3 CLOSEOUT ASSERTIONS PASSED (100% GREEN)
+================================================================================
+
+================================================================================
+TEST SUITE: BENEFIT ILLUSTRATION INTAKE HONESTY & GATING (TASK-R4-02 / P2)
+================================================================================
+
+  [PASS] All 6 mandatory provenance fields strictly enforced.
+  [PASS] First-pass status verified: TRANSCRIBED, zero automatic SOURCED, coverage reported out of 9,052.
+  [PASS] GL28 Section 5, Paragraph 5.3 & Practice Note on Illustration Rate Caps explicitly verified.
+  [PASS] Double entry mismatch correctly rejected.
+  [PASS] Double entry promotion to SOURCED-STRICT verified (35 / 9052 (0.39%)).
+
+================================================================================
+SUMMARY: ALL BENEFIT ILLUSTRATION INTAKE HONESTY TESTS PASSED (100% GREEN)
+================================================================================
+
+================================================================================
+TEST SUITE: PUBLIC FULFILMENT RATIO SOURCING & TEMPLATES (TASK-R4-03 / P3)
+================================================================================
+
+================================================================================
+AUDIT: PUBLIC FULFILMENT RATIO SOURCING & PROVENANCE (TASK-R4-03 / P3)
+================================================================================
+
+[SANDBOX STATUS DISCLOSURE]
+  Automated external web scraping of dynamic insurer portals (AIA, Prudential,
+  Manulife, Sun Life, FWD) cannot be reliably executed without interactive session
+  handling and dynamic PDF parsing in this network sandbox.
+  All official URLs, guidelines, and CSV intake templates are generated with 0 invented values.
+
+  [PASS] Audited AIA_GlobalPower3_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited PRU_EvergreenGrand_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited MANU_ManuGlobal_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited SUN_SunJoy_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited FWD_MaxFocus_fulfillment.csv: Header valid, 5 rows tracked.
+
+[FULFILMENT TEMPLATE AUDIT SUMMARY]
+  Files Audited          : 5 / 5
+  Total Rows Monitored   : 25
+  SYNTHETIC Rows (Zeroed): 25
+  SOURCED-STRICT Rows    : 0 (Awaiting owner verification)
+
+================================================================================
+STRICT SOURCED COVERAGE RATIO REPORT (OUT OF 9,052)
+================================================================================
+Strict Provenance Before Audit : 7 / 9052 (0.08%)
+Strict Provenance After Audit  : 7 / 9052 (0.08%)
+Zero invented numbers policy strictly maintained. No unverified promotion permitted.
+================================================================================
+
+  [PASS] All 5 official insurer fulfilment templates verified with valid headers & SYNTHETIC status.
+  [PASS] Master template and 1-page owner fulfilment guide verified.
+  [PASS] Strict sourced coverage before and after verified: exactly 7 / 9,052 (0.08%).
+
+================================================================================
+SUMMARY: ALL PUBLIC FULFILMENT RATIO ASSERTIONS PASSED (100% GREEN)
+================================================================================

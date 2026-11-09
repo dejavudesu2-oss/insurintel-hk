@@ -83,6 +83,7 @@ function wipeDist() {
     const files = fs.readdirSync(distDir);
     for (const file of files) {
       if (file.startsWith(".")) continue;
+      if (file === "morning_assembly_deck.pptx" || file === "screenshots" || file === "waitlist.html" || file === "sw.js") continue;
       const fullPath = path.join(distDir, file);
       const stat = fs.statSync(fullPath);
       if (stat.isDirectory()) {
@@ -255,7 +256,7 @@ async function main() {
     const validCurrencies = new Set(["USD", "HKD", "RMB", "GBP", "EUR", "AUD", "CAD", "SGD"]);
     const validChannels = new Set(["Agency", "Broker", "Bank", "All"]);
     const validSourceTypes = new Set(["Official_Circular", "Broker_Notice", "Social_Media", "Crowd_Upload"]);
-    const validConfidence = new Set(["Verified", "Provisional", "Under_Review"]);
+    const validConfidence = new Set(["Verified", "Provisional", "Under_Review", "Illustrative_Synthetic"]);
 
     for (const p of allRawProducts) {
       const loc = `${p.insurer} - ${p.product_name} (${p.promo_id})`;

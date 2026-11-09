@@ -48,8 +48,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-22T04:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可編號: F00045-01-000-01；Bowtie 官方核保指南 Ref: BOWTIE-PINK-2026"
     },
@@ -128,8 +128,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-23T09:00:00Z",
       "official_source_attribution": "醫務衞生局 VHIS 核准編號: F00032-01-000-01；友邦保險官方產品條款 Ref: POL-AIA-VHIS-CEO-2026"
     },
@@ -202,8 +202,8 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-23T15:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保證書: F00030-01-000-01；保誠保險官方產品備忘 Ref: PRU-VHIS-PRIV-2026"
     },
@@ -277,8 +277,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-24T08:00:00Z",
       "official_source_attribution": "醫務衞生局認可證書編號: F00035-02-000-01；富衛官方條款書 Ref: FWD-VPRIME-POL-2026"
     },
@@ -351,8 +351,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-24T12:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保編號: F00031-01-000-01；宏利人壽產品指南 Ref: POL-MANU-VHIS-MASTER"
     },
@@ -425,8 +425,8 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T09:30:00Z",
       "official_source_attribution": "醫務衞生局核准編號: F00033-01-000-01；安盛保險官方產品備忘 Ref: AXA-VHIS-SMART-2026"
     },
@@ -501,8 +501,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T14:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可標籤: F00038-01-000-01；永明金融官方手冊 Ref: SUN-VHIS-MEDIPRO-2026"
     },
@@ -577,8 +577,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T14:30:00Z",
       "official_source_attribution": "醫務衞生局核准檔案: F00041-01-000-01；中銀人壽官方備案 Ref: BOCL-VHIS-PRESTIGE-2026"
     },
@@ -654,8 +654,8 @@
     },
     "audit_metadata": {
       "source_type": "Broker_Notice",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-25T15:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保證書: F00044-01-000-01；萬通保險官方通告 Ref: YFL-VHIS-EXTRA-2026"
     },
@@ -729,8 +729,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T13:00:00Z",
       "official_source_attribution": "醫務衞生局認可證書: F00032-02-000-01；友邦保險亞洲至尊條款手冊 Ref: POL-AIA-ASIA-CEO"
     },
@@ -806,8 +806,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T14:30:00Z",
       "official_source_attribution": "醫務衞生局核准編號: F00025-01-000-01；信諾環球官方手冊 Ref: CIGNA-VHIS-FLEXI-2026"
     },
@@ -824,7 +824,7 @@
       "海外就醫預先批核流程嚴格，未事先授權之非急症治療可能拒絕直付"
     ],
     "last_updated": "2026-11-06",
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
+    "official_url": "https://www.cigna.com.hk/zh-hant/health-insurance/medical/cigna-vhis-flexi-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cigna-vhis-flexi-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cigna-vhis-flexi",
@@ -882,8 +882,8 @@
     },
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-10-26T15:30:00Z",
       "official_source_attribution": "醫務衞生局認可標籤: F00028-01-000-01；保柏官方條款 Ref: BUPA-HERO-VHIS-2026"
     },
@@ -900,7 +900,7 @@
       "精神科住院治療賠償同樣受香港法例自願醫保之條款限制"
     ],
     "last_updated": "2026-11-06",
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
+    "official_url": "https://www.bupa.com.hk/zh-hk/individual/health-insurance/medical/bupa-hero-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bupa-vhis-hero-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bupa-vhis-hero",
@@ -973,12 +973,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可證書: F00049-01-000-01；滙豐保險官方手冊 Ref: HSBC-FLEXI-VHIS-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
+    "official_url": "https://www.hsbc.com.hk/zh-hk/insurance/products/medical/hsbc-life-flexi-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-flexi-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-flexi",
@@ -1044,12 +1044,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局標準計劃認可編號: S00028-01-000-01；滙豐官方文件 Ref: HSBC-STD-VHIS-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
+    "official_url": "https://www.hsbc.com.hk/zh-hk/insurance/products/medical/hsbc-life-standard-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/hsbc-vhis-standard-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/hsbc-vhis-standard",
@@ -1122,12 +1122,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保認可編號: F00054-01-000-01；忠意保險官方指南 Ref: GEN-VHIS-LIONCARE-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
+    "official_url": "https://www.generali.com.hk/zh-hk/our-products/medical/generali-lioncare-flexi-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/gen-vhis-lioncare-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/gen-vhis-lioncare",
@@ -1200,12 +1200,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00029-01-000-01；藍十字官方通函 Ref: BC-CAREYOU-FLEXI-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
+    "official_url": "https://www.bluecross.com.hk/zh-hk/products/medical/blue-cross-careyou-flexi-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-flexi-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-flexi",
@@ -1271,12 +1271,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局標準計劃編號: S00018-01-000-01；藍十字官方指南 Ref: BC-STD-VHIS-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
+    "official_url": "https://www.bluecross.com.hk/zh-hk/products/medical/blue-cross-standard-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/bc-vhis-standard-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/bc-vhis-standard",
@@ -1350,12 +1350,12 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00037-01-000-01；中國人壽海外官方產品通告 Ref: CL-HK-VHIS-FLEXI-2026"
     },
-    "official_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
+    "official_url": "https://www.chinalife.com.hk/zh-hk/products/medical/china-life-flexi-vhis-plan",
     "official_brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
     "official_pdf_url": "https://www.aia.com.hk/content/dam/hk/zh-hk/pdf/our-products/vhis/cl-vhis-flexi-brochure.pdf",
     "brochure_url": "https://www.aia.com.hk/zh-hk/our-products/medical-protection/cl-vhis-flexi",
@@ -1425,8 +1425,8 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准編號: F00030-02-000-01；保誠保險官方指南 Ref: PRU-VHIS-SELECT-2026"
     },
@@ -1502,8 +1502,8 @@
     "last_updated": "2026-11-06",
     "audit_metadata": {
       "source_type": "Official_Circular",
-      "confidence_level": "Verified",
-      "verified_by_editor": true,
+      "confidence_level": "Illustrative_Synthetic",
+      "verified_by_editor": false,
       "created_at": "2026-11-06T00:00:00Z",
       "official_source_attribution": "醫務衞生局自願醫保核准號: F00035-01-000-01；富衛官方手冊 Ref: FWD-VPIONEER-2026"
     },

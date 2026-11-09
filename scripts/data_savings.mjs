@@ -14,7 +14,7 @@ export const existingSavingsEnrichment = {
       "貨幣轉換每年限行使一次，且受保險公司當時適用的匯率及行政規則約束",
       "預繳利息僅保證首年 5.0%，提早提取預繳款項將被扣除利息並收取手續費"
     ],
-    official_source_attribution: "友邦保險官方產品通函 Ref: AIA-CIRC-2026-GP3-Q4；保監局備案編號: IA-AIA-SAV-2026"
+    official_source_attribution: "友邦保險官方產品通函 Ref: AIA-CIRC-2026-GP3-Q4；[示範虛擬編號]"
   },
   "PROMO-PRU-SAV-2026-Q4": {
     clause_highlights: [
@@ -44,7 +44,7 @@ export const existingSavingsEnrichment = {
       "若轉換為終生年金，已轉換部分將不可逆轉重新變更為一筆過現金",
       "保費預繳優惠額度有限，僅適用於指定投保額度及特定貨幣賬戶"
     ],
-    official_source_attribution: "宏利人壽官方經紀通告 Ref: MANU-BROKER-2026-MGS；保險業監管局備案: IA-MANU-2026"
+    official_source_attribution: "宏利人壽官方經紀通告 Ref: MANU-BROKER-2026-MGS；[示範虛擬編號]"
   },
   "PROMO-SUN-SAV-2026-Q4": {
     clause_highlights: [
@@ -59,7 +59,7 @@ export const existingSavingsEnrichment = {
       "首年退保現金價值通常低於已繳保費之 15%",
       "預繳利率 5.1% 僅適用於首年，次年自動轉為非保證積存利率"
     ],
-    official_source_attribution: "香港永明金融官方通告 Ref: SUN-HK-2026-STELLAR；保監局備案標識: IA-SUN-SAV-09"
+    official_source_attribution: "香港永明金融官方通告 Ref: SUN-HK-2026-STELLAR；[示範虛擬編號]"
   },
   "PROMO-FWD-SAV-2026-Q4": {
     clause_highlights: [
@@ -74,7 +74,7 @@ export const existingSavingsEnrichment = {
       "前 2 年保單提早終止將損失絕大部分本金",
       "保單分拆需於第 3 個保單週年後方可生效，每次分拆有名額與最低名義價值限制"
     ],
-    official_source_attribution: "富衛人壽官方產品手冊 Ref: FWD-CIR-2026-MF8；保險業監管局核准: POL-FWD-SAV-2026"
+    official_source_attribution: "富衛人壽官方產品手冊 Ref: FWD-CIR-2026-MF8；[示範虛擬編號]"
   },
   "PROMO-AXA-SAV-2026-Q4": {
     clause_highlights: [
@@ -89,7 +89,7 @@ export const existingSavingsEnrichment = {
       "預繳保費提早提領需收取相等於已派利息 100% 之補償扣除費",
       "保單分拆申請不可撤銷，一經批准即按新保單各自獨立運作"
     ],
-    official_source_attribution: "安盛保險官方通函 Ref: AXA-HK-2026-DYN-01；保監局檔案號: IA-AXA-2026-SAV"
+    official_source_attribution: "安盛保險官方通函 Ref: AXA-HK-2026-DYN-01；[示範虛擬編號]"
   },
   "PROMO-BOC-SAV-2026-Q4": {
     clause_highlights: [
@@ -104,7 +104,7 @@ export const existingSavingsEnrichment = {
       "大額預繳需於指定中銀香港賬戶扣款方可享預繳利息優惠",
       "早期退保罰則較重，第 2 年退保保證現金價值僅約已繳保費 25%"
     ],
-    official_source_attribution: "中銀人壽官方產品通告 Ref: BOCL-CIRC-2026-GEN-04；保監局登記編號: IA-BOCL-SAV-2026"
+    official_source_attribution: "中銀人壽官方產品通告 Ref: BOCL-CIRC-2026-GEN-04；[示範虛擬編號]"
   },
   "PROMO-YF-SAV-2026-Q4": {
     clause_highlights: [
@@ -119,7 +119,7 @@ export const existingSavingsEnrichment = {
       "年金轉換權利行使後不可還原，且年金率將按行使時當時之預期壽命精算表釐定",
       "轉換至非主流外幣（如澳元、加元）需承擔較高外幣匯兌買賣差價"
     ],
-    official_source_attribution: "萬通保險官方通告 Ref: YFL-CIR-2026-INF-08；保監局核准編號: POL-YFL-SAV-2026"
+    official_source_attribution: "萬通保險官方通告 Ref: YFL-CIR-2026-INF-08；[示範虛擬編號]"
   },
   "PROMO-AIA-SAV-SLE5-2026": {
     clause_highlights: [
@@ -134,7 +134,7 @@ export const existingSavingsEnrichment = {
       "提早於前 5 年退保將蒙受顯著保證本金折損",
       "非保證紅利依賴傳統分紅基金投資表現，派發金額非保證"
     ],
-    official_source_attribution: "友邦官方產品指南 Ref: AIA-PROD-SLE5-2026；保監局核備號: IA-AIA-SLE5"
+    official_source_attribution: "友邦官方產品指南 Ref: AIA-PROD-SLE5-2026；[示範虛擬編號]"
   },
   "PROMO-PRU-SAV-EGSP2-2026": {
     clause_highlights: [
@@ -149,7 +149,7 @@ export const existingSavingsEnrichment = {
       "緩衝機制可能導致在資本市場大牛市期間分紅上調步伐滯後",
       "更改受保人設有嚴格血緣與利益關係審核，手續相對繁複"
     ],
-    official_source_attribution: "保誠特級雋陞產品條款手冊 Ref: PRU-EGSP2-POL-2026；保監局備案編號: GN16-PRU-EGSP"
+    official_source_attribution: "保誠特級雋陞產品條款手冊 Ref: PRU-EGSP2-POL-2026；[示範虛擬編號]"
   },
   "PROMO-MANU-SAV-CENTURY-2026": {
     clause_highlights: [
@@ -164,7 +164,7 @@ export const existingSavingsEnrichment = {
       "終期紅利派發受宏利分紅資產組合之環球房地產與私募股權項目估值影響",
       "若行使保費延繳寬限期，保單非保證分紅可能被下調或暫停派發"
     ],
-    official_source_attribution: "宏利世紀傳承產品規格書 Ref: MANU-CENTURY-LEGACY-2026；保監局檔案: POL-MANU-CS-2026"
+    official_source_attribution: "宏利世紀傳承產品規格書 Ref: MANU-CENTURY-LEGACY-2026；[示範虛擬編號]"
   },
   "PROMO-FWD-SAV-MAXACC-2026": {
     clause_highlights: [
@@ -179,7 +179,7 @@ export const existingSavingsEnrichment = {
       "提早提取現金價值將削減後續終期紅利之複利基數",
       "保證回本年期為 16 年，前 3 年退保仍有較大本金折損"
     ],
-    official_source_attribution: "富衛盈聚天下官方通函 Ref: FWD-MAXACC-CIR-2026；保監局核准: IA-FWD-SAV-MAX"
+    official_source_attribution: "富衛盈聚天下官方通函 Ref: FWD-MAXACC-CIR-2026；[示範虛擬編號]"
   }
 };
 
@@ -246,7 +246,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險官方通函 Ref: HSBC-LIFE-2026-WG-Q4；保監局認可編號: POL-HSBC-WG-2026"
+      official_source_attribution: "滙豐保險官方通函 Ref: HSBC-LIFE-2026-WG-Q4；[示範虛擬編號]"
     }
   },
   {
@@ -310,7 +310,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險產品規格書 Ref: HSBC-GJ-2026-CIRC；保監局登記備案: IA-HSBC-GJ-2026"
+      official_source_attribution: "滙豐保險產品規格書 Ref: HSBC-GJ-2026-CIRC；[示範虛擬編號]"
     }
   },
   {
@@ -375,7 +375,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "忠意保險官方通函 Ref: GEN-HK-2026-LG-CIRC；保監局備案登記: IA-GEN-LG-2026"
+      official_source_attribution: "忠意保險官方通函 Ref: GEN-HK-2026-LG-CIRC；[示範虛擬編號]"
     }
   },
   {
@@ -439,7 +439,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "忠意人壽經紀產品備忘 Ref: GEN-LIONWEALTH-2026；保監局核准: POL-GEN-LW-2026"
+      official_source_attribution: "忠意人壽經紀產品備忘 Ref: GEN-LIONWEALTH-2026；[示範虛擬編號]"
     }
   },
   {
@@ -504,7 +504,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外官方通告 Ref: CL-HK-2026-MW-CIRC；保監局註冊備案: POL-CL-SAV-2026"
+      official_source_attribution: "中國人壽海外官方通告 Ref: CL-HK-2026-MW-CIRC；[示範虛擬編號]"
     }
   },
   {
@@ -568,7 +568,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外產品通函 Ref: CL-HK-TREASURE-2026；保監局檔案: IA-CL-TB-2026"
+      official_source_attribution: "中國人壽海外產品通函 Ref: CL-HK-TREASURE-2026；[示範虛擬編號]"
     }
   },
   {
@@ -632,7 +632,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "藍十字官方經紀業務通告 Ref: BC-SF-2026-CIRC；保監局備案登記: IA-BC-SAV-2026"
+      official_source_attribution: "藍十字官方經紀業務通告 Ref: BC-SF-2026-CIRC；[示範虛擬編號]"
     }
   },
   {
@@ -696,7 +696,7 @@ export const newSavingsProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "友邦官方產品指南 Ref: AIA-BPV-2026-CIRC；保監局檔案號: IA-AIA-BPV-2026"
+      official_source_attribution: "友邦官方產品指南 Ref: AIA-BPV-2026-CIRC；[示範虛擬編號]"
     }
   }
 ];

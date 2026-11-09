@@ -94,6 +94,10 @@ class DailyIntelligenceRunner {
         if (fs_1.default.existsSync(cafeSource)) {
             fs_1.default.copyFileSync(cafeSource, indexPath);
             fs_1.default.copyFileSync(cafeSource, cafeDist);
+            const gn16Source = path_1.default.join(process.cwd(), 'templates', 'gn16_tracker.html');
+            if (fs_1.default.existsSync(gn16Source)) {
+                fs_1.default.copyFileSync(gn16Source, path_1.default.join(outDir, 'gn16_tracker.html'));
+            }
         }
         // Agent 7: Generate viral morning poster SVG
         const demoStamp = {

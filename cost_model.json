@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "4.0.0",
+  "updated_at": "2026-11-10",
+  "disclaimer": "All figures in this file are financial modeling assumptions [ASSUMPTION]. Actual revenue, expenses, gateway rates, and churn will vary in live operation.",
+  "changelog": [
+    {
+      "version": "4.0.0",
+      "date": "2026-11-10",
+      "changes": [
+        "Consolidated all pricing, fixed overhead, variable unit costs, and gateway fees into standalone single source of truth cost_model.json [ASSUMPTION].",
+        "Added steady-state monthly churn replacement requirements (5%, 10%, 15% for individuals; 2.5%, 5%, 10%, 15% for teams) for holding break-even customer base [ASSUMPTION].",
+        "Documented removal of cloud database & server-side cache (Supabase/Upstash -HK$250/mo) [ASSUMPTION]: InsurIntel architecture was refactored to zero-backend, client-side offline storage (localStorage / IndexedDB) with deterministic static JSON catalogs.",
+        "Included annual subscription options (Advisor Pro HK$ 2,188/yr; Agency Team HK$ 24,800/yr) and planned roadmap tiers (Retail Query HK$ 49/mo, Enterprise Custom HK$ 12,800/mo) [ASSUMPTION]."
+      ]
+    },
+    {
+      "version": "3.0.0",
+      "date": "2026-11-09",
+      "changes": [
+        "Fixed overhead adjusted from HK$2,150/mo to HK$2,000/mo [ASSUMPTION]: rationalized auxiliary SaaS subscriptions to lean baseline (Vercel/Cloudflare Edge HK$160, Domain/DNS HK$40, Legal Retainer HK$1,500, Support API HK$300).",
+        "Legal compliance retainer increased from HK$800/mo to HK$1,500/mo [ASSUMPTION]: Hong Kong insurance regulatory counsel (Cap. 41 compliance review and disclaimer maintenance) requires realistic professional retainer budget.",
+        "AI OCR token cost transitioned from fixed overhead to variable per seat [ASSUMPTION]: restructured as HK$5.25 (15 proposal scans/mo @ HK$0.35/scan) + HK$4.75 marginal bandwidth/storage buffer = HK$10.00/seat/mo, accurately scaling with active user count."
+      ]
+    }
+  ],
+  "cost_structure": {
+    "fixed_overhead_monthly_hkd": {
+      "hosting_edge": {
+        "amount": 160,
+        "status": "ASSUMPTION",
+        "notes": "Vercel / Cloudflare edge hosting & CDN"
+      },
+      "domain_dns": {
+        "amount": 40,
+        "status": "ASSUMPTION",
+        "notes": "Namecheap / Cloudflare DNS & SSL amortized"
+      },
+      "legal_compliance": {
+        "amount": 1500,
+        "status": "ASSUMPTION",
+        "notes": "Hong Kong compliance counsel retainer amortized (increased from HK$800 in Run 2)"
+      },
+      "support_base": {
+        "amount": 300,
+        "status": "ASSUMPTION",
+        "notes": "Base WhatsApp Business & communication API"
+      }
+    },
+    "founder_salary_monthly_hkd": {
+      "amount": 35000,
+      "status": "ASSUMPTION",
+      "notes": "Full-time founder salary baseline"
+    },
+    "pricing_tiers_monthly_hkd": {
+      "advisor_pro": {
+        "price": 199,
+        "seats": 1,
+        "status": "ASSUMPTION",
+        "target": "Individual insurance advisor (bottom-up adoption)"
+      },
+      "agency_team": {
+        "price": 2480,
+        "seats": 15,
+        "status": "ASSUMPTION",
+        "target": "Agency unit / District Director (top-down adoption)"
+      }
+    },
+    "pricing_tiers_annual_hkd": {
+      "advisor_pro": {
+        "price_annual": 2188,
+        "effective_monthly": 182.33,
+        "status": "ASSUMPTION",
+        "discount_pct": 8.37
+      },
+      "agency_team": {
+        "price_annual": 24800,
+        "effective_monthly": 2066.67,
+        "status": "ASSUMPTION",
+        "discount_pct": 16.67
+      }
+    },
+    "roadmap_tiers": {
+      "retail_query": {
+        "price_monthly": 49,
+        "status": "ASSUMPTION",
+        "availability": "Post-launch expansion for direct retail policyholders"
+      },
+      "enterprise_custom": {
+        "price_monthly": 12800,
+        "status": "ASSUMPTION",
+        "availability": "Brokerage houses and corporate agency head offices"
+      }
+    },
+    "payment_gateway_fees": {
+      "provider": "Stripe Hong Kong",
+      "percentage_rate": 0.034,
+      "fixed_fee_hkd": 2.35,
+      "status": "ASSUMPTION"
+    },
+    "seat_variable_cost_monthly_hkd": {
+      "ai_ocr_tokens": {
+        "amount": 5.25,
+        "status": "ASSUMPTION",
+        "notes": "15 proposal scans/mo @ HK$0.35/scan"
+      },
+      "user_bandwidth_storage": {
+        "amount": 4.75,
+        "status": "ASSUMPTION",
+        "notes": "Marginal cloud storage, messaging & sync buffer"
+      }
+    },
+    "churn_sensitivity_scenarios": {
+      "advisor_pro": [
+        { "monthly_churn_pct": 5, "status": "ASSUMPTION" },
+        { "monthly_churn_pct": 10, "status": "ASSUMPTION" },
+        { "monthly_churn_pct": 15, "status": "ASSUMPTION" }
+      ],
+      "agency_team": [
+        { "monthly_churn_pct": 2.5, "status": "ASSUMPTION" },
+        { "monthly_churn_pct": 5, "status": "ASSUMPTION" },
+        { "monthly_churn_pct": 10, "status": "ASSUMPTION" },
+        { "monthly_churn_pct": 15, "status": "ASSUMPTION" }
+      ]
+    }
+  }
+}

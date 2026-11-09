@@ -227,7 +227,7 @@ test('Advisor Branding Profile persists to localStorage and renders in PDF repor
   assert.ok(previewHtml.includes('林偉傑 Vincent Lam'), 'Preview must render advisor name');
   assert.ok(previewHtml.includes('MDRT TOT'), 'Preview must render MDRT TOT');
   assert.ok(previewHtml.includes('+852 9876 5432'), 'Preview must render phone');
-  assert.ok(previewHtml.includes('GL20'), 'Preview must cite statutory HKIA GL20 disclaimer');
+  assert.ok(previewHtml.includes('GL20') || previewHtml.includes('操守守則'), 'Preview must cite statutory Code of Conduct / GL20 disclaimer');
   assert.ok(previewHtml.includes('13 間私家醫院免找數擔保'), 'Preview must cite 13 private hospitals LOG');
 });
 
@@ -251,7 +251,7 @@ test('copyReportWhatsApp in 3-way mode produces comprehensive 3-plan comparison 
   assert.ok(text.includes('Plan A (我方)'), 'Card must include Plan A');
   assert.ok(text.includes('Plan B (競品)'), 'Card must include Plan B');
   assert.ok(text.includes('Plan C (第三方)'), 'Card must include Plan C');
-  assert.ok(text.includes('GL20'), 'Card must include GL20 disclaimer');
+  assert.ok(text.includes('GL20') || text.includes('操守守則'), 'Card must include Code of Conduct / GL20 disclaimer');
 });
 
 test('saveAdvisorProfile with silent=true saves to localStorage without toast notification spam', () => {

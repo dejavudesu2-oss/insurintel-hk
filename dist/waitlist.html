@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>InsurIntel HK · 優先體驗候選名單 (Early Access Waitlist)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ikb: #002FA7;
+      --ikb-light: rgba(0, 47, 167, 0.06);
+      --ikb-dark: #001f70;
+      --slate-900: #0f172a;
+      --slate-800: #1e293b;
+      --slate-600: #475569;
+      --slate-500: #64748b;
+      --slate-200: #e2e8f0;
+      --slate-100: #f1f5f9;
+      --emerald: #10b981;
+      --amber: #f59e0b;
+      --whatsapp: #25D366;
+      --sans: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      --mono: 'JetBrains Mono', monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--sans);
+      background: #fafaf9;
+      color: var(--slate-900);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      padding: 0 0 60px 0;
+    }
+    .top-bar {
+      background: #ffffff;
+      border-bottom: 1px solid var(--slate-200);
+      padding: 14px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      font-size: 17px;
+      color: var(--ikb);
+      text-decoration: none;
+    }
+    .logo-badge {
+      background: var(--ikb);
+      color: #fff;
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      letter-spacing: 0.5px;
+    }
+    .top-nav-links a {
+      color: var(--slate-600);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 600;
+      margin-left: 16px;
+      transition: color 0.2s;
+    }
+    .top-nav-links a:hover { color: var(--ikb); }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    .hero {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--ikb-light);
+      border: 1px solid rgba(0, 47, 167, 0.18);
+      color: var(--ikb);
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 44px);
+      font-weight: 800;
+      line-height: 1.2;
+      color: var(--slate-900);
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+    .hero h1 span { color: var(--ikb); }
+    .hero p {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--slate-600);
+      max-width: 660px;
+      margin: 0 auto 24px auto;
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 48px;
+    }
+    .pricing-card {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 28px 24px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .pricing-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+    }
+    .pricing-card.featured {
+      border: 2px solid var(--ikb);
+      box-shadow: 0 8px 28px rgba(0, 47, 167, 0.12);
+    }
+    .card-badge {
+      position: absolute;
+      top: -12px;
+      right: 20px;
+      background: var(--ikb);
+      color: #fff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 12px;
+      letter-spacing: 0.5px;
+    }
+    .tier-name {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+    .tier-desc {
+      font-size: 13px;
+      color: var(--slate-500);
+      margin-bottom: 16px;
+      min-height: 38px;
+    }
+    .tier-price {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 4px;
+      font-family: var(--sans);
+    }
+    .tier-price span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--slate-500);
+    }
+    .tier-annual {
+      font-size: 12px;
+      color: var(--emerald);
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    .tier-features {
+      list-style: none;
+      border-top: 1px solid var(--slate-200);
+      padding-top: 18px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .tier-features li {
+      font-size: 13px;
+      color: var(--slate-600);
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+    }
+    .tier-features li strong { color: var(--slate-800); }
+
+    .btn-select {
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 12px;
+      border-radius: 6px;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+      border: 1px solid var(--slate-200);
+      background: var(--slate-100);
+      color: var(--slate-800);
+    }
+    .btn-select:hover { background: #e2e8f0; }
+    .featured .btn-select {
+      background: var(--ikb);
+      color: #fff;
+      border-color: var(--ikb);
+    }
+    .featured .btn-select:hover { background: var(--ikb-dark); }
+
+    /* Waitlist Form Section */
+    .form-card {
+      background: #ffffff;
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      padding: 36px 32px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+    }
+    .form-header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .form-header h2 {
+      font-size: 22px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 6px;
+    }
+    .form-header p {
+      font-size: 13px;
+      color: var(--slate-500);
+    }
+    .form-group {
+      margin-bottom: 18px;
+    }
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--slate-800);
+      margin-bottom: 6px;
+    }
+    .form-control {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--slate-200);
+      border-radius: 6px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--slate-900);
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .form-control:focus {
+      outline: none;
+      border-color: var(--ikb);
+      box-shadow: 0 0 0 3px rgba(0, 47, 167, 0.12);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+    }
+    .btn-submit {
+      width: 100%;
+      background: var(--ikb);
+      color: #fff;
+      border: none;
+      padding: 14px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 47, 167, 0.25);
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn-submit:hover { background: var(--ikb-dark); }
+    .btn-submit:active { transform: scale(0.99); }
+    
+    /* Statutory Cap. 486 PICS Box */
+    .pics-box {
+      margin-top: 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      padding: 14px 16px;
+      font-size: 11px;
+      color: var(--slate-600);
+      line-height: 1.5;
+    }
+    .pics-box strong { color: var(--slate-800); }
+
+    /* Modal */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 480px;
+      width: 100%;
+      padding: 32px 28px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      position: relative;
+    }
+    .modal-close-btn {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      color: var(--slate-500);
+      padding: 4px 8px;
+      border-radius: 4px;
+    }
+    .modal-close-btn:hover { color: var(--slate-900); background: var(--slate-100); }
+    .modal-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .modal-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--slate-900);
+      margin-bottom: 8px;
+    }
+    .modal-body {
+      font-size: 13px;
+      color: var(--slate-600);
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    .lead-id-badge {
+      display: inline-block;
+      background: var(--slate-100);
+      border: 1px dashed var(--slate-200);
+      font-family: var(--mono);
+      font-size: 14px;
+      color: var(--ikb);
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 4px;
+      margin: 8px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header class="top-bar">
+    <a href="index.html" class="logo">
+      <span>INSURINTEL HK</span>
+      <span class="logo-badge">PRO</span>
+    </a>
+    <nav class="top-nav-links">
+      <a href="index.html">見客攻防卡</a>
+      <a href="morning_slides.html">晨會速報</a>
+      <a href="#waitlist-form" style="color:var(--ikb);">立即開通 ❯</a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <!-- Hero Banner -->
+    <section class="hero">
+      <div class="hero-pill">
+        <span>⚡ 2026 Q4 香港保險中介人數位賦能專案</span>
+      </div>
+      <h1>見客不再憑空辯解<br/>用<span>保監局客觀數據</span>贏得保民信賴</h1>
+      <p>InsurIntel HK 是專為香港保險中介人打造之精算情報與對策系統。一鍵比對全港 99 款儲蓄與醫保旗艦、拆解 GN16 履行率對賬、前端即時脫敏建議書。</p>
+    </section>
+
+    <!-- Pricing / Offer Cards -->
+    <section class="pricing-grid">
+      <!-- Tier 1: Advisor Pro (HK$ 199) -->
+      <article class="pricing-card" id="card-advisor-pro">
+        <div>
+          <h3 class="tier-name">Advisor Pro (個人早鳥)</h3>
+          <p class="tier-desc">適合獨立頂尖顧問，高頻見客必備的口袋精算智庫。</p>
+          <div class="tier-price">
+            HK$ 199 <span>/ 月</span>
+          </div>
+          <div style="font-size:11px;color:#b45309;background:#fef3c7;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;font-weight:700;">Launch price, subject to change (早鳥推廣價 · 實際定價可能調整)</div>
+          <div class="tier-annual">年付 HK$ 2,188 (省 1 個月)</div>
+          <ul class="tier-features">
+            <li>✓ <strong>單人完整授權</strong>：99 款產品 1v1 精算對抗</li>
+            <li>✓ <strong>雙模態切換</strong>：顧問私密 HUD + 客戶中立撕頁</li>
+            <li>✓ <strong>GN16 官方披露</strong>：真實履行率歷史走勢查詢</li>
+            <li>✓ <strong>建議書脫敏</strong>：本地瀏覽器毫秒級 PII 掩碼</li>
+            <li>✓ <strong>離線 PWA</strong>：咖啡廳弱網無縫自動快取</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-select" onclick="selectPlan('Advisor Pro (HK$ 199 / 月)')">選擇個人版 ❯</button>
+      </article>
+
+      <!-- Tier 2: Agency Team Pilot (HK$ 2,480) - Recommended Single Launch Offer -->
+      <article class="pricing-card featured" id="card-agency-team">
+        <span class="card-badge">⭐ 推薦要約 · 14 天團隊試點</span>
+        <div>
+          <h3 class="tier-name">Agency Team 14-Day Pilot</h3>
+          <p class="tier-desc">專為分區總監 (DD) 與團隊打造，晨會情報與 15 席全員武裝。</p>
+          <div class="tier-price">
+            HK$ 2,480 <span>/ 月</span>
+          </div>
+          <div style="font-size:11px;color:#b45309;background:#fef3c7;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;font-weight:700;">Launch price, subject to change (早鳥推廣價 · 實際定價可能調整)</div>
+          <div class="tier-annual">包含 15 位顧問授權 (平均僅 HK$ 165 / 席)</div>
+          <ul class="tier-features">
+            <li>✓ <strong>15 個顧問專屬席位</strong> (可隨時自主增減或移轉)</li>
+            <li>✓ <strong>每日 07:00 晨會速報</strong>：自動更新動態情報投影片</li>
+            <li>✓ <strong>專屬品牌名片</strong>：自動嵌入分區標識與主管聯絡資訊</li>
+            <li>✓ <strong>15 分鐘晨會講稿</strong>：主管廣東話導讀話術與破局矩陣</li>
+            <li>✓ <strong>14 天零預付試點承諾</strong>：試點期內無需綁定信用卡，首兩週充分體驗，滿意後方行付費（零預扣、零押金、無退款手續費爭議）</li>
+          </ul>
+        </div>
+        <button type="button" class="btn-select" onclick="selectPlan('Agency Team 14-Day Pilot (HK$ 2,480 / 月)')">申請團隊 14 天試點 ❯</button>
+      </article>
+    </section>
+
+    <!-- Fake-Door Waitlist Application Form -->
+    <section class="form-card" id="waitlist-form">
+      <div class="form-header">
+        <h2>🔒 申請加入早鳥優先體驗席位</h2>
+        <p>為保障精算對照品質與分區專屬支援，首批僅開放 50 個顧問與團隊席位。提交後 2 小時內由專屬客服聯絡開通。</p>
+      </div>
+
+      <form onsubmit="handleWaitlistSubmit(event)">
+        <div class="form-group">
+          <label class="form-label" for="selected-plan">選擇意向方案 *</label>
+          <select class="form-control" id="selected-plan" required>
+            <option value="Agency Team 14-Day Pilot (HK$ 2,480 / 月)">Agency Team 14-Day Pilot · 分區團隊 15 席 (HK$ 2,480 / 月) · 推薦</option>
+            <option value="Advisor Pro (HK$ 199 / 月)">Advisor Pro · 個人早鳥方案 (HK$ 199 / 月)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="lead-name">姓名 / 稱謂 *</label>
+            <input type="text" class="form-control" id="lead-name" placeholder="例如：陳大文 (David Chan)" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lead-company">所屬保險機構 *</label>
+            <select class="form-control" id="lead-company" required>
+              <option value="">請選擇機構...</option>
+              <option value="AIA">友邦保險 (AIA)</option>
+              <option value="Prudential">保誠保險 (Prudential)</option>
+              <option value="Manulife">宏利人壽 (Manulife)</option>
+              <option value="Sun Life">永明金融 (Sun Life)</option>
+              <option value="FWD">富衛保險 (FWD)</option>
+              <option value="AXA">安盛保險 (AXA)</option>
+              <option value="BOC Life">中銀人壽 (BOC Life)</option>
+              <option value="YF Life">萬通保險 (YF Life)</option>
+              <option value="Broker">獨立經紀 / IFA (Broker)</option>
+              <option value="Other">其他機構 (Other)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="lead-phone">WhatsApp / 手機號碼 * (香港 8 位號碼)</label>
+            <input type="tel" class="form-control" id="lead-phone" placeholder="+852 9123 4567" pattern="^(\+?852\s?)?[4-9]\d{7}$" required />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="lead-email">電郵地址 *</label>
+            <input type="email" class="form-control" id="lead-email" placeholder="david.chan@insurance.com.hk" required />
+          </div>
+        </div>
+
+        <div style="font-size:11.5px;color:#64748b;margin-top:14px;margin-bottom:6px;text-align:center;background:#f1f5f9;border:1px solid #e2e8f0;padding:8px 12px;border-radius:6px;line-height:1.5;">
+          🛡️ <strong>誠信登記承諾</strong>：本階段為早鳥優先席位意向登記，<strong>絕不要求填寫信用卡號、轉數快 (FPS) 賬號或預付任何保證金</strong>。
+        </div>
+
+        <button type="submit" class="btn-submit" id="btn-submit-waitlist">
+          🚀 立即鎖定早鳥優惠席位 (優先審批)
+        </button>
+
+        <!-- Statutory Cap. 486 Personal Information Collection Statement (PICS) -->
+        <div class="pics-box">
+          <strong>【法定收集個人資料聲明 (PICS) · 香港法例第 486 章《個人資料（私隱）條例》】</strong><br/>
+          1. <strong>資料使用者</strong>：InsurIntel HK Operations Ltd. (在港註冊成立中，項目發起與營運管理方)，個人資料私隱主任聯絡電郵：<a href="mailto:privacy@insurintel.hk" style="color:var(--ikb);">privacy@insurintel.hk</a>。<br/>
+          2. <strong>收集目的</strong>：閣下所提供之姓名、機構、電話及電郵，僅用於本次早鳥優先席位資格審批、WhatsApp/電郵開通聯絡及提供產品試點服務。<br/>
+          3. <strong>保留期限</strong>：所有登記資料自提交日起計保留不超過 30 天，若未正式啟用帳號將永久從伺服器與快取中銷毀。<br/>
+          4. <strong>查閱及更正權利</strong>：依據《個人資料（私隱）條例》第 18 及 22 條，閣下有權查閱及更正本系統所保存之個人資料。如需行使權利，請電郵至個人資料私隱主任：<a href="mailto:privacy@insurintel.hk" style="color:var(--ikb);">privacy@insurintel.hk</a>。
+        </div>
+      </form>
+    </section>
+
+    <!-- Comprehensive Measurement Plan (C6 Audit Section) -->
+    <section class="measurement-plan-section" id="measurement-plan" style="margin-top:36px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:24px 20px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="font-size:20px;">📊</span>
+        <h3 style="font-size:16px;font-weight:800;color:var(--slate-900);">驗證實驗與計量計劃 (Measurement Plan & Telemetry Architecture)</h3>
+      </div>
+      <p style="font-size:12.5px;color:var(--slate-600);line-height:1.6;margin-bottom:16px;">
+        為貫徹「證實或標籤」原則，本落地頁作為真實付費意願假門測試 (Fake-Door Test) 載體，建立以下自動化追蹤與真實指標替換機制：
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px;font-size:12px;">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">1. 訪客流量與來源 (Page Views)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">追蹤事件：<code>page_view</code>、<code>utm_source</code>、<code>referrer</code>，精確記錄香港中介人造訪次數與來源渠道分佈。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">2. 方案點擊偏好 (Plan Selection)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">追蹤事件：<code>plan_select_click</code>，記錄個人版 (HK$199) vs 團隊版 (HK$2,480) 的點擊權重偏好。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">3. 實測轉化與 CAC 計量 (Conversion & CAC)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">真實 CAC 公式：<code>CAC = 總廣告與推廣開支 / 核實早鳥登記數</code>；真實轉化率：<code>有效登記表單數 / 唯一訪客數 (UV)</code>。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">4. 30 天數據替換承諾 (Metrics Rollout)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">收集 30 天真實香港保險中介人意向數據後，全面以真實數值替換商業文檔中標註為 <code>[ASSUMPTION]</code> 之財務估算。</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Success Confirmation Modal -->
+  <div class="modal-backdrop" id="waitlist-success-modal" onclick="handleBackdropClick(event)">
+    <div class="modal-box" onclick="event.stopPropagation()">
+      <button type="button" class="modal-close-btn" onclick="closeModal()" title="關閉">✕</button>
+      <div class="modal-icon">🎉</div>
+      <h3 class="modal-title">早鳥席位已成功登記！</h3>
+      <p class="modal-body">
+        感謝閣下對 InsurIntel HK 的支持。您的專屬早鳥登記編號為：<br/>
+        <span class="lead-id-badge" id="modal-lead-id">WAITLIST-PRE-000000</span><br/>
+        為確保您的名額優先審批，建議立即透過官方 WhatsApp 快速確認：
+      </p>
+
+      <!-- Immediate WhatsApp Sales Handover Link -->
+      <a id="modal-whatsapp-btn" href="#" target="_blank" class="btn-select" style="background:var(--whatsapp);color:#fff;margin-bottom:12px;text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;">
+        <span>💬 立即透過 WhatsApp 確認您的優先名額 ❯</span>
+      </a>
+
+      <button type="button" class="btn-select" style="background:var(--ikb);color:#fff;" onclick="closeModalAndRedirect()">
+        前往體驗虛擬示範模式 ❯
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // Lightweight Privacy-Preserving Telemetry & Measurement Engine
+    const TELEMETRY_KEY = 'insurintel_telemetry_events';
+    const UV_KEY = 'insurintel_uv_id';
+
+    function getOrCreateUV() {
+      try {
+        let uv = localStorage.getItem(UV_KEY);
+        if (!uv) {
+          uv = 'uv_' + Math.random().toString(36).substring(2, 10);
+          localStorage.setItem(UV_KEY, uv);
+        }
+        return uv;
+      } catch (e) {
+        return 'uv_anonymous';
+      }
+    }
+
+    function logTelemetryEvent(eventType, eventData) {
+      try {
+        const uv = getOrCreateUV();
+        const now = new Date();
+        const event = {
+          event_type: eventType,
+          uv_id: uv,
+          timestamp: now.toISOString(),
+          data: eventData || {}
+        };
+        const events = JSON.parse(localStorage.getItem(TELEMETRY_KEY) || '[]');
+        // 30-day TTL purge for telemetry events (PDPO compliance)
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const filtered = events.filter(function(e) { return e && e.timestamp > thirtyDaysAgo; });
+        filtered.push(event);
+        localStorage.setItem(TELEMETRY_KEY, JSON.stringify(filtered));
+      } catch (e) {
+        console.warn('Telemetry storage unavailable:', e);
+      }
+    }
+
+    // Auto-track initial page_view on load
+    (function trackPageView() {
+      try {
+        const search = (typeof window !== 'undefined' && window.location) ? window.location.search : '';
+        const params = new URLSearchParams(search || '');
+        logTelemetryEvent('page_view', {
+          url: (typeof window !== 'undefined' && window.location) ? window.location.href : '',
+          referrer: (typeof document !== 'undefined' && document.referrer) ? document.referrer : 'direct',
+          utm_source: params.get('utm_source') || 'direct',
+          utm_medium: params.get('utm_medium') || 'none',
+          utm_campaign: params.get('utm_campaign') || 'none'
+        });
+      } catch(e) {}
+    })();
+
+    function selectPlan(planName) {
+      const planSelect = document.getElementById('selected-plan');
+      if (planSelect) {
+        planSelect.value = planName;
+      }
+      logTelemetryEvent('plan_select_click', { plan: planName });
+      const formEl = document.getElementById('waitlist-form');
+      if (formEl && formEl.scrollIntoView) {
+        formEl.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    window.selectPlan = selectPlan;
+
+    function handleWaitlistSubmit(event) {
+      if (event && event.preventDefault) event.preventDefault();
+
+      const plan = document.getElementById('selected-plan') ? document.getElementById('selected-plan').value : '';
+      const name = document.getElementById('lead-name') ? document.getElementById('lead-name').value.trim() : '';
+      const company = document.getElementById('lead-company') ? document.getElementById('lead-company').value : '';
+      const phone = document.getElementById('lead-phone') ? document.getElementById('lead-phone').value.trim() : '';
+      const email = document.getElementById('lead-email') ? document.getElementById('lead-email').value.trim() : '';
+
+      // Strict Validation: Company and HK phone pattern are strictly enforced
+      if (!name || !company || !phone || !email) {
+        alert('請完整填寫姓名、所屬保險機構、電話與電郵');
+        return false;
+      }
+
+      const hkPhoneRegex = /^(\+?852\s?)?[4-9]\d{7}$/;
+      if (!hkPhoneRegex.test(phone.replace(/[\s-]/g, ''))) {
+        alert('請輸入有效的 8 位香港聯絡電話 (例如：91234567 或 +852 91234567)');
+        return false;
+      }
+
+      const leadId = 'WAITLIST-PRE-' + Math.floor(100000 + Math.random() * 900000); // 登記識別碼 (本地示範編號)
+      const now = new Date();
+      const leadRecord = {
+        lead_id: leadId,
+        plan: plan,
+        name: name,
+        company: company,
+        phone: phone,
+        email: email,
+        timestamp: now.toISOString()
+      };
+
+      // 1. Client-Side LocalStorage Fallback (with 30-day TTL expiration purge)
+      try {
+        const rawExisting = localStorage.getItem('insurintel_waitlist_leads') || '[]';
+        const existing = JSON.parse(rawExisting);
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const validLeads = existing.filter(function(item) { return item && item.timestamp > thirtyDaysAgo; });
+        validLeads.push(leadRecord);
+        localStorage.setItem('insurintel_waitlist_leads', JSON.stringify(validLeads));
+      } catch (e) {
+        console.warn('LocalStorage unavailable for lead caching:', e);
+      }
+
+      // Log telemetry event
+      logTelemetryEvent('waitlist_submit_success', {
+        lead_id: leadId,
+        plan: plan,
+        company: company
+      });
+
+      // 2. Outbound Dispatch Attempt (Telemetry / Lead Receiver)
+      try {
+        if (typeof fetch === 'function') {
+          fetch('/api/v1/waitlist', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(leadRecord)
+          }).catch(function() {});
+        }
+      } catch(e) {}
+
+      // 3. Configure Universal WhatsApp Click-to-Chat Share URL (Safe Share without leaking to stranger phone)
+      const waText = encodeURIComponent(
+        '【InsurIntel 早鳥席位登記確認】\n' +
+        '登記編號: ' + leadId + '\n' +
+        '姓名: ' + name + '\n' +
+        '機構: ' + company + '\n' +
+        '方案: ' + plan + '\n' +
+        '電話: ' + phone + '\n' +
+        '電郵: ' + email + '\n' +
+        '請協助開通專屬測試金鑰，謝謝！'
+      );
+      const waBtn = document.getElementById('modal-whatsapp-btn');
+      if (waBtn) {
+        waBtn.href = 'https://wa.me/?text=' + waText;
+      }
+
+      const idBadge = document.getElementById('modal-lead-id');
+      if (idBadge) idBadge.innerText = leadId;
+
+      const modal = document.getElementById('waitlist-success-modal');
+      if (modal) modal.classList.add('open');
+
+      return false;
+    }
+    window.handleWaitlistSubmit = handleWaitlistSubmit;
+
+    function closeModal() {
+      const modal = document.getElementById('waitlist-success-modal');
+      if (modal) modal.classList.remove('open');
+    }
+    window.closeModal = closeModal;
+
+    function handleBackdropClick(event) {
+      if (event.target === document.getElementById('waitlist-success-modal')) {
+        closeModal();
+      }
+    }
+    window.handleBackdropClick = handleBackdropClick;
+
+    function closeModalAndRedirect() {
+      closeModal();
+      window.location.href = 'index.html?mode=demo';
+    }
+    window.closeModalAndRedirect = closeModalAndRedirect;
+
+    // Measurement & Telemetry Stats Reporting Utility
+    window.getWaitlistTelemetryStats = function() {
+      try {
+        const events = JSON.parse(localStorage.getItem(TELEMETRY_KEY) || '[]');
+        const leads = JSON.parse(localStorage.getItem('insurintel_waitlist_leads') || '[]');
+        const pageViews = events.filter(function(e) { return e.event_type === 'page_view'; }).length;
+        const planClicks = events.filter(function(e) { return e.event_type === 'plan_select_click'; }).length;
+        const uvs = new Set(events.map(function(e) { return e.uv_id; })).size;
+        const cvr = uvs > 0 ? ((leads.length / uvs) * 100).toFixed(2) + '%' : '0.00%';
+        return {
+          total_events: events.length,
+          unique_visitors: uvs,
+          page_views: pageViews,
+          plan_select_clicks: planClicks,
+          leads_captured: leads.length,
+          conversion_rate: cvr
+        };
+      } catch (e) {
+        return { error: String(e) };
+      }
+    };
+
+    // Administrative Lead Export Utility
+    window.exportWaitlistLeads = function() {
+      try {
+        const data = localStorage.getItem('insurintel_waitlist_leads') || '[]';
+        const stats = window.getWaitlistTelemetryStats ? window.getWaitlistTelemetryStats() : {};
+        const payload = {
+          export_timestamp: new Date().toISOString(),
+          measurement_stats: stats,
+          leads: JSON.parse(data)
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'insurintel_waitlist_leads_' + new Date().toISOString().substring(0, 10) + '.json';
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (e) {
+        console.error('Export failed:', e);
+      }
+    };
+
+    // Keyboard dismissal
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  </script>
+</body>
+</html>

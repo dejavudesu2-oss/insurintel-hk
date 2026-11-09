@@ -223,9 +223,9 @@ test('renderClientPdfPreview() builds an executive tear-sheet containing require
   assert.ok(previewHtml.includes('INSURINTEL HK · 授權財務策劃專業客戶簡報'), 'Must include executive header title');
   assert.ok(previewHtml.includes('香港保監局 GN16 權威官方實現率存檔'), 'Must include GN16 official record subtitle');
   assert.ok(previewHtml.includes('全港 13 間私家醫院免找數擔保核准'), 'Must include 13 private hospitals guarantee badge');
-  assert.ok(previewHtml.includes('GL20 認證客觀對比'), 'Must include GL20 objective comparison stamp');
+  assert.ok(previewHtml.includes('操守守則客觀對照') || previewHtml.includes('GL20 認證客觀對比'), 'Must include objective comparison stamp');
   assert.ok(previewHtml.includes('核心方案架構深度對照表'), 'Must include structured spec comparison table');
-  assert.ok(previewHtml.includes('【香港保險業監管局 (IA)《操守指引》(GL20) 合規聲明】'), 'Must include statutory GL20 disclaimer');
+  assert.ok(previewHtml.includes('《持牌保險中介人操守守則》') || previewHtml.includes('《操守指引》(GL20)'), 'Must include statutory Code of Conduct disclaimer');
 });
 
 test('@media print CSS isolates client-pdf-modal, hides background layout & styles A4 margins', () => {
@@ -257,12 +257,12 @@ test('copyReportWhatsApp() and copyReportWechat() format executive text tear-she
   const { ctx } = createSandbox();
   const wa = ctx.copyReportWhatsApp();
   assert.ok(wa.toUpperCase().includes('INSURINTEL'), 'WhatsApp card must include brand header');
-  assert.ok(wa.includes('GL20 合規聲明'), 'WhatsApp card must include GL20 compliance');
+  assert.ok(wa.includes('操守守則') || wa.includes('GL20'), 'WhatsApp card must include statutory compliance notice');
   assert.ok(wa.includes('專屬理財顧問'), 'WhatsApp card must include advisor profile');
 
   const wx = ctx.copyReportWechat();
   assert.ok(wx.toUpperCase().includes('INSURINTEL'), 'WeChat card must include brand header');
-  assert.ok(wx.includes('保監局 GL20 合規聲明'), 'WeChat card must include GL20 compliance');
+  assert.ok(wx.includes('操守守則') || wx.includes('GL20'), 'WeChat card must include statutory compliance notice');
 });
 
 // ============================================================================

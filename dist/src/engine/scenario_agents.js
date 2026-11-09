@@ -11,7 +11,9 @@
  * 6. OfflineResilienceAgent: 100% zero-network client-side resilience, cache monitoring, simulated offline modes.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ScenarioAgentHub = exports.CashlessMedicalAgent = exports.HK_13_PRIVATE_HOSPITALS = exports.OfflineResilienceAgent = exports.InstantCommsSynthesizerAgent = exports.RetirementTaxAgent = exports.YoungFamilyBudgetAgent = exports.OffshoreMCVAgent = exports.CafeRapidPitchAgent = void 0;
+exports.ScenarioAgentHub = exports.CashlessMedicalAgent = exports.HK_13_PRIVATE_HOSPITALS = exports.OfflineResilienceAgent = exports.InstantCommsSynthesizerAgent = exports.RetirementTaxAgent = exports.YoungFamilyBudgetAgent = exports.OffshoreMCVAgent = exports.CafeRapidPitchAgent = exports.DailyScenariosSimulationEngine = void 0;
+const daily_100_scenarios_simulation_js_1 = require("./daily_100_scenarios_simulation.js");
+Object.defineProperty(exports, "DailyScenariosSimulationEngine", { enumerable: true, get: function () { return daily_100_scenarios_simulation_js_1.DailyScenariosSimulationEngine; } });
 // ============================================================================
 // AGENT 1: ☕ Café 30-Second Rapid Pitch Mode
 // ============================================================================
@@ -690,6 +692,7 @@ class ScenarioAgentHub {
     instantComms = new InstantCommsSynthesizerAgent();
     cashlessMedical = new CashlessMedicalAgent();
     offlineResilience = new OfflineResilienceAgent();
+    simulation100 = new daily_100_scenarios_simulation_js_1.DailyScenariosSimulationEngine();
     getAgentForScenario(type) {
         switch (type) {
             case "cafe_rapid": return this.cafePitch;
@@ -699,6 +702,7 @@ class ScenarioAgentHub {
             case "instant_comms": return this.instantComms;
             case "cashless_medical": return this.cashlessMedical;
             case "offline_resilience": return this.offlineResilience;
+            case "simulation_100": return this.simulation100;
         }
     }
 }
