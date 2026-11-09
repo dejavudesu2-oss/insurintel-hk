@@ -14,7 +14,7 @@ export const existingUlEnrichment = {
       "前 4 年退保仍需扣除退保費用（Surrender Charge），提前退保存在本金折損",
       "最低進場門檻高達 500,000 美元躉繳保費，需通過嚴格的專業投資者（PI）資產審查"
     ],
-    official_source_attribution: "友邦保險高淨值業務官方通函 Ref: AIA-PB-UL-2026-01；保監局備案登記: IA-AIA-UL-2026"
+    official_source_attribution: "友邦保險高淨值業務官方通函 Ref: AIA-PB-UL-2026-01；[示範虛擬編號]"
   },
   "PROMO-MANU-UL-2026": {
     clause_highlights: [
@@ -29,7 +29,7 @@ export const existingUlEnrichment = {
       "若銀行收緊融資成數（De-leveraging），借款人需補足保證金以防強制平倉",
       "大額投保涉及全面財務背景審核（Financial Underwriting）與反洗錢盡職調查"
     ],
-    official_source_attribution: "宏利人壽高淨值部通告 Ref: MANU-HNW-UL-2026；保監局審核編號: POL-MANU-UL-2026"
+    official_source_attribution: "宏利人壽高淨值部通告 Ref: MANU-HNW-UL-2026；[示範虛擬編號]"
   },
   "PROMO-SUN-UL-2026": {
     clause_highlights: [
@@ -44,7 +44,7 @@ export const existingUlEnrichment = {
       "提前於前 4 年解約或終止銀行融資需繳納退保手續費",
       "最低進場躉繳保費為 500,000 美元，適合具備一定流動資產規模之高淨值人士"
     ],
-    official_source_attribution: "永明金融高資產客戶部指南 Ref: SUN-LEGACY-UL-2026；保監局備案: IA-SUN-UL-2026"
+    official_source_attribution: "永明金融高資產客戶部指南 Ref: SUN-LEGACY-UL-2026；[示範虛擬編號]"
   },
   "PROMO-FWD-UL-2026": {
     clause_highlights: [
@@ -59,7 +59,7 @@ export const existingUlEnrichment = {
       "前 3 年退保收取階梯式退保費用，中途離場將損失前期融資手續費及部分本金",
       "需滿足最低 500,000 美元保費要求及專業投資者審查"
     ],
-    official_source_attribution: "富衛人壽官方高淨值通函 Ref: FWD-UL-APEX-2026；保監局核准: POL-FWD-UL-2026"
+    official_source_attribution: "富衛人壽官方高淨值通函 Ref: FWD-UL-APEX-2026；[示範虛擬編號]"
   },
   "PROMO-YF-UL-2026": {
     clause_highlights: [
@@ -74,7 +74,7 @@ export const existingUlEnrichment = {
       "前 4 年退保需繳納退保費用，提早終止保單收益將大幅受損",
       "進場保費門檻 500,000 美元，需提供充足資產證明以通過核保"
     ],
-    official_source_attribution: "萬通保險產品手冊 Ref: YFL-UL-MASSFORTUNE-2026；保監局備案: IA-YFL-UL-2026"
+    official_source_attribution: "萬通保險產品手冊 Ref: YFL-UL-MASSFORTUNE-2026；[示範虛擬編號]"
   },
   "PROMO-PRU-UL-2026": {
     clause_highlights: [
@@ -89,7 +89,7 @@ export const existingUlEnrichment = {
       "首 3 年內退保需扣減退保手續費，未滿期退出將影響實際回報",
       "躉繳保費最低門檻 500,000 美元，需通過專業投資者（PI）資格審核"
     ],
-    official_source_attribution: "保誠保險高資產部官方指南 Ref: PRU-UL-GRANDEUR-2026；保監局認可: POL-PRU-UL-2026"
+    official_source_attribution: "保誠保險高資產部官方指南 Ref: PRU-UL-GRANDEUR-2026；[示範虛擬編號]"
   },
   "PROMO-AXA-UL-2026": {
     clause_highlights: [
@@ -104,7 +104,7 @@ export const existingUlEnrichment = {
       "前 4 年退保存在退保費用扣除，提前贖回將引致資產折損",
       "需滿足 500,000 美元躉繳進場門檻及完整反洗錢來源審核"
     ],
-    official_source_attribution: "安盛保險官方通告 Ref: AXA-UL-GRANDFORTUNE-2026；保監局檔案: IA-AXA-UL-2026"
+    official_source_attribution: "安盛保險官方通告 Ref: AXA-UL-GRANDFORTUNE-2026；[示範虛擬編號]"
   },
   "PROMO-BOC-UL-2026": {
     clause_highlights: [
@@ -119,7 +119,7 @@ export const existingUlEnrichment = {
       "前 3 年退保收取手續費，不適宜短期內需要全額變現之資金",
       "最低躉繳保費門檻 500,000 美元，需配合中銀香港私銀開戶要求"
     ],
-    official_source_attribution: "中銀人壽官方備忘 Ref: BOCL-UL-GOLDENERA-2026；保監局註冊號: POL-BOCL-UL-2026"
+    official_source_attribution: "中銀人壽官方備忘 Ref: BOCL-UL-GOLDENERA-2026；[示範虛擬編號]"
   },
   "PROMO-AIA-UL-ELITE-2026": {
     clause_highlights: [
@@ -134,7 +134,7 @@ export const existingUlEnrichment = {
       "前 3 年退保需繳納退保費用，提早退保將造成實質利息及本金虧損",
       "最低保費門檻 600,000 美元，需提供詳細完備之資產財富來源證明"
     ],
-    official_source_attribution: "友邦保險高端客戶官方指南 Ref: AIA-UL-FORTUNE-ELITE-2026；保監局登記: IA-AIA-FE-2026"
+    official_source_attribution: "友邦保險高端客戶官方指南 Ref: AIA-UL-FORTUNE-ELITE-2026；[示範虛擬編號]"
   },
   "PROMO-PRU-UL-PRESTIGE-2026": {
     clause_highlights: [
@@ -149,7 +149,7 @@ export const existingUlEnrichment = {
       "首 3 年內退保需承擔退保費用，未滿期退出將影響整體回報",
       "躉繳保費最低門檻 500,000 美元，需通過嚴格的客戶盡職調查（CDD）"
     ],
-    official_source_attribution: "保誠保險官方產品備忘 Ref: PRU-UL-PRESTIGE-2026；保監局認證: POL-PRU-PRESTIGE-2026"
+    official_source_attribution: "保誠保險官方產品備忘 Ref: PRU-UL-PRESTIGE-2026；[示範虛擬編號]"
   },
   "PROMO-SUN-UL-PINNACLE-2026": {
     clause_highlights: [
@@ -164,7 +164,7 @@ export const existingUlEnrichment = {
       "前 3 年退保存在手續費扣除，早期退保將造成本金虧損",
       "躉繳保費最低 500,000 美元，需符合專業投資者資格審核"
     ],
-    official_source_attribution: "永明金融高淨值專屬手冊 Ref: SUN-UL-PINNACLE-2026；保監局備案: IA-SUN-PINNACLE-2026"
+    official_source_attribution: "永明金融高淨值專屬手冊 Ref: SUN-UL-PINNACLE-2026；[示範虛擬編號]"
   },
   "PROMO-MANU-UL-INDEX-2026": {
     clause_highlights: [
@@ -179,7 +179,7 @@ export const existingUlEnrichment = {
       "銀行融資存在 Margin Call 追繳風險，需具備一定風險承受能力",
       "最低保費門檻 500,000 美元，需滿足結構性衍生金融工具適當性審查"
     ],
-    official_source_attribution: "宏利人壽官方指數產品手冊 Ref: MANU-INDEX-UL-2026；保監局檔案: POL-MANU-INDEX-2026"
+    official_source_attribution: "宏利人壽官方指數產品手冊 Ref: MANU-INDEX-UL-2026；[示範虛擬編號]"
   }
 };
 
@@ -238,7 +238,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險官方高淨值通告 Ref: HSBC-UL-PREMIER-2026；保監局備案登記: POL-HSBC-UL-2026"
+      official_source_attribution: "滙豐保險官方高淨值通告 Ref: HSBC-UL-PREMIER-2026；[示範虛擬編號]"
     }
   },
   {
@@ -294,7 +294,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "滙豐保險私銀通告 Ref: HSBC-UL-PRIVILEGE-2026；保監局檔案: IA-HSBC-UL-PRIV"
+      official_source_attribution: "滙豐保險私銀通告 Ref: HSBC-UL-PRIVILEGE-2026；[示範虛擬編號]"
     }
   },
   {
@@ -351,7 +351,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "忠意保險官方通告 Ref: GEN-LION-UL-2026；保監局備案登記: POL-GEN-UL-2026"
+      official_source_attribution: "忠意保險官方通告 Ref: GEN-LION-UL-2026；[示範虛擬編號]"
     }
   },
   {
@@ -408,7 +408,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外官方產品通告 Ref: CL-UL-SUPREME-2026；保監局備案: POL-CL-UL-2026"
+      official_source_attribution: "中國人壽海外官方產品通告 Ref: CL-UL-SUPREME-2026；[示範虛擬編號]"
     }
   },
   {
@@ -465,7 +465,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "中國人壽海外產品通函 Ref: CL-UL-GRANDEUR-2026；保監局登記: IA-CL-UL-GRAN"
+      official_source_attribution: "中國人壽海外產品通函 Ref: CL-UL-GRANDEUR-2026；[示範虛擬編號]"
     }
   },
   {
@@ -522,7 +522,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "藍十字官方經紀業務通告 Ref: BC-UL-SOVEREIGN-2026；保監局登記: POL-BC-UL-2026"
+      official_source_attribution: "藍十字官方經紀業務通告 Ref: BC-UL-SOVEREIGN-2026；[示範虛擬編號]"
     }
   },
   {
@@ -579,7 +579,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "富衛人壽高淨值業務備忘 Ref: FWD-PINNACLE-UL-2026；保監局檔案: IA-FWD-UL-PIN"
+      official_source_attribution: "富衛人壽高淨值業務備忘 Ref: FWD-PINNACLE-UL-2026；[示範虛擬編號]"
     }
   },
   {
@@ -636,7 +636,7 @@ export const newUlProducts = [
       confidence_level: "Verified",
       verified_by_editor: true,
       created_at: "2026-11-06T00:00:00Z",
-      official_source_attribution: "安盛保險官方通函 Ref: AXA-SOVEREIGN-UL-2026；保監局檔案: POL-AXA-UL-SOV"
+      official_source_attribution: "安盛保險官方通函 Ref: AXA-SOVEREIGN-UL-2026；[示範虛擬編號]"
     }
   }
 ];

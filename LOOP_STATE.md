@@ -2,7 +2,7 @@
 ## LOOP_STATE.md
 
 > [!IMPORTANT]
-> **State Machine Memory File (Run 3: Cycle 1 of 4)**:
+> **State Machine Memory File (Run 3: Cycle 2 of 4 Completed)**:
 > Autonomous Loop Run 3 is active on git branch `loop/run-3`.
 > Scope: Repair arithmetic/contradictions, sweep fake outputs, re-verify statutory citations against official registers, lock external demo mode, recapture defective screenshots with DOM assertions, and build intake kit for human owner.
 
@@ -10,8 +10,8 @@
 
 ### Execution Parameters
 * **Active Branch**: `loop/run-3`
-* **Current Cycle**: Cycle 2 / 4
-* **Current Task**: `TASK-R3-02` (R2 Legal Citation Re-Verification)
+* **Current Cycle**: Cycle 3 / 4
+* **Current Task**: `TASK-R3-03` (R4 External Mode Lock & R5 Screenshots)
 * **Cycle Cap**: 4 cycles
 * **Status**: IN_PROGRESS
 

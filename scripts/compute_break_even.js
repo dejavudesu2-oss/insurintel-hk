@@ -60,6 +60,19 @@ function computeEconomics() {
   const modelB_TeamRaw = fullFixed / teamNetMargin; // 37000 / 2243.33 = 16.493
   const modelB_TeamCount = Math.ceil(modelB_TeamRaw); // 17
 
+  // Annual Discount Sensitivity Model (100% Annual Subscription)
+  // Advisor Pro Annual: HK$ 2,188/yr => HK$ 182.33/mo
+  const indAnnPriceMo = 2188 / 12;
+  const indAnnStripeMo = (2188 * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed) / 12;
+  const indAnnNetMargin = indAnnPriceMo - indAnnStripeMo - varCostPerSeat; // ~165.93
+  const modelB_IndAnnualCount = Math.ceil(fullFixed / indAnnNetMargin); // 223
+
+  // Agency Team Annual: HK$ 24,800/yr => HK$ 2,066.67/mo
+  const teamAnnPriceMo = 24800 / 12;
+  const teamAnnStripeMo = (24800 * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed) / 12;
+  const teamAnnNetMargin = teamAnnPriceMo - teamAnnStripeMo - teamVarCost; // ~1,846.21
+  const modelB_TeamAnnualCount = Math.ceil(fullFixed / teamAnnNetMargin); // 21
+
   return {
     baseFixed,
     fullFixed,
@@ -90,7 +103,11 @@ function computeEconomics() {
         individualsRaw: modelB_IndRaw,
         individuals: modelB_IndCount, // 206
         teamsRaw: modelB_TeamRaw,
-        teams: modelB_TeamCount       // 17
+        teams: modelB_TeamCount,      // 17
+        annualSensitivity: {
+          individuals: modelB_IndAnnualCount, // 223
+          teams: modelB_TeamAnnualCount        // 21
+        }
       }
     }
   };

@@ -1,7 +1,7 @@
 /**
  * InsurIntel HK - Morning Briefing & Leader Speech Generator
  * Produces:
- * 1. 07:45 AM daily mobile broadcast text (WhatsApp/Telegram formatted)
+ * 1. 07:00 AM daily mobile broadcast text (WhatsApp/Telegram formatted)
  * 2. District Director / Unit Manager 3-minute morning meeting speech & agenda
  * 3. Rendered HTML morning presentation slide deck for morning meetings (Grand Matrix)
  */
@@ -297,7 +297,7 @@ export class MorningBriefingGenerator {
   }
 
   /**
-   * Formats 07:45 AM WhatsApp / Telegram broadcast message
+   * Formats 07:00 AM WhatsApp / Telegram broadcast message
    */
   public formatBroadcastText(
     briefing: DailyMorningBriefing,

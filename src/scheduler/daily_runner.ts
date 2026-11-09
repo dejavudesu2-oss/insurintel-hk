@@ -3,7 +3,7 @@
  * Orchestrates the full daily lifecycle:
  * 06:30 AM: Auto-search & ingest latest market intelligence
  * 07:00 AM: Diff detection & delta change calculation
- * 07:45 AM: Generate daily briefing, director speech, and morning presentation slides
+ * 07:00 AM: Generate daily briefing, director speech, and morning presentation slides
  */
 
 import fs from "fs";

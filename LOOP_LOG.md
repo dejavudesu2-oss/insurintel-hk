@@ -794,3 +794,34 @@ Status: COMPLETED (Verified Code 0)
    - Subagent identified 3 issues: (1) missing src/ audit, (2) async race in checksum fallback, (3) stale numbers in master report.
    - All 3 issues resolved: added src/ scan to fake_output_audit.js, sanitized mock_data, and reconciled FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT.md.
 ================================================================================
+
+================================================================================
+CYCLE 2: TASK-R3-02 (Legal Citation Re-Verification, GL Modernization & Rate Caps Audit)
+Timestamp: 2026-11-09T18:35:00+08:00
+Git Branch: loop/run-3
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Browse/audit official pages for 16 statutory citations; record official URLs, retrieval date 2026-11-09, and exact headings.
+   - Replace GN16 with modern GL16 + Interpretation Notes (GN16 as historical note); add GL25, GL28, GL29, GL30 (FNA); analyze 1 July 2025 illustration rate caps (6.0% HKD / 6.5% non-HKD); fix Cap. 71 Chinese title 《管制免責條款條例》; keep mandatory header "AI-assisted citations; counsel to confirm."
+   - Create automated verification script `scripts/verify_legal_citations_r3.js` and integrate into test runner.
+
+2. Adversarial Review Remediation (Reviewer: 1f4df1fd-cbec-4463-a1a8-a10cfd9ba85e):
+   - Finding 1: Cap. 41 s. 121 is "Preservation of secrecy" (保密), not misrepresentation; Cap. 41 s. 90 is "Conduct requirements for licensed insurance intermediaries"; Cap. 623 contracting out is under s. 4 & s. 6.
+     -> FIXED: Corrected headings and descriptions in LEGAL_BRIEF_CITATION_AUDIT.md; removed Section 121 misattribution from Issue 1 of LEGAL_BRIEF_HK_COMPLIANCE.md.
+   - Finding 2: Reused dummy `xpid` query URLs across separate sections.
+     -> FIXED: Replaced all URLs with direct statutory permalinks (e.g. /s64G, /s90, /s95, /s121, /sch1A, /s33, /sch1, /s4, /s6).
+   - Finding 3: 1 July 2025 rate caps only mentioned in text without code/data watermark.
+     -> FIXED: Created 15-product table in LEGAL_BRIEF_CITATION_AUDIT.md; tagged 15 products in `src/mock_data/savings_multicurrency.json` and injected `[UNVERIFIED - 僅反映歷史計劃書，自2025年7月1日起受保監局6.0%/6.5%上限規管]` watermark into `mobile_cafe_app.html`.
+   - Finding 4: Incomplete typo fix in master report and unmodernized GN16 in presentation assets.
+     -> FIXED: Patched line 182 of FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT.md to 《管制免責條款條例》; modernized morning slides and app footer to cite GL16 (GN16).
+   - Finding 5: Naive reliance on dual-mode UI to evade GL25 (Offering of Gifts).
+     -> FIXED: Amended Issue 1 in LEGAL_BRIEF_HK_COMPLIANCE.md to specifically instruct counsel on automated rebate/discount comparison calculators and required engine-level guardrails.
+
+3. Verification & Results:
+   - `node scripts/verify_legal_citations_r3.js` executed cleanly with 0 errors.
+   - All 33 test suites in `npm test` passed cleanly (100% GREEN).
+   - LEGAL_BRIEF_HK_COMPLIANCE.md verified at 10,776 characters (<= 11,000 cap).
+   - SHA-256 Parity preserved across all targets:
+     * mobile_cafe_app.html, index.html, cafe.html: `30285e3ac172c71e0180fc92406d94b0dff0760dbda7e83e7d2e20af0eeba24e`
+================================================================================

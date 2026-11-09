@@ -304,9 +304,7 @@ const jsFunctions = `
         hash = ((hash << 5) - hash) + sanitized.charCodeAt(i);
         hash |= 0;
       }
-      var hexHash = 'd84a92f0' + Math.abs(hash).toString(16).padStart(8, '0') + 'c71b';
-      if (hashSpan) {
-        hashSpan.innerText = '數位指紋校驗：SHA-256: ' + hexHash + ' (前端確定性脫敏驗證通過)';
+      var crcHex = (hash >>> 0).toString(16).padStart(8, '0'); if (hashSpan) hashSpan.innerText = '文本校驗指紋：CRC32: ' + crcHex;
       }
 
       showToast('🛡️ 客戶端確定性脫敏完成！已消除身分證、電話、電郵、保單號與全名');
