@@ -542,3 +542,50 @@ Reconciliation:
    - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
    - Backlog P0/P1 open: 5
 ================================================================================
+
+================================================================================
+CYCLE 2: TASK-R2-02 (Human Audit Kit HUMAN_AUDIT_KIT.md & UI Illustrative Watermark)
+Timestamp: 2026-11-09T16:28:00+08:00
+Git Branch: loop/run-2
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Generate deterministic 15-row random sample audit kit (`HUMAN_AUDIT_KIT.md`) using PRNG seed `20261109`.
+   - Format each row with product, screen path, actual figure shown in UI, source URL, locator, strict status, and checkboxes `[ ] MATCH (原件一致)` / `[ ] MISMATCH (相左或缺載)`.
+   - Display UI watermark `⚠️ 示範數據 · 非源自官方利益說明書 (Illustrative - not from an official illustration)` across `#agent-view`, `#client-view`, `#panel-scenario-medical`, `#gn16-query-modal`, `#catalog-drawer`, and `bilateralSpecTable` footers.
+   - Implement `tests/verification_human_audit_kit.ts`, verify SHA-256 parity, and run adversarial reviewer subagent.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`69d5e618-71de-40f3-963f-e3d048fc26b4`) returned 5 rigorous findings:
+     * Finding 1: Watermark missing on high-exposure surfaces (`panel-scenario-medical`, `gn16-query-modal`, `catalog-drawer`), plus contradictory copy (`依據官方利益說明書` in Horizon, `官方認證對賬` in GN16, and `100% 徹底無浮水印` in pay modal). -> FIXED: Injected persistent illustrative watermark badges across all these screens; purged all claims of "依據官方利益說明書" and "官方認證", replaced pay modal watermark stripping with standard clean PDF export.
+     * Finding 2: 8 of 15 rows in `HUMAN_AUDIT_KIT.md` displayed dummy string `Rebate: N/A%`. -> FIXED: Implemented dynamic catalog extractor `getAppDisplayedFigure(rec)` resolving genuine app figures (CI waiting periods, disease counts, VHIS limits & deductibles, QDAP guaranteed IRRs, UL LTVs & net spreads).
+     * Finding 3: False blanket locator labeling as "僅為行銷著陸頁" for hospital statutory registers and GN16 annual reports. -> FIXED: Differentiated locators dynamically between Department of Health Cap. 633 register, HKIA GN16 statutory archives, and insurer marketing brochures.
+     * Finding 4: Test fragility with brittle sample count assertion and lack of negative assertions. -> FIXED: Upgraded `tests/verification_human_audit_kit.ts` with dynamic counting (`sourced + unverified === 15`) and negative assertions banning misleading official illustration / certification claims.
+     * Finding 5: Interactive UX friction and missing sign-off block in `HUMAN_AUDIT_KIT.md`. -> FIXED: Enhanced checkboxes with criteria `[ ] MATCH (原件一致)` / `[ ] MISMATCH (相左或缺載)` and appended a formal Human Sign-off Block with decision rule.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: HUMAN AUDIT KIT & UI ILLUSTRATIVE WATERMARK (TASK-R2-02 - HARDENED)
+================================================================================
+
+  [PASS] generate_human_audit_kit.js executed with exit code 0.
+  [PASS] Verified 15 sampled audit rows in HUMAN_AUDIT_KIT.md.
+  [PASS] All 15 rows contain required audit fields, URLs, screen paths, real figures, and checkboxes.
+  [PASS] Human Audit Kit summary is dynamically consistent and contains sign-off block.
+  [PASS] UI contains agent watermark, client banner, spec table, scenario medical, GN16, and catalog warnings.
+  [PASS] Negative checks passed: Zero misleading official illustration or certified claims.
+  [PASS] SHA-256 parity verified across all 3 HTML files: 383023a0acff8f675602597003278bf1fad8f8929486b2474ac37b7f39fcdd4d
+
+================================================================================
+ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-02 HARDENED & VERIFIED)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 283 / 283 (27 suites)
+   - Strict SOURCED rows: 1 / 130 (0.77%)
+   - Strict UNVERIFIED rows: 129 / 130 (99.23%)
+   - True Denominator: 9,052 client-visible numbers
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
+   - Backlog P0/P1 open: 4
+   - SHA-256 Parity: Byte-for-byte identical across all 3 HTML files (Hash: `383023a0acff8f675602597003278bf1fad8f8929486b2474ac37b7f39fcdd4d`)
+================================================================================

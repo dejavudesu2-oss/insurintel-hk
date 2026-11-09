@@ -3723,6 +3723,12 @@
 
     <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶 · 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日</div>
     
+    <!-- Illustrative Warning Badge for Agent View -->
+    <div class="agent-illustrative-watermark" id="agent-illustrative-watermark" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-left:4px solid #f59e0b;padding:6px 10px;border-radius:6px;margin:8px 0;font-size:11px;color:#fbbf24;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+      <span>⚠️ 內部示範數據提示：非源自官方利益說明書之試算指標均為產品結構示範</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#fcd34d;font-weight:700;">Illustrative - not from an official illustration</span>
+    </div>
+    
     <!-- 当前应对噱头提示条 -->
     <div class="agent-objection-banner" id="agent-objection-banner">
       <span>⚡ 應對客戶異議焦點：</span>
@@ -3821,6 +3827,15 @@
       <a id="tearsheet-third-pdf-link" class="tearsheet-pdf-btn third" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="display:none;flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;align-items:center;gap:4px;background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;">
         <span>📄 第三方【宏摯多元儲蓄】官方手冊原件 ↗</span>
       </a>
+    </div>
+
+    <!-- Statutory Illustrative Data Watermark for non-strictly sourced metrics -->
+    <div class="illustrative-watermark-banner" id="client-illustrative-watermark" style="background:#fffbeb;border:1px solid #fef3c7;border-left:4px solid #f59e0b;padding:8px 12px;border-radius:6px;margin:8px 0 10px;font-size:11px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span style="font-size:14px;">⚠️</span>
+        <span><strong>數據真實性聲明</strong>：除香港稅務條例法定扣除額外，本系統非官方利益說明書認證之數值均標註為</span>
+      </div>
+      <span class="badge-illustrative-tag" style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:4px;font-weight:700;font-family:'JetBrains Mono',monospace;font-size:10.5px;border:1px solid #fcd34d;">Illustrative - not from an official illustration</span>
     </div>
 
     <!-- 1v1 Client Head-to-Head Comparison Grid -->
@@ -3944,7 +3959,7 @@
         <span style="font-family:'JetBrains Mono'; font-size:10px; color:#6b7280;">數據截至：2026年11月09日 (Data as of 2026-11-09)</span>
       </div>
       <div>1. <strong>反轉保與保單替換風險警示</strong>：本系統所有精算指標僅供持牌保險中介人作內部市場分析及向客戶客觀展示產品條款，不構成任何保單替換（Twisting）建議。提早退保或轉保可能涉及重大財務折損及失去原有合約權益。</div>
-      <div style="margin-top:4px;">2. <strong>數據來源與未經核實提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」，嚴禁向客戶呈示。</div>
+      <div style="margin-top:4px;">2. <strong>數據來源與未經核實／示範數據提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。除法定稅務扣除額外，任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」及「Illustrative - not from an official illustration（示範數據 · 非源自官方利益說明書）」，嚴禁向客戶呈示未經認證之預測數值。</div>
       <div style="margin-top:4px; font-size:10px; color:#9ca3af;">3. 過往分紅實現率不代表未來業績承諾，保證現金價值與非保證終期紅利之權益以承保保司正式批註合約為準。</div>
     </div>
   </div>
@@ -3958,6 +3973,10 @@
     <div class="drawer-header">
       <div class="drawer-title">📚 全港保司 · 99 款主流產品規格全覽</div>
       <button class="drawer-close-btn" onclick="closeCatalogDrawer()">✕</button>
+    </div>
+    <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 12px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+      <span>⚠️ 示範數據提示：規格與回贈摘自公開宣傳單張，非官方利益說明書認證</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
     </div>
     <div class="drawer-search-bar">
       <input type="text" class="drawer-search-input" id="catalog-search-input" placeholder="🔍 搜尋產品名稱、保司、免體檢額或關鍵字..." oninput="filterCatalog()">
@@ -4274,11 +4293,11 @@
       if (verdictBox) {
         let verdict = '';
         if (avgPct >= 100) {
-          verdict = '<strong>✅ 官方認證：分紅超額/完全兌現！</strong> 歷年平均達成率達 <strong>' + avgPct + '%</strong>，超越保監局 100% 法定基準。真實到賬非保證紅利累計多出 <strong>+$' + Math.abs(variance).toLocaleString() + ' USD</strong>。';
+          verdict = '<strong>✅ GN16回溯判定：分紅超額/完全兌現！</strong> 歷年平均達成率達 <strong>' + avgPct + '%</strong>，超越保監局 100% 法定基準。真實到賬非保證紅利累計多出 <strong>+$' + Math.abs(variance).toLocaleString() + ' USD</strong>。';
         } else if (avgPct >= 92) {
-          verdict = '<strong>ℹ️ 官方認證：貼近預期（平滑熨平）</strong> 歷年平均達成率為 <strong>' + avgPct + '%</strong>，累計較演示微調 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>，保司平滑準備金有效發揮防禦回撤作用。';
+          verdict = '<strong>ℹ️ GN16回溯判定：貼近預期（平滑熨平）</strong> 歷年平均達成率為 <strong>' + avgPct + '%</strong>，累計較演示微調 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>，保司平滑準備金有效發揮防禦回撤作用。';
         } else {
-          verdict = '<strong>⚠️ 官方認證：紅利縮水預警</strong> 歷年平均達成率僅 <strong>' + avgPct + '%</strong>，累計實際到賬落後演示 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>。建議聯繫顧問檢視是否啟動紅利鎖定轉換。';
+          verdict = '<strong>⚠️ GN16回溯判定：紅利縮水預警</strong> 歷年平均達成率僅 <strong>' + avgPct + '%</strong>，累計實際到賬落後演示 <strong>-$' + Math.abs(variance).toLocaleString() + ' USD</strong>。建議聯繫顧問檢視是否啟動紅利鎖定轉換。';
         }
         verdictBox.innerHTML = verdict;
       }
@@ -4430,7 +4449,7 @@
       } else {
         isGN16AgentUnlocked = false;
         if (typeof alert !== 'undefined') {
-          alert('🎉 支付成功！已解鎖單份香港保單深度 GN16 對賬報告！報告已加蓋「InsurIntel HK 官方認證對賬 · 投保人私人存檔」官方防偽標記。');
+          alert('🎉 支付成功！已解鎖單份香港保單深度 GN16 對賬報告！報告已生成專屬對賬存檔（註：本對賬為示範模型，非保司利益說明書認證）。');
         }
       }
       updateGN16DisplayTier();
@@ -7070,7 +7089,7 @@
   <span style="font-family:'JetBrains Mono'; font-size:10px; color:#6b7280;">數據截至：2026年11月09日 (Data as of 2026-11-09)</span>
 </div>
 <div>1. <strong>反轉保與保單替換風險警示</strong>：本系統所有精算指標僅供持牌保險中介人作內部市場分析及向客戶客觀展示產品條款，不構成任何保單替換（Twisting）建議。提早退保或轉保可能涉及重大財務折損及失去原有合約權益。</div>
-<div style="margin-top:4px;">2. <strong>數據來源與未經核實提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」，嚴禁向客戶呈示。</div>
+<div style="margin-top:4px;">2. <strong>數據來源與未經核實／示範數據提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。除法定稅務扣除額外，任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」及「Illustrative - not from an official illustration（示範數據 · 非源自官方利益說明書）」，嚴禁向客戶呈示未經認證之預測數值。</div>
 <div style="margin-top:4px; font-size:10px; color:#9ca3af;">3. 過往分紅實現率不代表未來業績承諾，保證現金價值與非保證終期紅利之權益以承保保司正式批註合約為準。</div>`;
 
       let corridorNote = '';
@@ -9416,7 +9435,7 @@ return {
         }
       } else {
         highlightTitle = '長線資產配置與確定利益里程碑';
-        ourDetail = '【' + ourName + '】在第 ' + year + ' 年依據官方利益說明書保持核心收益率與條款防禦優勢';
+        ourDetail = '【' + ourName + '】在第 ' + year + ' 年根據示範模型測算保持收益率與條款防禦優勢（⚠️ 示範數據 · 非源自官方利益說明書）';
         rivalDetail = '【' + rivalName + '】在第 ' + year + ' 年受市場波動或鎖定限制較多';
       }
 
@@ -9697,7 +9716,7 @@ return {
             '<span style="color:#002FA7;font-weight:700;">【Plan A 我方】' + (item.concrete_our || (item.our_score + '分')) + '</span>' +
             '<span style="color:#64748b;font-weight:bold;"> vs </span>' +
             '<span style="color:#b91c1c;font-weight:700;">【Plan B 對手】' + (item.concrete_rival || (item.rival_score + '分')) + '</span>' +
-            '<div style="font-size:9.5px;color:#64748b;margin-top:2px;">📐 精算折算依據：' + (item.explanation || '依據香港保監局官方利益說明書量化折算') + '</div>' +
+            '<div style="font-size:9.5px;color:#64748b;margin-top:2px;">📐 精算折算依據：' + (item.explanation || '依據公開數據示範模型量化折算（非官方利益說明書認證）') + '</div>' +
           '</div>' +
         '</div>';
       });
@@ -10107,6 +10126,13 @@ return {
                 </tr>
               `).join('')}
             </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" style="padding:6px 8px;font-size:10px;color:#92400e;background:#fffbeb;text-align:right;">
+                  ⚠️ 利益數值：<span style="font-family:'JetBrains Mono',monospace;font-weight:600;">Illustrative - not from an official illustration</span>（請以保司正式建議書為準）
+                </td>
+              </tr>
+            </tfoot>
           `;
         } else if (Array.isArray(card.bilateral_specs)) {
         bilateralSpecTable.innerHTML = `
@@ -10133,6 +10159,13 @@ return {
             `;
             }).join('')}
           </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="4" style="padding:6px 8px;font-size:10px;color:#92400e;background:#fffbeb;text-align:right;">
+                ⚠️ 利益數值：<span style="font-family:'JetBrains Mono',monospace;font-weight:600;">Illustrative - not from an official illustration</span>（請以保司正式建議書為準）
+              </td>
+            </tr>
+          </tfoot>
         `;
         }
       }
@@ -10307,7 +10340,7 @@ return {
           </div>
           <div style="display:flex;justify-content:space-between;align-items:center;margin:6px 0 8px;gap:6px;">
             <a href="${p.official_url || p.brochure_url || getInsurerOfficialUrl(p.insurer)}" target="_blank" rel="noopener noreferrer" class="catalog-official-link" title="查閱原廠官方說明書與產品條款" style="font-size:11px;color:#002FA7;font-weight:700;text-decoration:underline;display:inline-flex;align-items:center;gap:3px;">📄 官方原廠說明書及條款 ↗</a>
-            <span style="font-size:10px;color:#64748b;">保監局GN16核備</span>
+            <span style="font-size:10px;color:#b45309;" title="試算指標非官方利益說明書認證">⚠️ 歷史GN16公開存檔 (示範數據)</span>
           </div>
           <button class="drawer-card-btn" onclick="selectProductFromCatalog('${p.id}')">🥊 載入對抗戰卡</button>
         </div>
@@ -11826,6 +11859,10 @@ return {
               '<div class="scenario-subtitle">覆蓋全港頂尖私家醫院 · 預先批核擔保 · 0 墊支零負擔</div>' +
             '</div>' +
             '<span class="scenario-pill-badge green">出院免找數</span>' +
+          '</div>' +
+          '<div style="font-size:10.5px;color:#92400e;background:#fffbeb;border:1px solid #fef3c7;border-left:3px solid #f59e0b;padding:4px 8px;border-radius:4px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">' +
+            '<span>⚠️ 示範數據提示：醫院保證金與直付條款摘自衛生署名單及市場通函，非保司正式利益說明書</span>' +
+            '<span style="font-family:JetBrains Mono,monospace;font-weight:700;color:#b45309;">Illustrative - not from an official illustration</span>' +
           '</div>' +
           '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:8px 12px;margin-bottom:10px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">' +
             '<div style="font-size:12px;font-weight:800;color:var(--ikb);display:flex;align-items:center;gap:4px;">' +
@@ -13366,6 +13403,10 @@ return {
       </div>
       <button class="drawer-close-btn" onclick="closeGN16QueryModal()" aria-label="關閉對賬器">✕</button>
     </div>
+    <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
+      <span>⚠️ 示範數據提示：實現率摘自保監局歷史通函存檔，本模擬試算非官方利益說明書認證</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
+    </div>
     <div class="gn16-query-body">
       <!-- Filter Selectors -->
       <div class="gn16-filters-card">
@@ -13424,8 +13465,8 @@ return {
       <div class="gn16-chart-container" id="gn16-chart-container">
         <div class="gn16-watermark-overlay" id="gn16-watermark-overlay">
           <div class="gn16-watermark-text" id="gn16-watermark-text">
-            InsurIntel HK 官方認證對賬 · 投保人私人存檔<br>
-            InsurIntel HK 官方認證對賬 · 投保人私人存檔
+            InsurIntel HK 示範對賬模型 · Illustrative Only · 非官方利益說明書認證<br>
+            InsurIntel HK 示範對賬模型 · Illustrative Only · 非官方利益說明書認證
           </div>
         </div>
         <div id="gn16-svg-chart-wrapper" style="position:relative;z-index:2;width:100%;height:100%;">
@@ -13482,7 +13523,7 @@ return {
           <div style="font-size:11px;color:#64748b;margin-bottom:10px;">單次解鎖 · 私人存檔</div>
           <ul style="font-size:11.5px;color:#334155;line-height:1.6;padding-left:16px;margin:0;">
             <li>解鎖單份保單深度紅利對賬走勢圖</li>
-            <li>標註「投保人私人存檔」官方認證水印</li>
+            <li>標註「投保人私人存檔」專屬示範水印</li>
             <li>清晰對賬宣傳利益 vs 實際到賬</li>
             <li>支援單次 PDF 導出列印</li>
           </ul>
@@ -13496,7 +13537,7 @@ return {
           <div style="font-size:11px;color:#002FA7;font-weight:700;margin-bottom:10px;">⭐ 理財顧問展業談客首選</div>
           <ul style="font-size:11.5px;color:#334155;line-height:1.6;padding-left:16px;margin:0;">
             <li>全港 12 大保司無限次即時查詢</li>
-            <li><strong>100% 徹底無浮水印</strong>專業認證導出</li>
+            <li><strong>專業無廣告高清 PDF 導出</strong>（含法定示範聲明）</li>
             <li><strong>報告末尾自動附帶個人顧問名片與頭像</strong></li>
             <li>一鍵導出 WhatsApp / 微信 促成話術</li>
           </ul>
