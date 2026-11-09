@@ -1037,3 +1037,74 @@ SUMMARY: ALL BENEFIT ILLUSTRATION INTAKE HONESTY TESTS PASSED (100% GREEN)
    - Client-visible numbers denominator: 9,052 strictly locked.
    - Sourced status gating: strictly TRANSCRIBED (initial) vs SOURCED-STRICT (double entry/optical verified). Zero automatic SOURCED.
 ================================================================================
+
+================================================================================
+CYCLE 3: TASK-R4-03 (Public Fulfilment Ratio Sourcing Kit & Terminal Handoff)
+Timestamp: 2026-11-10T01:17:30+08:00
+Git Branch: loop/run-4
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Audit public fulfilment ratio disclosure requirements under HKIA GL16.
+   - Transparently disclose sandbox limits on dynamic carrier portal web-scraping; create official directory links for HKIA, AIA, Prudential, Manulife, Sun Life, and FWD.
+   - Generate standard CSV intake templates in `INTAKE/fulfilment/` with 0 invented values and status `SYNTHETIC`.
+   - Implement `scripts/verify_fulfilment_ratios.js` and `tests/verification_fulfilment_ratios.ts` auditing strict coverage out of 9,052 before and after (strictly 7 / 9,052 = 0.08%).
+   - Refresh `HANDOFF.md` (strictly <= 5,000 characters, 4,271 characters) covering Current Truth, Blocked on Owner, 3 Decisions, and How to Continue.
+
+2. Adversarial Reviewer Subagent (`eb68dda5-3153-4160-a902-e4f0853f478e`):
+   - Verdict: PASS (CERTIFIED CLEAN WITH OBSERVATIONS).
+   - All 7 criteria verified green (5 templates, 0 invented values, strict ratio 7 / 9,052, HANDOFF length <= 5,000 chars, 4 required sections, 39 test suites passing, strict epistemic labeling).
+   - Refinements applied:
+     * Prudential alias support: created `PRU_Evergrowing_fulfillment.csv` alongside `PRU_EvergreenGrand_fulfillment.csv`.
+     * Dynamic strict data points calculation in `scripts/verify_fulfilment_ratios.js`.
+     * Number formatting with locale commas (`9,052`).
+
+3. Raw Verification Output:
+================================================================================
+AUDIT: PUBLIC FULFILMENT RATIO SOURCING & PROVENANCE (TASK-R4-03 / P3)
+================================================================================
+
+[SANDBOX STATUS DISCLOSURE]
+  Automated external web scraping of dynamic insurer portals (AIA, Prudential,
+  Manulife, Sun Life, FWD) cannot be reliably executed without interactive session
+  handling and dynamic PDF parsing in this network sandbox.
+  All official URLs, guidelines, and CSV intake templates are generated with 0 invented values.
+
+  [PASS] Audited AIA_GlobalPower3_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited PRU_EvergreenGrand_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited MANU_ManuGlobal_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited SUN_SunJoy_fulfillment.csv: Header valid, 5 rows tracked.
+  [PASS] Audited FWD_MaxFocus_fulfillment.csv: Header valid, 5 rows tracked.
+
+[FULFILMENT TEMPLATE AUDIT SUMMARY]
+  Files Audited          : 5 / 5
+  Total Rows Monitored   : 25
+  SYNTHETIC Rows (Zeroed): 25
+  SOURCED-STRICT Rows    : 0 (Awaiting owner verification)
+
+================================================================================
+STRICT SOURCED COVERAGE RATIO REPORT (OUT OF 9,052)
+================================================================================
+Strict Provenance Before Audit : 7 / 9,052 (0.08%)
+Strict Provenance After Audit  : 7 / 9,052 (0.08%)
+Zero invented numbers policy strictly maintained. No unverified promotion permitted.
+================================================================================
+
+  [PASS] All 5 official insurer fulfilment templates verified with valid headers & SYNTHETIC status.
+  [PASS] Master template and 1-page owner fulfilment guide verified.
+  [PASS] Strict sourced coverage before and after verified: exactly 7 / 9,052 (0.08%).
+
+================================================================================
+SUMMARY: ALL PUBLIC FULFILMENT RATIO ASSERTIONS PASSED (100% GREEN)
+================================================================================
+
+4. Final Metrics Across Autonomous Loop Run 4:
+   - Git Branch: loop/run-4
+   - Total Cycles: 3 / 3 (Run completed cleanly within cap)
+   - Test suites: 39 / 39 green (453 / 453 individual assertions passing, 0 failures)
+   - SHA-256 Parity: 5b5d6be2b52de3effebc39a36668fb279821b1022efc0bcb604ce2df65c8bd56 (byte-for-byte identical across templates/mobile_cafe_app.html, dist/index.html, dist/cafe.html)
+   - Client-Visible Numbers Denominator: 9,052
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%) [Cap. 112 QDAP statutory caps & brackets]
+   - Cost Model SSOT: cost_model.json v4.0.0 with churn analysis (12 base / 206 full Model A; 1 base / 17 full Model B)
+   - HANDOFF.md: 4,271 characters (strictly <= 5,000 characters)
+================================================================================
