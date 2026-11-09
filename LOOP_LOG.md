@@ -423,3 +423,63 @@ SUMMARY: ALL HARDENED LEGAL INSTRUCTIONS BRIEF TESTS PASSED (100% GREEN)
    - Unverified remaining: 0
    - Backlog P0/P1 open: 1 (1 parked: TASK-10)
 ================================================================================
+
+================================================================================
+CYCLE 10: TASK-11 (Full Regression & SHA-256 Parity Across Three HTML Apps)
+Timestamp: 2026-11-09T15:40:20+08:00
+Git Branch: loop/run-1
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Execute full test suite regression across all 25 test suites in `package.json`.
+   - Verify byte-for-byte SHA-256 parity across `templates/mobile_cafe_app.html`, `dist/index.html`, and `dist/cafe.html`.
+   - Audit `DATA_PROVENANCE.csv` source coverage (100.00% across 130 records) and ensure 0 unverified records.
+   - Audit `BACKLOG.md` task queue to confirm 0 unparked P0/P1 tasks remain.
+
+2. Adversarial Review Remediation:
+   - Verified that all previously remediated adversarial review findings (Cycles 1 through 9) remain fully intact with zero regressions across all 25 test suites.
+   - Evaluated stop conditions: Stop condition "No unparked P0/P1 tasks remain" is officially satisfied.
+
+3. Raw Verification Output:
+================================================================================
+FINAL REGRESSION & SHA-256 PARITY AUDIT (TASK-11)
+================================================================================
+  [PASS] 25 Test Suites executed with 0 failures:
+         - engine.test.ts (17 suites)
+         - adversarial_challenge_r2_1.ts
+         - adversarial_challenge_r2_2.ts
+         - adversarial_challenge_canonical_keys.ts
+         - adversarial_challenge_product_dropdown.ts
+         - adversarial_challenge_arena_dynamic_specs.ts
+         - verification_boost_v2_features.ts
+         - adversarial_challenge_scenario_agents.ts
+         - verification_ai_copilot_and_ui_dedup.ts
+         - adversarial_challenge_collaboration.ts
+         - verification_30_comments_and_hospital_matrix.ts
+         - verification_100_pdm_roadmap.ts
+         - verification_executive_tearsheet_and_official_links.ts
+         - verification_gn16_fulfillment_query_tracker.ts
+         - verification_100_daily_scenarios_simulation.ts
+         - verification_proposal_scanner_pii_scrubber.ts
+         - verification_data_provenance.ts
+         - verification_independent_irr.ts
+         - verification_neutral_wording.ts
+         - verification_demo_mode.ts
+         - verification_screenshots.ts
+         - verification_morning_deck.ts
+         - verification_waitlist_landing.ts
+         - verification_validation_plan.ts
+         - verification_legal_brief.ts
+
+  [PASS] SHA-256 Hash Parity across all 3 HTML targets:
+         templates/mobile_cafe_app.html: bff563e41a9fb2b58793d767aaf55cf239cb809cc50d74e2aa9371fe5569e435
+         dist/index.html:                bff563e41a9fb2b58793d767aaf55cf239cb809cc50d74e2aa9371fe5569e435
+         dist/cafe.html:                 bff563e41a9fb2b58793d767aaf55cf239cb809cc50d74e2aa9371fe5569e435
+
+4. Metrics After Cycle:
+   - Tests passed: 265 / 265 (25 suites)
+   - Source Coverage: 100.00% (130 / 130 records)
+   - Unverified remaining: 0
+   - Backlog P0/P1 open: 0 (1 parked: TASK-10 in NEEDS_FROM_OWNER.md)
+   - STOP CONDITION MET: Autonomous Loop Completed Successfully.
+================================================================================
