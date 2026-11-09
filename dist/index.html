@@ -4011,6 +4011,9 @@
     </div>
     
     <div class="ai-drawer-body">
+      <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:8px 10px;margin-bottom:12px;font-size:11px;color:#1e40af;line-height:1.4;">
+        ⚖️ <strong>法規防護告示</strong>：本模組僅提供純客觀文字整理與條款索引，不構成《保險業條例》(Cap. 41) 第 64G 條項下之受規管意見 (Regulated Advice)。具體產品推薦須由香港持牌顧問獨立出具。
+      </div>
       <!-- 1. Live Injected Context Preview Payload -->
       <div class="ai-context-card" id="ai-live-context-card">
         <div class="ai-context-header">
@@ -9004,7 +9007,10 @@ return {
       }
       if (selectMyProd) {
         mySelectedProduct = myMatch;
-        if (allMyProds.length > 0) {
+        if (isDemoModeActive) {
+          selectMyProd.innerHTML = '<option value="DEMO_PROD_A">[示範方案 A] 虛擬多元貨幣方案 A</option>' + (allMyProds.length > 0 ? renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '') : '');
+          selectMyProd.value = 'DEMO_PROD_A';
+        } else if (allMyProds.length > 0) {
           selectMyProd.innerHTML = renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '');
           if (myMatch) selectMyProd.value = myMatch.id;
           else selectMyProd.value = '';
@@ -9031,7 +9037,10 @@ return {
 
       if (selectRivalProd) {
         rivalSelectedProduct = rivalMatch;
-        if (allRivalProds.length > 0) {
+        if (isDemoModeActive) {
+          selectRivalProd.innerHTML = '<option value="DEMO_PROD_B">[示範方案 B] 虛擬多元貨幣方案 B</option>' + (allRivalProds.length > 0 ? renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '') : '');
+          selectRivalProd.value = 'DEMO_PROD_B';
+        } else if (allRivalProds.length > 0) {
           selectRivalProd.innerHTML = renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '');
           if (rivalMatch) selectRivalProd.value = rivalMatch.id;
           else selectRivalProd.value = '';
@@ -9355,8 +9364,8 @@ return {
           rivalDetail = '總現金價值約 240%~270% · 分拆需符合特定限額與指定窗口期';
         } else {
           highlightTitle = '退休金高額提取與家族跨代傳承終局';
-          ourDetail = '總現金價值高達已繳保費之 620%~710% (30年預期 IRR ~' + ourIrr + '%) · 終身更換受保人';
-          rivalDetail = '總現金價值約已繳保費之 480%~550% (30年預期 IRR ~' + rivalIrr + '%) · 複利差距擴大';
+          ourDetail = '總現金價值高達已繳保費之 620%~710% (30年預期 IRR ~' + ourIrr + '%) · 終身更換受保人（註：合約保證現金價值佔比約 15%~20%，其餘為非保證終期紅利，受市場投資波動影響）';
+          rivalDetail = '總現金價值約已繳保費之 480%~550% (30年預期 IRR ~' + rivalIrr + '%) · 複利差距擴大（非保證紅利受市場波動影響）';
         }
       } else if (cat === 'Medical_VHIS') {
         const ourLimit = Math.round((ourM.vhisAnnualLimit || ourProd?.vhisLimitHkd || ourProd?.vhis_metrics?.annual_limit_hkd || 20000000) / 10000);
@@ -11027,7 +11036,7 @@ return {
           lines.push('3️⃣ ' + b('今期限定優惠：') + '本月享有專屬保費回贈及免體檢綠色通道，即將於本週五截止！');
         }
         lines.push('');
-        lines.push('如您希望為家人鎖定此配置，我隨時為您備妥正式投保說明書！');
+        lines.push('如您希望進一步審閱條款細節，隨時通知我，我為您向保司索取正式官方利益說明書供您審核！\n⚠️【GL27 轉保風險提醒】：退保舊單換新單通常造成重大財務損失及重新核保風險。');
       } else if (t === 'mcv_vip') {
         lines.push('【陳生，香港離岸資產配置與家庭信託傳承建議書】');
         lines.push('━━━━━━━━━━━━━━━━━━━━━');
@@ -13743,6 +13752,7 @@ return {
           </div>
           <textarea id="scanner-raw-input" style="width:100%;height:180px;font-size:11.5px;font-family:monospace;padding:8px;border:1px solid #fecaca;border-radius:6px;box-sizing:border-box;resize:vertical;" placeholder="在此貼上計劃書 OCR 文本或點擊上方「載入示範計劃書」..."></textarea>
           <div style="font-size:10.5px;color:#7f1d1d;margin-top:6px;">⚠️ 偵測到之敏感欄位：身份證 (HKID)、電話號碼、電郵地址、保單編號、受保人全名</div>
+          <div style="font-size:10.5px;color:#991b1b;margin-top:4px;font-weight:700;">⚠️ 隱私防護 (PDPO Cap. 486)：嚴禁輸入受保人之醫療診斷、病歷報告或敏感健康隱私資料。</div>
         </div>
 
         <!-- Right Column: Sanitized Scrubbed View -->
@@ -13752,7 +13762,7 @@ return {
             <span style="font-size:10px;background:#dcfce7;color:#166534;padding:2px 6px;border-radius:4px;font-weight:700;">安全合規</span>
           </div>
           <div id="scanner-scrubbed-output" style="width:100%;height:180px;font-size:11.5px;font-family:monospace;padding:8px;border:1px solid #bbf7d0;border-radius:6px;box-sizing:border-box;background:#ffffff;overflow-y:auto;white-space:pre-wrap;color:#1e293b;">（點擊上方「執行客戶端即時脫敏」以查看安全預覽）</div>
-          <div id="scanner-audit-hash" style="font-size:10.5px;color:#166534;margin-top:6px;font-family:monospace;">數位指紋校驗：待計算 (Deterministic SHA-256)</div>
+          <div id="scanner-audit-hash" style="font-size:10.5px;color:#166534;margin-top:6px;font-family:monospace;">文本校驗指紋：待計算 (Client-Side Checksum)</div>
         </div>
       </div>
 
