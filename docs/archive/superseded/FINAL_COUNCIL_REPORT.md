@@ -1,3 +1,7 @@
+> [!CAUTION]
+> **SUPERSEDED - contains claims later disproven; see HANDOFF.md**
+> 本文檔為歷史歸檔草稿，內含後續已被推翻或修正之早期宣稱（如 8.77/10、1,600% ROI、207/207、100% SOURCED、LTV/CAC 8.25 等）。最新真實數據與審計結論請以根目錄 [HANDOFF.md](../../../HANDOFF.md) 及 [docs/audit/EVIDENCE_TABLE.md](../../audit/EVIDENCE_TABLE.md) 為準。
+
 # InsurIntel HK: 最終多智能體評審委員會報告 (Final Multi-Agent Council Report)
 ## 100 場真實展業場景深度審查、八大人設立體剖析、紅隊安全攻防與跨代理人共識裁決
 

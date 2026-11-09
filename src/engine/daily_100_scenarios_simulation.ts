@@ -465,6 +465,10 @@ export class DailyScenariosSimulationEngine {
     const sim = this.runFullSimulation();
 
     const lines: string[] = [];
+    lines.push('> [!CAUTION]');
+    lines.push('> **SUPERSEDED - contains claims later disproven; see HANDOFF.md**');
+    lines.push('> 本文檔為歷史歸檔模擬報告，內含後續已被推翻或修正之合成評分與早期假設。最新真實數據與審計結論請以根目錄 [`HANDOFF.md`](../../../HANDOFF.md) 及 [`docs/audit/EVIDENCE_TABLE.md`](../../audit/EVIDENCE_TABLE.md) 為準。');
+    lines.push('');
     lines.push('# InsurIntel HK: 100 場真實展業場景多維 AI 代理模擬評審與商業定價分析報告');
     lines.push('## Comprehensive Multi-Agent Simulation across 100 Daily Scenarios & Commercial Pricing Model');
     lines.push('');

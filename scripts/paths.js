@@ -22,7 +22,7 @@ const PATHS = {
 
   // docs/business/
   SINGLE_SOURCE_OF_TRUTH_PRICING: path.join(REPO_ROOT, 'docs', 'business', 'SINGLE_SOURCE_OF_TRUTH_PRICING.md'),
-  SINGLE_LAUNCH_OFFER: path.join(REPO_ROOT, 'docs', 'business', 'SINGLE_LAUNCH_OFFER.md'),
+  SINGLE_LAUNCH_OFFER: path.join(REPO_ROOT, 'docs', 'archive', 'superseded', 'SINGLE_LAUNCH_OFFER.md'),
   PILOT_PLAN_14_DAYS: path.join(REPO_ROOT, 'docs', 'business', 'PILOT_PLAN_14_DAYS.md'),
   VALIDATION_PLAN_AND_INTERVIEW_SCRIPT: path.join(REPO_ROOT, 'docs', 'business', 'VALIDATION_PLAN_AND_INTERVIEW_SCRIPT.md'),
 
@@ -40,7 +40,7 @@ const PATHS = {
   SCREENSHOT_ASSERTIONS: path.join(REPO_ROOT, 'docs', 'audit', 'SCREENSHOT_ASSERTIONS.txt'),
   SKEPTIC_COUNCIL_REVIEW: path.join(REPO_ROOT, 'docs', 'audit', 'SKEPTIC_COUNCIL_REVIEW.md'),
   TEST_RUN_RAW: path.join(REPO_ROOT, 'docs', 'audit', 'TEST_RUN_RAW.txt'),
-  FIX_LOG_AND_TEST_RESULTS: path.join(REPO_ROOT, 'docs', 'audit', 'FIX_LOG_AND_TEST_RESULTS.md'),
+  FIX_LOG_AND_TEST_RESULTS: path.join(REPO_ROOT, 'docs', 'archive', 'superseded', 'FIX_LOG_AND_TEST_RESULTS.md'),
 
   // docs/loop/
   BACKLOG: path.join(REPO_ROOT, 'docs', 'loop', 'BACKLOG.md'),
