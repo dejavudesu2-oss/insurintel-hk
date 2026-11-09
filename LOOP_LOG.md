@@ -825,3 +825,37 @@ Status: COMPLETED (Verified Code 0)
    - SHA-256 Parity preserved across all targets:
      * mobile_cafe_app.html, index.html, cafe.html: `30285e3ac172c71e0180fc92406d94b0dff0760dbda7e83e7d2e20af0eeba24e`
 ================================================================================
+
+================================================================================
+CYCLE 3 (RUN 3: TASK-R3-03 R4 EXTERNAL MODE LOCK & R5 SCREENSHOTS RECAPTURE)
+Timestamp: 2026-11-09T23:40:00+08:00
+Commit: Pending Cycle 3 Commit
+Task: TASK-R3-03 (R4 External Mode Lock & R5 Asserted Screenshots Recapture)
+
+1. Plan:
+   - Implement `assertExternalModeSafety(insurerName, productName, isStrictSourced, isClientVisible)` guard; lock default external load to demo mode ("保司 A" vs "保司 B") and disallow unlocking demo mode in external/client view.
+   - Fix modal initialization bug by moving `checkPhaseBUrlParams()` execution after modal elements at bottom of body.
+   - Propagate changes with 100% SHA-256 byte parity to `dist/index.html` and `dist/cafe.html`.
+   - Create test suite `tests/verification_external_mode_lock.ts` proving default external lock, safety guard exception on unverified real names, and strict-SOURCED exception for Cap. 112 QDAP.
+   - Author capture script with DOM visibility assertions for `03_gn16_chart`, `04_scanner_pii_scrub`, `06_pricing_modal`, outputting `SCREENSHOT_ASSERTIONS.txt`, and update `SCREENSHOT_REVIEW.md`.
+
+2. Adversarial Review Remediation (Reviewer: 8bc6442f-8a18-4384-b2ad-b353ad1c0e8c):
+   - FLAW-01 [CRITICAL]: Real trademarks leaked in `renderScenarioAgentPanel` and `card.chart_bars` in Client View; hardcoded `AIA Copilot` in static markup.
+     -> FIXED: Masked `ourProdName` and `rivalProdName` to fictional demo names in `renderScenarioAgentPanel`; masked `card.chart_bars` labels in demo/client mode; replaced hardcoded `AIA Copilot` in static HTML with `AI Copilot`.
+   - FLAW-02 [CRITICAL]: `assertExternalModeSafety` bypassed in export flows (PDF preview and WhatsApp messages).
+     -> FIXED: Injected `assertExternalModeSafety()` into `renderClientPdfPreview`, `generateInstantMessage`, and `copyCommsMessage`; enforced fictional names and dummy links in demo mode.
+   - FLAW-03 [HIGH]: Plan C (3-Way Arena Mode) lacked demo mode protection, leaking real carrier and catalog links.
+     -> FIXED: Added full demo mode protection for Plan C (`DEMO_C`, `DEMO_PROD_C`, `[示範方案 C] 虛擬多元貨幣方案 C`, fictional brochure links) across selectors, display spans, and 3-Way PK cards.
+   - FLAW-04 [HIGH]: 1100px viewport fold truncated `#client-view` and `#agent-view`; transient toast alert obscured cards.
+     -> FIXED: Updated `scripts/capture_asserted_screenshots.js` to dismiss transient toasts before capture and trigger `scrollIntoView()` on `#client-view` and `#agent-view`, verifying `inViewport: true`; updated `SCREENSHOT_REVIEW.md` with honest, precise descriptions.
+   - FLAW-05 [MEDIUM]: Loose regex in `isStrictSourcedRow` allowed commercial QDAP products with "60,000" to bypass guard.
+     -> FIXED: Tightened `isStrictSourcedRow` to require explicit Inland Revenue Ordinance citation (`Cap. 112` / `26ZZD` / `《稅務條例》第 26ZZD 條`), the `$60,000` cap, and tax deduction keyword.
+
+3. Verification & Results:
+   - `npx tsx tests/verification_external_mode_lock.ts` executed cleanly (0 failures).
+   - `node scripts/capture_asserted_screenshots.js` successfully captured all 6 screenshots with 100% verified DOM assertions saved to `SCREENSHOT_ASSERTIONS.txt`.
+   - `npx tsx tests/verification_screenshots.ts` passed 100% (6 distinct hashes, valid PNG magic bytes, high resolution).
+   - Full test harness `npm test` passed with 34 / 34 test suites green (100% GREEN).
+   - SHA-256 Parity preserved across all HTML targets:
+     * `templates/mobile_cafe_app.html`, `dist/index.html`, `dist/cafe.html`: `5b5d6be2b52de3effebc39a36668fb279821b1022efc0bcb604ce2df65c8bd56`
+================================================================================

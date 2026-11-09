@@ -2958,7 +2958,7 @@
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .gn16-query-modal.open {
-      opacity: 1;
+      opacity: 1 !important;
       pointer-events: auto;
       transform: translate(-50%, -50%) scale(1);
     }
@@ -3103,7 +3103,7 @@
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .gn16-pay-modal.open {
-      opacity: 1;
+      opacity: 1 !important;
       pointer-events: auto;
       transform: translate(-50%, -50%) scale(1);
     }
@@ -3543,7 +3543,7 @@
         </select>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">盈御多元貨幣 3 📋</div>
+        <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">[示範方案 A] 虛擬多元貨幣方案 A 📋</div>
         <a id="my-product-official-link" class="official-brochure-link" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#002FA7;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(0,47,167,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
       </div>
     </div>
@@ -3587,7 +3587,7 @@
         </select>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣 📋</div>
+        <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">[示範方案 B] 虛擬多元貨幣方案 B 📋</div>
         <a id="rival-product-official-link" class="official-brochure-link" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#dc2626;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(220,38,38,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
       </div>
     </div>
@@ -3624,7 +3624,7 @@
         </select>
       </div>
       <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">宏摯多元儲蓄 📋</div>
+        <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">[示範方案 C] 虛擬多元貨幣方案 C 📋</div>
         <a id="third-product-official-link" class="official-brochure-link" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#7c3aed;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(124,58,237,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
       </div>
     </div>
@@ -3633,7 +3633,7 @@
   <!-- AI Quick Strategy Trigger Banner -->
   <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
     <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
-    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AIA Copilot</span>
+    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AI Copilot</span>
   </div>
 
   <!-- AI Scenario Agents Switcher Bar -->
@@ -3802,30 +3802,30 @@
     <div class="hero-battle-header" id="hero-battle-header">
       <div class="hero-side our-side">
         <div class="hero-tag">我方推薦配置方案</div>
-        <div class="hero-title" id="hero-our-name">友邦 AIA · 盈御多元貨幣 3</div>
+        <div class="hero-title" id="hero-our-name">保司 A (虛擬示範) · 旗艦多幣方案</div>
       </div>
       <div class="hero-vs-badge" id="hero-vs-badge-1">VS</div>
       <div class="hero-side rival-side">
         <div class="hero-tag">競品市場宣傳方案</div>
-        <div class="hero-title" id="hero-rival-name">保誠 Prudential · 雋富多元貨幣</div>
+        <div class="hero-title" id="hero-rival-name">保司 B (虛擬示範) · 環球多幣方案</div>
       </div>
       <div class="hero-vs-badge hero-vs-third" id="hero-vs-third" style="display:none;">VS</div>
       <div class="hero-side third-side" id="hero-third-side" style="display:none;">
         <div class="hero-tag">第三方市場方案</div>
-        <div class="hero-title" id="hero-third-name">宏利 Manulife · 宏摯多元儲蓄</div>
+        <div class="hero-title" id="hero-third-name">保司 C (虛擬示範) · 全球多幣方案</div>
       </div>
     </div>
 
     <!-- Prominent Official Original Source / Brochure Direct Links -->
     <div class="tearsheet-official-links-bar" id="tearsheet-official-links-bar" style="display:flex;gap:8px;margin:8px 0 12px;flex-wrap:wrap;">
       <a id="tearsheet-our-pdf-link" class="tearsheet-pdf-btn our" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-        <span>📄 我方【盈御多元貨幣 3】官方手冊原件 ↗</span>
+        <span>📄 虛擬方案 A 示範說明書 (示範用) ↗</span>
       </a>
       <a id="tearsheet-rival-pdf-link" class="tearsheet-pdf-btn rival" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-        <span>📄 競品【雋富多元貨幣】官方手冊原件 ↗</span>
+        <span>📄 虛擬方案 B 示範說明書 (示範用) ↗</span>
       </a>
       <a id="tearsheet-third-pdf-link" class="tearsheet-pdf-btn third" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="display:none;flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;align-items:center;gap:4px;background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;">
-        <span>📄 第三方【宏摯多元儲蓄】官方手冊原件 ↗</span>
+        <span>📄 虛擬方案 C 示範說明書 (示範用) ↗</span>
       </a>
     </div>
 
@@ -4003,7 +4003,7 @@
       <div>
         <div class="ai-drawer-title" id="ai-drawer-heading">
           <span>🤖 InsurIntel AI 精算攻防大腦</span>
-          <span style="font-size:11px;background:#0284c7;color:#fff;padding:1px 6px;border-radius:10px;font-weight:700;">AIA Copilot</span>
+          <span style="font-size:11px;background:#0284c7;color:#fff;padding:1px 6px;border-radius:10px;font-weight:700;">AI Copilot</span>
         </div>
         <div class="ai-drawer-status">🟢 實時精算數據注入 · 保監局操守守則客觀護欄加載</div>
       </div>
@@ -4126,8 +4126,15 @@
       if (typeof document === 'undefined') return;
       const modal = document.getElementById('gn16-query-modal');
       const backdrop = document.getElementById('gn16-query-backdrop');
-      if (modal && modal.classList) modal.classList.add('open');
-      if (backdrop && backdrop.classList) backdrop.classList.add('open');
+      if (modal && modal.classList) {
+        modal.classList.add('open');
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+      }
+      if (backdrop && backdrop.classList) {
+        backdrop.classList.add('open');
+        backdrop.style.display = 'block';
+      }
       populateGN16Insurers();
       if (initialKeyword) {
         matchAndApplyGN16Keyword(initialKeyword);
@@ -4141,8 +4148,15 @@
       if (typeof document === 'undefined') return;
       const modal = document.getElementById('gn16-query-modal');
       const backdrop = document.getElementById('gn16-query-backdrop');
-      if (modal && modal.classList) modal.classList.remove('open');
-      if (backdrop && backdrop.classList) backdrop.classList.remove('open');
+      if (modal && modal.classList) {
+        modal.classList.remove('open');
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+      }
+      if (backdrop && backdrop.classList) {
+        backdrop.classList.remove('open');
+        backdrop.style.display = 'none';
+      }
     }
     window.closeGN16QueryModal = closeGN16QueryModal;
 
@@ -4392,8 +4406,15 @@
       if (typeof document === 'undefined') return;
       const modal = document.getElementById('gn16-pay-modal');
       const backdrop = document.getElementById('gn16-pay-backdrop');
-      if (modal && modal.classList) modal.classList.add('open');
-      if (backdrop && backdrop.classList) backdrop.classList.add('open');
+      if (modal && modal.classList) {
+        modal.classList.add('open');
+        modal.style.opacity = '1';
+        modal.style.pointerEvents = 'auto';
+      }
+      if (backdrop && backdrop.classList) {
+        backdrop.classList.add('open');
+        backdrop.style.display = 'block';
+      }
     }
     window.openGN16PayModal = openGN16PayModal;
 
@@ -4401,8 +4422,15 @@
       if (typeof document === 'undefined') return;
       const modal = document.getElementById('gn16-pay-modal');
       const backdrop = document.getElementById('gn16-pay-backdrop');
-      if (modal && modal.classList) modal.classList.remove('open');
-      if (backdrop && backdrop.classList) backdrop.classList.remove('open');
+      if (modal && modal.classList) {
+        modal.classList.remove('open');
+        modal.style.opacity = '0';
+        modal.style.pointerEvents = 'none';
+      }
+      if (backdrop && backdrop.classList) {
+        backdrop.classList.remove('open');
+        backdrop.style.display = 'none';
+      }
     }
     window.closeGN16PayModal = closeGN16PayModal;
 
@@ -4586,12 +4614,113 @@
 
     
     // ==========================================
-    // PHASE B: DEMO MODE & SCANNER & OFFLINE HUD
+    // PHASE B: DEMO MODE & SCANNER & OFFLINE HUD & R4 EXTERNAL MODE LOCK
     // ==========================================
     var isDemoModeActive = false;
     var isOfflineSimulationActive = false;
 
+    // R4: Fictional identification helpers
+    function isFictionalInsurer(name) {
+      if (!name) return true;
+      var s = String(name).trim();
+      return (
+        s.includes('保司 A') ||
+        s.includes('保司 B') ||
+        s.includes('保司 C') ||
+        s.includes('DEMO_') ||
+        s.includes('虛擬') ||
+        s.includes('示範') ||
+        s.includes('Insurer A') ||
+        s.includes('Insurer B') ||
+        s.includes('Insurer C')
+      );
+    }
+    window.isFictionalInsurer = isFictionalInsurer;
+
+    function isFictionalProduct(name) {
+      if (!name) return true;
+      var s = String(name).trim();
+      return (
+        s.includes('DEMO_PROD') ||
+        s.includes('示範方案') ||
+        s.includes('虛擬') ||
+        s.includes('Plan A') ||
+        s.includes('Plan B') ||
+        s.includes('旗艦多幣方案') ||
+        s.includes('環球多幣方案')
+      );
+    }
+    window.isFictionalProduct = isFictionalProduct;
+
+    function isStrictSourcedRow(insurerOrProductName, locatorOrField) {
+      if (!insurerOrProductName) return false;
+      var s = String(insurerOrProductName).toLowerCase();
+      var loc = locatorOrField ? String(locatorOrField).toLowerCase() : '';
+      // FLAW-05 Fix: Must explicitly cite Inland Revenue Ordinance (Cap. 112 s. 26ZZD) AND the $60,000 statutory tax deduction cap.
+      // Commercial product names (e.g., AIA QDAP) without statutory citation will NOT pass.
+      var hasStatutoryCitation = s.includes('cap. 112') || s.includes('26zzd') || loc.includes('cap. 112') || loc.includes('26zzd') || loc.includes('ird.gov.hk') || s.includes('《稅務條例》第 26zzd 條') || loc.includes('第 26zzd 條');
+      var hasCapAmount = s.includes('60,000') || s.includes('60000') || loc.includes('60,000') || loc.includes('60000');
+      var isTaxDeductionTopic = s.includes('扣稅') || s.includes('稅務扣除') || s.includes('tax deduction') || loc.includes('扣稅') || loc.includes('tax');
+      if (hasStatutoryCitation && hasCapAmount && isTaxDeductionTopic) {
+        return true;
+      }
+      return false;
+    }
+    window.isStrictSourcedRow = isStrictSourcedRow;
+
+    function isExternalModeActive() {
+      if (typeof window === 'undefined') return false;
+      if (!window.location) return false;
+      try {
+        var search = window.location.search || '';
+        var params = new URLSearchParams(search);
+        // Explicit client view is always locked to external mode
+        if (params.get('view') === 'client') return true;
+        // Local developer mode bypass on localhost with explicit ?internal=1 or ?dev=1
+        var isLocalHost = (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1');
+        if (isLocalHost && (params.get('internal') === '1' || params.get('dev') === '1')) {
+          return false;
+        }
+        // External hostname or default load outside localhost
+        if (window.location.hostname && !isLocalHost) {
+          return true;
+        }
+        // Browser file: / http: protocol default load without internal flag locks to external mode
+        if (window.location.protocol === 'http:' || window.location.protocol === 'https:' || window.location.protocol === 'file:') {
+          if (!params.get('internal') && !params.get('dev')) {
+            return true;
+          }
+        }
+      } catch (e) {}
+      return false;
+    }
+    window.isExternalModeActive = isExternalModeActive;
+
+    function assertExternalModeSafety(insurerName, productName, isStrictSourced, isClientVisible) {
+      // Sourced statutory rows (e.g., Cap. 112 QDAP HK$60,000 tax deduction cap) MAY display official names
+      if (isStrictSourced === true || isStrictSourcedRow(insurerName, productName) || isStrictSourcedRow(productName, insurerName)) {
+        return true;
+      }
+      var isExternalOrClient = (typeof isClientVisible === 'boolean') ? isClientVisible : ((typeof currentMode !== 'undefined' && currentMode === 'client') || isExternalModeActive());
+      if (isExternalOrClient) {
+        var isRealIns = !isFictionalInsurer(insurerName);
+        var isRealProd = !isFictionalProduct(productName);
+        if (isRealIns || isRealProd) {
+          var err = new Error('EXTERNAL_MODE_LOCK_VIOLATION: Refusing to display real insurer [' + insurerName + '] / product [' + productName + '] beside unverified data in external client mode. Must switch to fictional demo mode.');
+          err.code = 'EXTERNAL_MODE_LOCK_VIOLATION';
+          console.error(err.message);
+          throw err;
+        }
+      }
+      return true;
+    }
+    window.assertExternalModeSafety = assertExternalModeSafety;
+
     function toggleDemoMode() {
+      if (isExternalModeActive() || (typeof currentMode !== 'undefined' && currentMode === 'client')) {
+        showToast('🔒 外部展示/客戶視角模式已鎖定為虛擬示範模式（保司 A vs 保司 B），禁止展示未經驗證之真實保司品牌。');
+        return;
+      }
       if (isDemoModeActive) {
         disableDemoMode();
       } else {
@@ -4629,6 +4758,10 @@
     window.enableDemoMode = enableDemoMode;
 
     function disableDemoMode() {
+      if (isExternalModeActive() || (typeof currentMode !== 'undefined' && currentMode === 'client')) {
+        showToast('🔒 外部展示/客戶視角模式已鎖定為虛擬示範模式（保司 A vs 保司 B），禁止展示未經驗證之真實保司品牌。');
+        return;
+      }
       isDemoModeActive = false;
       var banner = document.getElementById('demo-mode-banner');
       if (banner) banner.style.display = 'none';
@@ -4685,7 +4818,10 @@
     function openProposalScannerModal() {
       var modal = document.getElementById('proposal-scanner-modal');
       var backdrop = document.getElementById('proposal-scanner-backdrop');
-      if (modal) modal.style.display = 'flex';
+      if (modal) {
+        modal.style.display = 'flex';
+        modal.style.opacity = '1';
+      }
       if (backdrop) backdrop.style.display = 'block';
     }
     window.openProposalScannerModal = openProposalScannerModal;
@@ -4782,13 +4918,20 @@
 
     function checkPhaseBUrlParams() {
       try {
-        if (typeof window === 'undefined' || !window.location || !window.location.search) return;
+        if (typeof window === 'undefined' || !window.location) return;
         if (window._hasCheckedPhaseBUrlParams) return;
+
+        // If modal elements are not yet present in DOM, defer execution
+        if (typeof document !== 'undefined' && (!document.getElementById('proposal-scanner-modal') || !document.getElementById('gn16-pay-modal') || !document.getElementById('gn16-query-modal'))) {
+          return;
+        }
         window._hasCheckedPhaseBUrlParams = true;
 
-        var params = new URLSearchParams(window.location.search);
-        
-        if (params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true') {
+        var searchStr = window.location.search || '';
+        var params = new URLSearchParams(searchStr);
+
+        // R4: Default external load or explicit demo flags lock to demo mode
+        if (isExternalModeActive() || params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true') {
           enableDemoMode();
         }
         if (params.get('view') === 'client') {
@@ -4802,13 +4945,15 @@
           openProposalScannerModal();
           loadSampleProposalText();
           runPIIScrubber();
-        } else if (params.get('modal') === 'gn16') {
+        } else if (params.get('modal') === 'gn16' || params.get('chart') === 'gn16') {
           openGN16QueryModal();
         }
         if (params.get('offline') === 'true') {
           if (!isOfflineSimulationActive) toggleOfflineMode();
         }
-      } catch(e) {}
+      } catch(e) {
+        console.error('Error in checkPhaseBUrlParams:', e);
+      }
     }
 
     function checkGN16UrlParams() {
@@ -8741,6 +8886,8 @@ return {
         if (clientView) clientView.style.display = 'none';
         showToast('🔒 已切換至：顧問私密提詞 HUD (內部戰策準備)');
       } else {
+        // R4: Client view strictly enforces demo mode
+        if (typeof enableDemoMode === 'function') enableDemoMode();
         if (agentBtn) agentBtn.className = 'view-btn';
         if (clientBtn) clientBtn.className = 'view-btn active-client';
         if (agentView) agentView.style.display = 'none';
@@ -9007,8 +9154,8 @@ return {
       }
       if (selectMyProd) {
         mySelectedProduct = myMatch;
-        if (isDemoModeActive) {
-          selectMyProd.innerHTML = '<option value="DEMO_PROD_A">[示範方案 A] 虛擬多元貨幣方案 A</option>' + (allMyProds.length > 0 ? renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '') : '');
+        if (isDemoModeActive || isExternalModeActive()) {
+          selectMyProd.innerHTML = '<option value="DEMO_PROD_A">[示範方案 A] 虛擬多元貨幣方案 A</option>';
           selectMyProd.value = 'DEMO_PROD_A';
         } else if (allMyProds.length > 0) {
           selectMyProd.innerHTML = renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '');
@@ -9037,8 +9184,8 @@ return {
 
       if (selectRivalProd) {
         rivalSelectedProduct = rivalMatch;
-        if (isDemoModeActive) {
-          selectRivalProd.innerHTML = '<option value="DEMO_PROD_B">[示範方案 B] 虛擬多元貨幣方案 B</option>' + (allRivalProds.length > 0 ? renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '') : '');
+        if (isDemoModeActive || isExternalModeActive()) {
+          selectRivalProd.innerHTML = '<option value="DEMO_PROD_B">[示範方案 B] 虛擬多元貨幣方案 B</option>';
           selectRivalProd.value = 'DEMO_PROD_B';
         } else if (allRivalProds.length > 0) {
           selectRivalProd.innerHTML = renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '');
@@ -9051,17 +9198,16 @@ return {
       }
 
       if (myProdDisplay) {
-        myProdDisplay.innerText = mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship;
+        myProdDisplay.innerText = (isDemoModeActive || isExternalModeActive()) ? '[示範方案 A] 虛擬多元貨幣方案 A' : (mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship);
       }
       if (rivalProdDisplay) {
-        rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
+        rivalProdDisplay.innerText = (isDemoModeActive || isExternalModeActive()) ? '[示範方案 B] 虛擬多元貨幣方案 B' : (rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship);
       }
 
-      // Populate & sync select-third-product (Plan C for 3-Way Mode)
+      // Populate & sync select-third-product (Plan C for 3-Way Mode with Demo Lock)
       const selectThird = document.getElementById('select-third-insurer');
       const selectThirdProd = document.getElementById('select-third-product');
       const thirdProdDisplay = document.getElementById('third-product-display');
-      if (selectThird) selectThird.value = thirdCompany;
       const thirdFlagship = getFlagshipProduct(thirdCompany, cat);
       const allThirdProds = (window.ALL_PRODUCTS_CATALOG || []).filter(p => normalizeCompany(p.insurer) === thirdCompany);
       let thirdMatch = null;
@@ -9072,9 +9218,22 @@ return {
         const curThirdProds = allThirdProds.filter(p => normalizeCategory(p.category) === cat);
         thirdMatch = curThirdProds.find(p => p.name.includes(thirdFlagship) || thirdFlagship.includes(cleanProductName(p.name))) || curThirdProds[0] || null;
       }
+
+      if (selectThird) {
+        if (isDemoModeActive || isExternalModeActive()) {
+          selectThird.innerHTML = '<option value="DEMO_C" selected>保司 C (虛擬示範)</option>';
+          selectThird.value = 'DEMO_C';
+        } else {
+          selectThird.value = thirdCompany;
+        }
+      }
+
       if (selectThirdProd) {
         thirdSelectedProduct = thirdMatch;
-        if (allThirdProds.length > 0) {
+        if (isDemoModeActive || isExternalModeActive()) {
+          selectThirdProd.innerHTML = '<option value="DEMO_PROD_C">[示範方案 C] 虛擬多元貨幣方案 C</option>';
+          selectThirdProd.value = 'DEMO_PROD_C';
+        } else if (allThirdProds.length > 0) {
           selectThirdProd.innerHTML = renderCampProductOptions(allThirdProds, cat, thirdMatch ? thirdMatch.id : '');
           if (thirdMatch) selectThirdProd.value = thirdMatch.id;
           else selectThirdProd.value = '';
@@ -9083,13 +9242,18 @@ return {
           thirdSelectedProduct = null;
         }
       }
+
       if (thirdProdDisplay) {
-        thirdProdDisplay.innerText = thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship;
+        thirdProdDisplay.innerText = (isDemoModeActive || isExternalModeActive()) ? '[示範方案 C] 虛擬多元貨幣方案 C' : (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
       }
       const heroThirdName = document.getElementById('hero-third-name');
       if (heroThirdName) {
-        const thirdProf = (typeof COMPANY_PROFILES !== 'undefined' && COMPANY_PROFILES[thirdCompany]) ? COMPANY_PROFILES[thirdCompany].fullName : thirdCompany;
-        heroThirdName.innerText = thirdProf + ' · ' + (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
+        if (isDemoModeActive || isExternalModeActive()) {
+          heroThirdName.innerText = '保司 C (虛擬示範) · 全球多幣方案';
+        } else {
+          const thirdProf = (typeof COMPANY_PROFILES !== 'undefined' && COMPANY_PROFILES[thirdCompany]) ? COMPANY_PROFILES[thirdCompany].fullName : thirdCompany;
+          heroThirdName.innerText = thirdProf + ' · ' + (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
+        }
       }
 
       // Sync Official Brochure URLs for Plan A, Plan B and Plan C
@@ -9142,7 +9306,7 @@ return {
       if (tearsheetThirdLink) {
         tearsheetThirdLink.href = thirdUrl;
         tearsheetThirdLink.style.display = (arenaMode === '3way') ? 'inline-flex' : 'none';
-        tearsheetThirdLink.innerHTML = '<span>📄 第三方【' + thirdCleanName + '】官方手冊原件 ↗</span>';
+        tearsheetThirdLink.innerHTML = (isDemoModeActive || isExternalModeActive()) ? '<span>📄 虛擬方案 C 示範說明書 (示範用) ↗</span>' : ('<span>📄 第三方【' + thirdCleanName + '】官方手冊原件 ↗</span>');
       }
 
       // Reflect in quick selector pills (for tests and backwards compatibility)
@@ -10128,8 +10292,21 @@ return {
       // 1v1 Battle Card Header
       const heroOur = document.getElementById('hero-our-name');
       const heroRival = document.getElementById('hero-rival-name');
-      if (heroOur) heroOur.innerText = isDemoModeActive ? '保司 A (虛擬示範) · 旗艦多幣方案' : card.hero_our_name;
-      if (heroRival) heroRival.innerText = isDemoModeActive ? '保司 B (虛擬示範) · 環球多幣方案' : card.hero_rival_name;
+      var isClientVisible = (currentMode === 'client') || isExternalModeActive();
+      if (isDemoModeActive || isClientVisible) {
+        if (heroOur) heroOur.innerText = '保司 A (虛擬示範) · 旗艦多幣方案';
+        if (heroRival) heroRival.innerText = '保司 B (虛擬示範) · 環球多幣方案';
+      } else {
+        if (heroOur) heroOur.innerText = card.hero_our_name;
+        if (heroRival) heroRival.innerText = card.hero_rival_name;
+      }
+
+      // Enforce R4 External Mode Safety Guard
+      var isSourced = (currentCategory === 'Annuity_QDAP') && (card.client_title && card.client_title.includes('QDAP'));
+      var curHeroOur = (isDemoModeActive || isClientVisible) ? ((heroOur && heroOur.innerText) || '保司 A (虛擬示範) · 旗艦多幣方案') : ((heroOur && heroOur.innerText) || card.hero_our_name);
+      var curHeroRival = (isDemoModeActive || isClientVisible) ? ((heroRival && heroRival.innerText) || '保司 B (虛擬示範) · 環球多幣方案') : ((heroRival && heroRival.innerText) || card.hero_rival_name);
+      assertExternalModeSafety(curHeroOur, curHeroOur, isSourced, isClientVisible);
+      assertExternalModeSafety(curHeroRival, curHeroRival, isSourced, isClientVisible);
 
       // 1v1 / 3-Way Spec Table Update
       if (bilateralSpecTable) {
@@ -10243,19 +10420,28 @@ return {
       // Agent Private Clause Intel Rendering
       renderAgentClauseIntel(card);
 
-      // Chart Bars
+      // Chart Bars (Masked in Demo/External/Client Mode)
       if (clientChartBars && Array.isArray(card.chart_bars)) {
-        clientChartBars.innerHTML = card.chart_bars.map(bar => `
+        const isDemo = isDemoModeActive || isExternalModeActive() || currentMode === 'client';
+        clientChartBars.innerHTML = card.chart_bars.map(bar => {
+          let label = bar.label;
+          if (isDemo) {
+            if (label.includes('我方')) label = '我方【示範方案 A】';
+            else if (label.includes('對手') || label.includes('競品')) label = '對手【示範方案 B】';
+            else if (label.includes('第三方')) label = '第三方【示範方案 C】';
+          }
+          return `
           <div class="chart-bar-row">
             <div class="chart-bar-header">
-              <span>${bar.label}</span>
+              <span>${label}</span>
               <span style="color:${bar.color}; font-weight:700;">${bar.value}</span>
             </div>
             <div class="chart-bar-bg">
               <div class="chart-bar-fill" style="width: ${bar.widthPct}%; background: ${bar.color};"></div>
             </div>
           </div>
-        `).join('');
+        `;
+        }).join('');
       }
 
       // Feature Comparison Table
@@ -11005,8 +11191,13 @@ return {
       const b = function(s) { return isWA ? ('*' + s + '*') : s; };
       const m = function(s) { return isWA ? (String.fromCharCode(96) + s + String.fromCharCode(96)) : s; };
 
-      const ourProdName = cleanProductName((mySelectedProduct && mySelectedProduct.name) ? mySelectedProduct.name : '我方推薦旗艦');
-      const rivalProdName = cleanProductName((rivalSelectedProduct && rivalSelectedProduct.name) ? rivalSelectedProduct.name : '遭遇競品方案');
+      const isDemo = isDemoModeActive || isExternalModeActive() || (typeof currentMode !== 'undefined' && currentMode === 'client');
+      const ourProdName = isDemo ? '[示範方案 A] 虛擬多元貨幣方案 A' : cleanProductName((mySelectedProduct && mySelectedProduct.name) ? mySelectedProduct.name : '我方推薦旗艦');
+      const rivalProdName = isDemo ? '[示範方案 B] 虛擬多元貨幣方案 B' : cleanProductName((rivalSelectedProduct && rivalSelectedProduct.name) ? rivalSelectedProduct.name : '遭遇競品方案');
+      if (typeof assertExternalModeSafety === 'function') {
+        assertExternalModeSafety(ourProdName, ourProdName, false, isDemo);
+        assertExternalModeSafety(rivalProdName, rivalProdName, false, isDemo);
+      }
 
       let lines = [];
       if (t === 'urgent_closing') {
@@ -11401,8 +11592,13 @@ return {
       const ourMetrics = (mySelectedProduct || ourProf);
       const rivalMetrics = (rivalSelectedProduct || rivalProf);
 
-      const ourProdName = cleanProductName(ourMetrics.name || ourMetrics.product_name || (card ? card.hero_our_name : '我方方案'));
-      const rivalProdName = cleanProductName(rivalMetrics.name || rivalMetrics.product_name || (card ? card.hero_rival_name : '對手方案'));
+      const isDemoOrExternal = isDemoModeActive || isExternalModeActive() || (typeof currentMode !== 'undefined' && currentMode === 'client');
+      const ourProdName = isDemoOrExternal ? '[示範方案 A] 虛擬多元貨幣方案 A' : cleanProductName(ourMetrics.name || ourMetrics.product_name || (card ? card.hero_our_name : '我方方案'));
+      const rivalProdName = isDemoOrExternal ? '[示範方案 B] 虛擬多元貨幣方案 B' : cleanProductName(rivalMetrics.name || rivalMetrics.product_name || (card ? card.hero_rival_name : '對手方案'));
+      if (typeof assertExternalModeSafety === 'function') {
+        assertExternalModeSafety(ourProdName, ourProdName, false, isDemoOrExternal);
+        assertExternalModeSafety(rivalProdName, rivalProdName, false, isDemoOrExternal);
+      }
 
       let html = '';
 
@@ -12927,14 +13123,21 @@ return {
       const container = document.getElementById('client-pdf-report-preview');
       if (!container) return;
       const adv = getAdvisorProfile();
-      const ourName = cleanProductName(mySelectedProduct?.name || '我方旗艦方案');
-      const rivalName = cleanProductName(rivalSelectedProduct?.name || '遭遇競品方案');
-      const thirdName = cleanProductName(thirdSelectedProduct?.name || '第三方旗艦');
+      const isDemo = isDemoModeActive || isExternalModeActive() || (typeof currentMode !== 'undefined' && currentMode === 'client');
+      const ourName = isDemo ? '[示範方案 A] 虛擬多元貨幣方案 A' : cleanProductName(mySelectedProduct?.name || '我方旗艦方案');
+      const rivalName = isDemo ? '[示範方案 B] 虛擬多元貨幣方案 B' : cleanProductName(rivalSelectedProduct?.name || '遭遇競品方案');
+      const thirdName = isDemo ? '[示範方案 C] 虛擬多元貨幣方案 C' : cleanProductName(thirdSelectedProduct?.name || '第三方旗艦');
       const cat = currentCategory || 'Savings_MultiCurrency';
 
-      const ourUrl = mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || getInsurerOfficialUrl(myCompany);
-      const rivalUrl = rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || getInsurerOfficialUrl(selectedCompany);
-      const thirdUrl = thirdSelectedProduct?.official_url || thirdSelectedProduct?.brochure_url || getInsurerOfficialUrl(thirdCompany);
+      if (typeof assertExternalModeSafety === 'function') {
+        assertExternalModeSafety(ourName, ourName, false, isDemo);
+        assertExternalModeSafety(rivalName, rivalName, false, isDemo);
+        if (arenaMode === '3way') assertExternalModeSafety(thirdName, thirdName, false, isDemo);
+      }
+
+      const ourUrl = isDemo ? '#' : (mySelectedProduct?.official_url || mySelectedProduct?.brochure_url || getInsurerOfficialUrl(myCompany));
+      const rivalUrl = isDemo ? '#' : (rivalSelectedProduct?.official_url || rivalSelectedProduct?.brochure_url || getInsurerOfficialUrl(selectedCompany));
+      const thirdUrl = isDemo ? '#' : (thirdSelectedProduct?.official_url || thirdSelectedProduct?.brochure_url || getInsurerOfficialUrl(thirdCompany));
 
       let rowsHtml = '';
       if (arenaMode === '3way') {
@@ -13798,5 +14001,24 @@ return {
     </div>
   </div>
 
+  <script>
+    // Ensure Phase B and GN16 URL params are evaluated after all modal DOM nodes are parsed
+    try {
+      if (typeof checkPhaseBUrlParams === 'function') {
+        checkPhaseBUrlParams();
+      }
+      if (typeof checkGN16UrlParams === 'function') {
+        checkGN16UrlParams();
+      }
+    } catch (e) {}
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('load', function() {
+        try {
+          if (typeof checkPhaseBUrlParams === 'function') checkPhaseBUrlParams();
+          if (typeof checkGN16UrlParams === 'function') checkGN16UrlParams();
+        } catch(e) {}
+      });
+    }
+  </script>
 </body>
 </html>
