@@ -1,6 +1,6 @@
 [
   {
-    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794213429504-559",
+    "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794214538058-418",
     "insurer": "Prudential",
     "product_name": "保誠 雋富多元貨幣計劃",
     "product_aliases": [
@@ -35,11 +35,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-09T08:37:09.504Z"
+      "created_at": "2026-11-09T08:55:38.058Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-AIA-1794213429504-258",
+    "promo_id": "AUTO-CRAWL-AIA-1794214538058-993",
     "insurer": "AIA",
     "product_name": "友邦 盈御多元貨幣計劃 3",
     "product_aliases": [
@@ -74,11 +74,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-09T08:37:09.504Z"
+      "created_at": "2026-11-09T08:55:38.058Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-MANULIFE-1794213429504-744",
+    "promo_id": "AUTO-CRAWL-MANULIFE-1794214538059-611",
     "insurer": "Manulife",
     "product_name": "宏利 宏摯多元儲蓄計劃",
     "product_aliases": [
@@ -113,11 +113,11 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-09T08:37:09.504Z"
+      "created_at": "2026-11-09T08:55:38.059Z"
     }
   },
   {
-    "promo_id": "AUTO-CRAWL-FWD-1794213429504-528",
+    "promo_id": "AUTO-CRAWL-FWD-1794214538059-38",
     "insurer": "FWD",
     "product_name": "富衛 危疾加諾保",
     "product_aliases": [
@@ -146,7 +146,7 @@
       "source_type": "Official_Circular",
       "confidence_level": "Verified",
       "verified_by_editor": false,
-      "created_at": "2026-11-09T08:37:09.504Z"
+      "created_at": "2026-11-09T08:55:38.059Z"
     }
   }
 ]

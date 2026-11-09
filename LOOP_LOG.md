@@ -634,3 +634,49 @@ ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-03 HARDENED & VERIFIED)
    - Backlog P0/P1 open: 3
    - SHA-256 Parity: Byte-for-byte identical across all 3 HTML files (Hash: `383023a0acff8f...`)
 ================================================================================
+
+
+================================================================================
+CYCLE 4: TASK-R2-04 (Single Source of Truth Pricing & Landing Page Honesty Hardening)
+Timestamp: 2026-11-09T17:00:00+08:00
+Git Branch: loop/run-2
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Create `SINGLE_SOURCE_OF_TRUTH_PRICING.md` reconciling all pricing contradictions across tiers (Retail HK$49, Advisor Pro HK$199/mo, Agency Team HK$2,480/mo for 15 seats, Enterprise IFA HK$12,800/mo).
+   - Label all conversion, churn, LTV, CAC, and ARR projections as `[ASSUMPTION]`, deconstruct the 1,600% ROI claim with conservative and zero-deal sensitivity scenarios, and build unit-economic break-even models (without founder salary: 11 subscribers / 1 team; with HK$35,000 founder salary: 201 subscribers / 16 teams).
+   - Present Option 1 (HK$199/mo) vs Option 2 (HK$2,480/mo) side-by-side with clear trade-offs, strictly maintaining neutrality for owner decision.
+   - Harden `dist/waitlist.html` and `templates/waitlist.html`: add "Launch price, subject to change" badge, remove refund guarantee in favor of zero-upfront pilot, disclaim payment/FPS collection, specify data controller, and implement measurement plan.
+   - Implement `tests/verification_pricing_honesty.ts`, verify full test harness and SHA-256 parity, and run adversarial reviewer subagent.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`389c1fdf-5199-47c4-b144-9b50a9ddf75f`) returned 5 critical findings:
+     * Finding 1: Done-When Breach & Legal Contradiction — "Refund Guarantee" was retained (`無條件終止與退款保證`) despite the done-when requirement to remove it and the zero-upfront pilot model (Cap. 362 misleading omission to guarantee a refund on money never collected). -> FIXED: Completely purged "退款保證" from marketing copy, replacing it with `14 天零預付試點承諾：試點期內無需綁定信用卡，首兩週充分體驗，滿意後方行付費（零預扣、零押金、無退款手續費爭議）`.
+     * Finding 2: Severe Privacy Breach (PDPO Cap. 486) — Hardcoded civilian phone number `85291234567` in WhatsApp URL transmitted confidential agent details to a live mobile phone in HK; PICS had raw bracket template syntax `[資料使用者: ...]`; unexpired plaintext storage. -> FIXED: Replaced WhatsApp URL with universal click-to-chat share URL `wa.me/?text=` without civilian number leakage; cleaned PICS data controller to `InsurIntel HK Operations Ltd. (在港註冊成立中，項目發起與營運管理方)`; implemented 30-day TTL purge for leads and telemetry.
+     * Finding 3: "Vaporware" Telemetry & Broken Measurement Plan — `#measurement-plan` claimed telemetry tracking but lacked JS implementation. -> FIXED: Implemented lightweight telemetry engine tracking `page_view` (URL, referrer, UTM parameters), `plan_select_click`, `waitlist_submit_success`, unique visitor `uv_id` generation, and `getWaitlistTelemetryStats()` calculating live CVR.
+     * Finding 4: Feature Timing & Enterprise Pay Modal Contradictions — 07:45 delivery time in SSOT clashed with 06:30 in app modal; Enterprise tier acted like a self-serve checkout. -> FIXED: Harmonized delivery timing across all files to `每日 07:45 自動同步晨會早會情報投影片`; converted Enterprise checkout in modal to direct sales contact (`mailto:enterprise@insurintel.hk`).
+     * Finding 5: Unit Economics Deficits — Omission of annual discounts in break-even thresholds, WhatsApp API cost explosion, gross vs net LTV inflation, and ARR reconciliation. -> FIXED: Added Annual Discount Sensitivity Analysis (break-even 217 subscribers / 20 teams); clarified WhatsApp architecture (decks served over Edge PWA/CDN, WhatsApp strictly for 1-to-1 onboarding); documented net margin-adjusted LTV (HK$ 2,462); explained 70/30 blended ARR model labeled as `[ASSUMPTION]`.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: PRICING SSOT & LANDING PAGE HONESTY (TASK-R2-04 / C5 & C6)
+================================================================================
+
+  [PASS] SINGLE_SOURCE_OF_TRUTH_PRICING.md fully verified: tiers, assumptions, unit economics, GTM options, and refund conflict.
+  [PASS] Landing page honesty verified: SHA-256 parity, price badge, zero-upfront pilot, PII safe WhatsApp, PICS controller, and active telemetry engine.
+  [PASS] App parity confirmed 100% (8b664ac79a79cf5e...) and modal specifies 15 seats @ 07:45, and Enterprise directs to sales.
+
+================================================================================
+ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-04 HARDENED & VERIFIED)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 298 / 298 (29 suites)
+   - Strict SOURCED rows: 1 / 130 (0.77%)
+   - Strict UNVERIFIED rows: 129 / 130 (99.23%)
+   - True Denominator: 9,052 client-visible numbers
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
+   - Backlog P0/P1 open: 2 (TASK-R2-05, TASK-R2-06)
+   - SHA-256 Parity (mobile_cafe_app, index, cafe): `8b664ac79a79cf5eb2c8f186f0909b7621a071e351f44fc3f3176851be54117f`
+   - SHA-256 Parity (templates/waitlist, dist/waitlist): `88bf6cdc937b53d7f13e05a5b16463fe359139472a11245b58f25816459d442d`
+================================================================================

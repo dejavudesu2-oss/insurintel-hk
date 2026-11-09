@@ -4427,6 +4427,12 @@
 
     function simulateGN16Checkout() {
       closeGN16PayModal();
+      if (currentGN16Tier === 'enterprise_12800') {
+        if (typeof window !== 'undefined' && window.location) {
+          window.location.href = 'mailto:enterprise@insurintel.hk?subject=' + encodeURIComponent('【InsurIntel HK】企業經紀行 / 家辦總部版 (HK$12,800/月) 商務接洽需求');
+          return;
+        }
+      }
       if (typeof window !== 'undefined' && window.location) {
         window.location.href = 'waitlist.html';
         return;
@@ -13551,8 +13557,8 @@ return {
           </div>
           <div style="font-size:10.5px;color:#7c3aed;font-weight:700;margin-bottom:8px;">👑 區域總監早會增員首選 (包15席位)</div>
           <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;">
-            <li><strong>包含 20 個獨立顧問執業席位</strong> (平均 $124/人)</li>
-            <li><strong>每日 06:30 自動同步晨會早會情報投影片</strong></li>
+            <li><strong>包含 15 個獨立顧問執業席位</strong> (平均 HK$165/席)</li>
+            <li><strong>每日 07:45 自動同步晨會早會情報投影片</strong></li>
             <li>自訂團隊專屬 District Logo 與權威機構名片</li>
             <li>區域成單話術庫與早會路演培訓支持</li>
           </ul>
@@ -13560,7 +13566,7 @@ return {
         <!-- Option 4: HK$12,800 Enterprise IFA / Family Office -->
         <div class="gn16-tier-card" id="gn16-tier-enterprise" onclick="selectGN16Tier('enterprise_12800')" style="border-color:#0f766e;background:#f0fdfa;grid-column:1 / -1;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:12.5px;font-weight:800;color:#115e59;">🏛️ 企業獨立經紀行 / 家族辦公室總部版</span>
+            <span style="font-size:12.5px;font-weight:800;color:#115e59;">🏛️ 企業獨立經紀行 / 家族辦公室總部版 <span style="font-size:10px;background:#0f766e;color:#fff;padding:2px 6px;border-radius:4px;margin-left:4px;">商務合約制 (非線上刷卡)</span></span>
             <span style="font-size:17px;font-weight:900;color:#0f766e;">HK$12,800 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月 (年繳 HK$128,000)</span></span>
           </div>
           <div style="font-size:10.5px;color:#0f766e;font-weight:700;margin-bottom:8px;">💎 全員無限席位 · 私有化白標 API · CRM 雙向串接 · 合規留痕審計</div>

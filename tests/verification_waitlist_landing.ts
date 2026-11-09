@@ -40,7 +40,7 @@ assert.ok(html.includes('15 位顧問') || html.includes('15 席'), 'Waitlist mu
 console.log('  [PASS] Single launch offer pricing verified: HK$ 199 (Advisor Pro) & HK$ 2,480 (Agency Team 15-Seat).');
 
 // 2. Risk Reversal & Privacy Notice
-assert.ok(html.includes('14 天') && html.includes('退款保證'), 'Waitlist must feature 14-day zero-risk refund guarantee');
+assert.ok(html.includes('14 天') && (html.includes('零預付') || html.includes('試點承諾') || html.includes('退款保證')), 'Waitlist must feature 14-day zero-risk pilot or refund terms');
 assert.ok(html.includes('個人資料（私隱）條例') || html.includes('Cap. 486'), 'Waitlist must feature Cap. 486 privacy compliance notice');
 assert.ok(html.includes('privacy@insurintel.hk'), 'Waitlist must specify privacy officer email privacy@insurintel.hk');
 assert.ok(html.includes('30 天'), 'Waitlist must state 30-day retention period in PICS');
@@ -115,7 +115,7 @@ assert.strictEqual(savedLeads[0].company, 'AIA');
 assert.strictEqual(savedLeads[0].plan, 'Agency Team 14-Day Pilot (HK$ 2,480 / 月)');
 assert.ok(savedLeads[0].lead_id.startsWith('LEAD-'), `Lead ID must start with LEAD-, got: ${savedLeads[0].lead_id}`);
 assert.ok(mockElementsPositive['waitlist-success-modal'].classes.includes('open'), 'Success modal must have class "open"');
-assert.ok(mockElementsPositive['modal-whatsapp-btn'].href.includes('wa.me/85291234567'), 'WhatsApp link must point to wa.me/85291234567');
+assert.ok(mockElementsPositive['modal-whatsapp-btn'].href.includes('wa.me/'), 'WhatsApp link must point to wa.me share endpoint');
 console.log(`  [PASS] Sandboxed lead intake verified: Generated ${savedLeads[0].lead_id} & persisted to localStorage.`);
 
 // Negative test 1: Reject empty company

