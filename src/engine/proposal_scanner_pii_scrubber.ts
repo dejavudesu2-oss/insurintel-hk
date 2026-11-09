@@ -5,7 +5,7 @@
  * Regulatory Basis:
  * - Hong Kong Personal Data (Privacy) Ordinance (PDPO, Cap. 486) Data Protection Principles 1 & 4
  * - HKIA Guideline on the Use of Artificial Intelligence and Machine Learning (GL26)
- * - HKIA Guideline on Code of Conduct for Licensed Insurance Intermediaries (GL20)
+ * - HKIA Code of Conduct for Licensed Insurance Intermediaries (Cap. 41 s. 95(1)) and Policy Replacement Guideline (GL27)
  * 
  * Core Capabilities:
  * 1. Client-side deterministic PII scrubber (HKID, Phone, Email, Policy Number, Full Name, Address)

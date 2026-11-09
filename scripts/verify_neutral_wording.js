@@ -65,7 +65,7 @@ const twistingTokens = [
 // 3. Mandatory statutory compliance markers
 const mandatoryDisclaimers = [
   { name: 'HKIA Regulatory Mention', pattern: /保險業監管局|HKIA/ },
-  { name: 'GL20 / GL27 Guideline Reference', pattern: /GL20/ },
+  { name: 'Code of Conduct / GL27 Guideline Reference', pattern: /GL20|GL27|操守守則/ },
   { name: 'Policy Replacement Risk / Anti-Twisting Warning', pattern: /不構成任何保單替換建議|轉保可能涉及重大財務(損失|折損)/ },
   { name: 'Temporal Anchor (Data as of 2026-11-09)', pattern: /2026年11月09日|2026-11-09/ },
   { name: 'Unverified Data Safety Notice', pattern: /未經核實|Unverified/ }
@@ -144,7 +144,7 @@ targetFiles.forEach((filePath) => {
   }
 
   // D. Verify Client PDF Report Export Footer
-  const pdfFooterPos = html.indexOf('【香港保險業監管局 (IA)《操守指引》(GL20) 合規聲明】');
+  const pdfFooterPos = (html.indexOf('【香港保險業監管局 (HKIA)《持牌保險中介人操守守則》客觀告示】') !== -1) ? html.indexOf('【香港保險業監管局 (HKIA)《持牌保險中介人操守守則》客觀告示】') : (html.indexOf('【香港保監局《持牌保險中介人操守守則》客觀告示】') !== -1 ? html.indexOf('【香港保監局《持牌保險中介人操守守則》客觀告示】') : html.indexOf('【香港保險業監管局 (IA)《操守指引》(GL20) 合規聲明】'));
   if (pdfFooterPos === -1) {
     console.error(`  ❌ VIOLATION in ${fileName}: Client PDF report export missing GL20 statutory footer!`);
     totalViolations++;

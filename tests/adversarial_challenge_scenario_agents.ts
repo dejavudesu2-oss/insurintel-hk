@@ -658,7 +658,7 @@ suite('2. Client DOM & Sandboxed VM Execution of Mobile App Template', () => {
     mockWindow.onCommsPlatformSelect('whatsapp');
     const waText = mockWindow.generateInstantMessage('whatsapp', 'urgent_closing');
     assert.ok(waText.includes('*回本與資金安全：*'), 'WhatsApp message should contain bold styling');
-    assert.ok(waText.includes('GL20'), 'Message must contain statutory GL20 disclaimer');
+    assert.ok(waText.includes('GL20') || waText.includes('操守守則'), 'Message must contain statutory code of conduct disclaimer');
     assert.ok(waText.includes('2026年11月06日'), 'Message must contain regulatory audit date');
 
     // Test WeChat tone

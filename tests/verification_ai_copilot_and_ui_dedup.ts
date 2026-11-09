@@ -80,7 +80,7 @@ test('AIA Advisor System Prompt specification is documented in HTML details', ()
   assert.ok(htmlSource.includes('AIA 專用 System Prompt 提示詞架構設計'), 'Prompt spec heading must exist');
   assert.ok(htmlSource.includes('友邦 (AIA) 首席攻防核保精算顧問'), 'Prompt spec must define role');
   assert.ok(htmlSource.includes('三步破局法'), 'Prompt spec must define 3-step strategy');
-  assert.ok(htmlSource.includes('GL20'), 'Prompt spec must reference GL20 compliance');
+  assert.ok(htmlSource.includes('GL20') || htmlSource.includes('操守守則'), 'Prompt spec must reference statutory compliance');
 });
 
 // --- 2. VM Sandbox Execution of Functions ---
@@ -225,7 +225,7 @@ test('handleSmartPromptClick generates AI analysis with strategy, script, and GL
   assert.ok(chatHtml.includes('🎯 戰略破局核心'), 'AI reply must include Strategy section');
   assert.ok(chatHtml.includes('🗣️ 30 秒地道口頭話術'), 'AI reply must include 30s elevator script');
   assert.ok(chatHtml.includes('📊 精算數據出處'), 'AI reply must cite actuarial source');
-  assert.ok(chatHtml.includes('🛡️ 保監局 GL20 合規護欄'), 'AI reply must contain GL20 guardrail');
+  assert.ok(chatHtml.includes('🛡️ 保監局操守守則合規護欄') || chatHtml.includes('🛡️ 保監局 GL20 合規護欄'), 'AI reply must contain statutory guardrail');
   assert.ok(chatHtml.includes('copyAiGeneratedScript'), 'AI reply must include 1-click copy button');
 });
 

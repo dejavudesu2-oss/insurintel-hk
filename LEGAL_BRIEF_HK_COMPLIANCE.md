@@ -6,6 +6,9 @@
 **Date**: 9 November 2026  
 **Document Classification**: Privileged & Confidential (Instructions for Formal Legal Opinion)  
 
+> [!WARNING]
+> **Legal Disclaimer / Notice to Counsel**: Citations are AI-assisted and unverified; counsel to confirm.
+
 ---
 
 ### PRELIMINARY INSTRUCTIONS TO COUNSEL

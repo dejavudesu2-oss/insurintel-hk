@@ -680,3 +680,54 @@ ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-04 HARDENED & VERIFIED)
    - SHA-256 Parity (mobile_cafe_app, index, cafe): `8b664ac79a79cf5eb2c8f186f0909b7621a071e351f44fc3f3176851be54117f`
    - SHA-256 Parity (templates/waitlist, dist/waitlist): `88bf6cdc937b53d7f13e05a5b16463fe359139472a11245b58f25816459d442d`
 ================================================================================
+
+
+CYCLE 5: TASK-R2-05 (Statutory Citation Audit & Repository-Wide Overclaim Sweep)
+Timestamp: 2026-11-09T17:30:00+08:00
+Git Branch: loop/run-2
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Create `LEGAL_BRIEF_CITATION_AUDIT.md` verifying all statutory citations against official Hong Kong e-Legislation (HKeL) and HKIA portals with official URLs and retrieval benchmark dates (`2026-11-09`).
+   - Detail rationales for 4 Run 1 citation corrections: GL20 (Cybersecurity) -> GL27 (Policy Replacement) & Code of Conduct (Cap. 41 s. 95(1)); Cap. 528 s. 38 (Private study) -> s. 39 (Criticism, review & quotation); s. 64G licensing boundaries vs s. 90/121 twisting offences; and Cap. 486 s. 33 dormancy.
+   - Audit Cap. 362 (*Trade Descriptions Ordinance*, s. 7 false trade descriptions & s. 13E misleading omissions).
+   - In `LEGAL_BRIEF_HK_COMPLIANCE.md`, maintain disclaimer notice to counsel under the 11,000-character cap.
+   - Perform comprehensive overclaim sweep across all app files and templates: purge "production-grade", "100%", "compliant", "approved", and "保證 100% 回本", replacing with exact, actuarially honest phrasing.
+   - Purge fake bit-shifted SHA-256 string in `runPIIScrubber()` in favor of real Web Crypto / CRC32 client-side checksum and transparent notice.
+   - Implement `tests/verification_legal_and_overclaims.ts` and run full 30-suite test harness.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`c0212c14-977d-429c-8072-7a5066f8b7f2`) returned 5 critical findings:
+     * Finding 1: GL20 in UI — `templates/mobile_cafe_app.html` still contained ~20 instances of `GL20` used as an intermediary conduct rule. -> FIXED: Executed `scripts/patch_cycle5_overclaims.js` systematically replacing all conduct-related GL20 occurrences with `保監局《操守守則》及 GL27 (反轉保指引)` or `保監局《操守守則》客觀準則`.
+     * Finding 2: "保證 100% 回本" Overclaim — Lines 7179, 7732, 7842, and 9331 claimed guaranteed Year 5 breakeven. Flagship savings plans have contractual guaranteed breakeven around Year 18–20. -> FIXED: Replaced with actuarially accurate statements distinguishing expected overall breakeven (Year 6) from contractual guaranteed cash value breakeven (Year 18–20), explicitly noting reliance on official benefit illustrations.
+     * Finding 3: Missing Cap. 362 & Specific PDF URLs — `LEGAL_BRIEF_CITATION_AUDIT.md` omitted Cap. 362 from Part 1 ledger and needed distinct PDF URLs. -> FIXED: Added Cap. 362 s. 7 and s. 13E to Part 1 ledger with HKeL URLs and retrieval dates; upgraded HKIA guideline links to direct official PDF endpoints (`GL27.pdf`, `GN16.pdf`, `Code_of_Conduct_for_Licensed_Insurance_Intermediaries.pdf`).
+     * Finding 4: PII Scrubber Realism & Fake Hash in UI — `runPIIScrubber()` synthesized a fake SHA-256 hash by padding a 32-bit integer. -> FIXED: Replaced with genuine Web Crypto `crypto.subtle.digest('SHA-256')` with CRC32 fallback, honestly labeled as `文本校驗指紋 (SHA-256 Checksum) / (CRC32-Hash)`.
+     * Finding 5: Remaining Overclaims — Purged `100%法定基準線偏離度分析` (replaced with `GN16 基準線偏離度走廊分析`), `一鍵導出認證PDF對賬報告` (replaced with `一鍵導出示範對賬 PDF 報告`), and `IA Compliant Tear-Sheet` (replaced with `Neutral Objective Tear-Sheet (Designed Against IA Guidelines)`).
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: STATUTORY CITATION AUDIT & OVERCLAIM SWEEP (TASK-R2-05 / C7 & C8)
+================================================================================
+
+  [PASS] LEGAL_BRIEF_CITATION_AUDIT.md verified: 16 statutory citations (including Cap. 362), official URLs, retrieval dates, and change rationales.
+  [PASS] LEGAL_BRIEF_HK_COMPLIANCE.md disclaimer header verified (10283 chars <= 11,000 cap).
+  [PASS] App overclaim sweep verified and 100% SHA-256 parity preserved (b9acb9ede756be17...).
+  [PASS] Overclaim documentation verified: terms audited and intermediary headcount aligned with HKIA statistics.
+
+================================================================================
+ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-05 HARDENED & VERIFIED)
+================================================================================
+
+Full test suite execution:
+30 test suites passing cleanly with zero failures (`npm test` exited with code 0).
+
+4. Metrics After Cycle:
+   - Tests passed: 30 test suites / 300+ tests (0 failures)
+   - Strict SOURCED rows: 1 / 130 (0.77%)
+   - Strict UNVERIFIED rows: 129 / 130 (99.23%)
+   - True Denominator: 9,052 client-visible numbers
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
+   - Backlog P0/P1 open: 1 (TASK-R2-06)
+   - SHA-256 Parity (mobile_cafe_app, index, cafe): `b9acb9ede756be1746386131e3d9335d19bb25f860d7fed972294e9685fafd2f`
+   - SHA-256 Parity (templates/waitlist, dist/waitlist): `88bf6cdc937b53d7f13e05a5b16463fe359139472a11245b58f25816459d442d`
+================================================================================
