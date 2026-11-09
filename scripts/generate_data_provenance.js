@@ -174,11 +174,16 @@ catalogMap.forEach((cat) => {
 });
 
 const outCsvPath = path.join(__dirname, '../DATA_PROVENANCE.csv');
-const outArtifactPath = 'C:/Users/rain2/.gemini/antigravity/brain/1b870b1c-62ef-43c1-aaaf-3caf86d37e28/DATA_PROVENANCE.csv';
+const outArtifactDir = process.env.ARTIFACTS_DIR || '';
 
 const csvContent = rows.join('\n');
 fs.writeFileSync(outCsvPath, csvContent, 'utf8');
-fs.writeFileSync(outArtifactPath, csvContent, 'utf8');
+if (outArtifactDir && fs.existsSync(outArtifactDir)) {
+  const outArtifactPath = path.join(outArtifactDir, 'DATA_PROVENANCE.csv');
+  fs.writeFileSync(outArtifactPath, csvContent, 'utf8');
+  console.log(`Saved to ${outCsvPath} and ${outArtifactPath}`);
+} else {
+  console.log(`Saved to ${outCsvPath}`);
+}
 
 console.log(`Generated DATA_PROVENANCE.csv with ${rows.length - 1} records!`);
-console.log(`Saved to ${outCsvPath} and ${outArtifactPath}`);

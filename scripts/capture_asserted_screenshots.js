@@ -4,22 +4,26 @@
  */
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
 const http = require('http');
 const { spawn } = require('child_process');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const DIST_DIR = path.join(REPO_ROOT, 'dist');
 const SCREENSHOTS_DIR = path.join(DIST_DIR, 'screenshots');
-const ARTIFACTS_SCREENSHOTS_DIR = process.env.ARTIFACTS_DIR ||
-  'C:\\Users\\rain2\\.gemini\\antigravity\\brain\\1b870b1c-62ef-43c1-aaaf-3caf86d37e28\\screenshots';
+const ARTIFACTS_SCREENSHOTS_DIR = process.env.ARTIFACTS_DIR || '';
 const ASSERTIONS_LOG_PATH = path.join(REPO_ROOT, 'SCREENSHOT_ASSERTIONS.txt');
-const TEMP_USER_DATA = path.join(process.env.TEMP || 'C:\\Users\\rain2\\AppData\\Local\\Temp', 'chrome_cdp_profile');
+const TEMP_USER_DATA = path.join(os.tmpdir(), 'chrome_cdp_profile');
 
 if (!fs.existsSync(SCREENSHOTS_DIR)) fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });
-if (!fs.existsSync(ARTIFACTS_SCREENSHOTS_DIR)) fs.mkdirSync(ARTIFACTS_SCREENSHOTS_DIR, { recursive: true });
+if (ARTIFACTS_SCREENSHOTS_DIR && !fs.existsSync(ARTIFACTS_SCREENSHOTS_DIR)) {
+  fs.mkdirSync(ARTIFACTS_SCREENSHOTS_DIR, { recursive: true });
+}
 if (!fs.existsSync(TEMP_USER_DATA)) fs.mkdirSync(TEMP_USER_DATA, { recursive: true });
 
-const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const CHROME_PATH = process.env.CHROME_PATH || (process.platform === 'win32'
+  ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+  : 'google-chrome');
 const HTTP_PORT = 3334;
 const CDP_PORT = 9222;
 
@@ -372,9 +376,11 @@ async function main() {
     const outPath = path.join(SCREENSHOTS_DIR, item.name);
     fs.writeFileSync(outPath, buffer);
 
-    // Copy to artifact directory
-    const artifactPath = path.join(ARTIFACTS_SCREENSHOTS_DIR, item.name);
-    fs.writeFileSync(artifactPath, buffer);
+    // Copy to artifact directory when configured
+    if (ARTIFACTS_SCREENSHOTS_DIR) {
+      const artifactPath = path.join(ARTIFACTS_SCREENSHOTS_DIR, item.name);
+      fs.writeFileSync(artifactPath, buffer);
+    }
 
     const sizeKb = (buffer.length / 1024).toFixed(1);
     console.log(`  [SUCCESS] Captured ${item.name} (${sizeKb} KB) -> Written to dist/screenshots and artifact directory.\n`);

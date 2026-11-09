@@ -30,7 +30,7 @@ const shots = [
 ];
 
 const distDir = path.join(process.cwd(), 'dist', 'screenshots');
-const artifactDir = process.env.ARTIFACTS_DIR || 'C:/Users/rain2/.gemini/antigravity/brain/1b870b1c-62ef-43c1-aaaf-3caf86d37e28/screenshots';
+const artifactDir = process.env.ARTIFACTS_DIR || '';
 
 assert.ok(fs.existsSync(distDir), 'dist/screenshots directory must exist');
 
@@ -61,13 +61,15 @@ shots.forEach((fileName, idx) => {
   assert.ok(!hashes.has(distHash), `Screenshot ${fileName} is a duplicate capture of another view! All views must be distinct.`);
   hashes.add(distHash);
 
-  // Verify artifact copy parity
-  const artPath = path.join(artifactDir, fileName);
-  if (fs.existsSync(artPath)) {
-    const artHash = crypto.createHash('sha256').update(fs.readFileSync(artPath)).digest('hex');
-    assert.strictEqual(distHash, artHash, `SHA-256 mismatch between dist and artifact copy of ${fileName}`);
-  } else {
-    console.log(`  [NOTE] Artifact directory not detected at ${artifactDir}, skipping local artifact copy parity.`);
+  // Verify artifact copy parity when ARTIFACTS_DIR is explicitly configured
+  if (artifactDir) {
+    const artPath = path.join(artifactDir, fileName);
+    if (fs.existsSync(artPath)) {
+      const artHash = crypto.createHash('sha256').update(fs.readFileSync(artPath)).digest('hex');
+      assert.strictEqual(distHash, artHash, `SHA-256 mismatch between dist and artifact copy of ${fileName}`);
+    } else {
+      console.log(`  [NOTE] Artifact directory not detected at ${artifactDir}, skipping local artifact copy parity.`);
+    }
   }
 
   console.log(`  [PASS] Screenshot [${idx + 1}/6] ${fileName}: ${stat.size} bytes | Resolution: ${width}x${height} | Hash: ${distHash.substring(0, 10)}... | PNG Valid`);

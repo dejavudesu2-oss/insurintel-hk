@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
   schedule:
     # Runs at 22:30 UTC every day -> 06:30 AM HKT (Hong Kong Time, UTC+8)
     - cron: '30 22 * * *'
@@ -15,13 +18,13 @@ permissions:
   id-token: write
 
 concurrency:
-  group: 'pages'
+  group: 'pages-${{ github.ref }}'
   cancel-in-progress: true
 
 jobs:
   daily-intelligence:
     environment:
-      name: github-pages
+      name: ${{ github.event_name != 'pull_request' && 'github-pages' || '' }}
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
@@ -35,7 +38,7 @@ jobs:
           node-version: 22
           cache: 'npm'
 
-      - name: 3. Set up Python (for Privacy Sanitizer)
+      - name: 3. Set up Python (for Privacy Sanitizer & Slide Compilers)
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
@@ -50,24 +53,36 @@ jobs:
           npm test
 
       - name: 5. Execute Daily Market Search & Generate Web Pages
+        if: github.event_name != 'pull_request'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           npm run start:search
 
+      - name: 5.5 Stage Public Web Assets for GitHub Pages
+        if: github.event_name != 'pull_request'
+        env:
+          PAGES_PUBLISH_MODE: allowlist
+        run: |
+          node scripts/stage_pages_site.js
+
       - name: 6. Setup GitHub Pages
+        if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
 
       - name: 7. Upload GitHub Pages Artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist'
+          path: '_site'
 
       - name: 8. Deploy to GitHub Pages
+        if: github.event_name != 'pull_request'
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: 9. Commit Intelligence Snapshots Back to Repo
+        if: github.event_name != 'pull_request'
         continue-on-error: true
         run: |
           git config --local user.email "action@github.com"

@@ -211,7 +211,7 @@ let md = `# InsurIntel HK: 人工數據審計套件 (Human Audit Kit)
 **Generated Date**: 2026-11-09  
 
 ### 人工審計操作指引 (Instructions for Auditor / Owner):
-1. 在瀏覽器打開本機系統：[dist/index.html](file:///c:/Users/rain2/Downloads/agent_test/dist/index.html) 或 \`dist/cafe.html\`。
+1. 在瀏覽器打開本機系統：[dist/index.html](dist/index.html) 或 \`dist/cafe.html\`。
 2. 按照下方 **App 界面路徑 (Screen Path)** 導航至對應界面（見客雙邊擂台、情境助手或 GN16 抽屜）。
 3. 核對 **App 呈現數值 (Figure Shown in UI)** 與 **官方文檔來源 (Official URL & Locator)**：
    - 勾選 \`[x] MATCH (原件一致)\`：若官方文檔確切載明該項數值且數字 100% 精確匹配。
