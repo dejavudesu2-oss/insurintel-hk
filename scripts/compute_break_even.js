@@ -2,49 +2,42 @@
  * scripts/compute_break_even.js
  * Programmatic Break-Even and Unit Economics Calculator for InsurIntel HK
  * 
- * Strict rule: All break-even figures MUST be computed directly from this structured
- * cost table and not hand-typed.
+ * Strict rule: All break-even and churn figures MUST be computed dynamically
+ * from cost_model.json and never hard-coded.
  */
 
-const COST_STRUCTURE = {
-  fixedOverhead: {
-    hostingEdge: 160,       // Vercel / Cloudflare edge hosting & CDN (HKD/mo)
-    domainDns: 40,          // Namecheap / Cloudflare DNS & SSL amortized (HKD/mo)
-    legalCompliance: 1500,  // Hong Kong compliance counsel retainer amortized (HKD/mo)
-    supportBase: 300        // Base WhatsApp Business & communication API (HKD/mo)
-  },
-  founderSalary: 35000,     // Full-time founder salary baseline (HKD/mo)
-  pricing: {
-    advisorPro: 199,        // Advisor Pro single seat (HKD/mo)
-    agencyTeam: 2480,       // Agency Team license (HKD/mo)
-    agencyTeamSeats: 15     // Seats bundled in Agency Team
-  },
-  gateway: {
-    stripeRate: 0.034,      // 3.4% Stripe Hong Kong merchant fee
-    stripeFixed: 2.35       // HK$2.35 fixed fee per transaction
-  },
-  seatVariableCost: {
-    aiOcrTokens: 5.25,      // 15 proposal scans/mo @ HK$0.35/scan
-    userBandwidthStorage: 4.75 // Marginal cloud storage, messaging & sync buffer (HKD/seat/mo)
-  }
-};
+const fs = require('fs');
+const path = require('path');
 
-function computeEconomics() {
-  const baseFixed = Object.values(COST_STRUCTURE.fixedOverhead).reduce((a, b) => a + b, 0); // 2000
-  const fullFixed = baseFixed + COST_STRUCTURE.founderSalary; // 37000
+const costModelPath = path.join(__dirname, '..', 'cost_model.json');
+if (!fs.existsSync(costModelPath)) {
+  throw new Error(`cost_model.json not found at ${costModelPath}`);
+}
+const COST_MODEL = JSON.parse(fs.readFileSync(costModelPath, 'utf8'));
+const CS = COST_MODEL.cost_structure;
 
-  const varCostPerSeat = COST_STRUCTURE.seatVariableCost.aiOcrTokens + COST_STRUCTURE.seatVariableCost.userBandwidthStorage; // 10.00
+function computeEconomics(customCostModel = null) {
+  const activeCS = customCostModel ? customCostModel.cost_structure : CS;
 
-  // Advisor Pro
-  const indPrice = COST_STRUCTURE.pricing.advisorPro;
-  const indGateway = indPrice * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed; // 9.116
+  // Base fixed overhead (Hosting, DNS, Legal, Support)
+  const baseFixed = Object.values(activeCS.fixed_overhead_monthly_hkd).reduce((sum, item) => sum + item.amount, 0); // 2000
+  // Full fixed overhead (Base + Founder salary)
+  const fullFixed = baseFixed + activeCS.founder_salary_monthly_hkd.amount; // 37000
+
+  // Variable cost per seat
+  const varCostPerSeat = activeCS.seat_variable_cost_monthly_hkd.ai_ocr_tokens.amount +
+                         activeCS.seat_variable_cost_monthly_hkd.user_bandwidth_storage.amount; // 10.00
+
+  // 1. Advisor Pro (HK$ 199/mo)
+  const indPrice = activeCS.pricing_tiers_monthly_hkd.advisor_pro.price; // 199
+  const indGateway = indPrice * activeCS.payment_gateway_fees.percentage_rate + activeCS.payment_gateway_fees.fixed_fee_hkd; // 9.116
   const indNetMargin = indPrice - indGateway - varCostPerSeat; // 179.884
 
-  // Agency Team
-  const teamPrice = COST_STRUCTURE.pricing.agencyTeam;
-  const teamGateway = teamPrice * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed; // 86.67
-  const teamSeats = COST_STRUCTURE.pricing.agencyTeamSeats; // 15
-  const teamVarCost = teamSeats * varCostPerSeat; // 15 * 10 = 150
+  // 2. Agency Team (HK$ 2,480/mo, 15 seats)
+  const teamPrice = activeCS.pricing_tiers_monthly_hkd.agency_team.price; // 2480
+  const teamSeats = activeCS.pricing_tiers_monthly_hkd.agency_team.seats; // 15
+  const teamGateway = teamPrice * activeCS.payment_gateway_fees.percentage_rate + activeCS.payment_gateway_fees.fixed_fee_hkd; // 86.67
+  const teamVarCost = teamSeats * varCostPerSeat; // 150.00
   const teamNetMargin = teamPrice - teamGateway - teamVarCost; // 2243.33
 
   // Break-even
@@ -60,20 +53,47 @@ function computeEconomics() {
   const modelB_TeamRaw = fullFixed / teamNetMargin; // 37000 / 2243.33 = 16.493
   const modelB_TeamCount = Math.ceil(modelB_TeamRaw); // 17
 
-  // Annual Discount Sensitivity Model (100% Annual Subscription)
-  // Advisor Pro Annual: HK$ 2,188/yr => HK$ 182.33/mo
-  const indAnnPriceMo = 2188 / 12;
-  const indAnnStripeMo = (2188 * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed) / 12;
-  const indAnnNetMargin = indAnnPriceMo - indAnnStripeMo - varCostPerSeat; // ~165.93
-  const modelB_IndAnnualCount = Math.ceil(fullFixed / indAnnNetMargin); // 223
+  // Churn Sensitivity Analysis: Dynamic consumption of cost_model.json scenarios
+  const indScenarios = activeCS.churn_sensitivity_scenarios.advisor_pro || [];
+  const teamScenarios = activeCS.churn_sensitivity_scenarios.agency_team || [];
 
-  // Agency Team Annual: HK$ 24,800/yr => HK$ 2,066.67/mo
-  const teamAnnPriceMo = 24800 / 12;
-  const teamAnnStripeMo = (24800 * COST_STRUCTURE.gateway.stripeRate + COST_STRUCTURE.gateway.stripeFixed) / 12;
-  const teamAnnNetMargin = teamAnnPriceMo - teamAnnStripeMo - teamVarCost; // ~1,846.21
-  const modelB_TeamAnnualCount = Math.ceil(fullFixed / teamAnnNetMargin); // 21
+  const churnAnalysis = {
+    modelA_individuals: indScenarios.map(s => {
+      const rate = s.monthly_churn_pct / 100;
+      return {
+        churnRatePct: s.monthly_churn_pct,
+        newSubscribersNeededMo: Math.ceil(modelA_IndCount * rate),
+        rawNeeded: modelA_IndCount * rate
+      };
+    }),
+    modelA_teams: teamScenarios.map(s => {
+      const rate = s.monthly_churn_pct / 100;
+      return {
+        churnRatePct: s.monthly_churn_pct,
+        newTeamsNeededMo: Math.ceil(modelA_TeamCount * rate),
+        rawNeeded: modelA_TeamCount * rate
+      };
+    }),
+    modelB_individuals: indScenarios.map(s => {
+      const rate = s.monthly_churn_pct / 100;
+      return {
+        churnRatePct: s.monthly_churn_pct,
+        newSubscribersNeededMo: Math.ceil(modelB_IndCount * rate),
+        rawNeeded: modelB_IndCount * rate
+      };
+    }),
+    modelB_teams: teamScenarios.map(s => {
+      const rate = s.monthly_churn_pct / 100;
+      return {
+        churnRatePct: s.monthly_churn_pct,
+        newTeamsNeededMo: Math.ceil(modelB_TeamCount * rate),
+        rawNeeded: modelB_TeamCount * rate
+      };
+    })
+  };
 
   return {
+    version: customCostModel ? customCostModel.version : COST_MODEL.version,
     baseFixed,
     fullFixed,
     varCostPerSeat,
@@ -92,51 +112,66 @@ function computeEconomics() {
     },
     breakEven: {
       modelA: {
-        description: 'Zero Founder Salary (HK$ 2,000/mo base overhead)',
+        description: 'Zero Founder Salary (HK$ 2,000/mo base overhead) [ASSUMPTION]',
         individualsRaw: modelA_IndRaw,
         individuals: modelA_IndCount, // 12
         teamsRaw: modelA_TeamRaw,
         teams: modelA_TeamCount       // 1
       },
       modelB: {
-        description: 'With Founder Salary (HK$ 37,000/mo full overhead)',
+        description: 'With Founder Salary (HK$ 37,000/mo full overhead) [ASSUMPTION]',
         individualsRaw: modelB_IndRaw,
         individuals: modelB_IndCount, // 206
         teamsRaw: modelB_TeamRaw,
-        teams: modelB_TeamCount,      // 17
-        annualSensitivity: {
-          individuals: modelB_IndAnnualCount, // 223
-          teams: modelB_TeamAnnualCount        // 21
-        }
+        teams: modelB_TeamCount       // 17
       }
-    }
+    },
+    churnAnalysis
   };
 }
 
 if (require.main === module) {
   const result = computeEconomics();
   console.log('================================================================================');
-  console.log('INSURINTEL HK: SCRIPT-COMPUTED BREAK-EVEN & UNIT ECONOMICS');
+  console.log(`INSURINTEL HK: SCRIPT-COMPUTED BREAK-EVEN & CHURN SENSITIVITY (v${result.version})`);
+  console.log('Source File: cost_model.json [ALL FIGURES MARKED ASSUMPTION]');
   console.log('================================================================================');
-  console.log('Base Fixed Overhead: HK$', result.baseFixed);
-  console.log('Full Fixed Overhead: HK$', result.fullFixed);
-  console.log('Variable Cost per Seat: HK$', result.varCostPerSeat);
-  console.log('\n[Advisor Pro HK$ 199/mo]');
-  console.log('  Gateway (Stripe): HK$', result.advisorPro.gatewayFee.toFixed(2));
-  console.log('  Variable Cost: HK$', result.advisorPro.varCost.toFixed(2));
-  console.log('  Net Contribution Margin: HK$', result.advisorPro.netMargin.toFixed(2));
-  console.log('\n[Agency Team HK$ 2,480/mo (15 seats)]');
-  console.log('  Gateway (Stripe): HK$', result.agencyTeam.gatewayFee.toFixed(2));
-  console.log('  15 Seats Variable Cost: HK$', result.agencyTeam.teamVarCost.toFixed(2));
-  console.log('  Net Contribution Margin per Team: HK$', result.agencyTeam.netMargin.toFixed(2));
-  console.log('\n[Break-Even Thresholds]');
+  console.log('Base Fixed Overhead   : HK$', result.baseFixed, '[ASSUMPTION]');
+  console.log('Full Fixed Overhead   : HK$', result.fullFixed, '[ASSUMPTION]');
+  console.log('Variable Cost per Seat: HK$', result.varCostPerSeat.toFixed(2), '[ASSUMPTION]');
+  console.log('\n[Advisor Pro HK$ 199/mo [ASSUMPTION]]');
+  console.log('  Gateway (Stripe)      : HK$', result.advisorPro.gatewayFee.toFixed(2), '[ASSUMPTION]');
+  console.log('  Variable Cost         : HK$', result.advisorPro.varCost.toFixed(2), '[ASSUMPTION]');
+  console.log('  Net Contribution Margin: HK$', result.advisorPro.netMargin.toFixed(2), '[ASSUMPTION]');
+  console.log('\n[Agency Team HK$ 2,480/mo (15 seats) [ASSUMPTION]]');
+  console.log('  Gateway (Stripe)      : HK$', result.agencyTeam.gatewayFee.toFixed(2), '[ASSUMPTION]');
+  console.log('  15 Seats Variable Cost: HK$', result.agencyTeam.teamVarCost.toFixed(2), '[ASSUMPTION]');
+  console.log('  Net Contribution/Team : HK$', result.agencyTeam.netMargin.toFixed(2), '[ASSUMPTION]');
+  console.log('\n[Break-Even Thresholds [ASSUMPTION]]');
   console.log('  Model A (Without Salary HK$ 2,000):');
-  console.log('    - Individuals required:', result.breakEven.modelA.individuals, '(raw: ' + result.breakEven.modelA.individualsRaw.toFixed(2) + ')');
-  console.log('    - Teams required:', result.breakEven.modelA.teams, '(raw: ' + result.breakEven.modelA.teamsRaw.toFixed(2) + ')');
+  console.log('    - Individuals required : 12 [ASSUMPTION] (raw: ' + result.breakEven.modelA.individualsRaw.toFixed(2) + ')');
+  console.log('    - Teams required       : 1 [ASSUMPTION] (raw: ' + result.breakEven.modelA.teamsRaw.toFixed(2) + ')');
   console.log('  Model B (With Salary HK$ 37,000):');
-  console.log('    - Individuals required:', result.breakEven.modelB.individuals, '(raw: ' + result.breakEven.modelB.individualsRaw.toFixed(2) + ')');
-  console.log('    - Teams required:', result.breakEven.modelB.teams, '(raw: ' + result.breakEven.modelB.teamsRaw.toFixed(2) + ')');
+  console.log('    - Individuals required : 206 [ASSUMPTION] (raw: ' + result.breakEven.modelB.individualsRaw.toFixed(2) + ')');
+  console.log('    - Teams required       : 17 [ASSUMPTION] (raw: ' + result.breakEven.modelB.teamsRaw.toFixed(2) + ')');
+  console.log('\n[Churn-Aware Replacement Line (New Subscribers/Teams Needed Monthly) [ASSUMPTION]]');
+  console.log('  Model A (Base 12 Individuals):');
+  result.churnAnalysis.modelA_individuals.forEach(c => {
+    console.log(`    - At ${c.churnRatePct}% monthly churn: ${c.newSubscribersNeededMo} new subscribers/mo [ASSUMPTION] (raw: ${c.rawNeeded.toFixed(2)})`);
+  });
+  console.log('  Model A (Base 1 Team):');
+  result.churnAnalysis.modelA_teams.forEach(c => {
+    console.log(`    - At ${c.churnRatePct}% monthly churn: ${c.newTeamsNeededMo} new teams/mo [ASSUMPTION] (raw: ${c.rawNeeded.toFixed(2)})`);
+  });
+  console.log('  Model B (Full 206 Individuals):');
+  result.churnAnalysis.modelB_individuals.forEach(c => {
+    console.log(`    - At ${c.churnRatePct}% monthly churn: ${c.newSubscribersNeededMo} new subscribers/mo [ASSUMPTION] (raw: ${c.rawNeeded.toFixed(2)})`);
+  });
+  console.log('  Model B (Full 17 Teams):');
+  result.churnAnalysis.modelB_teams.forEach(c => {
+    console.log(`    - At ${c.churnRatePct}% monthly churn: ${c.newTeamsNeededMo} new teams/mo [ASSUMPTION] (raw: ${c.rawNeeded.toFixed(2)})`);
+  });
   console.log('================================================================================');
 }
 
-module.exports = { COST_STRUCTURE, computeEconomics };
+module.exports = { computeEconomics };

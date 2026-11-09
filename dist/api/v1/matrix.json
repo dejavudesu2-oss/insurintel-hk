@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-09T16:00:22.515Z",
+  "generated_at": "2026-11-09T16:53:31.784Z",
   "version": "2.0.0",
   "top_prepayment": [
     {
@@ -13,7 +13,7 @@
   ],
   "full_promos": [
     {
-      "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794240022500-490",
+      "promo_id": "AUTO-CRAWL-PRUDENTIAL-1794243211771-461",
       "insurer": "Prudential",
       "product_name": "保誠 雋富多元貨幣計劃",
       "product_aliases": [
@@ -48,11 +48,11 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-11-09T16:00:22.500Z"
+        "created_at": "2026-11-09T16:53:31.771Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-AIA-1794240022501-358",
+      "promo_id": "AUTO-CRAWL-AIA-1794243211771-836",
       "insurer": "AIA",
       "product_name": "友邦 盈御多元貨幣計劃 3",
       "product_aliases": [
@@ -87,11 +87,11 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-11-09T16:00:22.501Z"
+        "created_at": "2026-11-09T16:53:31.771Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-MANULIFE-1794240022501-886",
+      "promo_id": "AUTO-CRAWL-MANULIFE-1794243211771-640",
       "insurer": "Manulife",
       "product_name": "宏利 宏摯多元儲蓄計劃",
       "product_aliases": [
@@ -126,11 +126,11 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-11-09T16:00:22.501Z"
+        "created_at": "2026-11-09T16:53:31.771Z"
       }
     },
     {
-      "promo_id": "AUTO-CRAWL-FWD-1794240022501-716",
+      "promo_id": "AUTO-CRAWL-FWD-1794243211772-302",
       "insurer": "FWD",
       "product_name": "富衛 危疾加諾保",
       "product_aliases": [
@@ -159,7 +159,7 @@
         "source_type": "Official_Circular",
         "confidence_level": "Verified",
         "verified_by_editor": false,
-        "created_at": "2026-11-09T16:00:22.501Z"
+        "created_at": "2026-11-09T16:53:31.772Z"
       }
     }
   ]
