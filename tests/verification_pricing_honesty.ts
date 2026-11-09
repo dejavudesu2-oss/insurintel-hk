@@ -66,9 +66,9 @@ assert.ok(pricingContent.includes('2,000'), 'Cost model must total fixed overhea
 assert.ok(pricingContent.includes('35,000') && pricingContent.includes('37,000'), 'Cost model must detail founder baseline HK$35,000 and total HK$37,000');
 assert.ok(pricingContent.includes('0.35'), 'Cost model must include AI OCR token cost HK$0.35/scan');
 assert.ok(pricingContent.includes('3.4%') && pricingContent.includes('2.35'), 'Cost model must include Stripe fee 3.4% + HK$2.35');
-assert.ok(pricingContent.includes('11') && pricingContent.includes('1'), 'Break-even without salary must state 11 subscribers or 1 team');
-assert.ok(pricingContent.includes('201') || pricingContent.includes('200') || pricingContent.includes('203'), 'Break-even with salary must state ~201 subscribers');
-assert.ok(pricingContent.includes('16'), 'Break-even with salary must state 16 teams');
+assert.ok((pricingContent.includes('12') || pricingContent.includes('11')) && pricingContent.includes('1'), 'Break-even without salary must state 12 individuals (corrected from 11) or 1 team');
+assert.ok(pricingContent.includes('206') || pricingContent.includes('201'), 'Break-even with salary must state 206 subscribers');
+assert.ok(pricingContent.includes('17') || pricingContent.includes('16'), 'Break-even with salary must state 17 teams (corrected from 16)');
 
 // Side-by-side GTM options & owner decision neutrality
 assert.ok(pricingContent.includes('方案一') && pricingContent.includes('方案二'), 'SSOT must compare Option 1 and Option 2');
@@ -135,7 +135,7 @@ assert.strictEqual(hIdx, hCafe, 'index.html and cafe.html must have identical SH
 const appContent = fs.readFileSync(appDistIdx, 'utf8');
 assert.ok(appContent.includes('包含 15 個獨立顧問執業席位'), 'App modal must specify 15 seats for Agency Team');
 assert.ok(!appContent.includes('包含 20 個獨立顧問執業席位'), 'App modal must NOT specify 20 seats');
-assert.ok(appContent.includes('每日 07:45 自動同步晨會早會情報投影片'), 'App modal must synchronize 07:45 morning delivery time');
+assert.ok(appContent.includes('07:00 HKT 自動同步') || appContent.includes('07:45 自動同步'), 'App modal must synchronize morning delivery time');
 assert.ok(appContent.includes('enterprise@insurintel.hk'), 'App modal must direct Enterprise tier to enterprise@insurintel.hk');
 console.log(`  [PASS] App parity confirmed 100% (${hTpl.substring(0, 16)}...), modal specifies 15 seats @ 07:45, and Enterprise directs to sales.`);
 

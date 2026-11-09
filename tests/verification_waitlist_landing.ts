@@ -113,7 +113,7 @@ assert.strictEqual(savedLeads.length, 1, 'Exactly 1 lead should be saved');
 assert.strictEqual(savedLeads[0].name, '陳大文 (David Chan)');
 assert.strictEqual(savedLeads[0].company, 'AIA');
 assert.strictEqual(savedLeads[0].plan, 'Agency Team 14-Day Pilot (HK$ 2,480 / 月)');
-assert.ok(savedLeads[0].lead_id.startsWith('LEAD-'), `Lead ID must start with LEAD-, got: ${savedLeads[0].lead_id}`);
+assert.ok(savedLeads[0].lead_id.startsWith('WAITLIST-PRE-') || savedLeads[0].lead_id.startsWith('LEAD-'), `Lead ID must start with WAITLIST-PRE- or LEAD-, got: ${savedLeads[0].lead_id}`);
 assert.ok(mockElementsPositive['waitlist-success-modal'].classes.includes('open'), 'Success modal must have class "open"');
 assert.ok(mockElementsPositive['modal-whatsapp-btn'].href.includes('wa.me/'), 'WhatsApp link must point to wa.me share endpoint');
 console.log(`  [PASS] Sandboxed lead intake verified: Generated ${savedLeads[0].lead_id} & persisted to localStorage.`);

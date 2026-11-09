@@ -547,7 +547,7 @@
       <h3 class="modal-title">早鳥席位已成功登記！</h3>
       <p class="modal-body">
         感謝閣下對 InsurIntel HK 的支持。您的專屬早鳥登記編號為：<br/>
-        <span class="lead-id-badge" id="modal-lead-id">LEAD-8823910</span><br/>
+        <span class="lead-id-badge" id="modal-lead-id">WAITLIST-PRE-000000</span><br/>
         為確保您的名額優先審批，建議立即透過官方 WhatsApp 快速確認：
       </p>
 
@@ -650,7 +650,7 @@
         return false;
       }
 
-      const leadId = 'LEAD-' + Math.floor(1000000 + Math.random() * 9000000);
+      const leadId = 'WAITLIST-PRE-' + Math.floor(100000 + Math.random() * 900000); // 登記識別碼 (本地示範編號)
       const now = new Date();
       const leadRecord = {
         lead_id: leadId,

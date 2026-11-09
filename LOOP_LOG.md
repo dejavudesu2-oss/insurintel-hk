@@ -764,3 +764,33 @@ Status: COMPLETED (Verified Code 0)
    - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
    - Backlog P0/P1 open: 0 (Run 2 loop complete!)
 ================================================================================
+
+RUN 3: REPAIR AND PREPARE FOR HUMAN INPUT
+================================================================================
+
+CYCLE 1: TASK-R3-01 (Arithmetic & Contradictions Reconciliation + Codebase Fake-Output Sweep)
+Timestamp: 2026-11-09T18:05:00+08:00
+Git Branch: loop/run-3
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Create `scripts/compute_break_even.js` reading a structured cost table; compute Model A (12 individuals) and Model B (17 teams after 15 seats x variable cost).
+   - Reconcile `SINGLE_SOURCE_OF_TRUTH_PRICING.md`: 07:00 sync time, 15 seats, present exactly 2 launch options + "Later" note, reconcile top-5 products, delete/tag unverified 75% APE and 80% scenario shares.
+   - Codebase fake-output sweep: purge fake SHA-256 in gn16_tracker.html, relabel pseudo LEAD IDs in waitlist.html, relabel ALL_PRODUCTS_CATALOG audit_metadata, relabel heuristic radar scores.
+   - Author `scripts/fake_output_audit.js` and automated test `tests/verification_fake_output_sweep.ts`. Synchronize HTML distribution parity.
+
+2. Verification & Results:
+   - `node scripts/compute_break_even.js` executed cleanly:
+     * Model A (without salary, base HK$2,000): 12 individuals (raw 11.12), 1 team.
+     * Model B (with salary, full HK$37,000): 17 teams (raw 16.49, after 15 seats x HK$10 var cost), 206 individuals.
+   - `SINGLE_SOURCE_OF_TRUTH_PRICING.md` aligned with script economics, 2 launch options, and 07:00 sync.
+   - `scripts/fake_output_audit.js` passed with 0 findings across templates/, dist/, and src/.
+   - All 32 test suites in `npm test` passed cleanly with 0 failures.
+   - SHA-256 Parity preserved across all targets:
+     * mobile_cafe_app.html, index.html, cafe.html: `9b94527f170cd7999c7d04f27d4ad06c8fcd6074835d69e8ee4e281538b23868`
+     * waitlist.html: `b867efe84d1163c144c37196dd725960a035596dfb4519bae41a9894525c4ad2`
+
+3. Reviewer Subagent Feedback:
+   - Subagent identified 3 issues: (1) missing src/ audit, (2) async race in checksum fallback, (3) stale numbers in master report.
+   - All 3 issues resolved: added src/ scan to fake_output_audit.js, sanitized mock_data, and reconciled FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT.md.
+================================================================================
