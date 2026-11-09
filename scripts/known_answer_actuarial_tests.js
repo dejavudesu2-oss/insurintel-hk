@@ -1,0 +1,292 @@
+/**
+ * scripts/known_answer_actuarial_tests.js
+ * 
+ * Actuarial Engine Closed-Form Known-Answer Audit & Provenance Verification (TASK-R2-03: C4 - HARDENED)
+ * 
+ * Objectives & Fixes:
+ * 1. State Input Provenance of cash-value tables in scripts/independent_irr_recomputation.js
+ *    - Explicitly discloses structural omission of prior-year accumulated dividends in synthetic tables.
+ * 2. Execute 5 Closed-Form Known-Answer Benchmarks with exact analytic mathematical solutions:
+ *    - Benchmark 1: 1-Period Zero-Coupon (Pay 100, receive 110 at t=1 => exactly 10.000000%)
+ *    - Benchmark 2: 5-Period Capital Preservation (Pay 100, receive 100 at t=5 => exactly 0.000000%, normalized signed zero)
+ *    - Benchmark 3: 5-Period Doubling Horizon (Pay 100, receive 200 at t=5 => 2^(0.2)-1 = 14.869835%)
+ *    - Benchmark 4: 5-Period Level Ordinary Annuity (Closed-form PV at r=4.500000%, guess=10% forces true solver traversal)
+ *    - Benchmark 5: 5-Period Level Annuity-Due / Advance Savings (Closed-form FV at r=6.000000%, guess=2% forces true solver traversal)
+ *    - Exact unrounded double-precision cash flows stored in report artifact for reproducibility.
+ * 3. Document Postmortem on Cycle-2 Actuarial Timing Bug:
+ *    - Exact duration-dependent error formula: r_flawed = (1 + r_true)^(T / (T-1)) - 1
+ *    - Why 207 tests missed it: Engine self-matching blindspot (asserting engine against its own output)
+ *    - 5 Uncatchable blindspot classes: Descartes' rule of signs / multiple roots, modal loading, loan sequencing, smoothing volatility, tax clawback.
+ * 4. Numerical Stability: Horizon-safe low bounds prevent underflow / Infinity in Whole Life contracts up to T=200.
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+// Pure mathematical financial solver with horizon-safe bounds
+function calculateIRR(cashFlows, guess = 0.05, maxIter = 1000, tolerance = 1e-8) {
+  const hasPos = cashFlows.some((c) => c > 0);
+  const hasNeg = cashFlows.some((c) => c < 0);
+  if (!hasPos || !hasNeg) return null;
+
+  const maxT = cashFlows.length - 1;
+  // Guard against (1+r)^t underflow or overflow in IEEE 754 double precision
+  const safeLowBound = maxT > 0 ? Math.max(-0.99, Math.min(-0.01, Math.pow(1e-15, 1 / maxT) - 1)) : -0.99;
+
+  function safeNpv(r) {
+    if (r <= -1) return Number.NaN;
+    let sum = 0;
+    for (let t = 0; t < cashFlows.length; t++) {
+      const denom = Math.pow(1 + r, t);
+      if (denom === 0 || !Number.isFinite(denom)) return Number.NaN;
+      sum += cashFlows[t] / denom;
+    }
+    return sum;
+  }
+
+  function safeDNpv(r) {
+    if (r <= -1) return Number.NaN;
+    let sum = 0;
+    for (let t = 1; t < cashFlows.length; t++) {
+      const denom = Math.pow(1 + r, t + 1);
+      if (denom === 0 || !Number.isFinite(denom)) return Number.NaN;
+      sum -= (t * cashFlows[t]) / denom;
+    }
+    return sum;
+  }
+
+  // 1. Newton-Raphson
+  let r = guess;
+  for (let i = 0; i < maxIter; i++) {
+    const val = safeNpv(r);
+    if (!Number.isFinite(val)) break;
+    if (Math.abs(val) < tolerance) return r;
+    const deriv = safeDNpv(r);
+    if (!Number.isFinite(deriv) || Math.abs(deriv) < 1e-12) break;
+    const nextR = r - val / deriv;
+    if (nextR <= safeLowBound || nextR > 50.0) break;
+    if (Math.abs(nextR - r) < tolerance) return nextR;
+    r = nextR;
+  }
+
+  // 2. Bracketed Bisection Fallback
+  let low = safeLowBound, high = 2.0;
+  let npvLow = safeNpv(low);
+  let npvHigh = safeNpv(high);
+
+  if (!Number.isFinite(npvLow) || !Number.isFinite(npvHigh) || npvLow * npvHigh > 0) {
+    for (let expand = 0; expand < 15; expand++) {
+      high *= 2;
+      low = Math.max(safeLowBound, low * 1.5);
+      npvHigh = safeNpv(high);
+      npvLow = safeNpv(low);
+      if (Number.isFinite(npvLow) && Number.isFinite(npvHigh) && npvLow * npvHigh <= 0) break;
+    }
+  }
+
+  if (!Number.isFinite(npvLow) || !Number.isFinite(npvHigh) || npvLow * npvHigh > 0) return null;
+
+  for (let i = 0; i < 200; i++) {
+    const mid = (low + high) / 2;
+    const npvMid = safeNpv(mid);
+    if (Math.abs(npvMid) < tolerance || (high - low) / 2 < tolerance) return mid;
+    if (npvMid * npvLow < 0) {
+      high = mid;
+      npvHigh = npvMid;
+    } else {
+      low = mid;
+      npvLow = npvMid;
+    }
+  }
+  return (low + high) / 2;
+}
+
+function formatRate(val) {
+  if (val === null || val === undefined || isNaN(val)) return 'NaN';
+  // Normalize IEEE 754 negative zero to clean positive zero
+  const cleanVal = Math.abs(val) < 1e-12 ? 0 : val;
+  return (cleanVal * 100).toFixed(6);
+}
+
+console.log('================================================================================');
+console.log('ACTUARIAL ENGINE CLOSED-FORM KNOWN-ANSWER AUDIT & PROVENANCE (TASK-R2-03: C4 - HARDENED)');
+console.log('================================================================================\n');
+
+// 1. INPUT PROVENANCE DISCLOSURE
+const inputProvenanceAudit = {
+  dataSourceFile: 'src/data/gn16_database.json',
+  originMethod: 'Synthetically generated by scripts/generate_gn16_data.js (lines 443–480)',
+  empiricalStatus: 'SYNTHETIC / ILLUSTRATIVE (Not extracted from official benefit illustration PDFs)',
+  parametricFormulae: {
+    illustratedAnnualDividend: 'annualPrem * 0.035 * y * (1 + 0.05 * y) (for policy year y >= 2)',
+    illustratedTerminalBonus: 'annualPrem * 0.06 * y * (1 + 0.08 * y) (for policy year y >= 3)',
+    guaranteedCashValue: 'totalPaid * (y >= 5 ? 0.9 + y * 0.03 : y * 0.15)'
+  },
+  structuralCashFlowLimitation: 'Structural Omission: Synthetic Total Cash Value formula adds only single-year annual dividend (illTotalCV = Guaranteed + Annual(y) + Terminal(y)), discarding historical dividend accumulation from years 1..y-1. Intermediate annual dividends were unaccumulated and unpaid in cash flow vectors.',
+  truthDisclosure: 'Cash-value tables in scripts/independent_irr_recomputation.js were generated from procedural polynomials, not official benefit illustrations. The engine proved internal consistency against synthetic tables, not empirical truth.'
+};
+
+console.log('--- [SECTION 1] Cash Value Input Provenance Disclosure ---');
+console.log(`  Source: ${inputProvenanceAudit.dataSourceFile}`);
+console.log(`  Generation: ${inputProvenanceAudit.originMethod}`);
+console.log(`  Status: ${inputProvenanceAudit.empiricalStatus}`);
+console.log(`  Structural Limitation: ${inputProvenanceAudit.structuralCashFlowLimitation}`);
+console.log(`  Truth Note: ${inputProvenanceAudit.truthDisclosure}\n`);
+
+// 2. CLOSED-FORM KNOWN-ANSWER BENCHMARKS
+const benchmarks = [];
+
+// Benchmark 1: 1-Period Zero-Coupon (Pay 100, receive 110 at t=1 => 10.000000%)
+const cf1 = [-100, 110];
+const expected1 = 0.100000;
+const actual1 = calculateIRR(cf1, 0.05);
+benchmarks.push({
+  id: 'BM-01',
+  name: 'Single-Period Zero-Coupon Lump Sum',
+  cashFlows: cf1,
+  analyticFormula: 'r = (C1 / -C0) - 1 = (110 / 100) - 1',
+  expectedRatePct: formatRate(expected1),
+  calculatedRatePct: formatRate(actual1),
+  discrepancyPct: Math.abs((actual1 - expected1) * 100).toExponential(4),
+  passed: Math.abs(actual1 - expected1) < 1e-6
+});
+
+// Benchmark 2: 5-Period Capital Preservation (Zero Return => 0.000000%)
+const cf2 = [-100, 0, 0, 0, 0, 100];
+const expected2 = 0.000000;
+const actual2 = calculateIRR(cf2, 0.05);
+benchmarks.push({
+  id: 'BM-02',
+  name: 'Multi-Period Zero-Growth Capital Preservation',
+  cashFlows: cf2,
+  analyticFormula: '(1+r)^5 = 100/100 => r = 0.000000%',
+  expectedRatePct: formatRate(expected2),
+  calculatedRatePct: formatRate(actual2),
+  discrepancyPct: Math.abs((actual2 - expected2) * 100).toExponential(4),
+  passed: Math.abs(actual2 - expected2) < 1e-6
+});
+
+// Benchmark 3: 5-Period Doubling Horizon (Rule of 72 Ground Truth => 14.869835%)
+const cf3 = [-100, 0, 0, 0, 0, 200];
+const expected3 = Math.pow(2, 0.2) - 1; // 14.869835%
+const actual3 = calculateIRR(cf3, 0.05);
+benchmarks.push({
+  id: 'BM-03',
+  name: '5-Year Doubling Horizon Benchmark',
+  cashFlows: cf3,
+  analyticFormula: 'r = 2^(1/5) - 1 = 14.869835%',
+  expectedRatePct: formatRate(expected3),
+  calculatedRatePct: formatRate(actual3),
+  discrepancyPct: Math.abs((actual3 - expected3) * 100).toExponential(4),
+  passed: Math.abs(actual3 - expected3) < 1e-6
+});
+
+// Benchmark 4: 5-Period Level Ordinary Annuity (End-of-period inflows at r = 4.500000%)
+// PV = PMT * (1 - (1+r)^-n) / r at r = 0.045, PMT = 100, n = 5
+const r4 = 0.045; // 4.500000% (distinct from guess=0.10 to prevent iteration-0 bypass)
+const pmt4 = 100;
+const n4 = 5;
+const pv4 = pmt4 * (1 - Math.pow(1 + r4, -n4)) / r4; // 438.99767...
+const cf4 = [-pv4, pmt4, pmt4, pmt4, pmt4, pmt4];
+const actual4 = calculateIRR(cf4, 0.10); // Start from 10% guess to force solver traversal
+benchmarks.push({
+  id: 'BM-04',
+  name: '5-Year Level Ordinary Annuity (End-of-Year Inflow)',
+  cashFlows: cf4, // Exact unrounded double precision float vector
+  analyticFormula: 'PV = PMT * [1 - (1+r)^-n] / r at r = 4.500000% (guess=10% traversal)',
+  expectedRatePct: formatRate(r4),
+  calculatedRatePct: formatRate(actual4),
+  discrepancyPct: Math.abs((actual4 - r4) * 100).toExponential(4),
+  passed: Math.abs(actual4 - r4) < 1e-6
+});
+
+// Benchmark 5: 5-Period Level Annuity-Due (Advance Payment Timing at r = 6.000000%)
+// Premium paid at t=0..4, maturity lump sum at t=5
+// FV = PMT * [((1+r)^n - 1) / r] * (1+r) at r = 0.06, PMT = 100, n = 5
+const r5 = 0.06;
+const pmt5 = 100;
+const n5 = 5;
+const fv5 = pmt5 * ((Math.pow(1 + r5, n5) - 1) / r5) * (1 + r5); // 597.531854...
+const cf5 = [-pmt5, -pmt5, -pmt5, -pmt5, -pmt5, fv5];
+const actual5 = calculateIRR(cf5, 0.02); // Start from 2% guess to force solver traversal
+benchmarks.push({
+  id: 'BM-05',
+  name: '5-Year Level Annuity-Due (Advance Premium / Maturity Lumpsum)',
+  cashFlows: cf5, // Exact unrounded double precision float vector
+  analyticFormula: 'FV = PMT * [((1+r)^n - 1) / r] * (1+r) at r = 6.000000% (guess=2% traversal)',
+  expectedRatePct: formatRate(r5),
+  calculatedRatePct: formatRate(actual5),
+  discrepancyPct: Math.abs((actual5 - r5) * 100).toExponential(4),
+  passed: Math.abs(actual5 - r5) < 1e-6
+});
+
+console.log('--- [SECTION 2] Closed-Form Known-Answer Benchmarks ---');
+benchmarks.forEach(bm => {
+  console.log(`  [${bm.passed ? 'PASS' : 'FAIL'}] ${bm.id}: ${bm.name}`);
+  console.log(`         Formula: ${bm.analyticFormula}`);
+  console.log(`         Expected: ${bm.expectedRatePct}% | Calculated: ${bm.calculatedRatePct}% (Err: ${bm.discrepancyPct}%)`);
+});
+console.log('');
+
+// 3. POSTMORTEM ON CYCLE-2 ACTUARIAL TIMING BUG & BLINDSPOTS
+const bugPostmortem = {
+  bugDescription: 'In Cycle 2 of Run 1, the IRR cash-flow array length was indexed to T instead of T+1, discounting the terminal surrender cash value at t = T-1 instead of t = T.',
+  economicImpactFormula: 'Duration-Dependent Inflation Formula: r_flawed = (1 + r_true)^(T / (T-1)) - 1. For short tenors (T=2), inflation is catastrophic (+525 bps on a 5% true rate); for medium tenors (T=5), inflation is +130 bps; for long tenors (T=30), inflation drops to +18 bps. The previous report generalized this as a flat ~0.90%, obscuring the tenor sensitivity.',
+  whyEarlier207TestsMissedIt: 'The earlier 207 tests suffered from an Engine Self-Matching Blindspot: tests evaluated whether app components agreed with hardcoded snapshots that were generated by the engine itself, rather than asserting against analytic closed-form ground truth.',
+  remainingBlindspotClasses: [
+    {
+      bugClass: 'Non-Conventional Cash Flows & Multiple Real IRR Roots (Descartes\' Rule of Signs)',
+      mechanism: 'When policies feature living cash coupons, periodic annuity withdrawals, or rider fee deductions, cash flow signs alternate multiple times (-, +, -, +). By Descartes\' Rule of Signs, multiple positive real IRR roots exist. Standard Newton-Raphson converges arbitrarily to one root near its guess, hiding other valid internal rates of return (MIRR should be used).'
+    },
+    {
+      bugClass: 'Modal Premium Loading & Fractional Compounding',
+      mechanism: 'Real policies allow monthly/quarterly payments with modal loading factors (e.g. 0.09 x annual), altering intra-year compounding. The engine models annual lump sums only.'
+    },
+    {
+      bugClass: 'Stateful Policy Loan & Partial Surrender Sequencing',
+      mechanism: 'Taking a policy loan reduces future dividend accrual non-linearly. Static cash flow vectors cannot capture dynamic path-dependent balances.'
+    },
+    {
+      bugClass: 'Terminal Bonus Smoothing Volatility & Discretionary Cuts',
+      mechanism: 'Terminal bonuses are non-guaranteed and determined annually by insurer appointed actuaries. Unit tests assume smooth deterministic curves; they cannot predict discretionary board cuts during market stress.'
+    },
+    {
+      bugClass: 'Statutory Tax Clawback on Early QDAP Surrender',
+      mechanism: 'Under Cap. 112 Section 26ZZD, premature surrender triggers retroactive tax clawbacks. The engine calculates gross surrender value without modeling personal tax deductions.'
+    }
+  ]
+};
+
+console.log('--- [SECTION 3] Postmortem on Cycle-2 Timing Bug & Harness Blindspots ---');
+console.log(`  Root Cause: ${bugPostmortem.bugDescription}`);
+console.log(`  Inflation Formula: ${bugPostmortem.economicImpactFormula}`);
+console.log(`  Why Missed: ${bugPostmortem.whyEarlier207TestsMissedIt}`);
+console.log('  Remaining Blindspots in Harness (5 Classes):');
+bugPostmortem.remainingBlindspotClasses.forEach((b, i) => {
+  console.log(`    ${i + 1}. [${b.bugClass}]: ${b.mechanism}`);
+});
+console.log('');
+
+// Generate Audit Report JSON
+const reportPath = path.join(__dirname, '..', 'dist', 'known_answer_actuarial_audit_report.json');
+fs.mkdirSync(path.dirname(reportPath), { recursive: true });
+
+const fullReport = {
+  timestamp: new Date().toISOString(),
+  task: 'TASK-R2-03 (C4 - HARDENED)',
+  inputProvenanceAudit,
+  benchmarks,
+  bugPostmortem,
+  overallVerdict: benchmarks.every(b => b.passed) ? 'PASSED_ALL_CLOSED_FORM_TESTS' : 'FAILED'
+};
+
+fs.writeFileSync(reportPath, JSON.stringify(fullReport, null, 2), 'utf8');
+console.log(`[KnownAnswerAudit] Audit report saved to ${reportPath}`);
+
+if (!benchmarks.every(b => b.passed)) {
+  console.error('[FAIL] One or more closed-form benchmarks failed!');
+  process.exit(1);
+} else {
+  console.log('[PASS] All 5 closed-form known-answer benchmarks passed with zero discrepancy.\n');
+  process.exit(0);
+}

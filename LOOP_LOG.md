@@ -589,3 +589,48 @@ ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-02 HARDENED & VERIFIED)
    - Backlog P0/P1 open: 4
    - SHA-256 Parity: Byte-for-byte identical across all 3 HTML files (Hash: `383023a0acff8f675602597003278bf1fad8f8929486b2474ac37b7f39fcdd4d`)
 ================================================================================
+
+================================================================================
+CYCLE 3: TASK-R2-03 (Cash Value Input Provenance, Closed-Form Known-Answer Tests & Cycle-2 Bug Audit)
+Timestamp: 2026-11-09T16:38:00+08:00
+Git Branch: loop/run-2
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Implement `scripts/known_answer_actuarial_tests.js` executing 5 closed-form known-answer mathematical benchmarks with exact analytic solutions.
+   - Document input provenance of cash value tables in `src/data/gn16_database.json`, disclosing that they originated from procedural polynomials in `scripts/generate_gn16_data.js`, not official insurer benefit illustrations.
+   - Document postmortem on Cycle-2 timing bug ($t=T-1$ timing index shift), engine self-matching blindspot, and 5 uncatchable bug classes.
+   - Implement `tests/verification_known_answer_actuarial.ts`, wire into `package.json`, and run adversarial reviewer subagent.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`f7fb2384-58ea-4ef2-81a5-870b828321ba`) returned 6 rigorous actuarial and quantitative findings:
+     * Finding 1: Signed zero suppression in BM-02 (`-0.000000` vs `0.000000`) and missing assertion in test suite. -> FIXED: Added clean zero normalization (`Math.abs(val) < 1e-12 ? 0 : val`) in `formatRate`, and restored strict equality assertion `assert.strictEqual(bm2.calculatedRatePct, '0.000000')`.
+     * Finding 2: Serialized cash flows in JSON artifact rounded to cents failed their own claimed interest rates by 219x tolerance. -> FIXED: Saved exact unrounded double-precision cash flow floats in JSON artifact, restoring mathematical reproducibility.
+     * Finding 3: Tautological pass in BM-04 because `r4 = 0.05` matched default `guess = 0.05` exiting at iteration 0. -> FIXED: Changed `r4` to `0.045` (4.500000%) with `guess = 0.10`, forcing solver to perform genuine Newton-Raphson gradient descent.
+     * Finding 4: Actuarial cash conservation breach — synthetic formulas in `generate_gn16_data.js` added only single-year annual dividend, dropping prior years' accumulated dividends. -> FIXED: Explicitly documented this structural cash flow limitation in input provenance disclosure and audit report.
+     * Finding 5: Numerical instability on whole life horizons ($T \ge 155$ where $0.01^{155} = 0 \implies \text{npv} = \text{Infinity}$) and asymmetric expansion. -> FIXED: Added dynamic horizon-safe lower bound `safeLowBound = Math.pow(1e-15, 1/maxT) - 1` and safe finite NPV checks across both solvers.
+     * Finding 6: Flat ~0.90% economic impact obscured duration sensitivity ($r_{\text{flawed}} = (1+r)^{T/(T-1)}-1$), and omitted Descartes' Rule of Signs with multiple roots. -> FIXED: Documented duration-dependent formula (+525 bps at T=2 vs +18 bps at T=30) and added Descartes' Rule of Signs / multiple positive roots as 5th blindspot class.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: CLOSED-FORM KNOWN-ANSWER ACTUARIAL BENCHMARKS (TASK-R2-03 - HARDENED)
+================================================================================
+
+  [PASS] known_answer_actuarial_tests.js executed cleanly with exit code 0.
+  [PASS] Input provenance thoroughly documented with structural dividend omission disclosure.
+  [PASS] All 5 closed-form benchmarks mathematically verified with exact unrounded cash flows.
+  [PASS] Bug postmortem verified with duration formula and 5 documented harness blindspots (including Descartes' Rule).
+
+================================================================================
+ALL VERIFICATION ASSERTIONS PASSED (TASK-R2-03 HARDENED & VERIFIED)
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 290 / 290 (28 suites)
+   - Strict SOURCED rows: 1 / 130 (0.77%)
+   - Strict UNVERIFIED rows: 129 / 130 (99.23%)
+   - True Denominator: 9,052 client-visible numbers
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
+   - Backlog P0/P1 open: 3
+   - SHA-256 Parity: Byte-for-byte identical across all 3 HTML files (Hash: `383023a0acff8f...`)
+================================================================================

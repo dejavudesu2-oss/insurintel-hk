@@ -25,18 +25,27 @@ function calculateIRR(cashFlows, guess = 0.05, maxIter = 1000, tolerance = 1e-7)
   const hasNeg = cashFlows.some((c) => c < 0);
   if (!hasPos || !hasNeg) return null;
 
+  const maxT = cashFlows.length - 1;
+  const safeLowBound = maxT > 0 ? Math.max(-0.99, Math.min(-0.01, Math.pow(1e-15, 1 / maxT) - 1)) : -0.99;
+
   function npv(r) {
+    if (r <= -1) return Number.NaN;
     let sum = 0;
     for (let t = 0; t < cashFlows.length; t++) {
-      sum += cashFlows[t] / Math.pow(1 + r, t);
+      const denom = Math.pow(1 + r, t);
+      if (denom === 0 || !Number.isFinite(denom)) return Number.NaN;
+      sum += cashFlows[t] / denom;
     }
     return sum;
   }
 
   function dNpv(r) {
+    if (r <= -1) return Number.NaN;
     let sum = 0;
     for (let t = 1; t < cashFlows.length; t++) {
-      sum -= (t * cashFlows[t]) / Math.pow(1 + r, t + 1);
+      const denom = Math.pow(1 + r, t + 1);
+      if (denom === 0 || !Number.isFinite(denom)) return Number.NaN;
+      sum -= (t * cashFlows[t]) / denom;
     }
     return sum;
   }
@@ -45,35 +54,38 @@ function calculateIRR(cashFlows, guess = 0.05, maxIter = 1000, tolerance = 1e-7)
   let r = guess;
   for (let i = 0; i < maxIter; i++) {
     const val = npv(r);
+    if (!Number.isFinite(val)) break;
     if (Math.abs(val) < tolerance) return r;
     const deriv = dNpv(r);
-    if (Math.abs(deriv) < 1e-12) break;
+    if (!Number.isFinite(deriv) || Math.abs(deriv) < 1e-12) break;
     const nextR = r - val / deriv;
-    if (nextR <= -0.999 || nextR > 5.0) break; // Exceeded reasonable economic bounds
+    if (nextR <= safeLowBound || nextR > 50.0) break; // Exceeded reasonable economic bounds
     if (Math.abs(nextR - r) < tolerance) return nextR;
     r = nextR;
   }
 
   // 2. Fallback to robust bracketed bisection
-  let low = -0.99, high = 1.0;
+  let low = safeLowBound, high = 2.0;
   let npvLow = npv(low);
   let npvHigh = npv(high);
 
-  // Expand high bracket if needed
-  if (npvLow * npvHigh > 0) {
-    for (let expand = 0; expand < 10; expand++) {
+  // Expand high and low bracket symmetrically if needed
+  if (!Number.isFinite(npvLow) || !Number.isFinite(npvHigh) || npvLow * npvHigh > 0) {
+    for (let expand = 0; expand < 15; expand++) {
       high *= 2;
+      low = Math.max(safeLowBound, low * 1.5);
       npvHigh = npv(high);
-      if (npvLow * npvHigh <= 0) break;
+      npvLow = npv(low);
+      if (Number.isFinite(npvLow) && Number.isFinite(npvHigh) && npvLow * npvHigh <= 0) break;
     }
   }
 
-  if (npvLow * npvHigh > 0) {
+  if (!Number.isFinite(npvLow) || !Number.isFinite(npvHigh) || npvLow * npvHigh > 0) {
     // No sign change found in economic range
     return null;
   }
 
-  for (let i = 0; i < 150; i++) {
+  for (let i = 0; i < 200; i++) {
     const mid = (low + high) / 2;
     const npvMid = npv(mid);
     if (Math.abs(npvMid) < tolerance || (high - low) / 2 < tolerance) return mid;
