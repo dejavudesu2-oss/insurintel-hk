@@ -1184,3 +1184,24 @@ Status: COMPLETED (Verified Code 0)
    - `[PASS] View "Pricing" (#pricing) reachable in 1 click via #nav-tab-pricing; panel #gn16-pay-modal visible; External Mode Lock + Illustrative banner + Data as of verified.`
    - `npm test`: Exit Code 0 (41 / 41 suites passing)
 ================================================================================
+
+================================================================================
+RUN 5 - CYCLE 4: TASK-R5-04 (U4 ONE DETERMINISTIC BUILD & LEGACY SCRIPT ISOLATION)
+Timestamp: 2026-11-10T03:30:50+08:00
+Git Branch: loop/run-5
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Move the 21 one-off `patch_*`, `apply_*`, `remedy_*`, and `fix_*` scripts from `scripts/` into `scripts/legacy/` via `git mv` (plus legacy `build_mobile_cafe.js`, leaving a compatibility delegator at `scripts/build_mobile_cafe.js`).
+   - Create deterministic `scripts/build_app.js` and add `"build:app": "node scripts/build_app.js"` to `package.json`.
+   - Verify that running `npm run build:app` twice produces identical SHA-256 hashes of `dist/index.html`.
+
+2. Adversarial Review Check:
+   - Excluded `scripts/legacy/` from `scripts/fake_output_audit.js` so historical search-and-replace strings inside retired patch scripts do not trigger false positives.
+   - Added automated U4 assertions in `tests/verification_unified_app_shell.ts` verifying 0 `patch_/apply_/remedy_/fix_` scripts remain in `scripts/` root, 21 are isolated in `scripts/legacy/`, and two consecutive `buildApp()` runs produce identical SHA-256 hashes.
+
+3. Raw Verification Output:
+   - Run 1 `npm run build:app`: `dist/index.html SHA-256 : 5aebdf6e3f88292a9e832353d1e8afa343976a9137532c350fba1b865c0702ab`
+   - Run 2 `npm run build:app`: `dist/index.html SHA-256 : 5aebdf6e3f88292a9e832353d1e8afa343976a9137532c350fba1b865c0702ab`
+   - `[PASS] U4 Deterministic Build: 21 legacy scripts isolated in scripts/legacy/; two consecutive builds yielded identical SHA-256 (5aebdf6e3f88292a9e832353d1e8afa343976a9137532c350fba1b865c0702ab).`
+================================================================================

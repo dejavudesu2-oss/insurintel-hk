@@ -115,6 +115,38 @@ async function runTest() {
     `[PASS] Total dist/*.html bytes decreased from ${BEFORE_U3_TOTAL_HTML_BYTES} to ${afterTotalBytes} (-${BEFORE_U3_TOTAL_HTML_BYTES - afterTotalBytes} bytes).`
   );
 
+  // 2b. Assert U4: 21 patch_/apply_/remedy_/fix_ scripts moved to scripts/legacy/ and deterministic build:app
+  const scriptsDir = path.join(ROOT, 'scripts');
+  const legacyDir = path.join(scriptsDir, 'legacy');
+  const remainingPatchScripts = fs
+    .readdirSync(scriptsDir)
+    .filter((f) => /^(patch_|apply_|remedy_|fix_)/.test(f));
+  assert.strictEqual(
+    remainingPatchScripts.length,
+    0,
+    `Expected 0 patch_/apply_/remedy_/fix_ scripts in scripts/, found: ${remainingPatchScripts.join(', ')}`
+  );
+  const movedLegacyScripts = fs
+    .readdirSync(legacyDir)
+    .filter((f) => /^(patch_|apply_|remedy_|fix_)/.test(f));
+  assert.strictEqual(
+    movedLegacyScripts.length,
+    21,
+    `Expected 21 patch_/apply_/remedy_/fix_ scripts in scripts/legacy/, found ${movedLegacyScripts.length}`
+  );
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { buildApp } = require('../scripts/build_app.js');
+  const buildRun1 = buildApp();
+  const buildRun2 = buildApp();
+  assert.strictEqual(
+    buildRun1.indexHash,
+    buildRun2.indexHash,
+    'Deterministic build check failed: running buildApp() twice produced different SHA-256 hashes'
+  );
+  console.log(
+    `[PASS] U4 Deterministic Build: 21 legacy scripts isolated in scripts/legacy/; two consecutive builds yielded identical SHA-256 (${buildRun1.indexHash}).`
+  );
+
   // 3. Headless DOM test proving all 5 views are reachable in 1 click and show required banners
   const server = await startStaticServer();
   const userDataDir = path.join(ROOT, '.chrome_u3_test_profile');

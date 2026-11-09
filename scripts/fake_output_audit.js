@@ -16,7 +16,7 @@ function auditCodebase() {
   function scanDir(dir) {
     const entries = fs.readdirSync(dir);
     for (const entry of entries) {
-      if (['node_modules', '.git', '.gemini', 'screenshots'].includes(entry)) continue;
+      if (['node_modules', '.git', '.gemini', 'screenshots', 'legacy'].includes(entry)) continue;
       const full = path.join(dir, entry);
       const stat = fs.statSync(full);
       if (stat.isDirectory()) {
