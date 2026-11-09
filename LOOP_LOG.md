@@ -491,3 +491,54 @@ Active Branch: loop/run-2
 Cap: 6 Cycles
 Objective: Empirical truth audit of previous claims, data provenance rigor, true denominator enumeration, closed-form actuarial known-answer tests, pricing honesty, citation verification, and overclaim purge.
 ================================================================================
+
+================================================================================
+CYCLE 1: TASK-R2-01 (Strict SOURCED Definition, True Denominator Audit & Reconciliation)
+Timestamp: 2026-11-09T16:05:30+08:00
+Git Branch: loop/run-2
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Plain-language disclosure of what `scripts/check_metrics.js` was actually testing in Run 1 (simply testing whether CSV had the string "SOURCED" without locator or figure verification).
+   - Tighten rule: A row counts as SOURCED only if it has a URL, retrieval date, explicit section/page locator (excluding generic webpage marketing titles), and the figure was read and matches the app.
+   - Enumerate the True Denominator: All client-visible numbers in the app across products, GN16 point-in-time tables, private hospital deposits, radar scorecard, and scenario agent panels.
+   - Reconcile 42+ products vs 99 products vs 130 records; purge stale "42+" claims from UI.
+
+2. Adversarial Review Remediation:
+   - Reviewer Subagent (`e316dc28-3a4a-49fb-8edf-c75001401143`) returned 4 critical findings:
+     * Finding 1: True denominator under-counted at 502 due to silent parser bugs (GN16 and hospital schemas returned 0, product schema keys `irr30Y` vs `irr30` mismatched). -> FIXED: Corrected access to `gn16Data.products[].inceptionRecords[].dataPoints` (6,280 metrics), `HK_13_PRIVATE_HOSPITALS` deposit fields (39 metrics), and full product metrics (2,668 metrics), revealing the TRUE DENOMINATOR of 9,052 client-visible numbers!
+     * Finding 2: Hardcoded ID check (`STAT-IRD-QDAP-01`) and porous locator regex (`includes('Page')` matched `"AIA Official Product Page"`). -> FIXED: Enforced regex requiring explicit locators (`section`, `page \d+`, `dipn`, `clause`) and explicitly rejecting generic terms (`official product page`, `portal`).
+     * Finding 3: Stale claims in UI where PWA FAQ and PDM decisions still displayed "42+ 產品". -> FIXED: Updated `templates/mobile_cafe_app.html`, `dist/index.html`, and `dist/cafe.html` to "99 款全線主流產品", preserving 100% SHA-256 parity (`f9dc692de7f6...`).
+     * Finding 4: Inadequate test assertions. -> FIXED: Upgraded `tests/verification_strict_provenance.ts` with non-zero invariant checks across all screens, synthetic locator edge cases, and UI stale copy rejection. Updated `scripts/check_metrics.js` to report strict provenance metrics.
+
+3. Raw Verification Output:
+================================================================================
+AUDIT RESULTS: OLD VS STRICT PROVENANCE COVERAGE
+================================================================================
+Old SOURCED Row Count    : 130 / 130 (100.00%)
+Strict SOURCED Row Count : 1 / 130 (0.77%)
+Strict UNVERIFIED Rows   : 129 (99 products lack proposal PDFs; 13 hospitals lack circular locators; 17 GN16 lack table row locators)
+--------------------------------------------------------------------------------
+True Denominator (All Displayed Numbers)  : 9052
+  - Product metrics (99 products)         : 2668
+  - GN16 point-in-time metrics (17 prods) : 6280
+  - Private Hospital deposit figures (13) : 39
+  - Bilateral Radar Scorecard metrics     : 21
+  - Scenario Agent panels metrics         : 44
+Strictly Sourced Displayed Numbers        : 7 (IRD QDAP Statutory Caps & Tax Brackets)
+Strict SOURCED Number Coverage Ratio      : 7 / 9052 (0.08%)
+--------------------------------------------------------------------------------
+Reconciliation:
+  - 42+ Products : Legacy V1 catalog size in app_100_comments.json (Superseded & purged from UI)
+  - 99 Products  : Current V2 catalog in ALL_PRODUCTS_CATALOG (20 SAV + 20 CI + 20 VHIS + 19 QDAP + 20 UL)
+  - 130 Records  : 99 products + 17 GN16 + 13 hospitals + 1 IRD statute = 130 rows in DATA_PROVENANCE.csv
+================================================================================
+
+4. Metrics After Cycle:
+   - Tests passed: 275 / 275 (26 suites)
+   - Strict SOURCED rows: 1 / 130 (0.77%)
+   - Strict UNVERIFIED rows: 129
+   - True Denominator: 9,052 client-visible numbers
+   - Strictly Sourced Numbers: 7 / 9,052 (0.08%)
+   - Backlog P0/P1 open: 5
+================================================================================

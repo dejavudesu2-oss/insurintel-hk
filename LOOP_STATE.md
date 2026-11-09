@@ -3,31 +3,32 @@
 
 > [!IMPORTANT]
 > **State Machine Memory File (Run 2)**:
-> This file tracks Autonomous Loop Run 2: Audit and Harden (No New Features).
-> Max Cycles Cap: 6. Goal: Empirical truth audit of previous claims.
+> This file preserves system state across turn boundaries and context wipes.
+> Max Cycles Cap: 6. Current Cycle: Cycle 1 completed, entering Cycle 2.
 
 ---
 
 ### Current Execution State
 * **Loop Run**: Run 2 (Audit and Harden)
-* **Current Cycle Number**: 0 (Setup Completed, Entering Cycle 1)
-* **Current Active Task**: `TASK-R2-01` (C1 & C2: Strict SOURCED Definition, True Denominator Audit & Reconciliation)
+* **Current Cycle Number**: 1 (Cycle 1 Completed, Entering Cycle 2)
+* **Current Active Task**: `TASK-R2-02` (C3: Human Audit Kit `HUMAN_AUDIT_KIT.md` & UI "Illustrative" Warning)
 * **Active Git Branch**: `loop/run-2`
 * **Stop Conditions Triggered**: None
 
 ---
 
-### Metrics Ledger Snapshot (Entering Run 2)
-| Metric | Baseline Value (Start of Run 2) | Audit Verification Target |
+### Last Verified Metrics Ledger (Snapshot Post-Cycle 1)
+| Metric | Verified Value | Proof Source / Command |
 | :--- | :--- | :--- |
-| **Old Provenance "SOURCED" Count** | 130 / 130 (100.00% by URL format) | Re-evaluate under strict locator & network fetch rule |
-| **Strict SOURCED Verified Rows** | TBD (Pending Cycle 1 Audit) | Strict URL + locator + actual figure match verified |
-| **True Denominator (All Displayed Numbers)** | Undefined ("42+ vs 99 vs 130") | Exact count of client-visible numbers per screen |
-| **Closed-Form Actuarial Tests** | 0 Known-Answer Closed-Form Tests | Analytic closed-form benchmarks (single-period, annuity) |
-| **Unsubstantiated Overclaims Found** | TBD (Swept in Cycle 5) | Purge "production-grade", "100%", "compliant", "approved" |
-| **Open P0/P1 Tasks in Backlog** | 6 Tasks Open | 0 Open by Cycle 6 |
+| **Test Suites & Total Tests** | **26 Suites / 275 Tests Passed (0 Failed)** | Raw run of `npm test` |
+| **Strict SOURCED Rows in CSV** | **1 / 130 Records (0.77%)** | `node scripts/strict_provenance_audit.js` |
+| **Strict UNVERIFIED Rows in CSV** | **129 / 130 Records (99.23%)** | `node scripts/strict_provenance_audit.js` |
+| **True Denominator (Client-Visible Numbers)** | **9,052 Numbers Across App** | `node scripts/strict_provenance_audit.js` |
+| **Strictly Sourced Numbers Ratio** | **7 / 9,052 Numbers (0.08%)** | `node scripts/strict_provenance_audit.js` |
+| **BACKLOG P0/P1 Tasks Open** | **5 Tasks Open** | `BACKLOG.md` analysis |
+| **SHA-256 Parity Across HTML Apps** | **Identical (Hash: `f9dc692de7f6...`)** | Crypto parity check |
 
 ---
 
 ### Immediate Next Action
-Proceed to **Cycle 1**: Pick `TASK-R2-01` (C1: Define "SOURCED" & C2: True Denominator & Product Count Reconciliation). Implement `scripts/strict_provenance_audit.js` and `tests/verification_strict_provenance.ts`, run reviewer subagent, commit, and record.
+Proceed to **Cycle 2**: Pick `TASK-R2-02` (C3: Human Audit Kit `HUMAN_AUDIT_KIT.md` with seeded random sample of 15 rows + UI "Illustrative - not from an official illustration" warning for all unverified numbers). Implement `scripts/generate_human_audit_kit.js`, inject UI guard, implement `tests/verification_human_audit_kit.ts`, run reviewer subagent, and commit.
