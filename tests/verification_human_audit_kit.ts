@@ -8,6 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
 import { execSync } from 'child_process';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: HUMAN AUDIT KIT & UI ILLUSTRATIVE WATERMARK (TASK-R2-02 - HARDENED)');
@@ -22,7 +23,7 @@ console.log('  [PASS] generate_human_audit_kit.js executed with exit code 0.');
 assert.ok(scriptOutput.includes('seed 20261109'), 'Script output must report seed 20261109');
 
 // 2. Validate HUMAN_AUDIT_KIT.md structure & content
-const kitPath = path.join(process.cwd(), 'HUMAN_AUDIT_KIT.md');
+const kitPath = PATHS.HUMAN_AUDIT_KIT;
 assert.ok(fs.existsSync(kitPath), 'HUMAN_AUDIT_KIT.md must exist');
 
 const kitContent = fs.readFileSync(kitPath, 'utf8');

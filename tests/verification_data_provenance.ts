@@ -15,12 +15,13 @@
 import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: DATA PROVENANCE & STATUTORY SOURCE AUDIT (RFC 4180 AUDITED)');
 console.log('================================================================================\n');
 
-const provPath = path.join(process.cwd(), 'DATA_PROVENANCE.csv');
+const provPath = PATHS.DATA_PROVENANCE;
 assert.ok(fs.existsSync(provPath), 'DATA_PROVENANCE.csv must exist in repo root');
 
 const raw = fs.readFileSync(provPath, 'utf8');

@@ -43,13 +43,13 @@
 以下事項因涉及保司登入牆、線下人際網絡與持牌法律諮詢，代碼沙箱無法代勞：
 
 1. **5 份官方利益說明書 (Benefit Illustrations)**：
-   - 登入 AIA、Prudential、Manulife、Sun Life、FWD 內部建議書系統，獲取 5 份真實簽發之建議書 PDF，將現金價值填入 CSV。清單詳見 [`NEEDS_FROM_OWNER.md`](file:///C:/Users/rain2/Downloads/agent_test/NEEDS_FROM_OWNER.md)。
+   - 登入 AIA、Prudential、Manulife、Sun Life、FWD 內部建議書系統，獲取 5 份真實簽發之建議書 PDF，將現金價值填入 CSV。清單詳見 [`docs/loop/NEEDS_FROM_OWNER.md`](./docs/loop/NEEDS_FROM_OWNER.md)。
 2. **公開分紅實現率數據核對**：
    - 訪問各保司公開專頁，核對 5 大旗艦產品歷史比率並填入 `INTAKE/fulfilment/*.csv`。
 3. **10 位前線顧問的 Mom Test 深度訪談**：
-   - 詢問過去真實比對行為，記錄於 [`INTERVIEW_LOG.csv`](file:///C:/Users/rain2/Downloads/agent_test/INTERVIEW_LOG.csv)。門檻：至少 3 人願付費預購，或 1 位 DD 願啟動 14 天團隊試點。
+   - 詢問過去真實比對行為，記錄於 [`docs/owner/INTERVIEW_LOG.csv`](./docs/owner/INTERVIEW_LOG.csv)。門檻：至少 3 人願付費預購，或 1 位 DD 願啟動 14 天團隊試點。
 4. **香港執業合規律師法律意見確認**：
-   - 攜帶已編制之 [`LEGAL_BRIEF_HK_COMPLIANCE.md`](file:///C:/Users/rain2/Downloads/agent_test/LEGAL_BRIEF_HK_COMPLIANCE.md) 向事務律師確認 Cap. 41 s. 64G、Cap. 362、Cap. 486 與 GL28/GL29/GL30。
+   - 攜帶已編制之 [`docs/legal/LEGAL_BRIEF_HK_COMPLIANCE.md`](./docs/legal/LEGAL_BRIEF_HK_COMPLIANCE.md) 向事務律師確認 Cap. 41 s. 64G、Cap. 362、Cap. 486 與 GL28/GL29/GL30。
 
 ---
 

@@ -6,13 +6,14 @@
 const fs = require('fs');
 const path = require('path');
 const assert = require('assert');
+const { PATHS } = require('./paths.js');
 
 console.log('================================================================================');
 console.log('VERIFYING LEGAL CITATIONS, GUIDELINES (GL16/25/27/28/29/30) & RATE CAPS');
 console.log('================================================================================\n');
 
 // 1. Audit LEGAL_BRIEF_CITATION_AUDIT.md
-const auditPath = path.join(__dirname, '..', 'LEGAL_BRIEF_CITATION_AUDIT.md');
+const auditPath = PATHS.LEGAL_BRIEF_CITATION_AUDIT;
 assert.ok(fs.existsSync(auditPath), 'LEGAL_BRIEF_CITATION_AUDIT.md must exist');
 const auditText = fs.readFileSync(auditPath, 'utf8');
 
@@ -82,7 +83,7 @@ assert.ok(auditText.includes('[UNVERIFIED - 超出2025年7月1日保監局上限
 console.log('  [PASS] 1 July 2025 Illustration Rate Caps sub-table verified with 15 flagged products.');
 
 // 2. Audit LEGAL_BRIEF_HK_COMPLIANCE.md
-const briefPath = path.join(__dirname, '..', 'LEGAL_BRIEF_HK_COMPLIANCE.md');
+const briefPath = PATHS.LEGAL_BRIEF_HK_COMPLIANCE;
 assert.ok(fs.existsSync(briefPath), 'LEGAL_BRIEF_HK_COMPLIANCE.md must exist');
 const briefText = fs.readFileSync(briefPath, 'utf8');
 
@@ -114,7 +115,7 @@ const slidesHtml = fs.readFileSync(path.join(__dirname, '..', 'templates', 'morn
 assert.ok(slidesHtml.includes('GL16（前稱 GN16）'), 'Morning slides must cite GL16 with GN16 as historical note');
 
 // 5. Audit Typo in FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT.md
-const masterReportPath = path.join(__dirname, '..', 'FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT.md');
+const masterReportPath = PATHS.FULL_AUDIT_AND_COMMERCIAL_MASTER_REPORT;
 if (fs.existsSync(masterReportPath)) {
   const masterText = fs.readFileSync(masterReportPath, 'utf8');
   assert.ok(!masterText.includes('免責條款網制條例'), 'Master report must NOT contain typo 免責條款網制條例');

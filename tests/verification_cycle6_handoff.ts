@@ -17,13 +17,14 @@ import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: SKEPTIC COUNCIL, SCREENSHOT REVIEW & FINAL HANDOFF (TASK-R2-06 / C9 & C10)');
 console.log('================================================================================\n');
 
 // 1. Verify SCREENSHOT_REVIEW.md
-const shotReviewPath = path.join(process.cwd(), 'SCREENSHOT_REVIEW.md');
+const shotReviewPath = PATHS.SCREENSHOT_REVIEW;
 assert.ok(fs.existsSync(shotReviewPath), 'SCREENSHOT_REVIEW.md must exist in workspace root');
 const shotText = fs.readFileSync(shotReviewPath, 'utf8');
 
@@ -45,7 +46,7 @@ assert.ok(shotText.includes('視覺瑕疵') || shotText.includes('排版'), 'Mus
 console.log('  [PASS] SCREENSHOT_REVIEW.md verified: all 6 assets audited for label honesty, layout alignment, and visual flaws.');
 
 // 2. Verify SKEPTIC_COUNCIL_REVIEW.md
-const councilPath = path.join(process.cwd(), 'SKEPTIC_COUNCIL_REVIEW.md');
+const councilPath = PATHS.SKEPTIC_COUNCIL_REVIEW;
 assert.ok(fs.existsSync(councilPath), 'SKEPTIC_COUNCIL_REVIEW.md must exist in workspace root');
 const councilText = fs.readFileSync(councilPath, 'utf8');
 
@@ -65,7 +66,7 @@ assert.ok(councilText.includes('Cheap Fixes Applied') || councilText.includes('�
 console.log('  [PASS] SKEPTIC_COUNCIL_REVIEW.md verified: 15 adversarial catches across DD, Actuary, and Legal counsel.');
 
 // 3. Verify HANDOFF.md (< 1 page, brutal honesty, 3 decisions)
-const handoffPath = path.join(process.cwd(), 'HANDOFF.md');
+const handoffPath = PATHS.HANDOFF;
 assert.ok(fs.existsSync(handoffPath), 'HANDOFF.md must exist in workspace root');
 const handoffText = fs.readFileSync(handoffPath, 'utf8');
 

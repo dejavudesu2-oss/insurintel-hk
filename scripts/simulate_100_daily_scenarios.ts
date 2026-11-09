@@ -43,8 +43,9 @@ simResult.commercialTierSummaries.forEach((t) => {
 });
 
 // Generate and write markdown report
+const { PATHS } = require('./paths.js');
 const reportContent = engine.generateMarkdownReport();
-const reportPath = path.join(process.cwd(), 'docs', 'SIMULATION_100_DAILY_SCENARIOS_REPORT.md');
+const reportPath = PATHS.SIMULATION_100_DAILY_SCENARIOS_REPORT;
 
 fs.writeFileSync(reportPath, reportContent, 'utf8');
 console.log(`\n✅ Generated publication-grade simulation report: ${reportPath} (Size: ${(fs.statSync(reportPath).size / 1024).toFixed(1)} KB)`);

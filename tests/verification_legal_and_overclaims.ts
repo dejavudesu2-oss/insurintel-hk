@@ -20,13 +20,14 @@ import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: STATUTORY CITATION AUDIT & OVERCLAIM SWEEP (TASK-R2-05 / C7 & C8)');
 console.log('================================================================================\n');
 
 // 1. Verify LEGAL_BRIEF_CITATION_AUDIT.md
-const auditPath = path.join(process.cwd(), 'LEGAL_BRIEF_CITATION_AUDIT.md');
+const auditPath = PATHS.LEGAL_BRIEF_CITATION_AUDIT;
 assert.ok(fs.existsSync(auditPath), 'LEGAL_BRIEF_CITATION_AUDIT.md must exist in workspace root');
 const auditText = fs.readFileSync(auditPath, 'utf8');
 
@@ -73,7 +74,7 @@ assert.ok(auditText.includes('Dormant') || auditText.includes('尚未生效'), '
 console.log('  [PASS] LEGAL_BRIEF_CITATION_AUDIT.md verified: 16 statutory citations (including Cap. 362), official URLs, retrieval dates, and change rationales.');
 
 // 2. Verify LEGAL_BRIEF_HK_COMPLIANCE.md Header
-const briefPath = path.join(process.cwd(), 'LEGAL_BRIEF_HK_COMPLIANCE.md');
+const briefPath = PATHS.LEGAL_BRIEF_HK_COMPLIANCE;
 assert.ok(fs.existsSync(briefPath), 'LEGAL_BRIEF_HK_COMPLIANCE.md must exist in workspace root');
 const briefText = fs.readFileSync(briefPath, 'utf8');
 

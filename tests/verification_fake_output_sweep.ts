@@ -9,6 +9,7 @@ import path from 'path';
 import crypto from 'crypto';
 import { computeEconomics } from '../scripts/compute_break_even.js';
 import { auditCodebase } from '../scripts/fake_output_audit.js';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: ARITHMETIC REPAIR & FAKE-OUTPUT SWEEP (TASK-R3-01)');
@@ -26,7 +27,7 @@ console.log('  [PASS] Script-computed break-even figures verified: Model A = 12,
 
 // 2. SSOT Pricing Document Alignment
 console.log('\n2. Verifying SINGLE_SOURCE_OF_TRUTH_PRICING.md alignment:');
-const ssotPath = path.join(process.cwd(), 'SINGLE_SOURCE_OF_TRUTH_PRICING.md');
+const ssotPath = PATHS.SINGLE_SOURCE_OF_TRUTH_PRICING;
 const ssot = fs.readFileSync(ssotPath, 'utf8');
 assert.ok(ssot.includes('12 位付費顧問'), 'SSOT must state 12 individuals for Model A');
 assert.ok(ssot.includes('17 個營銷團隊'), 'SSOT must state 17 teams for Model B');

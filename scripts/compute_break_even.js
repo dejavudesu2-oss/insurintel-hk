@@ -8,8 +8,9 @@
 
 const fs = require('fs');
 const path = require('path');
+const { PATHS } = require('./paths.js');
 
-const costModelPath = path.join(__dirname, '..', 'cost_model.json');
+const costModelPath = PATHS.COST_MODEL;
 if (!fs.existsSync(costModelPath)) {
   throw new Error(`cost_model.json not found at ${costModelPath}`);
 }

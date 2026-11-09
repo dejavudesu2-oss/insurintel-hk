@@ -1108,3 +1108,25 @@ SUMMARY: ALL PUBLIC FULFILMENT RATIO ASSERTIONS PASSED (100% GREEN)
    - Cost Model SSOT: cost_model.json v4.0.0 with churn analysis (12 base / 206 full Model A; 1 base / 17 full Model B)
    - HANDOFF.md: 4,271 characters (strictly <= 5,000 characters)
 ================================================================================
+
+
+================================================================================
+RUN 5 - CYCLE 1: TASK-R5-01 (U1 REPO MAP & CENTRALIZED DOC PATHS)
+Timestamp: 2026-11-10T03:00:00+08:00
+Git Branch: loop/run-5
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Move 31 documentation and state files via `git mv` into `docs/owner`, `docs/business`, `docs/legal`, `docs/sales`, `docs/audit`, `docs/loop`, and `docs/archive/superseded`.
+   - Keep only `README.md`, `HANDOFF.md`, and config/package/data files at root (<= 15 files).
+   - Route all doc paths used by tests and scripts through `scripts/paths.js` (with `scripts/paths.d.ts`).
+
+2. Adversarial Review Check:
+   - Root file count verified: 13 files at root (<= 15 cap).
+   - Updated relative links in `HANDOFF.md` to point to new `docs/` locations so zero broken links exist.
+   - Verified `npm test` passes all 39 test suites (0 failures).
+
+3. Raw Verification Output:
+   - Root file count: 13 (.env.example, .gitignore, cost_model.json, DATA_PROVENANCE.csv, diff_mobile.txt, docker-compose.yml, Dockerfile, HANDOFF.md, package-lock.json, package.json, README.md, requirements.txt, tsconfig.json)
+   - `npm test`: Exit Code 0 (39 / 39 suites passing)
+================================================================================

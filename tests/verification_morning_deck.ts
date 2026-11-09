@@ -108,7 +108,8 @@ assert.ok(swContent.includes('caches.open'), 'dist/sw.js must implement Cache AP
 console.log('  [PASS] ServiceWorker verified at dist/sw.js with genuine offline caching.');
 
 // 4. Audit Morning Assembly Pack & Run-Sheet Markdown
-const packPath = path.join(process.cwd(), 'MORNING_ASSEMBLY_PACK_AND_RUNSHEET.md');
+const { PATHS } = require('../scripts/paths.js');
+const packPath = PATHS.MORNING_ASSEMBLY_PACK_AND_RUNSHEET;
 assert.ok(fs.existsSync(packPath), 'MORNING_ASSEMBLY_PACK_AND_RUNSHEET.md must exist in root');
 const packContent = fs.readFileSync(packPath, 'utf8');
 

@@ -24,12 +24,13 @@
 import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: CUSTOMER RESEARCH INTERVIEW SCRIPT & VALIDATION PLAN (TASK-08 - HARDENED)');
 console.log('================================================================================\n');
 
-const planPath = path.join(process.cwd(), 'VALIDATION_PLAN_AND_INTERVIEW_SCRIPT.md');
+const planPath = PATHS.VALIDATION_PLAN_AND_INTERVIEW_SCRIPT;
 assert.ok(fs.existsSync(planPath), 'VALIDATION_PLAN_AND_INTERVIEW_SCRIPT.md must exist in repository root');
 
 const content = fs.readFileSync(planPath, 'utf8');

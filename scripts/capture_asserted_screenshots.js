@@ -8,11 +8,12 @@ const os = require('os');
 const http = require('http');
 const { spawn } = require('child_process');
 
-const REPO_ROOT = path.resolve(__dirname, '..');
+const { PATHS } = require('./paths.js');
+const REPO_ROOT = PATHS.REPO_ROOT;
 const DIST_DIR = path.join(REPO_ROOT, 'dist');
 const SCREENSHOTS_DIR = path.join(DIST_DIR, 'screenshots');
 const ARTIFACTS_SCREENSHOTS_DIR = process.env.ARTIFACTS_DIR || '';
-const ASSERTIONS_LOG_PATH = path.join(REPO_ROOT, 'SCREENSHOT_ASSERTIONS.txt');
+const ASSERTIONS_LOG_PATH = PATHS.SCREENSHOT_ASSERTIONS;
 const TEMP_USER_DATA = path.join(os.tmpdir(), 'chrome_cdp_profile');
 
 if (!fs.existsSync(SCREENSHOTS_DIR)) fs.mkdirSync(SCREENSHOTS_DIR, { recursive: true });

@@ -18,6 +18,7 @@ import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: REAL DATA INTAKE KIT, INTERVIEW LOG & TERMINAL HANDOFF (TASK-R3-04)');
@@ -42,7 +43,7 @@ assert.ok(templateLines.length >= 2, 'TEMPLATE_benefit_illustration.csv must hav
 console.log('  [PASS] INTAKE/TEMPLATE_benefit_illustration.csv verified: exact 7 columns with sample illustration data.');
 
 // 2. Verify INTERVIEW_LOG.csv
-const interviewLogPath = path.join(process.cwd(), 'INTERVIEW_LOG.csv');
+const interviewLogPath = PATHS.INTERVIEW_LOG;
 assert.ok(fs.existsSync(interviewLogPath), 'INTERVIEW_LOG.csv must exist in workspace root');
 const interviewLogContent = fs.readFileSync(interviewLogPath, 'utf8').trim();
 const interviewLogLines = interviewLogContent.split('\n').map(l => l.trim()).filter(Boolean);
@@ -84,7 +85,7 @@ assert.ok(testOutput.includes('BENEFIT ILLUSTRATION INTAKE PIPELINE TEST PASSED 
 console.log('  [PASS] INTAKE/import_benefit_illustration.js pipeline verified end-to-end with automated golden test creation.');
 
 // 5. Verify HANDOFF.md structure and character limit
-const handoffPath = path.join(process.cwd(), 'HANDOFF.md');
+const handoffPath = PATHS.HANDOFF;
 assert.ok(fs.existsSync(handoffPath), 'HANDOFF.md must exist in root');
 const handoffContent = fs.readFileSync(handoffPath, 'utf8');
 assert.ok(handoffContent.length <= 5000, `HANDOFF.md must be strictly <= 5,000 characters (got ${handoffContent.length})`);

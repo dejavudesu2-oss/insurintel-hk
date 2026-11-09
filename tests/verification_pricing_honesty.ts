@@ -21,13 +21,14 @@ import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: PRICING SSOT & LANDING PAGE HONESTY (TASK-R2-04 / C5 & C6)');
 console.log('================================================================================\n');
 
 // 1. Verify SINGLE_SOURCE_OF_TRUTH_PRICING.md
-const pricingSsotPath = path.join(process.cwd(), 'SINGLE_SOURCE_OF_TRUTH_PRICING.md');
+const pricingSsotPath = PATHS.SINGLE_SOURCE_OF_TRUTH_PRICING;
 assert.ok(fs.existsSync(pricingSsotPath), 'SINGLE_SOURCE_OF_TRUTH_PRICING.md must exist in workspace root');
 const pricingContent = fs.readFileSync(pricingSsotPath, 'utf8');
 

@@ -26,10 +26,11 @@ function createSeededRandom(seed) {
 
 const rng = createSeededRandom(SEED);
 
-const repoRoot = path.join(__dirname, '..');
-const provCsvPath = path.join(repoRoot, 'DATA_PROVENANCE.csv');
+const { PATHS } = require('./paths.js');
+const repoRoot = PATHS.REPO_ROOT;
+const provCsvPath = PATHS.DATA_PROVENANCE;
 const appHtmlPath = path.join(repoRoot, 'templates', 'mobile_cafe_app.html');
-const outMarkdownPath = path.join(repoRoot, 'HUMAN_AUDIT_KIT.md');
+const outMarkdownPath = PATHS.HUMAN_AUDIT_KIT;
 
 // Load product catalog from mobile_cafe_app.html
 let catalog = [];

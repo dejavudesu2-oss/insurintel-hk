@@ -189,7 +189,8 @@ async function main() {
 
     if (isReport) {
       const reportMd = engine.generateMarkdownReport();
-      const reportPath = path.join(process.cwd(), "docs", "SIMULATION_100_DAILY_SCENARIOS_REPORT.md");
+      const { PATHS } = await import("../scripts/paths.js");
+      const reportPath = PATHS.SIMULATION_100_DAILY_SCENARIOS_REPORT;
       fs.writeFileSync(reportPath, reportMd, "utf8");
       console.log(`[Simulation] 報告已成功生成至: ${reportPath} (${(fs.statSync(reportPath).size / 1024).toFixed(1)} KB)`);
       return;

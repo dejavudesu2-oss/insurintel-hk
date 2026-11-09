@@ -364,7 +364,8 @@ console.log('\\n  [SUCCESS] All Golden Assertions for ${insurer} - ${product} pa
   fs.writeFileSync(goldenTestPath, goldenTestCode, 'utf8');
 
   // 8. Update DATA_PROVENANCE.csv
-  const provenancePath = path.join(process.cwd(), 'DATA_PROVENANCE.csv');
+  const { PATHS } = require('../scripts/paths.js');
+  const provenancePath = PATHS.DATA_PROVENANCE;
   const recordId = `BI-${status === 'SOURCED-STRICT' ? 'STRICT' : 'TRANSCRIBED'}-${crypto.createHash('md5').update(insurer + product + csvPath).digest('hex').slice(0, 8).toUpperCase()}`;
   let dataMetrics = `Guaranteed BE: Yr ${guarBreakevenYear || 'N/A'}, Projected BE: Yr ${projBreakevenYear || 'N/A'}, 30Y Proj IRR: ${projIrr30 !== null ? projIrr30 + '%' : 'N/A'}${rateCapWatermark}`;
   const sourceDocType = 'Official Insurer Benefit Illustration (BI)';

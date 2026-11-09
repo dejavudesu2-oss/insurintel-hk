@@ -6,13 +6,14 @@
 import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: RUN 3 CLOSEOUT AUDIT & HONESTY DISCLOSURE (TASK-R4-01 / P1)');
 console.log('================================================================================\n');
 
 // 1. Verify RUN3_CLOSEOUT.md exists
-const closeoutPath = path.join(process.cwd(), 'RUN3_CLOSEOUT.md');
+const closeoutPath = PATHS.RUN3_CLOSEOUT;
 assert.ok(fs.existsSync(closeoutPath), 'RUN3_CLOSEOUT.md must exist in root directory');
 const content = fs.readFileSync(closeoutPath, 'utf8');
 

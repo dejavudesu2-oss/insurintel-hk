@@ -280,7 +280,8 @@ test('ScenarioAgentHub exposes simulation100 instance with identical data', () =
 console.log('\n--- [TEST SUITE] 6. Markdown Report Artifact Verification ---');
 
 test('docs/SIMULATION_100_DAILY_SCENARIOS_REPORT.md exists, is complete and publication-grade', () => {
-  const reportPath = path.join(process.cwd(), 'docs', 'SIMULATION_100_DAILY_SCENARIOS_REPORT.md');
+  const { PATHS } = require('../scripts/paths.js');
+  const reportPath = PATHS.SIMULATION_100_DAILY_SCENARIOS_REPORT;
   assert.ok(fs.existsSync(reportPath), 'SIMULATION_100_DAILY_SCENARIOS_REPORT.md must exist');
   const reportContent = fs.readFileSync(reportPath, 'utf8');
 

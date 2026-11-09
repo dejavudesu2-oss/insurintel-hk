@@ -106,7 +106,8 @@ fs.unlinkSync(fictionalMismatchCsv);
 if (fs.existsSync(res1.goldenTestPath)) fs.unlinkSync(res1.goldenTestPath);
 
 // Clean up DATA_PROVENANCE.csv test rows
-const provPath = path.join(process.cwd(), 'DATA_PROVENANCE.csv');
+const { PATHS } = require('../scripts/paths.js');
+const provPath = PATHS.DATA_PROVENANCE;
 const provLines = fs.readFileSync(provPath, 'utf8').split('\n').filter(l => !l.includes('Demo Alpha'));
 fs.writeFileSync(provPath, provLines.join('\n'), 'utf8');
 

@@ -104,9 +104,10 @@ fs.unlinkSync(fictionalPass2Path);
 fs.unlinkSync(resultStrict.goldenTestPath);
 
 // Remove temporary row from DATA_PROVENANCE.csv
-const provContent = fs.readFileSync('DATA_PROVENANCE.csv', 'utf8');
+const { PATHS } = require('../scripts/paths.js');
+const provContent = fs.readFileSync(PATHS.DATA_PROVENANCE, 'utf8');
 const cleanedProv = provContent.split('\n').filter(l => !l.includes(resultStrict.recordId) && !l.includes(resultTranscribed.recordId)).join('\n');
-fs.writeFileSync('DATA_PROVENANCE.csv', cleanedProv, 'utf8');
+fs.writeFileSync(PATHS.DATA_PROVENANCE, cleanedProv, 'utf8');
 console.log('  [PASS] Temporary intake test fixtures cleaned up.');
 
 console.log('\n================================================================================');

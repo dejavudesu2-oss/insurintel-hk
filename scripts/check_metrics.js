@@ -44,7 +44,8 @@ function getMetrics() {
   }
 
   // 2. Backlog Metrics
-  const backlogPath = path.join(repoRoot, 'BACKLOG.md');
+  const { PATHS } = require('./paths.js');
+  const backlogPath = PATHS.BACKLOG;
   let openP0P1Count = 0;
   let totalTasks = 0;
   let doneTasks = 0;

@@ -16,9 +16,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const { PATHS } = require('./paths.js');
 
-const repoRoot = path.join(__dirname, '..');
-const provCsvPath = path.join(repoRoot, 'DATA_PROVENANCE.csv');
+const repoRoot = PATHS.REPO_ROOT;
+const provCsvPath = PATHS.DATA_PROVENANCE;
 const appHtmlPath = path.join(repoRoot, 'dist', 'index.html');
 const outJsonPath = path.join(repoRoot, 'dist', 'strict_provenance_audit_report.json');
 

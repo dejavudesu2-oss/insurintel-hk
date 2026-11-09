@@ -6,13 +6,14 @@
 import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: SINGLE COST MODEL & CHURN SENSITIVITY (TASK-R4-01 / P4)');
 console.log('================================================================================\n');
 
 // 1. Verify cost_model.json exists and has version and changelog
-const costModelPath = path.join(process.cwd(), 'cost_model.json');
+const costModelPath = PATHS.COST_MODEL;
 assert.ok(fs.existsSync(costModelPath), 'cost_model.json must exist in root directory');
 
 const costModel = JSON.parse(fs.readFileSync(costModelPath, 'utf8'));

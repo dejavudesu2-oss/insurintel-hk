@@ -27,12 +27,13 @@
 import { strict as assert } from 'assert';
 import fs from 'fs';
 import path from 'path';
+import { PATHS } from '../scripts/paths.js';
 
 console.log('================================================================================');
 console.log('TEST SUITE: LEGAL INSTRUCTIONS BRIEF FOR HK COMPLIANCE COUNSEL (TASK-09 - HARDENED)');
 console.log('================================================================================\n');
 
-const briefPath = path.join(process.cwd(), 'LEGAL_BRIEF_HK_COMPLIANCE.md');
+const briefPath = PATHS.LEGAL_BRIEF_HK_COMPLIANCE;
 assert.ok(fs.existsSync(briefPath), 'LEGAL_BRIEF_HK_COMPLIANCE.md must exist in repository root');
 
 const content = fs.readFileSync(briefPath, 'utf8');
