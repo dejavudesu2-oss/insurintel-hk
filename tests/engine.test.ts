@@ -682,6 +682,8 @@ test("19. Feature F12: Dead-Letter Queue Retry Worker with Exponential Backoff",
 
   // Cleanup
   if (fs.existsSync(testDlqPath)) fs.unlinkSync(testDlqPath);
+  const tmpDir = path.dirname(testDlqPath);
+  if (fs.existsSync(tmpDir) && fs.readdirSync(tmpDir).length === 0) fs.rmdirSync(tmpDir);
 });
 
 test("20. Feature F13: Default Root Landing Page & Dual-App Navigation", async () => {

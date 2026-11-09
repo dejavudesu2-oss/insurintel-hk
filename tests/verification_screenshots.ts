@@ -26,7 +26,8 @@ const shots = [
   '03_gn16_chart.png',
   '04_scanner_pii_scrub.png',
   '05_offline_mode.png',
-  '06_pricing_modal.png'
+  '06_pricing_modal.png',
+  '07_briefing_view.png'
 ];
 
 const distDir = path.join(process.cwd(), 'dist', 'screenshots');
@@ -72,7 +73,7 @@ shots.forEach((fileName, idx) => {
     }
   }
 
-  console.log(`  [PASS] Screenshot [${idx + 1}/6] ${fileName}: ${stat.size} bytes | Resolution: ${width}x${height} | Hash: ${distHash.substring(0, 10)}... | PNG Valid`);
+  console.log(`  [PASS] Screenshot [${idx + 1}/${shots.length}] ${fileName}: ${stat.size} bytes | Resolution: ${width}x${height} | Hash: ${distHash.substring(0, 10)}... | PNG Valid`);
 });
 
 assert.strictEqual(hashes.size, shots.length, `Expected ${shots.length} unique screenshots, but found ${hashes.size}`);

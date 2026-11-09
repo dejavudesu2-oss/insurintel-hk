@@ -1,8 +1,8 @@
 # InsurIntel HK: 終審交付與真實性終端報告 (HANDOFF)
 
 > [!IMPORTANT]
-> **交接聲明 (Charter of Honesty - Run 4 終審)**：
-> 本文檔為 Autonomous Loop Run 4 最終交付手冊。全文恪守「證實或標籤 (Prove it or Label it)」原則，徹底清除一切未經驗證之宣稱。未經官方文件核對之數值均標註為 `[ASSUMPTION]` 或 `[SYNTHETIC]`。
+> **交接聲明 (Charter of Honesty - Run 5 終審)**：
+> 本文檔為 Autonomous Loop Run 5 最終交付手冊。全文恪守「證實或標籤 (Prove it or Label it)」原則，徹底清除一切未經驗證之宣稱。未經官方文件核對之數值均標註為 `[ASSUMPTION]` 或 `[SYNTHETIC]`。
 
 ---
 
@@ -10,13 +10,13 @@
 
 系統所有關鍵指標均由代碼與自動化測試套件驗證，無任何手動修飾數值：
 
-1. **自動化測試套件全數綠燈 (39 Suites Passing / 0 Failures)**：
-   - 包含精算現金流已知答案檢驗、法規條文與最新監管指引校驗、外部模式鎖定防護、利益說明書攝取門檻校驗、單一成本模型與流失率敏感度分析、公開分紅實現率審計等。
-   - **複現指令**：`npm test`。
-2. **HTML 分發端 100% Byte-for-Byte SHA-256 Parity**：
-   - 三大客戶端分發入口（`templates/mobile_cafe_app.html`、`dist/index.html`、`dist/cafe.html`）完全一致。
-   - **當前真實哈希值**：`5b5d6be2b52de3effebc39a36668fb279821b1022efc0bcb604ce2df65c8bd56`。
-   - **複現指令**：`node -e "['templates/mobile_cafe_app.html','dist/index.html','dist/cafe.html'].forEach(f=>console.log(f,require('crypto').createHash('sha256').update(require('fs').readFileSync(f)).digest('hex')))"`。
+1. **自動化測試套件全數綠燈 (41 Suites Passing / 0 Failures)**：
+   - 覆蓋統一 5 視圖單頁殼層 DOM 測試、歷史報告歸檔與禁忌宣稱掃描、精算已知答案檢驗、法規條文校驗、外部模式鎖定、利益說明書攝取門檻、單一成本模型與公開分紅實現率審計。
+   - **複現指令**：`npm run build:app` 及 `npm test`。
+2. **單一統一前端殼層與 100% Byte-for-Byte SHA-256 Parity**：
+   - 統一導航列整合 5 大視圖（`#battlecard` 見客攻防、`#gl16` 實現率、`#briefing` 晨會簡報、`#scanner` 掃描器、`#pricing` 方案與等候名單）；`dist/gn16_tracker.html` 已縮減為 2,163 bytes 重定向樁，`templates/mobile_cafe_app.html`、`dist/index.html`、`dist/cafe.html` 完全一致。
+   - **當前真實哈希值**：`7a9ef051c474449c3774322a9acfeebe709d7218c5a3ad3450f509b4b2d7680d`。
+   - **複現指令**：`npm run build:app`。
 3. **客戶可見數值真實分母與嚴格出處率**：
    - 客戶可見數值總分母：**9,052 項**（產品參數 2,668、GN16/GL16 資料點 6,280、私家醫院按金 39、雙邊雷達評分 21、情景面板參數 44）。
    - **嚴格 SOURCED-STRICT 數值**：**7 項 (0.08%)**（稅務局 Cap. 112 第 26D 條 QDAP 扣稅上限 HK$60,000 及 5 級累進稅率 `[SOURCED-STRICT]`），其餘 9,045 項均為合成示範數據 `[SYNTHETIC]`。

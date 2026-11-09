@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+      - 'release/*'
+      - 'loop/*'
   pull_request:
     branches:
       - main
@@ -24,7 +26,7 @@ concurrency:
 jobs:
   daily-intelligence:
     environment:
-      name: ${{ github.event_name != 'pull_request' && 'github-pages' || '' }}
+      name: ${{ (github.event_name != 'pull_request' && github.ref == 'refs/heads/main') && 'github-pages' || '' }}
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
 
@@ -48,41 +50,42 @@ jobs:
           npm install
           pip install -r requirements.txt
 
-      - name: 4.5 Run Automated Test Suite
+      - name: 4.5 Run Deterministic App Build & Automated Test Suite
         run: |
+          npm run build:app
           npm test
 
       - name: 5. Execute Daily Market Search & Generate Web Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
           npm run start:search
 
       - name: 5.5 Stage Public Web Assets for GitHub Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         env:
           PAGES_PUBLISH_MODE: allowlist
         run: |
           node scripts/stage_pages_site.js
 
       - name: 6. Setup GitHub Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/configure-pages@v5
 
       - name: 7. Upload GitHub Pages Artifact
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         uses: actions/upload-pages-artifact@v3
         with:
           path: '_site'
 
       - name: 8. Deploy to GitHub Pages
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         id: deployment
         uses: actions/deploy-pages@v4
 
       - name: 9. Commit Intelligence Snapshots Back to Repo
-        if: github.event_name != 'pull_request'
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
           git config --local user.email "action@github.com"

@@ -1,24 +1,25 @@
 # InsurIntel HK: 截圖審計與視覺瑕疵評審報告 (Screenshot Review)
-## 針對 dist/screenshots/ 全部 6 張高解析度截圖之逐項視覺審查 (Run 3 Cycle 3 最終認證版)
+## 針對 dist/screenshots/ 全部 7 張高解析度截圖之逐項視覺審查 (Run 5 Cycle 6 最終認證版)
 
 > [!IMPORTANT]
 > **審查標準 (Audit Criteria)**：
 > 1. **標籤誠實性 (Label Honesty)**：每張截圖是否顯著展示「DEMO」/「UNVERIFIED」/「ILLUSTRATIVE」示範水印？
 > 2. **排版與對齊 (Layout & Alignment)**：是否存在文字重疊、數字截斷、選單擠壓或跑版現象？
-> 3. **人前演示就緒度 (Human Presentation Readiness)**：各目標元件（客戶撕頁、顧問 HUD、GN16 走廊、脫敏掃描、定價彈窗）是否真實位於視口中精準渲染？
+> 3. **人前演示就緒度 (Human Presentation Readiness)**：各目標元件（客戶撕頁、顧問 HUD、GN16 走廊、脫敏掃描、定價彈窗、晨會簡報）是否真實位於視口中精準渲染？
 
 ---
 
-## 全部 6 張截圖逐項審核矩陣 (Screenshot Audit Ledger - Remediated)
+## 全部 7 張截圖逐項審核矩陣 (Screenshot Audit Ledger - Remediated)
 
 | 截圖檔案名 (Asset) | 目標功能模組 (Feature) | 示範/示範標籤可見性 | 排版與文字對齊檢查 | DOM 斷言狀態 & 演示就緒度 |
 | :--- | :--- | :---: | :--- | :--- |
 | **`01_client_neutral_view.png`** | 客戶中立展示視角<br>(Client Neutral View) | **極度清晰**<br>頂部黃色橫幅顯示「虛擬示範模式生效中 · 當前展示虛構方案『保司 A』vs『保司 B』」 | 視口透過 `scrollIntoView()` 直達 `#client-view`；暫存 Toast 已於截圖前銷毀；方案名稱全面虛擬化為 `[示範方案 A] 虛擬多元貨幣方案 A`，徹底清除所有真實品牌名稱。 | **VERIFIED_VISIBLE (PASS)**<br>`inViewport: true`, `heroOur: 保司 A (虛擬示範)`, `ourProd: [示範方案 A]`, 演示就緒度 100%。 |
 | **`02_agent_cockpit.png`** | 顧問私密提詞視角<br>(Agent Cockpit HUD) | **清晰可見**<br>頂部黃色示範橫幅保留，Agent HUD 藍色按鈕高亮，內部提詞卡正常顯示 | 視口透過 `scrollIntoView()` 直達 `#agent-view`；顧問專用「破局核心」話術、條款陷阱避坑警示、三步轉化指南完整展現在畫面中央。 | **VERIFIED_VISIBLE (PASS)**<br>`inViewport: true`, `trapAlertPresent: true`, 戰策卡片清晰展開無遮擋。 |
-| **`03_gn16_chart.png`** | GN16 分紅實現率走廊<br>(GN16 Corridor Chart) | **修復就緒 · 水印清晰**<br>圖表背景疊加雙層「InsurIntel HK 示範對賬模型 · Illustrative Only」旋轉水印 | `#gn16-query-modal` 完整彈出（高度 837px），走廊圖表容器（280px）內 SVG 雙折線（演示利益 vs 真實到賬）與 100% 基準虛線精準渲染。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `chartContainerHeight: 280px`, `svgExists: true`，走廊圖表特寫完整。 |
-| **`04_scanner_pii_scrub.png`** | 建議書脫敏掃描器<br>(Scanner PII Scrub) | **修復就緒 · 標記完備**<br>掃描器標題明確標註 PDPO Cap. 486 本地正則掩碼防護與保監局指引聲明 | `#proposal-scanner-modal` 完整彈出（高度 677px），輸入文本框載入範例文本，輸出框精確展示 `[HKID_PROTECTED]`、`[PHONE_PROTECTED]`、`[CLIENT_NAME_PROTECTED]` 等掩碼。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `height: 677px`, 身分證與姓名掩碼 100% 匹配。 |
+| **`03_gn16_chart.png`** | GN16 分紅實現率走廊<br>(GN16 Corridor Chart) | **修復就緒 · 水印清晰**<br>圖表背景疊加雙層「InsurIntel HK 示範對賬模型 · Illustrative Only」旋轉水印 | `#gn16-query-modal` 完整彈出（高度 854px），走廊圖表容器（280px）內 SVG 雙折線（演示利益 vs 真實到賬）與 100% 基準虛線精準渲染。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `chartContainerHeight: 280px`, `svgExists: true`，走廊圖表特寫完整。 |
+| **`04_scanner_pii_scrub.png`** | 建議書脫敏掃描器<br>(Scanner PII Scrub) | **修復就緒 · 標記完備**<br>掃描器標題明確標註 PDPO Cap. 486 本地正則掩碼防護與保監局指引聲明 | `#proposal-scanner-modal` 完整彈出（高度 705.25px），輸入文本框載入範例文本，輸出框精確展示 `[HKID_PROTECTED]`、`[PHONE_PROTECTED]`、`[CLIENT_NAME_PROTECTED]` 等掩碼。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `height: 705.25px`, 身分證與姓名掩碼 100% 匹配。 |
 | **`05_offline_mode.png`** | 本地離線運作模式<br>(Offline Mode) | **極度清晰**<br>頂部顯著展示綠色離線提示：「⚡ 離線模式生效中 · 本機快取 99 款產品數據庫與精算引擎正常運作」 | 視口重置至頂部，離線橫幅（高度 34px）與示範橫幅層次分明，本地 IndexedDB 快取狀態指示燈正常。 | **VERIFIED_VISIBLE (PASS)**<br>`display: block`, `opacity: 1`，離線沙盒就緒。 |
-| **`06_pricing_modal.png`** | 商業定價彈窗<br>(Pricing Modal) | **修復就緒 · 四階梯完整**<br>顯著標註「香港保監局官方數據庫 · 示範對賬模型」與正式說明書為準警示 | `#gn16-pay-modal` 完整彈出（高度 861px），清晰展示 4 個定價階梯（零售單次 HK$49、個人專業版 HK$199/月、團隊版 HK$2,480/月 含 15 席位、企業定製版 HK$12,800/月）。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `tierCardCount: 4`, 席位與金額完全對齊 SSOT 定價單一真理源。 |
+| **`06_pricing_modal.png`** | 商業定價彈窗<br>(Pricing Modal) | **修復就緒 · 四階梯完整**<br>顯著標註「香港保監局官方數據庫 · 示範對賬模型」與正式說明書為準警示 | `#gn16-pay-modal` 完整彈出（高度 858px），清晰展示 4 個定價階梯（零售單次 HK$49、個人專業版 HK$199/月、團隊版 HK$2,480/月 含 15 席位、企業定製版 HK$12,800/月）。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `tierCardCount: 4`, 席位與金額完全對齊 SSOT 定價單一真理源。 |
+| **`07_briefing_view.png`** | 晨會情報簡報視圖<br>(Unified Morning Briefing) | **修復就緒 · 標記完備**<br>顯著標註 `External Mode Lock`、`Illustrative - not from an official illustration` 與 `Data as of: 2026-11-09` | `#unified-briefing-modal` 完整彈出（高度 371.5px），三欄卡片展示 GL16 實現率走廊、Cap. 112 QDAP 扣稅基準、GL27/GL28 利率上限（6.0%/6.5%）及嚴格溯源比例 `7 / 9,052 (0.08%)`。 | **VERIFIED_VISIBLE (PASS)**<br>`opacity: 1`, `height: 371.5px`, `navPresent: true`, `hasIllustrative: true`。 |
 
 ---
 

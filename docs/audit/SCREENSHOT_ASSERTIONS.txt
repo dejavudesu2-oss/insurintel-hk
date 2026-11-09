@@ -1,5 +1,5 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-09T15:37:30.026Z
+Execution Timestamp: 2026-11-09T19:41:51.399Z
 Harness: Chrome Headless (Chrome/156.0.8078.80) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
@@ -20,15 +20,15 @@ Viewport: 1280x1100, Port: 3334
 [TARGET: 03_gn16_chart.png]
   Description : GN16 Fulfillment Ratio Tracker (Historical Corridor vs Illustration Curve)
   URL         : http://localhost:3334/index.html?mode=demo&modal=gn16
-  DOM Check   : found=true, display=flex, opacity=1, height=837px
-  Details     : {"target":"gn16-query-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":837,"chartContainerHeight":280,"svgExists":true,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=854px
+  Details     : {"target":"gn16-query-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":854,"chartContainerHeight":280,"svgExists":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 04_scanner_pii_scrub.png]
   Description : AI Proposal Scanner (Client-Side Deterministic PII Scrubber & Actuarial Parse)
   URL         : http://localhost:3334/index.html?mode=demo&modal=scanner
-  DOM Check   : found=true, display=flex, opacity=1, height=677.25px
-  Details     : {"target":"proposal-scanner-modal","found":true,"display":"flex","opacity":"1","height":677.25,"hasMaskedHkid":true,"hasMaskedName":true,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=705.25px
+  Details     : {"target":"proposal-scanner-modal","found":true,"display":"flex","opacity":"1","height":705.25,"hasMaskedHkid":true,"hasMaskedName":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 05_offline_mode.png]
@@ -41,6 +41,13 @@ Viewport: 1280x1100, Port: 3334
 [TARGET: 06_pricing_modal.png]
   Description : Single Source of Truth Pricing Modal ($49, $199, $2480, $12800)
   URL         : http://localhost:3334/index.html?mode=demo&modal=pricing
-  DOM Check   : found=true, display=flex, opacity=1, height=860.9375px
-  Details     : {"target":"gn16-pay-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":860.9375,"tierCardCount":4,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=858px
+  Details     : {"target":"gn16-pay-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":858,"tierCardCount":4,"ok":true}
+  Status      : VERIFIED_VISIBLE (PASS)
+
+[TARGET: 07_briefing_view.png]
+  Description : Unified Morning Briefing View (#briefing — 07:00 HKT Sync, GL16/GL27/GL28 & Strict Provenance)
+  URL         : http://localhost:3334/index.html?mode=demo#briefing
+  DOM Check   : found=true, display=flex, opacity=1, height=371.5px
+  Details     : {"target":"unified-briefing-modal","found":true,"display":"flex","opacity":"1","height":371.5,"navPresent":true,"hasIllustrative":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)

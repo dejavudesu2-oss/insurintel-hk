@@ -39,7 +39,7 @@ function startHttpServer() {
     '.svg': 'image/svg+xml'
   };
   const server = http.createServer((req, res) => {
-    let reqPath = req.url.split('?')[0];
+    let reqPath = req.url.split('?')[0].split('#')[0];
     if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
     const filePath = path.join(DIST_DIR, reqPath);
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
@@ -269,6 +269,33 @@ const TARGET_VIEWS = [
         ok: modal && modal.classList.contains('open') && s.opacity !== '0' && rect.height > 0 && tierCards.length >= 2
       };
     })()`
+  },
+  {
+    name: '07_briefing_view.png',
+    url: `http://localhost:${HTTP_PORT}/index.html?mode=demo#briefing`,
+    desc: 'Unified Morning Briefing View (#briefing — 07:00 HKT Sync, GL16/GL27/GL28 & Strict Provenance)',
+    preCaptureExpr: `(() => {
+      const toast = document.getElementById('toast');
+      if (toast) { toast.style.display = 'none'; toast.style.opacity = '0'; }
+      if (typeof switchUnifiedView === 'function') switchUnifiedView('briefing');
+    })()`,
+    assertExpr: `(() => {
+      const modal = document.getElementById('unified-briefing-modal');
+      const nav = document.getElementById('unified-app-nav');
+      const s = modal ? window.getComputedStyle(modal) : null;
+      const rect = modal ? modal.getBoundingClientRect() : null;
+      const text = modal ? modal.innerText : '';
+      return {
+        target: 'unified-briefing-modal',
+        found: !!modal,
+        display: s ? s.display : 'none',
+        opacity: s ? s.opacity : '0',
+        height: rect ? rect.height : 0,
+        navPresent: !!nav,
+        hasIllustrative: text.includes('Illustrative - not from an official illustration'),
+        ok: modal && s.display !== 'none' && s.opacity !== '0' && rect.height > 0 && !!nav && text.includes('Illustrative - not from an official illustration')
+      };
+    })()`
   }
 ];
 
@@ -339,7 +366,15 @@ async function main() {
     await cdp.send('Page.navigate', { url: item.url });
 
     // Wait for DOM load & animation settle
-    await sleep(1400);
+    for (let i = 0; i < 40; i++) {
+      const readyRes = await cdp.send('Runtime.evaluate', {
+        expression: `document.readyState === 'complete' && !!document.getElementById('proposal-scanner-modal')`,
+        returnByValue: true
+      });
+      if (readyRes?.result?.value === true) break;
+      await sleep(200);
+    }
+    await sleep(400);
 
     // Run pre-capture alignment (scroll target into view & clear transient toast)
     if (item.preCaptureExpr) {

@@ -34,7 +34,8 @@ const requiredShots = [
   '03_gn16_chart.png',
   '04_scanner_pii_scrub.png',
   '05_offline_mode.png',
-  '06_pricing_modal.png'
+  '06_pricing_modal.png',
+  '07_briefing_view.png'
 ];
 
 requiredShots.forEach(shot => {
@@ -43,7 +44,7 @@ requiredShots.forEach(shot => {
 
 assert.ok(shotText.includes('DEMO') || shotText.includes('示範') || shotText.includes('UNVERIFIED'), 'Must audit DEMO / UNVERIFIED label visibility');
 assert.ok(shotText.includes('視覺瑕疵') || shotText.includes('排版'), 'Must list actionable visual fixes before human demonstration');
-console.log('  [PASS] SCREENSHOT_REVIEW.md verified: all 6 assets audited for label honesty, layout alignment, and visual flaws.');
+console.log('  [PASS] SCREENSHOT_REVIEW.md verified: all 7 assets audited for label honesty, layout alignment, and visual flaws.');
 
 // 2. Verify SKEPTIC_COUNCIL_REVIEW.md
 const councilPath = PATHS.SKEPTIC_COUNCIL_REVIEW;

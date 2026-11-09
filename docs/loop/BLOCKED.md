@@ -1,5 +1,5 @@
-# InsurIntel HK: Blocked Items Ledger (RUN 2: AUDIT AND HARDEN)
-## BLOCKED.md
+# InsurIntel HK: Blocked Items Ledger (RUN 5: ORGANIZE AND UNIFY)
+## docs/loop/BLOCKED.md
 
 No tasks are currently blocked.
 

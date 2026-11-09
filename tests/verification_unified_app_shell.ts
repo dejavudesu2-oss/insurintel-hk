@@ -6,7 +6,11 @@ import { spawn, ChildProcess } from 'child_process';
 
 const ROOT = path.resolve(__dirname, '..');
 const DIST = path.join(ROOT, 'dist');
-const CHROME_PATH = 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
+const CHROME_PATH =
+  process.env.CHROME_PATH ||
+  (process.platform === 'win32'
+    ? 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe'
+    : 'google-chrome');
 const HTTP_PORT = 3335;
 const CDP_PORT = 9225;
 
@@ -86,36 +90,7 @@ class CDPClient {
 async function runTest() {
   console.log('=== VERIFICATION: U3 UNIFIED APP SHELL & REDIRECT STUB ===');
 
-  // 1. Assert dist/gn16_tracker.html < 5 KB
-  const gn16TrackerPath = path.join(DIST, 'gn16_tracker.html');
-  assert.ok(fs.existsSync(gn16TrackerPath), 'dist/gn16_tracker.html must exist');
-  const gn16Bytes = fs.statSync(gn16TrackerPath).size;
-  assert.ok(
-    gn16Bytes < 5000,
-    `Expected dist/gn16_tracker.html < 5000 bytes, got ${gn16Bytes} bytes`
-  );
-  const gn16Html = fs.readFileSync(gn16TrackerPath, 'utf8');
-  assert.ok(
-    gn16Html.includes('index.html#gl16'),
-    'dist/gn16_tracker.html must redirect to index.html#gl16'
-  );
-  console.log(`[PASS] dist/gn16_tracker.html is a ${gn16Bytes}-byte (< 5 KB) redirect stub to index.html#gl16.`);
-
-  // 2. Assert total dist/*.html bytes decreased compared to pre-U3 baseline
-  const htmlFiles = fs.readdirSync(DIST).filter((f) => f.endsWith('.html'));
-  let afterTotalBytes = 0;
-  for (const f of htmlFiles) {
-    afterTotalBytes += fs.statSync(path.join(DIST, f)).size;
-  }
-  assert.ok(
-    afterTotalBytes < BEFORE_U3_TOTAL_HTML_BYTES,
-    `Expected total dist/*.html bytes (${afterTotalBytes}) < pre-U3 baseline (${BEFORE_U3_TOTAL_HTML_BYTES})`
-  );
-  console.log(
-    `[PASS] Total dist/*.html bytes decreased from ${BEFORE_U3_TOTAL_HTML_BYTES} to ${afterTotalBytes} (-${BEFORE_U3_TOTAL_HTML_BYTES - afterTotalBytes} bytes).`
-  );
-
-  // 2b. Assert U4: 21 patch_/apply_/remedy_/fix_ scripts moved to scripts/legacy/ and deterministic build:app
+  // 1. Assert U4: 21 patch_/apply_/remedy_/fix_ scripts moved to scripts/legacy/ and deterministic build:app
   const scriptsDir = path.join(ROOT, 'scripts');
   const legacyDir = path.join(scriptsDir, 'legacy');
   const remainingPatchScripts = fs
@@ -145,6 +120,35 @@ async function runTest() {
   );
   console.log(
     `[PASS] U4 Deterministic Build: 21 legacy scripts isolated in scripts/legacy/; two consecutive builds yielded identical SHA-256 (${buildRun1.indexHash}).`
+  );
+
+  // 2. Assert dist/gn16_tracker.html < 5 KB
+  const gn16TrackerPath = path.join(DIST, 'gn16_tracker.html');
+  assert.ok(fs.existsSync(gn16TrackerPath), 'dist/gn16_tracker.html must exist');
+  const gn16Bytes = fs.statSync(gn16TrackerPath).size;
+  assert.ok(
+    gn16Bytes < 5000,
+    `Expected dist/gn16_tracker.html < 5000 bytes, got ${gn16Bytes} bytes`
+  );
+  const gn16Html = fs.readFileSync(gn16TrackerPath, 'utf8');
+  assert.ok(
+    gn16Html.includes('index.html#gl16'),
+    'dist/gn16_tracker.html must redirect to index.html#gl16'
+  );
+  console.log(`[PASS] dist/gn16_tracker.html is a ${gn16Bytes}-byte (< 5 KB) redirect stub to index.html#gl16.`);
+
+  // 2b. Assert total dist/*.html bytes decreased compared to pre-U3 baseline
+  const htmlFiles = fs.readdirSync(DIST).filter((f) => f.endsWith('.html'));
+  let afterTotalBytes = 0;
+  for (const f of htmlFiles) {
+    afterTotalBytes += fs.statSync(path.join(DIST, f)).size;
+  }
+  assert.ok(
+    afterTotalBytes < BEFORE_U3_TOTAL_HTML_BYTES,
+    `Expected total dist/*.html bytes (${afterTotalBytes}) < pre-U3 baseline (${BEFORE_U3_TOTAL_HTML_BYTES})`
+  );
+  console.log(
+    `[PASS] Total dist/*.html bytes decreased from ${BEFORE_U3_TOTAL_HTML_BYTES} to ${afterTotalBytes} (-${BEFORE_U3_TOTAL_HTML_BYTES - afterTotalBytes} bytes).`
   );
 
   // 3. Headless DOM test proving all 5 views are reachable in 1 click and show required banners
@@ -246,54 +250,58 @@ async function runTest() {
         })()`,
         returnByValue: true
       });
-      await sleep(250);
 
-      const evalRes = await cdp.send('Runtime.evaluate', {
-        expression: `(() => {
-          const btn = document.getElementById('${v.tabId}');
-          if (!btn) return { ok: false, reason: 'Missing tab button ${v.tabId}' };
-          const panel = document.getElementById('${v.panelId}');
-          if (!panel) return { ok: false, reason: 'Missing view panel ${v.panelId}' };
-          const style = window.getComputedStyle(panel);
-          const rect = panel.getBoundingClientRect();
-          const panelVisible = style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0 && rect.height > 0;
+      let val: any = null;
+      for (let attempt = 0; attempt < 15; attempt++) {
+        await sleep(100);
+        const evalRes = await cdp.send('Runtime.evaluate', {
+          expression: `(() => {
+            const btn = document.getElementById('${v.tabId}');
+            if (!btn) return { ok: false, reason: 'Missing tab button ${v.tabId}' };
+            const panel = document.getElementById('${v.panelId}');
+            if (!panel) return { ok: false, reason: 'Missing view panel ${v.panelId}' };
+            const style = window.getComputedStyle(panel);
+            const rect = panel.getBoundingClientRect();
+            const panelVisible = style.display !== 'none' && style.visibility !== 'hidden' && parseFloat(style.opacity) > 0 && rect.height > 0;
 
-          const topDateBanner = document.getElementById('top-date-banner');
-          const demoModeBanner = document.getElementById('demo-mode-banner');
-          const navBar = document.getElementById('unified-app-nav');
-          const combinedVisibleText = [
-            topDateBanner ? topDateBanner.innerText : '',
-            demoModeBanner ? demoModeBanner.innerText : '',
-            panel ? panel.innerText : ''
-          ].join(' | ');
+            const topDateBanner = document.getElementById('top-date-banner');
+            const demoModeBanner = document.getElementById('demo-mode-banner');
+            const navBar = document.getElementById('unified-app-nav');
+            const combinedVisibleText = [
+              topDateBanner ? topDateBanner.innerText : '',
+              demoModeBanner ? demoModeBanner.innerText : '',
+              panel ? panel.innerText : ''
+            ].join(' | ');
 
-          const hasExternalModeLock = combinedVisibleText.includes('External Mode Lock') && !!demoModeBanner && window.getComputedStyle(demoModeBanner).display !== 'none';
-          const hasIllustrativeBanner = combinedVisibleText.includes('Illustrative - not from an official illustration');
-          const hasDataAsOf = combinedVisibleText.includes('Data as of');
-          const navVisible = !!navBar && window.getComputedStyle(navBar).display !== 'none' && navBar.getBoundingClientRect().height > 0;
-          const isTabActive = btn.getAttribute('aria-selected') === 'true';
+            const hasExternalModeLock = combinedVisibleText.includes('External Mode Lock') && !!demoModeBanner && window.getComputedStyle(demoModeBanner).display !== 'none';
+            const hasIllustrativeBanner = combinedVisibleText.includes('Illustrative - not from an official illustration');
+            const hasDataAsOf = combinedVisibleText.includes('Data as of');
+            const navVisible = !!navBar && window.getComputedStyle(navBar).display !== 'none' && navBar.getBoundingClientRect().height > 0;
+            const isTabActive = btn.getAttribute('aria-selected') === 'true';
 
-          return {
-            ok: panelVisible && hasExternalModeLock && hasIllustrativeBanner && hasDataAsOf && navVisible && isTabActive,
-            hash: window.location.hash,
-            panelVisible,
-            display: style.display,
-            visibility: style.visibility,
-            opacity: style.opacity,
-            height: rect.height,
-            className: panel.className,
-            inlineStyle: panel.getAttribute('style'),
-            hasExternalModeLock,
-            hasIllustrativeBanner,
-            hasDataAsOf,
-            navVisible,
-            isTabActive
-          };
-        })()`,
-        returnByValue: true
-      });
+            return {
+              ok: panelVisible && hasExternalModeLock && hasIllustrativeBanner && hasDataAsOf && navVisible && isTabActive,
+              hash: window.location.hash,
+              panelVisible,
+              display: style.display,
+              visibility: style.visibility,
+              opacity: style.opacity,
+              height: rect.height,
+              className: panel.className,
+              inlineStyle: panel.getAttribute('style'),
+              hasExternalModeLock,
+              hasIllustrativeBanner,
+              hasDataAsOf,
+              navVisible,
+              isTabActive
+            };
+          })()`,
+          returnByValue: true
+        });
+        val = evalRes?.result?.value;
+        if (val && val.ok) break;
+      }
 
-      const val = evalRes?.result?.value;
       assert.ok(
         val && val.ok,
         `View ${v.label} (${v.expectedHash}) failed 1-click DOM check: ${JSON.stringify(val)}`
@@ -307,6 +315,122 @@ async function runTest() {
         `[PASS] View "${v.label}" (${v.expectedHash}) reachable in 1 click via #${v.tabId}; panel #${v.panelId} visible; External Mode Lock + Illustrative banner + Data as of verified.`
       );
     }
+
+    // 4. Verify U6 Review Fixes: closing modal syncs active nav tab back to #nav-tab-battlecard & briefing includes GL28 + 7 / 9,052
+    const u6Res = await cdp.send('Runtime.evaluate', {
+      expression: `(() => {
+        closeGN16PayModal();
+        const battleBtn = document.getElementById('nav-tab-battlecard');
+        const briefingModal = document.getElementById('unified-briefing-modal');
+        const briefingText = briefingModal ? briefingModal.innerText : '';
+        return {
+          battleActiveAfterModalClose: battleBtn && battleBtn.getAttribute('aria-selected') === 'true',
+          hashAfterModalClose: window.location.hash,
+          briefingHasGL28: briefingText.includes('GL28') && briefingText.includes('6.0%') && briefingText.includes('6.5%'),
+          briefingHasStrictRatio: briefingText.includes('7 / 9,052 (0.08%)')
+        };
+      })()`,
+      returnByValue: true
+    });
+    const u6Val = u6Res?.result?.value;
+    assert.ok(
+      u6Val && u6Val.battleActiveAfterModalClose && u6Val.hashAfterModalClose === '#battlecard',
+      `Expected closing modal to sync nav tab back to #battlecard, got: ${JSON.stringify(u6Val)}`
+    );
+    assert.ok(
+      u6Val.briefingHasGL28 && u6Val.briefingHasStrictRatio,
+      `Expected #unified-briefing-modal to include GL28 rate caps and 7 / 9,052 strict provenance ratio, got: ${JSON.stringify(u6Val)}`
+    );
+    console.log('[PASS] U6 Review Fixes verified: modal close syncs #nav-tab-battlecard (#battlecard); briefing view surfaces GL28 caps + 7 / 9,052 (0.08%).');
+
+    // 5. Verify Browser History Back/Forward (popstate / hashchange) across unified views
+    await cdp.send('Runtime.evaluate', {
+      expression: `(() => {
+        switchUnifiedView('gl16');
+        switchUnifiedView('briefing');
+        switchUnifiedView('scanner');
+      })()`,
+      returnByValue: true
+    });
+    await sleep(100);
+    await cdp.send('Runtime.evaluate', { expression: `window.history.back()`, returnByValue: true });
+    await sleep(150);
+    const back1Res = await cdp.send('Runtime.evaluate', {
+      expression: `({
+        hash: window.location.hash,
+        briefingOpen: window.getComputedStyle(document.getElementById('unified-briefing-modal')).display !== 'none',
+        scannerClosed: window.getComputedStyle(document.getElementById('proposal-scanner-modal')).display === 'none',
+        tabActive: document.getElementById('nav-tab-briefing').getAttribute('aria-selected') === 'true'
+      })`,
+      returnByValue: true
+    });
+    const b1 = back1Res?.result?.value;
+    assert.ok(
+      b1 && b1.hash === '#briefing' && b1.briefingOpen && b1.scannerClosed && b1.tabActive,
+      `Expected history.back() #1 to restore #briefing view, got: ${JSON.stringify(b1)}`
+    );
+
+    await cdp.send('Runtime.evaluate', { expression: `window.history.back()`, returnByValue: true });
+    await sleep(150);
+    const back2Res = await cdp.send('Runtime.evaluate', {
+      expression: `({
+        hash: window.location.hash,
+        gl16Open: window.getComputedStyle(document.getElementById('gn16-query-modal')).display !== 'none',
+        briefingClosed: window.getComputedStyle(document.getElementById('unified-briefing-modal')).display === 'none',
+        tabActive: document.getElementById('nav-tab-gl16').getAttribute('aria-selected') === 'true'
+      })`,
+      returnByValue: true
+    });
+    const b2 = back2Res?.result?.value;
+    assert.ok(
+      b2 && b2.hash === '#gl16' && b2.gl16Open && b2.briefingClosed && b2.tabActive,
+      `Expected history.back() #2 to restore #gl16 view, got: ${JSON.stringify(b2)}`
+    );
+
+    await cdp.send('Runtime.evaluate', { expression: `window.history.forward()`, returnByValue: true });
+    await sleep(150);
+    const fwdRes = await cdp.send('Runtime.evaluate', {
+      expression: `({
+        hash: window.location.hash,
+        briefingOpen: window.getComputedStyle(document.getElementById('unified-briefing-modal')).display !== 'none',
+        tabActive: document.getElementById('nav-tab-briefing').getAttribute('aria-selected') === 'true'
+      })`,
+      returnByValue: true
+    });
+    const fwd = fwdRes?.result?.value;
+    assert.ok(
+      fwd && fwd.hash === '#briefing' && fwd.briefingOpen && fwd.tabActive,
+      `Expected history.forward() to restore #briefing view, got: ${JSON.stringify(fwd)}`
+    );
+    console.log('[PASS] Browser history back/forward (popstate / hashchange) across #gl16 <-> #briefing <-> #scanner verified.');
+
+    // 6. Verify Simplified Chinese (zh-CN) localization across unified views & Simplified PII scrubbing
+    const zhCnRes = await cdp.send('Runtime.evaluate', {
+      expression: `(() => {
+        setLangZh('zh-CN');
+        switchUnifiedView('gl16');
+        const gn16Text = document.getElementById('gn16-query-modal').innerText;
+        switchUnifiedView('scanner');
+        const rawInputVal = document.getElementById('scanner-raw-input').value;
+        const scrubbedText = document.getElementById('scanner-scrubbed-output').innerText;
+        const navText = document.getElementById('unified-app-nav').innerText;
+        setLangZh('zh-HK');
+        switchUnifiedView('battlecard');
+        return {
+          navHasSimplified: navText.includes('实现率') && navText.includes('晨会简报'),
+          gn16HasSimplified: gn16Text.includes('保监局') && gn16Text.includes('达成率'),
+          rawInputSimplified: rawInputVal.includes('虚拟示范') && rawInputVal.includes('陈大文'),
+          scrubbedMasksSimplifiedName: scrubbedText.includes('[CLIENT_NAME_PROTECTED]') && !scrubbedText.includes('陈大文') && scrubbedText.includes('保证现金价值')
+        };
+      })()`,
+      returnByValue: true
+    });
+    const zhVal = zhCnRes?.result?.value;
+    assert.ok(
+      zhVal && zhVal.navHasSimplified && zhVal.gn16HasSimplified && zhVal.rawInputSimplified && zhVal.scrubbedMasksSimplifiedName,
+      `Expected zh-CN localization & Simplified PII scrubbing across unified views, got: ${JSON.stringify(zhVal)}`
+    );
+    console.log('[PASS] Simplified Chinese (zh-CN) localization & Simplified client name PII scrubbing across unified views verified.');
 
     cdp.close();
   } finally {

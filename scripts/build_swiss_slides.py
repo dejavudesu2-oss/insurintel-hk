@@ -9,6 +9,7 @@ import os
 import re
 import sys
 
+sys.dont_write_bytecode = True
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.abspath(os.path.join(SCRIPT_DIR, ".."))
 sys.path.insert(0, SCRIPT_DIR)

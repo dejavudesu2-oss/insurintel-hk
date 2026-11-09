@@ -1225,3 +1225,38 @@ Status: COMPLETED (Verified Code 0)
    - `[PASS] Root directory hygiene verified: 12 files (<= 15 cap).`
    - `[PASS] U5 Cleanup & README verified: 0 clutter files; README.md is 42 lines (<= 60 cap).`
 ================================================================================
+
+================================================================================
+RUN 5 - CYCLE 6: TASK-R5-06 (U6 3-TRACK ADVERSARIAL REVIEW, SCREENSHOT RECAPTURE & RELEASE BRANCH)
+Timestamp: 2026-11-10T03:43:45+08:00
+Git Branch: loop/run-5 (pushed to origin/loop/run-5 and origin/release/run-5)
+Status: COMPLETED (Verified Code 0)
+
+1. 3-Track Adversarial Review Findings & In-Cycle Fixes (<= 10 Ranked Findings per Track):
+   - Track 1 (UX / Mobile Reviewer):
+     * [UX-01 HIGH] Closing any secondary view modal (`#gn16-query-modal`, `#unified-briefing-modal`, `#proposal-scanner-modal`, `#gn16-pay-modal`) via its `✕` button or backdrop left the closed view's tab highlighted in `#unified-app-nav` instead of syncing back to `#nav-tab-battlecard`, and opening modals via secondary header buttons did not sync `#unified-app-nav`. -> FIXED: Added `syncUnifiedNavTab(viewKey)` and `_isSwitchingUnifiedView` guard across all open/close modal handlers.
+     * [UX-02 MEDIUM] Pressing `Escape` while a secondary view modal was open did not close the modal and return to `#battlecard`. -> FIXED: Added `keydown` listener for `Escape` invoking `switchUnifiedView('battlecard')`.
+     * [UX-03 HIGH] Browser Back/Forward (`popstate` / `hashchange`) across unified views failed because `syncUnifiedNavTab` used `replaceState` instead of `pushState` and lacked a `popstate` listener. -> FIXED: Updated `syncUnifiedNavTab` to use `history.pushState` on hash changes, added `popstate` listener, and handled empty-hash fallback in `handleUnifiedHashRoute(true)`.
+   - Track 2 (Compliance Wording Reviewer):
+     * [COMP-01 HIGH] The in-app `#briefing` modal (`#unified-briefing-modal`) summarized GL16, Cap. 112, and GL27, but omitted the explicit GL28 Section 5 Paragraph 5.3 illustration rate caps (`港元 6.0% / 非港元 6.5%，自 2025年7月1日生效`) and the strict provenance ratio (`7 / 9,052 (0.08%) [SOURCED-STRICT]，其餘 9,045 項為 [SYNTHETIC]`). -> FIXED: Added explicit GL28 rate caps and `7 / 9,052 (0.08%)` disclosure directly inside `#unified-briefing-modal` and verified in headless Chrome DOM test.
+     * [COMP-02 HIGH] Switching to Simplified Chinese (`zh-CN`) did not localize dynamically rendered text in `#gn16-query-modal` or `#proposal-scanner-modal`, `ZH_T_CHARS` was missing `陳/陈, 擬/拟, 統/统, 復/复`, and `runPIIScrubber()` did not mask Simplified `陈大文`. -> FIXED: Added missing char pairs, applied `convertDomTreeLang`/`toHans` on dynamic view switches, and updated `runPIIScrubber` regex to `/陳大文|陈大文/g`.
+   - Track 3 (Code / QA Reviewer):
+     * [QA-01 CRITICAL] `HANDOFF.md`, `BACKLOG.md`, `LOOP_STATE.md`, `BLOCKED.md`, and `SCREENSHOT_REVIEW.md` had stale SHA-256 hashes, byte counts, or screenshot counts. -> FIXED: Synchronized `HANDOFF.md` (4,335 chars <= 5,000 cap), `BACKLOG.md`, `LOOP_STATE.md`, `BLOCKED.md`, and `SCREENSHOT_REVIEW.md` (all 7 screenshots) with deterministic build hash `7a9ef051c474449c3774322a9acfeebe709d7218c5a3ad3450f509b4b2d7680d` and `4,028,970` bytes.
+     * [QA-02 HIGH] `scripts/capture_asserted_screenshots.js` did not strip `#...` hash fragments from request URLs, used a fixed `sleep(1400)` instead of polling `document.readyState === 'complete'`, and captured 6 views without an explicit screenshot of the new `#briefing` unified view. -> FIXED: Updated `scripts/capture_asserted_screenshots.js` and `tests/verification_screenshots.ts` to capture and DOM-assert all 7 views (`01_client_neutral_view.png` through `07_briefing_view.png`).
+
+2. Raw Verification Output:
+   - `npm run build:app`:
+     * `dist/index.html SHA-256 : 7a9ef051c474449c3774322a9acfeebe709d7218c5a3ad3450f509b4b2d7680d`
+     * `dist/cafe.html  SHA-256 : 7a9ef051c474449c3774322a9acfeebe709d7218c5a3ad3450f509b4b2d7680d`
+     * `dist/gn16_tracker.html  : 2163 bytes (redirect stub -> index.html#gl16)`
+   - `npm run screenshots:capture && npx tsx tests/verification_screenshots.ts`:
+     * `[PASS] Screenshot [1/7] 01_client_neutral_view.png: 296814 bytes | Resolution: 1280x1100 | Hash: 5adac82709... | PNG Valid`
+     * `[PASS] Screenshot [2/7] 02_agent_cockpit.png: 337486 bytes | Resolution: 1280x1100 | Hash: 34db3657d1... | PNG Valid`
+     * `[PASS] Screenshot [3/7] 03_gn16_chart.png: 361017 bytes | Resolution: 1280x1100 | Hash: 89ec93f672... | PNG Valid`
+     * `[PASS] Screenshot [4/7] 04_scanner_pii_scrub.png: 414642 bytes | Resolution: 1280x1100 | Hash: 64e41fd9f6... | PNG Valid`
+     * `[PASS] Screenshot [5/7] 05_offline_mode.png: 375103 bytes | Resolution: 1280x1100 | Hash: 979f5eefee... | PNG Valid`
+     * `[PASS] Screenshot [6/7] 06_pricing_modal.png: 374805 bytes | Resolution: 1280x1100 | Hash: 2cb3b50064... | PNG Valid`
+     * `[PASS] Screenshot [7/7] 07_briefing_view.png: 368950 bytes | Resolution: 1280x1100 | Hash: 51b7d98196... | PNG Valid`
+     * `[PASS] Visual Diversity Audit: All 7 screenshots have distinct SHA-256 signatures.`
+   - `npm test`: Exit Code 0 (41 / 41 suites passing)
+================================================================================
