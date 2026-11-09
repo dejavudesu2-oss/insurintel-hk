@@ -3588,5 +3588,15 @@
     "payload": {},
     "next_retry_at": "2026-11-09T16:54:26.475Z",
     "status": "PENDING"
+  },
+  {
+    "task_id": "acf95a61-97b3-41fc-a6df-2198908c8f7b",
+    "source_url": "https://mock-insurer.com/promo",
+    "attempt_count": 1,
+    "max_retries": 3,
+    "last_error": "Connection Timeout (504)",
+    "payload": {},
+    "next_retry_at": "2026-11-09T17:00:05.353Z",
+    "status": "PENDING"
   }
 ]

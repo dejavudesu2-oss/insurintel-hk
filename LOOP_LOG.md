@@ -996,3 +996,44 @@ SUMMARY: ALL RUN 3 CLOSEOUT ASSERTIONS PASSED (100% GREEN)
 ================================================================================
 --------------------------------------------------------------------------------
 ================================================================================
+
+================================================================================
+CYCLE 2: TASK-R4-02 (Intake Script Honesty, Gating & HKIA GL28 Rate Cap Audit)
+Timestamp: 2026-11-10T01:04:00+08:00
+Git Branch: loop/run-4
+Status: COMPLETED (Verified Code 0)
+
+1. Plan:
+   - Overhaul `INTAKE/import_benefit_illustration.js`: never write "SOURCED" automatically; statuses strictly "TRANSCRIBED" vs "SOURCED-STRICT"; require 6 provenance fields.
+   - Remove all "100%" coverage claims, reporting strictly as strict-sourced numbers / 9,052.
+   - Cite exact HKIA GL28 Section 5, Paragraph 5.3 & Practice Note rate caps (6.0% HKD / 6.5% non-HKD).
+   - Author `tests/verification_import_honesty.ts` with purely fictional sample rows only, and register in `package.json`.
+   - Update `INTAKE/README.md` to reflect strict provenance and GL28 rate cap rules.
+
+2. Adversarial Reviewer Subagent (`00ae8772-cfa5-43fd-b919-44dc77006cc0`):
+   - Verdict: FULLY COMPLIANT (CLEAN PASS across all 7 criteria).
+   - Hardened edge cases identified:
+     * Non-HKD currency detection expanded across USD, RMB/CNY, EUR, GBP, AUD, CAD, and multi-currency descriptors.
+     * Granular double-entry bonus reconciliation added across reversionary and terminal bonus breakdown columns.
+     * Robust programmatic parameter aliasing for `page` / `page_number` and `tableName` / `table_name`.
+
+3. Raw Verification Output:
+================================================================================
+TEST SUITE: BENEFIT ILLUSTRATION INTAKE HONESTY & GATING (TASK-R4-02 / P2)
+================================================================================
+
+  [PASS] All 6 mandatory provenance fields strictly enforced.
+  [PASS] First-pass status verified: TRANSCRIBED, zero automatic SOURCED, coverage reported out of 9,052.
+  [PASS] GL28 Section 5, Paragraph 5.3 & Practice Note on Illustration Rate Caps explicitly verified.
+  [PASS] Double entry mismatch correctly rejected.
+  [PASS] Double entry promotion to SOURCED-STRICT verified (35 / 9052 (0.39%)).
+
+================================================================================
+SUMMARY: ALL BENEFIT ILLUSTRATION INTAKE HONESTY TESTS PASSED (100% GREEN)
+================================================================================
+
+4. Metrics After Cycle:
+   - Test suites: 38 / 38 green (450 individual assertions passing, 0 failures).
+   - Client-visible numbers denominator: 9,052 strictly locked.
+   - Sourced status gating: strictly TRANSCRIBED (initial) vs SOURCED-STRICT (double entry/optical verified). Zero automatic SOURCED.
+================================================================================
