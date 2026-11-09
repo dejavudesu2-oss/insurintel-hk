@@ -1,12 +1,10 @@
-# InsurIntel HK: Blocked Tasks Ledger
+# InsurIntel HK: Blocked Items Ledger (RUN 2: AUDIT AND HARDEN)
 ## BLOCKED.md
 
-> [!NOTE]
-> This file tracks any task that has failed automated verification 3 times or cannot proceed due to hard technical blockers.
-> When a task is marked BLOCKED, it is logged here with the exact failure stack, root cause, and remediation options, and the cycle advances to the next highest-priority task.
+No tasks are currently blocked.
 
----
+| Task ID | Failure Count | Reason for Blockage | Required Remediation / External Dependency |
+| :--- | :--- | :--- | :--- |
+| None | 0 | None | N/A |
 
-### Currently Blocked Tasks
-* **Count of Blocked Tasks**: 0
-* **Details**: None. All active P0/P1 tasks are unblocked and executable.
+*(If any task fails verification 3 times consecutively, it will be moved here and the loop will skip to the next backlog task).*

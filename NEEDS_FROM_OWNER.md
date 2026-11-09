@@ -1,4 +1,4 @@
-# InsurIntel HK: Needs From Project Owner
+# InsurIntel HK: Needs From Project Owner (RUN 2: PARKED ITEMS)
 ## NEEDS_FROM_OWNER.md
 
 > [!IMPORTANT]
@@ -8,7 +8,15 @@
 
 ---
 
-### 1. 5 Official Insurer Benefit Illustration PDFs (Required for TASK-10 Golden Tests)
+### 1. Final Commercial Pricing & Sales Motion Decision
+* **Final Price Choice**: Selection between Option 1 (Single Advisor Pro @ HK$ 199/mo) vs Option 2 (Agency Team Pilot @ HK$ 2,480/mo / 15 seats) or alternative structure.
+* **Sales Motion**: Decision whether to lead with top-down agency director pitches or bottom-up individual advisor outreach.
+* **Pilot Director & Agency Names**: Naming real District Directors, branch units, or brokerage principals for early testing.
+* *Status*: **PARKED**. The agent will present options side-by-side without selecting.
+
+---
+
+### 2. Official Benefit Illustration PDFs (Required for Golden Tests)
 To implement golden test suites that verify cash values down to the exact dollar against official illustrations, the owner must provide official client benefit illustration PDFs for:
 1. **AIA Hong Kong**: Global Power Multi-Currency Plan 3 (盈御多元貨幣計劃 3) - 5-year pay, USD 20,000/yr benefit illustration.
 2. **Prudential Hong Kong**: Evergrowing Global Multi-Currency Plan (雋富多元貨幣計劃) - 5-year pay, USD 20,000/yr illustration.
@@ -16,20 +24,19 @@ To implement golden test suites that verify cash values down to the exact dollar
 4. **Sun Life Hong Kong**: SunJoy Global Multi-Currency Plan (萬年尊享多元貨幣計劃) - 5-year pay, USD 20,000/yr illustration.
 5. **FWD Hong Kong**: MaxFocus Multi-Currency Plan (盈聚多元貨幣計劃) - 5-year pay, USD 20,000/yr illustration.
 
-*Current Status*: **PARKED (TASK-10)**. No synthetic PDFs will be fabricated.
+*Status*: **PARKED (TASK-10)**. No synthetic illustration PDFs will be fabricated.
 
 ---
 
-### 2. Real District Directors & Agency Slot Nominations (Pilot Slots 1–3)
-* **Slot 1**: [To be named by Owner] - Target Agency/District: (e.g. AIA Harbour / Windsor District)
-* **Slot 2**: [To be named by Owner] - Target Agency/District: (e.g. Prudential Wealth District)
-* **Slot 3**: [To be named by Owner] - Target Agency/District: (e.g. Manulife Prestige District)
-
-*Current Status*: **PARKED**. The software uses placeholder tags `Pilot Slot 1-3: to be named by owner`.
+### 3. External Infrastructure & Deployment Authorizations
+* **Landing Page Analytics / Measurement Service**: Selection of web visit/event tracking service (e.g. Plausible, PostHog, Google Analytics 4, Cloudflare Web Analytics) for waitlist measurement.
+* **External Deployment / Publishing**: Actual deployment to live hosting (Vercel, Netlify, Cloudflare Pages, AWS) or custom domain mapping (`insurintel.hk`).
+* **Sending Outbound Messages**: Any actual outbound email dispatch, WhatsApp broadcasts, or external communications.
+* *Status*: **PARKED**. No code or site will be deployed externally.
 
 ---
 
-### 3. Business & GTM Strategy Decisions Requiring Human Sign-Off
-1. **Commercial Start Offer**: Whether to test B2B District Team at HK$2,480/month (15 seats) or Individual Advisor Pro at HK$199/month as the primary launch vehicle.
-2. **Primary Sales Motion**: Whether to prioritize top-down Morning Assembly director invitations or bottom-up individual WhatsApp peer referrals.
-3. **Legal Compliance Review**: Selection of qualified Hong Kong regulatory counsel to review `LEGAL_BRIEF_HK_COMPLIANCE.md`.
+### 4. Legal Counsel & Regulatory Sign-Off
+* **Selection of Qualified Hong Kong Counsel**: Engagement of a qualified HK solicitor/barrister to formally review `LEGAL_BRIEF_HK_COMPLIANCE.md`.
+* **Prohibition on "Compliant" / "Approved" Statements**: The system must never claim legal certification or compliance approval without written legal opinion.
+* *Status*: **PARKED**.

@@ -1,31 +1,33 @@
-# InsurIntel HK: Autonomous Loop State Machine
+# InsurIntel HK: Autonomous Loop State Machine (RUN 2: AUDIT AND HARDEN)
 ## LOOP_STATE.md
 
 > [!IMPORTANT]
-> **State Machine Memory File**:
-> This file preserves system state across turn boundaries and context wipes.
-> Final execution state: ALL UNPARKED TASKS COMPLETED. STOP CONDITION REACHED.
+> **State Machine Memory File (Run 2)**:
+> This file tracks Autonomous Loop Run 2: Audit and Harden (No New Features).
+> Max Cycles Cap: 6. Goal: Empirical truth audit of previous claims.
 
 ---
 
-### Final Execution State
-* **Current Cycle Number**: 10 (Final Cycle Completed)
-* **Current Active Task**: None (`TASK-11` Completed; `TASK-10` Parked)
-* **Active Git Branch**: `loop/run-1`
-* **Stop Conditions Triggered**: **No unparked P0/P1 tasks remain in BACKLOG.md** (TERMINAL STATE REACHED)
+### Current Execution State
+* **Loop Run**: Run 2 (Audit and Harden)
+* **Current Cycle Number**: 0 (Setup Completed, Entering Cycle 1)
+* **Current Active Task**: `TASK-R2-01` (C1 & C2: Strict SOURCED Definition, True Denominator Audit & Reconciliation)
+* **Active Git Branch**: `loop/run-2`
+* **Stop Conditions Triggered**: None
 
 ---
 
-### Final Verified Metrics Ledger (Snapshot Post-Cycle 10)
-| Metric | Verified Value | Proof Source / Command |
+### Metrics Ledger Snapshot (Entering Run 2)
+| Metric | Baseline Value (Start of Run 2) | Audit Verification Target |
 | :--- | :--- | :--- |
-| **Test Suites & Total Tests** | **25 Suites / 265 Tests Passed (0 Failed)** | Raw run of `npm test` |
-| **DATA_PROVENANCE Source Coverage** | **100.00% (130 / 130 Records)** | `node scripts/check_metrics.js` |
-| **UNVERIFIED Items Remaining** | **0 Unverified Records** | `node scripts/check_metrics.js` |
-| **BACKLOG P0/P1 Tasks Open** | **0 Open Tasks (1 Parked: TASK-10)** | `BACKLOG.md` analysis |
-| **SHA-256 Parity Across HTML Apps** | **Identical (Hash: bff563e41a9fb2b5...)** | `npm test` & crypto hash verification |
+| **Old Provenance "SOURCED" Count** | 130 / 130 (100.00% by URL format) | Re-evaluate under strict locator & network fetch rule |
+| **Strict SOURCED Verified Rows** | TBD (Pending Cycle 1 Audit) | Strict URL + locator + actual figure match verified |
+| **True Denominator (All Displayed Numbers)** | Undefined ("42+ vs 99 vs 130") | Exact count of client-visible numbers per screen |
+| **Closed-Form Actuarial Tests** | 0 Known-Answer Closed-Form Tests | Analytic closed-form benchmarks (single-period, annuity) |
+| **Unsubstantiated Overclaims Found** | TBD (Swept in Cycle 5) | Purge "production-grade", "100%", "compliant", "approved" |
+| **Open P0/P1 Tasks in Backlog** | 6 Tasks Open | 0 Open by Cycle 6 |
 
 ---
 
-### Terminal Deliverable
-System handoff document generated at `HANDOFF.md`.
+### Immediate Next Action
+Proceed to **Cycle 1**: Pick `TASK-R2-01` (C1: Define "SOURCED" & C2: True Denominator & Product Count Reconciliation). Implement `scripts/strict_provenance_audit.js` and `tests/verification_strict_provenance.ts`, run reviewer subagent, commit, and record.

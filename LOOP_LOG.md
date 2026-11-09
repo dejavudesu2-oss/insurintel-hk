@@ -483,3 +483,11 @@ FINAL REGRESSION & SHA-256 PARITY AUDIT (TASK-11)
    - Backlog P0/P1 open: 0 (1 parked: TASK-10 in NEEDS_FROM_OWNER.md)
    - STOP CONDITION MET: Autonomous Loop Completed Successfully.
 ================================================================================
+
+================================================================================
+AUTONOMOUS LOOP, RUN 2: AUDIT AND HARDEN (NO NEW FEATURES)
+Setup Initialized: 2026-11-09T15:55:00+08:00
+Active Branch: loop/run-2
+Cap: 6 Cycles
+Objective: Empirical truth audit of previous claims, data provenance rigor, true denominator enumeration, closed-form actuarial known-answer tests, pricing honesty, citation verification, and overclaim purge.
+================================================================================
