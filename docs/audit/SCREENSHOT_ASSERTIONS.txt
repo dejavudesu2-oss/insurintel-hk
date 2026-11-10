@@ -1,20 +1,20 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-10T07:59:24.963Z
-Harness: Chrome Headless (Chrome/156.0.8078.80) via Chrome DevTools Protocol
+Execution Timestamp: 2026-11-10T17:35:08.871Z
+Harness: Chrome Headless (Chrome/157.0.8103.50) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
 [TARGET: 01_client_neutral_view.png]
   Description : Client Neutral View (Clean Tear-Sheet with Statutory Warning & Fictional Plans)
   URL         : http://localhost:3334/index.html?mode=demo&view=client
-  DOM Check   : found=true, display=block, opacity=1, height=4418.078125px
-  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":4418.078125,"inViewport":true,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=1990.171875px
+  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":1990.171875,"inViewport":false,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 02_agent_cockpit.png]
   Description : Agent Tactical Cockpit (Internal HUD with Counter-Pitch Arguments)
   URL         : http://localhost:3334/index.html?mode=demo&view=agent
-  DOM Check   : found=true, display=block, opacity=1, height=1322.25px
-  Details     : {"target":"agent-view","found":true,"display":"block","opacity":"1","height":1322.25,"inViewport":true,"titleText":"🎯 對抗戰策：拆解【保誠保險 Prudential】5.8% 預繳噱頭與浮動陷阱","trapAlertPresent":true,"ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=1443.5625px
+  Details     : {"target":"agent-view","found":true,"display":"block","opacity":"1","height":1443.5625,"inViewport":false,"titleText":"🎯 對抗戰策：拆解【保誠保險 Prudential】5.8% 預繳噱頭與浮動陷阱","trapAlertPresent":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 03_gn16_chart.png]

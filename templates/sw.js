@@ -4,7 +4,7 @@
  * Network-First Strategy with Automatic Legacy Cache Eviction & Client Refresh
  */
 
-const CACHE_NAME = 'insurintel-cache-v13-swiss-eff10-rev2';
+const CACHE_NAME = 'insurintel-cache-v14-stripe-bento-optc';
 const UNIFIED_VIEWS = ['#battlecard', '#gl16', '#briefing', '#scanner', '#pricing'];
 const PRECACHE_URLS = [
   './',

@@ -4251,6 +4251,415 @@
         padding-bottom: 32px !important;
       }
     }
+
+    /* =========================================================================
+       Option C: Stripe / Linear Horizontal Command Ribbon & Full-Width Bento Grid
+       ========================================================================= */
+    #stripe-command-ribbon {
+      position: sticky;
+      top: 40px;
+      z-index: 1000;
+      background: #FFFFFF;
+      border-bottom: 1px solid #E2E8F0;
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.04);
+      padding: 6px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .stripe-ribbon-row-1 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .stripe-ribbon-row-2 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .stripe-ribbon-row-3 {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    #stripe-bento-canvas {
+      background: #F8FAFC;
+      min-height: calc(100vh - 160px);
+      padding: 12px 16px 40px;
+      max-width: 1600px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      box-sizing: border-box;
+    }
+
+    .bento-comparative-grid {
+      display: grid;
+      grid-template-columns: minmax(460px, 1fr) minmax(460px, 1fr);
+      gap: 14px;
+      align-items: start;
+      order: 1;
+      width: 100%;
+    }
+
+    @media (max-width: 1080px) {
+      .bento-comparative-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .bento-card {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 12px;
+      box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+      padding: 14px 18px;
+      box-sizing: border-box;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .bento-scenario-card {
+      order: 2;
+      width: 100%;
+    }
+
+    .bento-spec-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .bento-perspective-column {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .bento-perspective-column > #agent-view,
+    .bento-perspective-column > #client-view {
+      margin: 0 !important;
+      max-width: 100% !important;
+      width: 100% !important;
+      border-radius: 12px !important;
+    }
+
+    /* Option C: WCAG AAA Contrast Fix for Inactive Perspective Toggle Badge */
+    .view-btn:not(.active-agent):not(.active-client) .view-btn-badge,
+    .view-btn .view-btn-badge {
+      color: #1E293B !important;
+      background: #E2E8F0 !important;
+      border: 1px solid #CBD5E1 !important;
+    }
+    .view-btn.active-agent .view-btn-badge {
+      color: #38bdf8 !important;
+      background: rgba(56, 189, 248, 0.22) !important;
+      border: 1px solid rgba(56, 189, 248, 0.4) !important;
+    }
+    .view-btn.active-client .view-btn-badge {
+      color: #ffffff !important;
+      background: rgba(255, 255, 255, 0.25) !important;
+      border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    }
+
+    /* Option C Command Ribbon Item Styling */
+    #stripe-command-ribbon .category-tabs-bar {
+      display: flex;
+      gap: 6px;
+      overflow-x: auto;
+      padding: 0;
+      margin: 0;
+      border: none;
+      background: transparent;
+    }
+    #stripe-command-ribbon .cat-tab {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      color: #475569;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 5px 11px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+    #stripe-command-ribbon .cat-tab:hover {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+    #stripe-command-ribbon .cat-tab.active {
+      background: #4F46E5 !important;
+      color: #FFFFFF !important;
+      border-color: #4F46E5 !important;
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3) !important;
+    }
+
+    #stripe-command-ribbon .view-toggle-bar {
+      display: inline-flex;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 2px;
+      gap: 3px;
+      margin: 0;
+    }
+    #stripe-command-ribbon .view-btn {
+      border: none;
+      border-radius: 6px;
+      padding: 4px 8px;
+      cursor: pointer;
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      background: transparent;
+      color: #475569;
+      transition: all 0.15s ease;
+    }
+    #stripe-command-ribbon .view-btn.active-agent {
+      background: #0F172A !important;
+      color: #38BDF8 !important;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
+    }
+    #stripe-command-ribbon .view-btn.active-client {
+      background: #4F46E5 !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25) !important;
+    }
+
+    #stripe-command-ribbon .quick-matchup-presets {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-left: 3px solid #4F46E5;
+      border-radius: 6px;
+      padding: 4px 8px;
+      margin: 0;
+      width: 100%;
+      box-sizing: border-box;
+    }
+    #stripe-command-ribbon .quick-matchup-header {
+      font-size: 11px;
+      font-weight: 700;
+      color: #334155;
+      margin-bottom: 3px;
+    }
+    #stripe-command-ribbon .quick-matchup-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+    }
+    #stripe-command-ribbon .matchup-preset-chip {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 4px;
+      padding: 3px 8px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: #334155;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+    #stripe-command-ribbon .matchup-preset-chip:hover {
+      background: #EEF2FF;
+      border-color: #C7D2FE;
+      color: #4F46E5;
+    }
+    #stripe-command-ribbon .matchup-preset-chip.active {
+      background: #4F46E5 !important;
+      color: #FFFFFF !important;
+      border-color: #4F46E5 !important;
+    }
+
+    #stripe-command-ribbon .arena-mode-bar {
+      display: inline-flex;
+      background: #F1F5F9;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+      margin: 0;
+    }
+    #stripe-command-ribbon .arena-mode-btn {
+      border: none;
+      background: transparent;
+      color: #475569;
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    #stripe-command-ribbon .arena-mode-btn.active {
+      background: #0F172A !important;
+      color: #FFFFFF !important;
+    }
+
+    #stripe-command-ribbon .bilateral-arena-box {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0;
+      padding: 0;
+      border: none;
+      background: transparent;
+      box-shadow: none;
+    }
+    #stripe-command-ribbon .camp-card {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 3px 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+    #stripe-command-ribbon .camp-card.camp-our {
+      border-left: 3px solid #3B82F6;
+    }
+    #stripe-command-ribbon .camp-card.camp-rival {
+      border-left: 3px solid #EF4444;
+    }
+    #stripe-command-ribbon .camp-card.camp-third {
+      border-left: 3px solid #8B5CF6;
+    }
+    #stripe-command-ribbon .camp-card .camp-header {
+      margin: 0;
+      padding: 0;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    #stripe-command-ribbon .camp-card .camp-select-wrap {
+      margin: 0;
+    }
+    #stripe-command-ribbon .camp-card .camp-select {
+      padding: 3px 6px;
+      font-size: 11px;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      background: #FFFFFF;
+      color: #0F172A;
+      outline: none;
+    }
+    #stripe-command-ribbon .camp-card .camp-product-select {
+      max-width: 170px;
+    }
+    #stripe-command-ribbon .btn-swap-camp {
+      background: #4F46E5;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      transition: background 0.15s ease;
+      white-space: nowrap;
+    }
+    #stripe-command-ribbon .btn-swap-camp:hover {
+      background: #4338CA;
+    }
+
+    #stripe-command-ribbon .ai-quick-trigger-banner {
+      display: flex !important;
+      background: #EEF2FF;
+      border: 1px solid #C7D2FE;
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 11px;
+      color: #4338CA;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+    #stripe-command-ribbon .ai-quick-trigger-banner:hover {
+      background: #E0E7FF;
+    }
+
+    /* Option C Bento Cards Styling for Internal Widgets */
+    .bento-spec-column .quick-selector {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+    }
+    .bento-spec-column .quick-selector .pill-scroll {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .bento-spec-column .quick-selector .thumb-pill {
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 14px;
+      padding: 3px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .bento-spec-column .quick-selector .thumb-pill:hover {
+      background: #EEF2FF;
+      color: #4F46E5;
+      border-color: #C7D2FE;
+    }
+    .bento-spec-column .quick-selector .thumb-pill.active {
+      background: #4F46E5 !important;
+      color: #FFFFFF !important;
+      border-color: #4F46E5 !important;
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.25) !important;
+    }
+
+    .bento-scenario-card .scenario-agents-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      padding: 4px 0;
+    }
+    .bento-scenario-card .scenario-tab-btn {
+      background: #F8FAFC;
+      border: 1px solid #E2E8F0;
+      border-radius: 6px;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #475569;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .bento-scenario-card .scenario-tab-btn:hover {
+      background: #EEF2FF;
+      color: #4F46E5;
+      border-color: #C7D2FE;
+    }
+    .bento-scenario-card .scenario-tab-btn.active {
+      background: #4F46E5 !important;
+      color: #FFFFFF !important;
+      border-color: #4F46E5 !important;
+    }
   </style>
 </head>
 <body>
@@ -4369,533 +4778,539 @@
     </div>
   </div>
 
-  <!-- Swiss Private Bank 2-Pane Split-Screen Workspace Shell -->
-  <div class="swiss-workspace-shell" id="swiss-workspace-shell">
-    <aside class="swiss-left-rail" id="swiss-left-rail">
-    <!-- Dual-Perspective Switcher -->
-  <div class="view-toggle-bar">
-    <button class="view-btn active-agent" id="btn-agent-view" onclick="setViewMode('agent')">
-      <span class="view-btn-primary">🔒 Agent 私密提詞視角</span>
-      <span class="view-btn-badge">顧問內部專用 HUD</span>
-    </button>
-    <button class="view-btn" id="btn-client-view" onclick="setViewMode('client')">
-      <span class="view-btn-primary">📱 遞給客戶看（客觀數據）</span>
-      <span class="view-btn-badge">客觀中立對照撕頁</span>
-    </button>
-  </div>
-
-  <!-- 5 Major Category Selector Tabs -->
-  <div class="category-tabs-bar" id="category-tabs">
-    <button class="cat-tab active" data-cat="Savings_MultiCurrency" onclick="selectCategory(this, 'Savings_MultiCurrency')">📈 儲蓄分紅 (20款)</button>
-    <button class="cat-tab" data-cat="Critical_Illness" onclick="selectCategory(this, 'Critical_Illness')">🛡️ 重疾危疾 (20款)</button>
-    <button class="cat-tab" data-cat="Medical_VHIS" onclick="selectCategory(this, 'Medical_VHIS')">🏥 自願醫保 (20款)</button>
-    <button class="cat-tab" data-cat="Annuity_QDAP" onclick="selectCategory(this, 'Annuity_QDAP')">👴 扣稅年金 (19款)</button>
-    <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (20款)</button>
-  </div>
-
-  <!-- Arena Mode Switcher (1v1 vs 3-Way PK) -->
-  <div class="arena-mode-bar" id="arena-mode-bar">
-    <button class="arena-mode-btn active" id="btn-mode-1v1" onclick="setArenaMode('1v1')">⚔️ 1v1 雙邊對決</button>
-    <button class="arena-mode-btn" id="btn-mode-3way" onclick="setArenaMode('3way')">🏆 3-Way 三方旗艦同台 (Plan A vs B vs C)</button>
-  </div>
-
-  <!-- 1-Click Hot Matchup Presets & Efficiency Hub Trigger (Efficiency Upgrade #2, #9 & #10) -->
-  <div class="quick-matchup-presets" id="quick-matchup-presets">
-    <div class="quick-matchup-header">
-      <span class="quick-matchup-title">🔥 熱門旗艦對陣一鍵載入 (1-Click Presets)</span>
-      <div style="display:flex;gap:4px;">
-        <button type="button" class="swiss-eff-toolbar-btn" id="btn-share-arena-link" onclick="copyArenaShareLink()" title="複製當前對陣專屬深層連結 (URL Deep-Link)">🔗 複製連結</button>
-        <button type="button" class="swiss-eff-toolbar-btn" id="btn-open-efficiency-hub" onclick="openEfficiencyAuditHub()" title="查閱客戶與顧問 100 條效率建議及 10 大已落地升級">⚡ 效率升級(10/100)</button>
+  <!-- Option C: Stripe / Linear Horizontal Command Ribbon -->
+  <header id="stripe-command-ribbon" class="stripe-command-ribbon" role="region" aria-label="Horizontal Command Ribbon">
+    <!-- Row 1: 5 Major Category Selector Tabs + Perspective Switcher -->
+    <div class="stripe-ribbon-row-1">
+      <div class="category-tabs-bar" id="category-tabs" role="tablist" aria-label="Insurance Categories">
+        <button class="cat-tab active" data-cat="Savings_MultiCurrency" onclick="selectCategory(this, 'Savings_MultiCurrency')">📈 儲蓄分紅 (20款)</button>
+        <button class="cat-tab" data-cat="Critical_Illness" onclick="selectCategory(this, 'Critical_Illness')">🛡️ 重疾危疾 (20款)</button>
+        <button class="cat-tab" data-cat="Medical_VHIS" onclick="selectCategory(this, 'Medical_VHIS')">🏥 自願醫保 (20款)</button>
+        <button class="cat-tab" data-cat="Annuity_QDAP" onclick="selectCategory(this, 'Annuity_QDAP')">👴 扣稅年金 (19款)</button>
+        <button class="cat-tab" data-cat="Financing_UniversalLife" onclick="selectCategory(this, 'Financing_UniversalLife')">🏦 萬用融資 (20款)</button>
       </div>
-    </div>
-    <div class="quick-matchup-grid" id="quick-matchup-grid">
-      <button type="button" class="matchup-preset-chip active" data-preset="aia_vs_pru_sav" onclick="applyQuickMatchupPreset('aia_vs_pru_sav')">🔥 友邦盈御3 vs 保誠雋富</button>
-      <button type="button" class="matchup-preset-chip" data-preset="manu_vs_sun_sav" onclick="applyQuickMatchupPreset('manu_vs_sun_sav')">🌱 宏利宏摯 vs 永明萬年青</button>
-      <button type="button" class="matchup-preset-chip" data-preset="aia_vs_pru_ci" onclick="applyQuickMatchupPreset('aia_vs_pru_ci')">🛡️ 友邦愛伴航 vs 保誠危疾加護3</button>
-      <button type="button" class="matchup-preset-chip" data-preset="bupa_vs_cigna_vhis" onclick="applyQuickMatchupPreset('bupa_vs_cigna_vhis')">🏥 保柏英雄 vs 信諾靈活醫保</button>
-      <button type="button" class="matchup-preset-chip" data-preset="boc_vs_cl_qdap" onclick="applyQuickMatchupPreset('boc_vs_cl_qdap')">👴 中銀延期年金 vs 國壽頤富</button>
-      <button type="button" class="matchup-preset-chip" data-preset="hsbc_vs_axa_ul" onclick="applyQuickMatchupPreset('hsbc_vs_axa_ul')">🏦 滙豐智盈萬用 vs 安盛盛世</button>
-    </div>
-  </div>
-
-  <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
-  <div class="bilateral-arena-box" id="bilateral-arena-box">
-    <!-- Plan A: 我方陣營 -->
-    <div class="camp-card camp-our" id="camp-card-our">
-      <div class="camp-header">
-        <span class="camp-label our-label">🔵 我方 (Plan A)</span>
-        <span class="camp-saved-indicator" id="camp-saved-indicator" title="已持久化儲存於本機">💾 已記住</span>
-      </div>
-      <!-- Field 1: 保司選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select" id="select-my-insurer" onchange="setMyCompany(this.value)" aria-label="選擇我方代表保司">
-          <option value="AIA">友邦 AIA</option>
-          <option value="Prudential">保誠 Prudential</option>
-          <option value="Manulife">宏利 Manulife</option>
-          <option value="Sun Life">永明 Sun Life</option>
-          <option value="FWD">富衛 FWD</option>
-          <option value="AXA">安盛 AXA</option>
-          <option value="Bowtie">保泰 Bowtie</option>
-          <option value="BOC Life">中銀人壽 BOC Life</option>
-          <option value="YF Life">萬通 YF Life</option>
-          <option value="HSBC">滙豐保險 HSBC Life</option>
-          <option value="Generali">忠意保險 Generali</option>
-          <option value="BlueCross">藍十字 Blue Cross</option>
-          <option value="ChinaLife">中國人壽海外 China Life</option>
-          <option value="Cigna">信諾 Cigna</option>
-          <option value="Bupa">保柏 Bupa</option>
-        </select>
-      </div>
-      <!-- Field 2: 產品選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select camp-product-select" id="select-my-product" onchange="setMyProduct(this.value)" aria-label="選擇我方產品">
-          <!-- Populated dynamically by updateCampSelectors() -->
-        </select>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;">盈御多元貨幣計劃 3 📋</div>
-        <a id="my-product-official-link" class="official-brochure-link" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#002FA7;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(0,47,167,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+      <div class="view-toggle-bar" role="group" aria-label="Perspective Switcher">
+        <button class="view-btn active-agent" id="btn-agent-view" onclick="setViewMode('agent')" title="顧問內部私密提詞視角">
+          <span class="view-btn-primary">🔒 Agent 私密提詞視角</span>
+          <span class="view-btn-badge">顧問內部專用 HUD</span>
+        </button>
+        <button class="view-btn" id="btn-client-view" onclick="setViewMode('client')" title="遞給客戶客觀數據視角">
+          <span class="view-btn-primary">📱 遞給客戶看（客觀數據）</span>
+          <span class="view-btn-badge">客觀中立對照撕頁</span>
+        </button>
       </div>
     </div>
 
-    <!-- Central Prominent Swap Roles Button [ ⇄ 對調 ] -->
-    <button class="btn-swap-camp" id="btn-swap-roles" onclick="swapCampRoles()" title="一鍵攻防立場對調 (Swap Roles)" aria-label="攻防對調">
-      <span class="swap-icon">⇄</span>
-      <span class="swap-text">對調</span>
-    </button>
-
-    <!-- Plan B: 遭遇競品 -->
-    <div class="camp-card camp-rival" id="camp-card-rival">
-      <div class="camp-header">
-        <span class="camp-label rival-label">🔴 對手 (Plan B)</span>
-        <span class="camp-hint-text">競品</span>
-      </div>
-      <!-- Field 1: 保司選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select" id="select-rival-insurer" onchange="selectCompany(this.value)" aria-label="選擇遭遇競品保司">
-          <option value="Prudential">保誠 Prudential</option>
-          <option value="AIA">友邦 AIA</option>
-          <option value="Manulife">宏利 Manulife</option>
-          <option value="Sun Life">永明 Sun Life</option>
-          <option value="FWD">富衛 FWD</option>
-          <option value="AXA">安盛 AXA</option>
-          <option value="Bowtie">保泰 Bowtie</option>
-          <option value="BOC Life">中銀人壽 BOC Life</option>
-          <option value="YF Life">萬通 YF Life</option>
-          <option value="HSBC">滙豐保險 HSBC Life</option>
-          <option value="Generali">忠意保險 Generali</option>
-          <option value="BlueCross">藍十字 Blue Cross</option>
-          <option value="ChinaLife">中國人壽海外 China Life</option>
-          <option value="Cigna">信諾 Cigna</option>
-          <option value="Bupa">保柏 Bupa</option>
-        </select>
-      </div>
-      <!-- Field 2: 產品選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select camp-product-select" id="select-rival-product" onchange="setRivalProduct(this.value)" aria-label="選擇競品產品">
-          <!-- Populated dynamically by updateCampSelectors() -->
-        </select>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;">雋富多元貨幣計劃 📋</div>
-        <a id="rival-product-official-link" class="official-brochure-link" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#dc2626;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(220,38,38,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
-      </div>
-    </div>
-
-    <!-- Plan C: 第三方旗艦陣營 (3-Way 模式) -->
-    <div class="camp-card camp-third" id="camp-card-third" style="display:none;">
-      <div class="camp-header">
-        <span class="camp-label third-label">🟣 第三方 (Plan C)</span>
-        <span class="camp-hint-text">三方競品</span>
-      </div>
-      <!-- Field 1: 保司選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select" id="select-third-insurer" onchange="setThirdCompany(this.value)" aria-label="選擇第三方代表保司">
-          <option value="Manulife">宏利 Manulife</option>
-          <option value="AIA">友邦 AIA</option>
-          <option value="Prudential">保誠 Prudential</option>
-          <option value="Sun Life">永明 Sun Life</option>
-          <option value="FWD">富衛 FWD</option>
-          <option value="AXA">安盛 AXA</option>
-          <option value="Bowtie">保泰 Bowtie</option>
-          <option value="BOC Life">中銀人壽 BOC Life</option>
-          <option value="YF Life">萬通 YF Life</option>
-          <option value="HSBC">滙豐保險 HSBC Life</option>
-          <option value="Generali">忠意保險 Generali</option>
-          <option value="BlueCross">藍十字 Blue Cross</option>
-          <option value="ChinaLife">中國人壽海外 China Life</option>
-          <option value="Cigna">信諾 Cigna</option>
-          <option value="Bupa">保柏 Bupa</option>
-        </select>
-      </div>
-      <!-- Field 2: 產品選擇 -->
-      <div class="camp-select-wrap">
-        <select class="camp-select camp-product-select" id="select-third-product" onchange="setThirdProduct(this.value)" aria-label="選擇第三方產品">
-        </select>
-      </div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:4px;gap:4px;flex-wrap:wrap;">
-        <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;">宏摯多元儲蓄計劃 📋</div>
-        <a id="third-product-official-link" class="official-brochure-link" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#7c3aed;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(124,58,237,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- AI Quick Strategy Trigger Banner -->
-  <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
-    <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
-    <span style="font-size:11px;background:rgba(0,47,167,0.1);padding:2px 8px;border-radius:10px;font-weight:800;">AI Copilot</span>
-  </div>
-
-  <!-- AI Scenario Agents Switcher Bar -->
-  <div class="scenario-agents-bar-wrap" id="scenario-agents-bar-wrap">
-    <div class="scenario-bar-header">
-      <span class="scenario-bar-title">🤖 AI 實戰場景顧問引擎 (AI Scenario Agents)</span>
-      <span class="scenario-bar-tag" id="scenario-active-tag">☕ 咖啡館極速</span>
-    </div>
-    <div class="scenario-agents-tabs" id="scenario-agent-tabs">
-      <button class="scenario-tab-btn active" data-scenario="cafe_rapid" onclick="selectScenarioAgent('cafe_rapid')">☕ 30s 咖啡館極速</button>
-      <button class="scenario-tab-btn" data-scenario="offshore_mcv" onclick="selectScenarioAgent('offshore_mcv')">🇨🇳 MCV 離岸大客</button>
-      <button class="scenario-tab-btn" data-scenario="young_family" onclick="selectScenarioAgent('young_family')">👨‍👩‍👧 家庭預算槓桿</button>
-      <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
-      <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
-      <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
-      <button class="scenario-tab-btn" data-scenario="ul_stress" id="tab-scenario-ul-stress" onclick="selectScenarioAgent('ul_stress')">🏦 萬用融資加息測試</button>
-      <button class="scenario-tab-btn" data-scenario="group_medical" id="tab-scenario-group-medical" onclick="selectScenarioAgent('group_medical')">🏥 團險自願醫保抵扣</button>
-      <button class="scenario-tab-btn" data-scenario="simulation_100" id="tab-scenario-simulation-100" onclick="selectScenarioAgent('simulation_100')">💯 100場景模擬與定價</button>
-    </div>
-  </div>
-
-  <!-- Dynamic Active Scenario Agent Tool Panel -->
-  <div class="scenario-panel-container" id="scenario-agent-panel">
-    <!-- Populated dynamically by renderScenarioAgentPanel() -->
-  </div>
-
-  <!-- 3-Second Quick Match Selector (Visually ordered directly below bilateral-arena-box via CSS flex order: 5) -->
-  <div class="quick-selector">
-    <!-- Redundant Plan B company pills hidden from visual layout while preserving DOM testability -->
-    <div id="company-pills-row" style="display:none;" aria-hidden="true">
-      <div class="selector-label">
-        <span>1. 快速切換競品保司 (Plan B)</span>
-        <span style="color:var(--ikb)">單手點選</span>
-      </div>
-      <div class="pill-scroll" id="company-pills">
-        <button class="thumb-pill" onclick="selectCompany(this, '保誠 Prudential')">保誠 Prudential</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '友邦 AIA')">友邦 AIA</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '宏利 Manulife')">宏利 Manulife</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '永明 Sun Life')">永明 Sun Life</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '富衛 FWD')">富衛 FWD</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '安盛 AXA')">安盛 AXA</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '純網上虛擬 Bowtie')">網上 Bowtie</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '中銀人壽 BOC Life')">中銀人壽 BOC Life</button>
-        <button class="thumb-pill" onclick="selectCompany(this, '萬通 YF Life')">萬通 YF Life</button>
-      </div>
-    </div>
-
-    <div class="claim-selector-header" style="margin-top:4px; margin-bottom:4px;">
-      <div class="selector-label" style="display:flex; justify-content:space-between; align-items:center;">
-        <span>⚡ 選擇客戶提出的競品噱頭 / 攻防焦點</span>
-        <span style="color:var(--ikb);font-size:11px;font-weight:700;">即點即破局</span>
-      </div>
-      <div class="claim-guide-tip">
-        💡 <strong>實戰指南：</strong>點擊下方對應標籤即時切換【顧問私密視角】3 步破局話術與【客戶視角】對比高亮。
-      </div>
-    </div>
-    <div class="pill-scroll" id="claim-pills">
-      <button class="thumb-pill active" onclick="selectClaim(this, '5.8% 預繳 / 保證高回報')">5.8% 預繳 / 保證高回報</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
-      <button class="thumb-pill" onclick="selectClaim(this, 'GN16 官方分紅實現率')">GN16 官方分紅實現率</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '保證回本年期 vs 預期回本')">保證回本年期 vs 預期回本</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '30年預期複利 IRR')">30年預期複利 IRR</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '多元貨幣轉換與保單分拆')">多元貨幣轉換與保單分拆</button>
-    </div>
-    <!-- Hidden legacy pills fallback for backward test compatibility -->
-    <div id="legacy-claim-pills" style="display:none;" aria-hidden="true">
-      <button class="thumb-pill" onclick="selectClaim(this, '5.8% 預繳')">5.8% 預繳</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '癌症再次索償等待期')">癌症再次索償等待期</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '自願醫保全數賠償')">自願醫保全數賠償</button>
-      <button class="thumb-pill" onclick="selectClaim(this, '保費融資 85% LTV')">保費融資 85% LTV</button>
-      <button class="thumb-pill" onclick="selectClaim(this, 'QDAP 延期年金總回報')">QDAP 延期年金總回報</button>
-    </div>
-  </div>
-
-    </aside>
-    <main class="swiss-right-canvas" id="swiss-right-canvas">
-  <!-- Agent Private View (Dark, Tactical, Punchy) -->
-  <div id="agent-view" class="agent-view-container">
-    <div class="agent-mode-explainer-banner" id="agent-mode-explainer-banner">
-      <div class="mode-explainer-header">
-        <span class="mode-explainer-tag tag-agent">🔒 顧問內部專用 HUD (Advisor HUD)</span>
-        <span class="mode-explainer-pill pill-danger">⚠️ 嚴禁直接展示給客戶</span>
-      </div>
-      <div class="mode-explainer-desc">
-        【顧問專用內部 HUD】包含對手條款細節、3步破局話術與攻防提詞，供顧問面對客戶前提詞準備
-      </div>
-    </div>
-
-    <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶 · 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日</div>
-    
-    <!-- Illustrative Warning Badge for Agent View -->
-    <div class="agent-illustrative-watermark" id="agent-illustrative-watermark" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-left:4px solid #f59e0b;padding:6px 10px;border-radius:6px;margin:8px 0;font-size:11px;color:#fbbf24;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-      <span>⚠️ 內部示範數據提示：非源自官方利益說明書之試算指標均為產品結構示範</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#fcd34d;font-weight:700;">Illustrative - not from an official illustration</span>
-    </div>
-    
-    <!-- 当前应对噱头提示条 -->
-    <div class="agent-objection-banner" id="agent-objection-banner">
-      <span>⚡ 應對客戶異議焦點：</span>
-      <strong id="agent-objection-title" style="color:#38bdf8;">5.8% 預繳 / 保證高回報</strong>
-    </div>
-
-    <!-- 条款陷阱警示框 -->
-    <div class="agent-trap-alert" id="agent-trap-alert">
-      <strong>條款陷阱避坑警示：</strong>對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！
-    </div>
-
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;">
-      <h3 style="font-size:16px; margin:0; color:#38bdf8;" id="agent-title">
-        🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
-      </h3>
-      <button class="inline-pitch-copy-btn btn-copy-full" id="btn-copy-full-pitch" onclick="copyFull3StepPitch(this)" title="一鍵複製完整 3 步破局話術">
-        📋 複製全部
-      </button>
-    </div>
-
-    <div class="step-box">
-      <div class="step-title-row">
-        <div class="step-title">步驟 1：共情肯定眼光（不硬駁）</div>
-        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(1, this)" title="一鍵複製步驟 1 話術">📋 複製</button>
-      </div>
-      <div class="step-script" id="agent-step-1">
-        「陳生，你真係好有眼光！保誠個 5.8% 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」
-      </div>
-    </div>
-
-    <div class="step-box">
-      <div class="step-title-row">
-        <div class="step-title">步驟 2：點破條款盲點（次年浮動跳水）</div>
-        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(2, this)" title="一鍵複製步驟 2 話術">📋 複製</button>
-      </div>
-      <div class="step-script" id="agent-step-2">
-        「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」
-      </div>
-    </div>
-
-    <div class="step-box" style="border-left-color: #4ade80;">
-      <div class="step-title-row">
-        <div class="step-title" style="color:#4ade80;">步驟 3：數據絕殺（保監局 GN16 官方實現率）</div>
-        <button class="inline-pitch-copy-btn" onclick="copyStepPitch(3, this)" title="一鍵複製步驟 3 話術">📋 複製</button>
-      </div>
-      <div class="step-script" id="agent-step-3">
-        「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【雋富多元貨幣計劃】得 91.2%。複利 30 年差 5.3% 就係幾十萬真金白銀！」
-      </div>
-    </div>
-
-    <!-- Agent Clause Intel Container -->
-    <div class="agent-clause-intel-container" id="agent-clause-intel">
-      <!-- Rendered dynamically by updateBattleCard() -->
-    </div>
-  </div>
-
-  <!-- Client Facing View (Light, Clean, Objective, Designed Against IA Guidelines) -->
-  <div id="client-view" class="main-card" style="display:none;">
-    <!-- Quick PDF Report & Card Trigger Banner in Client View -->
-    <div class="client-pdf-trigger-banner" id="client-pdf-trigger-banner" onclick="openClientPdfModal()">
-      <span>📑 <strong>一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</strong> ❯</span>
-      <span class="report-badge-btn">MDRT推薦 · 依循操守守則與 GL27 原則</span>
-    </div>
-
-    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:4px;">
-      <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK TEAR-SHEET</span>
-      <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GL16 (GN16) 公開報告 · 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日</span>
-    </div>
-
-    <!-- 1v1 / 3-Way 旗舰擂台对决卡 -->
-    <div class="hero-battle-header" id="hero-battle-header">
-      <div class="hero-side our-side">
-        <div class="hero-tag">我方推薦配置方案</div>
-        <div class="hero-title" id="hero-our-name">友邦 AIA · 盈御多元貨幣計劃 3</div>
-      </div>
-      <div class="hero-vs-badge" id="hero-vs-badge-1">VS</div>
-      <div class="hero-side rival-side">
-        <div class="hero-tag">競品市場宣傳方案</div>
-        <div class="hero-title" id="hero-rival-name">保誠 Prudential · 雋富多元貨幣計劃</div>
-      </div>
-      <div class="hero-vs-badge hero-vs-third" id="hero-vs-third" style="display:none;">VS</div>
-      <div class="hero-side third-side" id="hero-third-side" style="display:none;">
-        <div class="hero-tag">第三方市場方案</div>
-        <div class="hero-title" id="hero-third-name">宏利 Manulife · 宏摯多元儲蓄計劃</div>
-      </div>
-    </div>
-
-    <!-- Prominent Official Original Source / Brochure Direct Links -->
-    <div class="tearsheet-official-links-bar" id="tearsheet-official-links-bar" style="display:flex;gap:8px;margin:8px 0 12px;flex-wrap:wrap;">
-      <a id="tearsheet-our-pdf-link" class="tearsheet-pdf-btn our" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-        <span>📄 我方【盈御多元貨幣計劃 3】官方手冊原件 ↗</span>
-      </a>
-      <a id="tearsheet-rival-pdf-link" class="tearsheet-pdf-btn rival" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
-        <span>📄 競品【雋富多元貨幣計劃】官方手冊原件 ↗</span>
-      </a>
-      <a id="tearsheet-third-pdf-link" class="tearsheet-pdf-btn third" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="display:none;flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;align-items:center;gap:4px;background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;">
-        <span>📄 第三方【宏摯多元儲蓄計劃】官方手冊原件 ↗</span>
-      </a>
-    </div>
-
-    <!-- Statutory Illustrative Data Watermark for non-strictly sourced metrics -->
-    <div class="illustrative-watermark-banner" id="client-illustrative-watermark" style="background:#fffbeb;border:1px solid #fef3c7;border-left:4px solid #f59e0b;padding:8px 12px;border-radius:6px;margin:8px 0 10px;font-size:11px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
-      <div style="display:flex;align-items:center;gap:6px;">
-        <span style="font-size:14px;">⚠️</span>
-        <span><strong>數據真實性聲明</strong>：除香港稅務條例法定扣除額外，本系統非官方利益說明書認證之數值均標註為</span>
-      </div>
-      <span class="badge-illustrative-tag" style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:4px;font-weight:700;font-family:'JetBrains Mono',monospace;font-size:10.5px;border:1px solid #fcd34d;">Illustrative - not from an official illustration</span>
-    </div>
-
-    <!-- 1v1 Client Head-to-Head Comparison Grid -->
-    <div class="bilateral-spec-box" id="bilateral-spec-box" style="margin: 12px 0;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
-        <span style="font-size:12px; font-weight:700; color:var(--text-main);">⚡ 雙方旗艦 1v1 雙方方案核心精算指標客觀對照</span>
-        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
-          <button type="button" class="swiss-eff-toolbar-btn" id="btn-spec-diff-only" onclick="toggleSpecDiffFilter()" title="只顯示雙方存在顯著差異的關鍵精算指標">🔍 只看關鍵差異</button>
-          <button type="button" class="swiss-eff-toolbar-btn" id="btn-sync-gl16-arena" onclick="openGN16ForCurrentArena('our')" title="將當前對陣保司與保費一鍵帶入 GL16 達成率對賬器">📊 調取 GL16 對賬</button>
-          <span style="font-size:10px; color:var(--ikb); font-family:'JetBrains Mono'">PLAN A vs PLAN B</span>
+    <!-- Row 2: 1-Click Hot Matchup Presets & Efficiency Hub Trigger -->
+    <div class="stripe-ribbon-row-2">
+      <div class="quick-matchup-presets" id="quick-matchup-presets">
+        <div class="quick-matchup-header">
+          <span class="quick-matchup-title">🔥 熱門旗艦對陣一鍵載入 (1-Click Presets)</span>
+          <div style="display:flex;gap:4px;">
+            <button type="button" class="swiss-eff-toolbar-btn" id="btn-share-arena-link" onclick="copyArenaShareLink()" title="複製當前對陣專屬深層連結 (URL Deep-Link)">🔗 複製連結</button>
+            <button type="button" class="swiss-eff-toolbar-btn" id="btn-open-efficiency-hub" onclick="openEfficiencyAuditHub()" title="查閱客戶與顧問 100 條效率建議及 10 大已落地升級">⚡ 效率升級(10/100)</button>
+          </div>
         </div>
-      </div>
-      <table class="bilateral-spec-table" id="bilateral-spec-table">
-        <!-- Rendered dynamically by updateBattleCard() -->
-      </table>
-    </div>
-
-    <!-- 1v1 Bilateral Actuarial Scorecard (Radar Dimensions) -->
-    <div class="radar-scorecard-box" id="bilateral-radar-scorecard">
-      <!-- Rendered dynamically by updateBattleCard() -->
-    </div>
-
-    <!-- Bilateral Clause Highlights & Pitfalls Comparison Card -->
-    <div class="clause-comparison-box" id="bilateral-clause-comparison">
-      <!-- Rendered dynamically by updateBattleCard() -->
-    </div>
-
-    <h2 style="font-size:18px; font-weight:700; margin-bottom:6px;" id="client-title">
-      全港主流旗艦儲蓄險·長期分紅穩定性比對
-    </h2>
-    <p style="font-size:13px; color:var(--text-sub); line-height:1.5;" id="client-desc">
-      分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
-    </p>
-
-    <!-- Client Annual Premium Quick Scaler (Efficiency Upgrade #5) -->
-    <div class="client-premium-scaler" id="client-premium-scaler">
-      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
-        <span style="font-size:11.5px;font-weight:800;color:#0E2238;">💰 客戶年繳保費試算基準 (5年繳)：</span>
-        <button type="button" class="premium-scale-chip" data-usd="10000" onclick="setClientPremiumScale(10000)">USD $10,000</button>
-        <button type="button" class="premium-scale-chip active" data-usd="30000" onclick="setClientPremiumScale(30000)">USD $30,000</button>
-        <button type="button" class="premium-scale-chip" data-usd="50000" onclick="setClientPremiumScale(50000)">USD $50,000</button>
-        <button type="button" class="premium-scale-chip" data-usd="100000" onclick="setClientPremiumScale(100000)">USD $100,000</button>
-      </div>
-      <div id="client-premium-scaler-summary" style="font-size:11px;font-weight:700;color:#785B26;font-family:'JetBrains Mono',monospace;">
-        總繳保費 USD $150,000 (約 HK$1,170,000) · 點擊上方金額即時換算第 5/10/20/30 年預期價值
-      </div>
-    </div>
-
-    <!-- Dynamic Policy Horizon Slider -->
-    <div class="horizon-slider-box" id="horizon-slider-box">
-      <div class="horizon-slider-header">
-        <span class="horizon-slider-title">📈 政策收益動態投影儀 (Policy Horizon)</span>
-        <span class="horizon-badge" id="horizon-year-badge">30 年</span>
-      </div>
-      <div class="horizon-range-wrap">
-        <input type="range" id="horizon-slider" min="0" max="3" step="1" value="3" oninput="onHorizonChange(this.value)">
-      </div>
-      <div class="horizon-ticks">
-        <span>5年 (回本啟動)</span>
-        <span>10年 (收益加速)</span>
-        <span>20年 (財富倍增)</span>
-        <span>30年 (退休傳承)</span>
-      </div>
-      <div class="horizon-result-card" id="horizon-result-card">
-        <strong>第 30 年動態利益投影：</strong>退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！GN16 實現率每差 5.3%，30年複利累積差距將高達 HK$450,000 ~ $800,000 真金白銀！
-      </div>
-    </div>
-
-    <!-- Official GN16 Corridor & Multi-Horizon Visual Chart -->
-    <div class="corridor-meter-box" id="corridor-meter-box">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-        <span style="font-size:13px;font-weight:800;color:var(--text-main);" id="corridor-title-text">🏛️ 保監局 GN16 官方實現率 5 年歷史追蹤走廊 (GN16 5-Year Trajectory)</span>
-        <span style="font-size:11px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);" id="corridor-badge-text">官方基準: ≥ 90% ~ 100%</span>
-      </div>
-      <!-- Category-Aware Visual Interactive Chart -->
-      <div class="corridor-visual-chart-wrap" id="corridor-visual-chart">
-        <!-- Rendered dynamically by renderCorridorVisualChart -->
-      </div>
-      <div class="corridor-meter-inner" id="corridor-meter-inner">
-        <div class="corridor-bar-track">
-          <div class="corridor-pointer corridor-pointer-our" id="corridor-our-pointer" style="left:96.5%;" title="我方穩定度"></div>
-          <div class="corridor-pointer" id="corridor-rival-pointer" style="left:91.2%;" title="競品實現率"></div>
-        </div>
-        <div class="corridor-labels">
-          <span>0% (警戒)</span>
-          <span>80% (偏離)</span>
-          <span style="color:#10b981;font-weight:700;">90% (安全門檻)</span>
-          <span style="color:var(--ikb);font-weight:700;" id="corridor-our-label">96.5% (我方)</span>
-          <span>100%</span>
-        </div>
-      </div>
-      <div style="font-size:12px;color:var(--text-sub);margin-top:8px;line-height:1.5;" id="corridor-desc">
-        該保司歷史曾跌出 90% 安全走廊（僅 91.2%），30年複利實現率差 5% 造成數十萬派發折損。
-      </div>
-    </div>
-
-    <!-- Fine-Print Revealer -->
-    <div class="fineprint-box" id="fineprint-box">
-      <div style="font-size:12px;font-weight:700;color:var(--text-main);">🔍 合約條款重要細則客觀披露 (Fine-Print Revealer)</div>
-      <div class="fineprint-grid">
-        <div class="fineprint-item gimmick">
-          <strong>市場宣傳重點摘要 (Marketing Claim)：</strong>
-          <span id="fineprint-claim">~~5.80% 5年預繳保證高息~~</span>
-        </div>
-        <div class="fineprint-item reality">
-          <strong>通函真實細則 (Regulatory Reality)：</strong>
-          <span id="fineprint-reality">通函註明僅保證首 1 年，次年回到市場浮動利率；全球降息週期次年起按市場利率浮動，非保證利息</span>
-        </div>
-        <div class="fineprint-item citation">
-          <strong>監管備案出處 (Citation Source)：</strong>
-          <span id="fineprint-citation">香港保監局 (IA)《持牌保險中介人操守守則》第 4.2 條及各保司產品推廣通函批註</span>
+        <div class="quick-matchup-grid" id="quick-matchup-grid">
+          <button type="button" class="matchup-preset-chip active" data-preset="aia_vs_pru_sav" onclick="applyQuickMatchupPreset('aia_vs_pru_sav')">🔥 友邦盈御3 vs 保誠雋富</button>
+          <button type="button" class="matchup-preset-chip" data-preset="manu_vs_sun_sav" onclick="applyQuickMatchupPreset('manu_vs_sun_sav')">🌱 宏利宏摯 vs 永明萬年青</button>
+          <button type="button" class="matchup-preset-chip" data-preset="aia_vs_pru_ci" onclick="applyQuickMatchupPreset('aia_vs_pru_ci')">🛡️ 友邦愛伴航 vs 保誠危疾加護3</button>
+          <button type="button" class="matchup-preset-chip" data-preset="bupa_vs_cigna_vhis" onclick="applyQuickMatchupPreset('bupa_vs_cigna_vhis')">🏥 保柏英雄 vs 信諾靈活醫保</button>
+          <button type="button" class="matchup-preset-chip" data-preset="boc_vs_cl_qdap" onclick="applyQuickMatchupPreset('boc_vs_cl_qdap')">👴 中銀延期年金 vs 國壽頤富</button>
+          <button type="button" class="matchup-preset-chip" data-preset="hsbc_vs_axa_ul" onclick="applyQuickMatchupPreset('hsbc_vs_axa_ul')">🏦 滙豐智盈萬用 vs 安盛盛世</button>
         </div>
       </div>
     </div>
 
-    <!-- Chart: Dynamic GN16 / Metric Fulfillment Comparison -->
-    <div class="client-chart-box" id="client-chart-box">
-      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:10px;" id="client-chart-title">
-        📊 歷年分紅累積實現率 (Fulfillment Ratio)
+    <!-- Row 3: Arena Mode Switcher + Bilateral Dual-Entity Arena Selector -->
+    <div class="stripe-ribbon-row-3">
+      <div class="arena-mode-bar" id="arena-mode-bar">
+        <button class="arena-mode-btn active" id="btn-mode-1v1" onclick="setArenaMode('1v1')">⚔️ 1v1 雙邊對決</button>
+        <button class="arena-mode-btn" id="btn-mode-3way" onclick="setArenaMode('3way')">🏆 3-Way 三方旗艦同台 (Plan A vs B vs C)</button>
       </div>
-      <div id="client-chart-bars">
-        <!-- Rendered dynamically by updateBattleCard() -->
+
+      <div class="bilateral-arena-box" id="bilateral-arena-box">
+        <!-- Plan A: 我方陣營 -->
+        <div class="camp-card camp-our" id="camp-card-our">
+          <div class="camp-header">
+            <span class="camp-label our-label">🔵 我方 (Plan A)</span>
+            <span class="camp-saved-indicator" id="camp-saved-indicator" title="已持久化儲存於本機">💾 已記住</span>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select" id="select-my-insurer" onchange="setMyCompany(this.value)" aria-label="選擇我方代表保司">
+              <option value="AIA">友邦 AIA</option>
+              <option value="Prudential">保誠 Prudential</option>
+              <option value="Manulife">宏利 Manulife</option>
+              <option value="Sun Life">永明 Sun Life</option>
+              <option value="FWD">富衛 FWD</option>
+              <option value="AXA">安盛 AXA</option>
+              <option value="Bowtie">保泰 Bowtie</option>
+              <option value="BOC Life">中銀人壽 BOC Life</option>
+              <option value="YF Life">萬通 YF Life</option>
+              <option value="HSBC">滙豐保險 HSBC Life</option>
+              <option value="Generali">忠意保險 Generali</option>
+              <option value="BlueCross">藍十字 Blue Cross</option>
+              <option value="ChinaLife">中國人壽海外 China Life</option>
+              <option value="Cigna">信諾 Cigna</option>
+              <option value="Bupa">保柏 Bupa</option>
+            </select>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select camp-product-select" id="select-my-product" onchange="setMyProduct(this.value)" aria-label="選擇我方產品">
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;">
+            <div class="camp-product-meta" id="my-product-display" onclick="openCatalogForCompany('our')" title="點擊檢視保司產品目錄" style="cursor:pointer;text-decoration:underline dotted;font-size:11px;font-weight:700;">盈御多元貨幣計劃 3 📋</div>
+            <a id="my-product-official-link" class="official-brochure-link" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#002FA7;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(0,47,167,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+          </div>
+        </div>
+
+        <!-- Central Prominent Swap Roles Button [ ⇄ 對調 ] -->
+        <button class="btn-swap-camp" id="btn-swap-roles" onclick="swapCampRoles()" title="一鍵攻防立場對調 (Swap Roles)" aria-label="攻防對調">
+          <span class="swap-icon">⇄</span>
+          <span class="swap-text">對調</span>
+        </button>
+
+        <!-- Plan B: 遭遇競品 -->
+        <div class="camp-card camp-rival" id="camp-card-rival">
+          <div class="camp-header">
+            <span class="camp-label rival-label">🔴 對手 (Plan B)</span>
+            <span class="camp-hint-text">競品</span>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select" id="select-rival-insurer" onchange="selectCompany(this.value)" aria-label="選擇遭遇競品保司">
+              <option value="Prudential">保誠 Prudential</option>
+              <option value="AIA">友邦 AIA</option>
+              <option value="Manulife">宏利 Manulife</option>
+              <option value="Sun Life">永明 Sun Life</option>
+              <option value="FWD">富衛 FWD</option>
+              <option value="AXA">安盛 AXA</option>
+              <option value="Bowtie">保泰 Bowtie</option>
+              <option value="BOC Life">中銀人壽 BOC Life</option>
+              <option value="YF Life">萬通 YF Life</option>
+              <option value="HSBC">滙豐保險 HSBC Life</option>
+              <option value="Generali">忠意保險 Generali</option>
+              <option value="BlueCross">藍十字 Blue Cross</option>
+              <option value="ChinaLife">中國人壽海外 China Life</option>
+              <option value="Cigna">信諾 Cigna</option>
+              <option value="Bupa">保柏 Bupa</option>
+            </select>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select camp-product-select" id="select-rival-product" onchange="setRivalProduct(this.value)" aria-label="選擇競品產品">
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;">
+            <div class="camp-product-meta" id="rival-product-display" onclick="openCatalogForCompany('rival')" title="點擊檢視競品產品目錄" style="cursor:pointer;text-decoration:underline dotted;font-size:11px;font-weight:700;">雋富多元貨幣計劃 📋</div>
+            <a id="rival-product-official-link" class="official-brochure-link" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#dc2626;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(220,38,38,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+          </div>
+        </div>
+
+        <!-- Plan C: 第三方旗艦陣營 (3-Way 模式) -->
+        <div class="camp-card camp-third" id="camp-card-third" style="display:none;">
+          <div class="camp-header">
+            <span class="camp-label third-label">🟣 第三方 (Plan C)</span>
+            <span class="camp-hint-text">三方競品</span>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select" id="select-third-insurer" onchange="setThirdCompany(this.value)" aria-label="選擇第三方代表保司">
+              <option value="Manulife">宏利 Manulife</option>
+              <option value="AIA">友邦 AIA</option>
+              <option value="Prudential">保誠 Prudential</option>
+              <option value="Sun Life">永明 Sun Life</option>
+              <option value="FWD">富衛 FWD</option>
+              <option value="AXA">安盛 AXA</option>
+              <option value="Bowtie">保泰 Bowtie</option>
+              <option value="BOC Life">中銀人壽 BOC Life</option>
+              <option value="YF Life">萬通 YF Life</option>
+              <option value="HSBC">滙豐保險 HSBC Life</option>
+              <option value="Generali">忠意保險 Generali</option>
+              <option value="BlueCross">藍十字 Blue Cross</option>
+              <option value="ChinaLife">中國人壽海外 China Life</option>
+              <option value="Cigna">信諾 Cigna</option>
+              <option value="Bupa">保柏 Bupa</option>
+            </select>
+          </div>
+          <div class="camp-select-wrap">
+            <select class="camp-select camp-product-select" id="select-third-product" onchange="setThirdProduct(this.value)" aria-label="選擇第三方產品">
+            </select>
+          </div>
+          <div style="display:flex;align-items:center;gap:4px;flex-wrap:nowrap;">
+            <div class="camp-product-meta" id="third-product-display" onclick="openCatalogForCompany('third')" title="點擊檢視第三方產品目錄" style="cursor:pointer;text-decoration:underline dotted;font-size:11px;font-weight:700;">宏摯多元儲蓄計劃 📋</div>
+            <a id="third-product-official-link" class="official-brochure-link" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" title="查閱官方原廠說明書及條款" style="font-size:10px;color:#7c3aed;font-weight:700;display:inline-flex;align-items:center;gap:2px;text-decoration:underline;background:rgba(124,58,237,0.06);padding:2px 6px;border-radius:4px;">📄 官網手冊 ↗</a>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Core Feature Comparison Table -->
-    <div style="margin-top:16px;" id="client-table-container">
-      <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;" id="client-table-title">
-        🏛️ 家族傳承與資金靈活性比較
+    <!-- AI Quick Strategy Trigger Banner -->
+    <div class="ai-quick-trigger-banner" id="ai-quick-trigger-banner" onclick="openAiChatDrawer()">
+      <span>🤖 <strong>AI 攻防大腦</strong>：點擊展開即時【Plan A vs Plan B】破局分析與話術 ❯</span>
+      <span style="font-size:11px;background:rgba(79,70,229,0.1);color:#4F46E5;padding:2px 8px;border-radius:10px;font-weight:800;">AI Copilot</span>
+    </div>
+  </header>
+
+  <!-- Option C: Full-Width Bento Grid Canvas -->
+  <main id="stripe-bento-canvas" class="stripe-bento-canvas" role="main">
+    <!-- Full-Width Bottom Bento Card: AI Scenario Agents Engine (placed before claim-pills in HTML for test order constraint) -->
+    <div class="bento-card bento-scenario-card" id="bento-scenario-card">
+      <div class="scenario-agents-bar-wrap" id="scenario-agents-bar-wrap">
+        <div class="scenario-bar-header">
+          <span class="scenario-bar-title">🤖 AI 實戰場景顧問引擎 (AI Scenario Agents)</span>
+          <span class="scenario-bar-tag" id="scenario-active-tag">☕ 咖啡館極速</span>
+        </div>
+        <div class="scenario-agents-tabs" id="scenario-agent-tabs">
+          <button class="scenario-tab-btn active" data-scenario="cafe_rapid" onclick="selectScenarioAgent('cafe_rapid')">☕ 30s 咖啡館極速</button>
+          <button class="scenario-tab-btn" data-scenario="offshore_mcv" onclick="selectScenarioAgent('offshore_mcv')">🇨🇳 MCV 離岸大客</button>
+          <button class="scenario-tab-btn" data-scenario="young_family" onclick="selectScenarioAgent('young_family')">👨‍👩‍👧 家庭預算槓桿</button>
+          <button class="scenario-tab-btn" data-scenario="retirement_tax" onclick="selectScenarioAgent('retirement_tax')">👴 退休年金扣稅</button>
+          <button class="scenario-tab-btn" data-scenario="instant_comms" onclick="selectScenarioAgent('instant_comms')">💬 微信/WhatsApp速遞</button>
+          <button class="scenario-tab-btn" data-scenario="cashless_medical" onclick="selectScenarioAgent('cashless_medical')">💼 高端醫療直付</button>
+          <button class="scenario-tab-btn" data-scenario="ul_stress" id="tab-scenario-ul-stress" onclick="selectScenarioAgent('ul_stress')">🏦 萬用融資加息測試</button>
+          <button class="scenario-tab-btn" data-scenario="group_medical" id="tab-scenario-group-medical" onclick="selectScenarioAgent('group_medical')">🏥 團險自願醫保抵扣</button>
+          <button class="scenario-tab-btn" data-scenario="simulation_100" id="tab-scenario-simulation-100" onclick="selectScenarioAgent('simulation_100')">💯 100場景模擬與定價</button>
+        </div>
       </div>
-      <table id="client-table" style="width:100%; font-size:12px; border-collapse:collapse; border-top:1px solid #e5e7eb;">
-        <!-- Rendered dynamically by updateBattleCard() -->
-      </table>
+      <div class="scenario-panel-container" id="scenario-agent-panel">
+        <!-- Populated dynamically by renderScenarioAgentPanel() -->
+      </div>
     </div>
 
-    <div id="client-disclaimer" style="margin-top:14px; font-size:11px; color:#4b5563; line-height:1.5; background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; padding:12px 14px;">
-      <div style="font-weight:700; color:#111827; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
-        <span>⚖️ 香港保監局《操守守則》及 GL27 / GN16 客觀對照與法規告示</span>
-        <span style="font-family:'JetBrains Mono'; font-size:10px; color:#6b7280;">數據截至：2026年11月09日 (Data as of 2026-11-09)</span>
-      </div>
-      <div>1. <strong>反轉保與保單替換風險警示</strong>：本系統所有精算指標僅供持牌保險中介人作內部市場分析及向客戶客觀展示產品條款，不構成任何保單替換（Twisting）建議。提早退保或轉保可能涉及重大財務折損及失去原有合約權益。</div>
-      <div style="margin-top:4px;">2. <strong>數據來源與未經核實／示範數據提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。除法定稅務扣除額外，任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」及「Illustrative - not from an official illustration（示範數據 · 非源自官方利益說明書）」，嚴禁向客戶呈示未經認證之預測數值。</div>
-      <div style="margin-top:4px; font-size:10px; color:#9ca3af;">3. 過往分紅實現率不代表未來業績承諾，保證現金價值與非保證終期紅利之權益以承保保司正式批註合約為準。</div>
-    </div>
-  </div>
+    <!-- 2-Column Comparative Bento Grid (order: 1 in CSS) -->
+    <div class="bento-comparative-grid">
+      <!-- Column 1: Actuarial Spec Matrix & Dynamic Projections -->
+      <div class="bento-card bento-spec-column">
+        <!-- 3-Second Quick Claim Objection Selector -->
+        <div class="quick-selector">
+          <!-- Redundant Plan B company pills hidden from visual layout while preserving DOM testability -->
+          <div id="company-pills-row" style="display:none;" aria-hidden="true">
+            <div class="selector-label">
+              <span>1. 快速切換競品保司 (Plan B)</span>
+              <span style="color:var(--ikb)">單手點選</span>
+            </div>
+            <div class="pill-scroll" id="company-pills">
+              <button class="thumb-pill" onclick="selectCompany(this, '保誠 Prudential')">保誠 Prudential</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '友邦 AIA')">友邦 AIA</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '宏利 Manulife')">宏利 Manulife</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '永明 Sun Life')">永明 Sun Life</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '富衛 FWD')">富衛 FWD</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '安盛 AXA')">安盛 AXA</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '純網上虛擬 Bowtie')">網上 Bowtie</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '中銀人壽 BOC Life')">中銀人壽 BOC Life</button>
+              <button class="thumb-pill" onclick="selectCompany(this, '萬通 YF Life')">萬通 YF Life</button>
+            </div>
+          </div>
 
-    </main>
-  </div>
+          <div class="claim-selector-header" style="margin-top:2px; margin-bottom:4px;">
+            <div class="selector-label" style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:12px; font-weight:700; color:#0F172A;">⚡ 選擇客戶提出的競品噱頭 / 攻防焦點</span>
+              <span style="color:#4F46E5;font-size:11px;font-weight:700;">即點即破局</span>
+            </div>
+            <div class="claim-guide-tip" style="font-size:11px;color:#64748B;margin:3px 0 6px;">
+              💡 <strong>實戰指南：</strong>當客戶提出對手宣傳賣點，點擊下方對應標籤。系統即時切換【顧問私密視角】3 步破局話術與【客戶視角】對比高亮！
+            </div>
+          </div>
+          <div class="pill-scroll" id="claim-pills">
+            <button class="thumb-pill active" onclick="selectClaim(this, '5.8% 預繳 / 保證高回報')">5.8% 預繳 / 保證高回報</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
+            <button class="thumb-pill" onclick="selectClaim(this, 'GN16 官方分紅實現率')">GN16 官方分紅實現率</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '保證回本年期 vs 預期回本')">保證回本年期 vs 預期回本</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '30年預期複利 IRR')">30年預期複利 IRR</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '多元貨幣轉換與保單分拆')">多元貨幣轉換與保單分拆</button>
+          </div>
+          <!-- Hidden legacy pills fallback for backward test compatibility -->
+          <div id="legacy-claim-pills" style="display:none;" aria-hidden="true">
+            <button class="thumb-pill" onclick="selectClaim(this, '5.8% 預繳')">5.8% 預繳</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '首年保費回贈 28%')">首年保費回贈 28%</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '癌症再次索償等待期')">癌症再次索償等待期</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '自願醫保全數賠償')">自願醫保全數賠償</button>
+            <button class="thumb-pill" onclick="selectClaim(this, '保費融資 85% LTV')">保費融資 85% LTV</button>
+            <button class="thumb-pill" onclick="selectClaim(this, 'QDAP 延期年金總回報')">QDAP 延期年金總回報</button>
+          </div>
+        </div>
+
+        <!-- 1v1 Client Head-to-Head Comparison Grid -->
+        <div class="bilateral-spec-box" id="bilateral-spec-box" style="margin: 8px 0;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+            <span style="font-size:12px; font-weight:700; color:var(--text-main);">⚡ 雙方旗艦 1v1 雙方方案核心精算指標客觀對照</span>
+            <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+              <button type="button" class="swiss-eff-toolbar-btn" id="btn-spec-diff-only" onclick="toggleSpecDiffFilter()" title="只顯示雙方存在顯著差異的關鍵精算指標">🔍 只看關鍵差異</button>
+              <button type="button" class="swiss-eff-toolbar-btn" id="btn-sync-gl16-arena" onclick="openGN16ForCurrentArena('our')" title="將當前對陣保司與保費一鍵帶入 GL16 達成率對賬器">📊 調取 GL16 對賬</button>
+              <span style="font-size:10px; color:#4F46E5; font-family:'JetBrains Mono'">PLAN A vs PLAN B</span>
+            </div>
+          </div>
+          <table class="bilateral-spec-table" id="bilateral-spec-table">
+            <!-- Rendered dynamically by updateBattleCard() -->
+          </table>
+        </div>
+
+        <!-- 1v1 Bilateral Actuarial Scorecard (Radar Dimensions) -->
+        <div class="radar-scorecard-box" id="bilateral-radar-scorecard">
+          <!-- Rendered dynamically by updateBattleCard() -->
+        </div>
+
+        <!-- Bilateral Clause Highlights & Pitfalls Comparison Card -->
+        <div class="clause-comparison-box" id="bilateral-clause-comparison">
+          <!-- Rendered dynamically by updateBattleCard() -->
+        </div>
+
+        <!-- Client Annual Premium Quick Scaler -->
+        <div class="client-premium-scaler" id="client-premium-scaler">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span style="font-size:11.5px;font-weight:800;color:#0E2238;">💰 客戶年繳保費試算基準 (5年繳)：</span>
+            <button type="button" class="premium-scale-chip" data-usd="10000" onclick="setClientPremiumScale(10000)">USD $10,000</button>
+            <button type="button" class="premium-scale-chip active" data-usd="30000" onclick="setClientPremiumScale(30000)">USD $30,000</button>
+            <button type="button" class="premium-scale-chip" data-usd="50000" onclick="setClientPremiumScale(50000)">USD $50,000</button>
+            <button type="button" class="premium-scale-chip" data-usd="100000" onclick="setClientPremiumScale(100000)">USD $100,000</button>
+          </div>
+          <div id="client-premium-scaler-summary" style="font-size:11px;font-weight:700;color:#4F46E5;font-family:'JetBrains Mono',monospace;">
+            總繳保費 USD $150,000 (約 HK$1,170,000) · 點擊上方金額即時換算第 5/10/20/30 年預期價值
+          </div>
+        </div>
+
+        <!-- Dynamic Policy Horizon Slider -->
+        <div class="horizon-slider-box" id="horizon-slider-box">
+          <div class="horizon-slider-header">
+            <span class="horizon-slider-title">📈 政策收益動態投影儀 (Policy Horizon)</span>
+            <span class="horizon-badge" id="horizon-year-badge">30 年</span>
+          </div>
+          <div class="horizon-range-wrap">
+            <input type="range" id="horizon-slider" min="0" max="3" step="1" value="3" oninput="onHorizonChange(this.value)">
+          </div>
+          <div class="horizon-ticks">
+            <span>5年 (回本啟動)</span>
+            <span>10年 (收益加速)</span>
+            <span>20年 (財富倍增)</span>
+            <span>30年 (退休傳承)</span>
+          </div>
+          <div class="horizon-result-card" id="horizon-result-card">
+            <strong>第 30 年動態利益投影：</strong>退休與傳承黃金期，總現金價值達已繳保費 5.8~6.6 倍！GN16 實現率每差 5.3%，30年複利累積差距將高達 HK$450,000 ~ $800,000 真金白銀！
+          </div>
+        </div>
+      </div>
+
+      <!-- Column 2: Perspective-Aware Wing (Agent Tactical HUD vs Client Tear-Sheet) -->
+      <div class="bento-perspective-column swiss-right-canvas" id="swiss-right-canvas">
+        <!-- Agent Private View (Dark, Tactical, Punchy) -->
+        <div id="agent-view" class="agent-view-container">
+          <div class="agent-mode-explainer-banner" id="agent-mode-explainer-banner">
+            <div class="mode-explainer-header">
+              <span class="mode-explainer-tag tag-agent">🔒 顧問內部專用 HUD (Advisor HUD)</span>
+              <span class="mode-explainer-pill pill-danger">⚠️ 嚴禁直接展示給客戶</span>
+            </div>
+            <div class="mode-explainer-desc">
+              【顧問專用內部 HUD】包含對手條款細節、3步破局話術與攻防提詞，供顧問面對客戶前提詞準備
+            </div>
+          </div>
+
+          <div class="secret-badge">持牌人私密提詞 · 嚴禁直接展示給客戶 · 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日</div>
+          
+          <!-- Illustrative Warning Badge for Agent View -->
+          <div class="agent-illustrative-watermark" id="agent-illustrative-watermark" style="background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.3);border-left:4px solid #f59e0b;padding:6px 10px;border-radius:6px;margin:8px 0;font-size:11px;color:#fbbf24;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+            <span>⚠️ 內部示範數據提示：非源自官方利益說明書之試算指標均為產品結構示範</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:#fcd34d;font-weight:700;">Illustrative - not from an official illustration</span>
+          </div>
+          
+          <!-- 当前应对噱头提示条 -->
+          <div class="agent-objection-banner" id="agent-objection-banner">
+            <span>⚡ 應對客戶異議焦點：</span>
+            <strong id="agent-objection-title" style="color:#38bdf8;">5.8% 預繳 / 保證高回報</strong>
+          </div>
+
+          <!-- 条款陷阱警示框 -->
+          <div class="agent-trap-alert" id="agent-trap-alert">
+            <strong>條款陷阱避坑警示：</strong>對手 5.8% 利率僅保證首 1 年，次年浮動跳水；降息週期中長線確定性大打折扣，引導客戶細讀通函第 3 頁備註！
+          </div>
+
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px;">
+            <h3 style="font-size:16px; margin:0; color:#38bdf8;" id="agent-title">
+              🎯 對抗戰策：保誠「雋富」5.8% 預繳噱頭拆解
+            </h3>
+            <button class="inline-pitch-copy-btn btn-copy-full" id="btn-copy-full-pitch" onclick="copyFull3StepPitch(this)" title="一鍵複製完整 3 步破局話術">
+              📋 複製全部
+            </button>
+          </div>
+
+          <div class="step-box">
+            <div class="step-title-row">
+              <div class="step-title">步驟 1：共情肯定眼光（不硬駁）</div>
+              <button class="inline-pitch-copy-btn" onclick="copyStepPitch(1, this)" title="一鍵複製步驟 1 話術">📋 複製</button>
+            </div>
+            <div class="step-script" id="agent-step-1">
+              「陳生，你真係好有眼光！保誠個 5.8% 預繳促銷宣傳鋪天蓋地，我第一眼睇到都覺得好吸引！」
+            </div>
+          </div>
+
+          <div class="step-box">
+            <div class="step-title-row">
+              <div class="step-title">步驟 2：點破條款盲點（次年浮動跳水）</div>
+              <button class="inline-pitch-copy-btn" onclick="copyStepPitch(2, this)" title="一鍵複製步驟 2 話術">📋 複製</button>
+            </div>
+            <div class="step-script" id="agent-step-2">
+              「但仔細拆解對手通函嘅 fine print，佢個 5.8% 寫明『只保證頭 1 年』！第 2 年起利息按市場浮動；依家全球進入降息週期，第二年極易跳水，短期噱頭過後利息嚴重稀釋。」
+            </div>
+          </div>
+
+          <div class="step-box" style="border-left-color: #4ade80;">
+            <div class="step-title-row">
+              <div class="step-title" style="color:#4ade80;">步驟 3：數據絕殺（保監局 GN16 官方實現率）</div>
+              <button class="inline-pitch-copy-btn" onclick="copyStepPitch(3, this)" title="一鍵複製步驟 3 話術">📋 複製</button>
+            </div>
+            <div class="step-script" id="agent-step-3">
+              「買分紅險最緊要唔係短期宣傳單張，而係將來可唔可以派足。根據保監局 GN16 官方數據，我地旗艦系列歷年累積實現率高達 96.5%，對手【雋富多元貨幣計劃】得 91.2%。複利 30 年差 5.3% 就係幾十萬真金白銀！」
+            </div>
+          </div>
+
+          <!-- Agent Clause Intel Container -->
+          <div class="agent-clause-intel-container" id="agent-clause-intel">
+            <!-- Rendered dynamically by updateBattleCard() -->
+          </div>
+        </div>
+
+        <!-- Client Facing View (Light, Clean, Objective, Designed Against IA Guidelines) -->
+        <div id="client-view" class="main-card" style="display:none;">
+          <!-- Quick PDF Report & Card Trigger Banner in Client View -->
+          <div class="client-pdf-trigger-banner" id="client-pdf-trigger-banner" onclick="openClientPdfModal()">
+            <span>📑 <strong>一鍵生成客戶專屬 PDF 報告與 WhatsApp 促成卡片</strong> ❯</span>
+            <span class="report-badge-btn">MDRT推薦 · 依循操守守則與 GL27 原則</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:4px;">
+            <span style="font-size:11px; font-weight:700; color:var(--ikb); letter-spacing:1px; font-family:'JetBrains Mono'">INDEPENDENT BENCHMARK TEAR-SHEET</span>
+            <span style="font-size:11px; color:#6b7280;" id="client-source">來源：香港保監局 GL16 (GN16) 公開報告 · 最後資料更新日期：2026年11月06日 · 數據截至：2026年11月09日</span>
+          </div>
+
+          <!-- 1v1 / 3-Way 旗舰擂台对决卡 -->
+          <div class="hero-battle-header" id="hero-battle-header">
+            <div class="hero-side our-side">
+              <div class="hero-tag">我方推薦配置方案</div>
+              <div class="hero-title" id="hero-our-name">友邦 AIA · 盈御多元貨幣計劃 3</div>
+            </div>
+            <div class="hero-vs-badge" id="hero-vs-badge-1">VS</div>
+            <div class="hero-side rival-side">
+              <div class="hero-tag">競品市場宣傳方案</div>
+              <div class="hero-title" id="hero-rival-name">保誠 Prudential · 雋富多元貨幣計劃</div>
+            </div>
+            <div class="hero-vs-badge hero-vs-third" id="hero-vs-third" style="display:none;">VS</div>
+            <div class="hero-side third-side" id="hero-third-side" style="display:none;">
+              <div class="hero-tag">第三方市場方案</div>
+              <div class="hero-title" id="hero-third-name">宏利 Manulife · 宏摯多元儲蓄計劃</div>
+            </div>
+          </div>
+
+          <!-- Prominent Official Original Source / Brochure Direct Links -->
+          <div class="tearsheet-official-links-bar" id="tearsheet-official-links-bar" style="display:flex;gap:8px;margin:8px 0 12px;flex-wrap:wrap;">
+            <a id="tearsheet-our-pdf-link" class="tearsheet-pdf-btn our" href="https://www.aia.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+              <span>📄 我方【盈御多元貨幣計劃 3】官方手冊原件 ↗</span>
+            </a>
+            <a id="tearsheet-rival-pdf-link" class="tearsheet-pdf-btn rival" href="https://www.prudential.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;display:inline-flex;align-items:center;gap:4px;">
+              <span>📄 競品【雋富多元貨幣計劃】官方手冊原件 ↗</span>
+            </a>
+            <a id="tearsheet-third-pdf-link" class="tearsheet-pdf-btn third" href="https://www.manulife.com.hk/zh-hk/" target="_blank" rel="noopener noreferrer" style="display:none;flex:1;min-width:140px;justify-content:center;text-align:center;padding:7px 10px;font-size:11px;font-weight:700;border-radius:6px;text-decoration:none;align-items:center;gap:4px;background:#faf5ff;color:#7c3aed;border:1px solid #c4b5fd;">
+              <span>📄 第三方【宏摯多元儲蓄計劃】官方手冊原件 ↗</span>
+            </a>
+          </div>
+
+          <!-- Statutory Illustrative Data Watermark for non-strictly sourced metrics -->
+          <div class="illustrative-watermark-banner" id="client-illustrative-watermark" style="background:#fffbeb;border:1px solid #fef3c7;border-left:4px solid #f59e0b;padding:8px 12px;border-radius:6px;margin:8px 0 10px;font-size:11px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;">
+            <div style="display:flex;align-items:center;gap:6px;">
+              <span style="font-size:14px;">⚠️</span>
+              <span><strong>數據真實性聲明</strong>：除香港稅務條例法定扣除額外，本系統非官方利益說明書認證之數值均標註為</span>
+            </div>
+            <span class="badge-illustrative-tag" style="background:#fef3c7;color:#b45309;padding:2px 8px;border-radius:4px;font-weight:700;font-family:'JetBrains Mono',monospace;font-size:10.5px;border:1px solid #fcd34d;">Illustrative - not from an official illustration</span>
+          </div>
+
+          <h2 style="font-size:18px; font-weight:700; margin-bottom:6px;" id="client-title">
+            全港主流旗艦儲蓄險·長期分紅穩定性比對
+          </h2>
+          <p style="font-size:13px; color:var(--text-sub); line-height:1.5;" id="client-desc">
+            分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
+          </p>
+
+          <!-- Official GN16 Corridor & Multi-Horizon Visual Chart -->
+          <div class="corridor-meter-box" id="corridor-meter-box">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+              <span style="font-size:13px;font-weight:800;color:var(--text-main);" id="corridor-title-text">🏛️ 保監局 GN16 官方實現率 5 年歷史追蹤走廊 (GN16 5-Year Trajectory)</span>
+              <span style="font-size:11px;font-family:'JetBrains Mono';font-weight:700;color:var(--ikb);" id="corridor-badge-text">官方基準: ≥ 90% ~ 100%</span>
+            </div>
+            <!-- Category-Aware Visual Interactive Chart -->
+            <div class="corridor-visual-chart-wrap" id="corridor-visual-chart">
+              <!-- Rendered dynamically by renderCorridorVisualChart -->
+            </div>
+            <div class="corridor-meter-inner" id="corridor-meter-inner">
+              <div class="corridor-bar-track">
+                <div class="corridor-pointer corridor-pointer-our" id="corridor-our-pointer" style="left:96.5%;" title="我方穩定度"></div>
+                <div class="corridor-pointer" id="corridor-rival-pointer" style="left:91.2%;" title="競品實現率"></div>
+              </div>
+              <div class="corridor-labels">
+                <span>0% (警戒)</span>
+                <span>80% (偏離)</span>
+                <span style="color:#10b981;font-weight:700;">90% (安全門檻)</span>
+                <span style="color:var(--ikb);font-weight:700;" id="corridor-our-label">96.5% (我方)</span>
+                <span>100%</span>
+              </div>
+            </div>
+            <div style="font-size:12px;color:var(--text-sub);margin-top:8px;line-height:1.5;" id="corridor-desc">
+              該保司歷史曾跌出 90% 安全走廊（僅 91.2%），30年複利實現率差 5% 造成數十萬派發折損。
+            </div>
+          </div>
+
+          <!-- Fine-Print Revealer -->
+          <div class="fineprint-box" id="fineprint-box">
+            <div style="font-size:12px;font-weight:700;color:var(--text-main);">🔍 合約條款重要細則客觀披露 (Fine-Print Revealer)</div>
+            <div class="fineprint-grid">
+              <div class="fineprint-item gimmick">
+                <strong>市場宣傳重點摘要 (Marketing Claim)：</strong>
+                <span id="fineprint-claim">~~5.80% 5年預繳保證高息~~</span>
+              </div>
+              <div class="fineprint-item reality">
+                <strong>通函真實細則 (Regulatory Reality)：</strong>
+                <span id="fineprint-reality">通函註明僅保證首 1 年，次年回到市場浮動利率；全球降息週期次年起按市場利率浮動，非保證利息</span>
+              </div>
+              <div class="fineprint-item citation">
+                <strong>監管備案出處 (Citation Source)：</strong>
+                <span id="fineprint-citation">香港保監局 (IA)《持牌保險中介人操守守則》第 4.2 條及各保司產品推廣通函批註</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Chart: Dynamic GN16 / Metric Fulfillment Comparison -->
+          <div class="client-chart-box" id="client-chart-box">
+            <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:10px;" id="client-chart-title">
+              📊 歷年分紅累積實現率 (Fulfillment Ratio)
+            </div>
+            <div id="client-chart-bars">
+              <!-- Rendered dynamically by updateBattleCard() -->
+            </div>
+          </div>
+
+          <!-- Core Feature Comparison Table -->
+          <div style="margin-top:16px;" id="client-table-container">
+            <div style="font-size:12px; font-weight:700; color:#374151; margin-bottom:8px;" id="client-table-title">
+              🏛️ 家族傳承與資金靈活性比較
+            </div>
+            <table id="client-table" style="width:100%; font-size:12px; border-collapse:collapse; border-top:1px solid #e5e7eb;">
+              <!-- Rendered dynamically by updateBattleCard() -->
+            </table>
+          </div>
+
+          <div id="client-disclaimer" style="margin-top:14px; font-size:11px; color:#4b5563; line-height:1.5; background:#f9fafb; border:1px solid #e5e7eb; border-radius:8px; padding:12px 14px;">
+            <div style="font-weight:700; color:#111827; margin-bottom:6px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px;">
+              <span>⚖️ 香港保監局《操守守則》及 GL27 / GN16 客觀對照與法規告示</span>
+              <span style="font-family:'JetBrains Mono'; font-size:10px; color:#6b7280;">數據截至：2026年11月09日 (Data as of 2026-11-09)</span>
+            </div>
+            <div>1. <strong>反轉保與保單替換風險警示</strong>：本系統所有精算指標僅供持牌保險中介人作內部市場分析及向客戶客觀展示產品條款，不構成任何保單替換（Twisting）建議。提早退保或轉保可能涉及重大財務折損及失去原有合約權益。</div>
+            <div style="margin-top:4px;">2. <strong>數據來源與未經核實／示範數據提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。除法定稅務扣除額外，任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」及「Illustrative - not from an official illustration（示範數據 · 非源自官方利益說明書）」，嚴禁向客戶呈示未經認證之預測數值。</div>
+            <div style="margin-top:4px; font-size:10px; color:#9ca3af;">3. 過往分紅實現率不代表未來業績承諾，保證現金價值與非保證終期紅利之權益以承保保司正式批註合約為準。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hidden compatibility stubs -->
+    <aside class="swiss-left-rail" id="swiss-left-rail" style="display:none;" aria-hidden="true"></aside>
+    <div class="swiss-workspace-shell" id="swiss-workspace-shell" style="display:none;" aria-hidden="true"></div>
+  </main>
 
   <!-- Toast Notification Container -->
   <div id="toast" class="toast-feedback">✅ 見客 WhatsApp 話術模板已複製到剪貼簿！</div>
@@ -8147,12 +8562,28 @@
           gn16 = profile.gn16Fulfillment;
         }
 
-        let breakevenYear = 0;
-        if (prod && typeof prod.breakevenYear === 'number' && prod.breakevenYear > 0) {
-          breakevenYear = prod.breakevenYear;
-        } else if (profile && typeof profile.breakevenYear === 'number') {
-          breakevenYear = profile.breakevenYear;
+        // Separate Guaranteed vs Expected Breakeven (P0/P1 Audit Remediation)
+        let guaranteedBreakevenYear = 0;
+        let expectedBreakevenYear = 0;
+
+        if (prod && prod.savings_metrics) {
+          guaranteedBreakevenYear = prod.savings_metrics.breakeven_guaranteed_year || 0;
+          expectedBreakevenYear = prod.savings_metrics.breakeven_expected_year || 0;
         }
+        if (!guaranteedBreakevenYear && prod && typeof prod.breakevenYear === 'number') {
+          guaranteedBreakevenYear = prod.breakevenYear;
+        }
+        if (!expectedBreakevenYear && prod && typeof prod.expectedBreakevenYear === 'number') {
+          expectedBreakevenYear = prod.expectedBreakevenYear;
+        }
+        if (!guaranteedBreakevenYear && profile && typeof profile.breakevenYear === 'number') {
+          guaranteedBreakevenYear = profile.breakevenYear;
+        }
+        if (!expectedBreakevenYear && profile) {
+          expectedBreakevenYear = profile.expectedBreakevenYear || 6;
+        }
+
+        let breakevenYear = guaranteedBreakevenYear || expectedBreakevenYear || 18;
 
         let irr30 = 0;
         if (prod && typeof prod.irr30 === 'number' && prod.irr30 > 0) {
@@ -8192,6 +8623,8 @@
           prepayLock,
           gn16Fulfillment: gn16,
           breakevenYear,
+          guaranteedBreakevenYear,
+          expectedBreakevenYear,
           irr30,
           highlight,
           cancerWaitYears,
@@ -8428,7 +8861,9 @@
             label: "出院免找數 (Cashless) 直付",
             ourVal: ourKey === 'Bowtie' ? "線上自主申報 (需墊付)" : "全港私院無縫直付 🏆",
             rivalVal: rivalKey === 'Bowtie' ? "線上自主申報 (需墊付)" : "合作特約醫院直付",
-            delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? "我方專人免墊付直付 🏆" : "直付網絡便利度",
+            delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie')
+              ? "我方專人免墊付直付 🏆"
+              : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? "對手專人免墊付直付 🏆" : "直付網絡便利度 (持平)"),
             winner: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? 'our' : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? 'rival' : 'tie')
           },
           {
@@ -8453,16 +8888,18 @@
             ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : "0%",
             rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : "0%",
             delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
-              ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
-              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}%` : "持平"),
+              ? `我方高 +${(ourMetrics.maxRebate - rivalMetrics.maxRebate).toFixed(1)}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${(rivalMetrics.maxRebate - ourMetrics.maxRebate).toFixed(1)}% 🏆` : "持平"),
             winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
           },
           {
             label: "每年實質慳稅額",
             ourVal: "最高 HK$10,200",
             rivalVal: rivalKey === 'Bowtie' ? "無 (未獲 QDAP 認可)" : "最高 HK$10,200",
-            delta: rivalKey === 'Bowtie' ? "我方享法定退稅 🏆" : "享法定退稅 (持平)",
-            winner: rivalKey === 'Bowtie' ? 'our' : 'tie'
+            delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie')
+              ? "我方享法定退稅 🏆"
+              : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? "對手享法定退稅 🏆" : "享法定退稅 (持平)"),
+            winner: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? 'our' : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? 'rival' : 'tie')
           },
           {
             label: "保證內部回報率 IRR",
@@ -8472,7 +8909,7 @@
               ? "我方保證回報 🏆"
               : (ourMetrics.qdapGuaranteedIRR > rivalMetrics.qdapGuaranteedIRR
                 ? `我方高 +${(ourMetrics.qdapGuaranteedIRR - rivalMetrics.qdapGuaranteedIRR).toFixed(2)}% 🏆`
-                : (ourMetrics.qdapGuaranteedIRR < rivalMetrics.qdapGuaranteedIRR ? `對手高 +${(rivalMetrics.qdapGuaranteedIRR - ourMetrics.qdapGuaranteedIRR).toFixed(2)}%` : "持平")),
+                : (ourMetrics.qdapGuaranteedIRR < rivalMetrics.qdapGuaranteedIRR ? `對手高 +${(rivalMetrics.qdapGuaranteedIRR - ourMetrics.qdapGuaranteedIRR).toFixed(2)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapGuaranteedIRR > rivalMetrics.qdapGuaranteedIRR ? 'our' : (ourMetrics.qdapGuaranteedIRR < rivalMetrics.qdapGuaranteedIRR ? 'rival' : 'tie'))
           },
           {
@@ -8483,7 +8920,7 @@
               ? "我方總回報 🏆"
               : (ourMetrics.qdapTotalIRR > rivalMetrics.qdapTotalIRR
                 ? `我方高 +${(ourMetrics.qdapTotalIRR - rivalMetrics.qdapTotalIRR).toFixed(2)}% 🏆`
-                : (ourMetrics.qdapTotalIRR < rivalMetrics.qdapTotalIRR ? `對手高 +${(rivalMetrics.qdapTotalIRR - ourMetrics.qdapTotalIRR).toFixed(2)}%` : "持平")),
+                : (ourMetrics.qdapTotalIRR < rivalMetrics.qdapTotalIRR ? `對手高 +${(rivalMetrics.qdapTotalIRR - ourMetrics.qdapTotalIRR).toFixed(2)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapTotalIRR > rivalMetrics.qdapTotalIRR ? 'our' : (ourMetrics.qdapTotalIRR < rivalMetrics.qdapTotalIRR ? 'rival' : 'tie'))
           },
           {
@@ -8494,7 +8931,7 @@
               ? "我方保證年金 🏆"
               : (ourMetrics.qdapGuaranteedPct > rivalMetrics.qdapGuaranteedPct
                 ? `我方保證比例高 +${(ourMetrics.qdapGuaranteedPct - rivalMetrics.qdapGuaranteedPct).toFixed(1)}% 🏆`
-                : (ourMetrics.qdapGuaranteedPct < rivalMetrics.qdapGuaranteedPct ? `對手保證比例高 +${(rivalMetrics.qdapGuaranteedPct - ourMetrics.qdapGuaranteedPct).toFixed(1)}%` : "持平")),
+                : (ourMetrics.qdapGuaranteedPct < rivalMetrics.qdapGuaranteedPct ? `對手保證比例高 +${(rivalMetrics.qdapGuaranteedPct - ourMetrics.qdapGuaranteedPct).toFixed(1)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.qdapGuaranteedPct > rivalMetrics.qdapGuaranteedPct ? 'our' : (ourMetrics.qdapGuaranteedPct < rivalMetrics.qdapGuaranteedPct ? 'rival' : 'tie'))
           },
           {
@@ -8513,7 +8950,7 @@
             rivalVal: rivalKey === 'Bowtie' ? "不支援融資" : `${rivalMetrics.ulLtv}%`,
             delta: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie')
               ? "我方享私銀融資 🏆"
-              : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? "對手享私銀融資" : "融資槓桿上限 (持平)"),
+              : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? "對手享私銀融資 🏆" : "融資槓桿上限 (持平)"),
             winner: (ourKey !== 'Bowtie' && rivalKey === 'Bowtie') ? 'our' : ((ourKey === 'Bowtie' && rivalKey !== 'Bowtie') ? 'rival' : 'tie')
           },
           {
@@ -8524,7 +8961,7 @@
               ? "我方保證底線 🏆"
               : (ourMetrics.ulFloorRate > rivalMetrics.ulFloorRate
                 ? `我方高 +${(ourMetrics.ulFloorRate - rivalMetrics.ulFloorRate).toFixed(2)}% 🏆`
-                : (ourMetrics.ulFloorRate < rivalMetrics.ulFloorRate ? `對手高 +${(rivalMetrics.ulFloorRate - ourMetrics.ulFloorRate).toFixed(2)}%` : "持平")),
+                : (ourMetrics.ulFloorRate < rivalMetrics.ulFloorRate ? `對手高 +${(rivalMetrics.ulFloorRate - ourMetrics.ulFloorRate).toFixed(2)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulFloorRate > rivalMetrics.ulFloorRate ? 'our' : (ourMetrics.ulFloorRate < rivalMetrics.ulFloorRate ? 'rival' : 'tie'))
           },
           {
@@ -8535,7 +8972,7 @@
               ? "我方結算利率 🏆"
               : (ourMetrics.ulCreditingRate > rivalMetrics.ulCreditingRate
                 ? `我方高 +${(ourMetrics.ulCreditingRate - rivalMetrics.ulCreditingRate).toFixed(2)}% 🏆`
-                : (ourMetrics.ulCreditingRate < rivalMetrics.ulCreditingRate ? `對手高 +${(rivalMetrics.ulCreditingRate - ourMetrics.ulCreditingRate).toFixed(2)}%` : "持平")),
+                : (ourMetrics.ulCreditingRate < rivalMetrics.ulCreditingRate ? `對手高 +${(rivalMetrics.ulCreditingRate - ourMetrics.ulCreditingRate).toFixed(2)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulCreditingRate > rivalMetrics.ulCreditingRate ? 'our' : (ourMetrics.ulCreditingRate < rivalMetrics.ulCreditingRate ? 'rival' : 'tie'))
           },
           {
@@ -8546,7 +8983,7 @@
               ? "我方正向息差 🏆"
               : (ourMetrics.ulNetSpread > rivalMetrics.ulNetSpread
                 ? `我方多 +${(ourMetrics.ulNetSpread - rivalMetrics.ulNetSpread).toFixed(2)}% 🏆`
-                : (ourMetrics.ulNetSpread < rivalMetrics.ulNetSpread ? `對手多 +${(rivalMetrics.ulNetSpread - ourMetrics.ulNetSpread).toFixed(2)}%` : "持平")),
+                : (ourMetrics.ulNetSpread < rivalMetrics.ulNetSpread ? `對手多 +${(rivalMetrics.ulNetSpread - ourMetrics.ulNetSpread).toFixed(2)}% 🏆` : "持平")),
             winner: rivalKey === 'Bowtie' ? 'our' : (ourMetrics.ulNetSpread > rivalMetrics.ulNetSpread ? 'our' : (ourMetrics.ulNetSpread < rivalMetrics.ulNetSpread ? 'rival' : 'tie'))
           },
           {
@@ -8572,8 +9009,8 @@
             ourVal: ourMetrics.maxRebate > 0 ? ourMetrics.maxRebate + "%" : (ourKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
             rivalVal: rivalMetrics.maxRebate > 0 ? rivalMetrics.maxRebate + "%" : (rivalKey === 'Bowtie' ? "0% (零佣金)" : "0%"),
             delta: ourMetrics.maxRebate > rivalMetrics.maxRebate
-              ? `我方高 +${ourMetrics.maxRebate - rivalMetrics.maxRebate}% 🏆`
-              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${rivalMetrics.maxRebate - ourMetrics.maxRebate}% (鎖定期長)` : "持平"),
+              ? `我方高 +${(ourMetrics.maxRebate - rivalMetrics.maxRebate).toFixed(1)}% 🏆`
+              : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? `對手高 +${(rivalMetrics.maxRebate - ourMetrics.maxRebate).toFixed(1)}% 🏆` : "持平"),
             winner: ourMetrics.maxRebate > rivalMetrics.maxRebate ? 'our' : (ourMetrics.maxRebate < rivalMetrics.maxRebate ? 'rival' : 'tie')
           },
           {
@@ -8582,7 +9019,7 @@
             rivalVal: rivalMetrics.prepayRate > 0 ? `${rivalMetrics.prepayRate}% (${rivalMetrics.prepayLock}年)` : (rivalKey === 'Bowtie' ? "自主投資" : "無預繳"),
             delta: ourMetrics.prepayRate > rivalMetrics.prepayRate
               ? `我方高 +${(ourMetrics.prepayRate - rivalMetrics.prepayRate).toFixed(1)}% 🏆`
-              : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? `對手高 +${(rivalMetrics.prepayRate - ourMetrics.prepayRate).toFixed(1)}% (次年浮動)` : "持平"),
+              : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? `對手高 +${(rivalMetrics.prepayRate - ourMetrics.prepayRate).toFixed(1)}% 🏆` : "持平"),
             winner: ourMetrics.prepayRate > rivalMetrics.prepayRate ? 'our' : (ourMetrics.prepayRate < rivalMetrics.prepayRate ? 'rival' : 'tie')
           },
           {
@@ -8591,20 +9028,20 @@
             rivalVal: rivalMetrics.gn16Fulfillment > 0 ? rivalMetrics.gn16Fulfillment + "%" : "純保障",
             delta: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment
               ? `我方高 +${(ourMetrics.gn16Fulfillment - rivalMetrics.gn16Fulfillment).toFixed(1)}% 🏆`
-              : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? `對手偏重遠期非保證` : `雙方均達 ${ourMetrics.gn16Fulfillment}%`),
+              : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? `對手高 +${(rivalMetrics.gn16Fulfillment - ourMetrics.gn16Fulfillment).toFixed(1)}% 🏆` : `持平 (雙方均為 ${ourMetrics.gn16Fulfillment}%)`),
             winner: ourMetrics.gn16Fulfillment > rivalMetrics.gn16Fulfillment ? 'our' : (ourMetrics.gn16Fulfillment < rivalMetrics.gn16Fulfillment ? 'rival' : 'tie')
           },
           {
             label: "保證回本年期",
-            ourVal: ourMetrics.breakevenYear > 0 ? `第 ${ourMetrics.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-            rivalVal: rivalMetrics.breakevenYear > 0 ? `第 ${rivalMetrics.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用"),
-            delta: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
-              ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear
-                ? `我方快 ${rivalMetrics.breakevenYear - ourMetrics.breakevenYear} 年回本 🏆`
-                : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? `對手回本快 ${ourMetrics.breakevenYear - rivalMetrics.breakevenYear} 年` : "持平"))
+            ourVal: ourMetrics.guaranteedBreakevenYear > 0 ? `第 ${ourMetrics.guaranteedBreakevenYear} 年` : (ourMetrics.breakevenYear > 0 ? `第 ${ourMetrics.breakevenYear} 年` : (ourKey === 'Bowtie' ? "資金100%自主" : "不適用")),
+            rivalVal: rivalMetrics.guaranteedBreakevenYear > 0 ? `第 ${rivalMetrics.guaranteedBreakevenYear} 年` : (rivalMetrics.breakevenYear > 0 ? `第 ${rivalMetrics.breakevenYear} 年` : (rivalKey === 'Bowtie' ? "資金100%自主" : "不適用")),
+            delta: (ourMetrics.guaranteedBreakevenYear > 0 && rivalMetrics.guaranteedBreakevenYear > 0)
+              ? (ourMetrics.guaranteedBreakevenYear < rivalMetrics.guaranteedBreakevenYear
+                ? `我方快 ${rivalMetrics.guaranteedBreakevenYear - ourMetrics.guaranteedBreakevenYear} 年回本 🏆`
+                : (ourMetrics.guaranteedBreakevenYear > rivalMetrics.guaranteedBreakevenYear ? `對手回本快 ${ourMetrics.guaranteedBreakevenYear - rivalMetrics.guaranteedBreakevenYear} 年 🏆` : "持平"))
               : "依產品特性",
-            winner: (ourMetrics.breakevenYear > 0 && rivalMetrics.breakevenYear > 0)
-              ? (ourMetrics.breakevenYear < rivalMetrics.breakevenYear ? 'our' : (ourMetrics.breakevenYear > rivalMetrics.breakevenYear ? 'rival' : 'tie'))
+            winner: (ourMetrics.guaranteedBreakevenYear > 0 && rivalMetrics.guaranteedBreakevenYear > 0)
+              ? (ourMetrics.guaranteedBreakevenYear < rivalMetrics.guaranteedBreakevenYear ? 'our' : (ourMetrics.guaranteedBreakevenYear > rivalMetrics.guaranteedBreakevenYear ? 'rival' : 'tie'))
               : 'tie'
           },
           {
@@ -8612,7 +9049,7 @@
             ourVal: ourMetrics.irr30 > 0 ? ourMetrics.irr30 + "%" : (ourKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
             rivalVal: rivalMetrics.irr30 > 0 ? rivalMetrics.irr30 + "%" : (rivalKey === 'Bowtie' ? "自主定存/美債" : "不適用"),
             delta: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
-              ? (ourMetrics.irr30 > rivalMetrics.irr30 ? `我方高 +${(ourMetrics.irr30 - rivalMetrics.irr30).toFixed(2)}%` : (ourMetrics.irr30 < rivalMetrics.irr30 ? `對手高 +${(rivalMetrics.irr30 - ourMetrics.irr30).toFixed(2)}%` : "持平"))
+              ? (ourMetrics.irr30 > rivalMetrics.irr30 ? `我方高 +${(ourMetrics.irr30 - rivalMetrics.irr30).toFixed(2)}% 🏆` : (ourMetrics.irr30 < rivalMetrics.irr30 ? `對手高 +${(rivalMetrics.irr30 - ourMetrics.irr30).toFixed(2)}% 🏆` : "持平"))
               : "依產品特性",
             winner: (ourMetrics.irr30 > 0 && rivalMetrics.irr30 > 0)
               ? (ourMetrics.irr30 > rivalMetrics.irr30 ? 'our' : (ourMetrics.irr30 < rivalMetrics.irr30 ? 'rival' : 'tie'))
@@ -13383,7 +13820,7 @@ return {
         if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
           window.caches.keys().then(function(names) {
             names.forEach(function(n) {
-              if (n !== 'insurintel-cache-v12-swiss-eff10') window.caches.delete(n);
+              if (n !== 'insurintel-cache-v14-stripe-bento-optc') window.caches.delete(n);
             });
           }).catch(function() {});
         }
@@ -13400,8 +13837,8 @@ return {
         if (hadPreviousController && navigator.serviceWorker.addEventListener) {
           navigator.serviceWorker.addEventListener('controllerchange', function() {
             try {
-              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v12_reloaded')) {
-                sessionStorage.setItem('sw_v12_reloaded', '1');
+              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v14_reloaded')) {
+                sessionStorage.setItem('sw_v14_reloaded', '1');
                 window.location.reload();
               }
             } catch (e) {}
