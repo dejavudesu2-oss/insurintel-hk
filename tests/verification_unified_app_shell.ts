@@ -273,14 +273,23 @@ async function runTest() {
               panel ? panel.innerText : ''
             ].join(' | ');
 
-            const hasExternalModeLock = combinedVisibleText.includes('External Mode Lock') && !!demoModeBanner && window.getComputedStyle(demoModeBanner).display !== 'none';
+            const selectMy = document.getElementById('select-my-insurer');
+            const selectRival = document.getElementById('select-rival-insurer');
+            const selectMyProd = document.getElementById('select-my-product');
+            const hasRealProductsReady =
+              window.isDemoModeActive === false &&
+              !!demoModeBanner &&
+              window.getComputedStyle(demoModeBanner).display === 'none' &&
+              !!selectMy && selectMy.value === 'AIA' &&
+              !!selectRival && selectRival.value === 'Prudential' &&
+              !!selectMyProd && selectMyProd.value !== 'DEMO_PROD_A' && selectMyProd.options.length > 1;
             const hasIllustrativeBanner = combinedVisibleText.includes('Illustrative - not from an official illustration');
             const hasDataAsOf = combinedVisibleText.includes('Data as of');
             const navVisible = !!navBar && window.getComputedStyle(navBar).display !== 'none' && navBar.getBoundingClientRect().height > 0;
             const isTabActive = btn.getAttribute('aria-selected') === 'true';
 
             return {
-              ok: panelVisible && hasExternalModeLock && hasIllustrativeBanner && hasDataAsOf && navVisible && isTabActive,
+              ok: panelVisible && hasRealProductsReady && hasIllustrativeBanner && hasDataAsOf && navVisible && isTabActive,
               hash: window.location.hash,
               panelVisible,
               display: style.display,
@@ -289,7 +298,7 @@ async function runTest() {
               height: rect.height,
               className: panel.className,
               inlineStyle: panel.getAttribute('style'),
-              hasExternalModeLock,
+              hasRealProductsReady,
               hasIllustrativeBanner,
               hasDataAsOf,
               navVisible,
@@ -312,7 +321,7 @@ async function runTest() {
         `Expected window.location.hash === '${v.expectedHash}', got '${val.hash}'`
       );
       console.log(
-        `[PASS] View "${v.label}" (${v.expectedHash}) reachable in 1 click via #${v.tabId}; panel #${v.panelId} visible; External Mode Lock + Illustrative banner + Data as of verified.`
+        `[PASS] View "${v.label}" (${v.expectedHash}) reachable in 1 click via #${v.tabId}; panel #${v.panelId} visible; Real Products Ready + Illustrative banner + Data as of verified.`
       );
     }
 
@@ -431,6 +440,59 @@ async function runTest() {
       `Expected zh-CN localization & Simplified PII scrubbing across unified views, got: ${JSON.stringify(zhVal)}`
     );
     console.log('[PASS] Simplified Chinese (zh-CN) localization & Simplified client name PII scrubbing across unified views verified.');
+
+    // 7. Verify Client View & 3-Way Arena show Real Insurers & Real Products by default + Manual Demo Mode Toggle
+    const realProdRes = await cdp.send('Runtime.evaluate', {
+      expression: `(() => {
+        setViewMode('client');
+        setArenaMode('3way');
+        const heroOur = document.getElementById('hero-our-name').innerText;
+        const heroRival = document.getElementById('hero-rival-name').innerText;
+        const heroThird = document.getElementById('hero-third-name').innerText;
+        const myDisp = document.getElementById('my-product-display').innerText;
+        const rivalDisp = document.getElementById('rival-product-display').innerText;
+        const thirdDisp = document.getElementById('third-product-display').innerText;
+        const catalogCount = (window.ALL_PRODUCTS_CATALOG || []).length;
+
+        // Toggle demo mode ON
+        toggleDemoMode();
+        const demoOnHero = document.getElementById('hero-our-name').innerText;
+        const demoOnState = window.isDemoModeActive;
+
+        // Toggle demo mode OFF
+        toggleDemoMode();
+        const demoOffHero = document.getElementById('hero-our-name').innerText;
+        const demoOffState = window.isDemoModeActive;
+        const thirdInsAfterOff = document.getElementById('select-third-insurer').value;
+
+        setArenaMode('1v1');
+        setViewMode('agent');
+
+        return {
+          catalogCount,
+          clientShowsRealOur: heroOur.includes('AIA') || heroOur.includes('盈御'),
+          clientShowsRealRival: heroRival.includes('Prudential') || heroRival.includes('雋富'),
+          clientShowsRealThird: heroThird.includes('Manulife') || heroThird.includes('宏摯'),
+          displaysAreReal: !myDisp.includes('示範方案') && !rivalDisp.includes('示範方案') && !thirdDisp.includes('示範方案'),
+          demoOnWorked: demoOnState === true && demoOnHero.includes('保司 A (虛擬示範)'),
+          demoOffWorked: demoOffState === false && (demoOffHero.includes('AIA') || demoOffHero.includes('盈御')) && thirdInsAfterOff === 'Manulife'
+        };
+      })()`,
+      returnByValue: true
+    });
+    const rpVal = realProdRes?.result?.value;
+    assert.ok(
+      rpVal &&
+        rpVal.catalogCount === 99 &&
+        rpVal.clientShowsRealOur &&
+        rpVal.clientShowsRealRival &&
+        rpVal.clientShowsRealThird &&
+        rpVal.displaysAreReal &&
+        rpVal.demoOnWorked &&
+        rpVal.demoOffWorked,
+      `Expected real insurers and 99 real products in Client View & 3-Way mode + working Demo Mode toggle, got: ${JSON.stringify(rpVal)}`
+    );
+    console.log('[PASS] Client View & 3-Way Arena display real insurers (AIA, Prudential, Manulife) and 99 real products by default; manual Demo Mode toggle verified.');
 
     cdp.close();
   } finally {
