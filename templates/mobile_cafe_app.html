@@ -3890,11 +3890,12 @@
     .swiss-left-rail > .view-toggle-bar { order: 1; }
     .swiss-left-rail > .category-tabs-bar { order: 2; }
     .swiss-left-rail > .quick-matchup-presets { order: 3; }
-    .swiss-left-rail > .bilateral-arena-box { order: 4; }
-    .swiss-left-rail > .quick-selector { order: 5; }
-    .swiss-left-rail > .ai-quick-trigger-banner { order: 6; }
-    .swiss-left-rail > .scenario-agents-bar-wrap { order: 7; }
-    .swiss-left-rail > .scenario-panel-container { order: 8; }
+    .swiss-left-rail > .arena-mode-bar { order: 4; }
+    .swiss-left-rail > .bilateral-arena-box { order: 5; }
+    .swiss-left-rail > .quick-selector { order: 6; }
+    .swiss-left-rail > .ai-quick-trigger-banner { order: 7; }
+    .swiss-left-rail > .scenario-agents-bar-wrap { order: 8; }
+    .swiss-left-rail > .scenario-panel-container { order: 9; }
     .quick-matchup-presets {
       background: #FAF7F2;
       border: 1px solid #DFD9CE;
@@ -3915,21 +3916,27 @@
       gap: 6px;
       flex-wrap: wrap;
     }
-    .quick-matchup-pills {
-      display: flex;
-      flex-wrap: wrap;
+    .quick-matchup-pills,
+    .quick-matchup-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 5px;
     }
     .matchup-preset-chip {
       background: #FFFFFF;
       border: 1px solid #C5BCA8;
       border-radius: 3px;
-      padding: 4px 8px;
+      padding: 5px 8px;
       font-size: 11px;
       font-weight: 600;
       color: #141C24;
       cursor: pointer;
       transition: all 0.15s ease;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
     }
     .matchup-preset-chip:hover,
     .matchup-preset-chip.active {
@@ -3994,12 +4001,12 @@
     }
     .swiss-cmd-modal {
       position: fixed;
-      top: 14%;
+      top: 12%;
       left: 50%;
       transform: translateX(-50%);
       width: 92%;
       max-width: 680px;
-      max-height: 74vh;
+      max-height: 76vh;
       background: #FAF7F2;
       border: 1.5px solid #9A783B;
       border-top: 4px solid #0E2238;
@@ -4012,6 +4019,85 @@
     }
     .swiss-cmd-modal.open {
       display: flex;
+    }
+    .swiss-cmd-header {
+      background: #0E2238;
+      color: #FAF7F2;
+      padding: 12px 16px;
+      border-bottom: 1.5px solid #9A783B;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .swiss-cmd-title {
+      font-family: var(--font-serif, 'Noto Serif TC', serif);
+      font-size: 14px;
+      font-weight: 800;
+      color: #F9F4EA;
+      letter-spacing: 0.02em;
+    }
+    .swiss-cmd-input-wrap {
+      padding: 10px 14px;
+      background: #F3EFE6;
+      border-bottom: 1px solid #DFD9CE;
+      flex-shrink: 0;
+    }
+    .swiss-cmd-input {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 12.5px;
+      font-family: var(--font-sans, sans-serif);
+      color: #141C24;
+      background: #FFFFFF;
+      border: 1.5px solid #C5BCA8;
+      border-radius: 3px;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .swiss-cmd-input:focus {
+      border-color: #9A783B;
+      box-shadow: 0 0 0 2px rgba(154, 120, 59, 0.18);
+    }
+    .swiss-cmd-results {
+      flex: 1 1 auto;
+      overflow-y: auto;
+      max-height: calc(76vh - 125px);
+      padding: 8px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .swiss-cmd-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      background: #FFFFFF;
+      border: 1px solid #DFD9CE;
+      border-left: 3px solid #9A783B;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: all 0.14s ease;
+    }
+    .swiss-cmd-item:hover {
+      background: #F9F4EA;
+      border-color: #9A783B;
+      transform: translateX(2px);
+    }
+    .swiss-cmd-badge {
+      font-family: var(--font-mono, monospace);
+      font-size: 10px;
+      font-weight: 700;
+      color: #0E2238;
+      background: #EAE4D7;
+      border: 1px solid #C5BCA8;
+      padding: 2px 7px;
+      border-radius: 3px;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     /* Desktop 2-Pane Split-Screen Workspace (Matches Template A Visual Preview) */
@@ -4093,11 +4179,17 @@
       .swiss-left-rail .bilateral-arena-box {
         display: flex !important;
         flex-direction: column !important;
+        align-items: stretch !important;
         gap: 8px !important;
         padding: 0 !important;
         border: none !important;
         box-shadow: none !important;
         background: transparent !important;
+      }
+      .swiss-left-rail .bilateral-arena-box .camp-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
       }
       .swiss-left-rail .btn-swap-camp {
         align-self: center !important;
@@ -10470,10 +10562,14 @@ return {
       }
 
       const summaryNote = card.horizon_data?.[year] || card.horizon_data?.[30] || '我方方案在第 ' + year + ' 年核心指標顯著領先。';
+      const annualUsd = (typeof window !== 'undefined' && Number(window.clientAnnualPremiumUSD) > 0) ? Number(window.clientAnnualPremiumUSD) : 30000;
+      const totalUsd = annualUsd * 5;
+      const multMap = { 5: 1.02, 10: 1.48, 20: 2.95, 30: 6.15 };
+      const projUsd = Math.round(totalUsd * (multMap[year] || 6.15));
 
-      resultCard.innerHTML = '<div style="font-size:12px;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;">' +
+      resultCard.innerHTML = '<div style="font-size:12px;font-weight:800;color:#0f172a;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:4px;">' +
         '<span>📅 保單第 ' + year + ' 年動態利益投影（' + highlightTitle + '）</span>' +
-        '<span style="font-size:11px;color:var(--ikb);background:#eff6ff;padding:2px 8px;border-radius:4px;font-family:JetBrains Mono,monospace;">第 ' + year + ' 年對照</span>' +
+        '<span style="font-size:10.5px;color:var(--ikb);background:#eff6ff;padding:2px 8px;border-radius:4px;font-family:JetBrains Mono,monospace;">第 ' + year + ' 年 · 總繳 USD $' + totalUsd.toLocaleString() + ' ➔ 預期約 USD $' + projUsd.toLocaleString() + '</span>' +
       '</div>' +
       '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:8px;">' +
         '<div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:6px;padding:8px 10px;">' +
@@ -11151,7 +11247,7 @@ return {
         if (arenaMode === '3way') {
           const rawSpecs3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, currentCategory, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
           const filteredSpecs3 = (typeof window !== 'undefined' && window.specDiffOnlyMode)
-            ? rawSpecs3.filter(r => r.ourVal !== r.rivalVal || r.ourVal !== r.thirdVal || r.winner === 'our' || r.winner === 'rival' || r.winner === 'third')
+            ? rawSpecs3.filter(r => r.winner === 'our' || r.winner === 'rival' || r.winner === 'third' || isRowHighlightedByClaim(r.label, selectedClaim, selectedClaimText))
             : rawSpecs3;
           const specs3 = filteredSpecs3.length > 0 ? filteredSpecs3 : rawSpecs3;
           bilateralSpecTable.innerHTML = `
@@ -11186,7 +11282,7 @@ return {
         } else if (Array.isArray(card.bilateral_specs)) {
         const rawSpecs1v1 = card.bilateral_specs;
         const filteredSpecs1v1 = (typeof window !== 'undefined' && window.specDiffOnlyMode)
-          ? rawSpecs1v1.filter(row => row.ourVal !== row.rivalVal || row.winner === 'our' || row.winner === 'rival' || isRowHighlightedByClaim(row.label, selectedClaim, selectedClaimText))
+          ? rawSpecs1v1.filter(row => (row.winner === 'our' || row.winner === 'rival' || isRowHighlightedByClaim(row.label, selectedClaim, selectedClaimText)) && row.ourVal !== row.rivalVal)
           : rawSpecs1v1;
         const specs1v1 = filteredSpecs1v1.length > 0 ? filteredSpecs1v1 : rawSpecs1v1;
         bilateralSpecTable.innerHTML = `
@@ -11295,7 +11391,12 @@ return {
       if (clientTableTitle) clientTableTitle.innerHTML = card.table_title;
 
       if (clientTable && Array.isArray(card.table_rows)) {
-        clientTable.innerHTML = card.table_rows.map(row => `
+        const rawClientRows = card.table_rows;
+        const filteredClientRows = (typeof window !== 'undefined' && window.specDiffOnlyMode)
+          ? rawClientRows.filter(row => Boolean(row.highlight))
+          : rawClientRows;
+        const activeClientRows = filteredClientRows.length > 0 ? filteredClientRows : rawClientRows;
+        clientTable.innerHTML = activeClientRows.map(row => `
           <tr style="border-bottom:1px solid #f3f4f6;">
             <td style="padding:8px 0; color:#6b7280;">${row.label}</td>
             <td style="padding:8px 0; font-weight:700; color:${row.highlight ? 'var(--ikb)' : '#111827'}; text-align:right;">${row.value}</td>
@@ -14599,7 +14700,7 @@ return {
         title: '🔥 6大熱門旗艦對陣一鍵載入 (1-Click Hot Matchup Presets)',
         linkedComments: ['EA02', 'EC02'],
         beforeAfter: '切換跨險種旗艦 PK 由 ~18 秒 (選類別+選我方+選對手+選產品) 降至 0.3 秒 (1 鍵完成)',
-        summary: '於左側控制台頂部內置全港最常被詢問之 6 組王牌對決（盈御3 vs 雋富、宏摯 vs 萬年青、愛伴航 vs 危疾首護、保柏 vs 信諾 VHIS、中銀 vs 國壽 QDAP、滙豐 vs 安盛 UL）。',
+        summary: '於左側控制台頂部內置全港最常被詢問之 6 組王牌對決（盈御3 vs 雋富、宏摯 vs 萬年青星河、愛伴航 vs 危疾加護3、保柏英雄 vs 信諾靈活 VHIS、中銀 vs 國壽頤富 QDAP、滙豐智盈 vs 安盛盛世 UL）。',
         targetSelector: '#quick-matchup-presets',
         demoActionLabel: '⚡ 測試一鍵切換熱門對陣'
       },
@@ -14976,11 +15077,11 @@ return {
 
       const quickActions = [
         { type: 'preset', val: 'aia_vs_pru_sav', title: '🔥 熱門對陣：友邦 盈御多元貨幣計劃 3 vs 保誠 雋富多元貨幣計劃', badge: '1-Click 對陣' },
-        { type: 'preset', val: 'manu_vs_sun_sav', title: '🌱 熱門對陣：宏利 宏摯多元儲蓄計劃 vs 永明 萬年青‧尊享儲蓄計劃', badge: '1-Click 對陣' },
-        { type: 'preset', val: 'aia_vs_pru_ci', title: '🛡️ 熱門對陣：友邦 愛伴航 vs 保誠 危疾加護保 3', badge: '1-Click 對陣' },
-        { type: 'preset', val: 'bupa_vs_cigna_vhis', title: '🏥 熱門對陣：保柏 非凡自願醫保 vs 信諾 尊尚自願醫保', badge: '1-Click 對陣' },
-        { type: 'preset', val: 'boc_vs_cl_qdap', title: '👴 熱門對陣：中銀 延期年金計劃 vs 國壽 裕饒傳承延期年金', badge: '1-Click 對陣' },
-        { type: 'preset', val: 'hsbc_vs_axa_ul', title: '🏦 熱門對陣：滙豐 匯聚財富萬用壽險 vs 安盛 盛名萬用壽險', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'manu_vs_sun_sav', title: '🌱 熱門對陣：宏利 宏摯多元儲蓄計劃 vs 永明 萬年青星河傳承計劃', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'aia_vs_pru_ci', title: '🛡️ 熱門對陣：友邦 愛伴航首選危疾保 vs 保誠 危疾加護保 3', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'bupa_vs_cigna_vhis', title: '🏥 熱門對陣：保柏 保柏英雄自願醫保計劃 vs 信諾 信諾自願醫保靈活計劃', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'boc_vs_cl_qdap', title: '👴 熱門對陣：中銀 延期年金計劃（固定年期） vs 國壽 國壽海外「頤富」合資格延期年金保險計劃', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'hsbc_vs_axa_ul', title: '🏦 熱門對陣：滙豐 滙豐智盈萬用壽險 vs 安盛 盛世傳承萬用壽險', badge: '1-Click 對陣' },
         { type: 'action', val: 'diff_only', title: '🔍 切換客戶視角「只看關鍵差異」精算指標過濾器', badge: '效率升級 #4' },
         { type: 'action', val: 'gl16_sync', title: '📊 將當前擂台保司與保費一鍵帶入 GL16 達成率對賬器', badge: '效率升級 #6' },
         { type: 'action', val: 'scanner', title: '📄 開啟 AI 計劃書智能掃描與客戶端 PII 脫敏器', badge: '效率升級 #7' },
@@ -15178,6 +15279,10 @@ return {
         });
       }
       updateClientPremiumScalerSummary();
+      try {
+        const card = getBattleCard(myCompany, selectedCompany, selectedClaim, selectedClaimText);
+        if (card) updateHorizonDisplay(card, currentHorizonYear);
+      } catch (e) {}
       showToast('💰 已切換年繳保費試算基準：USD $' + validUsd.toLocaleString() + ' / 年 (5年總繳 USD $' + (validUsd * 5).toLocaleString() + ')');
     }
     window.setClientPremiumScale = setClientPremiumScale;
@@ -15200,33 +15305,52 @@ return {
     // Upgrade #6: Arena -> GL16 Fulfillment Tracker Context Bridge
     function openGN16ForCurrentArena(side) {
       const targetCompany = (side === 'rival') ? selectedCompany : myCompany;
+      const targetProdObj = (side === 'rival') ? rivalSelectedProduct : mySelectedProduct;
+      const targetProdName = (targetProdObj && typeof targetProdObj === 'object') ? (targetProdObj.name || '') : String(targetProdObj || '');
+      const pureMedicalInsurers = ['Bupa', 'Cigna', 'Bowtie'];
+      const isPureMedical = pureMedicalInsurers.includes(targetCompany);
       openGN16QueryModal();
       if (typeof document !== 'undefined') {
         const insSelect = document.getElementById('gn16-insurer-select');
+        const prodSelect = document.getElementById('gn16-product-select');
         const premInput = document.getElementById('gn16-premium-input');
         if (insSelect && targetCompany) {
-          const codeMap = {
-            'AIA': 'AIA',
-            'Prudential': 'PRU',
-            'Manulife': 'MANU',
-            'Sun Life': 'SUN',
-            'FWD': 'FWD',
-            'AXA': 'AXA',
-            'BOC Life': 'BOC',
-            'YF Life': 'YFL',
-            'HSBC': 'HSBC',
-            'Generali': 'GEN',
-            'ChinaLife': 'CL',
-            'Bowtie': 'AIA'
+          const candidateCodesMap = {
+            'AIA': ['AIA'],
+            'Prudential': ['Prudential', 'PRU'],
+            'Manulife': ['Manulife', 'MANU'],
+            'Sun Life': ['Sun_Life', 'SUN', 'Sun Life'],
+            'FWD': ['FWD'],
+            'AXA': ['AXA'],
+            'BOC Life': ['BOC_Life', 'BOC', 'BOC Life'],
+            'YF Life': ['YF_Life', 'YFL', 'YF Life'],
+            'HSBC': ['HSBC'],
+            'Generali': ['Generali', 'GEN'],
+            'BlueCross': ['BlueCross'],
+            'ChinaLife': ['ChinaLife', 'CL'],
+            'Bupa': ['AIA'],
+            'Cigna': ['AIA'],
+            'Bowtie': ['AIA']
           };
-          const mappedCode = codeMap[targetCompany] || targetCompany;
+          const candidates = candidateCodesMap[targetCompany] || [targetCompany];
           const opts = Array.from(insSelect.options || []);
           const matchOpt = opts.find(function(o) {
-            return o.value === mappedCode || o.value === targetCompany || (o.text && o.text.includes(targetCompany));
+            return candidates.includes(o.value) || (o.text && !isPureMedical && o.text.includes(targetCompany));
           });
           if (matchOpt) {
             insSelect.value = matchOpt.value;
             if (typeof onGN16InsurerChange === 'function') onGN16InsurerChange();
+          }
+          if (prodSelect && targetProdName && !isPureMedical) {
+            const prodOpts = Array.from(prodSelect.options || []);
+            const cleanTarget = targetProdName.replace(/\s+/g, '');
+            const matchedProdOpt = prodOpts.find(function(po) {
+              const poText = String(po.text || '').replace(/\s+/g, '');
+              return poText && (poText.includes(cleanTarget) || cleanTarget.includes(poText.split('(')[0]));
+            });
+            if (matchedProdOpt) {
+              prodSelect.value = matchedProdOpt.value;
+            }
           }
         }
         if (premInput && window.clientAnnualPremiumUSD) {
@@ -15236,7 +15360,11 @@ return {
       if (typeof runGN16Reconciliation === 'function') {
         runGN16Reconciliation();
       }
-      showToast('📊 已同步當前擂台保司 (' + targetCompany + ') 與年繳 USD $' + (window.clientAnnualPremiumUSD || 30000).toLocaleString() + ' 至 GL16 對賬器');
+      if (isPureMedical) {
+        showToast('📊 ' + targetCompany + ' 為純醫療險保司（無分紅實現率產品），已載入儲蓄基準保司與年繳 USD $' + (window.clientAnnualPremiumUSD || 30000).toLocaleString() + ' 供參考');
+      } else {
+        showToast('📊 已同步當前擂台保司 (' + targetCompany + ') 與年繳 USD $' + (window.clientAnnualPremiumUSD || 30000).toLocaleString() + ' 至 GL16 對賬器');
+      }
     }
     window.openGN16ForCurrentArena = openGN16ForCurrentArena;
 
@@ -15259,38 +15387,72 @@ return {
       const lower = rawText.toLowerCase();
       let detectedInsurer = 'Prudential';
       let detectedCategory = 'Savings_MultiCurrency';
+      let detectedProduct = '';
 
-      if (lower.includes('宏利') || lower.includes('manulife') || lower.includes('宏摯')) {
+      if (lower.includes('宏利') || lower.includes('manulife') || lower.includes('宏摯') || lower.includes('守護無間') || lower.includes('赤霞珠')) {
         detectedInsurer = 'Manulife';
-      } else if (lower.includes('永明') || lower.includes('sun life') || lower.includes('萬年青')) {
+      } else if (lower.includes('永明') || lower.includes('sun life') || lower.includes('萬年青') || lower.includes('永越')) {
         detectedInsurer = 'Sun Life';
-      } else if (lower.includes('富衛') || lower.includes('fwd')) {
+      } else if (lower.includes('富衛') || lower.includes('fwd') || lower.includes('盈聚') || lower.includes('危疾應援')) {
         detectedInsurer = 'FWD';
-      } else if (lower.includes('安盛') || lower.includes('axa')) {
+      } else if (lower.includes('安盛') || lower.includes('axa') || lower.includes('摯匯') || lower.includes('盛世傳承') || lower.includes('愛唯守')) {
         detectedInsurer = 'AXA';
-      } else if (lower.includes('中銀') || lower.includes('boc')) {
+      } else if (lower.includes('中銀') || lower.includes('boc') || lower.includes('薪火傳承') || lower.includes('非凡人生')) {
         detectedInsurer = 'BOC Life';
-      } else if (lower.includes('保誠') || lower.includes('prudential') || lower.includes('雋富')) {
+      } else if (lower.includes('萬通') || lower.includes('yf life') || lower.includes('富饒千秋') || lower.includes('首選健康')) {
+        detectedInsurer = 'YF Life';
+      } else if (lower.includes('滙豐') || lower.includes('匯豐') || lower.includes('hsbc') || lower.includes('滙裕') || lower.includes('智盈萬用')) {
+        detectedInsurer = 'HSBC';
+      } else if (lower.includes('忠意') || lower.includes('generali') || lower.includes('啟航傳承') || lower.includes('跨越無限')) {
+        detectedInsurer = 'Generali';
+      } else if (lower.includes('藍十字') || lower.includes('blue cross') || lower.includes('bluecross')) {
+        detectedInsurer = 'BlueCross';
+      } else if (lower.includes('國壽') || lower.includes('中國人壽') || lower.includes('chinalife') || lower.includes('頤富') || lower.includes('裕饒')) {
+        detectedInsurer = 'ChinaLife';
+      } else if (lower.includes('保柏') || lower.includes('bupa') || lower.includes('保柏英雄')) {
+        detectedInsurer = 'Bupa';
+      } else if (lower.includes('信諾') || lower.includes('cigna') || lower.includes('信諾自願醫保')) {
+        detectedInsurer = 'Cigna';
+      } else if (lower.includes('保泰') || lower.includes('bowtie') || lower.includes('粉紅自願醫保')) {
+        detectedInsurer = 'Bowtie';
+      } else if (lower.includes('保誠') || lower.includes('prudential') || lower.includes('雋富') || lower.includes('危疾加護') || lower.includes('信守明天')) {
         detectedInsurer = 'Prudential';
-      } else if (lower.includes('友邦') || lower.includes('aia') || lower.includes('盈御')) {
+      } else if (lower.includes('友邦') || lower.includes('aia') || lower.includes('盈御') || lower.includes('愛伴航') || lower.includes('尊裕')) {
         detectedInsurer = (myCompany === 'AIA') ? 'Prudential' : 'AIA';
       }
 
-      if (lower.includes('危疾') || lower.includes('重疾') || lower.includes('癌症')) {
+      if (lower.includes('危疾') || lower.includes('重疾') || lower.includes('癌症') || lower.includes('愛伴航') || lower.includes('守護無間')) {
         detectedCategory = 'Critical_Illness';
-      } else if (lower.includes('自願醫保') || lower.includes('vhis') || lower.includes('醫療')) {
+      } else if (lower.includes('自願醫保') || lower.includes('vhis') || lower.includes('醫療') || lower.includes('保柏') || lower.includes('信諾') || lower.includes('bowtie')) {
         detectedCategory = 'Medical_VHIS';
-      } else if (lower.includes('延期年金') || lower.includes('qdap')) {
+      } else if (lower.includes('延期年金') || lower.includes('qdap') || lower.includes('頤富')) {
         detectedCategory = 'Annuity_QDAP';
-      } else if (lower.includes('萬用壽險') || lower.includes('保費融資')) {
+      } else if (lower.includes('萬用壽險') || lower.includes('保費融資') || lower.includes('智盈萬用') || lower.includes('盛世傳承')) {
         detectedCategory = 'Financing_UniversalLife';
+      }
+
+      const catalogSource = (typeof ALL_PRODUCTS_CATALOG !== 'undefined' && Array.isArray(ALL_PRODUCTS_CATALOG))
+        ? ALL_PRODUCTS_CATALOG
+        : ((typeof window !== 'undefined' && window.ALL_PRODUCTS_CATALOG) || []);
+      if (Array.isArray(catalogSource)) {
+        const matchedProd = catalogSource.find(function(p) {
+          return p && p.name && rawText.includes(p.name);
+        });
+        if (matchedProd) {
+          detectedCategory = matchedProd.category || detectedCategory;
+          detectedInsurer = matchedProd.insurer || detectedInsurer;
+          detectedProduct = matchedProd.name;
+        }
       }
 
       closeProposalScannerModal();
       switchUnifiedView('battlecard');
       selectCategory(detectedCategory);
       selectCompany(detectedInsurer);
-      showToast('⚔️ 已從掃描計劃書自動識別對手保司【' + detectedInsurer + '】並載入攻防擂台 Plan B');
+      if (detectedProduct) {
+        setRivalProduct(detectedProduct);
+      }
+      showToast('⚔️ 已從掃描計劃書自動識別對手保司【' + detectedInsurer + (detectedProduct ? (' · ' + detectedProduct) : '') + '】並載入攻防擂台 Plan B');
     }
     window.applyScannedProposalToArena = applyScannedProposalToArena;
 
@@ -15305,6 +15467,11 @@ return {
       }
       if (evt.key === 'Escape') {
         closeCommandPalette();
+        switchUnifiedView('battlecard');
+        return;
+      }
+      const tgt = evt.target;
+      if (tgt && (tgt.isContentEditable || (tgt.tagName && ['INPUT', 'TEXTAREA', 'SELECT'].includes(String(tgt.tagName).toUpperCase())))) {
         return;
       }
       if (evt.altKey) {
@@ -15485,12 +15652,17 @@ return {
         window._isSwitchingUnifiedView = true;
         syncUnifiedNavTab(v, skipHashUpdate);
 
-        // Close all secondary view modals first
+        // Close all secondary view modals and drawers first
         closeGN16QueryModal();
         closeUnifiedBriefingModal();
         closeProposalScannerModal();
         closeGN16PayModal();
         closeCommandPalette();
+        if (typeof closeCatalogDrawer === 'function') closeCatalogDrawer();
+        if (typeof closeAiChatDrawer === 'function') closeAiChatDrawer();
+        if (typeof closeAudit30Drawer === 'function') closeAudit30Drawer();
+        if (typeof closeClientPdfModal === 'function') closeClientPdfModal();
+        if (typeof closeSimulationModal === 'function') closeSimulationModal();
 
         if (v === 'gl16') {
           openGN16QueryModal();
@@ -15509,14 +15681,6 @@ return {
       }
     }
     window.switchUnifiedView = switchUnifiedView;
-
-    if (typeof window !== 'undefined' && window.addEventListener) {
-      window.addEventListener('keydown', function(evt) {
-        if (evt && evt.key === 'Escape') {
-          switchUnifiedView('battlecard');
-        }
-      });
-    }
 
     function handleUnifiedHashRoute(isPopOrHashChange) {
       try {
@@ -15837,7 +16001,7 @@ return {
         </div>
       
         <!-- Option 3: HK$2,480 Agency Team -->
-        <div class="gn16-tier-card active" id="gn16-tier-team" onclick="selectGN16Tier('team_2480')" style="border-color:#7c3aed;background:#faf5ff;">
+        <div class="gn16-tier-card" id="gn16-tier-team" onclick="selectGN16Tier('team_2480')" style="border-color:#7c3aed;background:#faf5ff;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
             <span style="font-size:12.5px;font-weight:800;color:#5b21b6;">🏢 區域總監團隊版</span>
             <span style="font-size:17px;font-weight:900;color:#7c3aed;">HK$2,480 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月</span></span>
@@ -15851,18 +16015,16 @@ return {
           </ul>
         </div>
         <!-- Option 4: HK$12,800 Enterprise IFA / Family Office -->
-        <div class="gn16-tier-card" id="gn16-tier-enterprise" onclick="selectGN16Tier('enterprise_12800')" style="border-color:#0f766e;background:#f0fdfa;grid-column:1 / -1;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
-            <span style="font-size:12.5px;font-weight:800;color:#115e59;">🏛️ 企業獨立經紀行 / 家族辦公室總部版 <span style="font-size:10px;background:#0f766e;color:#fff;padding:2px 6px;border-radius:4px;margin-left:4px;">商務合約制 (非線上刷卡)</span></span>
-            <span style="font-size:17px;font-weight:900;color:#0f766e;">HK$12,800 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月 (年繳 HK$128,000)</span></span>
+        <div class="gn16-tier-card" id="gn16-tier-enterprise" onclick="selectGN16Tier('enterprise_12800')" style="border-color:#0f766e;background:#f0fdfa;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:4px;">
+            <span style="font-size:12.5px;font-weight:800;color:#115e59;">🏛️ 企業經紀行 / 家辦總部版 <span style="font-size:9.5px;background:#0f766e;color:#fff;padding:1px 5px;border-radius:4px;">商務合約制</span></span>
+            <span style="font-size:17px;font-weight:900;color:#0f766e;">HK$12,800 <span style="font-size:10px;font-weight:500;color:#64748b;">/ 月</span></span>
           </div>
-          <div style="font-size:10.5px;color:#0f766e;font-weight:700;margin-bottom:8px;">💎 全員無限席位 · 私有化白標 API · CRM 雙向串接 · 合規留痕審計</div>
-          <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:4px;">
-            <li>全經紀行全員無限制顧問執業席位</li>
-            <li>私有化專屬二級域名與獨立品牌白標</li>
-            <li>全功能 RESTful 精算 API 與 Webhook</li>
-            <li>雙向對接 Salesforce / HubSpot CRM</li>
-            <li>保監局操守守則 / GN16 內部審計留痕日誌</li>
+          <div style="font-size:10.5px;color:#0f766e;font-weight:700;margin-bottom:8px;">💎 全員無限席位 · 私有化白標 API · CRM 串接 (年繳 HK$128,000)</div>
+          <ul style="font-size:11px;color:#334155;line-height:1.55;padding-left:14px;margin:0;">
+            <li>全經紀行無限制顧問執業席位 &amp; 獨立品牌白標</li>
+            <li>全功能 RESTful 精算 API 與 Salesforce / HubSpot 串接</li>
+            <li>保監局操守守則 / GN16 內部合規審計留痕日誌</li>
             <li>專屬客戶成功經理與 99.9% 企業 SLA 支持</li>
           </ul>
         </div>

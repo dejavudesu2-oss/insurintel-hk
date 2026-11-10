@@ -48,13 +48,18 @@ function getOrCreateElement(id: string) {
       value: '',
       style: { display: '', width: '', left: '', background: '', color: '', borderColor: '', opacity: '' },
       options: [
-        { value: 'AIA', text: '友邦 AIA' },
-        { value: 'PRU', text: '保誠 Prudential' },
-        { value: 'MANU', text: '宏利 Manulife' },
-        { value: 'SUN', text: '永明 Sun Life' },
-        { value: 'FWD', text: '富衛 FWD' },
-        { value: 'AXA', text: '安盛 AXA' },
-        { value: 'BOC', text: '中銀人壽 BOC Life' }
+        { value: 'AIA', text: '友邦 AIA (香港)' },
+        { value: 'Prudential', text: '保誠 Prudential (香港)' },
+        { value: 'Manulife', text: '宏利 Manulife (香港)' },
+        { value: 'Sun_Life', text: '永明金融 Sun Life (香港)' },
+        { value: 'FWD', text: '富衛 FWD (香港)' },
+        { value: 'AXA', text: '安盛 AXA (香港)' },
+        { value: 'BOC_Life', text: '中銀人壽 BOC Life' },
+        { value: 'YF_Life', text: '萬通保險 YF Life' },
+        { value: 'HSBC', text: '滙豐人壽 HSBC Life' },
+        { value: 'Generali', text: '忠意保險 Generali' },
+        { value: 'BlueCross', text: '藍十字 Blue Cross' },
+        { value: 'ChinaLife', text: '中國人壽(海外) China Life' }
       ],
       classList: {
         add: (...cls: string[]) => cls.forEach(c => classSet.add(c)),
@@ -266,15 +271,24 @@ console.log('✅ [Subagent-2: 100 Efficiency Comments Audit] 50 Client + 50 Advi
 // =========================================================================
 console.log('\n🔍 [Subagent-3: Top 10 Upgrades Live Execution] Testing EFF-01 through EFF-10...');
 
-// EFF-01: Instant Command Palette
+// EFF-01: Instant Command Palette & CSS Rules
+assert(
+  htmlSource.includes('.swiss-cmd-header {') &&
+  htmlSource.includes('.swiss-cmd-results {') &&
+  htmlSource.includes('.swiss-cmd-item {') &&
+  htmlSource.includes('.swiss-cmd-badge {'),
+  'EFF-01: Command Palette child CSS rules (.swiss-cmd-header, .swiss-cmd-results, .swiss-cmd-item, .swiss-cmd-badge) must be defined'
+);
 sandbox.openCommandPalette();
 assert(getOrCreateElement('swiss-cmd-modal').classList.contains('open'), 'EFF-01: openCommandPalette() must open #swiss-cmd-modal');
+assert(getOrCreateElement('swiss-cmd-results').innerHTML.includes('萬年青星河傳承計劃'), 'EFF-01: Command Palette default quickActions must display exact real product names from HOT_MATCHUP_PRESETS');
 sandbox.filterCommandPalette('雋富');
 assert(getOrCreateElement('swiss-cmd-results').innerHTML.includes('雋富'), 'EFF-01: filterCommandPalette("雋富") must match Prudential flagship product');
 sandbox.executeCommandPaletteProduct('Savings_MultiCurrency', 'Manulife', '宏摯多元儲蓄計劃', 'our');
 assert(!getOrCreateElement('swiss-cmd-modal').classList.contains('open'), 'EFF-01: executeCommandPaletteProduct must close command palette');
 
-// EFF-02: 6 Hot Matchup Presets
+// EFF-02: 6 Hot Matchup Presets & 2-Column Grid CSS
+assert(htmlSource.includes('.quick-matchup-grid'), 'EFF-02: .quick-matchup-grid CSS rule must be defined for the 6 preset chips');
 const presetKeys = Object.keys(sandbox.window.HOT_MATCHUP_PRESETS);
 assert(presetKeys.length === 6, `EFF-02: Expected 6 hot matchup presets, got ${presetKeys.length}`);
 for (const pk of presetKeys) {
@@ -285,15 +299,27 @@ for (const pk of presetKeys) {
 
 // EFF-03: Left-Rail Zero-Scroll Flexbox & Grid CSS
 assert(htmlSource.includes('.swiss-left-rail > *') && htmlSource.includes('flex-shrink: 0 !important'), 'EFF-03: CSS must lock .swiss-left-rail > * to flex-shrink: 0 !important');
-assert(htmlSource.includes('.swiss-left-rail > .bilateral-arena-box { order: 4; }') && htmlSource.includes('.swiss-left-rail > .quick-selector { order: 5; }') && htmlSource.includes('.swiss-left-rail > .scenario-agents-bar-wrap { order: 7; }'), 'EFF-03: CSS flex order must visually position .quick-selector directly below .bilateral-arena-box and above .scenario-agents-bar-wrap');
+assert(
+  htmlSource.includes('.swiss-left-rail > .arena-mode-bar { order: 4; }') &&
+  htmlSource.includes('.swiss-left-rail > .bilateral-arena-box { order: 5; }') &&
+  htmlSource.includes('.swiss-left-rail > .quick-selector { order: 6; }') &&
+  htmlSource.includes('.swiss-left-rail > .scenario-agents-bar-wrap { order: 8; }'),
+  'EFF-03: CSS flex order must keep .arena-mode-bar directly above .bilateral-arena-box and .quick-selector directly below it'
+);
+assert(htmlSource.includes('.swiss-left-rail .bilateral-arena-box .camp-card'), 'EFF-03: CSS must stretch .camp-card to 100% width inside .swiss-left-rail');
 
-// EFF-04: Spec Diff-Only Filter
+// EFF-04: Spec Diff-Only Filter (must genuinely reduce row count by filtering out tied/non-highlighted rows)
 sandbox.applyQuickMatchupPreset('aia_vs_pru_sav');
 sandbox.toggleSpecDiffFilter(false);
-const fullRowsHtml = getOrCreateElement('bilateral-spec-table').innerHTML;
+const fullRowsCount = (getOrCreateElement('bilateral-spec-table').innerHTML.match(/<tr/g) || []).length;
+const fullClientTableCount = (getOrCreateElement('client-table').innerHTML.match(/<tr/g) || []).length;
 sandbox.toggleSpecDiffFilter(true);
 assert(sandbox.window.specDiffOnlyMode === true, 'EFF-04: specDiffOnlyMode must be true after toggleSpecDiffFilter(true)');
 assert(getOrCreateElement('btn-spec-diff-only').innerText.includes('顯示全部指標'), 'EFF-04: Button text must update when diff-only mode is active');
+const diffRowsCount = (getOrCreateElement('bilateral-spec-table').innerHTML.match(/<tr/g) || []).length;
+const diffClientTableCount = (getOrCreateElement('client-table').innerHTML.match(/<tr/g) || []).length;
+assert(diffRowsCount < fullRowsCount, `EFF-04: toggleSpecDiffFilter(true) must filter out tied rows in #bilateral-spec-table (expected < ${fullRowsCount}, got ${diffRowsCount})`);
+assert(diffClientTableCount < fullClientTableCount, `EFF-04: toggleSpecDiffFilter(true) must filter non-highlighted rows in #client-table (expected < ${fullClientTableCount}, got ${diffClientTableCount})`);
 sandbox.toggleSpecDiffFilter(false);
 assert(sandbox.window.specDiffOnlyMode === false, 'EFF-04: specDiffOnlyMode must be false after toggleSpecDiffFilter(false)');
 
@@ -302,23 +328,38 @@ sandbox.setClientPremiumScale(50000);
 assert(sandbox.window.clientAnnualPremiumUSD === 50000, 'EFF-05: clientAnnualPremiumUSD must be 50000');
 const scalerText = getOrCreateElement('client-premium-scaler-summary').innerText;
 assert(scalerText.includes('250,000') && scalerText.includes('HK$1,950,000'), `EFF-05: Scaler summary must show 5-year total USD $250,000 and HK$1,950,000, got: ${scalerText}`);
+assert(getOrCreateElement('horizon-result-card').innerHTML.includes('250,000'), 'EFF-05: #horizon-result-card must also update live with scaled total premium USD $250,000');
 
-// EFF-06: Arena -> GL16 Fulfillment Tracker Context Bridge
+// EFF-06: Arena -> GL16 Fulfillment Tracker Context Bridge (Real GN16_DATABASE.insurers codes)
+sandbox.applyQuickMatchupPreset('manu_vs_sun_sav');
 sandbox.openGN16ForCurrentArena('our');
+assert(getOrCreateElement('gn16-insurer-select').value === 'Manulife', `EFF-06: openGN16ForCurrentArena("our") for Manulife must select "Manulife", got "${getOrCreateElement('gn16-insurer-select').value}"`);
 assert(getOrCreateElement('gn16-premium-input').value === '50000', 'EFF-06: openGN16ForCurrentArena must sync annual premium USD 50000 into #gn16-premium-input');
+sandbox.openGN16ForCurrentArena('rival');
+assert(getOrCreateElement('gn16-insurer-select').value === 'Sun_Life', `EFF-06: openGN16ForCurrentArena("rival") for Sun Life must select "Sun_Life", got "${getOrCreateElement('gn16-insurer-select').value}"`);
+sandbox.applyQuickMatchupPreset('boc_vs_cl_qdap');
+sandbox.openGN16ForCurrentArena('our');
+assert(getOrCreateElement('gn16-insurer-select').value === 'BOC_Life', `EFF-06: openGN16ForCurrentArena("our") for BOC Life must select "BOC_Life", got "${getOrCreateElement('gn16-insurer-select').value}"`);
 
-// EFF-07: Proposal Scanner -> Arena 1-Click Loader
-getOrCreateElement('scanner-raw-input').value = '宏利人壽保險 宏摯多元儲蓄計劃 受保人：陳大文 HKID: A123456(7)';
+// EFF-07: Proposal Scanner -> Arena 1-Click Loader (All 15 Insurers & Catalog Product Matching)
+getOrCreateElement('scanner-raw-input').value = '國壽海外「頤富」合資格延期年金保險計劃 受保人：陳大文 HKID: A123456(7)';
 sandbox.applyScannedProposalToArena();
-assert(getOrCreateElement('hero-rival-name').innerText.includes('宏利') || getOrCreateElement('rival-product-display').innerText.includes('宏摯'), 'EFF-07: applyScannedProposalToArena must set Manulife as Plan B rival');
+assert(getOrCreateElement('hero-rival-name').innerText.includes('頤富') || getOrCreateElement('rival-product-display').innerText.includes('頤富'), 'EFF-07: applyScannedProposalToArena must detect exact catalog product 頤富 and set ChinaLife as Plan B rival');
 
-// EFF-08: Advisor Keyboard Hotkeys
+// EFF-08: Advisor Keyboard Hotkeys & Input Guard + Secondary Drawer Cleanup
 sandbox.handleGlobalEfficiencyHotkeys({ ctrlKey: true, key: 'k', preventDefault: () => {} });
 assert(getOrCreateElement('swiss-cmd-modal').classList.contains('open'), 'EFF-08: Ctrl+K hotkey must open Command Palette');
+sandbox.openSimulationModal();
+assert(getOrCreateElement('simulation-modal').classList.contains('open'), 'EFF-08 setup: #simulation-modal is open');
 sandbox.handleGlobalEfficiencyHotkeys({ key: 'Escape', preventDefault: () => {} });
 assert(!getOrCreateElement('swiss-cmd-modal').classList.contains('open'), 'EFF-08: Escape hotkey must close Command Palette');
+assert(!getOrCreateElement('simulation-modal').classList.contains('open'), 'EFF-08: Escape hotkey must also close #simulation-modal via switchUnifiedView("battlecard")');
+// Verify Alt+D does NOT fire when typing inside an <input> or <textarea>
+sandbox.toggleSpecDiffFilter(false);
+sandbox.handleGlobalEfficiencyHotkeys({ altKey: true, key: 'd', target: { tagName: 'INPUT' }, preventDefault: () => {} });
+assert(sandbox.window.specDiffOnlyMode === false, 'EFF-08: Alt+D must be ignored when evt.target is an INPUT element');
 sandbox.handleGlobalEfficiencyHotkeys({ altKey: true, key: 'd', preventDefault: () => {} });
-assert(sandbox.window.specDiffOnlyMode === true, 'EFF-08: Alt+D hotkey must toggle specDiffOnlyMode');
+assert(sandbox.window.specDiffOnlyMode === true, 'EFF-08: Alt+D hotkey must toggle specDiffOnlyMode when not focused in an input');
 sandbox.toggleSpecDiffFilter(false);
 
 // EFF-09: Shareable URL Deep-Link State Serialization & Restoration
@@ -327,12 +368,12 @@ sandbox.setClientPremiumScale(100000);
 const sharedLink = sandbox.copyArenaShareLink();
 assert(sharedLink.includes('cat=Medical_VHIS') && sharedLink.includes('our=Bupa') && sharedLink.includes('rival=Cigna') && sharedLink.includes('usd=100000'), `EFF-09: Shared link must encode arena state, got: ${sharedLink}`);
 
-// Reset state and hydrate from URL params
+// Reset state and hydrate from URL params (including Chinese punctuation in product names)
 sandbox.applyQuickMatchupPreset('aia_vs_pru_sav');
 sandbox.setClientPremiumScale(10000);
-currentLocationSearch = '?cat=Critical_Illness&our=AIA&rival=Prudential&usd=50000';
+currentLocationSearch = '?cat=Annuity_QDAP&our=BOC%20Life&rival=ChinaLife&ourProd=' + encodeURIComponent('延期年金計劃（固定年期）') + '&rivalProd=' + encodeURIComponent('國壽海外「頤富」合資格延期年金保險計劃') + '&usd=50000';
 const hydrated = sandbox.hydrateArenaFromUrlParams();
-assert(hydrated === true && sandbox.window.clientAnnualPremiumUSD === 50000, 'EFF-09: hydrateArenaFromUrlParams must restore state from URL query params');
+assert(hydrated === true && sandbox.window.clientAnnualPremiumUSD === 50000 && getOrCreateElement('hero-rival-name').innerText.includes('頤富'), 'EFF-09: hydrateArenaFromUrlParams must restore state and exact Chinese-punctuated product names from URL query params');
 
 // EFF-10: Efficiency Audit Hub & Top Nav Unblurred Z-Index
 assert(htmlSource.includes('.unified-app-nav') && htmlSource.includes('z-index: 100020 !important'), 'EFF-10: .unified-app-nav must have z-index: 100020 !important so modals never blur top nav');

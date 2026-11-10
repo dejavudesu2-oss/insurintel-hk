@@ -1,13 +1,13 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-10T07:34:02.298Z
+Execution Timestamp: 2026-11-10T07:59:24.963Z
 Harness: Chrome Headless (Chrome/156.0.8078.80) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
 [TARGET: 01_client_neutral_view.png]
   Description : Client Neutral View (Clean Tear-Sheet with Statutory Warning & Fictional Plans)
   URL         : http://localhost:3334/index.html?mode=demo&view=client
-  DOM Check   : found=true, display=block, opacity=1, height=4395.6875px
-  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":4395.6875,"inViewport":true,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=4418.078125px
+  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":4418.078125,"inViewport":true,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 02_agent_cockpit.png]
@@ -41,8 +41,8 @@ Viewport: 1280x1100, Port: 3334
 [TARGET: 06_pricing_modal.png]
   Description : Single Source of Truth Pricing Modal ($49, $199, $2480, $12800)
   URL         : http://localhost:3334/index.html?mode=demo&modal=pricing
-  DOM Check   : found=true, display=flex, opacity=1, height=858px
-  Details     : {"target":"gn16-pay-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":858,"tierCardCount":4,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=813.796875px
+  Details     : {"target":"gn16-pay-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":813.796875,"tierCardCount":4,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 07_briefing_view.png]
