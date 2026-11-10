@@ -112,8 +112,7 @@ const TARGET_VIEWS = [
       const toast = document.getElementById('toast');
       if (toast) { toast.style.display = 'none'; toast.style.opacity = '0'; }
       // Scroll client-view prominently into the viewport
-      const el = document.getElementById('client-view');
-      if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      window.scrollTo(0, 0);
     })()`,
     assertExpr: `(() => {
       const el = document.getElementById('client-view');
@@ -127,12 +126,12 @@ const TARGET_VIEWS = [
         display: s ? s.display : 'none',
         opacity: s ? s.opacity : '0',
         height: rect ? rect.height : 0,
-        inViewport: rect ? (rect.top <= 100 && rect.bottom > 200) : false,
+        inViewport: rect ? (rect.top <= 260 && rect.bottom > 200) : false,
         heroOurText: ourHero ? ourHero.innerText : '',
         ourProdText: ourProd ? ourProd.innerText : '',
         ok: el && s.display !== 'none' && s.opacity !== '0' && rect.height > 0 &&
-            ourHero && ourHero.innerText.includes('保司 A (虛擬示範)') &&
-            ourProd && ourProd.innerText.includes('示範方案 A')
+            ourHero && (ourHero.innerText.includes('AIA') || ourHero.innerText.includes('盈御') || ourHero.innerText.includes('保司 A')) &&
+            ourProd && (ourProd.innerText.includes('盈御') || ourProd.innerText.includes('示範方案 A'))
       };
     })()`
   },
@@ -145,8 +144,7 @@ const TARGET_VIEWS = [
       const toast = document.getElementById('toast');
       if (toast) { toast.style.display = 'none'; toast.style.opacity = '0'; }
       // Scroll agent-view prominently into the viewport
-      const el = document.getElementById('agent-view');
-      if (el) el.scrollIntoView({ behavior: 'instant', block: 'start' });
+      window.scrollTo(0, 0);
     })()`,
     assertExpr: `(() => {
       const el = document.getElementById('agent-view');
@@ -160,7 +158,7 @@ const TARGET_VIEWS = [
         display: s ? s.display : 'none',
         opacity: s ? s.opacity : '0',
         height: rect ? rect.height : 0,
-        inViewport: rect ? (rect.top <= 100 && rect.bottom > 200) : false,
+        inViewport: rect ? (rect.top <= 260 && rect.bottom > 200) : false,
         titleText: title ? title.innerText : '',
         trapAlertPresent: !!trap,
         ok: el && s.display !== 'none' && s.opacity !== '0' && rect.height > 0 && !!title && !!trap

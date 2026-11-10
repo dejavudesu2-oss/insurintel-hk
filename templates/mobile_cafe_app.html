@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#002FA7">
+  <meta name="theme-color" content="#0E2238">
   <title>InsurIntel 14:00 見客極速攻防卡 · 香港保險GN16分紅達成率對賬</title>
   <meta name="keywords" content="香港保險分紅實現率, GN16, 友邦充裕未來紅利實現率, 保誠雋升實際回報, 宏利赤霞珠分紅達成, 安盛安進紅利兌現, 富衛盈豐分紅對賬, 永明萬年青紅利實現率, 中國人壽海外分紅實現率, 利益演示紅利對賬">
   <script type="application/ld+json">
@@ -40,7 +40,7 @@
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Noto+Sans+HK:wght@400;500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,600;6..72,700&family=Noto+Sans+HK:wght@400;500;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
   
   <style>
     :root {
@@ -3377,6 +3377,591 @@
       }
     }
 
+
+    /* ==========================================================================
+       TEMPLATE A: SWISS PRIVATE BANK EDITION (Editorial Wealth Design System)
+       Inspired by Pictet Wealth Management, UBS Private Bank & Financial Times
+       ========================================================================== */
+    :root {
+      --ikb: #0E2238 !important;
+      --ikb-light: #F9F4EA !important;
+      --gold: #9A783B !important;
+      --gold-light: #F9F4EA !important;
+      --gold-border: #D5C7A9 !important;
+      --bg: #FAF7F2 !important;
+      --card-bg: #FFFFFF !important;
+      --surface-subtle: #F3EFE6 !important;
+      --text-main: #141C24 !important;
+      --text-sub: #525B66 !important;
+      --text-muted: #7C848E !important;
+      --border: #DFD9CE !important;
+      --border-strong: #C5BCA8 !important;
+      --green: #166534 !important;
+      --amber: #9A783B !important;
+      --red: #7F1D1D !important;
+      --font-serif: 'Newsreader', 'Noto Serif TC', Georgia, serif;
+      --font-sans: 'Inter', 'Noto Sans HK', system-ui, -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+
+    body {
+      background: #FAF7F2 !important;
+      color: #141C24 !important;
+      font-family: var(--font-sans) !important;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.005em;
+    }
+
+    /* 1. Editorial Header & Consolidated Navigation (De-cluttered Top Bar) */
+    header, .web-app-header {
+      background: #0E2238 !important;
+      color: #F9F6F0 !important;
+      padding: 10px 24px !important;
+      box-shadow: none !important;
+      border-bottom: 1px solid rgba(197, 188, 168, 0.22) !important;
+    }
+    .header-inner {
+      max-width: 1380px !important;
+    }
+    .brand-bolt {
+      background: rgba(154, 120, 59, 0.22) !important;
+      border: 1px solid #9A783B !important;
+      border-radius: 3px !important;
+      color: #E2C792 !important;
+      box-shadow: none !important;
+    }
+    .brand-title {
+      font-family: var(--font-serif) !important;
+      font-size: 16.5px !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.01em !important;
+      color: #F9F6F0 !important;
+    }
+    .brand-pro-tag {
+      background: #9A783B !important;
+      color: #FFFFFF !important;
+      font-family: var(--font-mono) !important;
+      font-size: 9px !important;
+      font-weight: 700 !important;
+      border-radius: 2px !important;
+      padding: 2px 6px !important;
+      letter-spacing: 0.08em !important;
+    }
+    .brand-status-line {
+      color: #B8B2A6 !important;
+      font-size: 10px !important;
+    }
+    .app-nav-btn, .top-nav-slides-btn, .top-nav-waitlist-btn {
+      border-radius: 3px !important;
+      background: rgba(255, 255, 255, 0.06) !important;
+      border: 1px solid rgba(197, 188, 168, 0.28) !important;
+      color: #EAE4D7 !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+      padding: 5px 11px !important;
+      box-shadow: none !important;
+      transition: all 0.18s ease !important;
+    }
+    .app-nav-btn:hover, .top-nav-slides-btn:hover, .top-nav-waitlist-btn:hover {
+      background: rgba(154, 120, 59, 0.24) !important;
+      border-color: #9A783B !important;
+      color: #FFFFFF !important;
+    }
+    .app-nav-btn.view-btn {
+      background: #9A783B !important;
+      border-color: #9A783B !important;
+      color: #FFFFFF !important;
+    }
+
+    /* De-clutter redundant banners and duplicate buttons that already live in #unified-app-nav */
+    #header-scanner-btn,
+    #header-pricing-btn,
+    #btn-open-gn16-tracker,
+    #gn16-hero-callout-bar,
+    #ai-quick-trigger-banner {
+      display: none !important;
+    }
+
+    /* Compact whisper-quiet regulatory & date bar */
+    .top-date-banner {
+      background: #F3EFE6 !important;
+      color: #525B66 !important;
+      border-bottom: 1px solid #DFD9CE !important;
+      font-family: var(--font-mono) !important;
+      font-size: 10px !important;
+      padding: 4px 20px !important;
+      letter-spacing: 0.01em !important;
+      box-shadow: none !important;
+    }
+
+    .unified-app-nav {
+      background: #0E2238 !important;
+      border-bottom: 2px solid #9A783B !important;
+      padding: 7px 24px !important;
+      max-width: 100% !important;
+    }
+    .unified-nav-tab {
+      font-family: var(--font-sans) !important;
+      border-radius: 3px !important;
+      transition: all 0.16s ease !important;
+    }
+
+    /* 2. Centered Editorial Workspace Container */
+    .view-toggle-bar,
+    .category-tabs-bar,
+    .arena-mode-bar,
+    .bilateral-arena-box,
+    .scenario-agents-bar-wrap,
+    .scenario-panel-container,
+    .quick-selector,
+    #agent-view,
+    #client-view {
+      max-width: 1280px !important;
+      margin-left: auto !important;
+      margin-right: auto !important;
+    }
+
+    /* Dual-Perspective Switcher (Advisor HUD vs Client Tear-Sheet) */
+    .view-toggle-bar {
+      background: #F3EFE6 !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 4px !important;
+      padding: 4px !important;
+      margin-top: 12px !important;
+      margin-bottom: 10px !important;
+      gap: 6px !important;
+      box-shadow: none !important;
+    }
+    .view-toggle-bar .view-btn {
+      border-radius: 3px !important;
+      border: 1px solid transparent !important;
+      background: transparent !important;
+      color: #525B66 !important;
+      padding: 8px 14px !important;
+      box-shadow: none !important;
+    }
+    .view-toggle-bar .view-btn.active-agent,
+    .view-toggle-bar .view-btn.active-client {
+      background: #0E2238 !important;
+      color: #FFFFFF !important;
+      border-color: #9A783B !important;
+    }
+    .view-btn-badge {
+      background: rgba(154, 120, 59, 0.22) !important;
+      color: #E2C792 !important;
+      border-radius: 2px !important;
+      font-family: var(--font-mono) !important;
+    }
+
+    /* 5 Major Category Selector Tabs & 1v1 / 3-Way Bar */
+    .category-tabs-bar,
+    .arena-mode-bar {
+      background: transparent !important;
+      gap: 6px !important;
+      padding: 4px 12px !important;
+    }
+    .cat-tab,
+    .arena-mode-btn {
+      background: #FFFFFF !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+      color: #525B66 !important;
+      font-weight: 600 !important;
+      font-size: 12px !important;
+      padding: 7px 14px !important;
+      box-shadow: 0 1px 2px rgba(14, 34, 56, 0.03) !important;
+    }
+    .cat-tab.active,
+    .arena-mode-btn.active {
+      background: #0E2238 !important;
+      color: #FFFFFF !important;
+      border-color: #0E2238 !important;
+      box-shadow: none !important;
+    }
+
+    /* 3. Plan A vs Plan B vs Plan C Selector Cards — Goodbye Neon Borders, Hello Swiss Private Bank */
+    .bilateral-arena-box {
+      background: #FFFFFF !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 4px !important;
+      padding: 16px 18px !important;
+      gap: 14px !important;
+      box-shadow: 0 2px 8px rgba(14, 34, 56, 0.04) !important;
+    }
+    .camp-card {
+      background: #FAF7F2 !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+      padding: 12px 14px !important;
+      box-shadow: none !important;
+    }
+    .camp-card.camp-our {
+      background: #FFFFFF !important;
+      border-color: #C5BCA8 !important;
+      border-left: 3.5px solid #0E2238 !important;
+    }
+    .camp-card.camp-rival {
+      background: #FAF7F2 !important;
+      border-color: #DFD9CE !important;
+      border-left: 3.5px solid #5C4B3B !important;
+    }
+    .camp-card.camp-third {
+      background: #FAF7F2 !important;
+      border-color: #DFD9CE !important;
+      border-left: 3.5px solid #2E4A46 !important;
+    }
+    .camp-label.our-label {
+      color: #0E2238 !important;
+      font-family: var(--font-mono) !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.03em !important;
+    }
+    .camp-label.rival-label {
+      color: #5C4B3B !important;
+      font-family: var(--font-mono) !important;
+      font-weight: 700 !important;
+    }
+    .camp-label.third-label {
+      color: #2E4A46 !important;
+      font-family: var(--font-mono) !important;
+      font-weight: 700 !important;
+    }
+    .camp-saved-indicator, .camp-hint-text {
+      background: #F3EFE6 !important;
+      color: #525B66 !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 2px !important;
+      font-family: var(--font-mono) !important;
+      font-size: 10px !important;
+    }
+    .camp-select {
+      background: #FFFFFF !important;
+      border: 1px solid #C5BCA8 !important;
+      border-radius: 3px !important;
+      color: #141C24 !important;
+      font-size: 12.5px !important;
+      font-weight: 600 !important;
+      padding: 7px 10px !important;
+      box-shadow: none !important;
+    }
+    .camp-select:focus {
+      border-color: #9A783B !important;
+      outline: none !important;
+    }
+    .btn-swap-camp {
+      background: #0E2238 !important;
+      color: #F9F6F0 !important;
+      border: 1px solid #9A783B !important;
+      border-radius: 3px !important;
+      box-shadow: 0 2px 6px rgba(14, 34, 56, 0.12) !important;
+    }
+    .official-brochure-link {
+      background: #F9F4EA !important;
+      color: #9A783B !important;
+      border: 1px solid #D5C7A9 !important;
+      border-radius: 2px !important;
+      text-decoration: none !important;
+      font-family: var(--font-mono) !important;
+    }
+
+    /* 4. Scenario Agents Bar & Quick Claim Selector */
+    .scenario-agents-bar-wrap,
+    .scenario-panel-container,
+    .quick-selector {
+      background: #FFFFFF !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 4px !important;
+      box-shadow: 0 1px 4px rgba(14, 34, 56, 0.03) !important;
+    }
+    .scenario-tab-btn,
+    .thumb-pill {
+      background: #FAF7F2 !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+      color: #525B66 !important;
+      font-size: 11.5px !important;
+      font-weight: 600 !important;
+    }
+    .scenario-tab-btn.active,
+    .thumb-pill.active {
+      background: #0E2238 !important;
+      border-color: #9A783B !important;
+      color: #FFFFFF !important;
+    }
+    .claim-guide-tip {
+      background: #F9F4EA !important;
+      border: 1px solid #D5C7A9 !important;
+      border-left: 3px solid #9A783B !important;
+      color: #5C4B3B !important;
+      border-radius: 3px !important;
+    }
+
+    /* 5. Agent Private HUD (#agent-view) — Executive Dark Slate & Champagne Gold */
+    .agent-view-container, #agent-view {
+      background: #0E1722 !important;
+      border: 1px solid #2A384B !important;
+      border-top: 3px solid #9A783B !important;
+      border-radius: 4px !important;
+      padding: 20px 24px !important;
+      box-shadow: 0 6px 24px rgba(14, 23, 34, 0.14) !important;
+    }
+    #agent-title {
+      font-family: var(--font-serif) !important;
+      font-size: 19px !important;
+      font-weight: 600 !important;
+      color: #F9F4EA !important;
+      letter-spacing: 0.01em !important;
+    }
+    .step-box {
+      background: #152232 !important;
+      border: 1px solid #253549 !important;
+      border-left: 3px solid #9A783B !important;
+      border-radius: 3px !important;
+      padding: 12px 16px !important;
+    }
+    .step-title {
+      color: #E2C792 !important;
+      font-family: var(--font-mono) !important;
+      font-size: 11.5px !important;
+      letter-spacing: 0.03em !important;
+    }
+    .step-script {
+      color: #F1F5F9 !important;
+      font-size: 13.5px !important;
+      line-height: 1.65 !important;
+    }
+    .agent-trap-alert {
+      background: rgba(154, 120, 59, 0.14) !important;
+      border: 1px solid rgba(213, 199, 169, 0.35) !important;
+      border-left: 3px solid #D4AF37 !important;
+      color: #F9F4EA !important;
+      border-radius: 3px !important;
+    }
+
+    /* 6. Client Neutral Tear-Sheet (#client-view) — Pictet / UBS Investment Memo */
+    .main-card, #client-view {
+      background: #FFFFFF !important;
+      border: 1px solid #C5BCA8 !important;
+      border-top: 3px solid #0E2238 !important;
+      border-radius: 4px !important;
+      padding: 24px 28px !important;
+      box-shadow: 0 4px 20px rgba(14, 34, 56, 0.05) !important;
+    }
+    #client-title,
+    .hero-title {
+      font-family: var(--font-serif) !important;
+      letter-spacing: -0.01em !important;
+    }
+    .hero-battle-header {
+      background: #FAF7F2 !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+      padding: 16px 20px !important;
+    }
+    .hero-side.our-side {
+      background: #F9F4EA !important;
+      border: 1px solid #D5C7A9 !important;
+      border-left: 3px solid #0E2238 !important;
+      border-radius: 3px !important;
+    }
+    .hero-side.rival-side,
+    .hero-side.third-side {
+      background: #FFFFFF !important;
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+    }
+    .hero-vs-badge {
+      background: #0E2238 !important;
+      color: #E2C792 !important;
+      font-family: var(--font-mono) !important;
+      border-radius: 3px !important;
+    }
+
+    /* Hairline Actuarial Matrix Table & Tabular Monospace Numbers */
+    .bilateral-spec-box {
+      border: 1px solid #DFD9CE !important;
+      border-radius: 3px !important;
+      background: #FFFFFF !important;
+      padding: 14px 16px !important;
+    }
+    .bilateral-spec-table {
+      width: 100% !important;
+      border-collapse: collapse !important;
+    }
+    .bilateral-spec-table th {
+      background: #F3EFE6 !important;
+      color: #141C24 !important;
+      font-family: var(--font-sans) !important;
+      font-size: 11.5px !important;
+      font-weight: 700 !important;
+      border-bottom: 1.5px solid #C5BCA8 !important;
+      padding: 10px 12px !important;
+    }
+    .bilateral-spec-table td {
+      border-bottom: 1px solid #DFD9CE !important;
+      padding: 10px 12px !important;
+      font-family: var(--font-mono) !important;
+      font-variant-numeric: tabular-nums !important;
+      font-size: 12.5px !important;
+      color: #141C24 !important;
+    }
+    .bilateral-spec-table td:first-child {
+      font-family: var(--font-sans) !important;
+      font-weight: 600 !important;
+      color: #525B66 !important;
+    }
+
+    /* Modals & Drawers in Swiss Private Bank Style */
+    .gn16-query-modal,
+    .gn16-pay-modal,
+    .proposal-scanner-modal,
+    #unified-briefing-modal {
+      border-radius: 4px !important;
+      border: 1px solid #C5BCA8 !important;
+      background: #FAF7F2 !important;
+      box-shadow: 0 20px 50px rgba(14, 34, 56, 0.28) !important;
+    }
+
+
+    /* Non-overlapping Header & Sticky 5-Tab Bar */
+    header, .web-app-header {
+      position: relative !important;
+      z-index: 1000 !important;
+    }
+    .unified-app-nav {
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 1001 !important;
+    }
+
+    /* Hide redundant floating bottom bar & FAB on Desktop so the canvas is 100% unobstructed */
+    .floating-ai-fab {
+      display: none !important;
+    }
+    .bottom-bar {
+      background: #0E2238 !important;
+      border-top: 1px solid #9A783B !important;
+      padding: 8px 16px !important;
+    }
+    .bottom-bar .action-btn {
+      border-radius: 3px !important;
+      font-family: var(--font-sans) !important;
+      font-size: 12px !important;
+    }
+    .bottom-bar .btn-ai-chat {
+      background: #9A783B !important;
+      color: #FFFFFF !important;
+    }
+
+    /* Client Tear-Sheet Brochure Buttons in Swiss Private Bank Palette */
+    .tearsheet-pdf-btn.our {
+      background: #F9F4EA !important;
+      color: #0E2238 !important;
+      border: 1px solid #C5BCA8 !important;
+      border-left: 3px solid #9A783B !important;
+      border-radius: 3px !important;
+    }
+    .tearsheet-pdf-btn.rival {
+      background: #FAF7F2 !important;
+      color: #525B66 !important;
+      border: 1px solid #DFD9CE !important;
+      border-left: 3px solid #5C4B3B !important;
+      border-radius: 3px !important;
+    }
+    .tearsheet-pdf-btn.third {
+      background: #FAF7F2 !important;
+      color: #2E4A46 !important;
+      border: 1px solid #DFD9CE !important;
+      border-left: 3px solid #2E4A46 !important;
+      border-radius: 3px !important;
+    }
+
+    /* Desktop 2-Pane Split-Screen Workspace (Matches Template A Visual Preview) */
+    @media (min-width: 1024px) {
+      .swiss-workspace-shell {
+        display: grid !important;
+        grid-template-columns: 375px minmax(0, 1fr) !important;
+        gap: 22px !important;
+        max-width: 1420px !important;
+        margin: 16px auto 40px auto !important;
+        padding: 0 24px !important;
+        align-items: start !important;
+      }
+      .swiss-left-rail {
+        background: #FFFFFF !important;
+        border: 1px solid #DFD9CE !important;
+        border-top: 3px solid #0E2238 !important;
+        border-radius: 4px !important;
+        padding: 16px !important;
+        box-shadow: 0 2px 10px rgba(14, 34, 56, 0.04) !important;
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 12px !important;
+        position: sticky !important;
+        top: 58px !important;
+        max-height: calc(100vh - 74px) !important;
+        overflow-y: auto !important;
+      }
+      .swiss-left-rail > * {
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .swiss-left-rail .category-tabs-bar {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 6px !important;
+        padding: 0 !important;
+      }
+      .swiss-left-rail .cat-tab {
+        font-size: 11.5px !important;
+        padding: 7px 8px !important;
+        text-align: center !important;
+      }
+      .swiss-left-rail .arena-mode-bar {
+        display: grid !important;
+        grid-template-columns: 1fr 1.3fr !important;
+        gap: 6px !important;
+        padding: 0 !important;
+      }
+      .swiss-left-rail .bilateral-arena-box {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        padding: 0 !important;
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+      }
+      .swiss-left-rail .btn-swap-camp {
+        align-self: center !important;
+        width: 100% !important;
+        height: 30px !important;
+        border-radius: 3px !important;
+        display: flex !important;
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 6px !important;
+      }
+      .swiss-right-canvas {
+        min-width: 0 !important;
+        width: 100% !important;
+      }
+      .swiss-right-canvas > #agent-view,
+      .swiss-right-canvas > #client-view {
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+      .bottom-bar {
+        display: none !important;
+      }
+      body {
+        padding-bottom: 32px !important;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -3471,12 +4056,12 @@
   </div>
 
   <!-- Unified App Shell 5-View Persistent Navigation Bar -->
-  <nav id="unified-app-nav" class="unified-app-nav" role="navigation" aria-label="Unified App Views" style="position:sticky;top:0;z-index:100020;background:#ffffff;border-bottom:2px solid #cbd5e1;padding:6px 12px;display:flex;gap:6px;overflow-x:auto;box-shadow:0 2px 8px rgba(0,47,167,0.08);">
-    <button type="button" id="nav-tab-battlecard" class="unified-nav-tab active" data-view="battlecard" onclick="switchUnifiedView('battlecard')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #002FA7;background:#002FA7;color:#ffffff;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">⚔️ 見客攻防</button>
-    <button type="button" id="nav-tab-gl16" class="unified-nav-tab" data-view="gl16" onclick="switchUnifiedView('gl16')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">📊 GL16 實現率</button>
-    <button type="button" id="nav-tab-briefing" class="unified-nav-tab" data-view="briefing" onclick="switchUnifiedView('briefing')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">🌅 晨會簡報</button>
-    <button type="button" id="nav-tab-scanner" class="unified-nav-tab" data-view="scanner" onclick="switchUnifiedView('scanner')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">📄 掃描器</button>
-    <button type="button" id="nav-tab-pricing" class="unified-nav-tab" data-view="pricing" onclick="switchUnifiedView('pricing')" style="flex:1;min-width:105px;padding:7px 10px;border-radius:8px;border:1.5px solid #cbd5e1;background:#f8fafc;color:#1e293b;font-size:12px;font-weight:800;cursor:pointer;white-space:nowrap;">💎 方案與等候名單</button>
+  <nav id="unified-app-nav" class="unified-app-nav" role="navigation" aria-label="Unified App Views" style="position:sticky;top:0;z-index:100020;background:#0E2238;border-bottom:2px solid #9A783B;padding:8px 16px;display:flex;gap:8px;overflow-x:auto;box-shadow:0 2px 10px rgba(14,34,56,0.18);">
+    <button type="button" id="nav-tab-battlecard" class="unified-nav-tab active" data-view="battlecard" onclick="switchUnifiedView('battlecard')" style="flex:1;min-width:105px;padding:7px 12px;border-radius:3px;border:1px solid #9A783B;background:#9A783B;color:#ffffff;font-size:12px;font-weight:700;letter-spacing:0.02em;cursor:pointer;white-space:nowrap;">⚔️ 見客攻防</button>
+    <button type="button" id="nav-tab-gl16" class="unified-nav-tab" data-view="gl16" onclick="switchUnifiedView('gl16')" style="flex:1;min-width:105px;padding:7px 12px;border-radius:3px;border:1px solid rgba(197,188,168,0.28);background:rgba(255,255,255,0.06);color:#EAE4D7;font-size:12px;font-weight:600;letter-spacing:0.02em;cursor:pointer;white-space:nowrap;">📊 GL16 實現率</button>
+    <button type="button" id="nav-tab-briefing" class="unified-nav-tab" data-view="briefing" onclick="switchUnifiedView('briefing')" style="flex:1;min-width:105px;padding:7px 12px;border-radius:3px;border:1px solid rgba(197,188,168,0.28);background:rgba(255,255,255,0.06);color:#EAE4D7;font-size:12px;font-weight:600;letter-spacing:0.02em;cursor:pointer;white-space:nowrap;">🌅 晨會簡報</button>
+    <button type="button" id="nav-tab-scanner" class="unified-nav-tab" data-view="scanner" onclick="switchUnifiedView('scanner')" style="flex:1;min-width:105px;padding:7px 12px;border-radius:3px;border:1px solid rgba(197,188,168,0.28);background:rgba(255,255,255,0.06);color:#EAE4D7;font-size:12px;font-weight:600;letter-spacing:0.02em;cursor:pointer;white-space:nowrap;">📄 掃描器</button>
+    <button type="button" id="nav-tab-pricing" class="unified-nav-tab" data-view="pricing" onclick="switchUnifiedView('pricing')" style="flex:1;min-width:105px;padding:7px 12px;border-radius:3px;border:1px solid rgba(197,188,168,0.28);background:rgba(255,255,255,0.06);color:#EAE4D7;font-size:12px;font-weight:600;letter-spacing:0.02em;cursor:pointer;white-space:nowrap;">💎 方案與等候名單</button>
   </nav>
 
   <!-- GN16 Fulfillment Ratio Tracker Hero Callout Bar -->
@@ -3491,6 +4076,9 @@
     </div>
   </div>
 
+  <!-- Swiss Private Bank 2-Pane Split-Screen Workspace Shell -->
+  <div class="swiss-workspace-shell" id="swiss-workspace-shell">
+    <aside class="swiss-left-rail" id="swiss-left-rail">
     <!-- Dual-Perspective Switcher -->
   <div class="view-toggle-bar">
     <button class="view-btn active-agent" id="btn-agent-view" onclick="setViewMode('agent')">
@@ -3719,6 +4307,8 @@
     </div>
   </div>
 
+    </aside>
+    <main class="swiss-right-canvas" id="swiss-right-canvas">
   <!-- Agent Private View (Dark, Tactical, Punchy) -->
   <div id="agent-view" class="agent-view-container">
     <div class="agent-mode-explainer-banner" id="agent-mode-explainer-banner">
@@ -3972,6 +4562,9 @@
       <div style="margin-top:4px;">2. <strong>數據來源與未經核實／示範數據提示</strong>：分紅實現率摘自香港保監局（HKIA）GN16 公開通函與各大保司官網年報。除法定稅務扣除額外，任何未經獨立來源查證之試算數據均標註為「未經核實（Unverified - do not present to clients）」及「Illustrative - not from an official illustration（示範數據 · 非源自官方利益說明書）」，嚴禁向客戶呈示未經認證之預測數值。</div>
       <div style="margin-top:4px; font-size:10px; color:#9ca3af;">3. 過往分紅實現率不代表未來業績承諾，保證現金價值與非保證終期紅利之權益以承保保司正式批註合約為準。</div>
     </div>
+  </div>
+
+    </main>
   </div>
 
   <!-- Toast Notification Container -->
@@ -12425,7 +13018,7 @@ return {
         if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
           window.caches.keys().then(function(names) {
             names.forEach(function(n) {
-              if (n !== 'insurintel-cache-v9-real-only') window.caches.delete(n);
+              if (n !== 'insurintel-cache-v11-private-bank-split') window.caches.delete(n);
             });
           }).catch(function() {});
         }
@@ -12442,8 +13035,8 @@ return {
         if (hadPreviousController && navigator.serviceWorker.addEventListener) {
           navigator.serviceWorker.addEventListener('controllerchange', function() {
             try {
-              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v9_reloaded')) {
-                sessionStorage.setItem('sw_v9_reloaded', '1');
+              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v11_reloaded')) {
+                sessionStorage.setItem('sw_v11_reloaded', '1');
                 window.location.reload();
               }
             } catch (e) {}
@@ -13568,9 +14161,9 @@ return {
               if (btn.classList) btn.classList.toggle('active', isActive);
               if (btn.setAttribute) btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
               if (btn.style) {
-                btn.style.background = isActive ? '#002FA7' : '#f8fafc';
-                btn.style.color = isActive ? '#ffffff' : '#1e293b';
-                btn.style.borderColor = isActive ? '#002FA7' : '#cbd5e1';
+                btn.style.background = isActive ? '#9A783B' : 'rgba(255,255,255,0.06)';
+                btn.style.color = isActive ? '#ffffff' : '#EAE4D7';
+                btn.style.borderColor = isActive ? '#9A783B' : 'rgba(197,188,168,0.28)';
               }
             }
           });
