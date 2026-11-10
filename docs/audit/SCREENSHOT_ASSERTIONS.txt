@@ -1,13 +1,13 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-10T17:35:08.871Z
+Execution Timestamp: 2026-11-10T18:03:55.540Z
 Harness: Chrome Headless (Chrome/157.0.8103.50) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
 [TARGET: 01_client_neutral_view.png]
   Description : Client Neutral View (Clean Tear-Sheet with Statutory Warning & Fictional Plans)
   URL         : http://localhost:3334/index.html?mode=demo&view=client
-  DOM Check   : found=true, display=block, opacity=1, height=1990.171875px
-  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":1990.171875,"inViewport":false,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=1989.578125px
+  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":1989.578125,"inViewport":false,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 02_agent_cockpit.png]
