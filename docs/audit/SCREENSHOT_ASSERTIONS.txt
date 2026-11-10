@@ -1,5 +1,5 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-10T18:03:55.540Z
+Execution Timestamp: 2026-11-10T18:14:47.141Z
 Harness: Chrome Headless (Chrome/157.0.8103.50) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
