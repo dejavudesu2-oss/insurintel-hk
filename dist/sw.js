@@ -4,7 +4,7 @@
  * Network-First Strategy with Automatic Legacy Cache Eviction & Client Refresh
  */
 
-const CACHE_NAME = 'insurintel-cache-v11-private-bank-split';
+const CACHE_NAME = 'insurintel-cache-v12-swiss-eff10';
 const UNIFIED_VIEWS = ['#battlecard', '#gl16', '#briefing', '#scanner', '#pricing'];
 const PRECACHE_URLS = [
   './',

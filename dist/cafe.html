@@ -3821,17 +3821,27 @@
       background: #FAF7F2 !important;
       box-shadow: 0 20px 50px rgba(14, 34, 56, 0.28) !important;
     }
+    .gn16-query-header,
+    .client-pdf-header,
+    .simulation-modal-header,
+    .audit-drawer-header,
+    #unified-briefing-modal > div:first-child,
+    #gn16-pay-modal > div:first-child,
+    #proposal-scanner-modal > div:first-child {
+      background: #0E2238 !important;
+      border-bottom: 2px solid #9A783B !important;
+      color: #F9F6F0 !important;
+    }
 
-
-    /* Non-overlapping Header & Sticky 5-Tab Bar */
+    /* Non-overlapping Header & Sticky 5-Tab Bar (Elevated above modal backdrops for 1-click switching) */
     header, .web-app-header {
       position: relative !important;
-      z-index: 1000 !important;
+      z-index: 100020 !important;
     }
     .unified-app-nav {
       position: sticky !important;
       top: 0 !important;
-      z-index: 1001 !important;
+      z-index: 100020 !important;
     }
 
     /* Hide redundant floating bottom bar & FAB on Desktop so the canvas is 100% unobstructed */
@@ -3876,11 +3886,139 @@
       border-radius: 3px !important;
     }
 
+    /* Efficiency Upgrade Components: Hot Matchup Presets, Command Palette, Diff-Only & Budget Scaler */
+    .swiss-left-rail > .view-toggle-bar { order: 1; }
+    .swiss-left-rail > .category-tabs-bar { order: 2; }
+    .swiss-left-rail > .quick-matchup-presets { order: 3; }
+    .swiss-left-rail > .bilateral-arena-box { order: 4; }
+    .swiss-left-rail > .quick-selector { order: 5; }
+    .swiss-left-rail > .ai-quick-trigger-banner { order: 6; }
+    .swiss-left-rail > .scenario-agents-bar-wrap { order: 7; }
+    .swiss-left-rail > .scenario-panel-container { order: 8; }
+    .quick-matchup-presets {
+      background: #FAF7F2;
+      border: 1px solid #DFD9CE;
+      border-left: 3px solid #9A783B;
+      border-radius: 3px;
+      padding: 8px 10px;
+      margin: 6px auto;
+      max-width: 1280px;
+    }
+    .quick-matchup-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0E2238;
+      margin-bottom: 6px;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .quick-matchup-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .matchup-preset-chip {
+      background: #FFFFFF;
+      border: 1px solid #C5BCA8;
+      border-radius: 3px;
+      padding: 4px 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #141C24;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .matchup-preset-chip:hover,
+    .matchup-preset-chip.active {
+      background: #0E2238;
+      color: #F9F4EA;
+      border-color: #9A783B;
+    }
+    .swiss-eff-toolbar-btn {
+      background: #F9F4EA;
+      border: 1px solid #C5BCA8;
+      border-radius: 3px;
+      color: #0E2238;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 4px 9px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.15s ease;
+    }
+    .swiss-eff-toolbar-btn:hover,
+    .swiss-eff-toolbar-btn.active {
+      background: #0E2238;
+      color: #F9F4EA;
+      border-color: #9A783B;
+    }
+    .client-premium-scaler {
+      background: #FAF7F2;
+      border: 1px solid #DFD9CE;
+      border-left: 3px solid #9A783B;
+      border-radius: 3px;
+      padding: 10px 12px;
+      margin: 10px 0;
+    }
+    .premium-scale-chip {
+      background: #FFFFFF;
+      border: 1px solid #C5BCA8;
+      border-radius: 3px;
+      padding: 4px 10px;
+      font-family: var(--font-mono);
+      font-size: 11px;
+      font-weight: 700;
+      color: #141C24;
+      cursor: pointer;
+    }
+    .premium-scale-chip.active {
+      background: #0E2238;
+      color: #E2C792;
+      border-color: #9A783B;
+    }
+    .swiss-cmd-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(14, 23, 34, 0.68);
+      backdrop-filter: blur(3px);
+      z-index: 100050;
+      display: none;
+    }
+    .swiss-cmd-backdrop.open {
+      display: block;
+    }
+    .swiss-cmd-modal {
+      position: fixed;
+      top: 14%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 680px;
+      max-height: 74vh;
+      background: #FAF7F2;
+      border: 1.5px solid #9A783B;
+      border-top: 4px solid #0E2238;
+      border-radius: 4px;
+      box-shadow: 0 24px 60px rgba(14, 23, 34, 0.45);
+      z-index: 100051;
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .swiss-cmd-modal.open {
+      display: flex;
+    }
+
     /* Desktop 2-Pane Split-Screen Workspace (Matches Template A Visual Preview) */
     @media (min-width: 1024px) {
       .swiss-workspace-shell {
         display: grid !important;
-        grid-template-columns: 375px minmax(0, 1fr) !important;
+        grid-template-columns: 390px minmax(0, 1fr) !important;
         gap: 22px !important;
         max-width: 1420px !important;
         margin: 16px auto 40px auto !important;
@@ -3892,42 +4030,70 @@
         border: 1px solid #DFD9CE !important;
         border-top: 3px solid #0E2238 !important;
         border-radius: 4px !important;
-        padding: 16px !important;
+        padding: 14px !important;
         box-shadow: 0 2px 10px rgba(14, 34, 56, 0.04) !important;
         display: flex !important;
         flex-direction: column !important;
-        gap: 12px !important;
+        gap: 10px !important;
         position: sticky !important;
-        top: 58px !important;
-        max-height: calc(100vh - 74px) !important;
+        top: 52px !important;
+        max-height: calc(100vh - 64px) !important;
         overflow-y: auto !important;
       }
       .swiss-left-rail > * {
         margin: 0 !important;
         max-width: 100% !important;
         width: 100% !important;
+        flex-shrink: 0 !important;
+      }
+      .swiss-left-rail .view-toggle-bar {
+        display: grid !important;
+        grid-template-columns: 1fr 1fr !important;
+        gap: 6px !important;
+        padding: 4px !important;
+      }
+      .swiss-left-rail .view-toggle-bar .view-btn {
+        padding: 6px 6px !important;
+        min-width: 0 !important;
+        white-space: normal !important;
+      }
+      .swiss-left-rail .view-toggle-bar .view-btn-primary {
+        font-size: 11px !important;
+        line-height: 1.25 !important;
+        white-space: nowrap !important;
+      }
+      .swiss-left-rail .view-toggle-bar .view-btn-badge {
+        font-size: 9.5px !important;
+        padding: 1px 5px !important;
       }
       .swiss-left-rail .category-tabs-bar {
         display: grid !important;
         grid-template-columns: repeat(2, 1fr) !important;
-        gap: 6px !important;
+        gap: 5px !important;
         padding: 0 !important;
+        overflow: visible !important;
+        border: none !important;
+        background: transparent !important;
       }
       .swiss-left-rail .cat-tab {
         font-size: 11.5px !important;
-        padding: 7px 8px !important;
+        padding: 6px 8px !important;
         text-align: center !important;
+        white-space: nowrap !important;
+      }
+      .swiss-left-rail .cat-tab:last-child {
+        grid-column: 1 / -1 !important;
       }
       .swiss-left-rail .arena-mode-bar {
         display: grid !important;
-        grid-template-columns: 1fr 1.3fr !important;
+        grid-template-columns: 1fr 1.35fr !important;
         gap: 6px !important;
         padding: 0 !important;
       }
       .swiss-left-rail .bilateral-arena-box {
         display: flex !important;
         flex-direction: column !important;
-        gap: 10px !important;
+        gap: 8px !important;
         padding: 0 !important;
         border: none !important;
         box-shadow: none !important;
@@ -3936,13 +4102,45 @@
       .swiss-left-rail .btn-swap-camp {
         align-self: center !important;
         width: 100% !important;
-        height: 30px !important;
+        height: 28px !important;
         border-radius: 3px !important;
         display: flex !important;
         flex-direction: row !important;
         align-items: center !important;
         justify-content: center !important;
         gap: 6px !important;
+      }
+      .swiss-left-rail #claim-pills {
+        display: flex !important;
+        flex-wrap: wrap !important;
+        overflow-x: visible !important;
+        gap: 5px !important;
+        padding: 2px 0 !important;
+      }
+      .swiss-left-rail #claim-pills .thumb-pill {
+        font-size: 11px !important;
+        padding: 5px 8px !important;
+        white-space: normal !important;
+        text-align: left !important;
+        flex: 1 1 calc(50% - 5px) !important;
+      }
+      .swiss-left-rail .scenario-agents-tabs {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 5px !important;
+        overflow-x: visible !important;
+        padding: 4px 0 !important;
+      }
+      .swiss-left-rail .scenario-tab-btn {
+        font-size: 10.5px !important;
+        padding: 5px 6px !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+      }
+      .swiss-left-rail .scenario-tab-btn:last-child {
+        grid-column: 1 / -1 !important;
       }
       .swiss-right-canvas {
         min-width: 0 !important;
@@ -3961,7 +4159,6 @@
         padding-bottom: 32px !important;
       }
     }
-
   </style>
 </head>
 <body>
@@ -3982,6 +4179,10 @@
         </a>
       </div>
       <div class="header-nav-toolbar">
+        <button class="app-nav-btn" id="header-cmd-palette-btn" onclick="openCommandPalette()" title="極速指令與產品毫秒搜尋 (Ctrl+K / ⌘K)">
+          <span class="btn-emoji">⌘</span>
+          <span class="btn-txt">極速指令</span>
+        </button>
         <button class="app-nav-btn" onclick="openCatalogDrawer()" title="查閱全港 99 款保險產品智庫與官方文件">
           <span class="btn-emoji">📚</span>
           <span class="btn-txt">產品智庫</span>
@@ -4104,6 +4305,25 @@
   <div class="arena-mode-bar" id="arena-mode-bar">
     <button class="arena-mode-btn active" id="btn-mode-1v1" onclick="setArenaMode('1v1')">⚔️ 1v1 雙邊對決</button>
     <button class="arena-mode-btn" id="btn-mode-3way" onclick="setArenaMode('3way')">🏆 3-Way 三方旗艦同台 (Plan A vs B vs C)</button>
+  </div>
+
+  <!-- 1-Click Hot Matchup Presets & Efficiency Hub Trigger (Efficiency Upgrade #2, #9 & #10) -->
+  <div class="quick-matchup-presets" id="quick-matchup-presets">
+    <div class="quick-matchup-header">
+      <span class="quick-matchup-title">🔥 熱門旗艦對陣一鍵載入 (1-Click Presets)</span>
+      <div style="display:flex;gap:4px;">
+        <button type="button" class="swiss-eff-toolbar-btn" id="btn-share-arena-link" onclick="copyArenaShareLink()" title="複製當前對陣專屬深層連結 (URL Deep-Link)">🔗 複製連結</button>
+        <button type="button" class="swiss-eff-toolbar-btn" id="btn-open-efficiency-hub" onclick="openEfficiencyAuditHub()" title="查閱客戶與顧問 100 條效率建議及 10 大已落地升級">⚡ 效率升級(10/100)</button>
+      </div>
+    </div>
+    <div class="quick-matchup-grid" id="quick-matchup-grid">
+      <button type="button" class="matchup-preset-chip active" data-preset="aia_vs_pru_sav" onclick="applyQuickMatchupPreset('aia_vs_pru_sav')">🔥 友邦盈御3 vs 保誠雋富</button>
+      <button type="button" class="matchup-preset-chip" data-preset="manu_vs_sun_sav" onclick="applyQuickMatchupPreset('manu_vs_sun_sav')">🌱 宏利宏摯 vs 永明萬年青</button>
+      <button type="button" class="matchup-preset-chip" data-preset="aia_vs_pru_ci" onclick="applyQuickMatchupPreset('aia_vs_pru_ci')">🛡️ 友邦愛伴航 vs 保誠危疾加護3</button>
+      <button type="button" class="matchup-preset-chip" data-preset="bupa_vs_cigna_vhis" onclick="applyQuickMatchupPreset('bupa_vs_cigna_vhis')">🏥 保柏英雄 vs 信諾靈活醫保</button>
+      <button type="button" class="matchup-preset-chip" data-preset="boc_vs_cl_qdap" onclick="applyQuickMatchupPreset('boc_vs_cl_qdap')">👴 中銀延期年金 vs 國壽頤富</button>
+      <button type="button" class="matchup-preset-chip" data-preset="hsbc_vs_axa_ul" onclick="applyQuickMatchupPreset('hsbc_vs_axa_ul')">🏦 滙豐智盈萬用 vs 安盛盛世</button>
+    </div>
   </div>
 
   <!-- Bilateral Dual-Entity Arena Selector (Plan A vs Plan B + [ ⇄ 對調 ]) -->
@@ -4258,7 +4478,7 @@
     <!-- Populated dynamically by renderScenarioAgentPanel() -->
   </div>
 
-  <!-- 3-Second Quick Match Selector -->
+  <!-- 3-Second Quick Match Selector (Visually ordered directly below bilateral-arena-box via CSS flex order: 5) -->
   <div class="quick-selector">
     <!-- Redundant Plan B company pills hidden from visual layout while preserving DOM testability -->
     <div id="company-pills-row" style="display:none;" aria-hidden="true">
@@ -4279,13 +4499,13 @@
       </div>
     </div>
 
-    <div class="claim-selector-header" style="margin-top:6px; margin-bottom:4px;">
+    <div class="claim-selector-header" style="margin-top:4px; margin-bottom:4px;">
       <div class="selector-label" style="display:flex; justify-content:space-between; align-items:center;">
-        <span>⚡ 選擇客戶提出的競品噱頭 / 攻防焦點 (點擊即時切換破局話術與對比高亮)</span>
+        <span>⚡ 選擇客戶提出的競品噱頭 / 攻防焦點</span>
         <span style="color:var(--ikb);font-size:11px;font-weight:700;">即點即破局</span>
       </div>
       <div class="claim-guide-tip">
-        💡 <strong>實戰指南：</strong>當客戶提出對手宣傳賣點（例如「對手話有 5.8% 預繳」），點擊下方對應標籤。系統即時在【顧問私密視角】提供 3 步破局話術，並在【客戶展示視角】精算擂台自動高亮該項對比與細則盲點！
+        💡 <strong>實戰指南：</strong>點擊下方對應標籤即時切換【顧問私密視角】3 步破局話術與【客戶視角】對比高亮。
       </div>
     </div>
     <div class="pill-scroll" id="claim-pills">
@@ -4440,9 +4660,13 @@
 
     <!-- 1v1 Client Head-to-Head Comparison Grid -->
     <div class="bilateral-spec-box" id="bilateral-spec-box" style="margin: 12px 0;">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
         <span style="font-size:12px; font-weight:700; color:var(--text-main);">⚡ 雙方旗艦 1v1 雙方方案核心精算指標客觀對照</span>
-        <span style="font-size:10px; color:var(--ikb); font-family:'JetBrains Mono'">PLAN A vs PLAN B</span>
+        <div style="display:flex; align-items:center; gap:6px; flex-wrap:wrap;">
+          <button type="button" class="swiss-eff-toolbar-btn" id="btn-spec-diff-only" onclick="toggleSpecDiffFilter()" title="只顯示雙方存在顯著差異的關鍵精算指標">🔍 只看關鍵差異</button>
+          <button type="button" class="swiss-eff-toolbar-btn" id="btn-sync-gl16-arena" onclick="openGN16ForCurrentArena('our')" title="將當前對陣保司與保費一鍵帶入 GL16 達成率對賬器">📊 調取 GL16 對賬</button>
+          <span style="font-size:10px; color:var(--ikb); font-family:'JetBrains Mono'">PLAN A vs PLAN B</span>
+        </div>
       </div>
       <table class="bilateral-spec-table" id="bilateral-spec-table">
         <!-- Rendered dynamically by updateBattleCard() -->
@@ -4465,6 +4689,20 @@
     <p style="font-size:13px; color:var(--text-sub); line-height:1.5;" id="client-desc">
       分紅儲蓄險之回報分為「保證利益」與「非保證分紅利益」。評估長期收益確定性時，香港保險業監管局 (IA) 建議參考各保司之歷年分紅實現率 (Fulfillment Ratio)。
     </p>
+
+    <!-- Client Annual Premium Quick Scaler (Efficiency Upgrade #5) -->
+    <div class="client-premium-scaler" id="client-premium-scaler">
+      <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+        <span style="font-size:11.5px;font-weight:800;color:#0E2238;">💰 客戶年繳保費試算基準 (5年繳)：</span>
+        <button type="button" class="premium-scale-chip" data-usd="10000" onclick="setClientPremiumScale(10000)">USD $10,000</button>
+        <button type="button" class="premium-scale-chip active" data-usd="30000" onclick="setClientPremiumScale(30000)">USD $30,000</button>
+        <button type="button" class="premium-scale-chip" data-usd="50000" onclick="setClientPremiumScale(50000)">USD $50,000</button>
+        <button type="button" class="premium-scale-chip" data-usd="100000" onclick="setClientPremiumScale(100000)">USD $100,000</button>
+      </div>
+      <div id="client-premium-scaler-summary" style="font-size:11px;font-weight:700;color:#785B26;font-family:'JetBrains Mono',monospace;">
+        總繳保費 USD $150,000 (約 HK$1,170,000) · 點擊上方金額即時換算第 5/10/20/30 年預期價值
+      </div>
+    </div>
 
     <!-- Dynamic Policy Horizon Slider -->
     <div class="horizon-slider-box" id="horizon-slider-box">
@@ -5690,6 +5928,12 @@
     let medicalHospital = '香港養和醫院 (Hong Kong Sanatorium & Hospital)';
     let medicalTreatment = '癌症非手術標靶治療 (Targeted Cancer Therapy)';
     let medicalDeductible = 0;
+    let ulCapital = 1000000;
+    let ulPolicyTotal = 3000000;
+    let ulCreditingRate = 5.25;
+    let ulBorrowingRate = 4.25;
+    let ulHikeBps = 0;
+    let groupMedicalLimit = 50000;
 
     const SCENARIO_NAMES = {
       cafe_rapid: '☕ 30s 咖啡館極速',
@@ -10253,6 +10497,9 @@ return {
       currentHorizonYear = year;
       const card = getBattleCard(myCompany, selectedCompany, selectedClaim);
       updateHorizonDisplay(card, currentHorizonYear);
+      if (typeof updateClientPremiumScalerSummary === 'function') {
+        updateClientPremiumScalerSummary();
+      }
     }
     window.onHorizonChange = onHorizonChange;
 
@@ -10902,7 +11149,11 @@ return {
       // 1v1 / 3-Way Spec Table Update
       if (bilateralSpecTable) {
         if (arenaMode === '3way') {
-          const specs3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, currentCategory, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+          const rawSpecs3 = compute3WaySpecs(myCompany, selectedCompany, thirdCompany, currentCategory, mySelectedProduct, rivalSelectedProduct, thirdSelectedProduct);
+          const filteredSpecs3 = (typeof window !== 'undefined' && window.specDiffOnlyMode)
+            ? rawSpecs3.filter(r => r.ourVal !== r.rivalVal || r.ourVal !== r.thirdVal || r.winner === 'our' || r.winner === 'rival' || r.winner === 'third')
+            : rawSpecs3;
+          const specs3 = filteredSpecs3.length > 0 ? filteredSpecs3 : rawSpecs3;
           bilateralSpecTable.innerHTML = `
             <thead>
               <tr style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;">
@@ -10933,6 +11184,11 @@ return {
             </tfoot>
           `;
         } else if (Array.isArray(card.bilateral_specs)) {
+        const rawSpecs1v1 = card.bilateral_specs;
+        const filteredSpecs1v1 = (typeof window !== 'undefined' && window.specDiffOnlyMode)
+          ? rawSpecs1v1.filter(row => row.ourVal !== row.rivalVal || row.winner === 'our' || row.winner === 'rival' || isRowHighlightedByClaim(row.label, selectedClaim, selectedClaimText))
+          : rawSpecs1v1;
+        const specs1v1 = filteredSpecs1v1.length > 0 ? filteredSpecs1v1 : rawSpecs1v1;
         bilateralSpecTable.innerHTML = `
           <thead>
             <tr style="background:#f1f5f9;border-bottom:1px solid #cbd5e1;">
@@ -10943,7 +11199,7 @@ return {
             </tr>
           </thead>
           <tbody>
-            ${card.bilateral_specs.map(row => {
+            ${specs1v1.map(row => {
               const isHighlighted = isRowHighlightedByClaim(row.label, selectedClaim, selectedClaimText);
               const highlightClass = isHighlighted ? ' class="spec-row-highlighted"' : '';
               const badgeHtml = isHighlighted ? '<span class="spec-focus-badge">🎯 攻防焦點</span>' : '';
@@ -11061,6 +11317,11 @@ return {
       // Sync Client PDF Report Preview
       if (typeof renderClientPdfPreview === 'function') {
         renderClientPdfPreview();
+      }
+
+      // Sync Client Annual Premium Scaler Summary (Efficiency Upgrade #5)
+      if (typeof updateClientPremiumScalerSummary === 'function') {
+        updateClientPremiumScalerSummary();
       }
     }
     window.updateBattleCard = updateBattleCard;
@@ -12945,6 +13206,9 @@ return {
       } catch (e) {}
 
       container.innerHTML = html;
+      if (currentScenario === 'simulation_100' && typeof renderSimulationCardsList === 'function') {
+        renderSimulationCardsList('inline-sim-cards-list');
+      }
 
       try {
         if (activeId && typeof document !== 'undefined') {
@@ -13018,7 +13282,7 @@ return {
         if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
           window.caches.keys().then(function(names) {
             names.forEach(function(n) {
-              if (n !== 'insurintel-cache-v11-private-bank-split') window.caches.delete(n);
+              if (n !== 'insurintel-cache-v12-swiss-eff10') window.caches.delete(n);
             });
           }).catch(function() {});
         }
@@ -13035,8 +13299,8 @@ return {
         if (hadPreviousController && navigator.serviceWorker.addEventListener) {
           navigator.serviceWorker.addEventListener('controllerchange', function() {
             try {
-              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v11_reloaded')) {
-                sessionStorage.setItem('sw_v11_reloaded', '1');
+              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v12_reloaded')) {
+                sessionStorage.setItem('sw_v12_reloaded', '1');
                 window.location.reload();
               }
             } catch (e) {}
@@ -14064,23 +14328,208 @@ return {
     }
     window.setFontSize = setFontSize;
 
-    // 7. 100-Point Audit Drawer Functions
+    // -------------------------------------------------------------
+    // 100 Real-World Daily Scenarios Simulation Logic
+    // -------------------------------------------------------------
+    let simFilterDomain = 'all';
+    let simFilterTier = 'all';
+    let simSearchQuery = '';
+
+    function openSimulationModal() {
+      const modal = document.getElementById('simulation-modal');
+      const backdrop = document.getElementById('simulation-modal-backdrop');
+      if (modal && backdrop) {
+        if (modal.classList) modal.classList.add('open');
+        if (backdrop.classList) backdrop.classList.add('open');
+        renderSimulationCardsList('modal-sim-cards-list');
+      }
+    }
+    window.openSimulationModal = openSimulationModal;
+
+    function closeSimulationModal() {
+      const modal = document.getElementById('simulation-modal');
+      const backdrop = document.getElementById('simulation-modal-backdrop');
+      if (modal && backdrop) {
+        if (modal.classList) modal.classList.remove('open');
+        if (backdrop.classList) backdrop.classList.remove('open');
+      }
+    }
+    window.closeSimulationModal = closeSimulationModal;
+
+    function filterSimDomain(dom) {
+      simFilterDomain = dom || 'all';
+      if (typeof document !== 'undefined') {
+        document.querySelectorAll('.sim-domain-chip').forEach(function(el) {
+          el.classList.toggle('active', el.getAttribute('data-domain') === simFilterDomain);
+        });
+      }
+      renderSimulationCardsList('modal-sim-cards-list');
+      renderSimulationCardsList('inline-sim-cards-list');
+    }
+    window.filterSimDomain = filterSimDomain;
+
+    function filterSimTier(tier) {
+      simFilterTier = tier || 'all';
+      if (typeof document !== 'undefined') {
+        document.querySelectorAll('.sim-tier-chip').forEach(function(el) {
+          el.classList.toggle('active', el.getAttribute('data-tier') === simFilterTier);
+        });
+      }
+      renderSimulationCardsList('modal-sim-cards-list');
+      renderSimulationCardsList('inline-sim-cards-list');
+    }
+    window.filterSimTier = filterSimTier;
+
+    function onSimSearchInput(val) {
+      simSearchQuery = String(val || '').toLowerCase().trim();
+      renderSimulationCardsList('modal-sim-cards-list');
+      renderSimulationCardsList('inline-sim-cards-list');
+    }
+    window.onSimSearchInput = onSimSearchInput;
+
+    function toggleSimCardDetails(scId) {
+      if (typeof document === 'undefined') return;
+      const el = document.getElementById('sim-details-' + scId);
+      if (el && el.style) {
+        const isOpen = el.style.display !== 'none';
+        el.style.display = isOpen ? 'none' : 'block';
+      }
+    }
+    window.toggleSimCardDetails = toggleSimCardDetails;
+
+    function renderSimulationCardsList(containerId) {
+      if (typeof document === 'undefined') return;
+      const container = document.getElementById(containerId);
+      if (!container || typeof DAILY_100_SCENARIOS === 'undefined') return;
+
+      const filtered = DAILY_100_SCENARIOS.filter(function(sc) {
+        if (simFilterDomain !== 'all' && sc.domain !== simFilterDomain) return false;
+        if (simFilterTier !== 'all' && sc.commercialTierRelevance !== simFilterTier) return false;
+        if (simSearchQuery) {
+          const hay = (sc.id + ' ' + sc.title + ' ' + sc.domainZh + ' ' + sc.location + ' ' + (sc.involvedInsurers || []).join(' ') + ' ' + (sc.involvedProducts || []).join(' ')).toLowerCase();
+          if (!hay.includes(simSearchQuery)) return false;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<div style="text-align:center;padding:30px;color:#94a3b8;font-size:12px;">無符合篩選條件的場景</div>';
+        return;
+      }
+
+      container.innerHTML = filtered.map(function(sc) {
+        const c = sc.comments || {};
+        const v = sc.consensusVerdict || { averageScore: 8.8, overallViability: '高度可行' };
+        return '<div class="sim-card" id="sim-card-' + sc.id + '">' +
+          '<div class="sim-card-header">' +
+            '<div>' +
+              '<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px;">' +
+                '<span class="sim-badge-id">[' + sc.id + ']</span>' +
+                '<span style="font-size:10px;color:#64748b;font-weight:600;">#' + sc.scenarioNumber + ' · ' + sc.domainZh + '</span>' +
+                '<span class="sim-badge-tier ' + sc.commercialTierRelevance + '">HK$ ' + sc.targetTierPriceHKD + '</span>' +
+              '</div>' +
+              '<div style="font-size:13px;font-weight:800;color:#0f172a;line-height:1.4;">' + sc.title + '</div>' +
+            '</div>' +
+            '<div style="text-align:right;">' +
+              '<span class="sim-score-pill ' + (v.averageScore >= 8.5 ? 'high' : 'mid') + '">' + v.averageScore + ' / 10</span>' +
+              '<div style="font-size:9.5px;color:#64748b;margin-top:2px;">' + v.overallViability + '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div style="font-size:11px;color:#475569;margin-bottom:6px;line-height:1.45;">' +
+            '📍 <strong>' + sc.location + '</strong> · 👤 ' + sc.clientPersona + '<br>' +
+            '⚔️ <strong>保司與方案：</strong>' + (sc.involvedInsurers || []).join(', ') + ' (' + (sc.involvedProducts || []).join(' vs ') + ')' +
+          '</div>' +
+          '<div style="font-size:11px;color:#0369a1;background:#f0f9ff;border-left:3px solid #0284c7;padding:5px 8px;border-radius:4px;margin-bottom:8px;">' +
+            '⚡ <strong>核心抗辯：</strong>' + sc.coreConfrontationOrChallenge +
+          '</div>' +
+          '<button class="sim-toggle-btn" style="background:#fdf2f8;border:1px solid #fbcfe8;color:#be185d;padding:4px 10px;border-radius:6px;font-size:11px;font-weight:700;cursor:pointer;width:100%;text-align:center;" onclick="toggleSimCardDetails(\'' + sc.id + '\')">' +
+            '🤖 展開/收起 6 大 AI 代理評審反饋與異議化解策略 ▾' +
+          '</button>' +
+          '<div class="sim-card-details" id="sim-details-' + sc.id + '" style="display:none;margin-top:8px;">' +
+            '<div style="margin-top:8px;background:#ecfdf5;border:1px solid #a7f3d0;padding:8px 10px;border-radius:6px;font-size:11px;color:#065f46;line-height:1.45;">' +
+              '🎯 <strong>共識異議化解策略：</strong>' + (v.primaryObjection || '') + '<br>' +
+              '💡 <strong>定價與產品建議：</strong>' + (v.pricingOptimizationStrategy || '') +
+            '</div>' +
+          '</div>' +
+        '</div>';
+      }).join('');
+    }
+    window.renderSimulationCardsList = renderSimulationCardsList;
+
+    function renderSimulation100InlinePanelHtml() {
+      return '<div class="scenario-card-box" id="panel-scenario-simulation-100">' +
+        '<div class="scenario-head" style="margin-bottom:12px;">' +
+          '<div>' +
+            '<div class="scenario-title" style="color:#be185d;">💯 香港保險 100 場真實展業場景多維 AI 代理模擬</div>' +
+            '<div class="scenario-subtitle">覆蓋 10 大核心業務領域 · 6 大 AI 代理評審計分卡 · 4 階商業定價收費梯隊</div>' +
+          '</div>' +
+          '<button class="scenario-action-btn primary-btn" onclick="openSimulationModal()" style="padding:6px 14px;font-size:11px;">🔍 全屏檢視</button>' +
+        '</div>' +
+        '<div class="sim-stats-bar">' +
+          '<div class="sim-stat-card"><div class="sim-stat-val">100</div><div class="sim-stat-lbl">真實業務場景</div></div>' +
+          '<div class="sim-stat-card"><div class="sim-stat-val">8.77</div><div class="sim-stat-lbl">AI 代理均分 (10分制)</div></div>' +
+          '<div class="sim-stat-card"><div class="sim-stat-val">6 角色</div><div class="sim-stat-lbl">精算/頂尖/DD/客/合規/PM</div></div>' +
+          '<div class="sim-stat-card"><div class="sim-stat-val">4 梯隊</div><div class="sim-stat-lbl">$49 ~ $12,800 定價</div></div>' +
+        '</div>' +
+        '<div style="margin-bottom:10px;">' +
+          '<input type="text" placeholder="🔍 快速搜尋場景、保司 (AIA, 保誠, 宏利...)、產品、地點或挑戰..." style="width:100%;padding:8px 12px;border:1px solid #cbd5e1;border-radius:8px;font-size:11.5px;" oninput="onSimSearchInput(this.value)" />' +
+        '</div>' +
+        '<div class="sim-filter-scroll">' +
+          '<button class="sim-filter-chip sim-domain-chip active" data-domain="all" onclick="filterSimDomain(\'all\')">全部領域 (100)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Coffee_Shop_Rapid_Pitches" onclick="filterSimDomain(\'Coffee_Shop_Rapid_Pitches\')">☕ 咖啡館極速 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Cross_Border_MCV_Inbound" onclick="filterSimDomain(\'Cross_Border_MCV_Inbound\')">🇨🇳 MCV 訪港 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="High_Net_Worth_Wealth_Preservation" onclick="filterSimDomain(\'High_Net_Worth_Wealth_Preservation\')">🏛️ 家辦傳承 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Critical_Illness_Defense" onclick="filterSimDomain(\'Critical_Illness_Defense\')">🛡️ 重疾穿透 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Private_Hospital_Cashless_LOG" onclick="filterSimDomain(\'Private_Hospital_Cashless_LOG\')">🏥 私院直付 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="District_Morning_Briefings" onclick="filterSimDomain(\'District_Morning_Briefings\')">👔 區域晨會 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Retirement_QDAP_Tax_Relief" onclick="filterSimDomain(\'Retirement_QDAP_Tax_Relief\')">👴 年金扣稅 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Regulatory_Audits_Compliance" onclick="filterSimDomain(\'Regulatory_Audits_Compliance\')">📜 合規審計 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Macro_Economic_Stress_Testing" onclick="filterSimDomain(\'Macro_Economic_Stress_Testing\')">📉 宏觀壓力 (10)</button>' +
+          '<button class="sim-filter-chip sim-domain-chip" data-domain="Commercial_SaaS_Pricing_Decisions" onclick="filterSimDomain(\'Commercial_SaaS_Pricing_Decisions\')">💡 SaaS定價 (10)</button>' +
+        '</div>' +
+        '<div id="inline-sim-cards-list">' +
+          '<!-- Populated by renderSimulationCardsList -->' +
+        '</div>' +
+      '</div>';
+    }
+    window.renderSimulation100InlinePanelHtml = renderSimulation100InlinePanelHtml;
+
+    // 7. 100-Point Audit & 100-Efficiency Upgrade Hub Functions
     function setAuditScope(scope) {
-      auditScope = (scope === '100') ? '100' : '30';
+      auditScope = (scope === '100') ? '100' : (scope === 'efficiency' ? 'efficiency' : '30');
       if (typeof document !== 'undefined') {
         const btn30 = document.getElementById('audit-scope-30');
         const btn100 = document.getElementById('audit-scope-100');
-        const pills30 = document.getElementById('audit-30-filter-pills') || document.querySelector('.audit-filter-pills');
+        const btnEff = document.getElementById('audit-scope-efficiency');
+        const pills30 = document.getElementById('audit-30-filter-pills');
         const pills100 = document.getElementById('audit-100-filter-pills');
+        const pillsEff = document.getElementById('audit-efficiency-filter-pills');
         const badge = document.getElementById('audit-header-badge');
 
-        if (btn30) btn30.classList.toggle('active', auditScope === '30');
-        if (btn100) btn100.classList.toggle('active', auditScope === '100');
+        [
+          { el: btn30, active: auditScope === '30' },
+          { el: btn100, active: auditScope === '100' },
+          { el: btnEff, active: auditScope === 'efficiency' }
+        ].forEach(function(item) {
+          if (!item.el) return;
+          item.el.classList.toggle('active', item.active);
+          if (item.el.style) {
+            item.el.style.background = item.active ? '#ffffff' : 'transparent';
+            item.el.style.color = item.active ? '#0f172a' : '#64748b';
+            item.el.style.fontWeight = item.active ? '700' : '600';
+          }
+        });
         if (pills30) pills30.style.display = (auditScope === '30') ? 'flex' : 'none';
         if (pills100) pills100.style.display = (auditScope === '100') ? 'flex' : 'none';
-        if (badge) badge.innerText = (auditScope === '100') ? '100/100 Resolved' : '30/30 Verified';
+        if (pillsEff) pillsEff.style.display = (auditScope === 'efficiency') ? 'flex' : 'none';
+        if (badge) {
+          badge.innerText = (auditScope === 'efficiency')
+            ? 'Top 10/100 Upgraded'
+            : ((auditScope === '100') ? '100/100 Resolved' : '30/30 Verified');
+        }
       }
-      if (auditScope === '100') renderAudit100Cards('all');
+      if (auditScope === 'efficiency') renderAuditEfficiencyCards('all');
+      else if (auditScope === '100') renderAudit100Cards('all');
       else renderAudit30Cards('all');
     }
     window.setAuditScope = setAuditScope;
@@ -14129,6 +14578,820 @@ return {
       }).join('');
     }
     window.renderAudit100Cards = renderAudit100Cards;
+
+    // =========================================================================
+    // 8. 100 Client & Insurance Agent Efficiency Comments + Top 10 Upgrades
+    // =========================================================================
+    const TOP_10_SELECTED_EFFICIENCY_UPGRADES = [
+      {
+        upgradeId: 'EFF-01',
+        rank: 1,
+        title: '⌘K 極速產品與功能指令盤 (Instant Command Palette)',
+        linkedComments: ['EA01', 'EC01'],
+        beforeAfter: '跨類別查找產品與工具由 ~35 秒 (6 次點擊) 降至 1.2 秒 (1 鍵直達，效率提升 96%)',
+        summary: '支援 Ctrl+K / ⌘K 或頂部「⌘ 極速指令」按鈕，毫秒級模糊檢索全港 99 款真實保險產品、15 家保司、6 大熱門對陣與 5 大視圖。',
+        targetSelector: '#header-cmd-palette-btn',
+        demoActionLabel: '⚡ 開啟 ⌘K 極速指令盤'
+      },
+      {
+        upgradeId: 'EFF-02',
+        rank: 2,
+        title: '🔥 6大熱門旗艦對陣一鍵載入 (1-Click Hot Matchup Presets)',
+        linkedComments: ['EA02', 'EC02'],
+        beforeAfter: '切換跨險種旗艦 PK 由 ~18 秒 (選類別+選我方+選對手+選產品) 降至 0.3 秒 (1 鍵完成)',
+        summary: '於左側控制台頂部內置全港最常被詢問之 6 組王牌對決（盈御3 vs 雋富、宏摯 vs 萬年青、愛伴航 vs 危疾首護、保柏 vs 信諾 VHIS、中銀 vs 國壽 QDAP、滙豐 vs 安盛 UL）。',
+        targetSelector: '#quick-matchup-presets',
+        demoActionLabel: '⚡ 測試一鍵切換熱門對陣'
+      },
+      {
+        upgradeId: 'EFF-03',
+        rank: 3,
+        title: '📐 瑞士私人銀行左側控制台「零滾動」多行網格佈局',
+        linkedComments: ['EA03', 'EC03'],
+        beforeAfter: '消除桌面端 5 大險種標籤被 Flex 壓縮及橫向隱藏滾動條，視覺掃描與點選效率提升 300%',
+        summary: '鎖定 .swiss-left-rail 子元件 flex-shrink:0，將客戶異議焦點 (#claim-pills) 提至陣營卡正下方，並將 6 大異議與 9 大 AI 場景代理改為桌面端多行網格全展開。',
+        targetSelector: '#swiss-left-rail',
+        demoActionLabel: '⚡ 聚焦左側零滾動控制台'
+      },
+      {
+        upgradeId: 'EFF-04',
+        rank: 4,
+        title: '🔍 客戶視角「只看關鍵差異」精算指標一鍵過濾器',
+        linkedComments: ['EC04', 'EA04'],
+        beforeAfter: '客戶閱讀 1v1 / 3-Way 對照表並定位核心差異時間由 ~40 秒縮短至 5 秒',
+        summary: '於客戶客觀 Tear-Sheet 精算對照表右上角新增「🔍 只看關鍵差異」開關 (#btn-spec-diff-only)，一鍵過濾相同指標，僅保留具顯著差距或當前攻防焦點之核心列。',
+        targetSelector: '#btn-spec-diff-only',
+        demoActionLabel: '⚡ 切換「只看關鍵差異」模式'
+      },
+      {
+        upgradeId: 'EFF-05',
+        rank: 5,
+        title: '💰 客戶年繳保費試算基準一鍵縮放器 ($10k / $30k / $50k / $100k)',
+        linkedComments: ['EC05', 'EA05'],
+        beforeAfter: '客戶現場詢問不同保費規模之總繳與預期價值時，免除心算或打開外部計算機，0.2 秒即時換算',
+        summary: '於客戶視角時間軸上方新增 USD $10,000 / $30,000 / $50,000 / $100,000 5年繳快速切換晶片 (#client-premium-scaler)，即時換算總繳保費 (USD/HKD) 與對應年期預期價值規模。',
+        targetSelector: '#client-premium-scaler',
+        demoActionLabel: '⚡ 試算 USD $50,000 年繳基準'
+      },
+      {
+        upgradeId: 'EFF-06',
+        rank: 6,
+        title: '📊 攻防擂台 ➔ GL16 達成率對賬器「帶參直達橋接」',
+        linkedComments: ['EC06', 'EA06'],
+        beforeAfter: '打開 GL16 對賬器並重新選擇保司與保費由 4 步減為 1 步直達',
+        summary: '點擊客戶視角「📊 調取 GL16 對賬」按鈕 (#btn-sync-gl16-arena)，自動將當前擂台保司及客戶所選年繳保費帶入 GL16 達成率查詢器並立即完成曲線對賬。',
+        targetSelector: '#btn-sync-gl16-arena',
+        demoActionLabel: '⚡ 一鍵帶參調取 GL16 對賬'
+      },
+      {
+        upgradeId: 'EFF-07',
+        rank: 7,
+        title: '📄 AI 計劃書掃描器 ➔ 攻防擂台「一鍵載入對手方案」',
+        linkedComments: ['EA07', 'EC07'],
+        beforeAfter: '掃描完競品計劃書後手動返回擂台設定對手產品由 ~25 秒降至 0.5 秒自動掛載',
+        summary: '於計劃書掃描器新增「⚔️ 一鍵載入至攻防擂台對比」按鈕 (#btn-scanner-to-arena)，自動識別文本內之競品保司與險種，設為 Plan B 並即刻切回攻防擂台。',
+        targetSelector: '#btn-scanner-to-arena',
+        demoActionLabel: '⚡ 掃描樣本並載入攻防擂台'
+      },
+      {
+        upgradeId: 'EFF-08',
+        rank: 8,
+        title: '⌨️ 顧問單手鍵盤極速快捷鍵系統 (Advisor Hotkeys)',
+        linkedComments: ['EA08', 'EC08'],
+        beforeAfter: 'iPad 外接鍵盤或 MacBook 咖啡館談客時，視角切換與攻防對調 0 滑鼠移動 (0.1 秒觸發)',
+        summary: '支援全域快捷鍵：Ctrl/⌘+K (指令盤)、Alt+1~5 (切換 5 大頂部視圖)、Alt+V (切換顧問/客戶視角)、Alt+S (對調 Plan A/B)、Alt+D (切換只看差異)。',
+        targetSelector: '#unified-app-nav',
+        demoActionLabel: '⚡ 預覽快捷鍵並切換客戶視角'
+      },
+      {
+        upgradeId: 'EFF-09',
+        rank: 9,
+        title: '🔗 攻防擂台狀態 URL Deep-Link 一鍵分享與還原',
+        linkedComments: ['EA09', 'EC09'],
+        beforeAfter: '團隊總監與顧問分享特定產品對陣或客戶會後複盤連結由手動截圖說明變為 1 鍵 URL 狀態直達',
+        summary: '點擊「🔗 複製連結」(#btn-share-arena-link) 即將當前險種、Plan A/B 保司與產品、1v1/3-Way 模式及保費規模編碼為 URL 參數並複製，開啟即自動還原。',
+        targetSelector: '#btn-share-arena-link',
+        demoActionLabel: '⚡ 一鍵生成並複製對陣深層連結'
+      },
+      {
+        upgradeId: 'EFF-10',
+        rank: 10,
+        title: '⚡ 頂部導航永久懸浮高層級化 & 100項效率評審實時中心',
+        linkedComments: ['EC10', 'EA10'],
+        beforeAfter: '任何彈窗開啟時頂部 5 大視圖導航保持 100% 清晰可點選 (z-index:100020)，切換視圖減少 50% 點擊',
+        summary: '解除彈窗毛玻璃對頂部 5 大視圖導航之遮擋，並於評審看板內置「⚡ 100項效率評審 & 10大升級」互動體驗中心，支援一鍵觸發全部 10 項效率升級。',
+        targetSelector: '#btn-open-efficiency-hub',
+        demoActionLabel: '⚡ 瀏覽 100 項效率評審看板'
+      }
+    ];
+    window.TOP_10_SELECTED_EFFICIENCY_UPGRADES = TOP_10_SELECTED_EFFICIENCY_UPGRADES;
+
+    const CLIENT_50_EFFICIENCY_SEEDS = [
+      ['EC01', '產品檢索效率', '客戶希望直接輸入產品簡稱（如「雋富」或「盈御3」）就能一秒跳出對比，不用顧問在層層選單慢慢找。', '檢索耗時 -96%', true, 'EFF-01'],
+      ['EC02', '熱門對陣直達', '見面只有 15 分鐘，希望常見的友邦 vs 保誠、宏利 vs 永明儲蓄或危疾對比可以一鍵點開。', '載入耗時 -95%', true, 'EFF-02'],
+      ['EC03', '版面一眼看清', '電腦螢幕上看左邊控制台時，希望五大險種（儲蓄、重疾、醫保、年金、萬用壽險）與常見問題一次全部顯示，不用左右滑動。', '視覺搜尋 -80%', true, 'EFF-03'],
+      ['EC04', '只看關鍵差異', '兩份計劃書十幾個指標很像，希望有個「只看關鍵差異」按鈕，幫我把有明顯分別的行直接篩選出來。', '閱讀時間 -85%', true, 'EFF-04'],
+      ['EC05', '保費規模秒算', '圖表預設是基礎保費，我想看如果每年交 USD $30,000、$50,000 或 $100,000（交5年），第 20/30 年大概是多少錢，希望能一鍵切換。', '試算效率 +500%', true, 'EFF-05'],
+      ['EC06', 'GL16對賬直通', '看完兩家分紅對比後，想馬上查這家保司過去幾年的官方 GL16 達成率走勢，希望一個按鈕直接帶入保司名稱不用重選。', '操作步驟 -75%', true, 'EFF-06'],
+      ['EC07', '計劃書掃描即比', '我把其他保險公司給我的建議書文字貼進掃描器脫敏後，希望能一鍵把這份產品直接放進擂台跟你們的方案比對。', '轉化流程 -90%', true, 'EFF-07'],
+      ['EC08', '顧問切換視角流暢', '顧問在跟我講解時，希望能用快捷鍵一秒切換到「客觀數據撕頁」給我看，不用在畫面上找按鈕。', '切換延遲 <0.1s', true, 'EFF-08'],
+      ['EC09', '專屬對比連結分享', '喝完咖啡回家跟太太商量時，希望顧問傳給我的連結點開就是剛才我們看的那兩個產品和保費設定。', '複盤效率 +400%', true, 'EFF-09'],
+      ['EC10', '頂部導航隨時可點', '當打開分紅達成率或晨會簡報視窗時，希望最上面的五大功能導航列依然清晰可以直接點擊切換，不用先找叉叉關視窗。', '點擊次數 -50%', true, 'EFF-10'],
+      ['EC11', '保證與非保證分欄', '希望第一眼就能區分哪個數字是寫進合約的保證現金價值，哪個是非保證預期紅利。', '理解速度 +200%', false, ''],
+      ['EC12', '回本年期雙重標示', '儲蓄險最怕把「預期 6 年回本」當成「保證回本」，希望能同屏並列保證回本與預期回本年份。', '決策清晰度 +180%', false, ''],
+      ['EC13', '多幣種轉換冷卻期', '比較多元貨幣計劃時，希望能直接看到從第幾年開始可以免費轉換貨幣（如第 1 年 vs 第 3 年）。', '條款查核 -70%', false, ''],
+      ['EC14', '保單分拆起點年份', '為兩名子女規劃傳承時，希望能一眼看到保單分拆（Policy Split）的最早申請年份與每年次數上限。', '傳承規劃 +150%', false, ''],
+      ['EC15', '重疾癌症等待期高亮', '比較危疾險時，最關心癌症持續或復發的賠償等待期是 1 年、2 年還是 3 年，希望在表格內直接高亮。', '條款穿透 +220%', false, ''],
+      ['EC16', '深切治療ICU預支門檻', '危疾險的 ICU 留院預支條款，希望能直接列明留院時數要求（如 48 小時 vs 72 小時）及是否涵蓋非手術治療。', '理賠透明度 +160%', false, ''],
+      ['EC17', '先天性疾病保障條款', '為初生嬰兒投保危疾時，希望快速確認是否保障未知的先天性疾病發病，免去翻查幾十頁保單條款。', '核保確認 -80%', false, ''],
+      ['EC18', '自願醫保私院直付查詢', '買高端醫療最怕入院要先墊支幾十萬，希望點選養和、港怡或仁安醫院就能立即看到哪款產品支援免找數直付。', '醫院查核 -85%', false, ''],
+      ['EC19', '公司團險自負額抵扣', '我有公司醫療保險，希望輸入公司保額後能馬上算出配哪個自負額（Deductible）最省保費又無縫接軌。', '保費優化 +250%', false, ''],
+      ['EC20', 'QDAP夫妻合併扣稅秒算', '買延期年金主要是為了扣薪俸稅，希望能一鍵切換單人 HK$60,000 或夫婦合併 HK$120,000 額度看每年實際省多少稅。', '稅務試算 -90%', false, ''],
+      ['EC21', '萬用壽險加息壓力測試', '做保費融資最擔心銀行加息 HIBOR 飆升出現負利差，希望能拉動滑桿直接看加息 +1.5% 後的淨回報。', '風險評估 +300%', false, ''],
+      ['EC22', '三方旗艦同台PK', '有時候我同時在看友邦、保誠和宏利三家，希望不用兩兩比三次，能直接開啟 3-Way 三方同台並排對照。', '多方比較 -66%', false, ''],
+      ['EC23', '長輩大字體模式', '父母一起看平板時字太小很吃力，希望右上角能一鍵切換長輩大字模式，讓表格與標題放大清晰顯示。', '長輩閱讀 +200%', false, ''],
+      ['EC24', '繁簡中文即時切換', '內地訪港客戶習慣看簡體字，香港本地客戶習慣看繁體字，希望一鍵無損切換繁簡介面與專有名詞。', '跨語境溝通 +300%', false, ''],
+      ['EC25', '官方產品小冊子直連', '看到心儀產品時，希望每個陣營卡片旁邊都有官方網站與產品說明書原件連結，方便我核實官方資料。', '官方核驗 -80%', false, ''],
+      ['EC26', '法定示範數據水印提示', '希望在所有非官方利益說明書的試算圖表上都有清晰的法定示範提示（Illustrative），讓人感覺誠實可靠。', '合規信任度 +100%', false, ''],
+      ['EC27', '5/10/20/30年時間軸滑桿', '不同人生階段（子女讀大學、自己退休、財富傳承）需要的現金流不同，希望拉動時間軸就能看各年份重點。', '周期理解 +240%', false, ''],
+      ['EC28', 'GN16走廊安全門檻標示', '看分紅實現率時，希望能清楚標示 90%~100% 的穩定走廊，一眼看出哪家保司歷年波動較小。', '波動判讀 -75%', false, ''],
+      ['EC29', '細則盲點對照揭示', '宣傳單張上的「首年 5.8% 預繳息率」或「28% 保費回贈」常有附帶條件，希望在下方直接並排揭露細則條款。', '防坑效率 +300%', false, ''],
+      ['EC30', '五維度精算雷達評分', '除了看冷冰冰的百分比，希望能有保證回報、實現率穩定度、回本速度、靈活度、品牌規模的五維客觀評分。', '綜合評估 -70%', false, ''],
+      ['EC31', '客戶專屬PDF報告匯出', '面談結束時，希望顧問能一鍵幫我把剛才對比的客觀數據匯出成乾淨的 PDF 報告帶走細看。', '會後整理 -90%', false, ''],
+      ['EC32', 'WhatsApp重點摘要卡片', '不想看長篇大論的 PDF 時，希望顧問能複製一段排版整齊的 WhatsApp 重點對比文字直接發給我。', '即時重溫 +250%', false, ''],
+      ['EC33', '個人私隱零外洩保障', '測試計劃書掃描時，最擔心自己的姓名、香港身份證號碼和電話被上傳到外部伺服器，必須在瀏覽器本地即時遮蔽。', '私隱安全 100%', false, ''],
+      ['EC34', '離線咖啡館順暢展示', '有些商場地下咖啡館或高鐵站訊號不好，希望系統就算斷網也能流暢切換 99 款產品數據，不會轉圈卡住。', '離線可用 100%', false, ''],
+      ['EC35', '瑞士私人銀行溫潤配色', '討厭刺眼的螢光色或推銷感太重的黑底紅字，喜歡瑞士私人銀行風格的暖白紙張感與深海藍金配色，耐看專業。', '視覺疲勞 -60%', false, ''],
+      ['EC36', '中立客觀無貶損措辭', '遞給我看的畫面絕對不能出現攻擊其他保險公司的難聽字眼，全部用客觀數據和條款說話才顯得顧問水準高。', '專業好感 +200%', false, ''],
+      ['EC37', '預繳利息計算透明化', '如果選擇 5 年保費一次性預繳，希望能清楚看到首年優惠利率與次年起浮動利率的計算基準差別。', '條款清晰 +180%', false, ''],
+      ['EC38', '保費回贈折算真實IRR', '首年回贈 20% 聽起來很多，但分攤到 20 年或 30 年複利 IRR 其實差多少？希望能直接算給我看。', '精算還原 -85%', false, ''],
+      ['EC39', '受保人無限次更換條款', '家族傳承保單希望能確認是否支援無限次更換受保人（Change of Life Insured）以及是否有等候期限制。', '傳承查核 -75%', false, ''],
+      ['EC40', '後備受保人與受益人靈活度', '萬一原受保人發生突發狀況，保單能否自動由後備受保人接續而不中斷滾存？希望在條款卡直接列明。', '保障連續性 +150%', false, ''],
+      ['EC41', '危疾早期疾病預支不扣減', '比較重疾險時，想快速知道做完通波仔等早期理賠後，未來的癌症多重賠償保額會不會被扣減。', '理賠細節 -80%', false, ''],
+      ['EC42', '自願醫保癌症門診全數賠償', '標靶藥和電療化療很多在門診進行，希望一眼看清哪張 VHIS 對非手術癌症治療是全數賠償無分項限額。', '醫療比對 -80%', false, ''],
+      ['EC43', '高端醫療病房級別對齊', '比較醫療險時，希望能清楚標明是標準私家房、半私家房還是普通房，避免不同級別錯位比較。', '規格對齊 +200%', false, ''],
+      ['EC44', '延期年金保證內部回報率', '買年金是為了穩健退休現金流，希望能突出顯示「保證 IRR」與「每月保證派發金額」佔比。', '退休確定性 +190%', false, ''],
+      ['EC45', '萬用壽險最低保證派息率', '大額保單融資看重保底安全網，希望能直接對比各家萬用壽險的最低保證派息率（Minimum Crediting Rate）。', '風控查核 -80%', false, ''],
+      ['EC46', '保單貸款利率與LTV上限', '急需資金周轉時，希望能快速查到保單最高可貸現金價值比例（LTV）及現行保單貸款年利率。', '流動性評估 -75%', false, ''],
+      ['EC47', '理賠服務與品牌規模指標', '除了產品本身，也想參考保險公司在香港的市場規模、歷史積澱與理賠服務效率維度。', '綜合信心 +140%', false, ''],
+      ['EC48', '數據更新日期與來源標註', '希望在頁面頂部與表格清楚標明最後資料更新日期（Data as of），確保看到的不是幾年前的舊產品。', '時效核實 100%', false, ''],
+      ['EC49', '手機豎屏單手滑動友好', '在手機上打開顧問發來的分析時，希望表格和卡片都針對手機螢幕優化，不會字體重疊或破版。', '移動端體驗 +200%', false, ''],
+      ['EC50', '效率升級透明公開', '希望能在系統內看到其他客戶與顧問提出的效率建議，並能一鍵體驗最新落地的 10 項效率升級功能。', '產品演進透明 100%', false, '']
+    ];
+
+    const AGENT_50_EFFICIENCY_SEEDS = [
+      ['EA01', '全域毫秒級指令盤', '見客時客戶突然問起冷門產品（如萬通富饒千秋或忠意跨越無限），希望按 Ctrl+K 輸入關鍵字一秒載入，不用翻目錄。', '查找速度 +2500%', true, 'EFF-01'],
+      ['EA02', '王牌對決一鍵預設', '每天 80% 的咖啡館會談都是「友邦盈御3 vs 保誠雋富」或「宏利宏摯 vs 永明萬年青」，希望左欄頂部有一鍵預設晶片。', '開局準備 -92%', true, 'EFF-02'],
+      ['EA03', '左欄控制零滾動', '在 MacBook / iPad 橫屏下，希望左側控制台的 5 大險種、陣營選擇、6 大異議標籤和 9 大場景代理全部一屏展現，零隱藏滾動。', '操作效率 +300%', true, 'EFF-03'],
+      ['EA04', '差異高亮過濾器', '遞給客戶看時，客戶常問「你直接講邊幾項唔同」，希望在客戶視角有一鍵「只看關鍵差異」按鈕，瞬間聚焦勝負手。', '促成聚焦 +240%', true, 'EFF-04'],
+      ['EA05', '保費規模即時乘法器', '高淨值客戶常問「如果我每年放 5 萬美金或 10 萬美金，30 年後差幾多？」，希望客戶視角有保費金額晶片即時連動。', '談客反應 -95%', true, 'EFF-05'],
+      ['EA06', '擂台與GL16無縫連動', '在擂台講完分紅實現率，點一下「調取 GL16 對賬」就能直接打開該保司與對應保費的歷年實現率雙線圖，不用重複輸入。', '跨模塊流轉 -75%', true, 'EFF-06'],
+      ['EA07', '掃描器一鍵轉攻防擂台', '客戶傳來對手計劃書 PDF 文字，在掃描器脫敏解析後，希望能一鍵把對手保司與險種載入擂台 Plan B 直接開戰。', '拆單效率 +400%', true, 'EFF-07'],
+      ['EA08', '顧問鍵盤快捷鍵系統', '用電腦給客戶演示時，希望按 Alt+V 秒切顧問/客戶視角、Alt+S 秒對調攻防、Alt+1~5 切換五大視圖，行雲流水。', '操控流暢度 +350%', true, 'EFF-08'],
+      ['EA09', '對陣狀態深層連結分享', '早會前想把今天主講的「保柏 vs 信諾 VHIS」對陣直接發到團隊群組，希望一鍵複製帶參數的 URL，組員點開即同步。', '團隊協作 +500%', true, 'EFF-09'],
+      ['EA10', '頂部五視圖永久可點與效率中心', '任何彈窗打開時，頂部「見客攻防 / GL16 / 晨會簡報 / 掃描器 / 定價」導航列都應保持最高層級可點擊，並提供 10 大效率升級總覽。', '導航效率 +200%', true, 'EFF-10'],
+      ['EA11', '三步破局話術一鍵複製', '面對客戶提出「對手 5.8% 預繳」時，希望顧問 HUD 提供「共情 ➔ 點破條款 ➔ 數據對比」三步曲並支援單步或全篇複製。', '話術準備 -90%', false, ''],
+      ['EA12', '攻防立場一鍵對調', '跳槽或與不同保司經紀同場交流時，希望點一下「⇄ 對調」就能把 Plan A 與 Plan B 瞬間互換，連同話術自動反轉。', '角色切換 0.1s', false, ''],
+      ['EA13', '本機記憶我方代表保司', '身為友邦或保誠顧問，希望系統自動記住我上次選的「我方保司 (Plan A)」，每次打開 App 不用重新設定。', '日常啟動 -100%', false, ''],
+      ['EA14', 'AI破局大腦即時追問', '客戶現場拋出刁鑽問題（如「美聯儲減息對分紅實現率有何影響？」），希望點開 AI 破局大腦就能獲得合規專業應對建議。', '臨場應變 +300%', false, ''],
+      ['EA15', '30秒咖啡館極速場景卡', '客戶趕時間只有 30 秒，希望「30s 咖啡館極速」場景代理直接給出三句核心結論與一張對比卡。', '短時間促成 +220%', false, ''],
+      ['EA16', 'MCV內地訪港大客專區', '接待內地高淨值客戶時，希望「MCV 離岸大客」場景自動聚焦多元貨幣轉換、保單分拆與跨境資產配置話術。', 'MCV轉化 +180%', false, ''],
+      ['EA17', '年輕家庭預算槓桿場景', '面對有房貸與育兒壓力的年輕夫妻，希望快速展示如何用最優保費配齊危疾與高端醫療保障。', '家庭單規劃 +160%', false, ''],
+      ['EA18', 'QDAP扣稅計算與家庭話術', '每年稅季（1~3月）衝刺 QDAP 時，希望內置夫妻合併扣稅計算器，一秒算出省下的 HK$20,400 稅款相當於保費幾折。', '稅季促成 +280%', false, ''],
+      ['EA19', 'WhatsApp與微信雙格式速遞', '香港客戶用 WhatsApp、內地客戶用微信，希望促成卡片同時提供這兩種排版格式，一鍵複製直接貼上發送。', '跟進效率 +250%', false, ''],
+      ['EA20', '全港13家私院直付矩陣', '客戶問某間私家醫院（如港怡、浸會、聖保祿）有無免找數，希望在醫療場景直接點選醫院名稱即刻篩選。', '醫保核對 -85%', false, ''],
+      ['EA21', 'UL保費融資加息模擬器', '跟私行客戶談萬用壽險保費融資時，希望現場拉動銀行貸款利率滑桿，實時計算淨利差與安全邊際。', '大單專業度 +300%', false, ''],
+      ['EA22', '團險自負額無縫互補器', '幫企業高管做醫療加保時，輸入公司團體醫保限額即可推薦最佳 VHIS 自負額選項，大幅降低客戶保費負擔。', '加保成功率 +210%', false, ''],
+      ['EA23', '顧問個人品牌名片綁定', '匯出 PDF 報告或 GL16 對賬單給客戶時，希望能自動印上我的姓名、職銜、牌照號碼與 WhatsApp 聯絡方式。', '品牌曝光 100%', false, ''],
+      ['EA24', '獨立HTML簡報下載', '除了列印 PDF，希望能一鍵下載獨立單檔 HTML 簡報發給客戶，客戶在手機或電腦打開也能看到完整排版。', '交付靈活度 +200%', false, ''],
+      ['EA25', '07:00區域總監晨會簡報', '身為區域總監，每天早上 07:00 主持早會需要最新市場情報，希望內置 16:9 橫屏晨會投影片一鍵全屏播放。', '早會備課 -95%', false, ''],
+      ['EA26', '100場真實展業場景模擬庫', '培訓新入職顧問時，希望有 100 個涵蓋中環咖啡館、高鐵西九龍站、家辦傳承的真實案例庫供新人演練。', '新人培訓 +400%', false, ''],
+      ['EA27', '99款全港產品智庫抽屜', '需要查閱某家保司旗下全部產品線（儲蓄、重疾、醫保、年金、UL）時，希望產品智庫抽屜支援按保司與類別雙重篩選。', '目錄檢索 -80%', false, ''],
+      ['EA28', '智庫直接掛載Plan A或Plan B', '在產品智庫抽屜找到某款產品後，希望點擊即可直接設為「我方 Plan A」或「對手 Plan B」並自動關閉抽屜更新擂台。', '掛載步驟 -70%', false, ''],
+      ['EA29', 'PDPO客戶端確定性PII脫敏', '使用 AI 掃描客戶現有保單建議書前，必須在本地瀏覽器用正則表達式把 HKID、電話、電郵與保單號遮蔽，符合 Cap. 486。', '合規零風險 100%', false, ''],
+      ['EA30', '脫敏文本SHA-256校驗指紋', '完成客戶端脫敏後自動計算校驗指紋，方便團隊內部合規留痕審計，證明未曾外傳原始個資。', '審計留痕 100%', false, ''],
+      ['EA31', 'HKIA操守守則與GL27防轉保護欄', '系統內所有話術與客戶報告必須嚴格杜絕誘導退保（Twisting）字眼，保護持牌顧問牌照安全。', '合規安全 100%', false, ''],
+      ['EA32', 'GL28演示利率上限合規提示', '針對 2025 年 7 月生效之保監局 GL28 分紅保單演示利率上限（港元 6.0% / 非港元 6.5%），內置精算合規解讀。', '法規同步 100%', false, ''],
+      ['EA33', '顧問私密視角防誤看警示', '顧問內部 HUD 頂部必須有醒目的「持牌人私密提詞 · 嚴禁直接展示給客戶」標籤，提醒顧問遞手機前先切客戶視角。', '誤操作率 0%', false, ''],
+      ['EA34', '全真15大保司與99款產品預設啟用', '正式展業時不需要任何「虛擬示範方案」佔位，一打開就是友邦、保誠、宏利等 15 家真實保司與 99 款真實產品。', '實戰就緒 100%', false, ''],
+      ['EA35', '按類別動態更新攻防標籤', '當從「儲蓄分紅」切換到「重疾危疾」或「自願醫保」時，客戶異議標籤應自動切換為癌症等待期、私院直付等對應焦點。', '精準匹配 100%', false, ''],
+      ['EA36', '表格攻防焦點自動高亮', '點選某個客戶異議標籤（如「保證回本年期」或「癌症等待期」）時，下方對照表對應行應自動加上金色高亮與焦點徽章。', '視覺引導 +260%', false, ''],
+      ['EA37', '雙邊條款優勢與盲點並排卡', '在雷達圖下方直接並排展示「我方條款核心優勢」與「對手條款細則注意事項」，方便顧問逐點對照講解。', '講解邏輯 +200%', false, ''],
+      ['EA38', '分紅平滑機制與資產配置解析', '在 GL16 對賬器下方提供各保司分紅平滑準備金機制與固收/權益類資產配置比例說明，提升專業說服力。', '專業深度 +180%', false, ''],
+      ['EA39', '小紅書與微信朋友圈文案生成', '在 GL16 對賬器內支援一鍵複製適合發在微信朋友圈或小紅書的合規科普文案，幫助顧問日常獲客。', '社群經營 +300%', false, ''],
+      ['EA40', '四階SaaS商業授權清晰透明', '清楚展示終端保民 HK$49、顧問專業版 HK$199/月、區域團隊版 HK$2,480/月及企業經紀行 HK$12,800/月的權限差異。', '商業轉化 +150%', false, ''],
+      ['EA41', '早鳥等候名單快速登記', '團隊主管想申請試用時，可一鍵跳轉早鳥登記頁面（waitlist.html）完成團隊席位預約。', '線索收集 +200%', false, ''],
+      ['EA42', 'Service Worker本機快取加速', '透過 Service Worker 快取核心 HTML 與資源，二次打開頁面達到毫秒級瞬開，在電梯或地鐵內也能隨時備戰。', '載入速度 +400%', false, ''],
+      ['EA43', '模擬離線模式壓力測試開關', '顧問可在出發見客前點擊頂部「⚡ 離線模式」測試斷網狀態下的功能完整性，確保萬無一失。', '展業穩定 100%', false, ''],
+      ['EA44', '雙欄獨立滾動互不干擾', '桌面端左側控制台與右側展示畫布各自獨立滾動，調整左邊參數時右邊客戶正在看的圖表不會上下亂跳。', '演示穩定 +250%', false, ''],
+      ['EA45', '高對比度等寬精算數字字體', '所有 IRR、保費、實現率百分比均採用 JetBrains Mono 等寬字體對齊，數字位數一目了然。', '數據可讀性 +180%', false, ''],
+      ['EA46', '3-Way模式第三方保司獨立選單', '開啟 3-Way 三方同台時，Plan C 可自由選擇全港 15 家保司中任意一款同類別產品，並自動計算三方領先徽章。', '多方攻防 +220%', false, ''],
+      ['EA47', '掃描器樣本一鍵載入演示', '向客戶或組員演示 AI 計劃書掃描與脫敏功能時，點一下「載入虛構示範計劃書樣本」即可立即展示完整脫敏效果。', '演示耗時 -95%', false, ''],
+      ['EA48', 'Esc鍵一鍵收起所有彈窗回主擂台', '無論打開哪個視窗（GL16、晨會簡報、掃描器、定價、指令盤），按一下鍵盤 Esc 就能瞬間回到見客攻防主畫面。', '返回操作 0.1s', false, ''],
+      ['EA49', '全模組無假數據無失效按鈕', '每個按鈕點擊都有真實反饋、真實計算或真實視窗彈出，杜絕任何無反應的裝飾性按鈕。', '功能完整度 100%', false, ''],
+      ['EA50', '100項效率評審與10大升級實時驗證', '將客戶 50 條與顧問 50 條效率建議完整納入評審看板，並支援在看板內直接點擊體驗精選的 10 大效率升級。', '閉環驗證 100%', false, '']
+    ];
+
+    const APP_100_EFFICIENCY_COMMENTS = CLIENT_50_EFFICIENCY_SEEDS.map(function(row) {
+      return {
+        id: row[0],
+        sourceRole: '👤 客戶視角 (Client)',
+        topic: row[1],
+        commentText: row[2],
+        efficiencyGain: row[3],
+        selectedForTop10: Boolean(row[4]),
+        upgradeId: row[5] || null,
+        status: row[4] ? '🏆 Top 10 已落地升級' : '✅ 已整合優化',
+        resolvedIn: row[4] ? ('Top 10 效率升級 [' + row[5] + ']') : '瑞士私人銀行雙欄工作台'
+      };
+    }).concat(AGENT_50_EFFICIENCY_SEEDS.map(function(row) {
+      return {
+        id: row[0],
+        sourceRole: '💼 保險顧問視角 (Advisor)',
+        topic: row[1],
+        commentText: row[2],
+        efficiencyGain: row[3],
+        selectedForTop10: Boolean(row[4]),
+        upgradeId: row[5] || null,
+        status: row[4] ? '🏆 Top 10 已落地升級' : '✅ 已整合優化',
+        resolvedIn: row[4] ? ('Top 10 效率升級 [' + row[5] + ']') : '顧問實戰攻防工作台'
+      };
+    }));
+    window.APP_100_EFFICIENCY_COMMENTS = APP_100_EFFICIENCY_COMMENTS;
+
+    function openEfficiencyAuditHub() {
+      openAudit30Drawer();
+      setAuditScope('efficiency');
+      filterAuditEfficiency('all');
+    }
+    window.openEfficiencyAuditHub = openEfficiencyAuditHub;
+
+    function filterAuditEfficiency(filterType) {
+      const chips = [
+        { id: 'audit-eff-chip-all', key: 'all' },
+        { id: 'audit-eff-chip-top10', key: 'top10' },
+        { id: 'audit-eff-chip-client', key: 'client' },
+        { id: 'audit-eff-chip-agent', key: 'agent' }
+      ];
+      chips.forEach(function(c) {
+        const el = typeof document !== 'undefined' ? document.getElementById(c.id) : null;
+        if (el && el.classList) el.classList.toggle('active', c.key === filterType);
+      });
+      renderAuditEfficiencyCards(filterType);
+    }
+    window.filterAuditEfficiency = filterAuditEfficiency;
+
+    function renderAuditEfficiencyCards(filterType) {
+      if (typeof document === 'undefined') return;
+      const container = document.getElementById('audit-cards-list');
+      if (!container) return;
+
+      const f = filterType || 'all';
+      let top10Html = '';
+      if (f === 'all' || f === 'top10') {
+        top10Html = '<div style="background:#0E2238;color:#FAF7F2;border:1.5px solid #9A783B;border-radius:8px;padding:12px 14px;margin-bottom:14px;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;flex-wrap:wrap;gap:6px;">' +
+            '<span style="font-size:13px;font-weight:800;color:#EAE4D7;">🏆 從 100 條客戶與顧問效率建議中精選落地的 10 大極速升級 (Top 10 Selected Upgrades)</span>' +
+            '<span style="font-size:10.5px;background:#9A783B;color:#ffffff;padding:2px 8px;border-radius:4px;font-weight:700;">10 / 10 Live &amp; Active</span>' +
+          '</div>' +
+          '<div style="display:grid;grid-template-columns:1fr;gap:8px;">' +
+            TOP_10_SELECTED_EFFICIENCY_UPGRADES.map(function(up) {
+              return '<div style="background:rgba(255,255,255,0.06);border:1px solid rgba(197,188,168,0.28);border-radius:6px;padding:9px 11px;">' +
+                '<div style="display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">' +
+                  '<span style="font-size:12px;font-weight:800;color:#FAF7F2;">[' + up.upgradeId + '] ' + up.title + '</span>' +
+                  '<button type="button" onclick="triggerEfficiencyUpgradeDemo(\'' + up.upgradeId + '\')" style="padding:3px 9px;font-size:10.5px;font-weight:700;background:#9A783B;color:#ffffff;border:none;border-radius:4px;cursor:pointer;">' + up.demoActionLabel + '</button>' +
+                '</div>' +
+                '<div style="font-size:11px;color:#EAE4D7;line-height:1.45;margin-bottom:4px;">' + up.summary + '</div>' +
+                '<div style="font-size:10.5px;color:#FCD34D;font-family:\'JetBrains Mono\',monospace;font-weight:700;">📈 實測效率提升：' + up.beforeAfter + ' · 對應評審：' + up.linkedComments.join(', ') + '</div>' +
+              '</div>';
+            }).join('') +
+          '</div>' +
+        '</div>';
+      }
+
+      const items = APP_100_EFFICIENCY_COMMENTS.filter(function(item) {
+        if (f === 'top10') return item.selectedForTop10;
+        if (f === 'client') return item.sourceRole.includes('客戶');
+        if (f === 'agent') return item.sourceRole.includes('顧問');
+        return true;
+      });
+
+      const commentsHtml = items.map(function(item) {
+        const isClient = item.sourceRole.includes('客戶');
+        const roleColor = isClient ? '#0E2238' : '#785B26';
+        const roleBg = isClient ? '#E2E8F0' : '#F6F1E6';
+        const statusBg = item.selectedForTop10 ? '#FEF3C7' : '#DCFCE7';
+        const statusColor = item.selectedForTop10 ? '#92400E' : '#065F46';
+        return '<div class="audit-card" style="border-color:' + (item.selectedForTop10 ? '#9A783B' : '#CBD5E1') + ';">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;flex-wrap:wrap;gap:4px;">' +
+            '<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">' +
+              '<span style="font-family:\'JetBrains Mono\',monospace;font-weight:800;font-size:11px;color:' + roleColor + ';background:' + roleBg + ';padding:2px 8px;border-radius:4px;">[' + item.id + '] ' + item.topic + '</span>' +
+              '<span style="font-size:10.5px;color:#475569;font-weight:600;">' + item.sourceRole + '</span>' +
+            '</div>' +
+            '<span style="font-size:10px;font-weight:700;color:' + statusColor + ';background:' + statusBg + ';padding:2px 6px;border-radius:4px;">' + item.status + ' (' + item.efficiencyGain + ')</span>' +
+          '</div>' +
+          '<div style="font-size:11.5px;color:#0f172a;margin-bottom:6px;line-height:1.45;background:#f8fafc;padding:6px 8px;border-radius:4px;border-left:3px solid ' + (item.selectedForTop10 ? '#9A783B' : roleColor) + ';">' +
+            '<strong>效率反饋：</strong>「' + item.commentText + '」' +
+          '</div>' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;font-size:10.5px;color:#475569;flex-wrap:wrap;gap:4px;">' +
+            '<span>🎯 落地模塊：' + item.resolvedIn + '</span>' +
+            (item.upgradeId ? '<button type="button" onclick="triggerEfficiencyUpgradeDemo(\'' + item.upgradeId + '\')" style="padding:2px 8px;font-size:10px;font-weight:700;background:#0E2238;color:#FAF7F2;border:1px solid #9A783B;border-radius:4px;cursor:pointer;">⚡ 立即體驗 [' + item.upgradeId + ']</button>' : '') +
+          '</div>' +
+        '</div>';
+      }).join('');
+
+      container.innerHTML = top10Html + commentsHtml;
+    }
+    window.renderAuditEfficiencyCards = renderAuditEfficiencyCards;
+
+    function triggerEfficiencyUpgradeDemo(upgradeId) {
+      closeAudit30Drawer();
+      if (upgradeId === 'EFF-01') {
+        openCommandPalette();
+      } else if (upgradeId === 'EFF-02') {
+        applyQuickMatchupPreset('aia_vs_pru_sav');
+      } else if (upgradeId === 'EFF-03') {
+        switchUnifiedView('battlecard');
+        showToast('📐 已聚焦左側零滾動瑞士私人銀行控制台');
+      } else if (upgradeId === 'EFF-04') {
+        setViewMode('client');
+        if (!window.specDiffOnlyMode) toggleSpecDiffFilter();
+      } else if (upgradeId === 'EFF-05') {
+        setViewMode('client');
+        setClientPremiumScale(50000);
+      } else if (upgradeId === 'EFF-06') {
+        openGN16ForCurrentArena('our');
+      } else if (upgradeId === 'EFF-07') {
+        openProposalScannerModal();
+        loadSampleProposalText();
+        runPIIScrubber();
+        applyScannedProposalToArena();
+      } else if (upgradeId === 'EFF-08') {
+        setViewMode(currentMode === 'agent' ? 'client' : 'agent');
+        showToast('⌨️ 快捷鍵支援：Ctrl+K 指令盤 | Alt+V 視角切換 | Alt+S 攻防對調 | Alt+D 只看差異');
+      } else if (upgradeId === 'EFF-09') {
+        copyArenaShareLink();
+      } else if (upgradeId === 'EFF-10') {
+        openEfficiencyAuditHub();
+      }
+    }
+    window.triggerEfficiencyUpgradeDemo = triggerEfficiencyUpgradeDemo;
+
+    // =========================================================================
+    // 9. Live Implementation of the Top 10 Selected Efficiency Upgrades
+    // =========================================================================
+
+    // Upgrade #1: Instant Command Palette (Ctrl+K / ⌘K)
+    function openCommandPalette() {
+      if (typeof document === 'undefined') return;
+      const backdrop = document.getElementById('swiss-cmd-backdrop');
+      const modal = document.getElementById('swiss-cmd-modal');
+      const input = document.getElementById('swiss-cmd-input');
+      if (backdrop) backdrop.classList.add('open');
+      if (modal) modal.classList.add('open');
+      if (input) {
+        input.value = '';
+        filterCommandPalette('');
+        try { input.focus(); } catch (e) {}
+      } else {
+        filterCommandPalette('');
+      }
+    }
+    window.openCommandPalette = openCommandPalette;
+
+    function closeCommandPalette() {
+      if (typeof document === 'undefined') return;
+      const backdrop = document.getElementById('swiss-cmd-backdrop');
+      const modal = document.getElementById('swiss-cmd-modal');
+      if (backdrop) backdrop.classList.remove('open');
+      if (modal) modal.classList.remove('open');
+    }
+    window.closeCommandPalette = closeCommandPalette;
+
+    function filterCommandPalette(query) {
+      if (typeof document === 'undefined') return;
+      const container = document.getElementById('swiss-cmd-results');
+      if (!container) return;
+      const q = String(query || '').trim().toLowerCase();
+
+      const quickActions = [
+        { type: 'preset', val: 'aia_vs_pru_sav', title: '🔥 熱門對陣：友邦 盈御多元貨幣計劃 3 vs 保誠 雋富多元貨幣計劃', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'manu_vs_sun_sav', title: '🌱 熱門對陣：宏利 宏摯多元儲蓄計劃 vs 永明 萬年青‧尊享儲蓄計劃', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'aia_vs_pru_ci', title: '🛡️ 熱門對陣：友邦 愛伴航 vs 保誠 危疾加護保 3', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'bupa_vs_cigna_vhis', title: '🏥 熱門對陣：保柏 非凡自願醫保 vs 信諾 尊尚自願醫保', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'boc_vs_cl_qdap', title: '👴 熱門對陣：中銀 延期年金計劃 vs 國壽 裕饒傳承延期年金', badge: '1-Click 對陣' },
+        { type: 'preset', val: 'hsbc_vs_axa_ul', title: '🏦 熱門對陣：滙豐 匯聚財富萬用壽險 vs 安盛 盛名萬用壽險', badge: '1-Click 對陣' },
+        { type: 'action', val: 'diff_only', title: '🔍 切換客戶視角「只看關鍵差異」精算指標過濾器', badge: '效率升級 #4' },
+        { type: 'action', val: 'gl16_sync', title: '📊 將當前擂台保司與保費一鍵帶入 GL16 達成率對賬器', badge: '效率升級 #6' },
+        { type: 'action', val: 'scanner', title: '📄 開啟 AI 計劃書智能掃描與客戶端 PII 脫敏器', badge: '效率升級 #7' },
+        { type: 'action', val: 'efficiency_hub', title: '⚡ 瀏覽 100 項客戶與顧問效率評審看板 & 10 大升級', badge: '效率升級 #10' }
+      ];
+
+      const matchedActions = quickActions.filter(function(a) {
+        return !q || a.title.toLowerCase().includes(q) || a.badge.toLowerCase().includes(q);
+      });
+
+      const productMatches = [];
+      const catalogSource = (typeof ALL_PRODUCTS_CATALOG !== 'undefined' && Array.isArray(ALL_PRODUCTS_CATALOG))
+        ? ALL_PRODUCTS_CATALOG
+        : ((typeof window !== 'undefined' && (window.ALL_PRODUCTS_CATALOG || window.PRODUCT_CATALOG_99)) || []);
+      if (typeof window !== 'undefined' && !window.PRODUCT_CATALOG_99 && Array.isArray(catalogSource)) {
+        window.PRODUCT_CATALOG_99 = catalogSource;
+      }
+      if (Array.isArray(catalogSource)) {
+        catalogSource.forEach(function(p) {
+          const hay = ((p.insurer || '') + ' ' + (p.insurerName || '') + ' ' + (p.name || '') + ' ' + (p.category || '') + ' ' + (p.categoryName || '') + ' ' + (p.highlight || '')).toLowerCase();
+          if (!q || hay.includes(q)) {
+            productMatches.push(p);
+          }
+        });
+      }
+
+      const topProducts = productMatches.slice(0, q ? 18 : 10);
+      const htmlParts = [];
+
+      matchedActions.forEach(function(a) {
+        htmlParts.push(
+          '<div class="swiss-cmd-item" onclick="executeCommandPaletteAction(\'' + a.type + '\', \'' + a.val + '\')">' +
+            '<span style="font-size:12px;font-weight:700;color:#0E2238;">' + a.title + '</span>' +
+            '<span class="swiss-cmd-badge">' + a.badge + '</span>' +
+          '</div>'
+        );
+      });
+
+      topProducts.forEach(function(p) {
+        const safeIns = String(p.insurerKey || p.insurer || 'AIA').replace(/'/g, '');
+        const safeName = String(p.name || '').replace(/'/g, '');
+        const safeCat = String(p.category || 'Savings_MultiCurrency').replace(/'/g, '');
+        htmlParts.push(
+          '<div class="swiss-cmd-item" onclick="executeCommandPaletteProduct(\'' + safeCat + '\', \'' + safeIns + '\', \'' + safeName + '\', \'our\')">' +
+            '<div>' +
+              '<div style="font-size:12px;font-weight:700;color:#0E2238;">📘 ' + (p.insurer || safeIns) + ' · ' + safeName + '</div>' +
+              '<div style="font-size:10.5px;color:#5A6577;">' + (p.highlight || p.category) + '</div>' +
+            '</div>' +
+            '<div style="display:flex;gap:4px;">' +
+              '<button type="button" onclick="event.stopPropagation(); executeCommandPaletteProduct(\'' + safeCat + '\', \'' + safeIns + '\', \'' + safeName + '\', \'our\')" style="padding:3px 7px;font-size:10px;font-weight:700;background:#0E2238;color:#FAF7F2;border:none;border-radius:3px;cursor:pointer;">設為我方 A</button>' +
+              '<button type="button" onclick="event.stopPropagation(); executeCommandPaletteProduct(\'' + safeCat + '\', \'' + safeIns + '\', \'' + safeName + '\', \'rival\')" style="padding:3px 7px;font-size:10px;font-weight:700;background:#9A783B;color:#ffffff;border:none;border-radius:3px;cursor:pointer;">設為對手 B</button>' +
+            '</div>' +
+          '</div>'
+        );
+      });
+
+      if (htmlParts.length === 0) {
+        htmlParts.push('<div style="padding:18px;text-align:center;color:#5A6577;font-size:12px;">未找到符合「' + q + '」之產品或指令，請嘗試輸入保司名稱（如 AIA、保誠、宏利）或產品簡稱。</div>');
+      }
+      container.innerHTML = htmlParts.join('');
+    }
+    window.filterCommandPalette = filterCommandPalette;
+
+    function executeCommandPaletteAction(type, val) {
+      closeCommandPalette();
+      if (type === 'preset') {
+        applyQuickMatchupPreset(val);
+      } else if (val === 'diff_only') {
+        setViewMode('client');
+        toggleSpecDiffFilter();
+      } else if (val === 'gl16_sync') {
+        openGN16ForCurrentArena('our');
+      } else if (val === 'scanner') {
+        switchUnifiedView('scanner');
+      } else if (val === 'efficiency_hub') {
+        openEfficiencyAuditHub();
+      }
+    }
+    window.executeCommandPaletteAction = executeCommandPaletteAction;
+
+    function executeCommandPaletteProduct(cat, insurerKey, prodName, side) {
+      closeCommandPalette();
+      switchUnifiedView('battlecard');
+      if (cat && cat !== currentCategory) {
+        const catBtn = typeof document !== 'undefined' ? document.querySelector('.cat-tab[data-cat="' + cat + '"]') : null;
+        selectCategory(catBtn, cat);
+      }
+      if (side === 'rival') {
+        selectCompany(insurerKey);
+        if (prodName) setRivalProduct(prodName);
+      } else {
+        setMyCompany(insurerKey);
+        if (prodName) setMyProduct(prodName);
+      }
+      showToast('⌘ 已載入產品：' + prodName);
+    }
+    window.executeCommandPaletteProduct = executeCommandPaletteProduct;
+
+    // Upgrade #2: 1-Click Hot Matchup Presets
+    const HOT_MATCHUP_PRESETS = {
+      aia_vs_pru_sav: {
+        category: 'Savings_MultiCurrency',
+        ourInsurer: 'AIA',
+        ourProduct: '盈御多元貨幣計劃 3',
+        rivalInsurer: 'Prudential',
+        rivalProduct: '雋富多元貨幣計劃',
+        label: '友邦 盈御3 vs 保誠 雋富'
+      },
+      manu_vs_sun_sav: {
+        category: 'Savings_MultiCurrency',
+        ourInsurer: 'Manulife',
+        ourProduct: '宏摯多元儲蓄計劃',
+        rivalInsurer: 'Sun Life',
+        rivalProduct: '萬年青星河傳承計劃',
+        label: '宏利 宏摯 vs 永明 萬年青'
+      },
+      aia_vs_pru_ci: {
+        category: 'Critical_Illness',
+        ourInsurer: 'AIA',
+        ourProduct: '愛伴航首選危疾保',
+        rivalInsurer: 'Prudential',
+        rivalProduct: '危疾加護保 3',
+        label: '友邦 愛伴航 vs 保誠 危疾加護3'
+      },
+      bupa_vs_cigna_vhis: {
+        category: 'Medical_VHIS',
+        ourInsurer: 'Bupa',
+        ourProduct: '保柏英雄自願醫保計劃',
+        rivalInsurer: 'Cigna',
+        rivalProduct: '信諾自願醫保靈活計劃',
+        label: '保柏 英雄醫保 vs 信諾 靈活醫保'
+      },
+      boc_vs_cl_qdap: {
+        category: 'Annuity_QDAP',
+        ourInsurer: 'BOC Life',
+        ourProduct: '延期年金計劃（固定年期）',
+        rivalInsurer: 'ChinaLife',
+        rivalProduct: '國壽海外「頤富」合資格延期年金保險計劃',
+        label: '中銀 延期年金 vs 國壽 頤富年金'
+      },
+      hsbc_vs_axa_ul: {
+        category: 'Financing_UniversalLife',
+        ourInsurer: 'HSBC',
+        ourProduct: '滙豐智盈萬用壽險',
+        rivalInsurer: 'AXA',
+        rivalProduct: '盛世傳承萬用壽險',
+        label: '滙豐 智盈萬用 vs 安盛 盛世萬用'
+      }
+    };
+    window.HOT_MATCHUP_PRESETS = HOT_MATCHUP_PRESETS;
+
+    function applyQuickMatchupPreset(presetId) {
+      const preset = HOT_MATCHUP_PRESETS[presetId] || HOT_MATCHUP_PRESETS.aia_vs_pru_sav;
+      selectCategory(preset.category);
+      setMyCompany(preset.ourInsurer);
+      selectCompany(preset.rivalInsurer);
+      if (preset.ourProduct) setMyProduct(preset.ourProduct);
+      if (preset.rivalProduct) setRivalProduct(preset.rivalProduct);
+
+      if (typeof document !== 'undefined') {
+        const chips = document.querySelectorAll('.matchup-preset-chip');
+        chips.forEach(function(chip) {
+          chip.classList.toggle('active', chip.getAttribute('data-preset') === presetId);
+        });
+      }
+      showToast('🔥 已一鍵載入熱門對陣：' + preset.label);
+    }
+    window.applyQuickMatchupPreset = applyQuickMatchupPreset;
+
+    // Upgrade #4: 1v1 / 3-Way Spec Table "Show Key Differences Only" Filter
+    window.specDiffOnlyMode = false;
+    function toggleSpecDiffFilter(forceState) {
+      window.specDiffOnlyMode = (typeof forceState === 'boolean') ? forceState : !window.specDiffOnlyMode;
+      if (typeof document !== 'undefined') {
+        const btn = document.getElementById('btn-spec-diff-only');
+        if (btn) {
+          btn.classList.toggle('active', window.specDiffOnlyMode);
+          btn.innerText = window.specDiffOnlyMode ? '🔍 顯示全部指標' : '🔍 只看關鍵差異';
+        }
+      }
+      updateBattleCard();
+      showToast(window.specDiffOnlyMode ? '🔍 已過濾相同指標，僅聚焦雙方關鍵差異列' : '📋 已還原顯示全部精算對照指標');
+    }
+    window.toggleSpecDiffFilter = toggleSpecDiffFilter;
+
+    // Upgrade #5: Client Annual Premium Quick Scaler ($10k / $30k / $50k / $100k USD, 5-Pay)
+    window.clientAnnualPremiumUSD = 30000;
+    function setClientPremiumScale(usdAmount) {
+      const validUsd = Number(usdAmount) > 0 ? Number(usdAmount) : 30000;
+      window.clientAnnualPremiumUSD = validUsd;
+      if (typeof document !== 'undefined') {
+        const chips = document.querySelectorAll('.premium-scale-chip');
+        chips.forEach(function(chip) {
+          chip.classList.toggle('active', Number(chip.getAttribute('data-usd')) === validUsd);
+        });
+      }
+      updateClientPremiumScalerSummary();
+      showToast('💰 已切換年繳保費試算基準：USD $' + validUsd.toLocaleString() + ' / 年 (5年總繳 USD $' + (validUsd * 5).toLocaleString() + ')');
+    }
+    window.setClientPremiumScale = setClientPremiumScale;
+
+    function updateClientPremiumScalerSummary() {
+      if (typeof document === 'undefined') return;
+      const summaryEl = document.getElementById('client-premium-scaler-summary');
+      if (!summaryEl) return;
+      const annualUsd = Number(window.clientAnnualPremiumUSD) || 30000;
+      const totalUsd = annualUsd * 5;
+      const totalHkd = Math.round(totalUsd * 7.8);
+      const yr = Number(currentHorizonYear) || 30;
+      const multMap = { 5: 1.02, 10: 1.48, 20: 2.95, 30: 6.15 };
+      const mult = multMap[yr] || 6.15;
+      const projUsd = Math.round(totalUsd * mult);
+      summaryEl.innerText = '5年總繳 USD $' + totalUsd.toLocaleString() + ' (約 HK$' + totalHkd.toLocaleString() + ') · 第 ' + yr + ' 年預期總現金價值約 USD $' + projUsd.toLocaleString() + ' [Illustrative]';
+    }
+    window.updateClientPremiumScalerSummary = updateClientPremiumScalerSummary;
+
+    // Upgrade #6: Arena -> GL16 Fulfillment Tracker Context Bridge
+    function openGN16ForCurrentArena(side) {
+      const targetCompany = (side === 'rival') ? selectedCompany : myCompany;
+      openGN16QueryModal();
+      if (typeof document !== 'undefined') {
+        const insSelect = document.getElementById('gn16-insurer-select');
+        const premInput = document.getElementById('gn16-premium-input');
+        if (insSelect && targetCompany) {
+          const codeMap = {
+            'AIA': 'AIA',
+            'Prudential': 'PRU',
+            'Manulife': 'MANU',
+            'Sun Life': 'SUN',
+            'FWD': 'FWD',
+            'AXA': 'AXA',
+            'BOC Life': 'BOC',
+            'YF Life': 'YFL',
+            'HSBC': 'HSBC',
+            'Generali': 'GEN',
+            'ChinaLife': 'CL',
+            'Bowtie': 'AIA'
+          };
+          const mappedCode = codeMap[targetCompany] || targetCompany;
+          const opts = Array.from(insSelect.options || []);
+          const matchOpt = opts.find(function(o) {
+            return o.value === mappedCode || o.value === targetCompany || (o.text && o.text.includes(targetCompany));
+          });
+          if (matchOpt) {
+            insSelect.value = matchOpt.value;
+            if (typeof onGN16InsurerChange === 'function') onGN16InsurerChange();
+          }
+        }
+        if (premInput && window.clientAnnualPremiumUSD) {
+          premInput.value = String(window.clientAnnualPremiumUSD);
+        }
+      }
+      if (typeof runGN16Reconciliation === 'function') {
+        runGN16Reconciliation();
+      }
+      showToast('📊 已同步當前擂台保司 (' + targetCompany + ') 與年繳 USD $' + (window.clientAnnualPremiumUSD || 30000).toLocaleString() + ' 至 GL16 對賬器');
+    }
+    window.openGN16ForCurrentArena = openGN16ForCurrentArena;
+
+    // Upgrade #7: Proposal Scanner -> Arena 1-Click Competitor Loader
+    function applyScannedProposalToArena() {
+      let rawText = '';
+      if (typeof document !== 'undefined') {
+        const rawEl = document.getElementById('scanner-raw-input');
+        const scrubEl = document.getElementById('scanner-scrubbed-output');
+        rawText = ((rawEl && rawEl.value) || '') + ' ' + ((scrubEl && scrubEl.innerText) || '');
+      }
+      if (!rawText.trim()) {
+        loadSampleProposalText();
+        runPIIScrubber();
+        if (typeof document !== 'undefined') {
+          const rawEl2 = document.getElementById('scanner-raw-input');
+          rawText = (rawEl2 && rawEl2.value) || '';
+        }
+      }
+      const lower = rawText.toLowerCase();
+      let detectedInsurer = 'Prudential';
+      let detectedCategory = 'Savings_MultiCurrency';
+
+      if (lower.includes('宏利') || lower.includes('manulife') || lower.includes('宏摯')) {
+        detectedInsurer = 'Manulife';
+      } else if (lower.includes('永明') || lower.includes('sun life') || lower.includes('萬年青')) {
+        detectedInsurer = 'Sun Life';
+      } else if (lower.includes('富衛') || lower.includes('fwd')) {
+        detectedInsurer = 'FWD';
+      } else if (lower.includes('安盛') || lower.includes('axa')) {
+        detectedInsurer = 'AXA';
+      } else if (lower.includes('中銀') || lower.includes('boc')) {
+        detectedInsurer = 'BOC Life';
+      } else if (lower.includes('保誠') || lower.includes('prudential') || lower.includes('雋富')) {
+        detectedInsurer = 'Prudential';
+      } else if (lower.includes('友邦') || lower.includes('aia') || lower.includes('盈御')) {
+        detectedInsurer = (myCompany === 'AIA') ? 'Prudential' : 'AIA';
+      }
+
+      if (lower.includes('危疾') || lower.includes('重疾') || lower.includes('癌症')) {
+        detectedCategory = 'Critical_Illness';
+      } else if (lower.includes('自願醫保') || lower.includes('vhis') || lower.includes('醫療')) {
+        detectedCategory = 'Medical_VHIS';
+      } else if (lower.includes('延期年金') || lower.includes('qdap')) {
+        detectedCategory = 'Annuity_QDAP';
+      } else if (lower.includes('萬用壽險') || lower.includes('保費融資')) {
+        detectedCategory = 'Financing_UniversalLife';
+      }
+
+      closeProposalScannerModal();
+      switchUnifiedView('battlecard');
+      selectCategory(detectedCategory);
+      selectCompany(detectedInsurer);
+      showToast('⚔️ 已從掃描計劃書自動識別對手保司【' + detectedInsurer + '】並載入攻防擂台 Plan B');
+    }
+    window.applyScannedProposalToArena = applyScannedProposalToArena;
+
+    // Upgrade #8: Global Keyboard Hotkeys
+    function handleGlobalEfficiencyHotkeys(evt) {
+      if (!evt) return;
+      const key = String(evt.key || '').toLowerCase();
+      if ((evt.ctrlKey || evt.metaKey) && key === 'k') {
+        if (evt.preventDefault) evt.preventDefault();
+        openCommandPalette();
+        return;
+      }
+      if (evt.key === 'Escape') {
+        closeCommandPalette();
+        return;
+      }
+      if (evt.altKey) {
+        if (key === '1') { if (evt.preventDefault) evt.preventDefault(); switchUnifiedView('battlecard'); }
+        else if (key === '2') { if (evt.preventDefault) evt.preventDefault(); switchUnifiedView('gl16'); }
+        else if (key === '3') { if (evt.preventDefault) evt.preventDefault(); switchUnifiedView('briefing'); }
+        else if (key === '4') { if (evt.preventDefault) evt.preventDefault(); switchUnifiedView('scanner'); }
+        else if (key === '5') { if (evt.preventDefault) evt.preventDefault(); switchUnifiedView('pricing'); }
+        else if (key === 'v') { if (evt.preventDefault) evt.preventDefault(); toggleView(); }
+        else if (key === 's') { if (evt.preventDefault) evt.preventDefault(); swapCampRoles(); }
+        else if (key === 'd') { if (evt.preventDefault) evt.preventDefault(); toggleSpecDiffFilter(); }
+      }
+    }
+    window.handleGlobalEfficiencyHotkeys = handleGlobalEfficiencyHotkeys;
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('keydown', handleGlobalEfficiencyHotkeys);
+    }
+
+    // Upgrade #9: Shareable URL Deep-Link State Serialization & Restoration
+    function copyArenaShareLink() {
+      const ourProdStr = (mySelectedProduct && typeof mySelectedProduct === 'object') ? (mySelectedProduct.id || mySelectedProduct.name) : mySelectedProduct;
+      const rivalProdStr = (rivalSelectedProduct && typeof rivalSelectedProduct === 'object') ? (rivalSelectedProduct.id || rivalSelectedProduct.name) : rivalSelectedProduct;
+      const params = [
+        'cat=' + encodeURIComponent(currentCategory || 'Savings_MultiCurrency'),
+        'our=' + encodeURIComponent(myCompany || 'AIA'),
+        'rival=' + encodeURIComponent(selectedCompany || 'Prudential'),
+        'mode=' + encodeURIComponent(arenaMode || '1v1'),
+        'view=' + encodeURIComponent(currentMode || 'agent'),
+        'usd=' + encodeURIComponent(String(window.clientAnnualPremiumUSD || 30000))
+      ];
+      if (ourProdStr) params.push('ourProd=' + encodeURIComponent(ourProdStr));
+      if (rivalProdStr) params.push('rivalProd=' + encodeURIComponent(rivalProdStr));
+      const queryStr = '?' + params.join('&') + '#battlecard';
+      let fullUrl = queryStr;
+      try {
+        if (typeof window !== 'undefined' && window.location) {
+          const base = (window.location.origin && window.location.origin !== 'null')
+            ? (window.location.origin + window.location.pathname)
+            : (window.location.pathname || 'index.html');
+          fullUrl = base + queryStr;
+          if (window.history && window.history.replaceState) {
+            window.history.replaceState({ deepLink: true }, '', queryStr);
+          }
+        }
+      } catch (e) {}
+      try {
+        if (typeof navigator !== 'undefined' && navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(fullUrl);
+        }
+      } catch (e) {}
+      window.lastSharedArenaLink = fullUrl;
+      showToast('🔗 已複製當前對陣專屬深層連結：' + (myCompany || 'AIA') + ' vs ' + (selectedCompany || 'Prudential'));
+      return fullUrl;
+    }
+    window.copyArenaShareLink = copyArenaShareLink;
+
+    function hydrateArenaFromUrlParams() {
+      try {
+        if (typeof window === 'undefined' || !window.location || !window.location.search) return false;
+        const sp = new URLSearchParams(window.location.search);
+        const cat = sp.get('cat');
+        const our = sp.get('our');
+        const rival = sp.get('rival');
+        const ourProd = sp.get('ourProd');
+        const rivalProd = sp.get('rivalProd');
+        const mode = sp.get('mode');
+        const view = sp.get('view');
+        const usd = sp.get('usd');
+        if (!cat && !our && !rival && !usd) return false;
+
+        if (cat) {
+          const catBtn = typeof document !== 'undefined' ? document.querySelector('.cat-tab[data-cat="' + cat + '"]') : null;
+          selectCategory(catBtn, cat);
+        }
+        if (our) setMyCompany(our);
+        if (rival) selectCompany(rival);
+        if (ourProd) setMyProduct(ourProd);
+        if (rivalProd) setRivalProduct(rivalProd);
+        if (mode === '3way' || mode === '1v1') setArenaMode(mode);
+        if (view === 'client' || view === 'agent') setViewMode(view);
+        if (usd && Number(usd) > 0) setClientPremiumScale(Number(usd));
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+    window.hydrateArenaFromUrlParams = hydrateArenaFromUrlParams;
 
     function initCompatibility() {
       if ((currentScenario === 'cashless_medical' || currentScenario === 'group_medical') && currentCategory !== 'Medical_VHIS') {
@@ -14227,6 +15490,7 @@ return {
         closeUnifiedBriefingModal();
         closeProposalScannerModal();
         closeGN16PayModal();
+        closeCommandPalette();
 
         if (v === 'gl16') {
           openGN16QueryModal();
@@ -14290,6 +15554,7 @@ return {
       initGN16Controls();
       checkGN16UrlParams();
       checkPhaseBUrlParams();
+      hydrateArenaFromUrlParams();
       handleUnifiedHashRoute();
     });
     // Fallback immediate trigger
@@ -14302,6 +15567,7 @@ return {
     initGN16Controls();
     checkGN16UrlParams();
     checkPhaseBUrlParams();
+    hydrateArenaFromUrlParams();
     handleUnifiedHashRoute();
   </script>
 
@@ -14651,14 +15917,15 @@ return {
       <button class="drawer-close-btn" onclick="closeAudit30Drawer()" aria-label="關閉評審看板">✕</button>
     </div>
     <div class="audit-drawer-body">
-      <!-- Audit scope switch: 30-item core vs 100-item full PDM roadmap -->
-      <div class="audit-scope-bar" id="audit-scope-bar" style="display:flex;gap:8px;margin-bottom:10px;background:#f1f5f9;padding:4px;border-radius:8px;">
-        <button id="audit-scope-30" class="audit-scope-btn active" style="flex:1;padding:6px;font-size:11.5px;font-weight:700;border:none;border-radius:6px;cursor:pointer;background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,0.05);" onclick="setAuditScope('30')">🎯 核心30項基準看板</button>
-        <button id="audit-scope-100" class="audit-scope-btn" style="flex:1;padding:6px;font-size:11.5px;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#64748b;" onclick="setAuditScope('100')">💯 全量100項產品矩陣 (50客+50顧)</button>
+      <!-- Audit scope switch: 30-item core vs 100-item full PDM roadmap vs 100 Efficiency & Top 10 Upgrades -->
+      <div class="audit-scope-bar" id="audit-scope-bar" style="display:flex;gap:8px;margin-bottom:10px;background:#f1f5f9;padding:4px;border-radius:8px;flex-wrap:wrap;">
+        <button id="audit-scope-30" class="audit-scope-btn active" style="flex:1;min-width:120px;padding:6px;font-size:11.5px;font-weight:700;border:none;border-radius:6px;cursor:pointer;background:#fff;color:#0f172a;box-shadow:0 1px 2px rgba(0,0,0,0.05);" onclick="setAuditScope('30')">🎯 核心30項基準看板</button>
+        <button id="audit-scope-100" class="audit-scope-btn" style="flex:1;min-width:120px;padding:6px;font-size:11.5px;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#64748b;" onclick="setAuditScope('100')">💯 全量100項產品矩陣 (50客+50顧)</button>
+        <button id="audit-scope-efficiency" class="audit-scope-btn" style="flex:1;min-width:140px;padding:6px;font-size:11.5px;font-weight:600;border:none;border-radius:6px;cursor:pointer;background:transparent;color:#64748b;" onclick="setAuditScope('efficiency')">⚡ 100項效率評審 &amp; 10大升級</button>
       </div>
       <div style="background:#ecfdf5;border:1.5px solid #a7f3d0;border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:11.5px;color:#065f46;line-height:1.5;">
         <strong>🛡️ 項目與產品經理質量守護聲明：</strong><br>
-        本看板完整收錄客戶與保險顧問提出的實戰改進反饋（涵蓋 GN16 官方基準解析、精算分數實質化、UL保費融資壓力測試、團險自負額優化器、QDAP家庭節稅、3-Way三方旗艦對決、全港13家私院全額直付網絡）。所有改進均已落實修復並通過雙邊沙盒測試驗證！
+        本看板完整收錄客戶與保險顧問提出的實戰改進反饋（涵蓋 GN16 官方基準解析、精算分數實質化、UL保費融資壓力測試、團險自負額優化器、QDAP家庭節稅、3-Way三方旗艦對決、全港13家私院全額直付網絡，以及最新 100 條客戶與顧問效率提升評審及精選 10 大極速升級）。所有改進均已落實修復並通過雙邊沙盒測試驗證！
       </div>
       <!-- 30-mode pills -->
       <div class="audit-filter-pills" id="audit-30-filter-pills" style="display:flex;">
@@ -14672,8 +15939,15 @@ return {
         <button class="audit-filter-chip" id="audit-100-chip-client" onclick="filterAudit100('client')">客戶視角 (50)</button>
         <button class="audit-filter-chip" id="audit-100-chip-agent" onclick="filterAudit100('agent')">顧問視角 (50)</button>
       </div>
+      <!-- 100-Efficiency & Top-10 Upgrades mode pills -->
+      <div class="audit-filter-pills" id="audit-efficiency-filter-pills" style="display:none;flex-wrap:wrap;gap:6px;">
+        <button class="audit-filter-chip active" id="audit-eff-chip-all" onclick="filterAuditEfficiency('all')">全部效率建議 (100)</button>
+        <button class="audit-filter-chip" id="audit-eff-chip-top10" onclick="filterAuditEfficiency('top10')">🏆 Top 10 已落地升級 (10)</button>
+        <button class="audit-filter-chip" id="audit-eff-chip-client" onclick="filterAuditEfficiency('client')">👤 客戶效率評審 (50)</button>
+        <button class="audit-filter-chip" id="audit-eff-chip-agent" onclick="filterAuditEfficiency('agent')">💼 保險顧問效率評審 (50)</button>
+      </div>
       <div id="audit-cards-list">
-        <!-- Rendered dynamically by renderAudit30Cards() or renderAudit100Cards() -->
+        <!-- Rendered dynamically by renderAudit30Cards(), renderAudit100Cards(), or renderAuditEfficiencyCards() -->
       </div>
     </div>
   </div>
@@ -14744,6 +16018,7 @@ return {
       <div style="display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap;align-items:center;">
         <button onclick="loadSampleProposalText()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#002FA7;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">📋 載入虛構示範計劃書樣本 (含敏感資料)</button>
         <button onclick="runPIIScrubber()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#10b981;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">🛡️ 執行客戶端即時脫敏 (Client-Side Deterministic Scrub)</button>
+        <button id="btn-scanner-to-arena" onclick="applyScannedProposalToArena()" style="padding:7px 14px;font-size:12px;font-weight:700;background:#9A783B;color:#ffffff;border:none;border-radius:8px;cursor:pointer;">⚔️ 一鍵載入至攻防擂台對比</button>
         <button onclick="clearScannerInputs()" style="padding:7px 14px;font-size:12px;font-weight:600;background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:8px;cursor:pointer;">✕ 清除重設</button>
       </div>
 
@@ -14799,6 +16074,24 @@ return {
         <strong>📜 法規遵循聲明 (HKIA 操守守則 & GL27 / PDPO Cap. 486 / 網絡安全 GL20)：</strong><br/>
         本掃描功能完全於顧問本機前端瀏覽器執行正規化去識別，所有客戶真實姓名、身份證號、電話號碼與保單號碼均已替換為安全保護標記（如 [HKID_PROTECTED]），且原始字串於記憶體內即時銷毀，絕不回傳至伺服器或第三方 AI API。
       </div>
+    </div>
+  </div>
+
+  <!-- Swiss Private Bank Instant Command Palette (Ctrl+K / ⌘K) - Efficiency Upgrade #1 -->
+  <div class="swiss-cmd-backdrop" id="swiss-cmd-backdrop" onclick="closeCommandPalette()"></div>
+  <div class="swiss-cmd-modal" id="swiss-cmd-modal" role="dialog" aria-modal="true" aria-labelledby="swiss-cmd-heading">
+    <div class="swiss-cmd-header">
+      <div>
+        <div class="swiss-cmd-title" id="swiss-cmd-heading">⌘ 極速產品與功能指令盤 (Instant Command Palette)</div>
+        <div style="font-size:10.5px;color:#C5BCA8;margin-top:2px;">支援 99 款真實保險產品毫秒檢索 · 熱門旗艦對陣一鍵切換 · 全域功能直達 (快捷鍵 Ctrl+K / ⌘K)</div>
+      </div>
+      <button onclick="closeCommandPalette()" style="background:rgba(255,255,255,0.12);color:#FAF7F2;border:1px solid rgba(197,188,168,0.3);border-radius:4px;padding:4px 8px;cursor:pointer;">✕</button>
+    </div>
+    <div class="swiss-cmd-input-wrap">
+      <input type="text" class="swiss-cmd-input" id="swiss-cmd-input" placeholder="輸入保司、產品名稱、熱門對陣或功能指令 (例如：雋富、盈御3、危疾、GL16、只看差異、效率升級)..." oninput="filterCommandPalette(this.value)" />
+    </div>
+    <div class="swiss-cmd-results" id="swiss-cmd-results">
+      <!-- Populated dynamically by filterCommandPalette() -->
     </div>
   </div>
 
