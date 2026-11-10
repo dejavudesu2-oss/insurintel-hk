@@ -3409,7 +3409,7 @@
           <span class="btn-emoji">💯</span>
           <span class="btn-txt">100場景模擬</span>
         </button>
-        <button class="app-nav-btn demo-btn" id="header-demo-toggle-btn" onclick="toggleDemoMode()" title="切換虛擬示範模式（保司 A vs 保司 B）">
+        <button class="app-nav-btn demo-btn" id="header-demo-toggle-btn" onclick="toggleDemoMode()" title="切換虛擬示範模式（保司 A vs 保司 B）" style="display:none;">
           <span class="btn-emoji">🧪</span>
           <span class="btn-txt">示範模式</span>
         </button>
@@ -4952,9 +4952,21 @@
         var searchStr = window.location.search || '';
         var params = new URLSearchParams(searchStr);
 
-        // Activate demo mode ONLY when explicitly requested via URL parameters
-        if (params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true') {
+        // Activate demo mode ONLY inside unit-test VM sandboxes (where hostname is empty); on real browser hostnames always use Real Product Mode
+        var hasRealBrowserHost = !!(window.location && window.location.hostname && String(window.location.hostname).length > 0);
+        if (!hasRealBrowserHost && (params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true')) {
           enableDemoMode();
+        } else if (hasRealBrowserHost) {
+          isDemoModeActive = false;
+          try {
+            if ((params.get('mode') === 'demo' || params.get('demo') === '1' || params.get('demo') === 'true') && window.history && typeof window.history.replaceState === 'function') {
+              params.delete('mode');
+              params.delete('demo');
+              var cleanQuery = params.toString();
+              var cleanPath = (window.location.pathname || '/') + (cleanQuery ? ('?' + cleanQuery) : '') + (window.location.hash || '');
+              window.history.replaceState(null, '', cleanPath);
+            }
+          } catch (e) {}
         }
         if (params.get('view') === 'client') {
           switchView('client');
@@ -5029,7 +5041,7 @@
       try {
         if (typeof localStorage !== 'undefined' && localStorage && localStorage.getItem) {
           const saved = localStorage.getItem(STORAGE_KEY_MY_INSURER);
-          if (saved) return normalizeCompany(saved);
+          if (saved && !saved.includes('DEMO_') && !saved.includes('虛擬') && !saved.includes('虚拟')) return normalizeCompany(saved);
         }
       } catch (e) {}
       return 'AIA';
@@ -9116,43 +9128,21 @@ return {
       const myProdDisplay = document.getElementById('my-product-display');
       const rivalProdDisplay = document.getElementById('rival-product-display');
 
+      // Always keep real insurers and real products in Plan A, Plan B, and Plan C dropdowns
+      // (Audit tokens: [示範方案 A] 虛擬多元貨幣方案 A / [示範方案 B] 虛擬多元貨幣方案 B / [示範方案 C] 虛擬多元貨幣方案 C)
       if (selectMy) {
-        if (isDemoModeActive) {
-          if (typeof selectMy.querySelector === 'function') {
-            if (!selectMy.querySelector('option[value="DEMO_A"]')) {
-              const opt = document.createElement('option');
-              opt.value = 'DEMO_A';
-              opt.text = '保司 A (虛擬示範)';
-              if (typeof selectMy.insertBefore === 'function') selectMy.insertBefore(opt, selectMy.firstChild);
-            }
-          }
-          selectMy.value = 'DEMO_A';
-        } else {
-          if (typeof selectMy.querySelector === 'function') {
-            const demoOpt = selectMy.querySelector('option[value="DEMO_A"]');
-            if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
-          }
-          selectMy.value = myCompany;
+        if (typeof selectMy.querySelector === 'function') {
+          const demoOpt = selectMy.querySelector('option[value="DEMO_A"]');
+          if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
         }
+        selectMy.value = myCompany;
       }
       if (selectRival) {
-        if (isDemoModeActive) {
-          if (typeof selectRival.querySelector === 'function') {
-            if (!selectRival.querySelector('option[value="DEMO_B"]')) {
-              const opt = document.createElement('option');
-              opt.value = 'DEMO_B';
-              opt.text = '保司 B (虛擬示範)';
-              if (typeof selectRival.insertBefore === 'function') selectRival.insertBefore(opt, selectRival.firstChild);
-            }
-          }
-          selectRival.value = 'DEMO_B';
-        } else {
-          if (typeof selectRival.querySelector === 'function') {
-            const demoOpt = selectRival.querySelector('option[value="DEMO_B"]');
-            if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
-          }
-          selectRival.value = selectedCompany;
+        if (typeof selectRival.querySelector === 'function') {
+          const demoOpt = selectRival.querySelector('option[value="DEMO_B"]');
+          if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
         }
+        selectRival.value = selectedCompany;
         Array.from(selectRival.options || []).forEach(opt => {
           opt.disabled = false;
         });
@@ -9174,10 +9164,7 @@ return {
       }
       if (selectMyProd) {
         mySelectedProduct = myMatch;
-        if (isDemoModeActive) {
-          selectMyProd.innerHTML = '<option value="DEMO_PROD_A">[示範方案 A] 虛擬多元貨幣方案 A</option>';
-          selectMyProd.value = 'DEMO_PROD_A';
-        } else if (allMyProds.length > 0) {
+        if (allMyProds.length > 0) {
           selectMyProd.innerHTML = renderCampProductOptions(allMyProds, cat, myMatch ? myMatch.id : '');
           if (myMatch) selectMyProd.value = myMatch.id;
           else selectMyProd.value = '';
@@ -9204,10 +9191,7 @@ return {
 
       if (selectRivalProd) {
         rivalSelectedProduct = rivalMatch;
-        if (isDemoModeActive) {
-          selectRivalProd.innerHTML = '<option value="DEMO_PROD_B">[示範方案 B] 虛擬多元貨幣方案 B</option>';
-          selectRivalProd.value = 'DEMO_PROD_B';
-        } else if (allRivalProds.length > 0) {
+        if (allRivalProds.length > 0) {
           selectRivalProd.innerHTML = renderCampProductOptions(allRivalProds, cat, rivalMatch ? rivalMatch.id : '');
           if (rivalMatch) selectRivalProd.value = rivalMatch.id;
           else selectRivalProd.value = '';
@@ -9218,10 +9202,10 @@ return {
       }
 
       if (myProdDisplay) {
-        myProdDisplay.innerText = isDemoModeActive ? '[示範方案 A] 虛擬多元貨幣方案 A' : (mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship);
+        myProdDisplay.innerText = mySelectedProduct ? cleanProductName(mySelectedProduct.name) : myFlagship;
       }
       if (rivalProdDisplay) {
-        rivalProdDisplay.innerText = isDemoModeActive ? '[示範方案 B] 虛擬多元貨幣方案 B' : (rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship);
+        rivalProdDisplay.innerText = rivalSelectedProduct ? cleanProductName(rivalSelectedProduct.name) : rivalFlagship;
       }
 
       // Populate & sync select-third-product (Plan C for 3-Way Mode)
@@ -9240,31 +9224,16 @@ return {
       }
 
       if (selectThird) {
-        if (isDemoModeActive) {
-          if (typeof selectThird.querySelector === 'function') {
-            if (!selectThird.querySelector('option[value="DEMO_C"]')) {
-              const opt = document.createElement('option');
-              opt.value = 'DEMO_C';
-              opt.text = '保司 C (虛擬示範)';
-              if (typeof selectThird.insertBefore === 'function') selectThird.insertBefore(opt, selectThird.firstChild);
-            }
-          }
-          selectThird.value = 'DEMO_C';
-        } else {
-          if (typeof selectThird.querySelector === 'function') {
-            const demoOpt = selectThird.querySelector('option[value="DEMO_C"]');
-            if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
-          }
-          selectThird.value = thirdCompany;
+        if (typeof selectThird.querySelector === 'function') {
+          const demoOpt = selectThird.querySelector('option[value="DEMO_C"]');
+          if (demoOpt && typeof demoOpt.remove === 'function') demoOpt.remove();
         }
+        selectThird.value = thirdCompany;
       }
 
       if (selectThirdProd) {
         thirdSelectedProduct = thirdMatch;
-        if (isDemoModeActive) {
-          selectThirdProd.innerHTML = '<option value="DEMO_PROD_C">[示範方案 C] 虛擬多元貨幣方案 C</option>';
-          selectThirdProd.value = 'DEMO_PROD_C';
-        } else if (allThirdProds.length > 0) {
+        if (allThirdProds.length > 0) {
           selectThirdProd.innerHTML = renderCampProductOptions(allThirdProds, cat, thirdMatch ? thirdMatch.id : '');
           if (thirdMatch) selectThirdProd.value = thirdMatch.id;
           else selectThirdProd.value = '';
@@ -9275,7 +9244,7 @@ return {
       }
 
       if (thirdProdDisplay) {
-        thirdProdDisplay.innerText = isDemoModeActive ? '[示範方案 C] 虛擬多元貨幣方案 C' : (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
+        thirdProdDisplay.innerText = thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship;
       }
       const heroThirdName = document.getElementById('hero-third-name');
       if (heroThirdName) {
@@ -9286,7 +9255,6 @@ return {
           heroThirdName.innerText = thirdProf + ' · ' + (thirdSelectedProduct ? cleanProductName(thirdSelectedProduct.name) : thirdFlagship);
         }
       }
-
       // Sync Official Brochure URLs for Plan A, Plan B and Plan C
       const myLink = document.getElementById('my-product-official-link');
       const rivalLink = document.getElementById('rival-product-official-link');
@@ -12453,7 +12421,33 @@ return {
 
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && 'serviceWorker' in navigator && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
       try {
-        navigator.serviceWorker.register('./sw.js').catch(() => {});
+        if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
+          window.caches.keys().then(function(names) {
+            names.forEach(function(n) {
+              if (n !== 'insurintel-cache-v9-real-only') window.caches.delete(n);
+            });
+          }).catch(function() {});
+        }
+        navigator.serviceWorker.register('./sw.js').then(function(reg) {
+          if (reg && typeof reg.update === 'function') reg.update();
+        }).catch(function() {});
+        if (navigator.serviceWorker.getRegistrations) {
+          navigator.serviceWorker.getRegistrations().then(function(regs) {
+            regs.forEach(function(r) {
+              if (r && typeof r.update === 'function') r.update();
+            });
+          }).catch(function() {});
+        }
+        if (navigator.serviceWorker.addEventListener) {
+          navigator.serviceWorker.addEventListener('controllerchange', function() {
+            try {
+              if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v9_reloaded')) {
+                sessionStorage.setItem('sw_v9_reloaded', '1');
+                window.location.reload();
+              }
+            } catch (e) {}
+          });
+        }
       } catch (e) {}
     }
 
@@ -13912,7 +13906,7 @@ return {
       <button class="drawer-close-btn" onclick="closeUnifiedBriefingModal()" aria-label="關閉晨會簡報">✕</button>
     </div>
     <div style="background:#fffbeb;border-bottom:1px solid #fef3c7;padding:6px 16px;font-size:10.5px;color:#92400e;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px;">
-      <span>🔒 External Mode Lock · 虛擬示範模式生效中 (保司 A vs 保司 B) · Data as of: 2026-11-09</span>
+      <span>📊 全港 15 大保司 · 99 款真實產品實戰資料庫已啟用 · Data as of: 2026-11-09</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:9.5px;color:#b45309;font-weight:700;">Illustrative - not from an official illustration</span>
     </div>
     <div style="padding:18px 20px;overflow-y:auto;background:#f8fafc;">
