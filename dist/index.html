@@ -12421,6 +12421,7 @@ return {
 
     if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && 'serviceWorker' in navigator && window.location && window.location.protocol && window.location.protocol.startsWith('http')) {
       try {
+        var hadPreviousController = !!navigator.serviceWorker.controller;
         if ('caches' in window && window.caches && typeof window.caches.keys === 'function') {
           window.caches.keys().then(function(names) {
             names.forEach(function(n) {
@@ -12438,7 +12439,7 @@ return {
             });
           }).catch(function() {});
         }
-        if (navigator.serviceWorker.addEventListener) {
+        if (hadPreviousController && navigator.serviceWorker.addEventListener) {
           navigator.serviceWorker.addEventListener('controllerchange', function() {
             try {
               if (typeof sessionStorage !== 'undefined' && !sessionStorage.getItem('sw_v9_reloaded')) {
