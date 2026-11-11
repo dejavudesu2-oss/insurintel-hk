@@ -1,34 +1,34 @@
 === INSURINTEL HK: SCREENSHOT RECAPTURE DOM ASSERTION LEDGER (REMEDIATED) ===
-Execution Timestamp: 2026-11-10T18:14:47.141Z
+Execution Timestamp: 2026-11-11T10:13:12.925Z
 Harness: Chrome Headless (Chrome/157.0.8103.50) via Chrome DevTools Protocol
 Viewport: 1280x1100, Port: 3334
 
 [TARGET: 01_client_neutral_view.png]
   Description : Client Neutral View (Clean Tear-Sheet with Statutory Warning & Fictional Plans)
   URL         : http://localhost:3334/index.html?mode=demo&view=client
-  DOM Check   : found=true, display=block, opacity=1, height=1989.578125px
-  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":1989.578125,"inViewport":false,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=2100.578125px
+  Details     : {"target":"client-view","found":true,"display":"block","opacity":"1","height":2100.578125,"inViewport":false,"heroOurText":"友邦保險 AIA · 盈御多元貨幣計劃 3","ourProdText":"盈御多元貨幣計劃 3","ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 02_agent_cockpit.png]
   Description : Agent Tactical Cockpit (Internal HUD with Counter-Pitch Arguments)
   URL         : http://localhost:3334/index.html?mode=demo&view=agent
-  DOM Check   : found=true, display=block, opacity=1, height=1443.5625px
-  Details     : {"target":"agent-view","found":true,"display":"block","opacity":"1","height":1443.5625,"inViewport":false,"titleText":"🎯 對抗戰策：拆解【保誠保險 Prudential】5.8% 預繳噱頭與浮動陷阱","trapAlertPresent":true,"ok":true}
+  DOM Check   : found=true, display=block, opacity=1, height=1521.5625px
+  Details     : {"target":"agent-view","found":true,"display":"block","opacity":"1","height":1521.5625,"inViewport":false,"titleText":"🎯 對抗戰策：拆解【保誠保險 Prudential】5.8% 預繳噱頭與浮動陷阱","trapAlertPresent":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 03_gn16_chart.png]
   Description : GN16 Fulfillment Ratio Tracker (Historical Corridor vs Illustration Curve)
   URL         : http://localhost:3334/index.html?mode=demo&modal=gn16
-  DOM Check   : found=true, display=flex, opacity=1, height=857px
-  Details     : {"target":"gn16-query-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":857,"chartContainerHeight":280,"svgExists":true,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=858px
+  Details     : {"target":"gn16-query-modal","found":true,"isOpen":true,"display":"flex","opacity":"1","height":858,"chartContainerHeight":280,"svgExists":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 04_scanner_pii_scrub.png]
   Description : AI Proposal Scanner (Client-Side Deterministic PII Scrubber & Actuarial Parse)
   URL         : http://localhost:3334/index.html?mode=demo&modal=scanner
-  DOM Check   : found=true, display=flex, opacity=1, height=707.25px
-  Details     : {"target":"proposal-scanner-modal","found":true,"display":"flex","opacity":"1","height":707.25,"hasMaskedHkid":true,"hasMaskedName":true,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=835.25px
+  Details     : {"target":"proposal-scanner-modal","found":true,"display":"flex","opacity":"1","height":835.25,"hasMaskedHkid":true,"hasMaskedName":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)
 
 [TARGET: 05_offline_mode.png]
@@ -48,6 +48,6 @@ Viewport: 1280x1100, Port: 3334
 [TARGET: 07_briefing_view.png]
   Description : Unified Morning Briefing View (#briefing — 07:00 HKT Sync, GL16/GL27/GL28 & Strict Provenance)
   URL         : http://localhost:3334/index.html?mode=demo#briefing
-  DOM Check   : found=true, display=flex, opacity=1, height=373.5px
-  Details     : {"target":"unified-briefing-modal","found":true,"display":"flex","opacity":"1","height":373.5,"navPresent":true,"hasIllustrative":true,"ok":true}
+  DOM Check   : found=true, display=flex, opacity=1, height=412.5px
+  Details     : {"target":"unified-briefing-modal","found":true,"display":"flex","opacity":"1","height":412.5,"navPresent":true,"hasIllustrative":true,"ok":true}
   Status      : VERIFIED_VISIBLE (PASS)

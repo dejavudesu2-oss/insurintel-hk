@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-10T18:05:08.108Z",
+  "timestamp": "2026-11-11T10:13:58.897Z",
   "ruleComparison": {
     "oldRule": {
       "definition": "CSV string matching includes(\"SOURCED\") without locator or figure verification",
