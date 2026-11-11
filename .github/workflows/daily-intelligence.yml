@@ -52,6 +52,7 @@ jobs:
 
       - name: 4.5 Run Deterministic App Build & Automated Test Suite
         run: |
+          command -v google-chrome >/dev/null 2>&1 && google-chrome --headless=new --no-sandbox --disable-gpu --dump-dom about:blank >/dev/null 2>&1 || true
           npm run build:app
           npm test
 
